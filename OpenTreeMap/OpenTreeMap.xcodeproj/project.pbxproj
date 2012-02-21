@@ -1,0 +1,481 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
+		E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
+		E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
+		E943972114F447EB007CD0D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E943971F14F447EB007CD0D1 /* InfoPlist.strings */; };
+		E943972314F447EB007CD0D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972214F447EB007CD0D1 /* main.m */; };
+		E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972614F447EB007CD0D1 /* OTMAppDelegate.m */; };
+		E943972A14F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */; };
+		E943972D14F447EB007CD0D1 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E943972B14F447EB007CD0D1 /* MainStoryboard_iPad.storyboard */; };
+		E943973014F447EB007CD0D1 /* OTMFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */; };
+		E943973214F447EB007CD0D1 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973114F447EB007CD0D1 /* first.png */; };
+		E943973414F447EB007CD0D1 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973314F447EB007CD0D1 /* first@2x.png */; };
+		E943973714F447EB007CD0D1 /* OTMSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E943973614F447EB007CD0D1 /* OTMSecondViewController.m */; };
+		E943973914F447EB007CD0D1 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973814F447EB007CD0D1 /* second.png */; };
+		E943973B14F447EB007CD0D1 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973A14F447EB007CD0D1 /* second@2x.png */; };
+		E943974314F447EB007CD0D1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943974214F447EB007CD0D1 /* SenTestingKit.framework */; };
+		E943974414F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
+		E943974514F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
+		E943974D14F447EB007CD0D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E943974B14F447EB007CD0D1 /* InfoPlist.strings */; };
+		E943975014F447EB007CD0D1 /* OpenTreeMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E943974F14F447EB007CD0D1 /* OpenTreeMapTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E943974614F447EB007CD0D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E943970914F447EB007CD0D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E943971114F447EB007CD0D1;
+			remoteInfo = OpenTreeMap;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E943971614F447EB007CD0D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E943971814F447EB007CD0D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E943971A14F447EB007CD0D1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E943971E14F447EB007CD0D1 /* OpenTreeMap-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenTreeMap-Info.plist"; sourceTree = "<group>"; };
+		E943972014F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E943972214F447EB007CD0D1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E943972414F447EB007CD0D1 /* OpenTreeMap-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenTreeMap-Prefix.pch"; sourceTree = "<group>"; };
+		E943972514F447EB007CD0D1 /* OTMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMAppDelegate.h; sourceTree = "<group>"; };
+		E943972614F447EB007CD0D1 /* OTMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMAppDelegate.m; sourceTree = "<group>"; };
+		E943972914F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		E943972C14F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMFirstViewController.h; sourceTree = "<group>"; };
+		E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMFirstViewController.m; sourceTree = "<group>"; };
+		E943973114F447EB007CD0D1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		E943973314F447EB007CD0D1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		E943973514F447EB007CD0D1 /* OTMSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMSecondViewController.h; sourceTree = "<group>"; };
+		E943973614F447EB007CD0D1 /* OTMSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMSecondViewController.m; sourceTree = "<group>"; };
+		E943973814F447EB007CD0D1 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		E943973A14F447EB007CD0D1 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		E943974114F447EB007CD0D1 /* OpenTreeMapTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenTreeMapTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E943974214F447EB007CD0D1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		E943974A14F447EB007CD0D1 /* OpenTreeMapTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenTreeMapTests-Info.plist"; sourceTree = "<group>"; };
+		E943974C14F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E943974E14F447EB007CD0D1 /* OpenTreeMapTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenTreeMapTests.h; sourceTree = "<group>"; };
+		E943974F14F447EB007CD0D1 /* OpenTreeMapTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenTreeMapTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E943970F14F447EB007CD0D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */,
+				E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */,
+				E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E943973D14F447EB007CD0D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E943974314F447EB007CD0D1 /* SenTestingKit.framework in Frameworks */,
+				E943974414F447EB007CD0D1 /* UIKit.framework in Frameworks */,
+				E943974514F447EB007CD0D1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E943970714F447EB007CD0D1 = {
+			isa = PBXGroup;
+			children = (
+				E943971C14F447EB007CD0D1 /* OpenTreeMap */,
+				E943974814F447EB007CD0D1 /* OpenTreeMapTests */,
+				E943971514F447EB007CD0D1 /* Frameworks */,
+				E943971314F447EB007CD0D1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E943971314F447EB007CD0D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E943971214F447EB007CD0D1 /* OpenTreeMap.app */,
+				E943974114F447EB007CD0D1 /* OpenTreeMapTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E943971514F447EB007CD0D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E943971614F447EB007CD0D1 /* UIKit.framework */,
+				E943971814F447EB007CD0D1 /* Foundation.framework */,
+				E943971A14F447EB007CD0D1 /* CoreGraphics.framework */,
+				E943974214F447EB007CD0D1 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
+			isa = PBXGroup;
+			children = (
+				E943972514F447EB007CD0D1 /* OTMAppDelegate.h */,
+				E943972614F447EB007CD0D1 /* OTMAppDelegate.m */,
+				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
+				E943972B14F447EB007CD0D1 /* MainStoryboard_iPad.storyboard */,
+				E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */,
+				E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */,
+				E943973114F447EB007CD0D1 /* first.png */,
+				E943973314F447EB007CD0D1 /* first@2x.png */,
+				E943973514F447EB007CD0D1 /* OTMSecondViewController.h */,
+				E943973614F447EB007CD0D1 /* OTMSecondViewController.m */,
+				E943973814F447EB007CD0D1 /* second.png */,
+				E943973A14F447EB007CD0D1 /* second@2x.png */,
+				E943971D14F447EB007CD0D1 /* Supporting Files */,
+			);
+			path = OpenTreeMap;
+			sourceTree = "<group>";
+		};
+		E943971D14F447EB007CD0D1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E943971E14F447EB007CD0D1 /* OpenTreeMap-Info.plist */,
+				E943971F14F447EB007CD0D1 /* InfoPlist.strings */,
+				E943972214F447EB007CD0D1 /* main.m */,
+				E943972414F447EB007CD0D1 /* OpenTreeMap-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E943974814F447EB007CD0D1 /* OpenTreeMapTests */ = {
+			isa = PBXGroup;
+			children = (
+				E943974E14F447EB007CD0D1 /* OpenTreeMapTests.h */,
+				E943974F14F447EB007CD0D1 /* OpenTreeMapTests.m */,
+				E943974914F447EB007CD0D1 /* Supporting Files */,
+			);
+			path = OpenTreeMapTests;
+			sourceTree = "<group>";
+		};
+		E943974914F447EB007CD0D1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E943974A14F447EB007CD0D1 /* OpenTreeMapTests-Info.plist */,
+				E943974B14F447EB007CD0D1 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E943971114F447EB007CD0D1 /* OpenTreeMap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E943975314F447EB007CD0D1 /* Build configuration list for PBXNativeTarget "OpenTreeMap" */;
+			buildPhases = (
+				E943970E14F447EB007CD0D1 /* Sources */,
+				E943970F14F447EB007CD0D1 /* Frameworks */,
+				E943971014F447EB007CD0D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenTreeMap;
+			productName = OpenTreeMap;
+			productReference = E943971214F447EB007CD0D1 /* OpenTreeMap.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E943974014F447EB007CD0D1 /* OpenTreeMapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E943975614F447EB007CD0D1 /* Build configuration list for PBXNativeTarget "OpenTreeMapTests" */;
+			buildPhases = (
+				E943973C14F447EB007CD0D1 /* Sources */,
+				E943973D14F447EB007CD0D1 /* Frameworks */,
+				E943973E14F447EB007CD0D1 /* Resources */,
+				E943973F14F447EB007CD0D1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E943974714F447EB007CD0D1 /* PBXTargetDependency */,
+			);
+			name = OpenTreeMapTests;
+			productName = OpenTreeMapTests;
+			productReference = E943974114F447EB007CD0D1 /* OpenTreeMapTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E943970914F447EB007CD0D1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = OTM;
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = E943970C14F447EB007CD0D1 /* Build configuration list for PBXProject "OpenTreeMap" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E943970714F447EB007CD0D1;
+			productRefGroup = E943971314F447EB007CD0D1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E943971114F447EB007CD0D1 /* OpenTreeMap */,
+				E943974014F447EB007CD0D1 /* OpenTreeMapTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E943971014F447EB007CD0D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E943972114F447EB007CD0D1 /* InfoPlist.strings in Resources */,
+				E943972A14F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard in Resources */,
+				E943972D14F447EB007CD0D1 /* MainStoryboard_iPad.storyboard in Resources */,
+				E943973214F447EB007CD0D1 /* first.png in Resources */,
+				E943973414F447EB007CD0D1 /* first@2x.png in Resources */,
+				E943973914F447EB007CD0D1 /* second.png in Resources */,
+				E943973B14F447EB007CD0D1 /* second@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E943973E14F447EB007CD0D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E943974D14F447EB007CD0D1 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E943973F14F447EB007CD0D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E943970E14F447EB007CD0D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E943972314F447EB007CD0D1 /* main.m in Sources */,
+				E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */,
+				E943973014F447EB007CD0D1 /* OTMFirstViewController.m in Sources */,
+				E943973714F447EB007CD0D1 /* OTMSecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E943973C14F447EB007CD0D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E943975014F447EB007CD0D1 /* OpenTreeMapTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E943974714F447EB007CD0D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E943971114F447EB007CD0D1 /* OpenTreeMap */;
+			targetProxy = E943974614F447EB007CD0D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E943971F14F447EB007CD0D1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E943972014F447EB007CD0D1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E943972914F447EB007CD0D1 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		E943972B14F447EB007CD0D1 /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E943972C14F447EB007CD0D1 /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		E943974B14F447EB007CD0D1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E943974C14F447EB007CD0D1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E943975114F447EB007CD0D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E943975214F447EB007CD0D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E943975414F447EB007CD0D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		E943975514F447EB007CD0D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		E943975714F447EB007CD0D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpenTreeMap.app/OpenTreeMap";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		E943975814F447EB007CD0D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OpenTreeMap.app/OpenTreeMap";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E943970C14F447EB007CD0D1 /* Build configuration list for PBXProject "OpenTreeMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E943975114F447EB007CD0D1 /* Debug */,
+				E943975214F447EB007CD0D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E943975314F447EB007CD0D1 /* Build configuration list for PBXNativeTarget "OpenTreeMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E943975414F447EB007CD0D1 /* Debug */,
+				E943975514F447EB007CD0D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E943975614F447EB007CD0D1 /* Build configuration list for PBXNativeTarget "OpenTreeMapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E943975714F447EB007CD0D1 /* Debug */,
+				E943975814F447EB007CD0D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E943970914F447EB007CD0D1 /* Project object */;
+}
