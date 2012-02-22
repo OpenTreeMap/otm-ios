@@ -7,9 +7,12 @@
 //
 
 #import "OTMFirstViewController.h"
+#import "AZWMSOverlay.h"
+#import "AZWMSOverlayView.h"
+#import "OTMEnvironment.h"
 
 @interface OTMFirstViewController ()
-
+- (void)createAndAddMapView;
 @end
 
 @implementation OTMFirstViewController
@@ -17,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    [self createAndAddMapView];
 }
 
 - (void)viewDidUnload
@@ -33,6 +36,35 @@
     } else {
         return YES;
     }
+}
+
+#pragma mark Map view setup
+
+- (void)createAndAddMapView
+{
+    OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
+
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
+    MKCoordinateRegion region = [env mapViewInitialCoordinateRegion];
+    [mapView setRegion:region animated:FALSE];
+    [mapView regionThatFits:region];
+    [mapView setDelegate:self];
+
+    AZWMSOverlay *overlay = [[AZWMSOverlay alloc] init];
+
+    [overlay setServiceUrl:[env geoServerWMSServiceURL]];
+    [overlay setLayerNames:[env geoServerLayerNames]];
+
+    [mapView addOverlay:overlay];
+
+    [self.view addSubview:mapView];
+}
+
+#pragma mark MKMapViewDelegate
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
+{
+    return [[AZWMSOverlayView alloc] initWithOverlay:overlay];
 }
 
 @end

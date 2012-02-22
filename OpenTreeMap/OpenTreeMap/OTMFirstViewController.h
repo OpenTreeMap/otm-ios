@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
-@interface OTMFirstViewController : UIViewController
+@interface OTMFirstViewController : UIViewController <MKMapViewDelegate>
 
 @end

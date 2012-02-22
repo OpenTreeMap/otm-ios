@@ -26,7 +26,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames;
 
 + (id)sharedEnvironment
 {
@@ -47,16 +47,46 @@
     self = [super init];
     if (!self) { return nil; }
 
+    // Environment
+
     NSString* configuration = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Configuration"];
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* environmentPListPath = [bundle pathForResource:configuration ofType:@"plist"];
     NSDictionary* environment = [[NSDictionary alloc] initWithContentsOfFile:environmentPListPath];
+
+    // Environment - URLCache
 
     NSDictionary *urlCache = [environment valueForKey:@"URLCache"];
 
     [self setUrlCacheName:[urlCache valueForKey:@"Name"]];
     [self setUrlCacheQueueMaxContentLength:[urlCache valueForKey:@"QueueMaxContentLength"]];
     [self setUrlCacheInvalidationAgeInSeconds:[urlCache valueForKey:@"InvalidationAgeInSeconds"]];
+
+    // Implementation
+
+    NSString* implementationPListPath = [bundle pathForResource:@"Implementation" ofType:@"plist"];
+    NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
+
+    // Implementation - GeoServer
+
+    NSDictionary *geoServer = [implementation valueForKey:@"GeoServer"];
+
+    [self setGeoServerWMSServiceURL:[geoServer valueForKey:@"WMSServiceURL"]];
+    [self setGeoServerLayerNames:[[geoServer valueForKey:@"LayerNames"] componentsSeparatedByString:@","]];
+
+    // Implementation - MapView
+
+    NSDictionary *mapView = [implementation valueForKey:@"MapView"];
+
+    CLLocationCoordinate2D initialLatLon = CLLocationCoordinate2DMake(
+        [[mapView objectForKey:@"InitialLatitude"] floatValue],
+        [[mapView objectForKey:@"InitialLongitude"] floatValue]);
+
+    MKCoordinateSpan initialCoordinateSpan = MKCoordinateSpanMake(
+        [[mapView objectForKey:@"InitialLatitudeDelta"] floatValue],
+        [[mapView objectForKey:@"InitialLongitudeDelta"] floatValue]);
+
+    [self setMapViewInitialCoordinateRegion:MKCoordinateRegionMake(initialLatLon, initialCoordinateSpan)];
 
     return self;
 }

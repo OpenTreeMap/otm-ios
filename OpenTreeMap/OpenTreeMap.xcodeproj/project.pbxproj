@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		646D938A14F451F1009F26A8 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D938814F451F1009F26A8 /* libThree20Core.a */; };
 		646D938B14F451F1009F26A8 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D938914F451F1009F26A8 /* libThree20Network.a */; };
+		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZWMSOverlayView.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
@@ -50,6 +51,7 @@
 /* Begin PBXFileReference section */
 		646D938814F451F1009F26A8 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Core.a; path = "/Users/jwalgran/Code/Azavea/Azavea_OpenTreeMap/mobile/ios/lib/three20/src/Three20Core/../../Build/Products/Release-iphoneos/libThree20Core.a"; sourceTree = "<absolute>"; };
 		646D938914F451F1009F26A8 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Network.a; path = "/Users/jwalgran/Code/Azavea/Azavea_OpenTreeMap/mobile/ios/lib/three20/src/Three20Network/../../Build/Products/Release-iphoneos/libThree20Network.a"; sourceTree = "<absolute>"; };
+		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
 		64DDCDAB14F51A2C004FA0CF /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				E943971F14F447EB007CD0D1 /* InfoPlist.strings */,
 				E943972214F447EB007CD0D1 /* main.m */,
 				E943972414F447EB007CD0D1 /* OpenTreeMap-Prefix.pch */,
+				64A7D95214F5420A004D7FC8 /* Implementation.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				E943973B14F447EB007CD0D1 /* second@2x.png in Resources */,
 				64DDCDB914F53102004FA0CF /* Debug.plist in Resources */,
 				64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */,
+				64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

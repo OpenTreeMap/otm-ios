@@ -24,6 +24,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
 /**
  An interface to global application settings that may change for each build configuration (i.e. Debug, Release)
@@ -43,6 +44,21 @@
      The number of seconds that an object in the shared cache will be considered 'fresh'
      */
     NSNumber *urlCacheInvalidationAgeInSeconds;
+
+    /**
+     The initial map view extent displayed when the application is first loaded
+     */
+    MKCoordinateRegion mapViewInitialCoordinateRegion;
+
+    /**
+     The GeoServer WMS endpoint url from which map tiles will be requested
+     */
+    NSString *geoServerWMSServiceURL;
+
+    /**
+     The names of the GeoServer layers that are composited to produce map tiles
+     */
+    NSArray *geoServerLayerNames;
 }
 
 /**
@@ -50,8 +66,14 @@
  */
 + (id)sharedEnvironment;
 
+// Environment properties
 @property (nonatomic, retain) NSString *urlCacheName;
 @property (nonatomic, retain) NSNumber *urlCacheQueueMaxContentLength;
 @property (nonatomic, retain) NSNumber *urlCacheInvalidationAgeInSeconds;
+
+// Implementation properties
+@property (nonatomic, assign) MKCoordinateRegion mapViewInitialCoordinateRegion;
+@property (nonatomic, retain) NSString *geoServerWMSServiceURL;
+@property (nonatomic, retain) NSArray *geoServerLayerNames;
 
 @end

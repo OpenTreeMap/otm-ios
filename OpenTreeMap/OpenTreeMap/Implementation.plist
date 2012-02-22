@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GeoServer</key>
+	<dict>
+		<key>LayerNames</key>
+		<string>philly:ph_treemap_tree</string>
+		<key>WMSServiceURL</key>
+		<string>http://207.245.89.246/geoserver/philly/wms</string>
+	</dict>
+	<key>MapView</key>
+	<dict>
+		<key>InitialLatitude</key>
+		<real>39.997112</real>
+		<key>InitialLongitude</key>
+		<real>-75.147858</real>
+		<key>InitialLatitudeDelta</key>
+		<real>0.483941</real>
+		<key>InitialLongitudeDelta</key>
+		<real>0.439453</real>
+	</dict>
+</dict>
+</plist>
