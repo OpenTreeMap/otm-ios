@@ -13,6 +13,9 @@
 		64DDCDAE14F51A2C004FA0CF /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZWMSOverlayView.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
+		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
+		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
+		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
 		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
 		E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
 		E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
@@ -53,6 +56,10 @@
 		64DDCDAC14F51A2C004FA0CF /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		64DDCDB814F53102004FA0CF /* Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
+		64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMEnvironment.h; sourceTree = "<group>"; };
+		64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
+		64DDCDC414F53D8F004FA0CF /* Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
 		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943971614F447EB007CD0D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E943971814F447EB007CD0D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +116,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64DDCDBA14F53177004FA0CF /* Environments */ = {
+			isa = PBXGroup;
+			children = (
+				64DDCDB814F53102004FA0CF /* Debug.plist */,
+				64DDCDC414F53D8F004FA0CF /* Release.plist */,
+			);
+			name = Environments;
+			sourceTree = "<group>";
+		};
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +162,8 @@
 		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
 			isa = PBXGroup;
 			children = (
+				64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */,
+				64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */,
 				64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */,
 				64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */,
 				64DDCDAB14F51A2C004FA0CF /* AZWMSOverlayView.h */,
@@ -170,6 +188,7 @@
 		E943971D14F447EB007CD0D1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				64DDCDBA14F53177004FA0CF /* Environments */,
 				E943971E14F447EB007CD0D1 /* OpenTreeMap-Info.plist */,
 				E943971F14F447EB007CD0D1 /* InfoPlist.strings */,
 				E943972214F447EB007CD0D1 /* main.m */,
@@ -275,6 +294,8 @@
 				E943973414F447EB007CD0D1 /* first@2x.png in Resources */,
 				E943973914F447EB007CD0D1 /* second.png in Resources */,
 				E943973B14F447EB007CD0D1 /* second@2x.png in Resources */,
+				64DDCDB914F53102004FA0CF /* Debug.plist in Resources */,
+				64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +336,7 @@
 				E943973714F447EB007CD0D1 /* OTMSecondViewController.m in Sources */,
 				64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */,
 				64DDCDAE14F51A2C004FA0CF /* AZWMSOverlayView.m in Sources */,
+				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
