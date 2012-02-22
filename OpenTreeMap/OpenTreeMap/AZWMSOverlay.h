@@ -61,6 +61,12 @@
      Defaults to 1.0
      */
     float opacity;
+
+    /**
+     The image format for map tiles requested from the WMS server
+     Defaults to image/png
+     */
+    NSString *format;
 }
 
 @property (nonatomic, retain) NSString *serviceUrl;
@@ -69,6 +75,7 @@
 @property (nonatomic, retain) NSString *version;
 @property (nonatomic, assign) BOOL requestTilesWithTransparency;
 @property (nonatomic, assign) float opacity;
+@property (nonatomic, retain) NSString *format;
 
 /**
  Create a WMS GetMap request URL that corresponds to a given MKMapRect and MKZoomScale

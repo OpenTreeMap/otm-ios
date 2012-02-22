@@ -59,6 +59,11 @@
      The names of the GeoServer layers that are composited to produce map tiles
      */
     NSArray *geoServerLayerNames;
+
+    /**
+     The image format in which image tiles should be requested
+     */
+    NSString *geoServerFormat;
 }
 
 /**
@@ -75,5 +80,6 @@
 @property (nonatomic, assign) MKCoordinateRegion mapViewInitialCoordinateRegion;
 @property (nonatomic, retain) NSString *geoServerWMSServiceURL;
 @property (nonatomic, retain) NSArray *geoServerLayerNames;
+@property (nonatomic, retain) NSString *geoServerFormat;
 
 @end

@@ -54,6 +54,7 @@
 
     [overlay setServiceUrl:[env geoServerWMSServiceURL]];
     [overlay setLayerNames:[env geoServerLayerNames]];
+    [overlay setFormat:[env geoServerFormat]];
 
     [mapView addOverlay:overlay];
 
