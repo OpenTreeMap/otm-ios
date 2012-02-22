@@ -430,7 +430,7 @@
 					"\"$(SRCROOT)/../lib/three20/Build/Products/Release-iphoneos\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = ../lib/three20/Build/Products/three20;
+				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -446,7 +446,7 @@
 					"\"$(SRCROOT)/../lib/three20/Build/Products/Release-iphoneos\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = ../lib/three20/Build/Products/three20;
+				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
