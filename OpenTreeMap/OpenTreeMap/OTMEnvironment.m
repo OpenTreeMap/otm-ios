@@ -26,7 +26,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat;
 
 + (id)sharedEnvironment
 {
@@ -73,6 +73,7 @@
 
     [self setGeoServerWMSServiceURL:[geoServer valueForKey:@"WMSServiceURL"]];
     [self setGeoServerLayerNames:[[geoServer valueForKey:@"LayerNames"] componentsSeparatedByString:@","]];
+    [self setGeoServerFormat:[geoServer valueForKey:@"Format"]];
 
     // Implementation - MapView
 

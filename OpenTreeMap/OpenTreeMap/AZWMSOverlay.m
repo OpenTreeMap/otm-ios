@@ -30,7 +30,7 @@
 @synthesize boundingMapRect; // from <MKOverlay>
 @synthesize coordinate;      // from <MKOverlay>
 
-@synthesize serviceUrl, layerNames, styleNames, version, requestTilesWithTransparency, opacity;
+@synthesize serviceUrl, layerNames, styleNames, version, requestTilesWithTransparency, opacity, format;
 
 /**
  Initialize an AZWMSOverlay with default values for the version, opacity, requestTilesWithTransparency
@@ -61,6 +61,7 @@
     [self setRequestTilesWithTransparency:YES];
     [self setLayerNames:[[NSArray alloc] init]];
     [self setStyleNames:[[NSArray alloc] init]];
+    [self setFormat:@"image/png"];
     
     return self;
 } 
@@ -86,9 +87,11 @@
         transparentString = @"false";
     }
     
-    NSString *url = [NSString stringWithFormat:@"%@?service=WMS&version=%@&request=GetMap&layers=%@&styles=&bbox=%f,%f,%f,%f&width=%d&height=%d&srs=EPSG:4326&format=image%%2Fpng&transparent=%@", [self serviceUrl], [self version],layersString, bbox0, bbox1, bbox2, bbox3, width, height, transparentString];
+    NSString *url = [NSString stringWithFormat:@"%@?service=WMS&version=%@&request=GetMap&layers=%@&styles=&bbox=%f,%f,%f,%f&width=%d&height=%d&srs=EPSG:4326&format=%@&transparent=%@", [self serviceUrl], [self version],layersString, bbox0, bbox1, bbox2, bbox3, width, height, [self format], transparentString];
     
-    return  url;
+    NSString *escapedUrl = [url stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+
+    return  escapedUrl;
 }
 
 @end

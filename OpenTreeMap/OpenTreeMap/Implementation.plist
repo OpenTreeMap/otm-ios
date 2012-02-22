@@ -8,6 +8,8 @@
 		<string>philly:ph_treemap_tree</string>
 		<key>WMSServiceURL</key>
 		<string>http://207.245.89.246/geoserver/philly/wms</string>
+		<key>Format</key>
+		<string>image/png</string>
 	</dict>
 	<key>MapView</key>
 	<dict>
