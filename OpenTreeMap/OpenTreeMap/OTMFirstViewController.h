@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface OTMFirstViewController : UIViewController <MKMapViewDelegate>
+@interface OTMFirstViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate> {
+    IBOutlet MKMapView *mapView;
+}
 
 @end
