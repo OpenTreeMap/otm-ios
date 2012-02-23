@@ -407,7 +407,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Azavea Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Azavea Inc.";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Azavea Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -421,7 +421,7 @@
 					"-all_load",
 				);
 				PROVISIONING_PROFILE = "A18FF488-214C-4B09-9617-08F5F102B3A3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
+				"PROVISIONING_PROFILE[sdk=*]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -437,8 +437,8 @@
 				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
 					"\"$(SRCROOT)/../lib/three20/Build/Products/Release-iphoneos\"",
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -461,6 +461,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -473,7 +474,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.0]" = "iPhone Distribution: Azavea Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -492,6 +494,8 @@
 					"-ObjC",
 					"-all_load",
 				);
+				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
+				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -503,7 +507,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Azavea Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -516,6 +520,7 @@
 					"-ObjC",
 					"-all_load",
 				);
+				"PROVISIONING_PROFILE[sdk=*]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -526,18 +531,21 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.0]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../lib/three20/Build/Products/Release-iphoneos\"",
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "";
 				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = app;
 			};
@@ -547,18 +555,23 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../lib/three20/Build/Products/Release-iphoneos\"",
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
 				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = app;
 			};
@@ -575,6 +588,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -592,6 +606,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
