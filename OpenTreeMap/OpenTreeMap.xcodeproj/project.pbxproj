@@ -17,8 +17,8 @@
 		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
 		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
 		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
-		D7BEA4A814FC2168006CC456 /* AZAPICall.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZAPICall.m */; };
-		D7BEA4A914FC2168006CC456 /* AZAPICall.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZAPICall.m */; };
+		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
+		D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
 		D7BEA4AC14FC4ABD006CC456 /* AZJSONResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */; };
 		D7BEA4AD14FC4ABD006CC456 /* AZJSONResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */; };
 		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
@@ -67,8 +67,8 @@
 		64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
 		64DDCDC414F53D8F004FA0CF /* Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
 		7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
-		D7BEA4A614FC2168006CC456 /* AZAPICall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZAPICall.h; sourceTree = "<group>"; };
-		D7BEA4A714FC2168006CC456 /* AZAPICall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZAPICall.m; sourceTree = "<group>"; };
+		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; path = AZHttpRequest.h; sourceTree = "<group>"; };
+		D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZHttpRequest.m; sourceTree = "<group>"; };
 		D7BEA4AA14FC4ABD006CC456 /* AZJSONResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZJSONResponse.h; sourceTree = "<group>"; };
 		D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZJSONResponse.m; sourceTree = "<group>"; };
 		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,8 +139,8 @@
 		D7BEA4A414FC213F006CC456 /* api */ = {
 			isa = PBXGroup;
 			children = (
-				D7BEA4A614FC2168006CC456 /* AZAPICall.h */,
-				D7BEA4A714FC2168006CC456 /* AZAPICall.m */,
+				D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */,
+				D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */,
 				D7BEA4AA14FC4ABD006CC456 /* AZJSONResponse.h */,
 				D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */,
 			);
@@ -363,7 +363,7 @@
 				64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */,
 				64DDCDAE14F51A2C004FA0CF /* AZWMSOverlayView.m in Sources */,
 				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
-				D7BEA4A814FC2168006CC456 /* AZAPICall.m in Sources */,
+				D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */,
 				D7BEA4AC14FC4ABD006CC456 /* AZJSONResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,7 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E943975014F447EB007CD0D1 /* OpenTreeMapTests.m in Sources */,
-				D7BEA4A914FC2168006CC456 /* AZAPICall.m in Sources */,
+				D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */,
 				D7BEA4AD14FC4ABD006CC456 /* AZJSONResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
