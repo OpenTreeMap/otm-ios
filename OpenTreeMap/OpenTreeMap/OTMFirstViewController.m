@@ -10,6 +10,7 @@
 #import "AZWMSOverlay.h"
 #import "AZWMSOverlayView.h"
 #import "OTMEnvironment.h"
+#import "OTMAPICall.h"
 
 @interface OTMFirstViewController ()
 - (void)createAndAddMapView;
@@ -103,6 +104,21 @@
     CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
+        // INCOMPLETE: This is just the API hookups--- no user interaction yet
+    [OTMAPICall executeAPICall:@"locations/:lat,:lon/plots" 
+                        params:[NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSString stringWithFormat:@"%f", touchMapCoordinate.latitude], @"lat",
+                                [NSString stringWithFormat:@"%f", touchMapCoordinate.longitude], @"lon", nil]
+                      callback:^(TTURLRequest* req, id plots) {
+                          if ([plots count] == 0) { // No plots returned
+                              // What to do?
+                          } else {
+                              NSDictionary* plot = [plots objectAtIndex:0];
+                              NSLog(@"Here!"); 
+                          }
+                          
+                      }];
+    
     // TODO: Fetch nearest tree for lat lon
     NSLog(@"Touched lat:%f lon:%f",touchMapCoordinate.latitude, touchMapCoordinate.longitude);
 }
