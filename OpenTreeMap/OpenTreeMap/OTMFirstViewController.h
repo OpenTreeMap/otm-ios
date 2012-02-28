@@ -13,4 +13,13 @@
     IBOutlet MKMapView *mapView;
 }
 
+@property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
+@property (nonatomic,strong) IBOutlet UIView* detailView;
+@property (nonatomic,strong) IBOutlet UIImageView* treeImage;
+@property (nonatomic,strong) IBOutlet UILabel* species;
+@property (nonatomic,strong) IBOutlet UILabel* dbh;
+@property (nonatomic,strong) IBOutlet UILabel* address;
+
+-(void)setDetailViewData:(NSDictionary*)plot;
+
 @end

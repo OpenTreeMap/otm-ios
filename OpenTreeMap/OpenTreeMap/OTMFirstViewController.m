@@ -15,6 +15,8 @@
 @interface OTMFirstViewController ()
 - (void)createAndAddMapView;
 
+-(void)slideDetailUpAnimated:(BOOL)anim;
+-(void)slideDetailDownAnimated:(BOOL)anim;
 /**
  Append single-tap recognizer to the view that calls handleSingleTapGesture:
  */
@@ -23,9 +25,14 @@
 
 @implementation OTMFirstViewController
 
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self slideDetailDownAnimated:NO];
+     
+    self.lastClickedTree = [[MKPointAnnotation alloc] init];   
     [self createAndAddMapView];
 }
 
@@ -44,13 +51,75 @@
     }
 }
 
+#pragma mark Detail View
+
+-(void)setDetailViewData:(NSDictionary*)plot {
+    // Load dbh, species, address
+    // No address at all right now
+
+    NSString* tdbh = nil;
+    NSString* tspecies = nil;
+    NSString* taddress = nil;
+    
+    NSDictionary* tree;
+    if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
+        tdbh =  [tree objectForKey:@"dbh"];
+        tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species"]];
+    }
+    
+    taddress = [plot objectForKey:@"address"];
+    
+    if (tdbh == nil || tdbh == @"<null>") { tdbh = @"(None)"; }
+    if (tspecies == nil || tspecies == @"<null>") { tspecies = @"(None)"; }
+    if (taddress == nil || taddress == @"<null>") { taddress = @"(Not Set Yet)"; }
+    
+    [self.dbh setText:tdbh];
+    [self.species setText:tspecies];
+    [self.address setText:taddress];
+}
+
+-(void)slideDetailUpAnimated:(BOOL)anim {
+    if (anim) {
+        [UIView beginAnimations:@"slidedetailup" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        [UIView setAnimationDuration:0.5];
+    }
+    
+    [self.detailView setFrame:
+        CGRectMake(0,
+                   self.view.bounds.size.height - self.detailView.frame.size.height,
+                   self.view.bounds.size.width, 
+                   self.detailView.frame.size.height)];
+    
+    if (anim) {
+        [UIView commitAnimations];
+    }
+}
+
+-(void)slideDetailDownAnimated:(BOOL)anim {
+    if (anim) {
+        [UIView beginAnimations:@"slidedetaildown" context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.5];
+    }    
+    
+    [self.detailView setFrame:
+     CGRectMake(0,
+                self.view.bounds.size.height,
+                self.view.bounds.size.width, 
+                self.detailView.frame.size.height)];
+    
+    if (anim) {
+        [UIView commitAnimations];
+    }
+}
+
 #pragma mark Map view setup
 
 - (void)createAndAddMapView
 {
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
 
-    mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
     MKCoordinateRegion region = [env mapViewInitialCoordinateRegion];
     [mapView setRegion:region animated:FALSE];
     [mapView regionThatFits:region];
@@ -64,8 +133,6 @@
     [overlay setFormat:[env geoServerFormat]];
 
     [mapView addOverlay:overlay];
-
-    [self.view addSubview:mapView];
 }
 
 - (void)addGestureRecognizersToView:(UIView *)view
@@ -104,15 +171,29 @@
     CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
-        // INCOMPLETE: This is just the API hookups--- no user interaction yet
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:touchMapCoordinate.latitude
                                                          longitude:touchMapCoordinate.longitude
                                                           callback:^(NSArray* plots) 
     {
         if ([plots count] == 0) { // No plots returned
-            // What to do?
-        } else {
+            [self slideDetailDownAnimated:YES];
+        } else {            
             NSDictionary* plot = [plots objectAtIndex:0];
+            NSDictionary* geom = [plot objectForKey:@"geometry"];
+            
+            [self setDetailViewData:plot];
+            [self slideDetailUpAnimated:YES];
+            
+            double lat = [[geom objectForKey:@"lat"] doubleValue];
+            double lon = [[geom objectForKey:@"lng"] doubleValue];
+            CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
+            MKCoordinateSpan span = MKCoordinateSpanMake(0.003, 0.003);
+            
+            [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+            
+            [self.lastClickedTree setCoordinate:center];
+            
+            [mapView addAnnotation:self.lastClickedTree];
             NSLog(@"Here with plot %@", plot); 
         }
     }];
