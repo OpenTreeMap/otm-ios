@@ -24,6 +24,7 @@
 #import "AZHttpRequest.h"
 
 typedef void(^AZJSONCallback)(id json);
+typedef void(^AZImageCallback)(id json);
 
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
@@ -44,5 +45,13 @@ typedef void(^AZJSONCallback)(id json);
  * @param callback receives a NSArray of NSDictionaries representing plots
  */
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
+
+/**
+ * Request an image for a given tree/plot
+ *
+ * @param plotid the plot's id
+ * @param imageid the image's id
+ */
+-(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
 
 @end

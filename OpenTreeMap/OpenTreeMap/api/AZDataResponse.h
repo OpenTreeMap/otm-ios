@@ -18,38 +18,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
 // THE SOFTWARE.                                                                                                  
-//    
+//  
 
-#import "OTMAPI.h"
-#import "AZJSONResponse.h"
-#import "AZDataResponse.h"
+#import <Foundation/Foundation.h>
 
-@implementation OTMAPI
+#import "Three20Network/Three20Network.h"
 
-@synthesize request;
+@interface AZDataResponse : NSObject<TTURLResponse>
 
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback {
-    [self.request get:@"locations/:lat,:lon/plots" 
-               params:[NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSString stringWithFormat:@"%f", lat], @"lat",
-                       [NSString stringWithFormat:@"%f", lon], @"lon", nil]
-             callback:^(id req) { 
-                 if (callback) {
-                     callback([(AZJSONResponse*)[req response] json]);
-                 }
-             }];
-}
-
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback {
-    [self.request getRaw:@"plots/:plot/tree/photo/:photo" 
-                  params:[NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", plotid], @"plot",
-                          [NSString stringWithFormat:@"%d", photoid], @"photo", nil]
-                callback:^(id req) { 
-                    if (callback) {
-                        callback([UIImage imageWithData:[(AZDataResponse*)[req response] data]]);
-                    }
-                }];    
-}
+@property (nonatomic,strong) NSData* data;
 
 @end
+
