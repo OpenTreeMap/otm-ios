@@ -63,8 +63,8 @@
     
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
-        tdbh =  [tree objectForKey:@"dbh"];
-        tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species"]];
+        tdbh =  [NSString stringWithFormat:@"%@", [tree objectForKey:@"dbh"]];
+        tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species_name"]];
     }
     
     taddress = [plot objectForKey:@"address"];
