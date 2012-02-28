@@ -25,6 +25,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "OTMAPI.h"
 
 /**
  An interface to global application settings that may change for each build configuration (i.e. Debug, Release)
@@ -81,5 +82,9 @@
 @property (nonatomic, retain) NSString *geoServerWMSServiceURL;
 @property (nonatomic, retain) NSArray *geoServerLayerNames;
 @property (nonatomic, retain) NSString *geoServerFormat;
+@property (nonatomic, copy) NSString* baseURL;
+
+// Derived Properties
+@property (nonatomic, strong) OTMAPI* api;
 
 @end

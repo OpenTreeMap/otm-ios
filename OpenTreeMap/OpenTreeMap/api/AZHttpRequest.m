@@ -35,7 +35,7 @@
  *
  * @returns URL with keys replaced
  */
-+(NSString*)replacePlaceholdersInURL:(NSString*)url withParams:(NSDictionary*)params remainingParams:(NSDictionary**)rparams;
+-(NSString*)replacePlaceholdersInURL:(NSString*)url withParams:(NSDictionary*)params remainingParams:(NSDictionary**)rparams;
 
 /**
  * Transform the query string by replacing placeholders with the form ":key" based
@@ -46,7 +46,7 @@
  *
  * @returns url with params and query string
  */
-+(NSString*)generateURL:(NSString*)url withParams:(NSDictionary*)params;
+-(NSString*)generateURL:(NSString*)url withParams:(NSDictionary*)params;
 
 /**
  * Build a basic TTURLRequest and pass it to the config block to be
@@ -56,13 +56,13 @@
  * @param callback the block to call when the request is done
  * @param config config block
  */
-+(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback config:(TTRequestConfig)config;
-+(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback;
+-(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback config:(TTRequestConfig)config;
+-(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback;
 
 @end
 
 /**
- * Dummy delegate to allow us to pass blocks to 320 Network Requests
+ * Dummy delegate to allow us to pass blocks to three20 Network Requests
  */
 @interface AZAPICallDelegate : NSObject {
     TTRequestCallback callback;
@@ -98,28 +98,38 @@
 
 @implementation AZHttpRequest
 
-+(void)get:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback {                          
-    [AZHttpRequest executeRequestWithURL:[AZHttpRequest generateURL:url withParams:params] 
-                                callback:callback];
+@synthesize baseURL;
+
+-(id)initWithURL:(NSString*)base {
+    if (self = [[AZHttpRequest alloc] init]) {
+        baseURL = [base copy];
+    }
+    
+    return self;
 }
 
-+(void)post:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback {
-    [AZHttpRequest executeRequestWithURL:[AZHttpRequest generateURL:url withParams:params] 
-                                callback:callback
-                                  config:^(TTURLRequest* r) {
-                                      r.httpBody = data;
-                                      r.httpMethod = @"POST";
-                                      r.contentType = @"application/json";
-                                  }];
+-(void)get:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback {                          
+    [self executeRequestWithURL:[self generateURL:url withParams:params] 
+                       callback:callback];
 }
 
-+(void)put:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback {
-    [AZHttpRequest executeRequestWithURL:[AZHttpRequest generateURL:url withParams:params] 
-                                callback:callback
-                                  config:^(TTURLRequest* r) {
-                                      r.httpBody = data;
-                                      r.httpMethod = @"PUT";
-                                      r.contentType = @"application/json";
+-(void)post:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback {
+    [self executeRequestWithURL:[self generateURL:url withParams:params] 
+                       callback:callback
+                         config:^(TTURLRequest* r) {
+                             r.httpBody = data;
+                             r.httpMethod = @"POST";
+                             r.contentType = @"application/json";
+                         }];
+}
+
+-(void)put:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback {
+    [self executeRequestWithURL:[self generateURL:url withParams:params] 
+                       callback:callback
+                         config:^(TTURLRequest* r) {
+                             r.httpBody = data;
+                             r.httpMethod = @"PUT";
+                             r.contentType = @"application/json";
                                   }];
 }
 
@@ -127,7 +137,7 @@
 
 @implementation AZHttpRequest(private)
 
-+(NSString*)replacePlaceholdersInURL:(NSString*)url withParams:(NSDictionary*)params remainingParams:(NSDictionary**)rparams {
+-(NSString*)replacePlaceholdersInURL:(NSString*)url withParams:(NSDictionary*)params remainingParams:(NSDictionary**)rparams {
     NSMutableString* murl = [NSMutableString stringWithString:url];
     NSMutableDictionary* unusedParams = [NSMutableDictionary dictionary];
     
@@ -145,11 +155,11 @@
     *rparams = unusedParams;
     
     return murl;
-}
+}   
 
-+(NSString*)generateURL:(NSString*)url withParams:(NSDictionary*)params {
+-(NSString*)generateURL:(NSString*)url withParams:(NSDictionary*)params {
     NSDictionary* nonUrlParams;
-    url = [AZHttpRequest replacePlaceholdersInURL:url withParams:params remainingParams:&nonUrlParams];
+    url = [self replacePlaceholdersInURL:url withParams:params remainingParams:&nonUrlParams];
     
     NSMutableString* query = [NSMutableString stringWithFormat:@"%@?", url];
     
@@ -160,13 +170,14 @@
     return [query substringToIndex:[query length] - 1];
 }
 
-+(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback {
-    [AZHttpRequest executeRequestWithURL:url callback:callback config:^(id a) {}];
+-(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback {
+    [self executeRequestWithURL:url callback:callback config:^(id a) {}];
 }
 
-+(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback config:(TTRequestConfig)config {
+-(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback config:(TTRequestConfig)config {
     AZAPICallDelegate* delegate = [AZAPICallDelegate delegateWithBlock:callback];
-    TTURLRequest *request = [TTURLRequest requestWithURL:url delegate:delegate];
+    TTURLRequest *request = [TTURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@",self.baseURL,url]
+                                                delegate:delegate];
     
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     request.response = [[AZJSONResponse alloc] init];
@@ -175,7 +186,7 @@
     
     // The TTURLRequest does not keep strong references to the delegate
     // so we retain it here
-    CFBridgingRetain(request.response);
+    CFBridgingRetain(delegate);
     
     // The request must be sent on the main thread in order to correctly return
     [request performSelectorOnMainThread:@selector(send) withObject:nil waitUntilDone:NO];

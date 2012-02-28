@@ -21,72 +21,28 @@
 //    
 
 #import <Foundation/Foundation.h>
-#import "Three20Network/Three20Network.h"
+#import "AZHttpRequest.h"
+
+typedef void(^AZJSONCallback)(id json);
 
 /**
- * Callback for receiving JSON via a TTURLRequest
+ * OTM API Provides a functional wrapper around the OpenTreeMap API
+ *
+ * This is a singleton object - grab it from the OTMEnironment
  */
-typedef void(^TTRequestCallback)(TTURLRequest* req,id json);
+@interface OTMAPI : NSObject
 
 /**
- * Config block callback
+ * Object used for doing our http requests
  */
-typedef void(^TTRequestConfig)(TTURLRequest* req);
+@property (nonatomic,strong) AZHttpRequest* request;
 
 /**
- * Static namespace for convenience functions for calling OTM APIs
+ * Get the plot nearested to (lat,lon)
+ *
+ * @param lat,lon latitude and longitude of the point of intererest
+ * @param callback receives a NSArray of NSDictionaries representing plots
  */
-@interface AZHttpRequest : NSObject
-
-@property (nonatomic,copy,readonly) NSString* baseURL;
-
-/**
- * Initialize with a base url
- *
- * @param base the url prefixed onto all of the calls
- */
--(id)initWithURL:(NSString*)base;
-
-/**
- * Perform an API call
- * Note that strings of the form: ":key" are replaced with the values in the
- * params dictionary (so url "plots/:id/trees", params { "id" => 5, "size" => 10 }, would
- * end up with a url of: "plots/5/trees?size=10")
- *
- * @param url the endpoint to hit. The prefix will be added automatically so this 
- *            is something like: "plots/:id/"
- * @param params dictionary of key/value parameter pairs
- * @param callback called on success
- *
- */
--(void)get:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback;
-
-/**
- * Perform an API call
- * Note that strings of the form: ":key" are replaced with the values in the
- * params dictionary (so url "plots/:id/trees", params { "id" => 5, "size" => 10 }, would
- * end up with a url of: "plots/5/trees?size=10")
- *
- * @param url the endpoint to hit. The prefix will be added automatically so this 
- *            is something like: "plots/:id/"
- * @param params dictionary of key/value parameter pairs
- * @param callback called on success
- *
- */
--(void)post:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback;
-
-/**
- * Perform an API call
- * Note that strings of the form: ":key" are replaced with the values in the
- * params dictionary (so url "plots/:id/trees", params { "id" => 5, "size" => 10 }, would
- * end up with a url of: "plots/5/trees?size=10")
- *
- * @param url the endpoint to hit. The prefix will be added automatically so this 
- *            is something like: "plots/:id/"
- * @param params dictionary of key/value parameter pairs
- * @param callback called on success
- *
- */
--(void)put:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
 
 @end

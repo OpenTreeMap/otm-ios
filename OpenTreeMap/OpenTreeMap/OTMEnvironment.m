@@ -23,10 +23,11 @@
 
  */
 #import "OTMEnvironment.h"
+#import "AZHttpRequest.h"
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL;
 
 + (id)sharedEnvironment
 {
@@ -67,6 +68,8 @@
     NSString* implementationPListPath = [bundle pathForResource:@"Implementation" ofType:@"plist"];
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
 
+    [self setBaseURL:[implementation valueForKey:@"baseURL"]];
+    
     // Implementation - GeoServer
 
     NSDictionary *geoServer = [implementation valueForKey:@"GeoServer"];
@@ -89,7 +92,11 @@
 
     [self setMapViewInitialCoordinateRegion:MKCoordinateRegionMake(initialLatLon, initialCoordinateSpan)];
 
+    OTMAPI* otmApi = [[OTMAPI alloc] init];
+    AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
+    otmApi.request = req;
     
+    self.api = otmApi;
     
     return self;
 }
