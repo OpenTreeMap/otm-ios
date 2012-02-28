@@ -23,7 +23,7 @@
 #import <Foundation/Foundation.h>
 #import "Three20Network/Three20Network.h"
 
-@interface OTMJSONResponse : NSObject<TTURLResponse>
+@interface AZJSONResponse : NSObject<TTURLResponse>
 
 @property (nonatomic,strong) id json;
 

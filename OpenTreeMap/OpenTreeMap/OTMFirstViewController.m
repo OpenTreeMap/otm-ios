@@ -10,7 +10,7 @@
 #import "AZWMSOverlay.h"
 #import "AZWMSOverlayView.h"
 #import "OTMEnvironment.h"
-#import "OTMAPICall.h"
+#import "AZAPICall.h"
 
 @interface OTMFirstViewController ()
 - (void)createAndAddMapView;
@@ -105,7 +105,7 @@
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
         // INCOMPLETE: This is just the API hookups--- no user interaction yet
-    [OTMAPICall executeAPICall:@"locations/:lat,:lon/plots" 
+    [AZAPICall executeAPICall:@"locations/:lat,:lon/plots" 
                         params:[NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSString stringWithFormat:@"%f", touchMapCoordinate.latitude], @"lat",
                                 [NSString stringWithFormat:@"%f", touchMapCoordinate.longitude], @"lon", nil]

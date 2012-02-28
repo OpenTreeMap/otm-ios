@@ -31,7 +31,7 @@ typedef void(^TTRequestCallback)(TTURLRequest* req,id json);
 /**
  * Static namespace for convenience functions for calling OTM APIs
  */
-@interface OTMAPICall : NSObject
+@interface AZAPICall : NSObject
 
 /**
  * Perform an API call

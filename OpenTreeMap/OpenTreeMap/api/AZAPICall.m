@@ -20,10 +20,10 @@
 // THE SOFTWARE.                                                                                                  
 //    
 
-#import "OTMAPICall.h"
-#import "OTMJSONResponse.h"
+#import "AZAPICall.h"
+#import "AZJSONResponse.h"
 
-@interface OTMAPICall(private)
+@interface AZAPICall(private)
 
 /**
  * Transform the query string by replacing placeholders with the form ":key" based
@@ -42,7 +42,7 @@
 /**
  * Dummy delegate to allow us to pass blocks to 320 Network Requests
  */
-@interface OTMAPICallDelegate : NSObject {
+@interface AZAPICallDelegate : NSObject {
     TTRequestCallback callback;
 }
 
@@ -53,12 +53,12 @@
 
 @end
 
-@implementation OTMAPICallDelegate
+@implementation AZAPICallDelegate
 
 @synthesize callback;
 
 +(id)delegateWithBlock:(TTRequestCallback)callback {
-    OTMAPICallDelegate* delegate = [[OTMAPICallDelegate alloc] init];
+    AZAPICallDelegate* delegate = [[AZAPICallDelegate alloc] init];
     delegate.callback = callback;
     
     return delegate;
@@ -66,7 +66,7 @@
 
 -(void)requestDidFinishLoad:(TTURLRequest *)request {
     if (callback) {
-        callback(request, [(OTMJSONResponse*)[request response] json]);
+        callback(request, [(AZJSONResponse*)[request response] json]);
     }
     
     CFBridgingRelease((__bridge void*)self);
@@ -74,11 +74,11 @@
 
 @end
 
-@implementation OTMAPICall
+@implementation AZAPICall
 
 +(void)executeAPICall:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback {
     NSDictionary* nonUrlParams;
-    url = [OTMAPICall replacePlaceholdersInURL:url withParams:params remainingParams:&nonUrlParams];
+    url = [AZAPICall replacePlaceholdersInURL:url withParams:params remainingParams:&nonUrlParams];
     
     NSString* base = @"http://207.245.89.246/v1.2/api/v0.1";
     NSMutableString* query = [NSMutableString stringWithFormat:@"%@/%@?", base, url];
@@ -89,10 +89,11 @@
     
     NSString* queryURL = [query substringToIndex:[query length] - 1];
     
-    OTMAPICallDelegate* delegate = [OTMAPICallDelegate delegateWithBlock:callback];
+    AZAPICallDelegate* delegate = [AZAPICallDelegate delegateWithBlock:callback];
     TTURLRequest *request = [TTURLRequest requestWithURL:queryURL delegate:delegate];
     
-    request.response = [[OTMJSONResponse alloc] init];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    request.response = [[AZJSONResponse alloc] init];
     
     // The TTURLRequest does not keep strong references to the delegate
     // so we retain it here
@@ -104,7 +105,7 @@
 
 @end
 
-@implementation OTMAPICall(private)
+@implementation AZAPICall(private)
 
 +(NSString*)replacePlaceholdersInURL:(NSString*)url withParams:(NSDictionary*)params remainingParams:(NSDictionary**)rparams {
     NSMutableString* murl = [NSMutableString stringWithString:url];

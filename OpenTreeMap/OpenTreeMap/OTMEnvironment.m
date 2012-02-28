@@ -89,7 +89,10 @@
 
     [self setMapViewInitialCoordinateRegion:MKCoordinateRegionMake(initialLatLon, initialCoordinateSpan)];
 
+    
+    
     return self;
 }
+
 
 @end

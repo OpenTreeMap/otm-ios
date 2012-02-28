@@ -20,12 +20,14 @@
 // THE SOFTWARE.                                                                                                  
 //    
 
-#import "OTMJSONResponse.h"
+#import "AZJSONResponse.h"
 #import "Three20Network/Three20Network.h"
 
-@implementation OTMJSONResponse
+@implementation AZJSONResponse
 
 @synthesize json;
+
+#pragma mark TTURLResponse methods
 
 -(NSError*)request:(TTURLRequest*)request processResponse:(NSHTTPURLResponse *)response data:(id)data {
     NSError* error = nil;
