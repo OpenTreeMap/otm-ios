@@ -64,7 +64,7 @@
 /**
  * Dummy delegate to allow us to pass blocks to three20 Network Requests
  */
-@interface AZAPICallDelegate : NSObject {
+@interface AZHTTPResponseDelegate : NSObject {
     TTRequestCallback callback;
 }
 
@@ -75,12 +75,12 @@
 
 @end
 
-@implementation AZAPICallDelegate
+@implementation AZHTTPResponseDelegate
 
 @synthesize callback;
 
 +(id)delegateWithBlock:(TTRequestCallback)callback {
-    AZAPICallDelegate* delegate = [[AZAPICallDelegate alloc] init];
+    AZHTTPResponseDelegate* delegate = [[AZHTTPResponseDelegate alloc] init];
     delegate.callback = callback;
     
     return delegate;
@@ -175,7 +175,7 @@
 }
 
 -(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback config:(TTRequestConfig)config {
-    AZAPICallDelegate* delegate = [AZAPICallDelegate delegateWithBlock:callback];
+    AZHTTPResponseDelegate* delegate = [AZHTTPResponseDelegate delegateWithBlock:callback];
     TTURLRequest *request = [TTURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@",self.baseURL,url]
                                                 delegate:delegate];
     
