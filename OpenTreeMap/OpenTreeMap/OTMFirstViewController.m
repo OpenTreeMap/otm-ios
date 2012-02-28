@@ -54,9 +54,6 @@
 #pragma mark Detail View
 
 -(void)setDetailViewData:(NSDictionary*)plot {
-    // Load dbh, species, address
-    // No address at all right now
-
     NSString* tdbh = nil;
     NSString* tspecies = nil;
     NSString* taddress = nil;
@@ -180,6 +177,24 @@
         } else {            
             NSDictionary* plot = [plots objectAtIndex:0];
             NSDictionary* geom = [plot objectForKey:@"geometry"];
+            
+            NSDictionary* tree = [plot objectForKey:@"tree"];
+            
+            if (tree && [tree isKindOfClass:[NSDictionary class]]) {
+                NSArray* images = [tree objectForKey:@"images"];
+            
+                if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
+                    int imageId = [[[images objectAtIndex:0] objectForKey:@"id"] intValue];
+                    int plotId = [[plot objectForKey:@"id"] intValue];
+                    
+                    [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
+                                                                      photoId:imageId
+                                                                     callback:^(UIImage* image)
+                     {
+                         self.treeImage.image = image;
+                     }];
+                }
+            }
             
             [self setDetailViewData:plot];
             [self slideDetailUpAnimated:YES];

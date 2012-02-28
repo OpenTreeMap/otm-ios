@@ -23,6 +23,6 @@
 		<real>0.439453</real>
 	</dict>
 	<key>baseURL</key>
-	<string>http://207.245.89.246/v1.2/api/v0.1/</string>
+	<string>http://192.168.16.77:9810/ptm/api/v0.1/</string>
 </dict>
 </plist>

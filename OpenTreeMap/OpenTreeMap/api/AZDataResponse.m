@@ -18,38 +18,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
 // THE SOFTWARE.                                                                                                  
-//    
+//  
 
-#import "OTMAPI.h"
-#import "AZJSONResponse.h"
 #import "AZDataResponse.h"
 
-@implementation OTMAPI
+@implementation AZDataResponse
 
-@synthesize request;
+@synthesize data;
 
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback {
-    [self.request get:@"locations/:lat,:lon/plots" 
-               params:[NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSString stringWithFormat:@"%f", lat], @"lat",
-                       [NSString stringWithFormat:@"%f", lon], @"lon", nil]
-             callback:^(id req) { 
-                 if (callback) {
-                     callback([(AZJSONResponse*)[req response] json]);
-                 }
-             }];
-}
+#pragma mark TTURLResponse methods
 
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback {
-    [self.request getRaw:@"plots/:plot/tree/photo/:photo" 
-                  params:[NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", plotid], @"plot",
-                          [NSString stringWithFormat:@"%d", photoid], @"photo", nil]
-                callback:^(id req) { 
-                    if (callback) {
-                        callback([UIImage imageWithData:[(AZDataResponse*)[req response] data]]);
-                    }
-                }];    
+-(NSError*)request:(TTURLRequest*)request processResponse:(NSHTTPURLResponse *)response data:(id)rdata {
+    self.data = rdata;
+    return nil;
 }
 
 @end

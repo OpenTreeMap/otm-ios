@@ -26,7 +26,7 @@
 /**
  * Callback for receiving JSON via a TTURLRequest
  */
-typedef void(^TTRequestCallback)(TTURLRequest* req,id json);
+typedef void(^TTRequestCallback)(TTURLRequest* req);
 
 /**
  * Config block callback
@@ -53,6 +53,8 @@ typedef void(^TTRequestConfig)(TTURLRequest* req);
  * params dictionary (so url "plots/:id/trees", params { "id" => 5, "size" => 10 }, would
  * end up with a url of: "plots/5/trees?size=10")
  *
+ * This method assumes that the data coming back is json
+ *
  * @param url the endpoint to hit. The prefix will be added automatically so this 
  *            is something like: "plots/:id/"
  * @param params dictionary of key/value parameter pairs
@@ -60,6 +62,22 @@ typedef void(^TTRequestConfig)(TTURLRequest* req);
  *
  */
 -(void)get:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback;
+
+/**
+ * Perform an API call
+ * Note that strings of the form: ":key" are replaced with the values in the
+ * params dictionary (so url "plots/:id/trees", params { "id" => 5, "size" => 10 }, would
+ * end up with a url of: "plots/5/trees?size=10")
+ *
+ * This method returns raw byte data to the response handler
+ *
+ * @param url the endpoint to hit. The prefix will be added automatically so this 
+ *            is something like: "plots/:id/"
+ * @param params dictionary of key/value parameter pairs
+ * @param callback called on success
+ *
+ */
+-(void)getRaw:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback;
 
 /**
  * Perform an API call

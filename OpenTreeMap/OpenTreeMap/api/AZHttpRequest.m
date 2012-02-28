@@ -22,6 +22,7 @@
 
 #import "AZHttpRequest.h"
 #import "AZJSONResponse.h"
+#import "AZDataResponse.h"
 
 @interface AZHttpRequest(private)
 
@@ -88,7 +89,7 @@
 
 -(void)requestDidFinishLoad:(TTURLRequest *)request {
     if (callback) {
-        callback(request, [(AZJSONResponse*)[request response] json]);
+        callback(request);
     }
     
     CFBridgingRelease((__bridge void*)self);
@@ -113,6 +114,15 @@
                        callback:callback];
 }
 
+-(void)getRaw:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback {
+    [self executeRequestWithURL:[self generateURL:url withParams:params] 
+                       callback:callback
+                         config:^(TTURLRequest* r) {
+                             r.response = [[AZDataResponse alloc] init];
+                             [r setValue:@"image/jpeg" forHTTPHeaderField:@"Accept"];
+                         }];
+}
+
 -(void)post:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback {
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback
@@ -130,7 +140,7 @@
                              r.httpBody = data;
                              r.httpMethod = @"PUT";
                              r.contentType = @"application/json";
-                                  }];
+                         }];
 }
 
 @end
@@ -178,6 +188,8 @@
     AZHTTPResponseDelegate* delegate = [AZHTTPResponseDelegate delegateWithBlock:callback];
     TTURLRequest *request = [TTURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@",self.baseURL,url]
                                                 delegate:delegate];
+    
+    NSLog(@"[Debug] Request: %@", url);
     
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     request.response = [[AZJSONResponse alloc] init];
