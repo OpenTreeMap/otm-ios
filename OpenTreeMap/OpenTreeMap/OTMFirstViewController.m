@@ -13,7 +13,7 @@
 #import "OTMAPI.h"
 
 @interface OTMFirstViewController ()
-- (void)createAndAddMapView;
+- (void)initMapView;
 
 -(void)slideDetailUpAnimated:(BOOL)anim;
 -(void)slideDetailDownAnimated:(BOOL)anim;
@@ -33,7 +33,7 @@
     [self slideDetailDownAnimated:NO];
      
     self.lastClickedTree = [[MKPointAnnotation alloc] init];   
-    [self createAndAddMapView];
+    [self initMapView];
 }
 
 - (void)viewDidUnload
@@ -116,7 +116,7 @@
 
 #pragma mark Map view setup
 
-- (void)createAndAddMapView
+- (void)initMapView
 {
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
 
