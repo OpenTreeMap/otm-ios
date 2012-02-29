@@ -114,12 +114,12 @@
                        callback:callback];
 }
 
--(void)getRaw:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback {
+-(void)getRaw:(NSString*)url params:(NSDictionary*)params mime:(NSString*)mime callback:(TTRequestCallback)callback {
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback
                          config:^(TTURLRequest* r) {
                              r.response = [[AZDataResponse alloc] init];
-                             [r setValue:@"image/jpeg" forHTTPHeaderField:@"Accept"];
+                             [r setValue:mime forHTTPHeaderField:@"Accept"];
                          }];
 }
 

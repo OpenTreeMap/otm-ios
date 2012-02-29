@@ -159,6 +159,13 @@
 			path = api;
 			sourceTree = "<group>";
 		};
+		D7C252C914FE83BA0028519E /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +203,7 @@
 		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
 			isa = PBXGroup;
 			children = (
+				D7C252C914FE83BA0028519E /* views */,
 				D7BEA4A414FC213F006CC456 /* api */,
 				7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */,
 				64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */,
@@ -463,7 +471,7 @@
 				PROVISIONING_PROFILE = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				"PROVISIONING_PROFILE[sdk=*]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Ad Hoc";
@@ -538,7 +546,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -563,7 +571,7 @@
 				);
 				"PROVISIONING_PROFILE[sdk=*]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

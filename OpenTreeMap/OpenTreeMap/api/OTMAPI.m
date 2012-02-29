@@ -45,6 +45,7 @@
                   params:[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d", plotid], @"plot",
                           [NSString stringWithFormat:@"%d", photoid], @"photo", nil]
+                    mime:@"image/jpeg"
                 callback:^(id req) { 
                     if (callback) {
                         callback([UIImage imageWithData:[(AZDataResponse*)[req response] data]]);

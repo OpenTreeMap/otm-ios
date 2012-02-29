@@ -74,10 +74,11 @@ typedef void(^TTRequestConfig)(TTURLRequest* req);
  * @param url the endpoint to hit. The prefix will be added automatically so this 
  *            is something like: "plots/:id/"
  * @param params dictionary of key/value parameter pairs
+ * @param mime the mime type to pass as the accept header
  * @param callback called on success
  *
  */
--(void)getRaw:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback;
+-(void)getRaw:(NSString*)url params:(NSDictionary*)params mime:(NSString*)mime callback:(TTRequestCallback)callback;
 
 /**
  * Perform an API call
