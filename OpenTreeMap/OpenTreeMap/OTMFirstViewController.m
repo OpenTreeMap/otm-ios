@@ -60,15 +60,20 @@
     
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
-        tdbh =  [NSString stringWithFormat:@"%@", [tree objectForKey:@"dbh"]];
+        NSString* dbhValue = [tree objectForKey:@"dbh"];
+        
+        if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
+            tdbh =  [NSString stringWithFormat:@"%@", dbhValue];   
+        }
+        
         tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species_name"]];
     }
     
     taddress = [plot objectForKey:@"address"];
     
-    if (tdbh == nil || tdbh == @"<null>") { tdbh = @"(None)"; }
-    if (tspecies == nil || tspecies == @"<null>") { tspecies = @"(None)"; }
-    if (taddress == nil || taddress == @"<null>") { taddress = @"(Not Set Yet)"; }
+    if (tdbh == nil || tdbh == @"<null>") { tdbh = @"Diameter"; }
+    if (tspecies == nil || tspecies == @"<null>") { tspecies = @"Species"; }
+    if (taddress == nil || taddress == @"<null>") { taddress = @"Address"; }
     
     [self.dbh setText:tdbh];
     [self.species setText:tspecies];
