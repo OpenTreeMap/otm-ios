@@ -185,9 +185,11 @@
             
             NSDictionary* tree = [plot objectForKey:@"tree"];
             
+            self.treeImage.image = nil;
+            
             if (tree && [tree isKindOfClass:[NSDictionary class]]) {
                 NSArray* images = [tree objectForKey:@"images"];
-            
+                
                 if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
                     int imageId = [[[images objectAtIndex:0] objectForKey:@"id"] intValue];
                     int plotId = [[plot objectForKey:@"id"] intValue];
