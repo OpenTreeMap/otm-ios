@@ -25,14 +25,15 @@
 
 @implementation OTMFirstViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible;
 
 - (void)viewDidLoad
 {
+    self.detailsVisible = NO;
+    
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
      
-    self.lastClickedTree = [[MKPointAnnotation alloc] init];   
     [self setupMapView];
 }
 
@@ -84,7 +85,7 @@
     if (anim) {
         [UIView beginAnimations:@"slidedetailup" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationDuration:0.2];
     }
     
     [self.detailView setFrame:
@@ -92,6 +93,8 @@
                    self.view.bounds.size.height - self.detailView.frame.size.height,
                    self.view.bounds.size.width, 
                    self.detailView.frame.size.height)];
+    
+    self.detailsVisible = YES;
     
     if (anim) {
         [UIView commitAnimations];
@@ -102,7 +105,7 @@
     if (anim) {
         [UIView beginAnimations:@"slidedetaildown" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationDuration:0.2];
     }    
     
     [self.detailView setFrame:
@@ -110,6 +113,8 @@
                 self.view.bounds.size.height,
                 self.view.bounds.size.width, 
                 self.detailView.frame.size.height)];
+    
+    self.detailsVisible = NO;
     
     if (anim) {
         [UIView commitAnimations];
@@ -213,6 +218,13 @@
             
             [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
             
+            if (self.lastClickedTree) {
+                [mapView removeAnnotation:self.lastClickedTree];
+                self.lastClickedTree = nil;
+            }
+            
+            self.lastClickedTree = [[MKPointAnnotation alloc] init];
+            
             [self.lastClickedTree setCoordinate:center];
             
             [mapView addAnnotation:self.lastClickedTree];
@@ -236,6 +248,27 @@
 }
 
 #pragma mark MKMapViewDelegate
+
+- (void)mapView:(MKMapView*)mView regionDidChangeAnimated:(BOOL)animated {
+    MKCoordinateRegion region = [mView region];
+    double lngMin = region.center.longitude - region.span.longitudeDelta / 2.0;
+    double lngMax = region.center.longitude + region.span.longitudeDelta / 2.0;
+    double latMin = region.center.latitude - region.span.latitudeDelta / 2.0;
+    double latMax = region.center.latitude + region.span.latitudeDelta / 2.0;
+    
+    if (self.lastClickedTree) {
+        CLLocationCoordinate2D center = self.lastClickedTree.coordinate;
+        
+        BOOL shouldBeShown = center.longitude >= lngMin && center.longitude <= lngMax &&
+                             center.latitude >= latMin && center.latitude <= latMax;
+
+        if (shouldBeShown && !self.detailsVisible) {
+            [self slideDetailUpAnimated:YES];
+        } else if (!shouldBeShown && self.detailsVisible) {
+            [self slideDetailDownAnimated:YES];
+        }
+    }
+}
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {

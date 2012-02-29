@@ -14,6 +14,8 @@
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
+@property (nonatomic,assign) BOOL detailsVisible;
+
 @property (nonatomic,strong) IBOutlet UIView* detailView;
 @property (nonatomic,strong) IBOutlet UIImageView* treeImage;
 @property (nonatomic,strong) IBOutlet UILabel* species;
