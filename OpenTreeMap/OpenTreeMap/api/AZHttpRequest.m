@@ -95,6 +95,11 @@
     CFBridgingRelease((__bridge void*)self);
 }
 
+-(void)request:(TTURLRequest*)request failLoadWithError:(NSError*)error {
+    NSLog(@"[Error] request failed!");
+    CFBridgingRelease((__bridge void*)self);
+}
+
 @end
 
 @implementation AZHttpRequest
@@ -189,7 +194,8 @@
     TTURLRequest *request = [TTURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@",self.baseURL,url]
                                                 delegate:delegate];
     
-    NSLog(@"[Debug] Request: %@", url);
+    request.cachePolicy = TTURLRequestCachePolicyLocal;
+    NSLog(@"[Debug] Request: %@%@", self.baseURL, url);
     
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     request.response = [[AZJSONResponse alloc] init];

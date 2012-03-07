@@ -68,7 +68,11 @@
     NSString* implementationPListPath = [bundle pathForResource:@"Implementation" ofType:@"plist"];
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
 
-    [self setBaseURL:[implementation valueForKey:@"baseURL"]];
+    NSDictionary* url = [implementation valueForKey:@"APIURL"];
+    
+    [self setBaseURL:[NSString stringWithFormat:@"%@/%@/",
+                      [url valueForKey:@"base"],
+                      [url valueForKey:@"version"]]];
     
     // Implementation - GeoServer
 

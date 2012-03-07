@@ -21,10 +21,15 @@
 //    
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 #import "AZHttpRequest.h"
 
 typedef void(^AZJSONCallback)(id json);
-typedef void(^AZImageCallback)(id json);
+typedef void(^AZImageCallback)(UIImage* image);
+
+typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
+
+typedef void(^AZPointDataCallback)(CFArrayRef);
 
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
@@ -53,5 +58,15 @@ typedef void(^AZImageCallback)(id json);
  * @param imageid the image's id
  */
 -(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
+
+/**
+ * Get point offsets for a given tile
+ * To keep this method performant it uses a custom callback
+ *
+ * @param region WSG84 Region
+ * @param callback the callback we get when we are done
+ * @param error error pointer
+ */
+-(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback error:(NSError**)error;
 
 @end

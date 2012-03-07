@@ -11,7 +11,7 @@
 		646D938B14F451F1009F26A8 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D938914F451F1009F26A8 /* libThree20Network.a */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
-		64DDCDAE14F51A2C004FA0CF /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZWMSOverlayView.m */; };
+		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
@@ -27,6 +27,9 @@
 		D7BEA4B114FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
 		D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
 		D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
+		D7CC152715065AC200277C7C /* tree_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CC152615065AC200277C7C /* tree_icon.png */; };
+		D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
+		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
 		E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
 		E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
@@ -64,8 +67,8 @@
 		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
-		64DDCDAB14F51A2C004FA0CF /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
-		64DDCDAC14F51A2C004FA0CF /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
+		64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
+		64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		64DDCDB814F53102004FA0CF /* Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
@@ -83,6 +86,9 @@
 		D7BEA4AF14FD3587006CC456 /* OTMAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAPI.m; sourceTree = "<group>"; };
 		D7C252CE14FE84780028519E /* OTMDetailSliderview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailSliderview.h; sourceTree = "<group>"; };
 		D7C252CF14FE84780028519E /* OTMDetailSliderview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailSliderview.m; sourceTree = "<group>"; };
+		D7CC152615065AC200277C7C /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
+		D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
+		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
 		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943971614F447EB007CD0D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E943971814F447EB007CD0D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -172,6 +178,14 @@
 			path = views;
 			sourceTree = "<group>";
 		};
+		D7CC152515065AC100277C7C /* images */ = {
+			isa = PBXGroup;
+			children = (
+				D7CC152615065AC200277C7C /* tree_icon.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +223,7 @@
 		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
 			isa = PBXGroup;
 			children = (
+				D7CC152515065AC100277C7C /* images */,
 				D7C252CD14FE84680028519E /* views */,
 				D7BEA4A414FC213F006CC456 /* api */,
 				7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */,
@@ -216,8 +231,10 @@
 				64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */,
 				64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */,
 				64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */,
-				64DDCDAB14F51A2C004FA0CF /* AZWMSOverlayView.h */,
-				64DDCDAC14F51A2C004FA0CF /* AZWMSOverlayView.m */,
+				D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */,
+				D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */,
+				64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlay.h */,
+				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */,
 				E943972514F447EB007CD0D1 /* OTMAppDelegate.h */,
 				E943972614F447EB007CD0D1 /* OTMAppDelegate.m */,
 				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
@@ -348,6 +365,7 @@
 				64DDCDB914F53102004FA0CF /* Debug.plist in Resources */,
 				64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */,
 				64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */,
+				D7CC152715065AC200277C7C /* tree_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,13 +405,14 @@
 				E943973014F447EB007CD0D1 /* OTMFirstViewController.m in Sources */,
 				E943973714F447EB007CD0D1 /* OTMSecondViewController.m in Sources */,
 				64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */,
-				64DDCDAE14F51A2C004FA0CF /* AZWMSOverlayView.m in Sources */,
+				64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */,
 				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
 				D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */,
 				D7BEA4AC14FC4ABD006CC456 /* AZJSONResponse.m in Sources */,
 				D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */,
 				D7B4F4CF14FD7A96001032A3 /* AZDataResponse.m in Sources */,
 				D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */,
+				D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +426,7 @@
 				D7BEA4B114FD3587006CC456 /* OTMAPI.m in Sources */,
 				D7B4F4D014FD7A96001032A3 /* AZDataResponse.m in Sources */,
 				D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */,
+				D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 
 #import "OTMFirstViewController.h"
 #import "AZWMSOverlay.h"
-#import "AZWMSOverlayView.h"
+#import "AZPointOffsetOverlay.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
 
@@ -272,7 +272,7 @@
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
-    return [[AZWMSOverlayView alloc] initWithOverlay:overlay];
+    return [[AZPointOffsetOverlay alloc] initWithOverlay:overlay];
 }
 
 @end
