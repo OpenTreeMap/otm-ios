@@ -62,7 +62,7 @@
          
          [renderedImageCache setObject:image forKey:key];
          [self setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];         
-     }];     
+     } error:NULL];     
 }
 
 #pragma mark MKOverlayView methods
