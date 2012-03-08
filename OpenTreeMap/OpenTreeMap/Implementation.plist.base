@@ -13,25 +13,12 @@
 		<key>InitialLongitudeDelta</key>
 		<real>0.439453</real>
 	</dict>
-	<key>baseURL</key>
-	<string>http://207.245.89.246/v1.2/api/v0.1/</string>
 	<key>APIURL</key>
 	<dict>
 		<key>base</key>
 		<string>http://207.245.89.246/v1.2/api</string>
 		<key>version</key>
 		<string>v0.1</string>
-	</dict>
-	<key>MapViewb</key>
-	<dict>
-		<key>InitialLatitude</key>
-		<real>38.9012</real>
-		<key>InitialLongitude</key>
-		<real>-77.023</real>
-		<key>InitialLatitudeDelta</key>
-		<real>0.483941</real>
-		<key>InitialLongitudeDelta</key>
-		<real>0.439453</real>
 	</dict>
 </dict>
 </plist>
