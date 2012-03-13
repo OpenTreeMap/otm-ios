@@ -27,12 +27,21 @@
 @interface OTMAPI()
 +(int)parseSection:(NSData*)data 
             offset:(uint32_t)offset 
-            points:(CFMutableArrayRef)points;
+            points:(CFMutableArrayRef)points
+             error:(NSError**)error;
+
++ (NSString*)encodedAuthHeaderForUsername:(NSString*)username password:(NSString*)password;
+
 @end
 
 @implementation OTMAPI
 
 @synthesize request;
+
++ (NSString*)encodedAuthHeaderForUsername:(NSString*)username password:(NSString*)password {
+    return [[NSString stringWithFormat:@"%@:%@",username,password] base64String];
+}
+
 
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback {
     [self.request get:@"locations/:lat,:lon/plots" 

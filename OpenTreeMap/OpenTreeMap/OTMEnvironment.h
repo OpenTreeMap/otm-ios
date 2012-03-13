@@ -83,6 +83,7 @@
 @property (nonatomic, retain) NSArray *geoServerLayerNames;
 @property (nonatomic, retain) NSString *geoServerFormat;
 @property (nonatomic, copy) NSString* baseURL;
+@property (nonatomic, copy) NSString* apiKey;
 
 // Derived Properties
 @property (nonatomic, strong) OTMAPI* api;

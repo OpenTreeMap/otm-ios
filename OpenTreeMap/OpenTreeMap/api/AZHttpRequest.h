@@ -34,11 +34,12 @@ typedef void(^TTRequestCallback)(TTURLRequest* req);
 typedef void(^TTRequestConfig)(TTURLRequest* req);
 
 /**
- * Static namespace for convenience functions for calling OTM APIs
+ * Convenience functions for calling OTM APIs
  */
 @interface AZHttpRequest : NSObject
 
 @property (nonatomic,copy,readonly) NSString* baseURL;
+@property (nonatomic,strong) NSDictionary* headers;
 
 /**
  * Initialize with a base url

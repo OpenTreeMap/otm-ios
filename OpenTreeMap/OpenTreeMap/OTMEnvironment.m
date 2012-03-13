@@ -27,7 +27,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey;
 
 + (id)sharedEnvironment
 {
@@ -67,6 +67,8 @@
 
     NSString* implementationPListPath = [bundle pathForResource:@"Implementation" ofType:@"plist"];
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
+    
+    self.apiKey = [implementation valueForKey:@"APIKey"];
 
     NSDictionary* url = [implementation valueForKey:@"APIURL"];
     
@@ -98,6 +100,8 @@
 
     OTMAPI* otmApi = [[OTMAPI alloc] init];
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
+    req.headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", nil];
+
     otmApi.request = req;
     
     self.api = otmApi;

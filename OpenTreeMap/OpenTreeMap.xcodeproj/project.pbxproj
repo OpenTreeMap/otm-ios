@@ -25,6 +25,8 @@
 		D7BEA4AD14FC4ABD006CC456 /* AZJSONResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */; };
 		D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
 		D7BEA4B114FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
+		D7C00D44150F8F7000ACDDFC /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C00D43150F8F7000ACDDFC /* NSData+Base64.m */; };
+		D7C00D48150F912A00ACDDFC /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C00D47150F912A00ACDDFC /* NSString+Base64.m */; };
 		D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
 		D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
 		D7CC152715065AC200277C7C /* tree_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CC152615065AC200277C7C /* tree_icon.png */; };
@@ -84,6 +86,10 @@
 		D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZJSONResponse.m; sourceTree = "<group>"; };
 		D7BEA4AE14FD3587006CC456 /* OTMAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAPI.h; sourceTree = "<group>"; };
 		D7BEA4AF14FD3587006CC456 /* OTMAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAPI.m; sourceTree = "<group>"; };
+		D7C00D42150F8F7000ACDDFC /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		D7C00D43150F8F7000ACDDFC /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		D7C00D46150F912A00ACDDFC /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		D7C00D47150F912A00ACDDFC /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		D7C252CE14FE84780028519E /* OTMDetailSliderview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailSliderview.h; sourceTree = "<group>"; };
 		D7C252CF14FE84780028519E /* OTMDetailSliderview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailSliderview.m; sourceTree = "<group>"; };
 		D7CC152615065AC200277C7C /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
@@ -165,6 +171,10 @@
 				D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */,
 				D7BEA4AE14FD3587006CC456 /* OTMAPI.h */,
 				D7BEA4AF14FD3587006CC456 /* OTMAPI.m */,
+				D7C00D42150F8F7000ACDDFC /* NSData+Base64.h */,
+				D7C00D43150F8F7000ACDDFC /* NSData+Base64.m */,
+				D7C00D46150F912A00ACDDFC /* NSString+Base64.h */,
+				D7C00D47150F912A00ACDDFC /* NSString+Base64.m */,
 			);
 			path = api;
 			sourceTree = "<group>";
@@ -413,6 +423,8 @@
 				D7B4F4CF14FD7A96001032A3 /* AZDataResponse.m in Sources */,
 				D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */,
 				D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
+				D7C00D44150F8F7000ACDDFC /* NSData+Base64.m in Sources */,
+				D7C00D48150F912A00ACDDFC /* NSString+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

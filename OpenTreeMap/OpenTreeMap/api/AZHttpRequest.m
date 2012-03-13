@@ -104,7 +104,7 @@
 
 @implementation AZHttpRequest
 
-@synthesize baseURL;
+@synthesize baseURL, headers;
 
 -(id)initWithURL:(NSString*)base {
     if (self = [[AZHttpRequest alloc] init]) {
@@ -193,6 +193,10 @@
     AZHTTPResponseDelegate* delegate = [AZHTTPResponseDelegate delegateWithBlock:callback];
     TTURLRequest *request = [TTURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@",self.baseURL,url]
                                                 delegate:delegate];
+    
+    if (self.headers) {
+        [[request headers] addEntriesFromDictionary:self.headers];
+    }
     
     request.cachePolicy = TTURLRequestCachePolicyLocal;
     NSLog(@"[Debug] Request: %@%@", self.baseURL, url);
