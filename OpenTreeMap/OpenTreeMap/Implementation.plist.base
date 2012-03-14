@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
         <key>APIKey</key>
-        <string>JJTOPSINGSAWESOMESONGSINTHE80S</string>
+        <string>APIKEY</string>
 	<key>MapView</key>
 	<dict>
 		<key>InitialLatitude</key>
