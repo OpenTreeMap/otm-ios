@@ -132,7 +132,7 @@
 
 -(void)slideDetailUpAnimated:(BOOL)anim {
     if (anim) {
-        [UIView beginAnimations:@"	detailup" context:nil];
+        [UIView beginAnimations:@"slidedetailup" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:0.2];
     }
