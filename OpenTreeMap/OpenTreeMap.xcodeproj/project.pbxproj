@@ -21,6 +21,8 @@
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B881C1510E63D000C280C /* OTMBase64Test.m */; };
+		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
+		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
 		D7B4F4CF14FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
 		D7B4F4D014FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
@@ -86,6 +88,10 @@
 		D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDetailViewController.m; sourceTree = "<group>"; };
 		D70B881B1510E63D000C280C /* OTMBase64Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBase64Test.h; sourceTree = "<group>"; };
 		D70B881C1510E63D000C280C /* OTMBase64Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBase64Test.m; sourceTree = "<group>"; };
+		D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailTableViewCell.h; sourceTree = "<group>"; };
+		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
+		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
+		D791171E15113F70004BE79C /* OTMFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFormatters.m; sourceTree = "<group>"; };
 		D7B4F4CD14FD7A96001032A3 /* AZDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZDataResponse.h; sourceTree = "<group>"; };
 		D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZDataResponse.m; sourceTree = "<group>"; };
 		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
@@ -194,6 +200,8 @@
 			children = (
 				D7C252CE14FE84780028519E /* OTMDetailSliderview.h */,
 				D7C252CF14FE84780028519E /* OTMDetailSliderview.m */,
+				D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */,
+				D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -270,6 +278,8 @@
 				E943971D14F447EB007CD0D1 /* Supporting Files */,
 				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
 				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
+				D791171D15113F70004BE79C /* OTMFormatters.h */,
+				D791171E15113F70004BE79C /* OTMFormatters.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -440,6 +450,8 @@
 				D7C00D44150F8F7000ACDDFC /* NSData+Base64.m in Sources */,
 				D7C00D48150F912A00ACDDFC /* NSString+Base64.m in Sources */,
 				D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */,
+				D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */,
+				D791171F15113F70004BE79C /* OTMFormatters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

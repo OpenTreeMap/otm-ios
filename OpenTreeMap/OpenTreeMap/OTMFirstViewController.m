@@ -11,6 +11,7 @@
 #import "AZPointOffsetOverlay.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
+#import "OTMTreeDetailViewController.h"
 
 @interface OTMFirstViewController ()
 - (void)setupMapView;
@@ -25,11 +26,24 @@
 
 @implementation OTMFirstViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot;
 
 - (void)viewDidLoad
 {
     self.detailsVisible = NO;
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch 
+                                                                                          target:nil
+                                                                                          action:nil];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithTitle:@"Filter"
+                                              style:UIBarButtonItemStyleBordered
+                                              target:nil
+                                              action:nil];
+    
+    self.title = @"Tree Map";
+    
     
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
@@ -41,6 +55,41 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+{
+    if ([segue.identifier isEqualToString:@"Details"]) {
+        OTMTreeDetailViewController *dest = segue.destinationViewController;
+        [dest view]; // Force it load its view
+        
+        dest.data = self.selectedPlot;
+        dest.keys = [NSArray arrayWithObjects:
+                     [NSArray arrayWithObjects:
+                      @"General Tree Information",
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"id", @"key",
+                       @"Tree Number", @"label", nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"tree.sci_name", @"key",
+                       @"Scientific Name", @"label", nil],                      
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"tree.dbh", @"key",
+                       @"Trunk Diameter", @"label", 
+                       @"fmtIn:", @"format", nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"id", @"key",
+                       @"Tree Height", @"label",
+                       @"fmtM:", @"format", nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"id", @"key",
+                       @"Canopy Height", @"label", 
+                       @"fmtM:", @"format", nil],
+                      nil],
+                     nil];
+        
+        dest.imageView.image = self.treeImage.image;
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -83,7 +132,7 @@
 
 -(void)slideDetailUpAnimated:(BOOL)anim {
     if (anim) {
-        [UIView beginAnimations:@"slidedetailup" context:nil];
+        [UIView beginAnimations:@"	detailup" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:0.2];
     }
@@ -186,6 +235,9 @@
             [self slideDetailDownAnimated:YES];
         } else {            
             NSDictionary* plot = [plots objectAtIndex:0];
+            
+            self.selectedPlot = plot;
+            
             NSDictionary* geom = [plot objectForKey:@"geometry"];
             
             NSDictionary* tree = [plot objectForKey:@"tree"];

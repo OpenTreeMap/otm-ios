@@ -20,31 +20,27 @@
 // THE SOFTWARE.                                                                                                  
 //  
 
-#import <UIKit/UIKit.h>
+#import "OTMFormatters.h"
 
-@interface OTMTreeDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@implementation OTMFormatters
 
-@property (nonatomic,strong) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) IBOutlet UILabel* address;
-@property (nonatomic,strong) IBOutlet UILabel* species;
-@property (nonatomic,strong) IBOutlet UILabel* lastUpdateDate;
-@property (nonatomic,strong) IBOutlet UILabel* updateUser;
-@property (nonatomic,strong) IBOutlet UIImageView* imageView;
++(NSString*)fmtIn:(NSNumber*)number 
+{
+    return [NSString stringWithFormat:@"%0.2f in",[number floatValue]];
+}
 
-/**
- * Dictionary[String,String] of tree detail key-value pairs
- */
-@property (nonatomic, strong) NSDictionary* data;
++(NSString*)fmtFt:(NSNumber*)number 
+{
+    return [NSString stringWithFormat:@"%0.2f ft",[number floatValue]];
+}
 
-/**
- * Array[Array[String]] keys to display in the main table
- *
- * Each element in the outher array represents a section
- * and each element in the inner array represents a row.
- * 
- * The first row is the title of the section (which can
- * be the empty string)
- */
-@property (nonatomic, strong) NSArray* keys;
++(NSString*)fmtM:(NSNumber*)number 
+{
+    return [NSString stringWithFormat:@"%0.2f m",[number floatValue]];
+}
+
++(NSString*)fmtObject:(id)obj withKey:(NSString*)key {
+    return [OTMFormatters performSelector:NSSelectorFromString(key) withObject:obj];
+}
 
 @end

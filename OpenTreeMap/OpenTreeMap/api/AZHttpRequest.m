@@ -195,7 +195,9 @@
                                                 delegate:delegate];
     
     if (self.headers) {
-        [[request headers] addEntriesFromDictionary:self.headers];
+        [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL* stop) {
+            [request setValue:obj forHTTPHeaderField:key];
+        }];
     }
     
     request.cachePolicy = TTURLRequestCachePolicyLocal;

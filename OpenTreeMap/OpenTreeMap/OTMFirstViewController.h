@@ -22,6 +22,7 @@
 @property (nonatomic,strong) IBOutlet UILabel* dbh;
 @property (nonatomic,strong) IBOutlet UILabel* address;
 
+@property (nonatomic,strong) NSDictionary* selectedPlot;
 -(void)setDetailViewData:(NSDictionary*)plot;
 
 @end

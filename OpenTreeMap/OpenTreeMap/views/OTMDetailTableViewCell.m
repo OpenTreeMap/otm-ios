@@ -20,31 +20,51 @@
 // THE SOFTWARE.                                                                                                  
 //  
 
-#import <UIKit/UIKit.h>
+#import "OTMDetailTableViewCell.h"
 
-@interface OTMTreeDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@implementation OTMDetailTableViewCell
 
-@property (nonatomic,strong) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) IBOutlet UILabel* address;
-@property (nonatomic,strong) IBOutlet UILabel* species;
-@property (nonatomic,strong) IBOutlet UILabel* lastUpdateDate;
-@property (nonatomic,strong) IBOutlet UILabel* updateUser;
-@property (nonatomic,strong) IBOutlet UIImageView* imageView;
+@synthesize fieldLabel, fieldValue;
 
-/**
- * Dictionary[String,String] of tree detail key-value pairs
- */
-@property (nonatomic, strong) NSDictionary* data;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {        
+        CGRect frame = self.frame;
+        
+        CGRect leftFrame = CGRectMake(25, 0, 
+                                      CGRectGetMidX(frame),
+                                      frame.size.height);
+        CGRect rightFrame = CGRectMake(CGRectGetMidX(frame), 0,
+                                       CGRectGetMidX(frame),
+                                       frame.size.height);
+        
+        self.fieldLabel = [self labelWithFrame:leftFrame];
+        self.fieldValue = [self labelWithFrame:rightFrame];
+        
+        [self.fieldLabel setTextColor:[UIColor grayColor]];
+        
+        [self addSubview:self.fieldValue];
+        [self addSubview:self.fieldLabel];
 
-/**
- * Array[Array[String]] keys to display in the main table
- *
- * Each element in the outher array represents a section
- * and each element in the inner array represents a row.
- * 
- * The first row is the title of the section (which can
- * be the empty string)
- */
-@property (nonatomic, strong) NSArray* keys;
+    }
+    return self;
+}
+
+- (UILabel*)labelWithFrame:(CGRect)rect {
+    UILabel* label = [[UILabel alloc] initWithFrame:rect];
+    label.textAlignment = UITextAlignmentLeft;
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:15];
+    
+    return label;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    // [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
 
 @end

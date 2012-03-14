@@ -20,31 +20,17 @@
 // THE SOFTWARE.                                                                                                  
 //  
 
-#import <UIKit/UIKit.h>
-
-@interface OTMTreeDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
-
-@property (nonatomic,strong) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) IBOutlet UILabel* address;
-@property (nonatomic,strong) IBOutlet UILabel* species;
-@property (nonatomic,strong) IBOutlet UILabel* lastUpdateDate;
-@property (nonatomic,strong) IBOutlet UILabel* updateUser;
-@property (nonatomic,strong) IBOutlet UIImageView* imageView;
+#import <Foundation/Foundation.h>
 
 /**
- * Dictionary[String,String] of tree detail key-value pairs
+ * Formatting methods for table view cell data
  */
-@property (nonatomic, strong) NSDictionary* data;
+@interface OTMFormatters : NSObject
 
-/**
- * Array[Array[String]] keys to display in the main table
- *
- * Each element in the outher array represents a section
- * and each element in the inner array represents a row.
- * 
- * The first row is the title of the section (which can
- * be the empty string)
- */
-@property (nonatomic, strong) NSArray* keys;
++(NSString*)fmtIn:(NSNumber*)number;
++(NSString*)fmtFt:(NSNumber*)number;
++(NSString*)fmtM:(NSNumber*)number;
+
++(NSString*)fmtObject:(id)obj withKey:(NSString*)key;
 
 @end
