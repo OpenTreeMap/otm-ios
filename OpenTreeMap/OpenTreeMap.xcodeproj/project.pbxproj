@@ -18,6 +18,9 @@
 		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
 		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
 		D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */; };
+		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
+		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
+		D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B881C1510E63D000C280C /* OTMBase64Test.m */; };
 		D7B4F4CF14FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
 		D7B4F4D014FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
@@ -81,6 +84,8 @@
 		7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
 		D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDetailViewController.h; sourceTree = "<group>"; };
 		D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDetailViewController.m; sourceTree = "<group>"; };
+		D70B881B1510E63D000C280C /* OTMBase64Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBase64Test.h; sourceTree = "<group>"; };
+		D70B881C1510E63D000C280C /* OTMBase64Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBase64Test.m; sourceTree = "<group>"; };
 		D7B4F4CD14FD7A96001032A3 /* AZDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZDataResponse.h; sourceTree = "<group>"; };
 		D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZDataResponse.m; sourceTree = "<group>"; };
 		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
@@ -145,6 +150,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D70B881A1510E620000C280C /* MapKit.framework in Frameworks */,
+				D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */,
 				E943974314F447EB007CD0D1 /* SenTestingKit.framework in Frameworks */,
 				E943974414F447EB007CD0D1 /* UIKit.framework in Frameworks */,
 				E943974514F447EB007CD0D1 /* Foundation.framework in Frameworks */,
@@ -286,6 +293,8 @@
 				E943974E14F447EB007CD0D1 /* OpenTreeMapTests.h */,
 				E943974F14F447EB007CD0D1 /* OpenTreeMapTests.m */,
 				E943974914F447EB007CD0D1 /* Supporting Files */,
+				D70B881B1510E63D000C280C /* OTMBase64Test.h */,
+				D70B881C1510E63D000C280C /* OTMBase64Test.m */,
 			);
 			path = OpenTreeMapTests;
 			sourceTree = "<group>";
@@ -445,6 +454,7 @@
 				D7B4F4D014FD7A96001032A3 /* AZDataResponse.m in Sources */,
 				D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */,
 				D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
+				D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,6 +569,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = "Ad Hoc";
@@ -688,6 +699,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -706,6 +718,7 @@
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
