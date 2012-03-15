@@ -78,11 +78,11 @@
                        @"Trunk Diameter", @"label", 
                        @"fmtIn:", @"format", nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
-                       @"id", @"key",
+                       @"tree.height", @"key",
                        @"Tree Height", @"label",
                        @"fmtM:", @"format", nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
-                       @"id", @"key",
+                       @"tree.canopy_height", @"key",
                        @"Canopy Height", @"label", 
                        @"fmtM:", @"format", nil],
                       nil],

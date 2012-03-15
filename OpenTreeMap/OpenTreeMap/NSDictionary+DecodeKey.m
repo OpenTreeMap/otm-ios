@@ -35,7 +35,7 @@
             return nil;
         }
         
-        if (thing == nil) {
+        if (thing == nil || thing == [NSNull null]) {
             return nil;
         }
     }

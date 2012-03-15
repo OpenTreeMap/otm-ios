@@ -45,7 +45,7 @@
     // Set some fields
     if (self.data) {
         self.address.text = [self.data objectForKey:@"address"];
-        self.species.text = [[self.data objectForKey:@"tree"] objectForKey:@"species_name"];
+        self.species.text = [self.data decodeKey:@"tree.species_name"];
         self.lastUpdateDate.text = @"Today";
         self.updateUser.text = @"Joe User";
     }

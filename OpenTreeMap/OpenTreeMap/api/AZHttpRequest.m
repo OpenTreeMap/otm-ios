@@ -201,6 +201,7 @@
     }
     
     request.cachePolicy = TTURLRequestCachePolicyLocal;
+    
     NSLog(@"[Debug] Request: %@%@", self.baseURL, url);
     
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
