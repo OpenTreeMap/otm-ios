@@ -17,9 +17,15 @@
 		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
 		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
 		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
+		D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B881C1510E63D000C280C /* OTMBase64Test.m */; };
+		D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
+		D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
+		D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64715122DE800AB6664 /* DictionaryDecode.m */; };
+		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
+		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
 		D7B4F4CF14FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
 		D7B4F4D014FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
@@ -81,8 +87,18 @@
 		64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
 		64DDCDC414F53D8F004FA0CF /* Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
 		7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
+		D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDetailViewController.h; sourceTree = "<group>"; };
+		D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDetailViewController.m; sourceTree = "<group>"; };
 		D70B881B1510E63D000C280C /* OTMBase64Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBase64Test.h; sourceTree = "<group>"; };
 		D70B881C1510E63D000C280C /* OTMBase64Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBase64Test.m; sourceTree = "<group>"; };
+		D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DecodeKey.h"; sourceTree = "<group>"; };
+		D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DecodeKey.m"; sourceTree = "<group>"; };
+		D72BF64615122DE800AB6664 /* DictionaryDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryDecode.h; sourceTree = "<group>"; };
+		D72BF64715122DE800AB6664 /* DictionaryDecode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictionaryDecode.m; sourceTree = "<group>"; };
+		D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailTableViewCell.h; sourceTree = "<group>"; };
+		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
+		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
+		D791171E15113F70004BE79C /* OTMFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFormatters.m; sourceTree = "<group>"; };
 		D7B4F4CD14FD7A96001032A3 /* AZDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZDataResponse.h; sourceTree = "<group>"; };
 		D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZDataResponse.m; sourceTree = "<group>"; };
 		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
@@ -191,6 +207,8 @@
 			children = (
 				D7C252CE14FE84780028519E /* OTMDetailSliderview.h */,
 				D7C252CF14FE84780028519E /* OTMDetailSliderview.m */,
+				D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */,
+				D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -265,6 +283,12 @@
 				E943973814F447EB007CD0D1 /* second.png */,
 				E943973A14F447EB007CD0D1 /* second@2x.png */,
 				E943971D14F447EB007CD0D1 /* Supporting Files */,
+				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
+				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
+				D791171D15113F70004BE79C /* OTMFormatters.h */,
+				D791171E15113F70004BE79C /* OTMFormatters.m */,
+				D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */,
+				D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -290,6 +314,8 @@
 				E943974914F447EB007CD0D1 /* Supporting Files */,
 				D70B881B1510E63D000C280C /* OTMBase64Test.h */,
 				D70B881C1510E63D000C280C /* OTMBase64Test.m */,
+				D72BF64615122DE800AB6664 /* DictionaryDecode.h */,
+				D72BF64715122DE800AB6664 /* DictionaryDecode.m */,
 			);
 			path = OpenTreeMapTests;
 			sourceTree = "<group>";
@@ -434,6 +460,10 @@
 				D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
 				D7C00D44150F8F7000ACDDFC /* NSData+Base64.m in Sources */,
 				D7C00D48150F912A00ACDDFC /* NSString+Base64.m in Sources */,
+				D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */,
+				D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */,
+				D791171F15113F70004BE79C /* OTMFormatters.m in Sources */,
+				D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +479,8 @@
 				D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */,
 				D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
 				D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */,
+				D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */,
+				D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
