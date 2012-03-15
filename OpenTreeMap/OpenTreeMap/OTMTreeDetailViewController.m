@@ -41,25 +41,6 @@
     return self;
 }
 
-- (NSString*)decodeKey:(NSString *)keystr forDict:(NSDictionary *)plot {
-    NSArray* keylist = [keystr componentsSeparatedByString:@"."];
-    
-    id thing = plot;
-    for(NSString* key in keylist) {
-        if ([thing respondsToSelector:@selector(objectForKey:)]) {
-            thing = [thing objectForKey:key];
-        } else {
-            return nil;
-        }
-        
-        if (thing == nil) {
-            return nil;
-        }
-    }
-    
-    return thing;
-}
-
 -(void)viewWillAppear:(BOOL)animated {
     // Set some fields
     if (self.data) {
@@ -116,7 +97,7 @@
     
     NSDictionary* cellinfo = [[self.keys objectAtIndex:[indexPath section]] objectAtIndex:([indexPath row] + 1)];
     
-    id value = [self decodeKey:[cellinfo valueForKey:@"key"] forDict:self.data];
+    id value = [self.data decodeKey:[cellinfo valueForKey:@"key"]];
     NSString* formatKey = [cellinfo valueForKey:@"format"];
     
     if (value == nil ) {
