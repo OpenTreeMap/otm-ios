@@ -5,9 +5,6 @@
       location = "group:OpenTreeMap/OpenTreeMap.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:lib/three20/src/Three20Network/Three20Network.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:lib/three20/src/Three20Core/Three20Core.xcodeproj">
+      location = "group:lib/ASI/ASI.xcodeproj">
    </FileRef>
 </Workspace>

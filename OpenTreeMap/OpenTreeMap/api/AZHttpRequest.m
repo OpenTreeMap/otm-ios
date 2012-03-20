@@ -21,8 +21,6 @@
 //    
 
 #import "AZHttpRequest.h"
-#import "AZJSONResponse.h"
-#import "AZDataResponse.h"
 
 @interface AZHttpRequest(private)
 
@@ -57,48 +55,11 @@
  * @param callback the block to call when the request is done
  * @param config config block
  */
--(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback config:(TTRequestConfig)config;
--(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback;
+-(void)executeRequestWithURL:(NSString*)url callback:(ASIRequestCallback)callback config:(ASIRequestConfig)config;
+-(void)executeRequestWithURL:(NSString*)url callback:(ASIRequestCallback)callback;
+-(void)executeAuthorizedRequestWithURL:(NSString*)url username:(NSString*)username password:(NSString*)password callback:(ASIRequestCallback)callback config:(ASIRequestConfig)config; 
+-(void)executeAuthorizedRequestWithURL:(NSString*)url username:(NSString*)username password:(NSString*)password callback:(ASIRequestCallback)callback;
 
-@end
-
-/**
- * Dummy delegate to allow us to pass blocks to three20 Network Requests
- */
-@interface AZHTTPResponseDelegate : NSObject {
-    TTRequestCallback callback;
-}
-
-@property (nonatomic,copy) TTRequestCallback callback;
-
-+(id)delegateWithBlock:(TTRequestCallback)callback;
-
-
-@end
-
-@implementation AZHTTPResponseDelegate
-
-@synthesize callback;
-
-+(id)delegateWithBlock:(TTRequestCallback)callback {
-    AZHTTPResponseDelegate* delegate = [[AZHTTPResponseDelegate alloc] init];
-    delegate.callback = callback;
-    
-    return delegate;
-}
-
--(void)requestDidFinishLoad:(TTURLRequest *)request {
-    if (callback) {
-        callback(request);
-    }
-    
-    CFBridgingRelease((__bridge void*)self);
-}
-
--(void)request:(TTURLRequest*)request failLoadWithError:(NSError*)error {
-    NSLog(@"[Error] request failed!");
-    CFBridgingRelease((__bridge void*)self);
-}
 
 @end
 
@@ -114,37 +75,45 @@
     return self;
 }
 
--(void)get:(NSString*)url params:(NSDictionary*)params callback:(TTRequestCallback)callback {                          
+-(void)get:(NSString*)url params:(NSDictionary*)params callback:(ASIRequestCallback)callback {                          
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback];
 }
 
--(void)getRaw:(NSString*)url params:(NSDictionary*)params mime:(NSString*)mime callback:(TTRequestCallback)callback {
+-(void)get:(NSString*)url withUser:(OTMUser*)user params:(NSDictionary*)params callback:(ASIRequestCallback)callback {
+    [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params]
+                                 username:[user username]
+                                 password:[user password]
+                                 callback:callback];
+}
+
+-(void)getRaw:(NSString*)url params:(NSDictionary*)params mime:(NSString*)mime callback:(ASIRequestCallback)callback {
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback
-                         config:^(TTURLRequest* r) {
-                             r.response = [[AZDataResponse alloc] init];
-                             [r setValue:mime forHTTPHeaderField:@"Accept"];
+                         config:^(ASIHTTPRequest* r) {
+                             [r addRequestHeader:@"Accept" value:mime];
                          }];
 }
 
--(void)post:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback {
+-(void)post:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback
-                         config:^(TTURLRequest* r) {
-                             r.httpBody = data;
-                             r.httpMethod = @"POST";
-                             r.contentType = @"application/json";
+                         config:^(ASIHTTPRequest* r) {
+                             [r setPostBody:[NSMutableData dataWithData:data]];
+                             [r setRequestMethod:@"POST"];
+                             [r addRequestHeader:@"Content-Type"
+                                           value:@"application/json"];
                          }];
 }
 
--(void)put:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(TTRequestCallback)callback {
+-(void)put:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback
-                         config:^(TTURLRequest* r) {
-                             r.httpBody = data;
-                             r.httpMethod = @"PUT";
-                             r.contentType = @"application/json";
+                         config:^(ASIHTTPRequest* r) {
+                             [r setPostBody:[NSMutableData dataWithData:data]];
+                             [r setRequestMethod:@"PUT"];
+                             [r addRequestHeader:@"Content-Type"
+                                           value:@"application/json"];
                          }];
 }
 
@@ -185,36 +154,58 @@
     return [query substringToIndex:[query length] - 1];
 }
 
--(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback {
+-(void)executeRequestWithURL:(NSString*)url callback:(ASIRequestCallback)callback {
     [self executeRequestWithURL:url callback:callback config:^(id a) {}];
 }
 
--(void)executeRequestWithURL:(NSString*)url callback:(TTRequestCallback)callback config:(TTRequestConfig)config {
-    AZHTTPResponseDelegate* delegate = [AZHTTPResponseDelegate delegateWithBlock:callback];
-    TTURLRequest *request = [TTURLRequest requestWithURL:[NSString stringWithFormat:@"%@%@",self.baseURL,url]
-                                                delegate:delegate];
-    
-    if (self.headers) {
-        [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL* stop) {
-            [request setValue:obj forHTTPHeaderField:key];
-        }];
-    }
-    
-    request.cachePolicy = TTURLRequestCachePolicyLocal;
+-(void)executeAuthorizedRequestWithURL:(NSString*)url username:(NSString*)username password:(NSString*)password callback:(ASIRequestCallback)callback config:(ASIRequestCallback)config {
+    [self executeRequestWithURL:url callback:callback config:^(ASIHTTPRequest* req) {
+        [req addBasicAuthenticationHeaderWithUsername:username
+                                          andPassword:password];
+        
+        req.shouldPresentAuthenticationDialog = NO;
+        req.shouldPresentCredentialsBeforeChallenge = YES;
+                
+        if (config != nil) {
+            config(req);
+        }
+    }];
+}
+
+-(void)executeAuthorizedRequestWithURL:(NSString*)url username:(NSString*)username password:(NSString*)password callback:(ASIRequestCallback)callback {
+    [self executeAuthorizedRequestWithURL:url username:username password:password callback:callback config:nil];
+}
+
+
+-(void)executeRequestWithURL:(NSString*)urlsfx callback:(ASIRequestCallback)callback config:(ASIRequestConfig)config {
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",self.baseURL,urlsfx]];
     
     NSLog(@"[Debug] Request: %@%@", self.baseURL, url);
     
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    request.response = [[AZJSONResponse alloc] init];
+    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    __weak ASIHTTPRequest *blockRequest = request;
+    [request setCompletionBlock:^{
+        if (callback != nil) {
+            callback(blockRequest);
+        }
+    }];
+    [request setFailedBlock:^{
+        NSLog(@"Request failed :(");
+    }];
+
+    [request addRequestHeader:@"Accept" value:@"application/json"];
     
-    config(request);
+    if (self.headers) {
+        [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL* stop) {
+            [request addRequestHeader:key value:obj];
+        }];
+    }
+
+    if (config != nil) {
+        config(request);
+    }
     
-    // The TTURLRequest does not keep strong references to the delegate
-    // so we retain it here
-    CFBridgingRetain(delegate);
-    
-    // The request must be sent on the main thread in order to correctly return
-    [request performSelectorOnMainThread:@selector(send) withObject:nil waitUntilDone:NO];
+    [request startAsynchronous];
 }
 
 @end

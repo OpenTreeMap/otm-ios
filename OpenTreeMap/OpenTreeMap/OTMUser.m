@@ -18,66 +18,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
 // THE SOFTWARE.                                                                                                  
-//    
+//  
 
-#import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
-#import "AZHttpRequest.h"
 #import "OTMUser.h"
 
-typedef void(^AZJSONCallback)(id json, NSError* error);
-typedef void(^AZImageCallback)(UIImage* image, NSError* error);
-typedef void(^AZUserCallback)(OTMUser* user, NSError* error);
+@implementation OTMUser
 
-typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
+@synthesize keychain, loggedIn;
 
-typedef void(^AZPointDataCallback)(CFArrayRef);
+-(NSString *)username {
+    return [keychain objectForKey:(__bridge id)kSecAttrAccount];
+}
 
-/**
- * OTM API Provides a functional wrapper around the OpenTreeMap API
- *
- * This is a singleton object - grab it from the OTMEnironment
- */
-@interface OTMAPI : NSObject
+-(NSString *)password {
+    return [keychain objectForKey:(__bridge id)kSecValueData];
+}
 
-/**
- * Object used for doing our http requests
- */
-@property (nonatomic,strong) AZHttpRequest* request;
+-(void)setUsername:(NSString *)user {
+    [keychain setObject:user forKey:(__bridge id)kSecAttrAccount];
+}
 
-/**
- * Get the plot nearested to (lat,lon)
- *
- * @param lat,lon latitude and longitude of the point of intererest
- * @param callback receives a NSArray of NSDictionaries representing plots
- */
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
-
-/**
- * Request an image for a given tree/plot
- *
- * @param plotid the plot's id
- * @param imageid the image's id
- */
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
-
-/**
- * Get point offsets for a given tile
- * To keep this method performant it uses a custom callback
- *
- * @param region WSG84 Region
- * @param callback the callback we get when we are done
- * @param error error pointer
- */
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback error:(NSError**)error;
-
-/**
- * Attempt to log the given user in. If successful user.loggedIn will return
- * true
- *
- * @param user the user to login
- * @param callback the callback to call when execution has finished
- */
--(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback;
+-(void)setPassword:(NSString *)pass {
+    [keychain setObject:pass forKey:(__bridge id)kSecValueData];
+}
 
 @end

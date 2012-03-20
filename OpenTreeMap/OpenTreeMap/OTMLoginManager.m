@@ -18,66 +18,55 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
 // THE SOFTWARE.                                                                                                  
-//    
+//  
 
-#import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
-#import "AZHttpRequest.h"
-#import "OTMUser.h"
+#import "OTMLoginManager.h"
 
-typedef void(^AZJSONCallback)(id json, NSError* error);
-typedef void(^AZImageCallback)(UIImage* image, NSError* error);
-typedef void(^AZUserCallback)(OTMUser* user, NSError* error);
+@implementation OTMLoginManager
 
-typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
+-(id)init {
+    self = [super init];
+    if (self) {
+        loginWorkflow = [UIStoryboard storyboardWithName:@"LoginStoryboard"
+                                                  bundle:nil];
+        rootVC = [loginWorkflow instantiateInitialViewController];
+        loginVC = [[rootVC viewControllers] objectAtIndex:0];
+    }
+    
+    return self;
+}
 
-typedef void(^AZPointDataCallback)(CFArrayRef);
+-(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)cb {
+    callback = [cb copy];
+    
+    [viewController presentModalViewController:rootVC animated:YES];
+}
 
-/**
- * OTM API Provides a functional wrapper around the OpenTreeMap API
- *
- * This is a singleton object - grab it from the OTMEnironment
- */
-@interface OTMAPI : NSObject
+-(void)presentModelLoginInViewController:(UIViewController*)viewController {
+    [self presentModelLoginInViewController:viewController callback:nil];
+}
 
-/**
- * Object used for doing our http requests
- */
-@property (nonatomic,strong) AZHttpRequest* request;
+-(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedSuccess
+                                                        object:user];
+    
+    if (callback != nil) {
+        callback(true, user);
+    }
+}
 
-/**
- * Get the plot nearested to (lat,lon)
- *
- * @param lat,lon latitude and longitude of the point of intererest
- * @param callback receives a NSArray of NSDictionaries representing plots
- */
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
+-(void)loginControllerCanceledLogin:(OTMLoginViewController*)vc {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedFailure
+                                                        object:nil];
+    
+    if (callback != nil) {
+        callback(false, nil);
+    }
+}
 
-/**
- * Request an image for a given tree/plot
- *
- * @param plotid the plot's id
- * @param imageid the image's id
- */
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
-
-/**
- * Get point offsets for a given tile
- * To keep this method performant it uses a custom callback
- *
- * @param region WSG84 Region
- * @param callback the callback we get when we are done
- * @param error error pointer
- */
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback error:(NSError**)error;
-
-/**
- * Attempt to log the given user in. If successful user.loggedIn will return
- * true
- *
- * @param user the user to login
- * @param callback the callback to call when execution has finished
- */
--(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback;
+-(void)loginController:(OTMLoginViewController*)vc registeredUser:(OTMUser*)user {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowUserRegistered
+                                                        object:user];    
+}
 
 @end

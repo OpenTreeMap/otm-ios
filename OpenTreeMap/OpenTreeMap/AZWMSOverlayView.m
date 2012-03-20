@@ -25,7 +25,6 @@
 
 #import "AZWMSOverlayView.h"
 #import "AZWMSOverlay.h"
-#import "Three20Network/Three20Network.h" // https://github.com/facebook/three20
 
 @implementation AZWMSOverlayView
 
@@ -35,6 +34,7 @@
  @param mapRect The extent of the map tile being requested
  @param zoomScale The ratio of pixels to map units for the reqested map tile
  */
+/*
 - (void)sendTileRequestWithUrl:(NSString *)url mapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
 {
     TTURLRequest *request = [TTURLRequest requestWithURL:url delegate:self];
@@ -54,12 +54,13 @@
     // The request must be sent on the main thread in order to correctly return
     [request performSelectorOnMainThread:@selector(send) withObject:nil waitUntilDone:NO];
 }
-
+*/
 #pragma mark MKOverlayView methods
 
 /**
  Returns a Boolean value indicating whether the overlay view is ready to draw its content.
  */
+/*
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
 {
     AZWMSOverlay *wmsOverlay = (AZWMSOverlay *)[self overlay];
@@ -75,10 +76,12 @@
         return NO;
     }
 }
+ */
 
 /**
  Draws the contents of the overlay view.
  */
+/*
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context 
 {
     AZWMSOverlay *wmsOverlay = (AZWMSOverlay *)[self overlay];
@@ -94,12 +97,13 @@
         UIGraphicsPopContext();
     }
 }
-
+*/
 #pragma mark TTURLRequestDelegate methods
 
 /**
  Called when the request has loaded data and been processed into a response.
  */
+/*
 -(void)requestDidFinishLoad:(TTURLRequest *)request {
     NSNumber *mapRect_origin_x = [(NSDictionary *)[request userInfo] objectForKey:@"mapRect_origin_x"];
     NSNumber *mapRect_origin_y = [(NSDictionary *)[request userInfo] objectForKey:@"mapRect_origin_y"];
@@ -118,5 +122,6 @@
     // the tile is now in the cache, canDrawMapRect:zoomScale: should now return YES.
     [self setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];
 }
+ */
 
 @end

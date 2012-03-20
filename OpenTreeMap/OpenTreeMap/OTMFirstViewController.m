@@ -229,7 +229,7 @@
 
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:touchMapCoordinate.latitude
                                                          longitude:touchMapCoordinate.longitude
-                                                          callback:^(NSArray* plots) 
+                                                          callback:^(NSArray* plots, NSError* error) 
     {
         if ([plots count] == 0) { // No plots returned
             [self slideDetailDownAnimated:YES];
@@ -253,7 +253,7 @@
                     
                     [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
                                                                       photoId:imageId
-                                                                     callback:^(UIImage* image)
+                                                                     callback:^(UIImage* image, NSError* error)
                      {
                          self.treeImage.image = image;
                      }];

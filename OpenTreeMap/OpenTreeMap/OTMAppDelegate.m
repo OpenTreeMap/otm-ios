@@ -8,24 +8,21 @@
 
 #import "OTMAppDelegate.h"
 #import "OTMEnvironment.h"
-#import "Three20Network/Three20Network.h"
 
 @interface OTMAppDelegate()
-    /**
-     Setup the shared TTURLCache by reading settings from the shared OTMEnvironment
-     */
-    - (void)configureGlobalRequestQueueAndUrlCache;
+
 @end
 
 @implementation OTMAppDelegate
 
-@synthesize window = _window;
+@synthesize window = _window, keychain;
 
 #pragma mark UIApplicationDelegate methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [self configureGlobalRequestQueueAndUrlCache];
+    keychain = [[AZKeychainItemWrapper alloc] initWithIdentifier:@"org.otm.creds"
+                                                     accessGroup:nil];
     return YES;
 }
 							
@@ -56,20 +53,6 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-#pragma mark TTURLCache helpers
-
-- (void)configureGlobalRequestQueueAndUrlCache
-{
-    OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
-
-    TTURLRequestQueue *queue = [[TTURLRequestQueue alloc] init];
-    [queue setMaxContentLength:[[env urlCacheQueueMaxContentLength] intValue]];
-    [TTURLRequestQueue setMainQueue:queue];
-
-    TTURLCache *cache = [[TTURLCache alloc] initWithName:[env urlCacheName]];
-    [cache setInvalidationAge:[[env urlCacheInvalidationAgeInSeconds] floatValue]];
-    [TTURLCache setSharedCache:cache];
-}
 
 
 @end

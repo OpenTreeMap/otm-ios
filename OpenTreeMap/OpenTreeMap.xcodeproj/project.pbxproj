@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		646D938A14F451F1009F26A8 /* libThree20Core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D938814F451F1009F26A8 /* libThree20Core.a */; };
-		646D938B14F451F1009F26A8 /* libThree20Network.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 646D938914F451F1009F26A8 /* libThree20Network.a */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */; };
@@ -24,20 +22,30 @@
 		D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
 		D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
 		D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64715122DE800AB6664 /* DictionaryDecode.m */; };
+		D72BF65C15177AAA00AB6664 /* OTMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */; };
+		D72BF65D15177AAA00AB6664 /* OTMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */; };
+		D72BF66315177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */; };
+		D72BF66415177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */; };
+		D72BF6661517830A00AB6664 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72BF6651517830A00AB6664 /* Security.framework */; };
+		D72BF669151785B300AB6664 /* OTMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF668151785B300AB6664 /* OTMUser.m */; };
+		D72BF66A151785B300AB6664 /* OTMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF668151785B300AB6664 /* OTMUser.m */; };
+		D72BF66D1517899700AB6664 /* OTMLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66C1517899700AB6664 /* OTMLoginManager.m */; };
+		D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66C1517899700AB6664 /* OTMLoginManager.m */; };
+		D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
+		D72BF67115178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
 		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
-		D7B4F4CF14FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
-		D7B4F4D014FD7A96001032A3 /* AZDataResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
 		D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
-		D7BEA4AC14FC4ABD006CC456 /* AZJSONResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */; };
-		D7BEA4AD14FC4ABD006CC456 /* AZJSONResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */; };
 		D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
 		D7BEA4B114FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
-		D7C00D44150F8F7000ACDDFC /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C00D43150F8F7000ACDDFC /* NSData+Base64.m */; };
-		D7C00D48150F912A00ACDDFC /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C00D47150F912A00ACDDFC /* NSString+Base64.m */; };
 		D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
 		D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
+		D7C990201518C8670094770C /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C9901F1518C8670094770C /* libASI.a */; };
+		D7C990231518C87E0094770C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
+		D7C990251518C8890094770C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990241518C8890094770C /* SystemConfiguration.framework */; };
+		D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990261518C88F0094770C /* MobileCoreServices.framework */; };
+		D7C990291518C89F0094770C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990281518C89F0094770C /* libz.dylib */; };
 		D7CC152715065AC200277C7C /* tree_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CC152615065AC200277C7C /* tree_icon.png */; };
 		D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
@@ -95,24 +103,31 @@
 		D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DecodeKey.m"; sourceTree = "<group>"; };
 		D72BF64615122DE800AB6664 /* DictionaryDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryDecode.h; sourceTree = "<group>"; };
 		D72BF64715122DE800AB6664 /* DictionaryDecode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictionaryDecode.m; sourceTree = "<group>"; };
+		D72BF65915177AA900AB6664 /* OTMLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginViewController.h; sourceTree = "<group>"; };
+		D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginViewController.m; sourceTree = "<group>"; };
+		D72BF66115177E0300AB6664 /* AZKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZKeychainItemWrapper.h; sourceTree = "<group>"; };
+		D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZKeychainItemWrapper.m; sourceTree = "<group>"; };
+		D72BF6651517830A00AB6664 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		D72BF667151785B300AB6664 /* OTMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMUser.h; sourceTree = "<group>"; };
+		D72BF668151785B300AB6664 /* OTMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMUser.m; sourceTree = "<group>"; };
+		D72BF66B1517899700AB6664 /* OTMLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginManager.h; sourceTree = "<group>"; };
+		D72BF66C1517899700AB6664 /* OTMLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginManager.m; sourceTree = "<group>"; };
+		D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LoginStoryboard.storyboard; path = ../LoginStoryboard.storyboard; sourceTree = "<group>"; };
 		D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailTableViewCell.h; sourceTree = "<group>"; };
 		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
 		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
 		D791171E15113F70004BE79C /* OTMFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFormatters.m; sourceTree = "<group>"; };
-		D7B4F4CD14FD7A96001032A3 /* AZDataResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZDataResponse.h; sourceTree = "<group>"; };
-		D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZDataResponse.m; sourceTree = "<group>"; };
 		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
 		D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZHttpRequest.m; sourceTree = "<group>"; };
-		D7BEA4AA14FC4ABD006CC456 /* AZJSONResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZJSONResponse.h; sourceTree = "<group>"; };
-		D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZJSONResponse.m; sourceTree = "<group>"; };
 		D7BEA4AE14FD3587006CC456 /* OTMAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAPI.h; sourceTree = "<group>"; };
 		D7BEA4AF14FD3587006CC456 /* OTMAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAPI.m; sourceTree = "<group>"; };
-		D7C00D42150F8F7000ACDDFC /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		D7C00D43150F8F7000ACDDFC /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
-		D7C00D46150F912A00ACDDFC /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
-		D7C00D47150F912A00ACDDFC /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
 		D7C252CE14FE84780028519E /* OTMDetailSliderview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailSliderview.h; sourceTree = "<group>"; };
 		D7C252CF14FE84780028519E /* OTMDetailSliderview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailSliderview.m; sourceTree = "<group>"; };
+		D7C9901F1518C8670094770C /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../lib/ASI/build/Release-iphoneos/libASI.a"; sourceTree = "<group>"; };
+		D7C990221518C87E0094770C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		D7C990241518C8890094770C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D7C990261518C88F0094770C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		D7C990281518C89F0094770C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D7CC152615065AC200277C7C /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
 		D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
 		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
@@ -149,11 +164,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				646D938A14F451F1009F26A8 /* libThree20Core.a in Frameworks */,
-				646D938B14F451F1009F26A8 /* libThree20Network.a in Frameworks */,
+				D7C990291518C89F0094770C /* libz.dylib in Frameworks */,
+				E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */,
+				D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */,
+				D7C990251518C8890094770C /* SystemConfiguration.framework in Frameworks */,
+				D7C990231518C87E0094770C /* CFNetwork.framework in Frameworks */,
+				D7C990201518C8670094770C /* libASI.a in Frameworks */,
+				D72BF6661517830A00AB6664 /* Security.framework in Frameworks */,
 				E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */,
 				E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */,
-				E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */,
 				64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */,
 				64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */,
 			);
@@ -188,16 +207,8 @@
 			children = (
 				D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */,
 				D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */,
-				D7BEA4AA14FC4ABD006CC456 /* AZJSONResponse.h */,
-				D7BEA4AB14FC4ABD006CC456 /* AZJSONResponse.m */,
-				D7B4F4CD14FD7A96001032A3 /* AZDataResponse.h */,
-				D7B4F4CE14FD7A96001032A3 /* AZDataResponse.m */,
 				D7BEA4AE14FD3587006CC456 /* OTMAPI.h */,
 				D7BEA4AF14FD3587006CC456 /* OTMAPI.m */,
-				D7C00D42150F8F7000ACDDFC /* NSData+Base64.h */,
-				D7C00D43150F8F7000ACDDFC /* NSData+Base64.m */,
-				D7C00D46150F912A00ACDDFC /* NSString+Base64.h */,
-				D7C00D47150F912A00ACDDFC /* NSString+Base64.m */,
 			);
 			path = api;
 			sourceTree = "<group>";
@@ -243,6 +254,12 @@
 		E943971514F447EB007CD0D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D7C990281518C89F0094770C /* libz.dylib */,
+				D7C990261518C88F0094770C /* MobileCoreServices.framework */,
+				D7C990241518C8890094770C /* SystemConfiguration.framework */,
+				D7C990221518C87E0094770C /* CFNetwork.framework */,
+				D7C9901F1518C8670094770C /* libASI.a */,
+				D72BF6651517830A00AB6664 /* Security.framework */,
 				646D938814F451F1009F26A8 /* libThree20Core.a */,
 				646D938914F451F1009F26A8 /* libThree20Network.a */,
 				64DDCDB614F51AF6004FA0CF /* MapKit.framework */,
@@ -272,6 +289,7 @@
 				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */,
 				E943972514F447EB007CD0D1 /* OTMAppDelegate.h */,
 				E943972614F447EB007CD0D1 /* OTMAppDelegate.m */,
+				D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */,
 				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
 				E943972B14F447EB007CD0D1 /* MainStoryboard_iPad.storyboard */,
 				E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */,
@@ -289,6 +307,14 @@
 				D791171E15113F70004BE79C /* OTMFormatters.m */,
 				D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */,
 				D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */,
+				D72BF65915177AA900AB6664 /* OTMLoginViewController.h */,
+				D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */,
+				D72BF66115177E0300AB6664 /* AZKeychainItemWrapper.h */,
+				D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */,
+				D72BF667151785B300AB6664 /* OTMUser.h */,
+				D72BF668151785B300AB6664 /* OTMUser.m */,
+				D72BF66B1517899700AB6664 /* OTMLoginManager.h */,
+				D72BF66C1517899700AB6664 /* OTMLoginManager.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -411,6 +437,7 @@
 				64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */,
 				64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */,
 				D7CC152715065AC200277C7C /* tree_icon.png in Resources */,
+				D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +446,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E943974D14F447EB007CD0D1 /* InfoPlist.strings in Resources */,
+				D72BF67115178AF700AB6664 /* LoginStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,17 +481,17 @@
 				64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */,
 				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
 				D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */,
-				D7BEA4AC14FC4ABD006CC456 /* AZJSONResponse.m in Sources */,
 				D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */,
-				D7B4F4CF14FD7A96001032A3 /* AZDataResponse.m in Sources */,
 				D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */,
 				D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
-				D7C00D44150F8F7000ACDDFC /* NSData+Base64.m in Sources */,
-				D7C00D48150F912A00ACDDFC /* NSString+Base64.m in Sources */,
 				D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */,
 				D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */,
 				D791171F15113F70004BE79C /* OTMFormatters.m in Sources */,
 				D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */,
+				D72BF65C15177AAA00AB6664 /* OTMLoginViewController.m in Sources */,
+				D72BF66315177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */,
+				D72BF669151785B300AB6664 /* OTMUser.m in Sources */,
+				D72BF66D1517899700AB6664 /* OTMLoginManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,14 +501,16 @@
 			files = (
 				E943975014F447EB007CD0D1 /* OpenTreeMapTests.m in Sources */,
 				D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */,
-				D7BEA4AD14FC4ABD006CC456 /* AZJSONResponse.m in Sources */,
 				D7BEA4B114FD3587006CC456 /* OTMAPI.m in Sources */,
-				D7B4F4D014FD7A96001032A3 /* AZDataResponse.m in Sources */,
 				D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */,
 				D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
 				D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */,
 				D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */,
 				D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */,
+				D72BF65D15177AAA00AB6664 /* OTMLoginViewController.m in Sources */,
+				D72BF66415177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */,
+				D72BF66A151785B300AB6664 /* OTMUser.m in Sources */,
+				D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,7 +606,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
+				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes/** ../DerivedData/opentreemap/Build/Products/three20/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";
@@ -679,7 +709,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
+				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes/** ../DerivedData/opentreemap/Build/Products/three20/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -706,7 +736,7 @@
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
-				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
+				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes/** ../DerivedData/opentreemap/Build/Products/three20/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -7,6 +7,7 @@
 //
 
 #import "OTMSecondViewController.h"
+#import "OTMLoginManager.h"
 
 @interface OTMSecondViewController ()
 
@@ -24,6 +25,11 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    OTMLoginManager* loginMgr = [[OTMLoginManager alloc] init];
+    [loginMgr presentModelLoginInViewController:self.parentViewController];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

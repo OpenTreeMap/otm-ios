@@ -18,66 +18,61 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
 // THE SOFTWARE.                                                                                                  
-//    
+//  
 
 #import <Foundation/Foundation.h>
-#import <MapKit/MapKit.h>
-#import "AZHttpRequest.h"
 #import "OTMUser.h"
+#import "OTMLoginViewController.h"
 
-typedef void(^AZJSONCallback)(id json, NSError* error);
-typedef void(^AZImageCallback)(UIImage* image, NSError* error);
-typedef void(^AZUserCallback)(OTMUser* user, NSError* error);
+#define kOTMLoginWorkflowCompletedSuccess @"kOTMLoginWorkflowCompletedSuccess"
+#define kOTMLoginWorkflowCompletedFailure @"kOTMLoginWorkflowCompletedFailure"
+#define kOTMLoginWorkflowUserRegistered @"kOTMLoginWorkflowUserRegistered"
 
-typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
-
-typedef void(^AZPointDataCallback)(CFArrayRef);
+typedef void(^OTMLoginCallback)(BOOL success, OTMUser* user);
 
 /**
- * OTM API Provides a functional wrapper around the OpenTreeMap API
+ * The OTMLoginManager acts a facade between the API login and the OTM
+ * user. It also deals with the login UI flows and notifications.
  *
- * This is a singleton object - grab it from the OTMEnironment
- */
-@interface OTMAPI : NSObject
-
-/**
- * Object used for doing our http requests
- */
-@property (nonatomic,strong) AZHttpRequest* request;
-
-/**
- * Get the plot nearested to (lat,lon)
+ * One of the following notifications are always fired:
+ * kOTMLoginWorkflowCompletedSuccess      - Whenever the user successfully logs in
+ * kOTMLoginWorkflowCompletedFailure      - If the user cancels the login process
  *
- * @param lat,lon latitude and longitude of the point of intererest
- * @param callback receives a NSArray of NSDictionaries representing plots
+ * In addition, if the user registers as part of the login process:
+ * kOTMLoginWorkflowUserRegistered        - After a successful registration
+ *
+ * This call is neither threadsafe nor reentrant
  */
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
+@interface OTMLoginManager : NSObject<OTMLoginManagerDelegate> {
+    UIStoryboard *loginWorkflow;
+    OTMLoginViewController *loginVC;
+    OTMLoginCallback callback;
+    UINavigationController* rootVC;
+}
 
 /**
- * Request an image for a given tree/plot
+ * Start the login workflow as a modal VC
  *
- * @param plotid the plot's id
- * @param imageid the image's id
+ * @param viewController The view controller to present in
  */
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
+-(void)presentModelLoginInViewController:(UIViewController*)viewController;
 
 /**
- * Get point offsets for a given tile
- * To keep this method performant it uses a custom callback
+ * Start the login workflow as a modal VC and register a callback
  *
- * @param region WSG84 Region
- * @param callback the callback we get when we are done
- * @param error error pointer
+ * @param viewController The view controller to present in
+ * @param callback Called when the login process has finished
  */
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback error:(NSError**)error;
+-(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)callback;
 
 /**
- * Attempt to log the given user in. If successful user.loggedIn will return
- * true
- *
- * @param user the user to login
- * @param callback the callback to call when execution has finished
+ * Called when the login controller is done with logging in
  */
--(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback;
+-(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user;
+
+/**
+ * Called when the login controller is regsistered a user
+ */
+-(void)loginController:(OTMLoginViewController*)vc registeredUser:(OTMUser*)user;
 
 @end

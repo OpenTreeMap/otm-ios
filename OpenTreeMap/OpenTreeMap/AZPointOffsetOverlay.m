@@ -25,7 +25,6 @@
 
 #import "AZPointOffsetOverlay.h"
 #import "AZWMSOverlay.h"
-#import "Three20Network/Three20Network.h" // https://github.com/facebook/three20
 
 @implementation AZPointOffsetOverlay
 

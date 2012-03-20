@@ -21,8 +21,6 @@
 //    
 
 #import "OTMAPI.h"
-#import "AZJSONResponse.h"
-#import "AZDataResponse.h"
 
 @interface OTMAPI()
 +(int)parseSection:(NSData*)data 
@@ -30,7 +28,7 @@
             points:(CFMutableArrayRef)points
              error:(NSError**)error;
 
-+ (NSString*)encodedAuthHeaderForUsername:(NSString*)username password:(NSString*)password;
++(ASIRequestCallback)jsonCallback:(AZJSONCallback)callback;
 
 @end
 
@@ -38,21 +36,24 @@
 
 @synthesize request;
 
-+ (NSString*)encodedAuthHeaderForUsername:(NSString*)username password:(NSString*)password {
-    return [[NSString stringWithFormat:@"%@:%@",username,password] base64String];
++(ASIRequestCallback)jsonCallback:(AZJSONCallback)callback {
+    return [^(id req) {
+        if (callback != nil) {
+            NSError* error = nil;
+            id jsonp = [NSJSONSerialization JSONObjectWithData:[req responseData]
+                                                       options:0
+                                                         error:&error];    
+            callback(jsonp, error);
+        }
+    } copy];
 }
-
 
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback {
     [self.request get:@"locations/:lat,:lon/plots" 
                params:[NSDictionary dictionaryWithObjectsAndKeys:
                        [NSString stringWithFormat:@"%f", lat], @"lat",
                        [NSString stringWithFormat:@"%f", lon], @"lon", nil]
-             callback:^(id req) { 
-                 if (callback) {
-                     callback([(AZJSONResponse*)[req response] json]);
-                 }
-             }];
+             callback:[OTMAPI jsonCallback:callback]];
 }
 
 -(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback {
@@ -63,7 +64,7 @@
                     mime:@"image/jpeg"
                 callback:^(id req) { 
                     if (callback) {
-                        callback([UIImage imageWithData:[(AZDataResponse*)[req response] data]]);
+                        callback([UIImage imageWithData:[req responseData]], nil);
                     }
                 }];
 }
@@ -79,7 +80,7 @@
                            nil], @"bbox", nil]
                     mime:@"otm/trees"
                 callback:^(id req) { 
-                    NSData* data = [(AZDataResponse*)[req response] data];
+                    NSData* data = [req responseData];
                     uint32_t magic = 0;
                     
                     if ([data length] < 12) {
@@ -175,6 +176,10 @@
     
     
     return offset;   
+}
+
+-(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
+    [request get:@"login" withUser:user params:nil callback:[OTMAPI jsonCallback:callback]];
 }
 
 @end

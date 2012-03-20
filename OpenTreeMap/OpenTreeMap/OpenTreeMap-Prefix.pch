@@ -16,6 +16,4 @@
 #import "OTMEnvironment.h"
 
 // Always make categories available
-#import "NSString+Base64.h"
-#import "NSData+Base64.h"
 #import "NSDictionary+DecodeKey.h"

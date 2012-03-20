@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AZKeychainItemWrapper.h"
 
 @interface OTMAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic,strong) AZKeychainItemWrapper *keychain;
 
 @end
