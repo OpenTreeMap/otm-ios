@@ -28,8 +28,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    OTMLoginManager* loginMgr = [[OTMLoginManager alloc] init];
-    [loginMgr presentModelLoginInViewController:self.parentViewController];
+    OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+    [mgr presentModelLoginInViewController:self.parentViewController];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

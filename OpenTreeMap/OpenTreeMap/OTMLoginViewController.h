@@ -22,8 +22,14 @@
 
 @interface OTMLoginViewController : UIViewController
 
-@property (nonatomic,weak) id<OTMLoginManagerDelegate> delegate;
+@property (nonatomic,weak) id<OTMLoginManagerDelegate> loginDelegate;
+@property (nonatomic,weak) UITextField* activeField;
 @property (nonatomic,strong) IBOutlet UITextField *username;
 @property (nonatomic,strong) IBOutlet UITextField *password;
+@property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
+
+
+-(IBAction)hideKeyboard:(id)sender;
+-(IBAction)attemptLogin:(id)sender;
 
 @end

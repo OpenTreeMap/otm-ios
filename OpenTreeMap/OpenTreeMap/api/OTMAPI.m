@@ -21,6 +21,9 @@
 //    
 
 #import "OTMAPI.h"
+#import "ASIHTTPRequest.h"
+
+typedef void(^AZGenericCallback)(id obj, NSError* error);
 
 @interface OTMAPI()
 +(int)parseSection:(NSData*)data 
@@ -28,7 +31,8 @@
             points:(CFMutableArrayRef)points
              error:(NSError**)error;
 
-+(ASIRequestCallback)jsonCallback:(AZJSONCallback)callback;
++(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
++(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 
 @end
 
@@ -36,15 +40,33 @@
 
 @synthesize request;
 
-+(ASIRequestCallback)jsonCallback:(AZJSONCallback)callback {
-    return [^(id req) {
-        if (callback != nil) {
-            NSError* error = nil;
-            id jsonp = [NSJSONSerialization JSONObjectWithData:[req responseData]
-                                                       options:0
-                                                         error:&error];    
-            callback(jsonp, error);
++(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
+    if (callback == nil) { return [^(id obj, id error) {} copy]; }
+    return [^(ASIHTTPRequest* req) {
+        if (req.responseStatusCode >= 200 && req.responseStatusCode <= 299) {
+            callback([req responseData], nil);
+        } else {
+            NSError* error = [[NSError alloc] initWithDomain:@"otm"
+                                                        code:req.responseStatusCode
+                                                    userInfo:nil];
+            callback(nil, error);
         }
+    } copy];
+}
+
++(AZGenericCallback)jsonCallback:(AZGenericCallback)callback {
+    if (callback == nil) { return [^(id obj, id error) {} copy]; }
+    return [^(NSData* data, NSError* error) {
+            if (error) {
+                callback(nil, error);
+            } else {
+                NSError* error = nil;
+            
+                id json = [NSJSONSerialization JSONObjectWithData:data
+                                                          options:0
+                                                            error:&error];    
+                callback(json, error);
+            }
     } copy];
 }
 
@@ -53,7 +75,8 @@
                params:[NSDictionary dictionaryWithObjectsAndKeys:
                        [NSString stringWithFormat:@"%f", lat], @"lat",
                        [NSString stringWithFormat:@"%f", lon], @"lon", nil]
-             callback:[OTMAPI jsonCallback:callback]];
+             callback:[OTMAPI liftResponse:
+                       [OTMAPI jsonCallback:callback]]];
 }
 
 -(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback {
@@ -62,14 +85,18 @@
                           [NSString stringWithFormat:@"%d", plotid], @"plot",
                           [NSString stringWithFormat:@"%d", photoid], @"photo", nil]
                     mime:@"image/jpeg"
-                callback:^(id req) { 
+                callback:[OTMAPI liftResponse:^(id data, NSError* error) { 
                     if (callback) {
-                        callback([UIImage imageWithData:[req responseData]], nil);
+                        if (error != nil) { 
+                            callback(nil, error);
+                        } else {
+                            callback([UIImage imageWithData:data], nil);
+                        }
                     }
-                }];
+                }]];
 }
 
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback error:(NSError**)error {
+-(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback {
     [self.request getRaw:@"tiles"
                   params:[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%f,%f,%f,%f", 
@@ -79,8 +106,8 @@
                            region.center.latitude + region.span.latitudeDelta / 2.0, 
                            nil], @"bbox", nil]
                     mime:@"otm/trees"
-                callback:^(id req) { 
-                    NSData* data = [req responseData];
+                callback:[OTMAPI liftResponse:^(id data, NSError* error) {
+                    if (error != nil) { callback(nil, error); return; }
                     uint32_t magic = 0;
                     
                     if ([data length] < 12) {
@@ -89,9 +116,7 @@
                                                                       code:0  
                                                                   userInfo:[NSDictionary dictionaryWithObject:@"Header too short" forKey:@"error"]];
                         
-                        if (error != NULL) {
-                            (*error) = myError; 
-                        }
+                        callback(nil, myError);
                         return;
                     }
                     
@@ -110,9 +135,7 @@
                                                                       code:0  
                                                                   userInfo:[NSDictionary dictionaryWithObject:@"Bad magic number (not 0xA3A5EA00)" forKey:@"error"]];
                         
-                        if (error != NULL) {
-                            (*error) = myError;                        
-                        }
+                        callback(nil, myError);
                         return;
                     }
                     
@@ -122,15 +145,13 @@
                         offset = [OTMAPI parseSection:data offset:offset points:points error:&sectionError];
                         
                         if (sectionError != NULL) {
-                            if (error != NULL) {
-                                (*error) = sectionError;
-                            }
                             
+                            callback(nil, sectionError);
                             return;
                         }
                     }
                     
-                    callback(points);
+                    callback(points, nil);
                     
                     for(int i=0;i<CFArrayGetCount(points);i++) {
                         free((void *)CFArrayGetValueAtIndex(points, i));
@@ -138,7 +159,7 @@
                     
                     CFRelease(points);
                     points = NULL;
-                }];        
+                }]];        
 }
 
 +(int)parseSection:(NSData*)data    
@@ -179,7 +200,23 @@
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [request get:@"login" withUser:user params:nil callback:[OTMAPI jsonCallback:callback]];
+    [request get:@"login" 
+        withUser:user 
+          params:nil 
+        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
+        if (error) {
+            [user setLoggedIn:NO];
+            if (error.code == 401) {
+                callback(nil, kOTMAPILoginResponseInvalidUsernameOrPassword);
+            } else {
+                callback(nil, kOTMAPILoginResponseError);
+            }
+        } else {
+            [user setLoggedIn:YES];
+            callback(user, kOTMAPILoginResponseOK);
+        }
+    }]]];
+    
 }
 
 @end

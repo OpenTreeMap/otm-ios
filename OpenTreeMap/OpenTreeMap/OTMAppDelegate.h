@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AZKeychainItemWrapper.h"
+#import "OTMLoginManager.h"
 
 @interface OTMAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic,strong) AZKeychainItemWrapper *keychain;
+@property (nonatomic,strong) OTMLoginManager* loginManager;
 
 @end

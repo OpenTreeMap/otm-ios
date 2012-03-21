@@ -190,7 +190,9 @@
         }
     }];
     [request setFailedBlock:^{
-        NSLog(@"Request failed :(");
+        if (callback != nil) {
+            callback(blockRequest);
+        }
     }];
 
     [request addRequestHeader:@"Accept" value:@"application/json"];

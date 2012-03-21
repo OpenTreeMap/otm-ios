@@ -25,13 +25,19 @@
 #import "AZHttpRequest.h"
 #import "OTMUser.h"
 
+typedef enum {
+    kOTMAPILoginResponseInvalidUsernameOrPassword,
+    kOTMAPILoginResponseOK,
+    kOTMAPILoginResponseError
+} OTMAPILoginResponse;
+
 typedef void(^AZJSONCallback)(id json, NSError* error);
 typedef void(^AZImageCallback)(UIImage* image, NSError* error);
-typedef void(^AZUserCallback)(OTMUser* user, NSError* error);
+typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
 
 typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
 
-typedef void(^AZPointDataCallback)(CFArrayRef);
+typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
 
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
@@ -69,7 +75,7 @@ typedef void(^AZPointDataCallback)(CFArrayRef);
  * @param callback the callback we get when we are done
  * @param error error pointer
  */
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback error:(NSError**)error;
+-(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback;
 
 /**
  * Attempt to log the given user in. If successful user.loggedIn will return

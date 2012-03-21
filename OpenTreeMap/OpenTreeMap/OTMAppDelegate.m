@@ -15,7 +15,7 @@
 
 @implementation OTMAppDelegate
 
-@synthesize window = _window, keychain;
+@synthesize window = _window, keychain, loginManager;
 
 #pragma mark UIApplicationDelegate methods
 
@@ -23,6 +23,9 @@
 {
     keychain = [[AZKeychainItemWrapper alloc] initWithIdentifier:@"org.otm.creds"
                                                      accessGroup:nil];
+    
+    loginManager = [[OTMLoginManager alloc] init];
+    
     return YES;
 }
 							

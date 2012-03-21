@@ -56,12 +56,16 @@
     NSString* key = [self getCacheKeyForMapRect:mapRect];
     
     [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) callback:
-     ^(CFArrayRef points) {
-         UIImage* image = [AZPointOffsetOverlay createImageWithOffsets:points stamp:[self pointStamp] alpha:tileAlpha];
-         
-         [renderedImageCache setObject:image forKey:key];
-         [self setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];         
-     } error:NULL];     
+     ^(CFArrayRef points, NSError* error) {
+         if (error == nil) {
+             UIImage* image = [AZPointOffsetOverlay createImageWithOffsets:points stamp:[self pointStamp] alpha:tileAlpha];
+             
+             [renderedImageCache setObject:image forKey:key];
+             [self setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];         
+         } else {
+             NSLog(@"Error loading tile images: %@", error);
+         }
+     }];     
 }
 
 #pragma mark MKOverlayView methods

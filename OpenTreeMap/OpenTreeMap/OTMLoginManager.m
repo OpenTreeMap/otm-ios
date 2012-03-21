@@ -31,6 +31,7 @@
                                                   bundle:nil];
         rootVC = [loginWorkflow instantiateInitialViewController];
         loginVC = [[rootVC viewControllers] objectAtIndex:0];
+        loginVC.loginDelegate = self;
     }
     
     return self;
@@ -47,6 +48,8 @@
 }
 
 -(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user {
+    [rootVC dismissModalViewControllerAnimated:YES];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedSuccess
                                                         object:user];
     
@@ -56,6 +59,8 @@
 }
 
 -(void)loginControllerCanceledLogin:(OTMLoginViewController*)vc {
+    [rootVC dismissModalViewControllerAnimated:YES];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedFailure
                                                         object:nil];
     
