@@ -28,7 +28,15 @@
 }
 
 -(BOOL)validEmail {
-    return [self.email.text rangeOfString:@"^.+@.+\\..{2,}$" options:NSRegularExpressionSearch].location != NSNotFound;
+    //This regex was copied from the django regex in validators.py
+    NSString *emailregex = @"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*|^\"([\001-\010\013\014\016-\037!#-\\[\\]-\177]|\\[\001-\011\013\014\016-\177])*\")@((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\\.)+[A-Z]{2,6}\\.?$)|\\[(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\]$";
+    
+    NSError *error;
+    NSRegularExpression *regep = [NSRegularExpression regularExpressionWithPattern:emailregex options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    return [regep numberOfMatchesInString:self.email.text
+                                  options:0
+                                    range:NSMakeRange(0, [self.email.text length])] == 1;
 }
 
 -(void)showInvalidEmailAlert {
