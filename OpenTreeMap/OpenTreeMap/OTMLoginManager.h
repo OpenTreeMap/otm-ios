@@ -27,6 +27,7 @@
 #define kOTMLoginWorkflowCompletedSuccess @"kOTMLoginWorkflowCompletedSuccess"
 #define kOTMLoginWorkflowCompletedFailure @"kOTMLoginWorkflowCompletedFailure"
 #define kOTMLoginWorkflowUserRegistered @"kOTMLoginWorkflowUserRegistered"
+#define kOTMLoginWorkflowPasswordReset @"kOTMLoginWorkflowPasswordReset"
 
 typedef void(^OTMLoginCallback)(BOOL success, OTMUser* user);
 

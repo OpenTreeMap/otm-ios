@@ -101,6 +101,12 @@
 #pragma mark -
 #pragma mark Actions
 
+// Called after a successful password reset
+// note that a password reset is considered a login failure
+- (void)didFinishPasswordReset:(NSNotification*)note {
+    [self.loginDelegate loginControllerCanceledLogin:self];
+}
+
 - (IBAction)attemptLogin:(id)sender {
     // Disable changing things while we roll...
     self.view.userInteractionEnabled = NO;
@@ -146,6 +152,10 @@
     self.scrollView.contentSize = CGSizeMake(320,340);
     
     [self registerForKeyboardNotifications];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishPasswordReset:) name:kOTMLoginWorkflowPasswordReset
+                                               object:nil];
 }
 
 - (void)viewDidUnload

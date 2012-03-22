@@ -132,7 +132,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="306" y="-826"/>
+            <point key="canvasLocation" x="314" y="-832"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1TN-SY-dg5">
@@ -234,13 +234,13 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="756" y="-826"/>
+            <point key="canvasLocation" x="788" y="-832"/>
         </scene>
-        <!--View Controller - Reset Password-->
+        <!--Password Reset View Controller - Reset Password-->
         <scene sceneID="1ld-VF-WiR">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wa-gv-6ua" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="H9t-wG-bYo" sceneMemberID="viewController">
+                <viewController id="H9t-wG-bYo" customClass="OTMPasswordResetViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MWR-vL-RSB">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -270,15 +270,22 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="resetPassword:" destination="H9t-wG-bYo" eventType="touchUpInside" id="TdF-je-qb7"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Reset Password" id="WYc-Vo-vK0"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="email" destination="zjP-Zq-XLq" id="ywJ-I4-mW2"/>
+                        <outlet property="view" destination="MWR-vL-RSB" id="caF-IB-taH"/>
+                    </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="756" y="-241"/>
+            <point key="canvasLocation" x="788" y="-245"/>
         </scene>
     </scenes>
     <classes>
@@ -290,6 +297,13 @@
                 <relationship kind="outlet" name="password" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="username" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="OTMPasswordResetViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordResetViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="resetPassword:"/>
+                <relationship kind="outlet" name="email" candidateClass="UITextField"/>
             </relationships>
         </class>
     </classes>

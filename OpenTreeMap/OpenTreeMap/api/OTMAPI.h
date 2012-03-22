@@ -86,4 +86,11 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  */
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback;
 
+/**
+ * Reset the password on an account
+ *
+ * @param email the email attached to the user that is to be reset
+ */
+-(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback;
+
 @end

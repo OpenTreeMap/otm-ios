@@ -33,6 +33,7 @@
 		D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66C1517899700AB6664 /* OTMLoginManager.m */; };
 		D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
 		D72BF67115178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
+		D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
 		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
@@ -113,6 +114,8 @@
 		D72BF66B1517899700AB6664 /* OTMLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginManager.h; sourceTree = "<group>"; };
 		D72BF66C1517899700AB6664 /* OTMLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginManager.m; sourceTree = "<group>"; };
 		D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LoginStoryboard.storyboard; path = ../LoginStoryboard.storyboard; sourceTree = "<group>"; };
+		D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
+		D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
 		D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailTableViewCell.h; sourceTree = "<group>"; };
 		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
 		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
@@ -145,12 +148,12 @@
 		E943972C14F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMFirstViewController.h; sourceTree = "<group>"; };
 		E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMFirstViewController.m; sourceTree = "<group>"; };
-		E943973114F447EB007CD0D1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
-		E943973314F447EB007CD0D1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		E943973114F447EB007CD0D1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = first.png; path = ../first.png; sourceTree = "<group>"; };
+		E943973314F447EB007CD0D1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "first@2x.png"; path = "../first@2x.png"; sourceTree = "<group>"; };
 		E943973514F447EB007CD0D1 /* OTMSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMSecondViewController.h; sourceTree = "<group>"; };
 		E943973614F447EB007CD0D1 /* OTMSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMSecondViewController.m; sourceTree = "<group>"; };
-		E943973814F447EB007CD0D1 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
-		E943973A14F447EB007CD0D1 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		E943973814F447EB007CD0D1 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = second.png; path = ../second.png; sourceTree = "<group>"; };
+		E943973A14F447EB007CD0D1 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "second@2x.png"; path = "../second@2x.png"; sourceTree = "<group>"; };
 		E943974114F447EB007CD0D1 /* OpenTreeMapTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenTreeMapTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943974214F447EB007CD0D1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		E943974A14F447EB007CD0D1 /* OpenTreeMapTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenTreeMapTests-Info.plist"; sourceTree = "<group>"; };
@@ -202,6 +205,24 @@
 			name = Environments;
 			sourceTree = "<group>";
 		};
+		D76319A9151B697F00332BEA /* Login and Register */ = {
+			isa = PBXGroup;
+			children = (
+				D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */,
+				D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */,
+				D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */,
+				D72BF65915177AA900AB6664 /* OTMLoginViewController.h */,
+				D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */,
+				D72BF66115177E0300AB6664 /* AZKeychainItemWrapper.h */,
+				D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */,
+				D72BF667151785B300AB6664 /* OTMUser.h */,
+				D72BF668151785B300AB6664 /* OTMUser.m */,
+				D72BF66B1517899700AB6664 /* OTMLoginManager.h */,
+				D72BF66C1517899700AB6664 /* OTMLoginManager.m */,
+			);
+			name = "Login and Register";
+			sourceTree = "<group>";
+		};
 		D7BEA4A414FC213F006CC456 /* api */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +248,10 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				E943973814F447EB007CD0D1 /* second.png */,
+				E943973A14F447EB007CD0D1 /* second@2x.png */,
+				E943973114F447EB007CD0D1 /* first.png */,
+				E943973314F447EB007CD0D1 /* first@2x.png */,
 				D7CC152615065AC200277C7C /* tree_icon.png */,
 			);
 			path = images;
@@ -278,6 +303,8 @@
 				D7CC152515065AC100277C7C /* images */,
 				D7C252CD14FE84680028519E /* views */,
 				D7BEA4A414FC213F006CC456 /* api */,
+				D76319A9151B697F00332BEA /* Login and Register */,
+				E943971D14F447EB007CD0D1 /* Supporting Files */,
 				7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */,
 				64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */,
 				64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */,
@@ -289,32 +316,18 @@
 				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */,
 				E943972514F447EB007CD0D1 /* OTMAppDelegate.h */,
 				E943972614F447EB007CD0D1 /* OTMAppDelegate.m */,
-				D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */,
 				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
 				E943972B14F447EB007CD0D1 /* MainStoryboard_iPad.storyboard */,
 				E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */,
 				E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */,
-				E943973114F447EB007CD0D1 /* first.png */,
-				E943973314F447EB007CD0D1 /* first@2x.png */,
 				E943973514F447EB007CD0D1 /* OTMSecondViewController.h */,
 				E943973614F447EB007CD0D1 /* OTMSecondViewController.m */,
-				E943973814F447EB007CD0D1 /* second.png */,
-				E943973A14F447EB007CD0D1 /* second@2x.png */,
-				E943971D14F447EB007CD0D1 /* Supporting Files */,
 				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
 				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
 				D791171D15113F70004BE79C /* OTMFormatters.h */,
 				D791171E15113F70004BE79C /* OTMFormatters.m */,
 				D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */,
 				D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */,
-				D72BF65915177AA900AB6664 /* OTMLoginViewController.h */,
-				D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */,
-				D72BF66115177E0300AB6664 /* AZKeychainItemWrapper.h */,
-				D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */,
-				D72BF667151785B300AB6664 /* OTMUser.h */,
-				D72BF668151785B300AB6664 /* OTMUser.m */,
-				D72BF66B1517899700AB6664 /* OTMLoginManager.h */,
-				D72BF66C1517899700AB6664 /* OTMLoginManager.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -492,6 +505,7 @@
 				D72BF66315177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */,
 				D72BF669151785B300AB6664 /* OTMUser.m in Sources */,
 				D72BF66D1517899700AB6664 /* OTMLoginManager.m in Sources */,
+				D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

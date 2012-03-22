@@ -219,4 +219,12 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
     
 }
 
+-(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
+    [request post:@"login/reset_password"
+           params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
+             data:nil
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+        
+}
+
 @end
