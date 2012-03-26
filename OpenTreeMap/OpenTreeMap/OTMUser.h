@@ -30,4 +30,11 @@
 @property (nonatomic,strong) NSString *password;
 @property (nonatomic,assign) BOOL loggedIn;
 
+@property (nonatomic,assign) int userId;
+@property (nonatomic,strong) NSString* firstName;
+@property (nonatomic,strong) NSString* lastName;
+@property (nonatomic,strong) NSString* zipcode;
+@property (nonatomic,strong) NSString* email;
+@property (nonatomic,strong) UIImage *photo;
+
 @end

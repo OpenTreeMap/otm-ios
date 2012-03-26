@@ -25,10 +25,14 @@
 #import "AZHttpRequest.h"
 #import "OTMUser.h"
 
+// When bad data is sent to the server
+#define kOTMAPIErrorData 700
+
 typedef enum {
     kOTMAPILoginResponseInvalidUsernameOrPassword,
     kOTMAPILoginResponseOK,
-    kOTMAPILoginResponseError
+    kOTMAPILoginResponseError,
+    kOTMAPILoginDuplicateUsername
 } OTMAPILoginResponse;
 
 typedef void(^AZJSONCallback)(id json, NSError* error);
@@ -92,5 +96,19 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  * @param email the email attached to the user that is to be reset
  */
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback;
+
+/**
+ * Create a new user and log them in
+ *
+ * @param user the user to create
+ * @param callback completion callback
+ */
+-(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback;
+
+/**
+ * The a user's profile picture
+ */
+-(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback;
+
 
 @end

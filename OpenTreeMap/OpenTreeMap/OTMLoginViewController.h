@@ -1,13 +1,28 @@
-//
-//  OTMLoginViewController.h
-//  OpenTreeMap
-//
-//  Created by Adam Hinz on 3/19/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//                                                                                                                
+// Copyright (c) 2012 Azavea                                                                                
+//                                                                                                                
+// Permission is hereby granted, free of charge, to any person obtaining a copy                                   
+// of this software and associated documentation files (the "Software"), to                                       
+// deal in the Software without restriction, including without limitation the                                     
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or                                    
+//  sell copies of the Software, and to permit persons to whom the Software is                                    
+// furnished to do so, subject to the following conditions:                                                       
+//                                                                                                                
+// The above copyright notice and this permission notice shall be included in                                     
+// all copies or substantial portions of the Software.                                                            
+//                                                                                                                
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR                                     
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,                                       
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE                                    
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER                                         
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
+// THE SOFTWARE.                                                                                                  
 //
 
 #import <UIKit/UIKit.h>
 #import "OTMUser.h"
+#import "OTMScrollAwareViewController.h"
 
 @class OTMLoginViewController;
 @class OTMLoginManager;
@@ -20,16 +35,12 @@
 
 @end
 
-@interface OTMLoginViewController : UIViewController
+@interface OTMLoginViewController : OTMScrollAwareViewController
 
 @property (nonatomic,weak) id<OTMLoginManagerDelegate> loginDelegate;
-@property (nonatomic,weak) UITextField* activeField;
 @property (nonatomic,strong) IBOutlet UITextField *username;
 @property (nonatomic,strong) IBOutlet UITextField *password;
-@property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
 
-
--(IBAction)hideKeyboard:(id)sender;
 -(IBAction)attemptLogin:(id)sender;
 
 @end

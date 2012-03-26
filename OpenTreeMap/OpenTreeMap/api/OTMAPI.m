@@ -227,4 +227,50 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
         
 }
 
+-(NSData *)encodeUser:(OTMUser *)user {
+    NSMutableDictionary *userDict = [NSMutableDictionary dictionary];
+    [userDict setObject:user.username forKey:@"username"];
+    [userDict setObject:user.firstName forKey:@"firstname"];
+    [userDict setObject:user.lastName forKey:@"lastname"];
+    [userDict setObject:user.email forKey:@"email"];
+    [userDict setObject:user.password forKey:@"password"];
+    [userDict setObject:user.zipcode forKey:@"zipcode"];
+    
+    return [self jsonEncode:userDict];
+}
+
+-(NSData *)jsonEncode:(id)obj {
+    return [NSJSONSerialization dataWithJSONObject:obj options:0 error:NULL];
+}
+
+-(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback {
+    [request post:@"user/:user_id/photo/profile.png"
+         withUser:user
+           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
+                                              forKey:@"user_id"]
+             data:UIImagePNGRepresentation(user.photo) 
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
+-(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {
+    [request post:@"login/create_user"
+           params:nil
+             data:[self encodeUser:user]
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error) 
+    {
+        if (callback != nil) {
+            if (error != nil) {
+               callback(user, kOTMAPILoginResponseError);
+            } else {
+                if ([[json objectForKey:@"status"] isEqualToString:@"success"]) {
+                    user.userId = [[json valueForKey:@"id"] intValue];
+                    callback(user, kOTMAPILoginResponseOK);
+                } else {
+                    callback(user, kOTMAPILoginResponseError);
+                }
+            }
+        }
+    }]]];
+}
+
 @end

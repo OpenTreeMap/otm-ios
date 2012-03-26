@@ -95,6 +95,19 @@
                          }];
 }
 
+-(void)post:(NSString*)url withUser:(OTMUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
+    [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params] 
+                                 username:user.username
+                                 password:user.password
+                                 callback:callback
+                                   config:^(ASIHTTPRequest* r) {
+                                       [r setPostBody:[NSMutableData dataWithData:data]];
+                                       [r setRequestMethod:@"POST"];
+                                       [r addRequestHeader:@"Content-Type"
+                                                     value:@"application/json"];
+                                   }];
+}
+
 -(void)post:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback
@@ -126,8 +139,9 @@
     NSMutableDictionary* unusedParams = [NSMutableDictionary dictionary];
     
     [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSString *strObj = [NSString stringWithFormat:@"%@",obj];
         int reps = [murl replaceOccurrencesOfString:[NSString stringWithFormat:@":%@", key]
-                                         withString:obj
+                                         withString:strObj
                                             options:NSCaseInsensitiveSearch
                                               range:NSMakeRange(0, [murl length])];
         

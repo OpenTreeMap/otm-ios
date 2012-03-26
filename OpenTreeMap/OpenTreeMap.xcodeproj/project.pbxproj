@@ -33,7 +33,11 @@
 		D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66C1517899700AB6664 /* OTMLoginManager.m */; };
 		D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
 		D72BF67115178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
+		D73B3AE0151BA13C00FF2125 /* OTMScrollAwareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */; };
+		D73B3AF4151BB2A500FF2125 /* OTMRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3AF3151BB2A500FF2125 /* OTMRegistrationViewController.m */; };
+		D73B3AF8151CB90300FF2125 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */; };
 		D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */; };
+		D7775FC91520E864008301E4 /* OTMValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FC81520E864008301E4 /* OTMValidator.m */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
 		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
@@ -114,8 +118,16 @@
 		D72BF66B1517899700AB6664 /* OTMLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginManager.h; sourceTree = "<group>"; };
 		D72BF66C1517899700AB6664 /* OTMLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginManager.m; sourceTree = "<group>"; };
 		D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LoginStoryboard.storyboard; path = ../LoginStoryboard.storyboard; sourceTree = "<group>"; };
+		D73B3ADE151BA13C00FF2125 /* OTMScrollAwareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMScrollAwareViewController.h; sourceTree = "<group>"; };
+		D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMScrollAwareViewController.m; sourceTree = "<group>"; };
+		D73B3AF2151BB2A500FF2125 /* OTMRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMRegistrationViewController.h; sourceTree = "<group>"; };
+		D73B3AF3151BB2A500FF2125 /* OTMRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMRegistrationViewController.m; sourceTree = "<group>"; };
+		D73B3AF6151CB90300FF2125 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
 		D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
+		D7775FC71520E864008301E4 /* OTMValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMValidator.h; sourceTree = "<group>"; };
+		D7775FC81520E864008301E4 /* OTMValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMValidator.m; sourceTree = "<group>"; };
 		D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailTableViewCell.h; sourceTree = "<group>"; };
 		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
 		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
@@ -219,6 +231,8 @@
 				D72BF668151785B300AB6664 /* OTMUser.m */,
 				D72BF66B1517899700AB6664 /* OTMLoginManager.h */,
 				D72BF66C1517899700AB6664 /* OTMLoginManager.m */,
+				D73B3AF2151BB2A500FF2125 /* OTMRegistrationViewController.h */,
+				D73B3AF3151BB2A500FF2125 /* OTMRegistrationViewController.m */,
 			);
 			name = "Login and Register";
 			sourceTree = "<group>";
@@ -300,6 +314,8 @@
 		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
 			isa = PBXGroup;
 			children = (
+				D73B3ADE151BA13C00FF2125 /* OTMScrollAwareViewController.h */,
+				D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */,
 				D7CC152515065AC100277C7C /* images */,
 				D7C252CD14FE84680028519E /* views */,
 				D7BEA4A414FC213F006CC456 /* api */,
@@ -328,6 +344,10 @@
 				D791171E15113F70004BE79C /* OTMFormatters.m */,
 				D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */,
 				D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */,
+				D73B3AF6151CB90300FF2125 /* UIAlertView+Blocks.h */,
+				D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */,
+				D7775FC71520E864008301E4 /* OTMValidator.h */,
+				D7775FC81520E864008301E4 /* OTMValidator.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -506,6 +526,10 @@
 				D72BF669151785B300AB6664 /* OTMUser.m in Sources */,
 				D72BF66D1517899700AB6664 /* OTMLoginManager.m in Sources */,
 				D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */,
+				D73B3AE0151BA13C00FF2125 /* OTMScrollAwareViewController.m in Sources */,
+				D73B3AF4151BB2A500FF2125 /* OTMRegistrationViewController.m in Sources */,
+				D73B3AF8151CB90300FF2125 /* UIAlertView+Blocks.m in Sources */,
+				D7775FC91520E864008301E4 /* OTMValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,7 +731,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos5.0]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.0]" = "iPhone Developer: Adam Hinz (EWMA7MNLJR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
@@ -721,7 +746,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "2B64B47C-909E-4D92-B84C-F93D4329DF73";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes/** ../DerivedData/opentreemap/Build/Products/three20/**";
 				WRAPPER_EXTENSION = app;
@@ -733,7 +759,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
