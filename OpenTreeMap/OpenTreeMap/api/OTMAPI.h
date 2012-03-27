@@ -25,9 +25,6 @@
 #import "AZHttpRequest.h"
 #import "OTMUser.h"
 
-// When bad data is sent to the server
-#define kOTMAPIErrorData 700
-
 typedef enum {
     kOTMAPILoginResponseInvalidUsernameOrPassword,
     kOTMAPILoginResponseOK,

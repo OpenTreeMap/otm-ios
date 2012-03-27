@@ -37,20 +37,20 @@
         }
     } copy];
     
-    OTMValidatorValidation verifyEmail = [OTMValidator emailValidation:@"email"
+    OTMValidatorValidation verifyEmail = [OTMTextFieldValidator emailValidation:@"email"
                                                                display:@"Email"];
     
-    OTMValidatorValidation pwMinLength = [OTMValidator minLengthValidation:@"password"
+    OTMValidatorValidation pwMinLength = [OTMTextFieldValidator minLengthValidation:@"password"
                                                                    display:@"Password"
                                                                  minLength:6];
     
-    OTMValidatorValidation usernameNotBlank = [OTMValidator notBlankValidation:@"username"
+    OTMValidatorValidation usernameNotBlank = [OTMTextFieldValidator notBlankValidation:@"username"
                                                                        display:@"Username"];
     
-    OTMValidatorValidation zipcode = [OTMValidator validation:[OTMValidator lengthValidation:@"zipCode"
+    OTMValidatorValidation zipcode = [OTMValidator validation:[OTMTextFieldValidator lengthValidation:@"zipCode"
                                                                                      display:@"Your zip code"
                                                                                       length:5]
-                                                           or:[OTMValidator isBlankValidation:@"zipCode"
+                                                           or:[OTMTextFieldValidator isBlankValidation:@"zipCode"
                                                                                       display:@""]
                                                       display:@"Your zip code must be 5 digits or empty"];
     

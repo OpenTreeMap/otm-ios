@@ -36,7 +36,7 @@ typedef NSString *(^OTMValidatorValidation)(UIViewController *vc);
 @interface OTMValidator : NSObject
 
 /**
- * init with an array of validation blocks
+ * init with an array of validation blocks of type OTMValidatorValidation
  */
 -(id)initWithValidations:(NSArray *)validations;
 
@@ -51,13 +51,30 @@ typedef NSString *(^OTMValidatorValidation)(UIViewController *vc);
 -(BOOL)executeValidationsWithViewController:(UIViewController *)controller error:(NSString **)error;
 
 /**
- * Execute validations. If validation fails, so an alert about it.
+ * Execute validations. If validation fails, show an alert about it.
  *
  * @param controller the controller to validate
  *
  * @return YES if validation is successful, NO otherwise
  */
 -(BOOL)executeValidationsAndAlertWithViewController:(UIViewController *)controller;
+
+/**
+ * Validate that v1 OR v1 returns a valid result
+ *
+ * Note that the error from v1 will never be shown (if both are bad then
+ * the v2 error will be shown)
+ */
++(OTMValidatorValidation)validation:(OTMValidatorValidation)v1 or:(OTMValidatorValidation)v2 display:(NSString *)display;
+
+@property (nonatomic,strong) NSArray *validations;
+
+@end
+
+/**
+ * Helper methods for generating text field validations
+ */
+@interface OTMTextFieldValidator : NSObject
 
 /**
  * Create a validation for the minimum length of the field
@@ -91,14 +108,5 @@ typedef NSString *(^OTMValidatorValidation)(UIViewController *vc);
  */
 +(OTMValidatorValidation)emailValidation:(NSString *)field display:(NSString *)display;
 
-/**
- * Validate that v1 OR v1 returns a valid result
- *
- * Note that the error from v1 will never be shown (if both are bad then
- * the v2 error will be shown)
- */
-+(OTMValidatorValidation)validation:(OTMValidatorValidation)v1 or:(OTMValidatorValidation)v2 display:(NSString *)display;
-
-@property (nonatomic,strong) NSArray *validations;
 
 @end
