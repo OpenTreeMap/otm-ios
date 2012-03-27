@@ -26,6 +26,69 @@
 
 @synthesize validations;
 
++(OTMValidatorValidation)validation:(OTMValidatorValidation)v1 or:(OTMValidatorValidation)v2 display:(NSString *)display {
+    return [^(UIViewController *vc) {
+        NSString *v1return = v1(vc);
+        
+        if (v1return != nil) {
+            if (v2(vc) != nil) {
+                return display;
+            } else {
+                return nil;
+            }
+        } else {
+            return nil;
+        }
+    } copy];
+}
+
+-(id)initWithValidations:(NSArray *)vals {
+    self = [super init];
+    
+    if (self != nil) {
+        self.validations = vals;
+    }
+    
+    return self;
+}
+
+-(BOOL)executeValidationsWithViewController:(UIViewController *)controller error:(NSString **)error {
+    
+    for(OTMValidatorValidation validation in self.validations) {
+        NSString *result = validation(controller);
+        
+        if (result != nil) {
+            *error = result;
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+-(BOOL)executeValidationsAndAlertWithViewController:(UIViewController *)controller {
+    NSString *error = nil;
+    
+    BOOL success = [self executeValidationsWithViewController:controller error:&error];
+    
+    if (success) {
+        return YES;
+    } else {
+        if (error != nil && [error length] > 0) {
+            [[[UIAlertView alloc] initWithTitle:@"Form Errors"
+                                       message:error
+                                      delegate:nil
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles:nil] show];
+        }
+        
+        return NO;
+    }
+}
+
+@end
+
+@implementation OTMTextFieldValidator
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -43,7 +106,7 @@
 }
 
 +(OTMValidatorValidation)notBlankValidation:(NSString *)field display:(NSString *)display {
-    return [OTMValidator minLengthValidation:field display:display minLength:1];
+    return [OTMTextFieldValidator minLengthValidation:field display:display minLength:1];
 }
 
 +(OTMValidatorValidation)lengthValidation:(NSString *)field display:(NSString *)display length:(int)len {
@@ -96,66 +159,6 @@
     } copy];
 }
 
-+(OTMValidatorValidation)validation:(OTMValidatorValidation)v1 or:(OTMValidatorValidation)v2 display:(NSString *)display {
-    return [^(UIViewController *vc) {
-        NSString *v1return = v1(vc);
-        
-        if (v1return != nil) {
-            if (v2(vc) != nil) {
-                return display;
-            } else {
-                return nil;
-            }
-        } else {
-            return nil;
-        }
-    } copy];
-}
-
 #pragma clang diagnostic pop
-
--(id)initWithValidations:(NSArray *)vals {
-    self = [super init];
-    
-    if (self != nil) {
-        self.validations = vals;
-    }
-    
-    return self;
-}
-
--(BOOL)executeValidationsWithViewController:(UIViewController *)controller error:(NSString **)error {
-    
-    for(OTMValidatorValidation validation in self.validations) {
-        NSString *result = validation(controller);
-        
-        if (result != nil) {
-            *error = result;
-            return NO;
-        }
-    }
-    
-    return YES;
-}
-
--(BOOL)executeValidationsAndAlertWithViewController:(UIViewController *)controller {
-    NSString *error = nil;
-    
-    BOOL success = [self executeValidationsWithViewController:controller error:&error];
-    
-    if (success) {
-        return YES;
-    } else {
-        if (error != nil && [error length] > 0) {
-            [[[UIAlertView alloc] initWithTitle:@"Form Errors"
-                                       message:error
-                                      delegate:nil
-                             cancelButtonTitle:@"OK"
-                             otherButtonTitles:nil] show];
-        }
-        
-        return NO;
-    }
-}
 
 @end

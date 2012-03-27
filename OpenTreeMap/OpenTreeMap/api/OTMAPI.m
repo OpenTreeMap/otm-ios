@@ -240,7 +240,13 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 }
 
 -(NSData *)jsonEncode:(id)obj {
-    return [NSJSONSerialization dataWithJSONObject:obj options:0 error:NULL];
+    NSError *error = NULL;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
+    if (error != NULL) {
+        NSLog(@"[ERROR] Could not encode \"%@\" as json (error: %@)",obj,error);
+    }
+    
+    return jsonData;
 }
 
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback {
@@ -253,7 +259,7 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 }
 
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {
-    [request post:@"login/create_user"
+    [request post:@"user/"
            params:nil
              data:[self encodeUser:user]
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error) 
