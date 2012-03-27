@@ -24,6 +24,8 @@
 
 @implementation OTMLoginManager
 
+@synthesize loggedInUser;
+
 -(id)init {
     self = [super init];
     if (self) {
@@ -48,6 +50,8 @@
 }
 
 -(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user {
+    self.loggedInUser = user;
+    
     [rootVC dismissModalViewControllerAnimated:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedSuccess

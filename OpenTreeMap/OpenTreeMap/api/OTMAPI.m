@@ -279,4 +279,28 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
     }]]];
 }
 
+-(void)changePassword:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback {
+    [request put:@"user/:user_id/password"
+        withUser:user
+          params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
+                                             forKey:@"user_id"]
+            data:[self jsonEncode:[NSDictionary dictionaryWithObject:newPass forKey:@"password"]]
+        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error) 
+        {        
+            if (callback != nil) {
+                if (error != nil) {
+                    callback(user, kOTMAPILoginResponseError);
+                } else {
+                    if ([[json objectForKey:@"status"] isEqualToString:@"success"]) {
+                        user.password = newPass;
+                        callback(user, kOTMAPILoginResponseOK);
+                    } else {
+                        callback(user, kOTMAPILoginResponseError);
+                    }
+                }
+            }
+        }]]];
+        
+}
+
 @end

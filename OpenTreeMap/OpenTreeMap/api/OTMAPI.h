@@ -103,6 +103,14 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback;
 
 /**
+ * Change a user's password
+ *
+ * @param user user's password to change
+ * @param newPass the new password
+ */
+-(void)changePassword:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback;
+
+/**
  * The a user's profile picture
  */
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback;

@@ -142,5 +142,20 @@ typedef void(^ASIRequestConfig)(ASIHTTPRequest* req);
  */
 -(void)put:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback;
 
+/**
+ * Perform an API call
+ * Note that strings of the form: ":key" are replaced with the values in the
+ * params dictionary (so url "plots/:id/trees", params { "id" => 5, "size" => 10 }, would
+ * end up with a url of: "plots/5/trees?size=10")
+ *
+ * @param url the endpoint to hit. The prefix will be added automatically so this 
+ *            is something like: "plots/:id/"
+ * @param user the user to authenticate
+ * @param params dictionary of key/value parameter pairs
+ * @param callback called on success
+ *
+ */
+-(void)put:(NSString*)url withUser:(OTMUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback;
+
 
 @end

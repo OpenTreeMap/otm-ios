@@ -119,6 +119,19 @@
                          }];
 }
 
+-(void)put:(NSString*)url withUser:(OTMUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
+    [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params] 
+                                 username:user.username
+                                 password:user.password
+                                 callback:callback
+                                   config:^(ASIHTTPRequest* r) {
+                                       [r setPostBody:[NSMutableData dataWithData:data]];
+                                       [r setRequestMethod:@"PUT"];
+                                       [r addRequestHeader:@"Content-Type"
+                                                     value:@"application/json"];
+                                   }];
+}
+
 -(void)put:(NSString*)url params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
     [self executeRequestWithURL:[self generateURL:url withParams:params] 
                        callback:callback

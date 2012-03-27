@@ -51,6 +51,8 @@ typedef void(^OTMLoginCallback)(BOOL success, OTMUser* user);
     UINavigationController* rootVC;
 }
 
+@property (nonatomic,strong) OTMUser *loggedInUser;
+
 /**
  * Start the login workflow as a modal VC
  *
