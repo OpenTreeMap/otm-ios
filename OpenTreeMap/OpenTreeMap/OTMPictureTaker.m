@@ -18,70 +18,71 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
 // THE SOFTWARE.                                                                                                  
-//  
+//    
 
-#import "OTMLoginManager.h"
+#import "OTMPictureTaker.h"
 
-@implementation OTMLoginManager
+@implementation OTMPictureTaker
 
-@synthesize loggedInUser;
-
--(id)init {
-    self = [super init];
-    if (self) {
-        loginWorkflow = [UIStoryboard storyboardWithName:@"LoginStoryboard"
-                                                  bundle:nil];
-        rootVC = [loginWorkflow instantiateInitialViewController];
-        loginVC = [[rootVC viewControllers] objectAtIndex:0];
-        loginVC.loginDelegate = self;
-    }
-    
-    return self;
-}
-
--(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)cb {
-    
-    if (self.loggedInUser.userId > 0) {
-        callback(YES, self.loggedInUser);
-        return;
+-(IBAction)showProfilePicturePicker:(id)sender {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Image"
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"Cancel"
+                                                   destructiveButtonTitle:@"Photo Album"
+                                                        otherButtonTitles:@"Camera",nil];
         
+        [actionSheet showInView:targetViewController.view];
+    } else {
+        [self showAlbumPicker];
     }
-    callback = [cb copy];
-    
-    [viewController presentModalViewController:rootVC animated:YES];
 }
 
--(void)presentModelLoginInViewController:(UIViewController*)viewController {
-    [self presentModelLoginInViewController:viewController callback:nil];
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        [self showAlbumPicker];
+    } else if (buttonIndex == 1) {
+        [self showCameraPicker];
+    }
 }
 
--(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user {
-    self.loggedInUser = user;
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
-    [rootVC dismissModalViewControllerAnimated:YES];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedSuccess
-                                                        object:user];
-    
+    UIImage *selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (selectedImage == nil) {
+        selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
     if (callback != nil) {
-        callback(true, user);
-    }
+        callback(selectedImage);
+    }    
+    [targetViewController dismissModalViewControllerAnimated:YES];
 }
 
--(void)loginControllerCanceledLogin:(OTMLoginViewController*)vc {
-    [rootVC dismissModalViewControllerAnimated:YES];
+- (void)showAlbumPicker {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedFailure
-                                                        object:nil];
+    picker.delegate = self;
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
-    if (callback != nil) {
-        callback(false, nil);
-    }
+    [targetViewController presentViewController:picker
+                                       animated:YES
+                                     completion:^{}];   
 }
 
--(void)loginController:(OTMLoginViewController*)vc registeredUser:(OTMUser*)user {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowUserRegistered
-                                                        object:user];    
+- (void)showCameraPicker {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    
+    picker.delegate = self;
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+    [targetViewController presentViewController:picker
+                                       animated:YES
+                                     completion:^{}];   
+}
+
+-(void)getPictureInViewController:(UIViewController *)vc callback:(OTMPickerTakerCallback)cb {
+    callback = cb;
+    targetViewController = vc;
 }
 
 @end

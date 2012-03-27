@@ -212,6 +212,12 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
                 callback(nil, kOTMAPILoginResponseError);
             }
         } else {
+            user.email = [json objectForKey:@"email"];
+            user.firstName = [json objectForKey:@"firstname"];
+            user.lastName = [json objectForKey:@"lastname"];
+            user.userId = [[json valueForKey:@"id"] intValue];
+            user.zipcode = [json objectForKey:@"zipcode"];
+            user.reputation = [[json valueForKey:@"reputation"] intValue];
             [user setLoggedIn:YES];
             callback(user, kOTMAPILoginResponseOK);
         }

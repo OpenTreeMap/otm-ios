@@ -37,6 +37,7 @@
 		D73B3AF4151BB2A500FF2125 /* OTMRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3AF3151BB2A500FF2125 /* OTMRegistrationViewController.m */; };
 		D73B3AF8151CB90300FF2125 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */; };
 		D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */; };
+		D76BD8FB15226446003C664F /* OTMPictureTaker.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD8FA15226446003C664F /* OTMPictureTaker.m */; };
 		D7775FC91520E864008301E4 /* OTMValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FC81520E864008301E4 /* OTMValidator.m */; };
 		D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FCB15210492008301E4 /* OTMProfileViewController.m */; };
 		D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */; };
@@ -126,6 +127,8 @@
 		D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
 		D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
+		D76BD8F915226446003C664F /* OTMPictureTaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPictureTaker.h; sourceTree = "<group>"; };
+		D76BD8FA15226446003C664F /* OTMPictureTaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPictureTaker.m; sourceTree = "<group>"; };
 		D7775FC71520E864008301E4 /* OTMValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMValidator.h; sourceTree = "<group>"; };
 		D7775FC81520E864008301E4 /* OTMValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMValidator.m; sourceTree = "<group>"; };
 		D7775FCA15210492008301E4 /* OTMProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMProfileViewController.h; sourceTree = "<group>"; };
@@ -350,6 +353,8 @@
 				D7775FCB15210492008301E4 /* OTMProfileViewController.m */,
 				D7775FD01521123A008301E4 /* OTMPasswordChangeViewController.h */,
 				D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */,
+				D76BD8F915226446003C664F /* OTMPictureTaker.h */,
+				D76BD8FA15226446003C664F /* OTMPictureTaker.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -532,6 +537,7 @@
 				D7775FC91520E864008301E4 /* OTMValidator.m in Sources */,
 				D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */,
 				D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */,
+				D76BD8FB15226446003C664F /* OTMPictureTaker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

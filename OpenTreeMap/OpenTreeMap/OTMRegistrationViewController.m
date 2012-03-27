@@ -17,7 +17,7 @@
 
 @implementation OTMRegistrationViewController
 
-@synthesize email, password, verifyPassword, firstName, lastName, profileImage, zipCode, username, changeProfilePic, validator;
+@synthesize email, password, verifyPassword, firstName, lastName, profileImage, zipCode, username, changeProfilePic, validator, pictureTaker;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,63 +57,7 @@
     return [NSArray arrayWithObjects:verifyPW, verifyEmail, pwMinLength, usernameNotBlank, zipcode, nil];
 }
 
--(IBAction)showProfilePicturePicker:(id)sender {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Image"
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"Cancel"
-                                                   destructiveButtonTitle:@"Photo Album"
-                                                        otherButtonTitles:@"Camera",nil];
-        
-        [actionSheet showInView:self.view];
-    } else {
-        [self showAlbumPicker];
-    }
-}
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        [self showAlbumPicker];
-    } else if (buttonIndex == 1) {
-        [self showCameraPicker];
-    }
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
-    UIImage *selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (selectedImage == nil) {
-        selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    }
-    self.profileImage.image = selectedImage;
-    
-    [self.changeProfilePic setTitle:@"Update Profile Picture"
-                           forState:UIControlStateNormal];
-    
-    [self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)showAlbumPicker {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    
-    picker.delegate = self;
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
-    [self presentViewController:picker
-                       animated:YES
-                     completion:^{}];   
-}
-
-- (void)showCameraPicker {
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    
-    picker.delegate = self;
-    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    [self presentViewController:picker
-                       animated:YES
-                     completion:^{}];   
-}
 
 //TODO: Validations
 
@@ -184,7 +128,16 @@
                 if (btnIdx == 0) { // NO
                     [self createNewUser:nil];
                 } else {
-                    [self showProfilePicturePicker:nil];
+                    [pictureTaker getPictureInViewController:self
+                                                    callback:^(UIImage *image) 
+                    {
+                        if (image) {
+                            self.profileImage.image = image;
+                        
+                            [self.changeProfilePic setTitle:@"Update Profile Picture"
+                                                   forState:UIControlStateNormal];                                                  
+                        }
+                    }];
                 }
             });
         }];
@@ -197,6 +150,9 @@
     
     if (validator == nil) {
         validator = [[OTMValidator alloc] initWithValidations:[OTMRegistrationViewController validations]];
+    }
+    if (pictureTaker == nil) {
+        pictureTaker = [[OTMPictureTaker alloc] init];
     }
     
     self.scrollView.contentSize = CGSizeMake(320, 460);

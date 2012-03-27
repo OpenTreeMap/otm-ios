@@ -31,6 +31,7 @@
 @property (nonatomic,assign) BOOL loggedIn;
 
 @property (nonatomic,assign) int userId;
+@property (nonatomic,assign) int reputation;
 @property (nonatomic,strong) NSString* firstName;
 @property (nonatomic,strong) NSString* lastName;
 @property (nonatomic,strong) NSString* zipcode;

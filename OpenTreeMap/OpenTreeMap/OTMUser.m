@@ -24,7 +24,7 @@
 
 @implementation OTMUser
 
-@synthesize keychain, loggedIn, firstName, lastName, zipcode, email, photo, userId;
+@synthesize keychain, loggedIn, firstName, lastName, zipcode, email, photo, userId, reputation;
 
 -(NSString *)username {
     return [keychain objectForKey:(__bridge id)kSecAttrAccount];

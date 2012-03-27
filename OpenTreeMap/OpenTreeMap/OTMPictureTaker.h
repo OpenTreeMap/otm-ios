@@ -18,60 +18,23 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,                                  
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN                                      
 // THE SOFTWARE.                                                                                                  
-//  
+//    
 
 #import <Foundation/Foundation.h>
-#import "OTMUser.h"
-#import "OTMLoginViewController.h"
 
-#define kOTMLoginWorkflowCompletedSuccess @"kOTMLoginWorkflowCompletedSuccess"
-#define kOTMLoginWorkflowCompletedFailure @"kOTMLoginWorkflowCompletedFailure"
-#define kOTMLoginWorkflowUserRegistered @"kOTMLoginWorkflowUserRegistered"
-#define kOTMLoginWorkflowPasswordReset @"kOTMLoginWorkflowPasswordReset"
-
-typedef void(^OTMLoginCallback)(BOOL success, OTMUser* user);
-typedef void(^OTMLoginUserCallback)(OTMUser *user);
+typedef void(^OTMPickerTakerCallback)(UIImage *image);
 
 /**
- * The OTMLoginManager acts a facade between the API login and the OTM
- * user. It also deals with the login UI flows and notifications.
+ * Wrapper class that simplifies the interface required to take
+ * pictures
  *
- * One of the following notifications are always fired:
- * kOTMLoginWorkflowCompletedSuccess      - Whenever the user successfully logs in
- * kOTMLoginWorkflowCompletedFailure      - If the user cancels the login process
- *
- * In addition, if the user registers as part of the login process:
- * kOTMLoginWorkflowUserRegistered        - After a successful registration
- *
- * This call is neither threadsafe nor reentrant
+ * Objects with this class are neither reentrant nor threadsafe
  */
-@interface OTMLoginManager : NSObject<OTMLoginManagerDelegate> {
-    UIStoryboard *loginWorkflow;
-    OTMLoginViewController *loginVC;
-    OTMLoginCallback callback;
-    UINavigationController* rootVC;
+@interface OTMPictureTaker : NSObject<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate> {
+    OTMPickerTakerCallback callback;
+    UIViewController *targetViewController;
 }
 
-@property (nonatomic,strong) OTMUser *loggedInUser;
-
-/**
- * Start the login workflow as a modal VC
- *
- * @param viewController The view controller to present in
- */
--(void)presentModelLoginInViewController:(UIViewController*)viewController;
-
-/**
- * Start the login workflow as a modal VC and register a callback
- *
- * @param viewController The view controller to present in
- * @param callback Called when the login process has finished
- */
--(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)callback;
-
-/**
- * Called when the login controller is done with logging in
- */
--(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user;
+-(void)getPictureInViewController:(UIViewController *)vc callback:(OTMPickerTakerCallback)cb;
 
 @end

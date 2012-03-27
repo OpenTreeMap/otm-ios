@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OTMUser.h"
 
-@interface OTMProfileViewController : UIViewController
+@interface OTMProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic,strong) OTMUser *user;
+@property (nonatomic,strong) IBOutlet UITableView *tableView;
 
 @end
