@@ -66,7 +66,6 @@
 		E943973014F447EB007CD0D1 /* OTMFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */; };
 		E943973214F447EB007CD0D1 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973114F447EB007CD0D1 /* first.png */; };
 		E943973414F447EB007CD0D1 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973314F447EB007CD0D1 /* first@2x.png */; };
-		E943973714F447EB007CD0D1 /* OTMSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E943973614F447EB007CD0D1 /* OTMSecondViewController.m */; };
 		E943973914F447EB007CD0D1 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973814F447EB007CD0D1 /* second.png */; };
 		E943973B14F447EB007CD0D1 /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973A14F447EB007CD0D1 /* second@2x.png */; };
 		E943974314F447EB007CD0D1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943974214F447EB007CD0D1 /* SenTestingKit.framework */; };
@@ -166,8 +165,6 @@
 		E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMFirstViewController.m; sourceTree = "<group>"; };
 		E943973114F447EB007CD0D1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = first.png; path = ../first.png; sourceTree = "<group>"; };
 		E943973314F447EB007CD0D1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "first@2x.png"; path = "../first@2x.png"; sourceTree = "<group>"; };
-		E943973514F447EB007CD0D1 /* OTMSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMSecondViewController.h; sourceTree = "<group>"; };
-		E943973614F447EB007CD0D1 /* OTMSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMSecondViewController.m; sourceTree = "<group>"; };
 		E943973814F447EB007CD0D1 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = second.png; path = ../second.png; sourceTree = "<group>"; };
 		E943973A14F447EB007CD0D1 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "second@2x.png"; path = "../second@2x.png"; sourceTree = "<group>"; };
 		E943974114F447EB007CD0D1 /* OpenTreeMapTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenTreeMapTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -339,8 +336,6 @@
 				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
 				E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */,
 				E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */,
-				E943973514F447EB007CD0D1 /* OTMSecondViewController.h */,
-				E943973614F447EB007CD0D1 /* OTMSecondViewController.m */,
 				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
 				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
 				D791171D15113F70004BE79C /* OTMFormatters.h */,
@@ -515,7 +510,6 @@
 				E943972314F447EB007CD0D1 /* main.m in Sources */,
 				E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */,
 				E943973014F447EB007CD0D1 /* OTMFirstViewController.m in Sources */,
-				E943973714F447EB007CD0D1 /* OTMSecondViewController.m in Sources */,
 				64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */,
 				64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */,
 				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
