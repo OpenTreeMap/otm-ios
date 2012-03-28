@@ -119,8 +119,8 @@
                                                                   callback:^(id json, NSError *error) 
                   {
                       if (error != nil) {
-                          [[[UIAlertView alloc] initWithTitle:@"Server Error"
-                                                      message:@"There was a server error"
+                          [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                      message:@"Could not save photo"
                                                      delegate:nil
                                             cancelButtonTitle:@"OK"
                                             otherButtonTitles:nil] show];

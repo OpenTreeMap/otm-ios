@@ -91,7 +91,7 @@
     if ([validator executeValidationsAndAlertWithViewController:self]) {
         OTMUser *user = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] loginManager].loggedInUser;
         
-        [[[OTMEnvironment sharedEnvironment] api] changePassword:user 
+        [[[OTMEnvironment sharedEnvironment] api] changePasswordForUser:user 
                                                               to:self.aNewPassword.text 
                                                         callback:^(OTMUser *u, OTMAPILoginResponse r)
          {

@@ -285,7 +285,7 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
     }]]];
 }
 
--(void)changePassword:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback {
+-(void)changePasswordForUser:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback {
     [request put:@"user/:user_id/password"
         withUser:user
           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]

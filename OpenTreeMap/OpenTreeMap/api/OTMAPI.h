@@ -108,7 +108,7 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  * @param user user's password to change
  * @param newPass the new password
  */
--(void)changePassword:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback;
+-(void)changePasswordForUser:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback;
 
 /**
  * The a user's profile picture

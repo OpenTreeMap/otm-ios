@@ -123,7 +123,9 @@
                        otherButtonTitle:@"Yes"
                                callback:^(UIAlertView* alertview, int btnIdx) 
         {
-            // This gets around a weird bug where 
+            // This gets around a weird bug where showing the picker while
+            // the alert view is already up yields a weird state where
+            // touch events do not register
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (btnIdx == 0) { // NO
                     [self createNewUser:nil];

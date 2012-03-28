@@ -80,7 +80,7 @@
                        callback:callback];
 }
 
--(void)get:(NSString*)url withUser:(OTMUser*)user params:(NSDictionary*)params callback:(ASIRequestCallback)callback {
+-(void)get:(NSString*)url withUser:(AZUser*)user params:(NSDictionary*)params callback:(ASIRequestCallback)callback {
     [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params]
                                  username:[user username]
                                  password:[user password]
@@ -95,7 +95,7 @@
                          }];
 }
 
--(void)post:(NSString*)url withUser:(OTMUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
+-(void)post:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
     [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params] 
                                  username:user.username
                                  password:user.password
@@ -119,7 +119,7 @@
                          }];
 }
 
--(void)put:(NSString*)url withUser:(OTMUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
+-(void)put:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
     [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params] 
                                  username:user.username
                                  password:user.password

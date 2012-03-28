@@ -24,22 +24,6 @@
 
 @implementation OTMUser
 
-@synthesize keychain, loggedIn, firstName, lastName, zipcode, email, photo, userId, reputation;
-
--(NSString *)username {
-    return [keychain objectForKey:(__bridge id)kSecAttrAccount];
-}
-
--(NSString *)password {
-    return [keychain objectForKey:(__bridge id)kSecValueData];
-}
-
--(void)setUsername:(NSString *)user {
-    [keychain setObject:user forKey:(__bridge id)kSecAttrAccount];
-}
-
--(void)setPassword:(NSString *)pass {
-    [keychain setObject:pass forKey:(__bridge id)kSecValueData];
-}
+@synthesize firstName, lastName, zipcode, email, photo, userId, reputation;
 
 @end

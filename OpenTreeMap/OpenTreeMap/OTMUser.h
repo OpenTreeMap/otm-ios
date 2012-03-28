@@ -21,14 +21,9 @@
 //  
 
 #import <Foundation/Foundation.h>
-#import "AZKeychainItemWrapper.h"
+#import "AZUser.h"
 
-@interface OTMUser : NSObject
-
-@property (nonatomic,strong) AZKeychainItemWrapper* keychain;
-@property (nonatomic,strong) NSString *username;
-@property (nonatomic,strong) NSString *password;
-@property (nonatomic,assign) BOOL loggedIn;
+@interface OTMUser : AZUser
 
 @property (nonatomic,assign) int userId;
 @property (nonatomic,assign) int reputation;

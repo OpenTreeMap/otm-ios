@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ASIHTTPRequest.h"
-#import "OTMUser.h"
+#import "AZUser.h"
 
 /**
  * Callback for receiving JSON via a TTURLRequest
@@ -80,7 +80,7 @@ typedef void(^ASIRequestConfig)(ASIHTTPRequest* req);
  * @param callback called on success
  *
  */
--(void)get:(NSString*)url withUser:(OTMUser*)user params:(NSDictionary*)params callback:(ASIRequestCallback)callback;
+-(void)get:(NSString*)url withUser:(AZUser*)user params:(NSDictionary*)params callback:(ASIRequestCallback)callback;
 
 /**
  * Perform an API call
@@ -126,7 +126,7 @@ typedef void(^ASIRequestConfig)(ASIHTTPRequest* req);
  * @param callback called on success
  *
  */
--(void)post:(NSString*)url withUser:(OTMUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback;
+-(void)post:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback;
 
 /**
  * Perform an API call
@@ -155,7 +155,7 @@ typedef void(^ASIRequestConfig)(ASIHTTPRequest* req);
  * @param callback called on success
  *
  */
--(void)put:(NSString*)url withUser:(OTMUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback;
+-(void)put:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback;
 
 
 @end
