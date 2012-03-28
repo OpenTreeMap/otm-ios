@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMUser.h"
+#import "OTMPictureTaker.h"
 
 @interface OTMProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic,strong) OTMPictureTaker *pictureTaker;
 @property (nonatomic,strong) OTMUser *user;
 @property (nonatomic,strong) IBOutlet UITableView *tableView;
 

@@ -63,7 +63,7 @@
     validator = [[OTMValidator alloc] initWithValidations:[NSArray arrayWithObjects:
                     [OTMTextFieldValidator notBlankValidation:@"oldPassword"
                                              display:@"Current password"],
-                    [OTMTextFieldValidator minLengthValidation:@"newPassword"
+                    [OTMTextFieldValidator minLengthValidation:@"aNewPassword"
                                               display:@"New password"
                                             minLength:6],
                      equalsValidation,
@@ -80,6 +80,11 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+// called when text fields are completed
+-(IBAction)completedForm:(id)sender {
+    [self changePassword:sender];
 }
 
 -(IBAction)changePassword:(id)sender {

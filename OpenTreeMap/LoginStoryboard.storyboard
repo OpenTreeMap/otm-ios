@@ -237,7 +237,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="showProfilePicturePicker:" destination="EHZ-o9-hUZ" eventType="touchUpInside" id="w5l-QW-kTn"/>
+                                            <action selector="completedForm:" destination="EHZ-o9-hUZ" eventType="touchUpInside" id="Rrc-ks-e40"/>
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9xO-3l-kZO">

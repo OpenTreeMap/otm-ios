@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMValidator.h"
+#import "OTMScrollAwareViewController.h"
 
-@interface OTMPasswordChangeViewController : UIViewController
+@interface OTMPasswordChangeViewController : OTMScrollAwareViewController
 
 @property (nonatomic,strong) OTMValidator *validator;
 @property (nonatomic,strong) IBOutlet UITextField *oldPassword;

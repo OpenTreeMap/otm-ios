@@ -24,7 +24,7 @@
 
 @implementation OTMPictureTaker
 
--(IBAction)showProfilePicturePicker:(id)sender {
+-(IBAction)showProfilePicturePicker {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Image"
                                                                  delegate:self
@@ -83,6 +83,8 @@
 -(void)getPictureInViewController:(UIViewController *)vc callback:(OTMPickerTakerCallback)cb {
     callback = cb;
     targetViewController = vc;
+    
+    [self showProfilePicturePicker];
 }
 
 @end

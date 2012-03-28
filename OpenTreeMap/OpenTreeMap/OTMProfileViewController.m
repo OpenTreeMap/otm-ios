@@ -23,7 +23,7 @@
 
 @implementation OTMProfileViewController
 
-@synthesize tableView, user;
+@synthesize tableView, user, pictureTaker;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -109,7 +109,25 @@
     if ([path section] == kOTMProfileViewControllerSectionChangePassword) {
         [self performSegueWithIdentifier:@"ChangePassword" sender:self];
     } else if ([path section] == kOTMProfileViewControllerSectionChangeProfilePicture) {
-        
+        [pictureTaker getPictureInViewController:self
+                                        callback:^(UIImage *image) 
+         {
+             if (image) {
+                 self.user.photo = image;
+                 
+                 [[[OTMEnvironment sharedEnvironment] api] setProfilePhoto:user
+                                                                  callback:^(id json, NSError *error) 
+                  {
+                      if (error != nil) {
+                          [[[UIAlertView alloc] initWithTitle:@"Server Error"
+                                                      message:@"There was a server error"
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil] show];
+                          }
+                  }];
+             }
+         }];
     }
 }
 
@@ -134,7 +152,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
+    if (pictureTaker == nil) {
+        pictureTaker = [[OTMPictureTaker alloc] init];
+    }
 }
 
 - (void)viewDidUnload

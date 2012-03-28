@@ -256,7 +256,7 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 }
 
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback {
-    [request post:@"user/:user_id/photo/profile.png"
+    [request post:@"user/:user_id/photo/profile"
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                               forKey:@"user_id"]
