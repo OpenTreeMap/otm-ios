@@ -132,18 +132,28 @@
                 } else {
                     [pictureTaker getPictureInViewController:self
                                                     callback:^(UIImage *image) 
-                    {
-                        if (image) {
-                            self.profileImage.image = image;
-                        
-                            [self.changeProfilePic setTitle:@"Update Profile Picture"
-                                                   forState:UIControlStateNormal];                                                  
-                        }
-                    }];
+                     {
+                         if (image) {
+                             self.profileImage.image = image;
+                             
+                             [self.changeProfilePic setTitle:@"Update Profile Picture"
+                                                    forState:UIControlStateNormal];                                                  
+                         }
+                     }];
                 }
             });
         }];
     }
+}
+
+-(IBAction)getPicture:(id)sender {
+    [pictureTaker getPictureInViewController:self
+                                    callback:^(UIImage *image) 
+     {
+         if (image) {
+             self.profileImage.image = image;                                                 
+         }
+     }];    
 }
 
 - (void)viewDidLoad

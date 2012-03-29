@@ -26,5 +26,6 @@
 @property (nonatomic,strong) IBOutlet UIImageView *profileImage; 
 @property (nonatomic,strong) IBOutlet UIButton *changeProfilePic;
 
+-(IBAction)getPicture:(id)sender;
 
 @end

@@ -184,7 +184,7 @@
                                         <rect key="frame" x="20" y="213" width="280" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                         <connections>
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="lE0-eg-G8R"/>
                                         </connections>
@@ -237,7 +237,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="completedForm:" destination="EHZ-o9-hUZ" eventType="touchUpInside" id="Rrc-ks-e40"/>
+                                            <action selector="getPicture:" destination="EHZ-o9-hUZ" eventType="touchUpInside" id="JwO-ru-5sU"/>
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9xO-3l-kZO">
@@ -354,6 +354,7 @@
         <class className="OTMRegistrationViewController" superclassName="OTMScrollAwareViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMRegistrationViewController.h"/>
             <relationships>
+                <relationship kind="action" name="getPicture:"/>
                 <relationship kind="outlet" name="changeProfilePic" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="email" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="firstName" candidateClass="UITextField"/>

@@ -51,6 +51,13 @@
     [self.loginDelegate loginControllerCanceledLogin:self];
 }
 
+-(void)didRegisterUser:(NSNotification*)note {
+    OTMUser *user = note.object;
+
+    [self.loginDelegate loginController:self
+                       loggedInWithUser:user];    
+}
+
 //overrides scroll completed
 -(void)completedForm:(id)sender {
     [self attemptLogin:sender];
@@ -103,6 +110,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didFinishPasswordReset:) name:kOTMLoginWorkflowPasswordReset
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didRegisterUser:)
+                                                 name:kOTMLoginWorkflowUserRegistered
+                                               object:nil];
 }
 
 - (void)viewDidUnload
@@ -111,6 +123,9 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:kOTMLoginWorkflowPasswordReset object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kOTMLoginWorkflowUserRegistered
+                                                  object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
