@@ -115,5 +115,15 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  */
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback;
 
+/**
+ * Get recent edit (reputation) actions for a user
+ *
+ * @param user the user to get actions from
+ * @param offset collection offset
+ * @param callback the callback
+ */
+-(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset callback:(AZJSONCallback)callback;
+-(void)getRecentActionsForUser:(OTMUser *)user callback:(AZJSONCallback)callback;
+
 
 @end

@@ -10,10 +10,16 @@
 #import "OTMUser.h"
 #import "OTMPictureTaker.h"
 
-@interface OTMProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface OTMProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
+    BOOL loading;
+    CGFloat heightOffset;
+}
 
+@property (nonatomic,strong) NSMutableArray *recentActivity;
 @property (nonatomic,strong) OTMPictureTaker *pictureTaker;
 @property (nonatomic,strong) OTMUser *user;
+
 @property (nonatomic,strong) IBOutlet UITableView *tableView;
+@property (nonatomic,strong) IBOutlet UIView *loadingView;
 
 @end

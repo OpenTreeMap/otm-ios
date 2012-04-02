@@ -16,6 +16,7 @@
 #define kOTMProfileViewControllerSectionInfoCellIdentifier @"kOTMProfileViewControllerSectionInfoCellIdentifier"
 #define kOTMProfileViewControllerSectionChangePasswordCellIdentifier @"kOTMProfileViewControllerSectionChangePasswordCellIdentifier"
 #define kOTMProfileViewControllerSectionChangeProfilePictureCellIdentifier @"kOTMProfileViewControllerSectionChangeProfilePictureCellIdentifier"
+#define kOTMProfileViewControllerSectionRecentEditsCellIdentifier @"kOTMProfileViewControllerSectionRecentEditsCellIdentifier"
 
 @interface OTMProfileViewController ()
 
@@ -23,7 +24,7 @@
 
 @implementation OTMProfileViewController
 
-@synthesize tableView, user, pictureTaker;
+@synthesize tableView, user, pictureTaker, recentActivity, loadingView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,8 +58,16 @@
         
         return cell;
     } else {
-        return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:@"blahr"];
+        UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kOTMProfileViewControllerSectionRecentEditsCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:kOTMProfileViewControllerSectionRecentEditsCellIdentifier];
+        }
+        
+        cell.textLabel.text = [[self.recentActivity objectAtIndex:[indexPath row]] objectForKey:@"name"];
+        
+        return cell;
     }
 }
 
@@ -139,7 +148,7 @@
         case kOTMProfileViewControllerSectionChangeProfilePicture:
             return 1;
         case kOTMProfileViewControllerSectionRecentEdits:
-            return 0;
+            return [self.recentActivity count];
     }
     
     return 0;
@@ -152,9 +161,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.loadingView removeFromSuperview];
+    [self.tableView addSubview:self.loadingView];
+    
+    self.loadingView.hidden = YES;
 
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
+    }
+    if (self.recentActivity == nil) {
+        self.recentActivity = [NSMutableArray array];
     }
 }
 
@@ -170,9 +186,74 @@
     [mgr presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
             self.user = aUser;
-            [self.tableView reloadData];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:kOTMProfileViewControllerSectionInfo]
+                          withRowAnimation:UITableViewRowAnimationNone];
+            
+            if ([self.recentActivity count] == 0) {
+                [self loadRecentEdits];
+            }
         }
     }];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (self.loadingView.hidden == YES && scrollView.contentOffset.y > scrollView.contentSize.height - 400) {
+        heightOffset = self.loadingView.frame.size.height + 5;
+        
+        self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width,
+                                                self.tableView.contentSize.height +
+                                                heightOffset);
+        
+        self.loadingView.frame = CGRectMake(0,
+                                            self.tableView.contentSize.height - heightOffset,
+                                            320,
+                                            40);
+        self.loadingView.hidden = NO;
+        [self loadRecentEdits];
+    }
+
+}
+
+-(void)loadRecentEdits {
+    if (loading == YES) {
+        return;
+    }
+    
+    loading = YES;
+    [[[OTMEnvironment sharedEnvironment] api] getRecentActionsForUser:self.user
+                                                               offset:[self.recentActivity count]
+                                                             callback:
+     ^(NSArray *json, NSError *error) {
+         for(NSDictionary *event in json) {
+             if ([self.recentActivity indexOfObjectPassingTest:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+                 if ([[obj valueForKey:@"id"] intValue] == [[event valueForKey:@"id"] intValue]) {
+                     *stop = YES;
+                     return YES;
+                 } else {
+                     return NO;
+                 }
+             }] == NSNotFound) {
+                 [self.recentActivity addObject:event];
+             }
+                     
+         }
+         
+         [UIView animateWithDuration:0.3
+                          animations:
+         ^{
+             self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width,
+                                                     self.tableView.contentSize.height - heightOffset);
+         }
+                          completion:^(BOOL finished) 
+         {
+             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:kOTMProfileViewControllerSectionRecentEdits]
+                           withRowAnimation:UITableViewRowAnimationNone];             
+             
+             self.loadingView.hidden = YES;
+         }];
+         
+         loading = NO;
+     }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

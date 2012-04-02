@@ -279,6 +279,20 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" id="MAs-fE-HdO">
+                                <rect key="frame" x="0.0" y="162" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading More" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="bxb-eX-hFc">
+                                        <rect key="frame" x="107" y="11" width="106" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="wzi-4l-jz6">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -294,6 +308,7 @@
                     <tabBarItem key="tabBarItem" title="Profile" image="first" id="stQ-NQ-LQB"/>
                     <navigationItem key="navigationItem" id="qJc-Nq-vgF"/>
                     <connections>
+                        <outlet property="loadingView" destination="MAs-fE-HdO" id="l5C-fw-FnP"/>
                         <outlet property="tableView" destination="wzi-4l-jz6" id="3QV-7G-hTm"/>
                         <outlet property="view" destination="npN-2P-HfN" id="aXq-tM-8gg"/>
                         <segue destination="u8W-4J-SZB" kind="push" identifier="ChangePassword" id="6t2-c4-alG"/>
@@ -348,6 +363,7 @@
         <class className="OTMProfileViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="loadingView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
