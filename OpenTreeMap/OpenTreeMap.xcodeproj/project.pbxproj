@@ -65,7 +65,7 @@
 		E943972314F447EB007CD0D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972214F447EB007CD0D1 /* main.m */; };
 		E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972614F447EB007CD0D1 /* OTMAppDelegate.m */; };
 		E943972A14F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */; };
-		E943973014F447EB007CD0D1 /* OTMFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */; };
+		E943973014F447EB007CD0D1 /* OTMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972F14F447EB007CD0D1 /* OTMMapViewController.m */; };
 		E943973214F447EB007CD0D1 /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973114F447EB007CD0D1 /* first.png */; };
 		E943973414F447EB007CD0D1 /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973314F447EB007CD0D1 /* first@2x.png */; };
 		E943973914F447EB007CD0D1 /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = E943973814F447EB007CD0D1 /* second.png */; };
@@ -167,8 +167,8 @@
 		E943972514F447EB007CD0D1 /* OTMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMAppDelegate.h; sourceTree = "<group>"; };
 		E943972614F447EB007CD0D1 /* OTMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMAppDelegate.m; sourceTree = "<group>"; };
 		E943972914F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMFirstViewController.h; sourceTree = "<group>"; };
-		E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMFirstViewController.m; sourceTree = "<group>"; };
+		E943972E14F447EB007CD0D1 /* OTMMapViewController.h */ = {isa = PBXFileReference; path = OTMMapViewController.h; sourceTree = "<group>"; };
+		E943972F14F447EB007CD0D1 /* OTMMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMMapViewController.m; sourceTree = "<group>"; };
 		E943973114F447EB007CD0D1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = first.png; path = ../first.png; sourceTree = "<group>"; };
 		E943973314F447EB007CD0D1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "first@2x.png"; path = "../first@2x.png"; sourceTree = "<group>"; };
 		E943973814F447EB007CD0D1 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = second.png; path = ../second.png; sourceTree = "<group>"; };
@@ -244,6 +244,19 @@
 				D76BD9061523B8EB003C664F /* AZUser.m */,
 			);
 			name = "Login and Register";
+			sourceTree = "<group>";
+		};
+		D7910C4E152B3EC900758F66 /* AZ */ = {
+			isa = PBXGroup;
+			children = (
+				64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */,
+				64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */,
+				D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */,
+				D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */,
+				64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlay.h */,
+				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */,
+			);
+			name = AZ;
 			sourceTree = "<group>";
 		};
 		D7BEA4A414FC213F006CC456 /* api */ = {
@@ -325,6 +338,7 @@
 			children = (
 				D73B3ADE151BA13C00FF2125 /* OTMScrollAwareViewController.h */,
 				D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */,
+				D7910C4E152B3EC900758F66 /* AZ */,
 				D7CC152515065AC100277C7C /* images */,
 				D7C252CD14FE84680028519E /* views */,
 				D7BEA4A414FC213F006CC456 /* api */,
@@ -333,17 +347,11 @@
 				7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */,
 				64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */,
 				64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */,
-				64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */,
-				64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */,
-				D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */,
-				D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */,
-				64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlay.h */,
-				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */,
 				E943972514F447EB007CD0D1 /* OTMAppDelegate.h */,
 				E943972614F447EB007CD0D1 /* OTMAppDelegate.m */,
 				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
-				E943972E14F447EB007CD0D1 /* OTMFirstViewController.h */,
-				E943972F14F447EB007CD0D1 /* OTMFirstViewController.m */,
+				E943972E14F447EB007CD0D1 /* OTMMapViewController.h */,
+				E943972F14F447EB007CD0D1 /* OTMMapViewController.m */,
 				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
 				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
 				D791171D15113F70004BE79C /* OTMFormatters.h */,
@@ -519,7 +527,7 @@
 			files = (
 				E943972314F447EB007CD0D1 /* main.m in Sources */,
 				E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */,
-				E943973014F447EB007CD0D1 /* OTMFirstViewController.m in Sources */,
+				E943973014F447EB007CD0D1 /* OTMMapViewController.m in Sources */,
 				64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */,
 				64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */,
 				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
