@@ -259,6 +259,25 @@
 			name = AZ;
 			sourceTree = "<group>";
 		};
+		D7910C50152B3FB800758F66 /* OTMLib */ = {
+			isa = PBXGroup;
+			children = (
+				D73B3ADE151BA13C00FF2125 /* OTMScrollAwareViewController.h */,
+				D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */,
+				D791171D15113F70004BE79C /* OTMFormatters.h */,
+				D791171E15113F70004BE79C /* OTMFormatters.m */,
+				D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */,
+				D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */,
+				D73B3AF6151CB90300FF2125 /* UIAlertView+Blocks.h */,
+				D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */,
+				D7775FC71520E864008301E4 /* OTMValidator.h */,
+				D7775FC81520E864008301E4 /* OTMValidator.m */,
+				D76BD8F915226446003C664F /* OTMPictureTaker.h */,
+				D76BD8FA15226446003C664F /* OTMPictureTaker.m */,
+			);
+			name = "\U0010OTMLib";
+			sourceTree = "<group>";
+		};
 		D7BEA4A414FC213F006CC456 /* api */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,8 +355,7 @@
 		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
 			isa = PBXGroup;
 			children = (
-				D73B3ADE151BA13C00FF2125 /* OTMScrollAwareViewController.h */,
-				D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */,
+				D7910C50152B3FB800758F66 /* OTMLib */,
 				D7910C4E152B3EC900758F66 /* AZ */,
 				D7CC152515065AC100277C7C /* images */,
 				D7C252CD14FE84680028519E /* views */,
@@ -354,20 +372,10 @@
 				E943972F14F447EB007CD0D1 /* OTMMapViewController.m */,
 				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
 				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
-				D791171D15113F70004BE79C /* OTMFormatters.h */,
-				D791171E15113F70004BE79C /* OTMFormatters.m */,
-				D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */,
-				D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */,
-				D73B3AF6151CB90300FF2125 /* UIAlertView+Blocks.h */,
-				D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */,
-				D7775FC71520E864008301E4 /* OTMValidator.h */,
-				D7775FC81520E864008301E4 /* OTMValidator.m */,
 				D7775FCA15210492008301E4 /* OTMProfileViewController.h */,
 				D7775FCB15210492008301E4 /* OTMProfileViewController.m */,
 				D7775FD01521123A008301E4 /* OTMPasswordChangeViewController.h */,
 				D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */,
-				D76BD8F915226446003C664F /* OTMPictureTaker.h */,
-				D76BD8FA15226446003C664F /* OTMPictureTaker.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
