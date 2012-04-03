@@ -309,4 +309,25 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
         
 }
 
+-(void)getRecentActionsForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
+    [self getRecentActionsForUser:user offset:0 length:5 callback:callback];
+}
+
+-(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset callback:(AZJSONCallback)callback {
+    [self getRecentActionsForUser:user offset:offset length:5 callback:callback];
+}
+
+-(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset length:(NSUInteger)length callback:(AZJSONCallback)callback {
+    [request get:@"user/:user_id/edits"
+        withUser:user
+          params:[NSDictionary
+                  dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:user.userId],
+                                                @"user_id",
+                                                [NSNumber numberWithInt:offset],
+                                                @"offset", 
+                                                [NSNumber numberWithInt:length],
+                                                @"length", nil]
+        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 @end

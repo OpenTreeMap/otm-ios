@@ -288,12 +288,32 @@
                                     <outlet property="delegate" destination="Duy-es-aav" id="5g4-Dt-JRH"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" id="MAs-fE-HdO">
+                                <rect key="frame" x="0.0" y="162" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" animating="YES" style="whiteLarge" id="M0G-pf-Gcm">
+                                        <rect key="frame" x="36" y="3" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading More" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="bxb-eX-hFc">
+                                        <rect key="frame" x="0.0" y="-4" width="320" height="47"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="first" id="stQ-NQ-LQB"/>
                     <navigationItem key="navigationItem" id="qJc-Nq-vgF"/>
                     <connections>
+                        <outlet property="loadingView" destination="MAs-fE-HdO" id="l5C-fw-FnP"/>
                         <outlet property="tableView" destination="wzi-4l-jz6" id="3QV-7G-hTm"/>
                         <outlet property="view" destination="npN-2P-HfN" id="aXq-tM-8gg"/>
                         <segue destination="u8W-4J-SZB" kind="push" identifier="ChangePassword" id="6t2-c4-alG"/>
@@ -348,6 +368,7 @@
         <class className="OTMProfileViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="loadingView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
