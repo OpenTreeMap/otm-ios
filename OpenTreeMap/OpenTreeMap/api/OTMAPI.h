@@ -120,8 +120,10 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  *
  * @param user the user to get actions from
  * @param offset collection offset
+ * @param length number of results to return
  * @param callback the callback
  */
+-(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset length:(NSUInteger)length callback:(AZJSONCallback)callback;
 -(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset callback:(AZJSONCallback)callback;
 -(void)getRecentActionsForUser:(OTMUser *)user callback:(AZJSONCallback)callback;
 

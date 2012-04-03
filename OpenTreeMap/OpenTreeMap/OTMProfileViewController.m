@@ -61,11 +61,25 @@
         UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kOTMProfileViewControllerSectionRecentEditsCellIdentifier];
         
         if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:kOTMProfileViewControllerSectionRecentEditsCellIdentifier];
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(250,0,44,44)];
+            label.backgroundColor = [UIColor clearColor];
+            label.textAlignment = UITextAlignmentRight;
+            label.textColor = [UIColor blueColor];
+            label.font = [UIFont systemFontOfSize:24];
+            label.tag = 2012;
+            
+            [cell addSubview:label];
         }
         
-        cell.textLabel.text = [[self.recentActivity objectAtIndex:[indexPath row]] objectForKey:@"name"];
+        UILabel *rep = (UILabel *)[cell viewWithTag:2012];
+        
+        NSDictionary *action = [self.recentActivity objectAtIndex:[indexPath row]];
+        cell.textLabel.text = [action objectForKey:@"name"];
+        cell.detailTextLabel.text = [action objectForKey:@"created"];
+        rep.text = [NSString stringWithFormat:@"+%@",[action valueForKey:@"value"]];
         
         return cell;
     }
