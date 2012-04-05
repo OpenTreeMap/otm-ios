@@ -23,8 +23,9 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate> {
+@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate> {
     IBOutlet MKMapView *mapView;
+    IBOutlet UISearchBar *searchBar;
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;

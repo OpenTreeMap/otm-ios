@@ -127,5 +127,26 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
 -(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset callback:(AZJSONCallback)callback;
 -(void)getRecentActionsForUser:(OTMUser *)user callback:(AZJSONCallback)callback;
 
+/**
+ * Find the coordinates of the specified address. Expects the API to return
+ * an array of objects with the following schema:
+ *
+ *  {
+ *    "match_addr": "1234 SAMPLE ST, ANYTOWN, US",
+ *    "x": -75.1583244,
+ *    "y": 39.9583742,
+ *    "score": 92, // similarity to the specified address. 1 to 100
+ *    "locator": "parcel" // detail on the method used to find the location
+ *    "geoservice": "Bing" // The geocoding provider that returned the result
+ *    "wkid": 4326 // The spatial reference of the x and y coordinates
+ *  }
+ *
+ * If there are mutiple matches, the array will be sorted by the "score" property
+ * of each object.
+ *
+ * @param address the address to be geocoded
+ * @param callback method that will be executed and passed the geocoder response
+ */
+-(void)geocodeAddress:(NSString *)address callback:(AZJSONCallback)callback;
 
 @end
