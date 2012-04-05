@@ -40,15 +40,13 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, locationManager, mostAccurateLocationResponse;
 
 - (void)viewDidLoad
 {
     self.detailsVisible = NO;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch 
-                                                                                          target:nil
-                                                                                          action:nil];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(startFindingLocation)];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithTitle:@"Filter"
@@ -383,5 +381,65 @@
        }];
 }
 
+#pragma mark CoreLocation handling
 
+- (void)startFindingLocation
+{
+    if ([CLLocationManager locationServicesEnabled]) {
+        if (nil == [self locationManager]) {
+            [self setLocationManager:[[CLLocationManager alloc] init]];
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        }
+        [locationManager setDelegate:self];
+        [locationManager startUpdatingLocation];
+        [self performSelector:@selector(stopFindingLocationAndSetMostAccurateLocation) withObject:nil afterDelay:15.0];
+    } else {
+        [UIAlertView showAlertWithTitle:nil message:@"Location services are not available." cancelButtonTitle:@"OK" otherButtonTitle:nil callback:nil];
+    }
+}
+
+- (void)stopFindingLocation {
+    [[self locationManager] stopUpdatingLocation];
+    [locationManager setDelegate:nil];
+}
+
+- (void)stopFindingLocationAndSetMostAccurateLocation {
+    [self stopFindingLocation];
+    if ([self mostAccurateLocationResponse] != nil) {
+        MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+        [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:YES];
+    }
+    [self setMostAccurateLocationResponse:nil];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    NSDate* eventDate = newLocation.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    // Avoid using any cached location results by making sure they are less than 15 seconds old
+    if (abs(howRecent) < 15.0)
+    {
+        NSLog(@"Location accuracy: horizontal %f, vertical %f", [newLocation horizontalAccuracy], [newLocation verticalAccuracy]);
+
+        if ([self mostAccurateLocationResponse] == nil || [[self mostAccurateLocationResponse] horizontalAccuracy] > [newLocation horizontalAccuracy]) {
+            [self setMostAccurateLocationResponse: newLocation];
+        }
+
+        if ([newLocation horizontalAccuracy] > 0 && [newLocation horizontalAccuracy] < [manager desiredAccuracy]) {
+            [self stopFindingLocation];
+            [self setMostAccurateLocationResponse:nil];
+            // Cancel the previous performSelector:withObject:afterDelay: - it's no longer necessary
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopFindingLocation:) object:nil];
+
+            NSLog(@"Found user's location: latitude %+.6f, longitude %+.6f\n",
+                  newLocation.coordinate.latitude,
+                  newLocation.coordinate.longitude);
+
+            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+            [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:YES];
+        }
+    }
+}
 @end

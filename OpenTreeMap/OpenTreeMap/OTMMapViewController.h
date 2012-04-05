@@ -22,14 +22,17 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate> {
+@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
 @property (nonatomic,assign) BOOL detailsVisible;
+@property (nonatomic,strong) CLLocationManager *locationManager;
+@property (nonatomic,strong) CLLocation *mostAccurateLocationResponse;
 
 @property (nonatomic,strong) IBOutlet UIView* detailView;
 @property (nonatomic,strong) IBOutlet UIImageView* treeImage;
