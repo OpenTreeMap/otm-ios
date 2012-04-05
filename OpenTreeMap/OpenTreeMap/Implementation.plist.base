@@ -18,6 +18,8 @@
 		<real>0.0026</real>
 		<key>SearchZoomLongitudeDelta</key>
 		<real>0.0034</real>
+        <key>SearchSuffix</key>
+		<string></string>
 	</dict>
 	<key>APIURL</key>
 	<dict>

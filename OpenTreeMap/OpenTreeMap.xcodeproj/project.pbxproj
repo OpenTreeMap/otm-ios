@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */; };
@@ -88,6 +89,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
 		646D938814F451F1009F26A8 /* libThree20Core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Core.a; path = "/Users/jwalgran/Code/Azavea/Azavea_OpenTreeMap/mobile/ios/lib/three20/src/Three20Core/../../Build/Products/Release-iphoneos/libThree20Core.a"; sourceTree = "<absolute>"; };
 		646D938914F451F1009F26A8 /* libThree20Network.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libThree20Network.a; path = "/Users/jwalgran/Code/Azavea/Azavea_OpenTreeMap/mobile/ios/lib/three20/src/Three20Network/../../Build/Products/Release-iphoneos/libThree20Network.a"; sourceTree = "<absolute>"; };
 		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
@@ -167,7 +169,7 @@
 		E943972514F447EB007CD0D1 /* OTMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMAppDelegate.h; sourceTree = "<group>"; };
 		E943972614F447EB007CD0D1 /* OTMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMAppDelegate.m; sourceTree = "<group>"; };
 		E943972914F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		E943972E14F447EB007CD0D1 /* OTMMapViewController.h */ = {isa = PBXFileReference; path = OTMMapViewController.h; sourceTree = "<group>"; };
+		E943972E14F447EB007CD0D1 /* OTMMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMMapViewController.h; sourceTree = "<group>"; };
 		E943972F14F447EB007CD0D1 /* OTMMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMMapViewController.m; sourceTree = "<group>"; };
 		E943973114F447EB007CD0D1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = first.png; path = ../first.png; sourceTree = "<group>"; };
 		E943973314F447EB007CD0D1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "first@2x.png"; path = "../first@2x.png"; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				E943972214F447EB007CD0D1 /* main.m */,
 				E943972414F447EB007CD0D1 /* OpenTreeMap-Prefix.pch */,
 				64A7D95214F5420A004D7FC8 /* Implementation.plist */,
+				643FEFB4152E0647002D3B96 /* Implementation.plist.base */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */,
 				D7CC152715065AC200277C7C /* tree_icon.png in Resources */,
 				D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */,
+				643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
