@@ -20,6 +20,8 @@
 		<real>0.0034</real>
         <key>SearchSuffix</key>
 		<string></string>
+        <key>LocationSearchTimeoutInSeconds</key>
+		<real>15</real>
 	</dict>
 	<key>APIURL</key>
 	<dict>

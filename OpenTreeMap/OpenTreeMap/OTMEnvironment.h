@@ -63,6 +63,12 @@
     NSString *searchSuffix;
 
     /**
+     The number of seconds to wait for CoreLocation to find the users postion
+     at the desired accuracy.
+     */
+    NSNumber *locationSearchTimeoutInSeconds;
+
+    /**
      The GeoServer WMS endpoint url from which map tiles will be requested
      */
     NSString *geoServerWMSServiceURL;
@@ -92,6 +98,8 @@
 @property (nonatomic, assign) MKCoordinateRegion mapViewInitialCoordinateRegion;
 @property (nonatomic, assign) MKCoordinateSpan mapViewSearchZoomCoordinateSpan;
 @property (nonatomic, copy) NSString* searchSuffix;
+@property (nonatomic, retain) NSNumber *locationSearchTimeoutInSeconds;
+
 @property (nonatomic, retain) NSString *geoServerWMSServiceURL;
 @property (nonatomic, retain) NSArray *geoServerLayerNames;
 @property (nonatomic, retain) NSString *geoServerFormat;
