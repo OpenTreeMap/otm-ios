@@ -236,6 +236,15 @@
     {
         return;
     }
+
+    // If the user taps the map while the searchBar is focused, dismiss the keyboard. This
+    // mirrors the behavior of the iOS maps app.
+    if ([searchBar isFirstResponder]) {
+        [searchBar setShowsCancelButton:NO animated:YES];
+        [searchBar resignFirstResponder];
+        return;
+    }
+
     CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
