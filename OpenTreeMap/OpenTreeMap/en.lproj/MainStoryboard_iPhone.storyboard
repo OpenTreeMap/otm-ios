@@ -32,9 +32,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="HdG-pl-Slh" customClass="MKMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="323"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="cSI-Ty-HIV" customClass="OTMDetailSliderview">
                                 <rect key="frame" x="0.0" y="267" width="320" height="100"/>
@@ -84,6 +84,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <searchBar contentMode="redraw" id="tpv-GO-iyB">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2" id="NLN-kZ-OGe"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -94,6 +102,7 @@
                         <outlet property="dbh" destination="Kf6-Fe-hNX" id="BtX-Yy-F6q"/>
                         <outlet property="detailView" destination="cSI-Ty-HIV" id="psF-sh-2Xv"/>
                         <outlet property="mapView" destination="HdG-pl-Slh" id="YXf-f9-gkF"/>
+                        <outlet property="searchBar" destination="tpv-GO-iyB" id="IWn-if-GRP"/>
                         <outlet property="species" destination="F3b-37-QZN" id="O6W-yo-o7a"/>
                         <outlet property="treeImage" destination="yCz-ce-iHJ" id="3qj-zu-mbR"/>
                         <outlet property="view" destination="16" id="vLX-hG-hPZ"/>
@@ -389,61 +398,6 @@
     <resources>
         <image name="first" width="16" height="16"/>
     </resources>
-    <classes>
-        <class className="OTMDetailSliderview" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
-        </class>
-        <class className="OTMMapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="treeImage" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="OTMNearbyTreesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNearbyTreesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="OTMPasswordChangeViewController" superclassName="OTMScrollAwareViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordChangeViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="aNewPassword" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="aNewPasswordVerify" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="oldPassword" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="OTMProfileViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="loadingView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="OTMScrollAwareViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMScrollAwareViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="completedForm:"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="OTMTreeDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTreeDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="lastUpdateDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="updateUser" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

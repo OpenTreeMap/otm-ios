@@ -280,7 +280,7 @@
             double lat = [[geom objectForKey:@"lat"] doubleValue];
             double lon = [[geom objectForKey:@"lng"] doubleValue];
             CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
-            MKCoordinateSpan span = MKCoordinateSpanMake(0.003, 0.003);
+            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
             
             [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
             
@@ -340,5 +340,48 @@
 {
     return [[AZPointOffsetOverlay alloc] initWithOverlay:overlay];
 }
+
+#pragma mark UISearchBarDelegate methods
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)bar {
+    [bar setShowsCancelButton:YES animated:YES];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)bar {
+    [bar setText:@""];
+    [bar setShowsCancelButton:NO animated:YES];
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)bar {
+    NSString *searchText = [NSString stringWithFormat:@"%@ %@", [bar text], [[OTMEnvironment sharedEnvironment] searchSuffix]];
+    NSString *urlEncodedSearchText = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    [[[OTMEnvironment sharedEnvironment] api] geocodeAddress:urlEncodedSearchText
+        callback:^(NSArray* matches, NSError* error) {
+            if ([matches count] > 0) {
+                NSDictionary *firstMatch = [matches objectAtIndex:0];
+                double lon = [((NSNumber*)[firstMatch objectForKey:@"x"]) doubleValue];
+                double lat = [((NSNumber*)[firstMatch objectForKey:@"y"]) doubleValue];
+                CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
+                MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+                [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+                [bar setShowsCancelButton:NO animated:YES];
+                [bar resignFirstResponder];
+            } else {
+                NSString *message;
+                if (error != nil) {
+                    NSLog(@"Error geocoding location: %@", [error description]);
+                    message = @"Sorry. There was a problem completing your search.";
+                } else {
+                    message = @"No Results Found";
+                }
+                [UIAlertView showAlertWithTitle:nil message:message cancelButtonTitle:@"OK" otherButtonTitle:nil callback:^(UIAlertView *alertView, int btnIdx) {
+                    [bar setShowsCancelButton:YES animated:YES];
+                    [bar becomeFirstResponder];
+                }];
+            }
+       }];
+}
+
 
 @end

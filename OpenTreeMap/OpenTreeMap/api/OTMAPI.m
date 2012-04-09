@@ -335,4 +335,11 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
+-(void)geocodeAddress:(NSString *)address callback:(AZJSONCallback)callback
+{
+    [request get:@"addresses/:address"
+          params:[NSDictionary dictionaryWithObject:address forKey:@"address"]
+        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 @end

@@ -27,7 +27,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey;
 
 + (id)sharedEnvironment
 {
@@ -97,6 +97,14 @@
         [[mapView objectForKey:@"InitialLongitudeDelta"] floatValue]);
 
     [self setMapViewInitialCoordinateRegion:MKCoordinateRegionMake(initialLatLon, initialCoordinateSpan)];
+
+    MKCoordinateSpan searchZoomCoordinateSpan = MKCoordinateSpanMake(
+        [[mapView objectForKey:@"SearchZoomLatitudeDelta"] floatValue],
+        [[mapView objectForKey:@"SearchZoomLongitudeDelta"] floatValue]);
+
+    [self setMapViewSearchZoomCoordinateSpan:searchZoomCoordinateSpan];
+
+    [self setSearchSuffix:[mapView valueForKey:@"SearchSuffix"]];
 
     OTMAPI* otmApi = [[OTMAPI alloc] init];
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];

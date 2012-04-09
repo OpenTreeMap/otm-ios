@@ -52,6 +52,17 @@
     MKCoordinateRegion mapViewInitialCoordinateRegion;
 
     /**
+     The coordinate span to use when zooming to an address search result
+     */
+    MKCoordinateSpan mapViewSearchZoomCoordinateSpan;
+
+    /**
+     A string that is appended to the text that the user exters into the map
+     view search bar before being submitted to the API for geocoding
+     */
+    NSString *searchSuffix;
+
+    /**
      The GeoServer WMS endpoint url from which map tiles will be requested
      */
     NSString *geoServerWMSServiceURL;
@@ -79,6 +90,8 @@
 
 // Implementation properties
 @property (nonatomic, assign) MKCoordinateRegion mapViewInitialCoordinateRegion;
+@property (nonatomic, assign) MKCoordinateSpan mapViewSearchZoomCoordinateSpan;
+@property (nonatomic, copy) NSString* searchSuffix;
 @property (nonatomic, retain) NSString *geoServerWMSServiceURL;
 @property (nonatomic, retain) NSArray *geoServerLayerNames;
 @property (nonatomic, retain) NSString *geoServerFormat;
