@@ -26,6 +26,7 @@
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
 #import "OTMTreeDetailViewController.h"
+#import "OTMAppDelegate.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -67,6 +68,12 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    MKCoordinateRegion region = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapRegion];
+    [mapView setRegion:region];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
@@ -324,6 +331,9 @@
 
 - (void)mapView:(MKMapView*)mView regionDidChangeAnimated:(BOOL)animated {
     MKCoordinateRegion region = [mView region];
+
+    [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] setMapRegion:region];
+
     double lngMin = region.center.longitude - region.span.longitudeDelta / 2.0;
     double lngMax = region.center.longitude + region.span.longitudeDelta / 2.0;
     double latMin = region.center.latitude - region.span.latitudeDelta / 2.0;
