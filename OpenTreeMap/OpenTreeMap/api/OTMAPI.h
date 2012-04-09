@@ -56,8 +56,10 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  * Get the plot nearested to (lat,lon)
  *
  * @param lat,lon latitude and longitude of the point of intererest
+ * @param macResults maximum number of trees to return
  * @param callback receives a NSArray of NSDictionaries representing plots
  */
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)maxResults callback:(AZJSONCallback)callback;
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
 
 /**
