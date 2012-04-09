@@ -398,6 +398,7 @@
             [self setLocationManager:[[CLLocationManager alloc] init]];
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
         }
+        // The delegate is cleared in stopFindingLocation so it must be reset here.
         [locationManager setDelegate:self];
         [locationManager startUpdatingLocation];
         NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
@@ -409,6 +410,8 @@
 
 - (void)stopFindingLocation {
     [[self locationManager] stopUpdatingLocation];
+    // When using the debugger I found that extra events would arrive after calling stopUpdatingLocation.
+    // Setting the delegate to nil ensures that those events are not ignored.
     [locationManager setDelegate:nil];
 }
 
