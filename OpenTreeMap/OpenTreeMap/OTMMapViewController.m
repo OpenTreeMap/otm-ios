@@ -353,8 +353,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)bar {
     NSString *searchText = [NSString stringWithFormat:@"%@ %@", [bar text], [[OTMEnvironment sharedEnvironment] searchSuffix]];
-    NSString *urlEncodedSearchText = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    [[[OTMEnvironment sharedEnvironment] api] geocodeAddress:urlEncodedSearchText
+    [[[OTMEnvironment sharedEnvironment] api] geocodeAddress:searchText
         callback:^(NSArray* matches, NSError* error) {
             if ([matches count] > 0) {
                 NSDictionary *firstMatch = [matches objectAtIndex:0];
