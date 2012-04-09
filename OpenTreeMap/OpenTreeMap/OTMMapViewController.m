@@ -366,8 +366,8 @@
         callback:^(NSArray* matches, NSError* error) {
             if ([matches count] > 0) {
                 NSDictionary *firstMatch = [matches objectAtIndex:0];
-                double lon = [((NSNumber*)[firstMatch objectForKey:@"x"]) doubleValue];
-                double lat = [((NSNumber*)[firstMatch objectForKey:@"y"]) doubleValue];
+                double lon = [[firstMatch objectForKey:@"x"] doubleValue];
+                double lat = [[firstMatch objectForKey:@"y"] doubleValue];
                 CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
                 MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
                 [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
