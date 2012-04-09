@@ -71,10 +71,15 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 }
 
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon maxResults:1 callback:callback];
+}
+
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max callback:(AZJSONCallback)callback {
     [self.request get:@"locations/:lat,:lon/plots" 
                params:[NSDictionary dictionaryWithObjectsAndKeys:
                        [NSString stringWithFormat:@"%f", lat], @"lat",
-                       [NSString stringWithFormat:@"%f", lon], @"lon", nil]
+                       [NSString stringWithFormat:@"%f", lon], @"lon",
+                       [NSNumber numberWithInt:max], @"max_plots", nil]
              callback:[OTMAPI liftResponse:
                        [OTMAPI jsonCallback:callback]]];
 }

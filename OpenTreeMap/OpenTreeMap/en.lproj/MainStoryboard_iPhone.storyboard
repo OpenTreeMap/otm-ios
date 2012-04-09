@@ -20,7 +20,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="646" y="-158"/>
+            <point key="canvasLocation" x="688" y="-158"/>
         </scene>
         <!--Map View Controller - First-->
         <scene sceneID="11">
@@ -199,6 +199,7 @@
                     <connections>
                         <segue destination="IOc-fB-8NC" kind="relationship" relationship="viewControllers" id="yrs-Ul-Kac"/>
                         <segue destination="bif-JI-aQc" kind="relationship" relationship="viewControllers" id="dBz-IX-rYE"/>
+                        <segue destination="Bua-WS-BqB" kind="relationship" relationship="viewControllers" id="RWl-OJ-DUu"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -322,6 +323,52 @@
             </objects>
             <point key="canvasLocation" x="1096" y="447"/>
         </scene>
+        <!--Navigation Controller - Item-->
+        <scene sceneID="f8G-zt-XN4">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3s4-ZD-HQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="Bua-WS-BqB" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="jUG-J8-9UY"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Zvq-9t-LHn">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="XUR-HC-WbX" kind="relationship" relationship="rootViewController" id="zMU-uZ-wX2"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="688" y="1043"/>
+        </scene>
+        <!--Nearby Trees View Controller-->
+        <scene sceneID="QnH-LF-b5k">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Rt-9h-3U6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="XUR-HC-WbX" customClass="OTMNearbyTreesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FfX-zR-YUX">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="pMW-wp-VsW">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="XUR-HC-WbX" id="rUO-66-LDY"/>
+                                    <outlet property="delegate" destination="XUR-HC-WbX" id="gD6-36-QSf"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZoH-TJ-Ans"/>
+                    <connections>
+                        <outlet property="tableView" destination="pMW-wp-VsW" id="82L-ce-BV8"/>
+                        <outlet property="view" destination="FfX-zR-YUX" id="aIH-MY-6pq"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1102" y="1045"/>
+        </scene>
         <!--Navigation Controller - Profile-->
         <scene sceneID="SRH-GT-8eT">
             <objects>
@@ -336,7 +383,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="640" y="447"/>
+            <point key="canvasLocation" x="688" y="447"/>
         </scene>
     </scenes>
     <resources>
@@ -355,6 +402,12 @@
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="species" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="treeImage" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="OTMNearbyTreesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNearbyTreesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="OTMPasswordChangeViewController" superclassName="OTMScrollAwareViewController">
