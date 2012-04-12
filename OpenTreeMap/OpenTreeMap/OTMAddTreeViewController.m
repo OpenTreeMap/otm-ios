@@ -157,17 +157,28 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
-    MKPinAnnotationView *treeAnnotationView;
-    
-    treeAnnotationView = (MKPinAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:@"Tree"];
-    if (treeAnnotationView == nil) {
-        treeAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Tree"];
+    MKAnnotationView *treeAnnotationView;
+
+    if (annotation == activeTreeAnnotation) {
+        treeAnnotationView = (MKPinAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:@"ActiveTree"];
+        if (treeAnnotationView == nil) {
+            treeAnnotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"ActiveTree"];
+        } else {
+            treeAnnotationView.annotation = annotation;
+        }
+
+        [(MKPinAnnotationView *)treeAnnotationView setAnimatesDrop:YES];
+        [treeAnnotationView setDraggable:YES];
     } else {
-        treeAnnotationView.annotation = annotation;
+        treeAnnotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:@"AddedTree"];
+        if (treeAnnotationView == nil) {
+            treeAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"AddedTree"];
+            [treeAnnotationView setImage:[UIImage imageNamed:@"tree_icon"]];
+        } else {
+            treeAnnotationView.annotation = annotation;
+        }
     }
 
-    [treeAnnotationView setAnimatesDrop:YES];
-    [treeAnnotationView setDraggable:YES];
     return treeAnnotationView;
 }
 
@@ -178,11 +189,21 @@
     [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] setMapRegion:region];
 }
 
+- (void)changeActiveAnnotationToNewTreeAnnotation
+{
+    // Removing and adding back the annotation after setting the active annotation
+    // to nil ensures that it is drawn with a different icon.
+    id annotation = [self activeTreeAnnotation];
+    [mv removeAnnotation:annotation];
+    [self setActiveTreeAnnotation:nil];
+    [mv addAnnotation:annotation];
+}
+
 - (IBAction)addAnother:(id)sender
 {
     // TODO: Add a plot to the database / update tile
     
-    [self setActiveTreeAnnotation:nil];
+    [self changeActiveAnnotationToNewTreeAnnotation];
     
     [[self messageLabel] setHidden:NO];
     [[self cleanMapButton] setHidden:YES];
@@ -192,8 +213,12 @@
 
 - (IBAction)addDetail:(id)sender
 {
-    [self setActiveTreeAnnotation:nil];
-    
+    // TODO: Show detail editor
+
+    [UIAlertView showAlertWithTitle:nil message:@"This is where the detail editor will slide in" cancelButtonTitle:@"OK" otherButtonTitle:nil callback:nil];
+
+    [self changeActiveAnnotationToNewTreeAnnotation];
+
     [[self messageLabel] setHidden:NO];
     [[self cleanMapButton] setHidden:YES];
     [[self addDetailButton] setHidden:YES];
