@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
+		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
+		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
+		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */; };
@@ -19,6 +22,9 @@
 		D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */; };
 		D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */; };
 		D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */; };
+		64FA1B12153335B300513840 /* add_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 64FA1B10153335B300513840 /* add_new.png */; };
+		64FA1B13153335B300513840 /* add_new@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 64FA1B11153335B300513840 /* add_new@x2.png */; };
+		64FA1B21153353D600513840 /* OTMAddTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64FA1B20153353D600513840 /* OTMAddTreeViewController.m */; };
 		D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
@@ -95,6 +101,9 @@
 
 /* Begin PBXFileReference section */
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
+		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
+		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
+		6489E23315372DA300DA7924 /* gps_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@x2.png"; sourceTree = "<group>"; };
 		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
@@ -106,6 +115,10 @@
 		64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMEnvironment.h; sourceTree = "<group>"; };
 		64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
 		64DDCDC414F53D8F004FA0CF /* Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
+		64FA1B10153335B300513840 /* add_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_new.png; sourceTree = "<group>"; };
+		64FA1B11153335B300513840 /* add_new@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_new@x2.png"; sourceTree = "<group>"; };
+		64FA1B1F153353D600513840 /* OTMAddTreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAddTreeViewController.h; sourceTree = "<group>"; };
+		64FA1B20153353D600513840 /* OTMAddTreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAddTreeViewController.m; sourceTree = "<group>"; };
 		7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
 		D702FAB7153369E900A406A1 /* NSDictionary+MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MutableDeepCopy.h"; sourceTree = "<group>"; };
 		D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MutableDeepCopy.m"; sourceTree = "<group>"; };
@@ -325,6 +338,11 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6489E23215372DA300DA7924 /* gps_icon.png */,
+				6489E23315372DA300DA7924 /* gps_icon@x2.png */,
+				6489E23015371E0300DA7924 /* marker-selected-sm.png */,
+				64FA1B10153335B300513840 /* add_new.png */,
+				64FA1B11153335B300513840 /* add_new@x2.png */,
 				E943973814F447EB007CD0D1 /* second.png */,
 				E943973A14F447EB007CD0D1 /* second@2x.png */,
 				E943973114F447EB007CD0D1 /* first.png */,
@@ -401,6 +419,8 @@
 				D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */,
 				D702FABE1533903600A406A1 /* OTMSpeciesTableViewController.h */,
 				D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */,
+				64FA1B1F153353D600513840 /* OTMAddTreeViewController.h */,
+				64FA1B20153353D600513840 /* OTMAddTreeViewController.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -525,6 +545,11 @@
 				D7CC152715065AC200277C7C /* tree_icon.png in Resources */,
 				D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */,
 				643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */,
+				64FA1B12153335B300513840 /* add_new.png in Resources */,
+				64FA1B13153335B300513840 /* add_new@x2.png in Resources */,
+				6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */,
+				6489E23415372DA300DA7924 /* gps_icon.png in Resources */,
+				6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +617,7 @@
 				D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */,
 				D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */,
 				D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */,
+				64FA1B21153353D600513840 /* OTMAddTreeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

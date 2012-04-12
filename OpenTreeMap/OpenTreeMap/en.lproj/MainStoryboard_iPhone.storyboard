@@ -22,6 +22,118 @@
             </objects>
             <point key="canvasLocation" x="688" y="-158"/>
         </scene>
+        <!--Navigation Controller - Add Tree-->
+        <scene sceneID="ceQ-D8-09n">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VN8-Ae-9is" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="9bo-oa-JDy" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Add Tree" image="add_new.png" id="8hh-bh-9Iv"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="K62-eA-PA9">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="syT-tZ-ske" kind="relationship" relationship="rootViewController" id="r2K-T5-HOa"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="711" y="-750"/>
+        </scene>
+        <!--Add Tree View Controller-->
+        <scene sceneID="KZ4-ey-ZJ8">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jZ0-Uo-ahY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="syT-tZ-ske" customClass="OTMAddTreeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5xb-He-a0r">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="ugp-Y5-7jb">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="dSZ-Ez-3Ah">
+                                <rect key="frame" x="0.0" y="44" width="320" height="323"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                            <searchBar contentMode="redraw" id="eiW-EQ-RGg">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <view contentMode="scaleToFill" id="Y1k-gF-snv">
+                                <rect key="frame" x="0.0" y="44" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zv3-kX-xg8">
+                                        <rect key="frame" x="106" y="3" width="109" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Add Another">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addAnother:" destination="syT-tZ-ske" eventType="touchUpInside" id="tgC-By-GaJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZCX-s1-hQ2">
+                                        <rect key="frame" x="223" y="3" width="97" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Add Detail">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="addDetail:" destination="syT-tZ-ske" eventType="touchUpInside" id="7Au-mv-7wX"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tap the map to set a new tree location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="YKc-Ng-RGv">
+                                        <rect key="frame" x="0.0" y="11" width="320" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qf6-Rr-CTe">
+                                        <rect key="frame" x="0.0" y="3" width="97" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Remove">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cleanMap:" destination="syT-tZ-ske" eventType="touchUpInside" id="emQ-or-7jv"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0xy-vB-Ksc"/>
+                    <connections>
+                        <outlet property="addAnotherButton" destination="Zv3-kX-xg8" id="Y2q-Js-DNW"/>
+                        <outlet property="addDetailButton" destination="ZCX-s1-hQ2" id="w0w-jL-K0V"/>
+                        <outlet property="cleanMapButton" destination="qf6-Rr-CTe" id="bcl-o8-ST7"/>
+                        <outlet property="messageLabel" destination="YKc-Ng-RGv" id="DRn-Z4-lcO"/>
+                        <outlet property="mv" destination="dSZ-Ez-3Ah" id="edN-7b-XyG"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1142" y="-750"/>
+        </scene>
         <!--Map View Controller - First-->
         <scene sceneID="11">
             <objects>
@@ -251,6 +363,7 @@
                         <segue destination="IOc-fB-8NC" kind="relationship" relationship="viewControllers" id="yrs-Ul-Kac"/>
                         <segue destination="bif-JI-aQc" kind="relationship" relationship="viewControllers" id="dBz-IX-rYE"/>
                         <segue destination="Bua-WS-BqB" kind="relationship" relationship="viewControllers" id="RWl-OJ-DUu"/>
+                        <segue destination="9bo-oa-JDy" kind="relationship" relationship="viewControllers" id="bYN-el-JM0"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -438,9 +551,23 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add_new.png" width="30" height="30"/>
         <image name="first" width="16" height="16"/>
     </resources>
     <classes>
+        <class className="OTMAddTreeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMAddTreeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addAnother:"/>
+                <relationship kind="action" name="addDetail:"/>
+                <relationship kind="action" name="cleanMap:"/>
+                <relationship kind="outlet" name="addAnotherButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="addDetailButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="cleanMapButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="messageLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mv" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
         <class className="OTMDetailSliderview" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
         </class>

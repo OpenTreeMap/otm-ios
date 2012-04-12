@@ -26,6 +26,7 @@
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
 #import "OTMTreeDetailViewController.h"
+#import "OTMAppDelegate.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -40,16 +41,16 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, locationManager, mostAccurateLocationResponse;
 
 - (void)viewDidLoad
 {
     self.detailsVisible = NO;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch 
-                                                                                          target:nil
-                                                                                          action:nil];
+    UIImage *gpsButtonImage = [UIImage imageNamed:@"gps_icon"];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:gpsButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(startFindingLocation)];
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithTitle:@"Filter"
                                               style:UIBarButtonItemStyleBordered
@@ -81,6 +82,12 @@
 
 -(void)updatedImage:(NSNotification *)note {
     self.treeImage.image = note.object;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    MKCoordinateRegion region = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapRegion];
+    [mapView setRegion:region];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
@@ -253,6 +260,15 @@
     {
         return;
     }
+
+    // If the user taps the map while the searchBar is focused, dismiss the keyboard. This
+    // mirrors the behavior of the iOS maps app.
+    if ([searchBar isFirstResponder]) {
+        [searchBar setShowsCancelButton:NO animated:YES];
+        [searchBar resignFirstResponder];
+        return;
+    }
+
     CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
@@ -332,6 +348,9 @@
 
 - (void)mapView:(MKMapView*)mView regionDidChangeAnimated:(BOOL)animated {
     MKCoordinateRegion region = [mView region];
+
+    [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] setMapRegion:region];
+
     double lngMin = region.center.longitude - region.span.longitudeDelta / 2.0;
     double lngMax = region.center.longitude + region.span.longitudeDelta / 2.0;
     double latMin = region.center.latitude - region.span.latitudeDelta / 2.0;
@@ -370,13 +389,12 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)bar {
     NSString *searchText = [NSString stringWithFormat:@"%@ %@", [bar text], [[OTMEnvironment sharedEnvironment] searchSuffix]];
-    NSString *urlEncodedSearchText = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    [[[OTMEnvironment sharedEnvironment] api] geocodeAddress:urlEncodedSearchText
+    [[[OTMEnvironment sharedEnvironment] api] geocodeAddress:searchText
         callback:^(NSArray* matches, NSError* error) {
             if ([matches count] > 0) {
                 NSDictionary *firstMatch = [matches objectAtIndex:0];
-                double lon = [((NSNumber*)[firstMatch objectForKey:@"x"]) doubleValue];
-                double lat = [((NSNumber*)[firstMatch objectForKey:@"y"]) doubleValue];
+                double lon = [[firstMatch objectForKey:@"x"] doubleValue];
+                double lat = [[firstMatch objectForKey:@"y"] doubleValue];
                 CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
                 MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
                 [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
@@ -398,5 +416,69 @@
        }];
 }
 
+#pragma mark CoreLocation handling
 
+- (void)startFindingLocation
+{
+    if ([CLLocationManager locationServicesEnabled]) {
+        if (nil == [self locationManager]) {
+            [self setLocationManager:[[CLLocationManager alloc] init]];
+            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+        }
+        // The delegate is cleared in stopFindingLocation so it must be reset here.
+        [locationManager setDelegate:self];
+        [locationManager startUpdatingLocation];
+        NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
+        [self performSelector:@selector(stopFindingLocationAndSetMostAccurateLocation) withObject:nil afterDelay:timeout];
+    } else {
+        [UIAlertView showAlertWithTitle:nil message:@"Location services are not available." cancelButtonTitle:@"OK" otherButtonTitle:nil callback:nil];
+    }
+}
+
+- (void)stopFindingLocation {
+    [[self locationManager] stopUpdatingLocation];
+    // When using the debugger I found that extra events would arrive after calling stopUpdatingLocation.
+    // Setting the delegate to nil ensures that those events are not ignored.
+    [locationManager setDelegate:nil];
+}
+
+- (void)stopFindingLocationAndSetMostAccurateLocation {
+    [self stopFindingLocation];
+    if ([self mostAccurateLocationResponse] != nil) {
+        MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+        [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:YES];
+    }
+    [self setMostAccurateLocationResponse:nil];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    NSDate* eventDate = newLocation.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    // Avoid using any cached location results by making sure they are less than 15 seconds old
+    if (abs(howRecent) < 15.0)
+    {
+        NSLog(@"Location accuracy: horizontal %f, vertical %f", [newLocation horizontalAccuracy], [newLocation verticalAccuracy]);
+
+        if ([self mostAccurateLocationResponse] == nil || [[self mostAccurateLocationResponse] horizontalAccuracy] > [newLocation horizontalAccuracy]) {
+            [self setMostAccurateLocationResponse: newLocation];
+        }
+
+        if ([newLocation horizontalAccuracy] > 0 && [newLocation horizontalAccuracy] < [manager desiredAccuracy]) {
+            [self stopFindingLocation];
+            [self setMostAccurateLocationResponse:nil];
+            // Cancel the previous performSelector:withObject:afterDelay: - it's no longer necessary
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopFindingLocation:) object:nil];
+
+            NSLog(@"Found user's location: latitude %+.6f, longitude %+.6f\n",
+                  newLocation.coordinate.latitude,
+                  newLocation.coordinate.longitude);
+
+            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+            [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:YES];
+        }
+    }
+}
 @end

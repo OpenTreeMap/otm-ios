@@ -374,8 +374,9 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 
 -(void)geocodeAddress:(NSString *)address callback:(AZJSONCallback)callback
 {
+    NSString *urlEncodedSearchText = [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [request get:@"addresses/:address"
-          params:[NSDictionary dictionaryWithObject:address forKey:@"address"]
+          params:[NSDictionary dictionaryWithObject:urlEncodedSearchText forKey:@"address"]
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 

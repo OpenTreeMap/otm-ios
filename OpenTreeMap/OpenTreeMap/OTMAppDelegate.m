@@ -15,7 +15,7 @@
 
 @implementation OTMAppDelegate
 
-@synthesize window = _window, keychain, loginManager;
+@synthesize window = _window, keychain, loginManager, mapRegion;
 
 #pragma mark UIApplicationDelegate methods
 
