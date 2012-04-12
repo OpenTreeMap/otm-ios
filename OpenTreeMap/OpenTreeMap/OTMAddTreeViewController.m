@@ -56,6 +56,8 @@
     [[self addAnotherButton] setHidden:YES];
     [[self cleanMapButton] setHidden:YES];
     
+    MKCoordinateRegion region = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapRegion];
+    [mv setRegion:region];
     
     [super viewDidLoad];
 }
