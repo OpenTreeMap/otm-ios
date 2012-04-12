@@ -84,8 +84,10 @@
     // Your application might not need or want this behavior.
     CGRect aRect = self.view.frame;
     aRect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin) ) {
-        [self.scrollView scrollRectToVisible:CGRectInset(self.activeField.frame, 0, -10)
+    CGRect activeRect = [self.scrollView convertRect:self.activeField.frame fromView:self.activeField.superview];
+    
+    if (!CGRectContainsPoint(aRect, activeRect.origin) ) {
+        [self.scrollView scrollRectToVisible:CGRectInset(activeRect, 0, -10)
                                     animated:YES];
     }
 }

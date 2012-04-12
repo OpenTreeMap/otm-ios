@@ -43,5 +43,6 @@
  *
  */
 - (NSString*)decodeKey:(NSString *)keystr;
+- (void)setObject:(id)obj forEncodedKey:(NSString *)keystr;
 
 @end

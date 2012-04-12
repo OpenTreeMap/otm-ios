@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
+#define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
+
 @interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;

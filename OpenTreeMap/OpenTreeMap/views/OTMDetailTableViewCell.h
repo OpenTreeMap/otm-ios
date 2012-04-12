@@ -22,9 +22,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OTMDetailTableViewCell : UITableViewCell
+@protocol OTMDetailTableViewCellDelegate <NSObject>
+
+-(void)tableViewCell:(UITableViewCell *)tblViewCell updatedToValue:(NSString *)v;
+
+@end
+
+@interface OTMDetailTableViewCell : UITableViewCell<UITextFieldDelegate>
 
 @property (nonatomic, strong) UILabel *fieldLabel;
 @property (nonatomic, strong) UILabel *fieldValue;
+@property (nonatomic, strong) UITextField *editFieldValue;
+@property (nonatomic, assign) BOOL allowsEditing;
+
+@property (nonatomic, weak) id<UITextFieldDelegate> tfDelegate;
+@property (nonatomic, weak) id<OTMDetailTableViewCellDelegate> delegate;
 
 @end

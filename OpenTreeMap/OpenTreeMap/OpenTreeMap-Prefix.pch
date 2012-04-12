@@ -19,3 +19,15 @@
 // Always make categories available
 #import "NSDictionary+DecodeKey.h"
 #import "UIAlertView+Blocks.h"
+#import "NSDictionary+MutableDeepCopy.h"
+#import "NSArray+MutableDeepCopy.h"
+
+typedef id (^Function0)();
+typedef id (^Function1)(id a);
+typedef id (^Function2)(id a, id b);
+typedef id (^Function3)(id a, id b, id c);
+
+typedef void (^Function0v)();
+typedef void (^Function1v)(id a);
+typedef void (^Function2v)(id a, id b);
+typedef void (^Function3v)(id a, id b, id c);

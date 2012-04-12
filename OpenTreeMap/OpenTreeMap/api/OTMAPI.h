@@ -45,12 +45,19 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  *
  * This is a singleton object - grab it from the OTMEnironment
  */
-@interface OTMAPI : NSObject
+@interface OTMAPI : NSObject {
+    NSDictionary *species;
+}
 
 /**
  * Object used for doing our http requests
  */
 @property (nonatomic,strong) AZHttpRequest* request;
+
+/**
+ * Get species list
+ */
+-(void)getSpeciesListWithCallback:(AZJSONCallback)callback;
 
 /**
  * Get the plot nearested to (lat,lon)
@@ -116,6 +123,11 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  * The a user's profile picture
  */
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback;
+
+/**
+ * Set tree photo
+ */
+-(void)setPhoto:(UIImage *)image onPlotWithID:(NSUInteger)pId withUser:(OTMUser *)user callback:(AZJSONCallback)cb;
 
 /**
  * Get recent edit (reputation) actions for a user

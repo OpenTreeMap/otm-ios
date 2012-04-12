@@ -49,6 +49,7 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
             NSError* error = [[NSError alloc] initWithDomain:@"otm"
                                                         code:req.responseStatusCode
                                                     userInfo:nil];
+            
             callback(nil, error);
         }
     } copy];
@@ -68,6 +69,33 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
                 callback(json, error);
             }
     } copy];
+}
+
+-(void)getSpeciesListWithCallback:(AZJSONCallback)callback {
+    if (species != nil) {
+        if (callback) {
+            callback(species, nil);
+        }
+    } else {
+        [self.request get:@"species"
+                   params:nil
+                 callback:[OTMAPI liftResponse:
+                           [OTMAPI jsonCallback:^(id json, NSError *err) {
+                     if (err != nil) {
+                         if (callback) { callback(nil, err); }
+                     } else {
+                         NSMutableDictionary *s = [NSMutableDictionary dictionary];
+                         
+                         [json enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                             [s setObject:[obj objectForKey:@"id"]
+                                   forKey:[obj objectForKey:@"common_name"]];
+                         }];
+                         species = s;
+                         if (callback) { callback(species, nil); }
+                     }
+                 }]]];
+                           
+    }
 }
 
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback {
@@ -267,6 +295,15 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
                                               forKey:@"user_id"]
              data:UIImagePNGRepresentation(user.photo) 
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
+-(void)setPhoto:(UIImage *)image onPlotWithID:(NSUInteger)pId withUser:(OTMUser *)user callback:(AZJSONCallback)cb {
+    [request post:@"plots/:plot_id/tree/photo"
+         withUser:user
+           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pId]
+                                              forKey:@"plot_id"]
+             data:UIImagePNGRepresentation(image) 
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:cb]]];    
 }
 
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {

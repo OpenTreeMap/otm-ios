@@ -16,6 +16,9 @@
 		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
 		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
 		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
+		D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */; };
+		D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */; };
+		D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */; };
 		D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
@@ -104,6 +107,12 @@
 		64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
 		64DDCDC414F53D8F004FA0CF /* Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
 		7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
+		D702FAB7153369E900A406A1 /* NSDictionary+MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MutableDeepCopy.h"; sourceTree = "<group>"; };
+		D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MutableDeepCopy.m"; sourceTree = "<group>"; };
+		D702FABB15336AE400A406A1 /* NSArray+MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MutableDeepCopy.h"; sourceTree = "<group>"; };
+		D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MutableDeepCopy.m"; sourceTree = "<group>"; };
+		D702FABE1533903600A406A1 /* OTMSpeciesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSpeciesTableViewController.h; sourceTree = "<group>"; };
+		D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSpeciesTableViewController.m; sourceTree = "<group>"; };
 		D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDetailViewController.h; sourceTree = "<group>"; };
 		D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDetailViewController.m; sourceTree = "<group>"; };
 		D70B881B1510E63D000C280C /* OTMBase64Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBase64Test.h; sourceTree = "<group>"; };
@@ -262,6 +271,10 @@
 				D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */,
 				64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlay.h */,
 				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */,
+				D702FAB7153369E900A406A1 /* NSDictionary+MutableDeepCopy.h */,
+				D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */,
+				D702FABB15336AE400A406A1 /* NSArray+MutableDeepCopy.h */,
+				D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */,
 			);
 			name = AZ;
 			sourceTree = "<group>";
@@ -386,6 +399,8 @@
 				D7910C51152B419E00758F66 /* OTMNearbyTreesViewController.h */,
 				D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */,
 				D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */,
+				D702FABE1533903600A406A1 /* OTMSpeciesTableViewController.h */,
+				D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -574,6 +589,9 @@
 				D76BD9071523B8EB003C664F /* AZUser.m in Sources */,
 				D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */,
 				D78CCCD7152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m in Sources */,
+				D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */,
+				D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */,
+				D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -59,6 +59,11 @@
     self.title = @"Tree Map";
     
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatedImage:)
+                                                 name:kOTMMapViewControllerImageUpdate
+                                               object:nil];    
+    
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
      
@@ -68,7 +73,14 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kOTMMapViewControllerImageUpdate
+                                                  object:nil];
+}
+
+-(void)updatedImage:(NSNotification *)note {
+    self.treeImage.image = note.object;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
@@ -90,15 +102,18 @@
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.dbh", @"key",
                        @"Trunk Diameter", @"label", 
-                       @"fmtIn:", @"format", nil],
+                       @"fmtIn:", @"format",  
+                       [NSNumber numberWithBool:YES], @"editable", nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.height", @"key",
                        @"Tree Height", @"label",
-                       @"fmtM:", @"format", nil],
+                       @"fmtM:", @"format",  
+                       [NSNumber numberWithBool:YES], @"editable", nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.canopy_height", @"key",
                        @"Canopy Height", @"label", 
-                       @"fmtM:", @"format", nil],
+                       @"fmtM:", @"format", 
+                       [NSNumber numberWithBool:YES], @"editable", nil],
                       nil],
                      nil];
         
@@ -250,7 +265,7 @@
         } else {            
             NSDictionary* plot = [plots objectAtIndex:0];
             
-            self.selectedPlot = plot;
+            self.selectedPlot = [plot mutableDeepCopy];
             
             NSDictionary* geom = [plot objectForKey:@"geometry"];
             

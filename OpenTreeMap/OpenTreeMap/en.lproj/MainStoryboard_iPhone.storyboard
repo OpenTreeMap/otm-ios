@@ -179,20 +179,62 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="b7l-sL-luW"/>
+                    <navigationItem key="navigationItem" id="b7l-sL-luW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="FPD-mA-QHc">
+                            <connections>
+                                <action selector="startEditing:" destination="Z5j-QU-uNU" id="FT5-xe-qIc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="address" destination="Imi-kc-vP1" id="c3I-Oi-1Wi"/>
                         <outlet property="imageView" destination="h2p-MS-lx6" id="fMH-90-obH"/>
                         <outlet property="lastUpdateDate" destination="8OF-cT-Ox7" id="5gA-jJ-AAJ"/>
+                        <outlet property="scrollView" destination="hqL-kc-WAV" id="qBJ-eZ-7lh"/>
                         <outlet property="species" destination="a81-a2-XX4" id="C29-eA-A2j"/>
                         <outlet property="tableView" destination="hqL-kc-WAV" id="Esh-w3-bJ8"/>
                         <outlet property="updateUser" destination="2GN-8f-yyH" id="MBB-Pd-TIG"/>
                         <outlet property="view" destination="kdd-4U-sUB" id="yl3-yg-jqn"/>
+                        <segue destination="v8c-v7-6H5" kind="push" identifier="changeSpecies" id="Lek-fL-nUD"/>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1528" y="-158"/>
+        </scene>
+        <!--Species Table View Controller-->
+        <scene sceneID="UYx-NC-Q9u">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kOL-lh-UMg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="oFt-5U-AiH">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="v8c-v7-6H5" id="uOr-2Q-5Hs"/>
+                            <outlet property="delegate" destination="v8c-v7-6H5" id="Vdk-Sk-MHL"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="uwD-xv-6vk"/>
+                    <connections>
+                        <outlet property="tableView" destination="vV2-mt-eHo" id="Phu-fE-cZW"/>
+                        <outlet property="view" destination="vV2-mt-eHo" id="5Az-M6-9pS"/>
+                    </connections>
+                </tableViewController>
+            </objects>
+            <point key="canvasLocation" x="1972" y="-158"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -337,7 +379,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3s4-ZD-HQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="Bua-WS-BqB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="jUG-J8-9UY"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="first" id="jUG-J8-9UY"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Zvq-9t-LHn">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -398,6 +440,69 @@
     <resources>
         <image name="first" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="OTMDetailSliderview" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
+        </class>
+        <class className="OTMMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="treeImage" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="OTMNearbyTreesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNearbyTreesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="OTMPasswordChangeViewController" superclassName="OTMScrollAwareViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordChangeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="aNewPassword" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="aNewPasswordVerify" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="oldPassword" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="OTMProfileViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="loadingView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="OTMScrollAwareViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMScrollAwareViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="completedForm:"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="OTMSpeciesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMSpeciesTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="OTMTreeDetailViewController" superclassName="OTMScrollAwareViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTreeDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="startEditing:"/>
+                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lastUpdateDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="updateUser" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

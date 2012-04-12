@@ -43,4 +43,25 @@
     return thing;
 }
 
+- (void)setObject:(id)obj forEncodedKey:(NSString *)keystr {
+    NSArray* keylist = [keystr componentsSeparatedByString:@"."];
+    
+    id thing = self;
+    for(int i=0;i<[keylist count] - 1;i++) {
+        id key = [keylist objectAtIndex:i];
+        if ([thing respondsToSelector:@selector(objectForKey:)]) {
+            id aThing = [thing objectForKey:key];
+            
+            if (aThing == [NSNull null]) {
+                aThing = [NSMutableDictionary dictionary];
+                [thing setObject:aThing forKey:key];
+            }
+            
+            thing = aThing;
+        }
+    }    
+    
+    [thing setObject:obj forKey:[keylist lastObject]];
+}
+
 @end

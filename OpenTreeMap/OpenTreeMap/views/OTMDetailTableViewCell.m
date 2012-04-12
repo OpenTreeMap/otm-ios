@@ -24,7 +24,7 @@
 
 @implementation OTMDetailTableViewCell
 
-@synthesize fieldLabel, fieldValue;
+@synthesize fieldLabel, fieldValue, editFieldValue, tfDelegate, allowsEditing, delegate;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -39,14 +39,21 @@
                                        CGRectGetMidX(frame),
                                        frame.size.height);
         
+        CGRect inputFrame = CGRectInset(rightFrame, 0, 10);
+        
         self.fieldLabel = [self labelWithFrame:leftFrame];
         self.fieldValue = [self labelWithFrame:rightFrame];
+        
+        self.editFieldValue = [[UITextField alloc] initWithFrame:inputFrame];
+        self.editFieldValue.delegate = self;
         
         [self.fieldLabel setTextColor:[UIColor grayColor]];
         
         [self addSubview:self.fieldValue];
         [self addSubview:self.fieldLabel];
-
+        [self addSubview:self.editFieldValue];
+        
+        editFieldValue.hidden = YES;
     }
     return self;
 }
@@ -60,11 +67,41 @@
     return label;
 }
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    if (allowsEditing) {
+        if (editing) {
+            editFieldValue.text = fieldValue.text;
+        } else {
+            fieldValue.text = editFieldValue.text;
+        }
+        
+        editFieldValue.hidden = !editing;
+        fieldValue.hidden = editing;
+    }
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     // [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark Text Field Delegates
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [tfDelegate textFieldDidBeginEditing:textField];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [tfDelegate textFieldDidEndEditing:textField];
+    [delegate tableViewCell:self updatedToValue:textField.text];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    return [tfDelegate textFieldShouldReturn:textField];
 }
 
 @end
