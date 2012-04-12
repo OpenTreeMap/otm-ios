@@ -106,7 +106,7 @@
 
     [self setSearchSuffix:[mapView valueForKey:@"SearchSuffix"]];
 
-    [self setLocationSearchTimeoutInSeconds:[mapView valueForKey:@"locationSearchTimeoutInSeconds"]];
+    [self setLocationSearchTimeoutInSeconds:[mapView valueForKey:@"LocationSearchTimeoutInSeconds"]];
 
     OTMAPI* otmApi = [[OTMAPI alloc] init];
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
