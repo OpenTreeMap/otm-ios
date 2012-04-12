@@ -173,7 +173,7 @@
         treeAnnotationView = (MKAnnotationView *) [mapView dequeueReusableAnnotationViewWithIdentifier:@"AddedTree"];
         if (treeAnnotationView == nil) {
             treeAnnotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"AddedTree"];
-            [treeAnnotationView setImage:[UIImage imageNamed:@"tree_icon"]];
+            [treeAnnotationView setImage:[UIImage imageNamed:@"marker-selected-sm"]];
         } else {
             treeAnnotationView.annotation = annotation;
         }

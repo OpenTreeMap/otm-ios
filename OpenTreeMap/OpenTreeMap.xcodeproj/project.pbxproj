@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
+		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */; };
@@ -95,6 +96,7 @@
 
 /* Begin PBXFileReference section */
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
+		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				6489E23015371E0300DA7924 /* marker-selected-sm.png */,
 				64FA1B10153335B300513840 /* add_new.png */,
 				64FA1B11153335B300513840 /* add_new@x2.png */,
 				E943973814F447EB007CD0D1 /* second.png */,
@@ -523,6 +526,7 @@
 				643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */,
 				64FA1B12153335B300513840 /* add_new.png in Resources */,
 				64FA1B13153335B300513840 /* add_new@x2.png in Resources */,
+				6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
