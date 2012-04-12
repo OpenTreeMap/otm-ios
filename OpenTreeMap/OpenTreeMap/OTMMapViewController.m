@@ -47,8 +47,10 @@
 {
     self.detailsVisible = NO;
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(startFindingLocation)];
+    UIImage *gpsButtonImage = [UIImage imageNamed:@"gps_icon"];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:gpsButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(startFindingLocation)];
+
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithTitle:@"Filter"
                                               style:UIBarButtonItemStyleBordered
