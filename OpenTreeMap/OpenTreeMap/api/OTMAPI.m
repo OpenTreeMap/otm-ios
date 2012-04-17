@@ -232,6 +232,17 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
     return offset;   
 }
 
+-(void)savePlot:(NSDictionary *)plot withUser:(OTMUser *)user callback:(AZJSONCallback)callback {
+    id pId = [plot objectForKey:@"id"];
+    
+    // Update (PUT)
+    if (pId != nil) {
+        
+    } else {
+        // POST
+    }
+}
+
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
     [request get:@"login" 
         withUser:user 

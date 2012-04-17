@@ -60,6 +60,14 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
 -(void)getSpeciesListWithCallback:(AZJSONCallback)callback;
 
 /**
+ * Save the given plot
+ *
+ * If there is no <id> element, create a new plot
+ * If there is a <tree> element, create or update the inner tree
+ */
+-(void)savePlot:(NSDictionary *)plot withUser:(OTMUser *)user callback:(AZJSONCallback)callback;
+
+/**
  * Get the plot nearested to (lat,lon)
  *
  * @param lat,lon latitude and longitude of the point of intererest

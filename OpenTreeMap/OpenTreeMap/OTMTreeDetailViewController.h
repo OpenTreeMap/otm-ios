@@ -27,6 +27,7 @@
 
 @interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, OTMDetailTableViewCellDelegate, UITextFieldDelegate> {
     BOOL editMode;
+    BOOL updated;
     NSMutableDictionary *data;
 }
 

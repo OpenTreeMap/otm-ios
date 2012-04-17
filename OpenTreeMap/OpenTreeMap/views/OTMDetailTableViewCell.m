@@ -21,10 +21,11 @@
 //  
 
 #import "OTMDetailTableViewCell.h"
+#import "OTMFormatters.h"
 
 @implementation OTMDetailTableViewCell
 
-@synthesize fieldLabel, fieldValue, editFieldValue, tfDelegate, allowsEditing, delegate;
+@synthesize fieldLabel, fieldValue, editFieldValue, tfDelegate, allowsEditing, delegate, formatKey;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -68,11 +69,14 @@
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    if (allowsEditing) {
-        if (editing) {
-            editFieldValue.text = fieldValue.text;
-        } else {
-            fieldValue.text = editFieldValue.text;
+    if (allowsEditing) {        
+        if (editing == NO) { // Transition from editing to view
+            if (self.formatKey != nil) {
+                fieldValue.text = [OTMFormatters fmtObject:self.editFieldValue.text
+                                                   withKey:self.formatKey];
+            } else {
+                fieldValue.text = self.editFieldValue.text;
+            }
         }
         
         editFieldValue.hidden = !editing;

@@ -34,6 +34,7 @@
 @property (nonatomic, strong) UILabel *fieldValue;
 @property (nonatomic, strong) UITextField *editFieldValue;
 @property (nonatomic, assign) BOOL allowsEditing;
+@property (nonatomic, copy) NSString *formatKey;
 
 @property (nonatomic, weak) id<UITextFieldDelegate> tfDelegate;
 @property (nonatomic, weak) id<OTMDetailTableViewCellDelegate> delegate;

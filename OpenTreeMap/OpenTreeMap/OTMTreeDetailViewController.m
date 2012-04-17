@@ -85,6 +85,11 @@
 - (IBAction)startEditing:(id)sender {
     [self.activeField resignFirstResponder];
     
+    if (updated) {
+        
+    }
+    
+    updated = NO;
     editMode = !editMode;
     [self.tableView reloadData];
     self.tableView.editing = editMode;
@@ -140,14 +145,13 @@
             [pictureTaker getPictureInViewController:self
                                             callback:^(UIImage *image)
              {
-                 
+                 self.imageView.image = image;
                  [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
                                                        onPlotWithID:[[self.data objectForKey:@"id"] intValue]
                                                            withUser:nil 
                                                            callback:^(id json, NSError *err)
                   {
                       if (err == nil) {
-                          self.imageView.image = image;
                           [[NSNotificationCenter defaultCenter] postNotificationName:kOTMMapViewControllerImageUpdate
                                                                               object:image];
                       }
@@ -170,6 +174,8 @@
     NSMutableDictionary* cellinfo = [[self.keys objectAtIndex:section] objectAtIndex:row+1];
     
     [data setObject:value forEncodedKey:[cellinfo objectForKey:@"key"]];
+    
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -197,19 +203,24 @@
         
         NSDictionary* cellinfo = [[self.keys objectAtIndex:section] objectAtIndex:indexPath.row+1];
         
-        id value = [self.data decodeKey:[cellinfo valueForKey:@"key"]];
+        id rawValue = [self.data decodeKey:[cellinfo valueForKey:@"key"]];
+        id value;
+        
         NSString* formatKey = [cellinfo valueForKey:@"format"];
         
-        if (value == nil ) {
+        if (rawValue == nil ) {
+            rawValue = @"";
             value = @"";
         } else if (formatKey != nil) {
-            value = [OTMFormatters fmtObject:value withKey:formatKey];
+            value = [OTMFormatters fmtObject:rawValue withKey:formatKey];
         } else {
-            value = [NSString stringWithFormat:@"%@",value];
+            value = [NSString stringWithFormat:@"%@",rawValue];
         }
         
         cell.fieldValue.text = value;
         cell.fieldLabel.text = [cellinfo valueForKey:@"label"];
+        cell.editFieldValue.text = [NSString stringWithFormat:@"%@",rawValue];
+        cell.formatKey = formatKey;
         cell.allowsEditing = [[cellinfo valueForKey:@"editable"] boolValue];
             
         return cell;
