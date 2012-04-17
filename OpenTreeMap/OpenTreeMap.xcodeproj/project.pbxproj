@@ -698,8 +698,6 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PROVISIONING_PROFILE = "A18FF488-214C-4B09-9617-08F5F102B3A3";
-				"PROVISIONING_PROFILE[sdk=*]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -774,8 +772,6 @@
 					"-ObjC",
 					"-all_load",
 				);
-				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
-				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -800,7 +796,6 @@
 					"-ObjC",
 					"-all_load",
 				);
-				"PROVISIONING_PROFILE[sdk=*]" = "A18FF488-214C-4B09-9617-08F5F102B3A3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -826,8 +821,6 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "2B64B47C-909E-4D92-B84C-F93D4329DF73";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes/** ../DerivedData/opentreemap/Build/Products/three20/**";
 				WRAPPER_EXTENSION = app;
@@ -853,8 +846,6 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=*]" = "";
-				"PROVISIONING_PROFILE[sdk=iphonesimulator*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes/** ../DerivedData/opentreemap/Build/Products/three20/**";
 				WRAPPER_EXTENSION = app;
