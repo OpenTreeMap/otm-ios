@@ -148,6 +148,18 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="w2g-B4-7BF">
+                                <rect key="frame" x="130" y="50" width="185" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Map"/>
+                                    <segment title="Satellite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="setMapMode:" destination="2" eventType="valueChanged" id="Nhx-DC-WMp"/>
+                                </connections>
+                            </segmentedControl>
                             <view contentMode="scaleToFill" id="cSI-Ty-HIV" customClass="OTMDetailSliderview">
                                 <rect key="frame" x="0.0" y="267" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -213,7 +225,7 @@
                         <outlet property="address" destination="iUl-4y-q6w" id="bnH-IJ-YUU"/>
                         <outlet property="dbh" destination="Kf6-Fe-hNX" id="BtX-Yy-F6q"/>
                         <outlet property="detailView" destination="cSI-Ty-HIV" id="psF-sh-2Xv"/>
-                        <outlet property="mapView" destination="HdG-pl-Slh" id="YXf-f9-gkF"/>
+                        <outlet property="mapView" destination="HdG-pl-Slh" id="jdm-Cq-jrb"/>
                         <outlet property="searchBar" destination="tpv-GO-iyB" id="IWn-if-GRP"/>
                         <outlet property="species" destination="F3b-37-QZN" id="O6W-yo-o7a"/>
                         <outlet property="treeImage" destination="yCz-ce-iHJ" id="3qj-zu-mbR"/>
@@ -597,6 +609,9 @@
                 <relationship kind="outlet" name="oldPassword" candidateClass="UITextField"/>
             </relationships>
         </class>
+        <class className="OTMPictureTaker" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPictureTaker.h"/>
+        </class>
         <class className="OTMProfileViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
             <relationships>
@@ -624,6 +639,7 @@
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lastUpdateDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="pictureTaker" candidateClass="OTMPictureTaker"/>
                 <relationship kind="outlet" name="species" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="updateUser" candidateClass="UILabel"/>

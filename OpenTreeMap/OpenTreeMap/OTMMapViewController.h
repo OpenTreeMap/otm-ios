@@ -36,6 +36,7 @@
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,strong) CLLocation *mostAccurateLocationResponse;
 
+@property (nonatomic,strong) IBOutlet MKMapView *mapView;
 @property (nonatomic,strong) IBOutlet UIView* detailView;
 @property (nonatomic,strong) IBOutlet UIImageView* treeImage;
 @property (nonatomic,strong) IBOutlet UILabel* species;
@@ -43,6 +44,7 @@
 @property (nonatomic,strong) IBOutlet UILabel* address;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
+
 -(void)setDetailViewData:(NSDictionary*)plot;
 
 @end

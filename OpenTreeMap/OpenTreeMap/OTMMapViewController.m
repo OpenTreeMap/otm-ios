@@ -41,7 +41,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, locationManager, mostAccurateLocationResponse;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, locationManager, mostAccurateLocationResponse, mapView;
 
 - (void)viewDidLoad
 {
@@ -134,6 +134,20 @@
         return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
     } else {
         return YES;
+    }
+}
+
+- (IBAction)setMapMode:(UISegmentedControl *)sender {
+    switch (sender.selectedSegmentIndex) {
+        case 0:
+            self.mapView.mapType = MKMapTypeStandard;
+            break;
+        case 1:
+            self.mapView.mapType = MKMapTypeSatellite;
+            break;
+        default:
+            self.mapView.mapType = MKMapTypeHybrid;
+            break;
     }
 }
 
