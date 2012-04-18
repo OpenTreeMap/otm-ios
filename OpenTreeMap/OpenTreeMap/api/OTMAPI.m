@@ -38,7 +38,7 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 
 @implementation OTMAPI
 
-@synthesize request;
+@synthesize request, tileRequest;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
     if (callback == nil) { return [^(id obj, id error) {} copy]; }
@@ -130,7 +130,7 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 }
 
 -(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback {
-    [self.request getRaw:@"tiles"
+    [self.tileRequest getRaw:@"tiles"
                   params:[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%f,%f,%f,%f", 
                            region.center.longitude - region.span.longitudeDelta / 2.0,

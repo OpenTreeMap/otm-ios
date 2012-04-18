@@ -65,11 +65,13 @@
 
 @implementation AZHttpRequest
 
-@synthesize baseURL, headers;
+@synthesize baseURL, headers, queue;
 
 -(id)initWithURL:(NSString*)base {
     if (self = [[AZHttpRequest alloc] init]) {
         baseURL = [base copy];
+        queue = [[NSOperationQueue alloc] init];
+        queue.maxConcurrentOperationCount = 7;
     }
     
     return self;
@@ -234,7 +236,7 @@
         config(request);
     }
     
-    [request startAsynchronous];
+    [[self queue] addOperation:request];
 }
 
 @end

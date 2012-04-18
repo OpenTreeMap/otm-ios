@@ -52,6 +52,7 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
 /**
  * Object used for doing our http requests
  */
+@property (nonatomic,strong) AZHttpRequest* tileRequest;
 @property (nonatomic,strong) AZHttpRequest* request;
 
 /**

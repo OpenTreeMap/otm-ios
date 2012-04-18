@@ -109,10 +109,19 @@
     [self setLocationSearchTimeoutInSeconds:[mapView valueForKey:@"LocationSearchTimeoutInSeconds"]];
 
     OTMAPI* otmApi = [[OTMAPI alloc] init];
+    
+    // Note: treq is used for tile requests, this prevents the main
+    // operation queue from overloading with tiles
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
     req.headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", nil];
+    AZHttpRequest* treq = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
+    treq.headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", nil];
 
+    req.queue.maxConcurrentOperationCount = 3;
+    treq.queue.maxConcurrentOperationCount = 2;
+    
     otmApi.request = req;
+    otmApi.tileRequest = treq;
     
     self.api = otmApi;
     
