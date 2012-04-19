@@ -11,7 +11,7 @@
 
 @implementation OTMDetailCellRenderer
 
-@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback;
+@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight;
 
 +(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict {
     NSString *clazz = [dict objectForKey:@"class"];
@@ -27,7 +27,13 @@
 }
 
 -(id)init {
-    return self = [super init];
+    self = [super init];
+    
+    if (self) {
+        self.cellHeight = 44;
+    }
+    
+    return self;
 }
 
 -(id)initWithDict:(NSDictionary *)dict {
@@ -35,6 +41,12 @@
     
     if (self) {
         dataKey = [dict objectForKey:@"key"];
+        
+        id ro = [dict valueForKey:@"readonly"];
+        
+        if (ro == nil || [ro boolValue] == NO) {
+            self.editCellRenderer = [OTMLabelEditDetailCellRenderer editCellRendererFromDict:dict];
+        }        
     }
     
     return self;
@@ -58,12 +70,6 @@
     if (self) {
         label = [dict objectForKey:@"label"];
         formatStr = [dict objectForKey:@"format"];
-        
-        id ro = [dict valueForKey:@"readonly"];
-        
-        if (ro == nil || [ro boolValue] == NO) {
-            self.editCellRenderer = [[OTMLabelEditDetailCellRenderer alloc] initWithDict:dict];
-        }
     }
     
     return self;
@@ -89,8 +95,31 @@
 
 @implementation OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
+-(id)initWithDict:(NSDictionary *)dict {
+    self = [super init];
+    
+    if (self) {
+        self.dataKey = [dict objectForKey:@"key"];
+    }
+
+    return self; 
+}
+
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     ABSTRACT_METHOD_BODY
+}
+
++(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict {
+    NSString *clazz = [dict objectForKey:@"editClass"];
+    
+    OTMDetailCellRenderer *renderer;
+    if (clazz == nil) {
+        renderer = [[OTMDefaultEditDetailRenderer alloc] initWithDict:dict];
+    } else {
+        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict];
+    }
+    
+    return renderer;
 }
 
 @end
@@ -109,7 +138,7 @@
     return self;
 }
 
--(void)tableViewCell:(UITableViewCell *)tblViewCell updatedToValue:(NSString *)v {
+-(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
     self.updatedString = v;
 }
 
@@ -142,6 +171,57 @@
     detailcell.fieldLabel.text = self.label;
     
     return detailcell;
+}
+
+@end
+
+@implementation OTMDBHEditDetailCellRenderer
+
+@synthesize cell;
+
+-(id)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    
+    if (self) {
+        cell = [OTMDBHTableViewCell loadFromNib];
+        cell.delegate = self;
+        self.cellHeight = cell.frame.size.height;
+    }
+    
+    return self;
+}
+
+-(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
+    
+    if (field == self.cell.circumferenceTextField) {
+        CGFloat circ = [v floatValue];
+        NSString *diam = [NSString stringWithFormat:@"%0.0f",circ / M_PI];
+        
+        self.cell.diameterTextField.text = diam;
+    } else {
+        CGFloat diam = [v floatValue];
+        NSString *circ = [NSString stringWithFormat:@"%0.0f",diam * M_PI];
+        
+        self.cell.circumferenceTextField.text = circ;        
+    }
+}
+
+-(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+    [dict setObject:self.cell.diameterTextField.text
+      forEncodedKey:self.dataKey];
+    
+    return dict;
+}
+
+#define OTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
+
+-(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+    self.cell.diameterTextField.text = [[data decodeKey:self.dataKey] description];
+    [self tableViewCell:nil
+              textField:self.cell.diameterTextField
+         updatedToValue:self.cell.diameterTextField.text];
+    
+    return cell;
 }
 
 @end

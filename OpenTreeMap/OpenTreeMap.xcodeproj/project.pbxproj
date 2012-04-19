@@ -53,6 +53,8 @@
 		D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FCB15210492008301E4 /* OTMProfileViewController.m */; };
 		D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */; };
 		D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */; };
+		D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */; };
+		D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */; };
 		D78CCCD7152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */; };
 		D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
@@ -166,6 +168,9 @@
 		D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordChangeViewController.m; sourceTree = "<group>"; };
 		D7829C82153F3AE200DBFE7C /* OTMDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailCellRenderer.h; sourceTree = "<group>"; };
 		D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailCellRenderer.m; sourceTree = "<group>"; };
+		D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMDBHTableViewCell.xib; sourceTree = "<group>"; };
+		D7829C8715409EF300DBFE7C /* OTMDBHTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDBHTableViewCell.h; sourceTree = "<group>"; };
+		D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDBHTableViewCell.m; sourceTree = "<group>"; };
 		D78CCCD5152CC34C00A6E9B7 /* OTMDistanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDistanceTableViewCell.h; sourceTree = "<group>"; };
 		D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDistanceTableViewCell.m; sourceTree = "<group>"; };
 		D7910C51152B419E00758F66 /* OTMNearbyTreesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNearbyTreesViewController.h; sourceTree = "<group>"; };
@@ -347,6 +352,9 @@
 				D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */,
 				D78CCCD5152CC34C00A6E9B7 /* OTMDistanceTableViewCell.h */,
 				D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */,
+				D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */,
+				D7829C8715409EF300DBFE7C /* OTMDBHTableViewCell.h */,
+				D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -563,6 +571,7 @@
 				6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */,
 				6489E23415372DA300DA7924 /* gps_icon.png in Resources */,
 				6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */,
+				D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,6 +641,7 @@
 				D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */,
 				64FA1B21153353D600513840 /* OTMAddTreeViewController.m in Sources */,
 				D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */,
+				D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

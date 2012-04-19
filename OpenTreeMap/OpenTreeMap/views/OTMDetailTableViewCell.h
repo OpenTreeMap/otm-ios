@@ -24,7 +24,7 @@
 
 @protocol OTMDetailTableViewCellDelegate <NSObject>
 
--(void)tableViewCell:(UITableViewCell *)tblViewCell updatedToValue:(NSString *)v;
+-(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField*)textField updatedToValue:(NSString *)v;
 
 @end
 

@@ -113,6 +113,7 @@
                        @"tree.dbh", @"key",
                        @"Trunk Diameter", @"label", 
                        @"fmtIn:", @"format",  
+                       @"OTMDBHEditDetailCellRenderer", @"editClass",
                        nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.height", @"key",

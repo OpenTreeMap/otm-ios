@@ -78,7 +78,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [tfDelegate textFieldDidEndEditing:textField];
-    [delegate tableViewCell:self updatedToValue:textField.text];
+    [delegate tableViewCell:self textField:textField updatedToValue:textField.text];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

@@ -49,6 +49,8 @@
 @property (nonatomic,strong) IBOutlet UIImageView* imageView;
 @property (nonatomic,strong) IBOutlet UIView* headerView;
 
+@property (nonatomic,strong) IBOutlet UITableViewCell *acell;
+
 /**
  * Dictionary[String,String] of tree detail key-value pairs
  */

@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "OTMDetailTableViewCell.h"
+#import "OTMDBHTableViewCell.h"
 
 #define OTMDefaultDetailRenderer OTMLabelDetailCellRenderer
+#define OTMDefaultEditDetailRenderer OTMLabelEditDetailCellRenderer
 
 @class OTMEditDetailCellRenderer;
 
@@ -50,6 +52,7 @@
 
 // Table View Delegate methods
 @property (nonatomic,strong) Function1v clickCallback;
+@property (nonatomic,assign) CGFloat cellHeight;
 
 /**
  * Initialize with dictionary structure
@@ -70,8 +73,11 @@ ABSTRACT_METHOD
  */
 @interface OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
++(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict;
+
 ABSTRACT_METHOD
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
+
 @end
 
 /**
@@ -88,6 +94,12 @@ ABSTRACT_METHOD
 
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) NSString *updatedString;
+
+@end
+
+@interface OTMDBHEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
+
+@property (nonatomic,strong) OTMDBHTableViewCell *cell;
 
 @end
 
