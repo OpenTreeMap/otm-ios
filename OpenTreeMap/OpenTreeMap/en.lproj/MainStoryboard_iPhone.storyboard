@@ -238,9 +238,10 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hqL-kc-WAV">
-                                <rect key="frame" x="0.0" y="85" width="320" height="282"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <inset key="contentInset" minX="0.0" minY="85" maxX="0.0" maxY="0.0"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <sections/>
                                 <connections>
@@ -301,6 +302,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="address" destination="Imi-kc-vP1" id="c3I-Oi-1Wi"/>
+                        <outlet property="headerView" destination="SBG-lE-den" id="dbX-Fl-0CA"/>
                         <outlet property="imageView" destination="h2p-MS-lx6" id="fMH-90-obH"/>
                         <outlet property="lastUpdateDate" destination="8OF-cT-Ox7" id="5gA-jJ-AAJ"/>
                         <outlet property="scrollView" destination="hqL-kc-WAV" id="qBJ-eZ-7lh"/>
@@ -597,6 +599,9 @@
                 <relationship kind="outlet" name="oldPassword" candidateClass="UITextField"/>
             </relationships>
         </class>
+        <class className="OTMPictureTaker" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPictureTaker.h"/>
+        </class>
         <class className="OTMProfileViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
             <relationships>
@@ -622,8 +627,10 @@
             <relationships>
                 <relationship kind="action" name="startEditing:"/>
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lastUpdateDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="pictureTaker" candidateClass="OTMPictureTaker"/>
                 <relationship kind="outlet" name="species" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="updateUser" candidateClass="UILabel"/>

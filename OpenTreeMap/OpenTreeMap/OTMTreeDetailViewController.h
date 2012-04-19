@@ -29,6 +29,14 @@
     BOOL editMode;
     BOOL updated;
     NSMutableDictionary *data;
+    
+    NSArray *txToEditRemove;
+    NSArray *txToEditReload;
+    
+    NSArray *editFields;
+    NSArray *allFields;
+    
+    NSArray *curFields;
 }
 
 @property (nonatomic,strong) IBOutlet OTMPictureTaker *pictureTaker;
@@ -39,6 +47,7 @@
 @property (nonatomic,strong) IBOutlet UILabel* lastUpdateDate;
 @property (nonatomic,strong) IBOutlet UILabel* updateUser;
 @property (nonatomic,strong) IBOutlet UIImageView* imageView;
+@property (nonatomic,strong) IBOutlet UIView* headerView;
 
 /**
  * Dictionary[String,String] of tree detail key-value pairs
@@ -46,7 +55,7 @@
 @property (nonatomic, strong) NSDictionary* data;
 
 /**
- * Array[Array[String]] keys to display in the main table
+ * Array[Array[OTMDetailCellRenderer]] keys to display in the main table
  *
  * Each element in the outher array represents a section
  * and each element in the inner array represents a row.
