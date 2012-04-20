@@ -42,13 +42,13 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel;
 
 - (void)viewDidLoad
 {
     self.detailsVisible = NO;
 
-    self.mode = kOTMMapViewControllerMapModeSelect;
+    [self changeMode:kOTMMapViewControllerMapModeSelect];
 
     self.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
     if (!self.title) {
@@ -62,6 +62,7 @@
     
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
+    [self slideAddTreeHelpDownAnimated:NO];
      
     [self setupMapView];
 }
@@ -191,20 +192,46 @@
     [self.address setText:taddress];
 }
 
--(void)slideDetailUpAnimated:(BOOL)anim {
+
+-(void)slideUpBottomDockedView:(UIView *)view animated:(BOOL)anim {
     if (anim) {
-        [UIView beginAnimations:@"slidedetailup" context:nil];
+        [UIView beginAnimations:[NSString stringWithFormat:@"slideup%@", view] context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:0.2];
     }
     
-    [self.detailView setFrame:
-        CGRectMake(0,
-                   self.view.bounds.size.height - self.detailView.frame.size.height,
-                   self.view.bounds.size.width, 
-                   self.detailView.frame.size.height)];
+    [view setFrame:
+     CGRectMake(0,
+                self.view.bounds.size.height - view.frame.size.height,
+                self.view.bounds.size.width,
+                view.frame.size.height)];
     
+    if (anim) {
+        [UIView commitAnimations];
+    }
+}
+
+-(void)slideDetailUpAnimated:(BOOL)anim {
+    [self slideUpBottomDockedView:self.detailView animated:anim];
     self.detailsVisible = YES;
+}
+
+-(void)slideAddTreeHelpUpAnimated:(BOOL)anim {
+    [self slideUpBottomDockedView:self.addTreeHelpView animated:anim];
+}
+
+-(void)slideDownBottomDockedView:(UIView *)view animated:(BOOL)anim {
+    if (anim) {
+        [UIView beginAnimations:[NSString stringWithFormat:@"slidedown%@", view] context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.2];
+    }    
+    
+    [view setFrame:
+     CGRectMake(0,
+                self.view.bounds.size.height,
+                self.view.bounds.size.width, 
+                view.frame.size.height)];
     
     if (anim) {
         [UIView commitAnimations];
@@ -212,23 +239,12 @@
 }
 
 -(void)slideDetailDownAnimated:(BOOL)anim {
-    if (anim) {
-        [UIView beginAnimations:@"slidedetaildown" context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:0.2];
-    }    
-    
-    [self.detailView setFrame:
-     CGRectMake(0,
-                self.view.bounds.size.height,
-                self.view.bounds.size.width, 
-                self.detailView.frame.size.height)];
-    
+    [self slideDownBottomDockedView:self.detailView animated:anim];
     self.detailsVisible = NO;
-    
-    if (anim) {
-        [UIView commitAnimations];
-    }
+}
+
+-(void)slideAddTreeHelpDownAnimated:(BOOL)anim {
+    [self slideDownBottomDockedView:self.addTreeHelpView animated:anim];
 }
 
 #pragma mark Map view setup
@@ -272,6 +288,109 @@
     // a double-tap
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
 }
+
+#pragma mark mode management methods
+
+- (void)clearSelectedTree
+{
+    if (self.lastClickedTree) {
+        [self.mapView removeAnnotation:self.lastClickedTree];
+        self.lastClickedTree = nil;
+    }
+    if (self.detailsVisible) {
+        [self slideDetailDownAnimated:YES];
+    }
+}
+
+- (void)changeMode:(NSString *)newMode
+{
+    if (newMode == self.mode) {
+        return;
+    }
+
+    if (newMode == kOTMMapViewControllerMapModeAdd) {
+        self.navigationItem.title = @"Add A Tree";
+        self.navigationItem.leftBarButtonItem.title = @"Cancel";
+        self.navigationItem.leftBarButtonItem.target = self;
+        self.navigationItem.leftBarButtonItem.action = @selector(cancelAddTree);
+        self.navigationItem.rightBarButtonItem = nil;
+
+        [self clearSelectedTree];
+        self.addTreeHelpLabel.text = @"Step 1: Tap the new tree location";
+        [self slideAddTreeHelpUpAnimated:YES];
+
+    } else if (newMode == kOTMMapViewControllerMapModeMove) {
+        self.navigationItem.leftBarButtonItem.title = @"Cancel";
+        self.navigationItem.leftBarButtonItem.target = self;
+        self.navigationItem.leftBarButtonItem.action = @selector(cancelMoveNewTree);
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showNewTreeEditView)];
+        [self crossfadeLabel:self.addTreeHelpLabel newText:@"Step 2: Move tree into position then click Next"];
+
+    } else if (newMode == kOTMMapViewControllerMapModeSelect) {
+        if (self.addTreeAnnotation) {
+            [self.mapView removeAnnotation:self.addTreeAnnotation];
+            self.addTreeAnnotation = nil;
+        }
+        self.navigationItem.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
+        self.navigationItem.leftBarButtonItem.title = @"Filter";
+        self.navigationItem.leftBarButtonItem.target = self;
+        self.navigationItem.leftBarButtonItem.action = @selector(showFilters);
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(startAddingTree)];
+        [self slideAddTreeHelpDownAnimated:YES];
+    }
+
+    self.mode = newMode;
+}
+
+- (void)crossfadeLabel:(UILabel *)label newText:(NSString *)newText
+{
+    [UIView beginAnimations:[NSString stringWithFormat:@"crossfadelabel%@", label] context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    [UIView setAnimationDuration:0.6];
+
+    label.alpha = 0;
+    label.text = newText;
+    label.alpha = 1;
+
+    [UIView commitAnimations];
+}
+
+- (void)slideAddTreeAnnotationToCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [UIView beginAnimations:[NSString stringWithFormat:@"slideannotation%@", self.addTreeAnnotation] context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    [UIView setAnimationDuration:0.2];
+
+    self.addTreeAnnotation.coordinate = coordinate;
+
+    [UIView commitAnimations];
+}
+
+- (void)cancelAddTree
+{
+    [self changeMode:kOTMMapViewControllerMapModeSelect];
+}
+
+- (void)cancelMoveNewTree
+{
+    [self changeMode:kOTMMapViewControllerMapModeSelect];
+}
+
+- (void)showFilters
+{
+    // TODO: hide the wizard label
+}
+
+- (void)startAddingTree
+{
+    [self changeMode:kOTMMapViewControllerMapModeAdd];
+}
+
+- (void)showNewTreeEditView
+{
+    // TODO: show new tree edit view
+}
+
 
 #pragma mark tap response methods
 
@@ -335,6 +454,18 @@
      }];
 }
 
+- (void)placeNewTreeAnnotation:(CLLocationCoordinate2D)coordinate
+{
+    if (!self.addTreeAnnotation) {
+        self.addTreeAnnotation = [[MKPointAnnotation alloc] init];
+        self.addTreeAnnotation.coordinate = coordinate;
+        [self.mapView addAnnotation:self.addTreeAnnotation];
+    } else {
+        [self slideAddTreeAnnotationToCoordinate:coordinate];
+    }
+    [self changeMode:kOTMMapViewControllerMapModeMove];
+}
+
 #pragma mark UIGestureRecognizer handlers
 
 - (void)handleSingleTapGesture:(UIGestureRecognizer *)gestureRecognizer
@@ -357,7 +488,15 @@
 
     if (!mode || mode == kOTMMapViewControllerMapModeSelect) {
         [self selectTreeNearCoordinate:touchMapCoordinate];
+
+    } else if (mode == kOTMMapViewControllerMapModeAdd) {
+        [self placeNewTreeAnnotation:touchMapCoordinate];
+        [self changeMode:kOTMMapViewControllerMapModeMove];
+
+    } else if (mode == kOTMMapViewControllerMapModeMove) {
+        [self placeNewTreeAnnotation:touchMapCoordinate];
     }
+
 }
 
 #pragma mark UIGestureRecognizerDelegate methods
@@ -400,6 +539,22 @@
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
     return [[AZPointOffsetOverlay alloc] initWithOverlay:overlay];
+}
+
+#define kOTMMapViewNewTreeAnnotationViewReuseIdentifier @"kOTMMapViewNewTreeAnnotationViewReuseIdentifier"
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    if (annotation == self.addTreeAnnotation) {
+        MKAnnotationView *annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewNewTreeAnnotationViewReuseIdentifier];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewNewTreeAnnotationViewReuseIdentifier];
+        }
+        annotationView.image = [UIImage imageNamed:@"handle_icon"];
+        return annotationView;
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark UISearchBarDelegate methods

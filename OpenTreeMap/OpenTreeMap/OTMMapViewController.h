@@ -47,10 +47,14 @@
 @property (nonatomic,strong) IBOutlet UILabel* species;
 @property (nonatomic,strong) IBOutlet UILabel* dbh;
 @property (nonatomic,strong) IBOutlet UILabel* address;
+@property (nonatomic,strong) IBOutlet UIView* addTreeHelpView;
+@property (nonatomic,strong) IBOutlet UILabel* addTreeHelpLabel;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
 @property (nonatomic,copy) NSString *mode;
+
+@property (nonatomic,strong) MKPointAnnotation* addTreeAnnotation;
 
 -(void)setDetailViewData:(NSDictionary*)plot;
 

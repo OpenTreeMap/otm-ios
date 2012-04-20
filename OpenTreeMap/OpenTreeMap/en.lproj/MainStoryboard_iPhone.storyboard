@@ -216,6 +216,20 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <view contentMode="scaleToFill" id="YIP-Gg-DrZ">
+                                <rect key="frame" x="0.0" y="335" width="320" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Step 1:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="WkD-Gf-Dze">
+                                        <rect key="frame" x="20" y="5" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.80794630634439446" blue="0.95198657658609864" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -225,6 +239,8 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kSh-FL-AwC"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="addTreeHelpLabel" destination="WkD-Gf-Dze" id="v5o-zG-gmM"/>
+                        <outlet property="addTreeHelpView" destination="YIP-Gg-DrZ" id="ThK-XW-ZLs"/>
                         <outlet property="address" destination="iUl-4y-q6w" id="bnH-IJ-YUU"/>
                         <outlet property="dbh" destination="Kf6-Fe-hNX" id="BtX-Yy-F6q"/>
                         <outlet property="detailView" destination="cSI-Ty-HIV" id="psF-sh-2Xv"/>
@@ -592,6 +608,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
             <relationships>
                 <relationship kind="action" name="startFindingLocation:"/>
+                <relationship kind="outlet" name="addTreeHelpLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="addTreeHelpView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="detailView" candidateClass="UIView"/>

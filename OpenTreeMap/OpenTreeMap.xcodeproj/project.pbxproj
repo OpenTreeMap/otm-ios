@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
+		645497F71541F6F300C7F423 /* handle_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 645497F51541F6F300C7F423 /* handle_icon.png */; };
+		645497F81541F6F300C7F423 /* handle_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 645497F61541F6F300C7F423 /* handle_icon@x2.png */; };
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
@@ -104,6 +106,8 @@
 
 /* Begin PBXFileReference section */
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
+		645497F51541F6F300C7F423 /* handle_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = handle_icon.png; sourceTree = "<group>"; };
+		645497F61541F6F300C7F423 /* handle_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle_icon@x2.png"; sourceTree = "<group>"; };
 		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
 		6489E23315372DA300DA7924 /* gps_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@x2.png"; sourceTree = "<group>"; };
@@ -362,6 +366,8 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				645497F51541F6F300C7F423 /* handle_icon.png */,
+				645497F61541F6F300C7F423 /* handle_icon@x2.png */,
 				6489E23215372DA300DA7924 /* gps_icon.png */,
 				6489E23315372DA300DA7924 /* gps_icon@x2.png */,
 				6489E23015371E0300DA7924 /* marker-selected-sm.png */,
@@ -572,6 +578,8 @@
 				6489E23415372DA300DA7924 /* gps_icon.png in Resources */,
 				6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */,
 				D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */,
+				645497F71541F6F300C7F423 /* handle_icon.png in Resources */,
+				645497F81541F6F300C7F423 /* handle_icon@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
