@@ -59,7 +59,7 @@
 /**
  * Array[Array[OTMDetailCellRenderer]] keys to display in the main table
  *
- * Each element in the outher array represents a section
+ * Each element in the outer array represents a section
  * and each element in the inner array represents a row.
  * 
  * The first row is the title of the section (which can
