@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "OTMDetailTableViewCell.h"
 
-#define OTMDefaultDetailRenderer OTMLabelDetailCellRenderer
+#define kOTMDefaultDetailRenderer OTMLabelDetailCellRenderer
 
 @class OTMEditDetailCellRenderer;
 
@@ -44,7 +44,7 @@
 
 /**
  * If this is <nil> then this cell is readonly
- * if this is non-nil the renderer returned will be
+ * if this is non-nil the renderer returned will be used for editing
  */
 @property (nonatomic,strong) OTMEditDetailCellRenderer *editCellRenderer;
 

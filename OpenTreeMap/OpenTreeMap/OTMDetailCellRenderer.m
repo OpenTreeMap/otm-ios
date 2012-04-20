@@ -18,7 +18,7 @@
            
     OTMDetailCellRenderer *renderer;
     if (clazz == nil) {
-        renderer = [[OTMDefaultDetailRenderer alloc] initWithDict:dict];
+        renderer = [[kOTMDefaultDetailRenderer alloc] initWithDict:dict];
     } else {
         renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict];
     }
@@ -46,7 +46,7 @@
 
 @end
 
-#define OTMLabelDetailCellRendererCellId @"kOTMLabelDetailCellRendererCellId"
+#define kOTMLabelDetailCellRendererCellId @"kOTMLabelDetailCellRendererCellId"
 
 @implementation OTMLabelDetailCellRenderer
 
@@ -70,11 +70,11 @@
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:OTMLabelDetailCellRendererCellId];
+    OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailCellRendererCellId];
     
     if (detailcell == nil) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
-                                                   reuseIdentifier:OTMLabelDetailCellRendererCellId];
+                                                   reuseIdentifier:kOTMLabelDetailCellRendererCellId];
     } 
     
     id value = [data decodeKey:self.dataKey];
@@ -122,14 +122,14 @@
     return dict;
 }
 
-#define OTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
+#define kOTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:OTMLabelDetailEditCellRendererCellId];
+    OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailEditCellRendererCellId];
     
     if (detailcell == nil) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
-                                                   reuseIdentifier:OTMLabelDetailEditCellRendererCellId];
+                                                   reuseIdentifier:kOTMLabelDetailEditCellRendererCellId];
     } 
     
     detailcell.delegate = self;
@@ -148,7 +148,7 @@
 
 @implementation OTMStaticClickCellRenderer
 
-#define OTMDetailEditSpeciesCellRendererCellId @"OTMDetailEditSpeciesCellRendererCellId"
+#define kOTMDetailEditSpeciesCellRendererCellId @"kOTMDetailEditSpeciesCellRendererCellId"
 
 @synthesize name, data, defaultName;
 
@@ -171,11 +171,11 @@
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView {
-    UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:OTMDetailEditSpeciesCellRendererCellId];
+    UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
     
     if (detailcell == nil) {
         detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                            reuseIdentifier:OTMDetailEditSpeciesCellRendererCellId];
+                                            reuseIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
     } 
     
     if (name == nil) {
