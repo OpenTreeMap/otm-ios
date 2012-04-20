@@ -112,9 +112,9 @@
 +(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict {
     NSString *clazz = [dict objectForKey:@"editClass"];
     
-    OTMDetailCellRenderer *renderer;
+    OTMEditDetailCellRenderer *renderer;
     if (clazz == nil) {
-        renderer = [[OTMDefaultEditDetailRenderer alloc] initWithDict:dict];
+        renderer = [[kOTMDefaultEditDetailRenderer alloc] initWithDict:dict];
     } else {
         renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict];
     }
