@@ -22,6 +22,8 @@
 		<string></string>
         <key>LocationSearchTimeoutInSeconds</key>
 		<real>15</real>
+        <key>MapViewTitle</key>
+		<string>OpenTreeMap</string>
 	</dict>
 	<key>APIURL</key>
 	<dict>

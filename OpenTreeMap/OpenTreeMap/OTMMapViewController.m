@@ -48,7 +48,10 @@
 {
     self.detailsVisible = NO;
     
-    self.title = @"Tree Map";
+    self.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
+    if (!self.title) {
+        self.title = @"Tree Map";
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatedImage:)
