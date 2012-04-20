@@ -48,19 +48,8 @@
 {
     self.detailsVisible = NO;
     
-    UIImage *gpsButtonImage = [UIImage imageNamed:@"gps_icon"];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:gpsButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(startFindingLocation)];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithTitle:@"Filter"
-                                              style:UIBarButtonItemStyleBordered
-                                              target:nil
-                                              action:nil];
-    
     self.title = @"Tree Map";
-    
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatedImage:)
                                                  name:kOTMMapViewControllerImageUpdate
@@ -449,7 +438,7 @@
 
 #pragma mark CoreLocation handling
 
-- (void)startFindingLocation
+- (IBAction)startFindingLocation:(id)sender
 {
     if ([CLLocationManager locationServicesEnabled]) {
         if (nil == [self locationManager]) {

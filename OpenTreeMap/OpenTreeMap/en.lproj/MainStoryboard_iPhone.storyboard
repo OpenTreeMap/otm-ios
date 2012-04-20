@@ -22,37 +22,21 @@
             </objects>
             <point key="canvasLocation" x="688" y="-158"/>
         </scene>
-        <!--Navigation Controller - Add Tree-->
-        <scene sceneID="ceQ-D8-09n">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VN8-Ae-9is" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController definesPresentationContext="YES" id="9bo-oa-JDy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Add Tree" image="add_new.png" id="8hh-bh-9Iv"/>
-                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="K62-eA-PA9">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="syT-tZ-ske" kind="relationship" relationship="rootViewController" id="r2K-T5-HOa"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="711" y="-750"/>
-        </scene>
         <!--Add Tree View Controller-->
         <scene sceneID="KZ4-ey-ZJ8">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZ0-Uo-ahY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="syT-tZ-ske" customClass="OTMAddTreeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5xb-He-a0r">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="ugp-Y5-7jb">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="dSZ-Ez-3Ah">
-                                <rect key="frame" x="0.0" y="44" width="320" height="323"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </mapView>
                             <searchBar contentMode="redraw" id="eiW-EQ-RGg">
@@ -209,22 +193,42 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <searchBar contentMode="redraw" id="tpv-GO-iyB">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="226" y="93" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="2" id="NLN-kZ-OGe"/>
                                 </connections>
                             </searchBar>
+                            <navigationBar contentMode="scaleToFill" id="Yxa-pc-A0G">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem id="buS-y3-AQP">
+                                        <barButtonItem key="leftBarButtonItem" image="gps_icon.png" id="aEH-bQ-xwn">
+                                            <connections>
+                                                <action selector="startFindingLocation:" destination="2" id="xfq-cf-c8K"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <connections>
+                                            <outlet property="titleView" destination="tpv-GO-iyB" id="Q1f-Tx-KlK"/>
+                                        </connections>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="7"/>
-                    <navigationItem key="navigationItem" id="Ka4-ap-ix0"/>
+                    <navigationItem key="navigationItem" id="Ka4-ap-ix0">
+                        <barButtonItem key="leftBarButtonItem" title="Filter" id="8gu-xT-odz"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="kSh-FL-AwC"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="address" destination="iUl-4y-q6w" id="bnH-IJ-YUU"/>
                         <outlet property="dbh" destination="Kf6-Fe-hNX" id="BtX-Yy-F6q"/>
                         <outlet property="detailView" destination="cSI-Ty-HIV" id="psF-sh-2Xv"/>
+                        <outlet property="findLocationButton" destination="aEH-bQ-xwn" id="bpO-qt-PfZ"/>
                         <outlet property="mapView" destination="HdG-pl-Slh" id="jdm-Cq-jrb"/>
                         <outlet property="searchBar" destination="tpv-GO-iyB" id="IWn-if-GRP"/>
                         <outlet property="species" destination="F3b-37-QZN" id="O6W-yo-o7a"/>
@@ -377,7 +381,6 @@
                         <segue destination="IOc-fB-8NC" kind="relationship" relationship="viewControllers" id="yrs-Ul-Kac"/>
                         <segue destination="bif-JI-aQc" kind="relationship" relationship="viewControllers" id="dBz-IX-rYE"/>
                         <segue destination="Bua-WS-BqB" kind="relationship" relationship="viewControllers" id="RWl-OJ-DUu"/>
-                        <segue destination="9bo-oa-JDy" kind="relationship" relationship="viewControllers" id="bYN-el-JM0"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -565,8 +568,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add_new.png" width="30" height="30"/>
         <image name="first" width="16" height="16"/>
+        <image name="gps_icon.png" width="20" height="20"/>
     </resources>
     <classes>
         <class className="OTMAddTreeViewController" superclassName="UIViewController">
@@ -588,9 +591,11 @@
         <class className="OTMMapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
             <relationships>
+                <relationship kind="action" name="startFindingLocation:"/>
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="findLocationButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="species" candidateClass="UILabel"/>
@@ -638,6 +643,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTreeDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="startEditing:"/>
+                <relationship kind="outlet" name="acell" candidateClass="UITableViewCell"/>
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>

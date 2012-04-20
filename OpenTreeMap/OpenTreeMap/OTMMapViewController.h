@@ -29,6 +29,7 @@
 @interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
+    IBOutlet UIBarButtonItem *findLocationButton;
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
@@ -46,5 +47,7 @@
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
 -(void)setDetailViewData:(NSDictionary*)plot;
+
+-(IBAction) startFindingLocation:(id)sender;
 
 @end
