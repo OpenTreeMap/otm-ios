@@ -19,12 +19,12 @@
 		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
 		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
 		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
-		D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */; };
-		D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */; };
-		D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */; };
 		64FA1B12153335B300513840 /* add_new.png in Resources */ = {isa = PBXBuildFile; fileRef = 64FA1B10153335B300513840 /* add_new.png */; };
 		64FA1B13153335B300513840 /* add_new@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 64FA1B11153335B300513840 /* add_new@x2.png */; };
 		64FA1B21153353D600513840 /* OTMAddTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64FA1B20153353D600513840 /* OTMAddTreeViewController.m */; };
+		D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */; };
+		D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */; };
+		D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */; };
 		D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
@@ -52,6 +52,7 @@
 		D7775FC91520E864008301E4 /* OTMValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FC81520E864008301E4 /* OTMValidator.m */; };
 		D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FCB15210492008301E4 /* OTMProfileViewController.m */; };
 		D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */; };
+		D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */; };
 		D78CCCD7152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */; };
 		D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
@@ -163,6 +164,8 @@
 		D7775FCB15210492008301E4 /* OTMProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMProfileViewController.m; sourceTree = "<group>"; };
 		D7775FD01521123A008301E4 /* OTMPasswordChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordChangeViewController.h; sourceTree = "<group>"; };
 		D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordChangeViewController.m; sourceTree = "<group>"; };
+		D7829C82153F3AE200DBFE7C /* OTMDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailCellRenderer.h; sourceTree = "<group>"; };
+		D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailCellRenderer.m; sourceTree = "<group>"; };
 		D78CCCD5152CC34C00A6E9B7 /* OTMDistanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDistanceTableViewCell.h; sourceTree = "<group>"; };
 		D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDistanceTableViewCell.m; sourceTree = "<group>"; };
 		D7910C51152B419E00758F66 /* OTMNearbyTreesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNearbyTreesViewController.h; sourceTree = "<group>"; };
@@ -273,6 +276,19 @@
 				D76BD9061523B8EB003C664F /* AZUser.m */,
 			);
 			name = "Login and Register";
+			sourceTree = "<group>";
+		};
+		D7829C80153F3A3D00DBFE7C /* Edit Details */ = {
+			isa = PBXGroup;
+			children = (
+				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
+				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
+				D702FABE1533903600A406A1 /* OTMSpeciesTableViewController.h */,
+				D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */,
+				D7829C82153F3AE200DBFE7C /* OTMDetailCellRenderer.h */,
+				D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */,
+			);
+			name = "Edit Details";
 			sourceTree = "<group>";
 		};
 		D7910C4E152B3EC900758F66 /* AZ */ = {
@@ -393,6 +409,7 @@
 		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
 			isa = PBXGroup;
 			children = (
+				D7829C80153F3A3D00DBFE7C /* Edit Details */,
 				D7910C50152B3FB800758F66 /* OTMLib */,
 				D7910C4E152B3EC900758F66 /* AZ */,
 				D7CC152515065AC100277C7C /* images */,
@@ -408,8 +425,6 @@
 				E943972614F447EB007CD0D1 /* OTMAppDelegate.m */,
 				E943972E14F447EB007CD0D1 /* OTMMapViewController.h */,
 				E943972F14F447EB007CD0D1 /* OTMMapViewController.m */,
-				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
-				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
 				D7775FCA15210492008301E4 /* OTMProfileViewController.h */,
 				D7775FCB15210492008301E4 /* OTMProfileViewController.m */,
 				D7775FD01521123A008301E4 /* OTMPasswordChangeViewController.h */,
@@ -417,8 +432,6 @@
 				D7910C51152B419E00758F66 /* OTMNearbyTreesViewController.h */,
 				D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */,
 				D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */,
-				D702FABE1533903600A406A1 /* OTMSpeciesTableViewController.h */,
-				D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */,
 				64FA1B1F153353D600513840 /* OTMAddTreeViewController.h */,
 				64FA1B20153353D600513840 /* OTMAddTreeViewController.m */,
 			);
@@ -618,6 +631,7 @@
 				D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */,
 				D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */,
 				64FA1B21153353D600513840 /* OTMAddTreeViewController.m in Sources */,
+				D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

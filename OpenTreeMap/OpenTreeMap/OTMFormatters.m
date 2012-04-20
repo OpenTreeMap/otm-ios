@@ -40,7 +40,13 @@
 }
 
 +(NSString*)fmtObject:(id)obj withKey:(NSString*)key {
-    return [OTMFormatters performSelector:NSSelectorFromString(key) withObject:obj];
+    if (obj == nil) {
+        return @"";
+    } else if (key == nil || [key length] == 0) {
+        return [obj description];
+    } else {
+        return [OTMFormatters performSelector:NSSelectorFromString(key) withObject:obj];
+    }
 }
 
 @end

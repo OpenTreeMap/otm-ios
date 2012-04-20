@@ -68,29 +68,6 @@
     return label;
 }
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    if (allowsEditing) {        
-        if (editing == NO) { // Transition from editing to view
-            if (self.formatKey != nil) {
-                fieldValue.text = [OTMFormatters fmtObject:self.editFieldValue.text
-                                                   withKey:self.formatKey];
-            } else {
-                fieldValue.text = self.editFieldValue.text;
-            }
-        }
-        
-        editFieldValue.hidden = !editing;
-        fieldValue.hidden = editing;
-    }
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    // [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 #pragma mark Text Field Delegates
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

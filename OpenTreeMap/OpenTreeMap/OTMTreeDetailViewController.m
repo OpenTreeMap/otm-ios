@@ -25,6 +25,7 @@
 #import "OTMSpeciesTableViewController.h"
 #import "OTMFormatters.h"
 #import "OTMMapViewController.h"
+#import "OTMDetailCellRenderer.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -32,7 +33,7 @@
 
 @implementation OTMTreeDetailViewController
 
-@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker;
+@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -73,8 +74,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -82,17 +81,141 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)startEditing:(id)sender {
-    [self.activeField resignFirstResponder];
+- (void)updatePicture {
+    [pictureTaker getPictureInViewController:self
+                                    callback:^(UIImage *image)
+     {
+         self.imageView.image = image;
+         [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
+                                               onPlotWithID:[[self.data objectForKey:@"id"] intValue]
+                                                   withUser:nil 
+                                                   callback:^(id json, NSError *err)
+          {
+              if (err == nil) {
+                  [[NSNotificationCenter defaultCenter] postNotificationName:kOTMMapViewControllerImageUpdate
+                                                                      object:image];
+              }
+          }];
+     }];
+
+}
+
+- (void)setKeys:(NSArray *)k {
+    NSMutableArray *txToEditRm = [NSMutableArray array];
+    NSMutableArray *txToEditRel = [NSMutableArray array];
+    allFields = k;
     
-    if (updated) {
+    NSMutableArray *editableFields = [NSMutableArray array];
+    
+    OTMStaticClickCellRenderer *speciesRow = 
+    [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
+                                      clickCallback:^(OTMDetailCellRenderer *renderer) 
+    { 
+        [self performSegueWithIdentifier:@"changeSpecies"
+                                  sender:self];
+    }];
+    speciesRow.defaultName = @"Set Species";
+    
+    OTMDetailCellRenderer *pictureRow = 
+    [[OTMStaticClickCellRenderer alloc] initWithName:@"Change Tree Picture"
+                                                 key:@""
+                                       clickCallback:^(OTMDetailCellRenderer *renderer) 
+    { 
+        [self updatePicture];
+    }];    
+    
+    NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow,pictureRow,nil];
+    [editableFields addObject:speciesAndPicSection];
+    
+    for(int section=0;section < [allFields count];section++) {
+        NSArray *sectionArray = [allFields objectAtIndex:section];
+        NSMutableArray *editSectionArray = [NSMutableArray array];
         
+        for(int row=0;row < [sectionArray count]; row++) {
+            OTMDetailCellRenderer *renderer = [sectionArray objectAtIndex:row];
+            if (renderer.editCellRenderer != nil) {
+                [editSectionArray addObject:renderer.editCellRenderer];
+                [txToEditRel addObject:[NSIndexPath indexPathForRow:row inSection:section]];
+            } else {
+                [txToEditRm addObject:[NSIndexPath indexPathForRow:row inSection:section]];
+            }
+        }
+        
+        [editableFields addObject:editSectionArray];
     }
     
-    updated = NO;
+    txToEditReload = txToEditRel;
+    txToEditRemove = txToEditRm;
+    editFields = editableFields;
+
+    curFields = allFields;
+}
+
+- (IBAction)startEditing:(id)sender {    
+    [self.activeField resignFirstResponder];
+    
+    // Edit mode represents the mode that we are transitioning to
     editMode = !editMode;
-    [self.tableView reloadData];
-    self.tableView.editing = editMode;
+    
+    if (editMode) { // Tx to edit mode
+        curFields = editFields;
+        
+        [self.tableView beginUpdates];
+        
+        [self.tableView deleteRowsAtIndexPaths:txToEditRemove
+                              withRowAnimation:UITableViewRowAnimationFade];
+        
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0]
+                      withRowAnimation:UITableViewRowAnimationFade];
+        
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             self.headerView.frame =
+                                CGRectOffset(self.headerView.frame,
+                                             0, -self.headerView.frame.size.height);
+                             
+                             self.tableView.contentInset = UIEdgeInsetsZero;
+                         }];
+        
+        [self.tableView endUpdates];
+    } else { // Tx from edit mdoe
+        for(NSArray *section in editFields) {
+            for(OTMEditDetailCellRenderer *editFld in section) {
+                self.data = [editFld updateDictWithValueFromCell:data];
+            }
+        }
+        
+        [self syncTopData];
+        
+        curFields = allFields;
+        
+        [self.tableView beginUpdates];
+        
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:0]
+                      withRowAnimation:UITableViewRowAnimationFade];        
+        
+        [self.tableView insertRowsAtIndexPaths:txToEditRemove
+                              withRowAnimation:UITableViewRowAnimationFade]; 
+        
+        [UIView animateWithDuration:0.3
+                         animations:^{
+                             self.headerView.frame =
+                             CGRectOffset(self.headerView.frame,
+                                          0, self.headerView.frame.size.height);
+                             
+                             self.tableView.contentInset = 
+                             UIEdgeInsetsMake(self.headerView.frame.size.height, 0, 0, 0);
+                         }];        
+        
+        [self.tableView endUpdates];
+    }
+    
+    // Need to reload all of the cells after animation is done
+    double delayInMSeconds = 250;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInMSeconds * NSEC_PER_MSEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.tableView reloadData];
+    });
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -117,47 +240,23 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [keys count] + editMode;
+    return [curFields count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (editMode && section == 0) {
-        return 2;
-    } else {
-        return MAX([[keys objectAtIndex:section - editMode] count] - 1,0);
-    }
+    return [[curFields objectAtIndex:section] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (editMode && section == 0) {
-        return @"Species and Location";
-    } else {
-        return [[keys objectAtIndex:section - editMode] objectAtIndex:0];
-    }
+    return nil;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editMode && indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            [self performSegueWithIdentifier:@"changeSpecies"
-                                      sender:self];
-        } else {
-            [pictureTaker getPictureInViewController:self
-                                            callback:^(UIImage *image)
-             {
-                 self.imageView.image = image;
-                 [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
-                                                       onPlotWithID:[[self.data objectForKey:@"id"] intValue]
-                                                           withUser:nil 
-                                                           callback:^(id json, NSError *err)
-                  {
-                      if (err == nil) {
-                          [[NSNotificationCenter defaultCenter] postNotificationName:kOTMMapViewControllerImageUpdate
-                                                                              object:image];
-                      }
-                  }];
-             }];
-        }
+- (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    Function1v clicker = [[[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] clickCallback];
+    
+    if (clicker) {
+        clicker(tblView);
     }
 }
 
@@ -179,52 +278,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString* cellId = @"genericKVCell";
-
-    int section = [indexPath section];
+    OTMDetailCellRenderer *renderer = [[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
-    if (editMode && section == 0) {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
-                                                       reuseIdentifier:@"buttoncell"];
-        cell.textLabel.text = indexPath.row == 0 ? @"Set Species" : @"Take Picture";
-        return cell;
-    } else {
-        if (editMode) {
-            section -= 1;
-        }
-        
-        OTMDetailTableViewCell* cell;
-        if ((cell = [tblView dequeueReusableCellWithIdentifier:cellId]) == nil) {
-            cell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:cellId];
-            cell.tfDelegate = self;
-            cell.delegate = self;
-        }
-        
-        NSDictionary* cellinfo = [[self.keys objectAtIndex:section] objectAtIndex:indexPath.row+1];
-        
-        id rawValue = [self.data decodeKey:[cellinfo valueForKey:@"key"]];
-        id value;
-        
-        NSString* formatKey = [cellinfo valueForKey:@"format"];
-        
-        if (rawValue == nil ) {
-            rawValue = @"";
-            value = @"";
-        } else if (formatKey != nil) {
-            value = [OTMFormatters fmtObject:rawValue withKey:formatKey];
-        } else {
-            value = [NSString stringWithFormat:@"%@",rawValue];
-        }
-        
-        cell.fieldValue.text = value;
-        cell.fieldLabel.text = [cellinfo valueForKey:@"label"];
-        cell.editFieldValue.text = [NSString stringWithFormat:@"%@",rawValue];
-        cell.formatKey = formatKey;
-        cell.allowsEditing = [[cellinfo valueForKey:@"editable"] boolValue];
-            
-        return cell;
+    UITableViewCell *cell = [renderer prepareCell:self.data inTable:tblView];
+    
+    // Text field delegates handle proper sizing...
+    // this may be a bit of a hack
+    if ([cell respondsToSelector:@selector(setTfDelegate:)]) {
+        [cell performSelector:@selector(setTfDelegate:) withObject:self];
     }
+    
+    return cell;
 }
 
 @end

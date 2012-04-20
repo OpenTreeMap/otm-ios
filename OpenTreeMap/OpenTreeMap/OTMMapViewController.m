@@ -27,6 +27,7 @@
 #import "OTMAPI.h"
 #import "OTMTreeDetailViewController.h"
 #import "OTMAppDelegate.h"
+#import "OTMDetailCellRenderer.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -97,33 +98,48 @@
         [dest view]; // Force it load its view
         
         dest.data = self.selectedPlot;
-        dest.keys = [NSArray arrayWithObjects:
-                     [NSArray arrayWithObjects:
-                      @"General Tree Information",
+        id keys = [NSArray arrayWithObjects:
+                     [NSArray arrayWithObjects:                      
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"id", @"key",
-                       @"Tree Number", @"label", nil],
+                       @"Tree Number", @"label", 
+                       [NSNumber numberWithBool:YES], @"readonly",
+                       nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.sci_name", @"key",
-                       @"Scientific Name", @"label", nil],                      
+                       @"Scientific Name", @"label",
+                      [NSNumber numberWithBool:YES], @"readonly", nil],                      
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.dbh", @"key",
                        @"Trunk Diameter", @"label", 
                        @"fmtIn:", @"format",  
-                       [NSNumber numberWithBool:YES], @"editable", nil],
+                       nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.height", @"key",
                        @"Tree Height", @"label",
                        @"fmtM:", @"format",  
-                       [NSNumber numberWithBool:YES], @"editable", nil],
+                       nil],
                       [NSDictionary dictionaryWithObjectsAndKeys:
                        @"tree.canopy_height", @"key",
                        @"Canopy Height", @"label", 
                        @"fmtM:", @"format", 
-                       [NSNumber numberWithBool:YES], @"editable", nil],
+                       nil],
                       nil],
                      nil];
         
+        NSMutableArray *sections = [NSMutableArray array];
+        for(NSArray *sectionArray in keys) {
+            NSMutableArray *section = [NSMutableArray array];
+            
+            for(NSDictionary *rowDict in sectionArray) {
+                [section addObject:
+                 [OTMDetailCellRenderer cellRendererFromDict:rowDict]];
+            }
+            
+            [sections addObject:section];
+        }
+        
+        dest.keys = sections;
         dest.imageView.image = self.treeImage.image;
     }
 }
