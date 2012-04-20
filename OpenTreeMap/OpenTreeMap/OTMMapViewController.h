@@ -26,6 +26,10 @@
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
+#define kOTMMapViewControllerMapModeSelect @"kOTMMapViewControllerMapModeSelect"
+#define kOTMMapViewControllerMapModeAdd @"kOTMMapViewControllerMapModeAdd"
+#define kOTMMapViewControllerMapModeMove @"kOTMMapViewControllerMapModeMove"
+
 @interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
@@ -45,6 +49,8 @@
 @property (nonatomic,strong) IBOutlet UILabel* address;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
+
+@property (nonatomic,copy) NSString *mode;
 
 -(void)setDetailViewData:(NSDictionary*)plot;
 

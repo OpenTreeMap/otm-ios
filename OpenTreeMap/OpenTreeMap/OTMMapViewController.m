@@ -42,12 +42,14 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, locationManager, mostAccurateLocationResponse, mapView;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView;
 
 - (void)viewDidLoad
 {
     self.detailsVisible = NO;
-    
+
+    self.mode = kOTMMapViewControllerMapModeSelect;
+
     self.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
     if (!self.title) {
         self.title = @"Tree Map";
@@ -271,6 +273,68 @@
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
 }
 
+#pragma mark tap response methods
+
+- (void)selectTreeNearCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:coordinate.latitude
+                                                         longitude:coordinate.longitude
+                                                          callback:^(NSArray* plots, NSError* error)
+     {
+         if ([plots count] == 0) { // No plots returned
+             [self slideDetailDownAnimated:YES];
+         } else {
+             NSDictionary* plot = [plots objectAtIndex:0];
+
+             self.selectedPlot = [plot mutableDeepCopy];
+
+             NSDictionary* geom = [plot objectForKey:@"geometry"];
+
+             NSDictionary* tree = [plot objectForKey:@"tree"];
+
+             self.treeImage.image = nil;
+
+             if (tree && [tree isKindOfClass:[NSDictionary class]]) {
+                 NSArray* images = [tree objectForKey:@"images"];
+
+                 if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
+                     int imageId = [[[images objectAtIndex:0] objectForKey:@"id"] intValue];
+                     int plotId = [[plot objectForKey:@"id"] intValue];
+
+                     [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
+                                                                       photoId:imageId
+                                                                      callback:^(UIImage* image, NSError* error)
+                      {
+                          self.treeImage.image = image;
+                      }];
+                 }
+             }
+
+             [self setDetailViewData:plot];
+             [self slideDetailUpAnimated:YES];
+
+             double lat = [[geom objectForKey:@"lat"] doubleValue];
+             double lon = [[geom objectForKey:@"lng"] doubleValue];
+             CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
+             MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+
+             [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+
+             if (self.lastClickedTree) {
+                 [mapView removeAnnotation:self.lastClickedTree];
+                 self.lastClickedTree = nil;
+             }
+
+             self.lastClickedTree = [[MKPointAnnotation alloc] init];
+
+             [self.lastClickedTree setCoordinate:center];
+
+             [mapView addAnnotation:self.lastClickedTree];
+             NSLog(@"Here with plot %@", plot);
+         }
+     }];
+}
+
 #pragma mark UIGestureRecognizer handlers
 
 - (void)handleSingleTapGesture:(UIGestureRecognizer *)gestureRecognizer
@@ -291,62 +355,9 @@
     CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
-    [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:touchMapCoordinate.latitude
-                                                         longitude:touchMapCoordinate.longitude
-                                                          callback:^(NSArray* plots, NSError* error) 
-    {
-        if ([plots count] == 0) { // No plots returned
-            [self slideDetailDownAnimated:YES];
-        } else {            
-            NSDictionary* plot = [plots objectAtIndex:0];
-            
-            self.selectedPlot = [plot mutableDeepCopy];
-            
-            NSDictionary* geom = [plot objectForKey:@"geometry"];
-            
-            NSDictionary* tree = [plot objectForKey:@"tree"];
-            
-            self.treeImage.image = nil;
-            
-            if (tree && [tree isKindOfClass:[NSDictionary class]]) {
-                NSArray* images = [tree objectForKey:@"images"];
-                
-                if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-                    int imageId = [[[images objectAtIndex:0] objectForKey:@"id"] intValue];
-                    int plotId = [[plot objectForKey:@"id"] intValue];
-                    
-                    [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
-                                                                      photoId:imageId
-                                                                     callback:^(UIImage* image, NSError* error)
-                     {
-                         self.treeImage.image = image;
-                     }];
-                }
-            }
-            
-            [self setDetailViewData:plot];
-            [self slideDetailUpAnimated:YES];
-            
-            double lat = [[geom objectForKey:@"lat"] doubleValue];
-            double lon = [[geom objectForKey:@"lng"] doubleValue];
-            CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
-            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-            
-            [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
-            
-            if (self.lastClickedTree) {
-                [mapView removeAnnotation:self.lastClickedTree];
-                self.lastClickedTree = nil;
-            }
-            
-            self.lastClickedTree = [[MKPointAnnotation alloc] init];
-            
-            [self.lastClickedTree setCoordinate:center];
-            
-            [mapView addAnnotation:self.lastClickedTree];
-            NSLog(@"Here with plot %@", plot); 
-        }
-    }];
+    if (!mode || mode == kOTMMapViewControllerMapModeSelect) {
+        [self selectTreeNearCoordinate:touchMapCoordinate];
+    }
 }
 
 #pragma mark UIGestureRecognizerDelegate methods
