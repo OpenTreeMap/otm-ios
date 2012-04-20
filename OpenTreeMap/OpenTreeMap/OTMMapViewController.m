@@ -351,9 +351,6 @@
             NSLog(@"Here with plot %@", plot); 
         }
     }];
-    
-    // TODO: Fetch nearest tree for lat lon
-    NSLog(@"Touched lat:%f lon:%f",touchMapCoordinate.latitude, touchMapCoordinate.longitude);
 }
 
 #pragma mark UIGestureRecognizerDelegate methods

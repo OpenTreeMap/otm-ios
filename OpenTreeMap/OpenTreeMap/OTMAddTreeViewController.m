@@ -136,8 +136,6 @@
     
     CGPoint touchPoint = [gestureRecognizer locationInView:mv];
     CLLocationCoordinate2D touchMapCoordinate = [mv convertPoint:touchPoint toCoordinateFromView:mv];
-  
-    NSLog(@"%@", [mv delegate]);
     
     if ([self activeTreeAnnotation]) {
         [mv removeAnnotation:[self activeTreeAnnotation]];
@@ -153,8 +151,6 @@
     [[self cleanMapButton] setHidden:NO];
     [[self addDetailButton] setHidden:NO];
     [[self addAnotherButton] setHidden:NO];
-    
-    NSLog(@"Touched lat:%f lon:%f",touchMapCoordinate.latitude, touchMapCoordinate.longitude);
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
