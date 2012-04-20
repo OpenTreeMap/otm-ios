@@ -273,10 +273,6 @@
 
 #pragma mark UIGestureRecognizer handlers
 
-/**
- INCOMPLETE
- Get the latitude and longitude of the point on the map that was touched
- */
 - (void)handleSingleTapGesture:(UIGestureRecognizer *)gestureRecognizer
 {
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
