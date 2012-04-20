@@ -10,6 +10,7 @@
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
 		645497F71541F6F300C7F423 /* handle_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 645497F51541F6F300C7F423 /* handle_icon.png */; };
 		645497F81541F6F300C7F423 /* handle_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 645497F61541F6F300C7F423 /* handle_icon@x2.png */; };
+		645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */; };
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
@@ -108,6 +109,8 @@
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
 		645497F51541F6F300C7F423 /* handle_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = handle_icon.png; sourceTree = "<group>"; };
 		645497F61541F6F300C7F423 /* handle_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle_icon@x2.png"; sourceTree = "<group>"; };
+		645497F91542191900C7F423 /* OTMAddTreeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAddTreeAnnotationView.h; sourceTree = "<group>"; };
+		645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAddTreeAnnotationView.m; sourceTree = "<group>"; };
 		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
 		6489E23315372DA300DA7924 /* gps_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@x2.png"; sourceTree = "<group>"; };
@@ -448,6 +451,8 @@
 				D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */,
 				64FA1B1F153353D600513840 /* OTMAddTreeViewController.h */,
 				64FA1B20153353D600513840 /* OTMAddTreeViewController.m */,
+				645497F91542191900C7F423 /* OTMAddTreeAnnotationView.h */,
+				645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */,
 			);
 			path = OpenTreeMap;
 			sourceTree = "<group>";
@@ -650,6 +655,7 @@
 				64FA1B21153353D600513840 /* OTMAddTreeViewController.m in Sources */,
 				D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */,
 				D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */,
+				645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

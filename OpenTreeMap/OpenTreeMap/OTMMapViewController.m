@@ -28,6 +28,7 @@
 #import "OTMTreeDetailViewController.h"
 #import "OTMAppDelegate.h"
 #import "OTMDetailCellRenderer.h"
+#import "OTMAddTreeAnnotationView.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -541,16 +542,16 @@
     return [[AZPointOffsetOverlay alloc] initWithOverlay:overlay];
 }
 
-#define kOTMMapViewNewTreeAnnotationViewReuseIdentifier @"kOTMMapViewNewTreeAnnotationViewReuseIdentifier"
+#define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+- (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation
 {
     if (annotation == self.addTreeAnnotation) {
-        MKAnnotationView *annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewNewTreeAnnotationViewReuseIdentifier];
+        MKAnnotationView *annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewNewTreeAnnotationViewReuseIdentifier];
+            annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
+            ((OTMAddTreeAnnotationView *)annotationView).mapView = mv;
         }
-        annotationView.image = [UIImage imageNamed:@"handle_icon"];
         return annotationView;
     } else {
         return nil;
