@@ -43,7 +43,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark;
 
 - (void)viewDidLoad
 {
@@ -455,6 +455,16 @@
      }];
 }
 
+- (void)fetchAndSetAddTreePlacemarkForCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [[[OTMEnvironment sharedEnvironment] api] reverseGeocodeCoordinate:coordinate callback:^(NSArray *placemarks, NSError *error) {
+        if (placemarks && [placemarks count] > 0) {
+            self.addTreePlacemark = [placemarks objectAtIndex:0];
+            NSLog(@"Set add tree placemark to %@", self.addTreePlacemark);
+        };
+    }];
+}
+
 - (void)placeNewTreeAnnotation:(CLLocationCoordinate2D)coordinate
 {
     if (!self.addTreeAnnotation) {
@@ -464,6 +474,7 @@
     } else {
         [self slideAddTreeAnnotationToCoordinate:coordinate];
     }
+    [self fetchAndSetAddTreePlacemarkForCoordinate:coordinate];
     [self changeMode:kOTMMapViewControllerMapModeMove];
 }
 
@@ -550,6 +561,7 @@
         MKAnnotationView *annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
             annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
+            ((OTMAddTreeAnnotationView *)annotationView).delegate = self;
             ((OTMAddTreeAnnotationView *)annotationView).mapView = mv;
         }
         return annotationView;
@@ -664,4 +676,12 @@
         }
     }
 }
+
+#pragma mark OTMAddTreeAnnotationView delegate methods
+
+- (void)movedAnnotation:(MKPointAnnotation *)annotation
+{
+    [self fetchAndSetAddTreePlacemarkForCoordinate:annotation.coordinate];
+}
+
 @end

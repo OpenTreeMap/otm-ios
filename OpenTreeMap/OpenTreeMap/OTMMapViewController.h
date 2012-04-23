@@ -23,6 +23,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "OTMAddTreeAnnotationView.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
@@ -30,7 +31,7 @@
 #define kOTMMapViewControllerMapModeAdd @"kOTMMapViewControllerMapModeAdd"
 #define kOTMMapViewControllerMapModeMove @"kOTMMapViewControllerMapModeMove"
 
-@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate> {
+@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIBarButtonItem *findLocationButton;
@@ -55,6 +56,7 @@
 @property (nonatomic,copy) NSString *mode;
 
 @property (nonatomic,strong) MKPointAnnotation* addTreeAnnotation;
+@property (nonatomic,copy) CLPlacemark *addTreePlacemark;
 
 -(void)setDetailViewData:(NSDictionary*)plot;
 

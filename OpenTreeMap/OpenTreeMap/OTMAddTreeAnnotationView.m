@@ -10,7 +10,7 @@
 
 @implementation OTMAddTreeAnnotationView
 
-@synthesize mapView;
+@synthesize mapView, delegate;
 
 - (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
@@ -78,6 +78,7 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self clearTouch];
+    [self.delegate movedAnnotation:self.annotation];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event

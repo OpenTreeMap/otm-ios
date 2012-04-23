@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
+@protocol OTMAddTreeAnnotationViewDelegate <NSObject>
+@required
+- (void)movedAnnotation:(MKPointAnnotation *)annotation;
+@end
+
 @interface OTMAddTreeAnnotationView : MKAnnotationView {
     /**
      A flag to indicate whether this annotation is in the middle of being dragged
@@ -31,6 +36,11 @@
      */
     float touchYOffset;
 }
+
+/**
+ A delegate that to receive events
+ */
+@property (nonatomic, strong) id <OTMAddTreeAnnotationViewDelegate> delegate;
 
 /**
  A reference to the MKMapView to which this annotation has been added
