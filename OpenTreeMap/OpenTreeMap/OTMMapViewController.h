@@ -27,9 +27,12 @@
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
-#define kOTMMapViewControllerMapModeSelect @"kOTMMapViewControllerMapModeSelect"
-#define kOTMMapViewControllerMapModeAdd @"kOTMMapViewControllerMapModeAdd"
-#define kOTMMapViewControllerMapModeMove @"kOTMMapViewControllerMapModeMove"
+typedef enum {
+    Initial, // Initial should always be the first item in the enum
+    Select,
+    Add,
+    Move,
+} OTMMapViewControllerMapMode;
 
 @interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate> {
     IBOutlet MKMapView *mapView;
@@ -53,7 +56,7 @@
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
-@property (nonatomic,copy) NSString *mode;
+@property (nonatomic) OTMMapViewControllerMapMode mode;
 
 @property (nonatomic,strong) MKPointAnnotation* addTreeAnnotation;
 @property (nonatomic,copy) CLPlacemark *addTreePlacemark;

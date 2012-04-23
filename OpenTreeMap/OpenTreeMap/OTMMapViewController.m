@@ -49,7 +49,7 @@
 {
     self.detailsVisible = NO;
 
-    [self changeMode:kOTMMapViewControllerMapModeSelect];
+    [self changeMode:Select];
 
     self.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
     if (!self.title) {
@@ -303,13 +303,13 @@
     }
 }
 
-- (void)changeMode:(NSString *)newMode
+- (void)changeMode:(OTMMapViewControllerMapMode)newMode
 {
     if (newMode == self.mode) {
         return;
     }
 
-    if (newMode == kOTMMapViewControllerMapModeAdd) {
+    if (newMode == Add) {
         self.navigationItem.title = @"Add A Tree";
         self.navigationItem.leftBarButtonItem.title = @"Cancel";
         self.navigationItem.leftBarButtonItem.target = self;
@@ -320,14 +320,14 @@
         self.addTreeHelpLabel.text = @"Step 1: Tap the new tree location";
         [self slideAddTreeHelpUpAnimated:YES];
 
-    } else if (newMode == kOTMMapViewControllerMapModeMove) {
+    } else if (newMode == Move) {
         self.navigationItem.leftBarButtonItem.title = @"Cancel";
         self.navigationItem.leftBarButtonItem.target = self;
         self.navigationItem.leftBarButtonItem.action = @selector(cancelMoveNewTree);
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showNewTreeEditView)];
         [self crossfadeLabel:self.addTreeHelpLabel newText:@"Step 2: Move tree into position then click Next"];
 
-    } else if (newMode == kOTMMapViewControllerMapModeSelect) {
+    } else if (newMode == Select) {
         if (self.addTreeAnnotation) {
             [self.mapView removeAnnotation:self.addTreeAnnotation];
             self.addTreeAnnotation = nil;
@@ -369,12 +369,12 @@
 
 - (void)cancelAddTree
 {
-    [self changeMode:kOTMMapViewControllerMapModeSelect];
+    [self changeMode:Select];
 }
 
 - (void)cancelMoveNewTree
 {
-    [self changeMode:kOTMMapViewControllerMapModeSelect];
+    [self changeMode:Select];
 }
 
 - (void)showFilters
@@ -384,7 +384,7 @@
 
 - (void)startAddingTree
 {
-    [self changeMode:kOTMMapViewControllerMapModeAdd];
+    [self changeMode:Add];
 }
 
 - (void)showNewTreeEditView
@@ -475,7 +475,7 @@
         [self slideAddTreeAnnotationToCoordinate:coordinate];
     }
     [self fetchAndSetAddTreePlacemarkForCoordinate:coordinate];
-    [self changeMode:kOTMMapViewControllerMapModeMove];
+    [self changeMode:Move];
 }
 
 #pragma mark UIGestureRecognizer handlers
@@ -498,14 +498,14 @@
     CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
-    if (!mode || mode == kOTMMapViewControllerMapModeSelect) {
+    if (!mode || mode == Select) {
         [self selectTreeNearCoordinate:touchMapCoordinate];
 
-    } else if (mode == kOTMMapViewControllerMapModeAdd) {
+    } else if (mode == Add) {
         [self placeNewTreeAnnotation:touchMapCoordinate];
-        [self changeMode:kOTMMapViewControllerMapModeMove];
+        [self changeMode:Move];
 
-    } else if (mode == kOTMMapViewControllerMapModeMove) {
+    } else if (mode == Move) {
         [self placeNewTreeAnnotation:touchMapCoordinate];
     }
 
