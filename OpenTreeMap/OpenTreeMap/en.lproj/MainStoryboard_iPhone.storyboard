@@ -588,19 +588,6 @@
         <image name="gps_icon.png" width="20" height="20"/>
     </resources>
     <classes>
-        <class className="OTMAddTreeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMAddTreeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addAnother:"/>
-                <relationship kind="action" name="addDetail:"/>
-                <relationship kind="action" name="cleanMap:"/>
-                <relationship kind="outlet" name="addAnotherButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="addDetailButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="cleanMapButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="messageLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="mv" candidateClass="MKMapView"/>
-            </relationships>
-        </class>
         <class className="OTMDetailSliderview" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
         </class>
