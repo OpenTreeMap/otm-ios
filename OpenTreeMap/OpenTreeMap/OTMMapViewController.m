@@ -87,13 +87,52 @@
     [mapView setRegion:region];
 }
 
+/**
+ This method is designed to mimic the response from the geo plot API so that the OTMTreeDetailViewController is always
+ working with the same dictionary schema.
+ */
+- (NSMutableDictionary *)createAddTreeDictionaryFromAnnotation:(MKPointAnnotation *)annotation placemark:(CLPlacemark *)placemark
+{
+    NSMutableDictionary *geometryDict = [[NSMutableDictionary alloc] init];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"lat"];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"lon"];
+    [geometryDict setObject:[NSNumber numberWithInt:4326] forKey:@"srid"];
+
+    NSMutableDictionary *addTreeDict = [[NSMutableDictionary alloc] init];
+    [addTreeDict setObject:geometryDict forKey:@"geometry"];
+
+    if (addTreePlacemark) {
+        [addTreeDict setObject:addTreePlacemark.name forKey:@"geocode_address"];
+        [addTreeDict setObject:addTreePlacemark.name forKey:@"edit_address_street"];
+    } else {
+        // geocode_address and edit_street_address are required by the Django application
+        // but they are not srictly nessesary to have a functional app.
+        [addTreeDict setObject:@"No Address" forKey:@"geocode_address"];
+        [addTreeDict setObject:@"No Address" forKey:@"edit_address_street"];
+    }
+
+    [addTreeDict setObject:[NSNumber numberWithInt:0] forKey:@"id"];
+    [addTreeDict setObject:[NSNull null] forKey:@"length"];
+    [addTreeDict setObject:[NSNull null] forKey:@"readonly"];
+    [addTreeDict setObject:[NSNull null] forKey:@"tree"];
+    [addTreeDict setObject:[NSNull null] forKey:@"type"];
+    [addTreeDict setObject:[NSNull null] forKey:@"width"];
+    return addTreeDict;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
 {
     if ([segue.identifier isEqualToString:@"Details"]) {
         OTMTreeDetailViewController *dest = segue.destinationViewController;
         [dest view]; // Force it load its view
+        dest.delegate = self;
+
+        if (self.mode == Select) {
+            dest.data = self.selectedPlot;
+        } else {
+            dest.data = [self createAddTreeDictionaryFromAnnotation:self.addTreeAnnotation placemark:self.addTreePlacemark];
+        }
         
-        dest.data = self.selectedPlot;
         id keys = [NSArray arrayWithObjects:
                      [NSArray arrayWithObjects:                      
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -138,6 +177,10 @@
         
         dest.keys = sections;
         dest.imageView.image = self.treeImage.image;
+        if (self.mode != Select) {
+            // When adding a new tree the detail view is automatically in edit mode
+            [dest startEditing:self];
+        }
     }
 }
 
@@ -389,9 +432,8 @@
 
 - (void)showNewTreeEditView
 {
-    // TODO: show new tree edit view
+    [self performSegueWithIdentifier:@"Details" sender:self];
 }
-
 
 #pragma mark tap response methods
 
@@ -682,6 +724,15 @@
 - (void)movedAnnotation:(MKPointAnnotation *)annotation
 {
     [self fetchAndSetAddTreePlacemarkForCoordinate:annotation.coordinate];
+}
+
+#pragma mark OTMTreeDetailViewDelegate methods
+
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details
+{
+    // TODO: Redraw the tile with the new tree
+    [self changeMode:Select];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

@@ -402,4 +402,13 @@
     [geocodeQueue addOperation:operation];
 }
 
+-(void)addPlotWithOptionalTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    [request post:@"plots"
+         withUser:user
+           params:nil
+             data:[self jsonEncode:details]
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 @end

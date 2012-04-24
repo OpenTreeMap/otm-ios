@@ -183,4 +183,11 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  */
 -(void)reverseGeocodeCoordinate:(CLLocationCoordinate2D)coordinate callback:(AZGenericCallback)callback;
 
+/**
+ * Create a new plot and create a new tree in that plot if tree details are included
+ * in the detail dictionary.
+ * @param dictionary with plot, tree, and geometry information
+ */
+-(void)addPlotWithOptionalTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
 @end

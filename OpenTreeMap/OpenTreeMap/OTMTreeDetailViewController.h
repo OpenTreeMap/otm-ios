@@ -25,6 +25,13 @@
 #import "OTMDetailTableViewCell.h"
 #import "OTMPictureTaker.h"
 
+@class OTMTreeDetailViewController; // declared early so the delegate can use the type in its declaration
+
+@protocol OTMTreeDetailViewDelegate <NSObject>
+@required
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
+@end
+
 @interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, OTMDetailTableViewCellDelegate, UITextFieldDelegate> {
     BOOL editMode;
     BOOL updated;
@@ -38,6 +45,8 @@
     
     NSArray *curFields;
 }
+
+@property (nonatomic,strong) id<OTMTreeDetailViewDelegate> delegate;
 
 @property (nonatomic,strong) IBOutlet OTMPictureTaker *pictureTaker;
 
