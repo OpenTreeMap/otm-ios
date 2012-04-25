@@ -28,6 +28,7 @@
 #import "OTMTreeDetailViewController.h"
 #import "OTMAppDelegate.h"
 #import "OTMDetailCellRenderer.h"
+#import "OTMAddTreeAnnotationView.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -42,25 +43,19 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, locationManager, mostAccurateLocationResponse, mapView;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark;
 
 - (void)viewDidLoad
 {
     self.detailsVisible = NO;
-    
-    UIImage *gpsButtonImage = [UIImage imageNamed:@"gps_icon"];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:gpsButtonImage style:UIBarButtonItemStylePlain target:self action:@selector(startFindingLocation)];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithTitle:@"Filter"
-                                              style:UIBarButtonItemStyleBordered
-                                              target:nil
-                                              action:nil];
-    
-    self.title = @"Tree Map";
-    
-    
+    [self changeMode:Select];
+
+    self.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
+    if (!self.title) {
+        self.title = @"Tree Map";
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatedImage:)
                                                  name:kOTMMapViewControllerImageUpdate
@@ -68,6 +63,7 @@
     
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
+    [self slideAddTreeHelpDownAnimated:NO];
      
     [self setupMapView];
 }
@@ -91,13 +87,52 @@
     [mapView setRegion:region];
 }
 
+/**
+ This method is designed to mimic the response from the geo plot API so that the OTMTreeDetailViewController is always
+ working with the same dictionary schema.
+ */
+- (NSMutableDictionary *)createAddTreeDictionaryFromAnnotation:(MKPointAnnotation *)annotation placemark:(CLPlacemark *)placemark
+{
+    NSMutableDictionary *geometryDict = [[NSMutableDictionary alloc] init];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"lat"];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"lon"];
+    [geometryDict setObject:[NSNumber numberWithInt:4326] forKey:@"srid"];
+
+    NSMutableDictionary *addTreeDict = [[NSMutableDictionary alloc] init];
+    [addTreeDict setObject:geometryDict forKey:@"geometry"];
+
+    if (addTreePlacemark) {
+        [addTreeDict setObject:addTreePlacemark.name forKey:@"geocode_address"];
+        [addTreeDict setObject:addTreePlacemark.name forKey:@"edit_address_street"];
+    } else {
+        // geocode_address and edit_street_address are required by the Django application
+        // but they are not srictly nessesary to have a functional app.
+        [addTreeDict setObject:@"No Address" forKey:@"geocode_address"];
+        [addTreeDict setObject:@"No Address" forKey:@"edit_address_street"];
+    }
+
+    [addTreeDict setObject:[NSNumber numberWithInt:0] forKey:@"id"];
+    [addTreeDict setObject:[NSNull null] forKey:@"length"];
+    [addTreeDict setObject:[NSNull null] forKey:@"readonly"];
+    [addTreeDict setObject:[NSNull null] forKey:@"tree"];
+    [addTreeDict setObject:[NSNull null] forKey:@"type"];
+    [addTreeDict setObject:[NSNull null] forKey:@"width"];
+    return addTreeDict;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
 {
     if ([segue.identifier isEqualToString:@"Details"]) {
         OTMTreeDetailViewController *dest = segue.destinationViewController;
         [dest view]; // Force it load its view
+        dest.delegate = self;
+
+        if (self.mode == Select) {
+            dest.data = self.selectedPlot;
+        } else {
+            dest.data = [self createAddTreeDictionaryFromAnnotation:self.addTreeAnnotation placemark:self.addTreePlacemark];
+        }
         
-        dest.data = self.selectedPlot;
         id keys = [NSArray arrayWithObjects:
                      [NSArray arrayWithObjects:                      
                       [NSDictionary dictionaryWithObjectsAndKeys:
@@ -172,6 +207,10 @@
         
         dest.keys = sections;
         dest.imageView.image = self.treeImage.image;
+        if (self.mode != Select) {
+            // When adding a new tree the detail view is automatically in edit mode
+            [dest startEditing:self];
+        }
     }
 }
 
@@ -227,20 +266,46 @@
     [self.address setText:taddress];
 }
 
--(void)slideDetailUpAnimated:(BOOL)anim {
+
+-(void)slideUpBottomDockedView:(UIView *)view animated:(BOOL)anim {
     if (anim) {
-        [UIView beginAnimations:@"slidedetailup" context:nil];
+        [UIView beginAnimations:[NSString stringWithFormat:@"slideup%@", view] context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:0.2];
     }
     
-    [self.detailView setFrame:
-        CGRectMake(0,
-                   self.view.bounds.size.height - self.detailView.frame.size.height,
-                   self.view.bounds.size.width, 
-                   self.detailView.frame.size.height)];
+    [view setFrame:
+     CGRectMake(0,
+                self.view.bounds.size.height - view.frame.size.height,
+                self.view.bounds.size.width,
+                view.frame.size.height)];
     
+    if (anim) {
+        [UIView commitAnimations];
+    }
+}
+
+-(void)slideDetailUpAnimated:(BOOL)anim {
+    [self slideUpBottomDockedView:self.detailView animated:anim];
     self.detailsVisible = YES;
+}
+
+-(void)slideAddTreeHelpUpAnimated:(BOOL)anim {
+    [self slideUpBottomDockedView:self.addTreeHelpView animated:anim];
+}
+
+-(void)slideDownBottomDockedView:(UIView *)view animated:(BOOL)anim {
+    if (anim) {
+        [UIView beginAnimations:[NSString stringWithFormat:@"slidedown%@", view] context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:0.2];
+    }    
+    
+    [view setFrame:
+     CGRectMake(0,
+                self.view.bounds.size.height,
+                self.view.bounds.size.width, 
+                view.frame.size.height)];
     
     if (anim) {
         [UIView commitAnimations];
@@ -248,23 +313,12 @@
 }
 
 -(void)slideDetailDownAnimated:(BOOL)anim {
-    if (anim) {
-        [UIView beginAnimations:@"slidedetaildown" context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:0.2];
-    }    
-    
-    [self.detailView setFrame:
-     CGRectMake(0,
-                self.view.bounds.size.height,
-                self.view.bounds.size.width, 
-                self.detailView.frame.size.height)];
-    
+    [self slideDownBottomDockedView:self.detailView animated:anim];
     self.detailsVisible = NO;
-    
-    if (anim) {
-        [UIView commitAnimations];
-    }
+}
+
+-(void)slideAddTreeHelpDownAnimated:(BOOL)anim {
+    [self slideDownBottomDockedView:self.addTreeHelpView animated:anim];
 }
 
 #pragma mark Map view setup
@@ -309,12 +363,195 @@
     [singleTapRecognizer requireGestureRecognizerToFail:doubleTapRecognizer];
 }
 
+#pragma mark mode management methods
+
+- (void)clearSelectedTree
+{
+    if (self.lastClickedTree) {
+        [self.mapView removeAnnotation:self.lastClickedTree];
+        self.lastClickedTree = nil;
+    }
+    if (self.detailsVisible) {
+        [self slideDetailDownAnimated:YES];
+    }
+}
+
+- (void)changeMode:(OTMMapViewControllerMapMode)newMode
+{
+    if (newMode == self.mode) {
+        return;
+    }
+
+    if (newMode == Add) {
+        self.navigationItem.title = @"Add A Tree";
+        self.navigationItem.leftBarButtonItem.title = @"Cancel";
+        self.navigationItem.leftBarButtonItem.target = self;
+        self.navigationItem.leftBarButtonItem.action = @selector(cancelAddTree);
+        self.navigationItem.rightBarButtonItem = nil;
+
+        [self clearSelectedTree];
+        self.addTreeHelpLabel.text = @"Step 1: Tap the new tree location";
+        [self slideAddTreeHelpUpAnimated:YES];
+
+    } else if (newMode == Move) {
+        self.navigationItem.leftBarButtonItem.title = @"Cancel";
+        self.navigationItem.leftBarButtonItem.target = self;
+        self.navigationItem.leftBarButtonItem.action = @selector(cancelMoveNewTree);
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStyleBordered target:self action:@selector(showNewTreeEditView)];
+        [self crossfadeLabel:self.addTreeHelpLabel newText:@"Step 2: Move tree into position then click Next"];
+
+    } else if (newMode == Select) {
+        if (self.addTreeAnnotation) {
+            [self.mapView removeAnnotation:self.addTreeAnnotation];
+            self.addTreeAnnotation = nil;
+        }
+        self.navigationItem.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
+        self.navigationItem.leftBarButtonItem.title = @"Filter";
+        self.navigationItem.leftBarButtonItem.target = self;
+        self.navigationItem.leftBarButtonItem.action = @selector(showFilters);
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(startAddingTree)];
+        [self slideAddTreeHelpDownAnimated:YES];
+    }
+
+    self.mode = newMode;
+}
+
+- (void)crossfadeLabel:(UILabel *)label newText:(NSString *)newText
+{
+    [UIView beginAnimations:[NSString stringWithFormat:@"crossfadelabel%@", label] context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    [UIView setAnimationDuration:0.6];
+
+    label.alpha = 0;
+    label.text = newText;
+    label.alpha = 1;
+
+    [UIView commitAnimations];
+}
+
+- (void)slideAddTreeAnnotationToCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [UIView beginAnimations:[NSString stringWithFormat:@"slideannotation%@", self.addTreeAnnotation] context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    [UIView setAnimationDuration:0.2];
+
+    self.addTreeAnnotation.coordinate = coordinate;
+
+    [UIView commitAnimations];
+}
+
+- (void)cancelAddTree
+{
+    [self changeMode:Select];
+}
+
+- (void)cancelMoveNewTree
+{
+    [self changeMode:Select];
+}
+
+- (void)showFilters
+{
+    // TODO: hide the wizard label
+}
+
+- (void)startAddingTree
+{
+    [self changeMode:Add];
+}
+
+- (void)showNewTreeEditView
+{
+    [self performSegueWithIdentifier:@"Details" sender:self];
+}
+
+#pragma mark tap response methods
+
+- (void)selectTreeNearCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:coordinate.latitude
+                                                         longitude:coordinate.longitude
+                                                          callback:^(NSArray* plots, NSError* error)
+     {
+         if ([plots count] == 0) { // No plots returned
+             [self slideDetailDownAnimated:YES];
+         } else {
+             NSDictionary* plot = [plots objectAtIndex:0];
+
+             self.selectedPlot = [plot mutableDeepCopy];
+
+             NSDictionary* geom = [plot objectForKey:@"geometry"];
+
+             NSDictionary* tree = [plot objectForKey:@"tree"];
+
+             self.treeImage.image = nil;
+
+             if (tree && [tree isKindOfClass:[NSDictionary class]]) {
+                 NSArray* images = [tree objectForKey:@"images"];
+
+                 if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
+                     int imageId = [[[images objectAtIndex:0] objectForKey:@"id"] intValue];
+                     int plotId = [[plot objectForKey:@"id"] intValue];
+
+                     [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
+                                                                       photoId:imageId
+                                                                      callback:^(UIImage* image, NSError* error)
+                      {
+                          self.treeImage.image = image;
+                      }];
+                 }
+             }
+
+             [self setDetailViewData:plot];
+             [self slideDetailUpAnimated:YES];
+
+             double lat = [[geom objectForKey:@"lat"] doubleValue];
+             double lon = [[geom objectForKey:@"lng"] doubleValue];
+             CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
+             MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+
+             [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+
+             if (self.lastClickedTree) {
+                 [mapView removeAnnotation:self.lastClickedTree];
+                 self.lastClickedTree = nil;
+             }
+
+             self.lastClickedTree = [[MKPointAnnotation alloc] init];
+
+             [self.lastClickedTree setCoordinate:center];
+
+             [mapView addAnnotation:self.lastClickedTree];
+             NSLog(@"Here with plot %@", plot);
+         }
+     }];
+}
+
+- (void)fetchAndSetAddTreePlacemarkForCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [[[OTMEnvironment sharedEnvironment] api] reverseGeocodeCoordinate:coordinate callback:^(NSArray *placemarks, NSError *error) {
+        if (placemarks && [placemarks count] > 0) {
+            self.addTreePlacemark = [placemarks objectAtIndex:0];
+            NSLog(@"Set add tree placemark to %@", self.addTreePlacemark);
+        };
+    }];
+}
+
+- (void)placeNewTreeAnnotation:(CLLocationCoordinate2D)coordinate
+{
+    if (!self.addTreeAnnotation) {
+        self.addTreeAnnotation = [[MKPointAnnotation alloc] init];
+        self.addTreeAnnotation.coordinate = coordinate;
+        [self.mapView addAnnotation:self.addTreeAnnotation];
+    } else {
+        [self slideAddTreeAnnotationToCoordinate:coordinate];
+    }
+    [self fetchAndSetAddTreePlacemarkForCoordinate:coordinate];
+    [self changeMode:Move];
+}
+
 #pragma mark UIGestureRecognizer handlers
 
-/**
- INCOMPLETE
- Get the latitude and longitude of the point on the map that was touched
- */
 - (void)handleSingleTapGesture:(UIGestureRecognizer *)gestureRecognizer
 {
     if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
@@ -333,65 +570,17 @@
     CGPoint touchPoint = [gestureRecognizer locationInView:mapView];
     CLLocationCoordinate2D touchMapCoordinate = [mapView convertPoint:touchPoint toCoordinateFromView:mapView];
 
-    [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:touchMapCoordinate.latitude
-                                                         longitude:touchMapCoordinate.longitude
-                                                          callback:^(NSArray* plots, NSError* error) 
-    {
-        if ([plots count] == 0) { // No plots returned
-            [self slideDetailDownAnimated:YES];
-        } else {            
-            NSDictionary* plot = [plots objectAtIndex:0];
-            
-            self.selectedPlot = [plot mutableDeepCopy];
-            
-            NSDictionary* geom = [plot objectForKey:@"geometry"];
-            
-            NSDictionary* tree = [plot objectForKey:@"tree"];
-            
-            self.treeImage.image = nil;
-            
-            if (tree && [tree isKindOfClass:[NSDictionary class]]) {
-                NSArray* images = [tree objectForKey:@"images"];
-                
-                if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-                    int imageId = [[[images objectAtIndex:0] objectForKey:@"id"] intValue];
-                    int plotId = [[plot objectForKey:@"id"] intValue];
-                    
-                    [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
-                                                                      photoId:imageId
-                                                                     callback:^(UIImage* image, NSError* error)
-                     {
-                         self.treeImage.image = image;
-                     }];
-                }
-            }
-            
-            [self setDetailViewData:plot];
-            [self slideDetailUpAnimated:YES];
-            
-            double lat = [[geom objectForKey:@"lat"] doubleValue];
-            double lon = [[geom objectForKey:@"lng"] doubleValue];
-            CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
-            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-            
-            [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
-            
-            if (self.lastClickedTree) {
-                [mapView removeAnnotation:self.lastClickedTree];
-                self.lastClickedTree = nil;
-            }
-            
-            self.lastClickedTree = [[MKPointAnnotation alloc] init];
-            
-            [self.lastClickedTree setCoordinate:center];
-            
-            [mapView addAnnotation:self.lastClickedTree];
-            NSLog(@"Here with plot %@", plot); 
-        }
-    }];
-    
-    // TODO: Fetch nearest tree for lat lon
-    NSLog(@"Touched lat:%f lon:%f",touchMapCoordinate.latitude, touchMapCoordinate.longitude);
+    if (!mode || mode == Select) {
+        [self selectTreeNearCoordinate:touchMapCoordinate];
+
+    } else if (mode == Add) {
+        [self placeNewTreeAnnotation:touchMapCoordinate];
+        [self changeMode:Move];
+
+    } else if (mode == Move) {
+        [self placeNewTreeAnnotation:touchMapCoordinate];
+    }
+
 }
 
 #pragma mark UIGestureRecognizerDelegate methods
@@ -434,6 +623,23 @@
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
     return [[AZPointOffsetOverlay alloc] initWithOverlay:overlay];
+}
+
+#define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
+
+- (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    if (annotation == self.addTreeAnnotation) {
+        MKAnnotationView *annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
+        if (!annotationView) {
+            annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
+            ((OTMAddTreeAnnotationView *)annotationView).delegate = self;
+            ((OTMAddTreeAnnotationView *)annotationView).mapView = mv;
+        }
+        return annotationView;
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark UISearchBarDelegate methods
@@ -479,7 +685,7 @@
 
 #pragma mark CoreLocation handling
 
-- (void)startFindingLocation
+- (IBAction)startFindingLocation:(id)sender
 {
     if ([CLLocationManager locationServicesEnabled]) {
         if (nil == [self locationManager]) {
@@ -542,4 +748,21 @@
         }
     }
 }
+
+#pragma mark OTMAddTreeAnnotationView delegate methods
+
+- (void)movedAnnotation:(MKPointAnnotation *)annotation
+{
+    [self fetchAndSetAddTreePlacemarkForCoordinate:annotation.coordinate];
+}
+
+#pragma mark OTMTreeDetailViewDelegate methods
+
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details
+{
+    // TODO: Redraw the tile with the new tree
+    [self changeMode:Select];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

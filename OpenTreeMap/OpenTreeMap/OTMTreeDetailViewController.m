@@ -33,7 +33,7 @@
 
 @implementation OTMTreeDetailViewController
 
-@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView, acell;
+@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView, acell, delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -157,6 +157,14 @@
     // Edit mode represents the mode that we are transitioning to
     editMode = !editMode;
     
+    if (editMode) {
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
+        self.navigationItem.rightBarButtonItem.title = @"Done";
+    } else {
+        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
+        self.navigationItem.rightBarButtonItem.title = @"Edit";
+    }
+
     if (editMode) { // Tx to edit mode
         curFields = editFields;
         
@@ -179,6 +187,11 @@
         
         [self.tableView endUpdates];
     } else { // Tx from edit mdoe
+        BOOL isNewTree = false;
+        if ([[self.data objectForKey:@"id"] intValue] == 0) {
+            isNewTree = true;
+        }
+
         for(NSArray *section in editFields) {
             for(OTMEditDetailCellRenderer *editFld in section) {
                 self.data = [editFld updateDictWithValueFromCell:data];
@@ -208,6 +221,25 @@
                          }];        
         
         [self.tableView endUpdates];
+
+        if (isNewTree) {
+            OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+
+            // TODO: Handle a slow save by showing an activity spinner
+            [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:loginManager.loggedInUser callback:^(id json, NSError *err){
+                if (err == nil) {
+                    [self.delegate viewController:self addedTree:data];
+
+                } else {
+                    NSLog(@"Error adding tree: %@", err);
+                    [[[UIAlertView alloc] initWithTitle:nil
+                                                message:@"Sorry. There was a problem saving the new tree."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil] show];
+                }
+            }];
+        }
     }
     
     // Need to reload all of the cells after animation is done

@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "AZHttpRequest.h"
 #import "OTMUser.h"
 
@@ -32,6 +33,7 @@ typedef enum {
     kOTMAPILoginDuplicateUsername
 } OTMAPILoginResponse;
 
+typedef void(^AZGenericCallback)(id obj, NSError* error);
 typedef void(^AZJSONCallback)(id json, NSError* error);
 typedef void(^AZImageCallback)(UIImage* image, NSError* error);
 typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
@@ -47,6 +49,7 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  */
 @interface OTMAPI : NSObject {
     NSDictionary *species;
+    NSOperationQueue *geocodeQueue;
 }
 
 /**
@@ -171,5 +174,20 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  * @param callback method that will be executed and passed the geocoder response
  */
 -(void)geocodeAddress:(NSString *)address callback:(AZJSONCallback)callback;
+
+
+/**
+ * Get the address details for a map coordinate
+ * @param coordinate the coordinate for which address details should be retrieved
+ * @param callback method that will be executed and passed the reverse geocoder response
+ */
+-(void)reverseGeocodeCoordinate:(CLLocationCoordinate2D)coordinate callback:(AZGenericCallback)callback;
+
+/**
+ * Create a new plot and create a new tree in that plot if tree details are included
+ * in the detail dictionary.
+ * @param dictionary with plot, tree, and geometry information
+ */
+-(void)addPlotWithOptionalTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback;
 
 @end

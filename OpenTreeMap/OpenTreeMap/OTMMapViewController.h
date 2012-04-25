@@ -23,12 +23,22 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "OTMAddTreeAnnotationView.h"
+#import "OTMTreeDetailViewController.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
-@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate> {
+typedef enum {
+    Initial, // Initial should always be the first item in the enum
+    Select,
+    Add,
+    Move,
+} OTMMapViewControllerMapMode;
+
+@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
+    IBOutlet UIBarButtonItem *findLocationButton;
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
@@ -42,9 +52,18 @@
 @property (nonatomic,strong) IBOutlet UILabel* species;
 @property (nonatomic,strong) IBOutlet UILabel* dbh;
 @property (nonatomic,strong) IBOutlet UILabel* address;
+@property (nonatomic,strong) IBOutlet UIView* addTreeHelpView;
+@property (nonatomic,strong) IBOutlet UILabel* addTreeHelpLabel;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
+@property (nonatomic) OTMMapViewControllerMapMode mode;
+
+@property (nonatomic,strong) MKPointAnnotation* addTreeAnnotation;
+@property (nonatomic,copy) CLPlacemark *addTreePlacemark;
+
 -(void)setDetailViewData:(NSDictionary*)plot;
+
+-(IBAction) startFindingLocation:(id)sender;
 
 @end

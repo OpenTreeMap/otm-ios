@@ -27,7 +27,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey, choices;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey, choices;
 
 + (id)sharedEnvironment
 {
@@ -110,6 +110,8 @@
     [self setSearchSuffix:[mapView valueForKey:@"SearchSuffix"]];
 
     [self setLocationSearchTimeoutInSeconds:[mapView valueForKey:@"LocationSearchTimeoutInSeconds"]];
+
+    [self setMapViewTitle:[mapView valueForKey:@"MapViewTitle"]];
 
     OTMAPI* otmApi = [[OTMAPI alloc] init];
     

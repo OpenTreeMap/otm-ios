@@ -22,8 +22,7 @@
 
 #import "OTMAPI.h"
 #import "ASIHTTPRequest.h"
-
-typedef void(^AZGenericCallback)(id obj, NSError* error);
+#import "OTMReverseGeocodeOperation.h"
 
 @interface OTMAPI()
 +(int)parseSection:(NSData*)data 
@@ -389,6 +388,27 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
     [request get:@"addresses/:address"
           params:[NSDictionary dictionaryWithObject:urlEncodedSearchText forKey:@"address"]
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
+-(void)reverseGeocodeCoordinate:(CLLocationCoordinate2D)coordinate callback:(AZGenericCallback)callback
+{
+    if (!geocodeQueue) {
+        geocodeQueue = [[NSOperationQueue alloc] init];
+        [geocodeQueue setMaxConcurrentOperationCount:1];
+    }
+
+    OTMReverseGeocodeOperation *operation = [[OTMReverseGeocodeOperation alloc] initWithCoordinate:coordinate callback:callback];
+
+    [geocodeQueue addOperation:operation];
+}
+
+-(void)addPlotWithOptionalTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    [request post:@"plots"
+         withUser:user
+           params:nil
+             data:[self jsonEncode:details]
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 @end
