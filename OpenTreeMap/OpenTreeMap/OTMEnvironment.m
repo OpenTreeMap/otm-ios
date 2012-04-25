@@ -27,7 +27,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey, choices;
 
 + (id)sharedEnvironment
 {
@@ -53,8 +53,11 @@
     NSString* configuration = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Configuration"];
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* environmentPListPath = [bundle pathForResource:configuration ofType:@"plist"];
+    NSString *choicesPListPath = [bundle pathForResource:@"Choices" ofType:@"plist"];
     NSDictionary* environment = [[NSDictionary alloc] initWithContentsOfFile:environmentPListPath];
 
+    choices = [[NSDictionary alloc] initWithContentsOfFile:choicesPListPath];
+    
     // Environment - URLCache
 
     NSDictionary *urlCache = [environment valueForKey:@"URLCache"];

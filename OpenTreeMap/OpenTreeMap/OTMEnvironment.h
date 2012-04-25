@@ -106,6 +106,9 @@
 @property (nonatomic, copy) NSString* baseURL;
 @property (nonatomic, copy) NSString* apiKey;
 
+// Choices values
+@property (nonatomic, retain) NSDictionary* choices;
+
 // Derived Properties
 @property (nonatomic, strong) OTMAPI* api;
 

@@ -126,6 +126,36 @@
                        @"fmtM:", @"format", 
                        nil],
                       nil],
+                   [NSArray arrayWithObjects:
+                    [NSDictionary dictionaryWithObjectsAndKeys:
+                     @"width", @"key",
+                     @"Plot Width", @"label", 
+                     @"fmtFt:", @"format", 
+                     nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys:
+                     @"length", @"key",
+                     @"Plot Length", @"label", 
+                     @"fmtFt:", @"format", 
+                     nil],
+                      [NSDictionary dictionaryWithObjectsAndKeys:
+                       @"powerlines", @"key",
+                       @"Powerlines", @"label", 
+                       @"OTMChoicesDetailCellRenderer", @"class",
+                       @"powerline_conflict_potential", @"fname",
+                       nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys:
+                     @"sidewalk_damage", @"key",
+                     @"Sidewalk", @"label", 
+                     @"OTMChoicesDetailCellRenderer", @"class",
+                     @"sidewalk_damage", @"fname",
+                     nil],
+                    [NSDictionary dictionaryWithObjectsAndKeys:
+                     @"canopy_condition", @"key",
+                     @"Canopy Condition", @"label", 
+                     @"OTMChoicesDetailCellRenderer", @"class",
+                     @"canopy_condition", @"fname",
+                     nil],
+                    nil],
                      nil];
         
         NSMutableArray *sections = [NSMutableArray array];

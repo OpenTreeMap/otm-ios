@@ -55,6 +55,8 @@
 		D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */; };
 		D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */; };
 		D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */; };
+		D7829CA71547275700DBFE7C /* Choices.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7829CA61547275700DBFE7C /* Choices.plist */; };
+		D7829CAB15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */; };
 		D78CCCD7152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */; };
 		D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
@@ -171,6 +173,9 @@
 		D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMDBHTableViewCell.xib; sourceTree = "<group>"; };
 		D7829C8715409EF300DBFE7C /* OTMDBHTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDBHTableViewCell.h; sourceTree = "<group>"; };
 		D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDBHTableViewCell.m; sourceTree = "<group>"; };
+		D7829CA61547275700DBFE7C /* Choices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Choices.plist; sourceTree = "<group>"; };
+		D7829CA915472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMChoicesDetailCellRenderer.h; sourceTree = "<group>"; };
+		D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMChoicesDetailCellRenderer.m; sourceTree = "<group>"; };
 		D78CCCD5152CC34C00A6E9B7 /* OTMDistanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDistanceTableViewCell.h; sourceTree = "<group>"; };
 		D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDistanceTableViewCell.m; sourceTree = "<group>"; };
 		D7910C51152B419E00758F66 /* OTMNearbyTreesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNearbyTreesViewController.h; sourceTree = "<group>"; };
@@ -255,6 +260,7 @@
 		64DDCDBA14F53177004FA0CF /* Environments */ = {
 			isa = PBXGroup;
 			children = (
+				D7829CA61547275700DBFE7C /* Choices.plist */,
 				64DDCDB814F53102004FA0CF /* Debug.plist */,
 				64DDCDC414F53D8F004FA0CF /* Release.plist */,
 			);
@@ -292,6 +298,8 @@
 				D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */,
 				D7829C82153F3AE200DBFE7C /* OTMDetailCellRenderer.h */,
 				D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */,
+				D7829CA915472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.h */,
+				D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */,
 			);
 			name = "Edit Details";
 			sourceTree = "<group>";
@@ -572,6 +580,7 @@
 				6489E23415372DA300DA7924 /* gps_icon.png in Resources */,
 				6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */,
 				D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */,
+				D7829CA71547275700DBFE7C /* Choices.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,6 +651,7 @@
 				64FA1B21153353D600513840 /* OTMAddTreeViewController.m in Sources */,
 				D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */,
 				D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */,
+				D7829CAB15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

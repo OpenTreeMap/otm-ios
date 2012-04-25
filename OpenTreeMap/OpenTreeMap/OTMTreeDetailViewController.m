@@ -48,7 +48,7 @@
     // Set some fields
     [self syncTopData];
     
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 -(void)syncTopData {
@@ -68,7 +68,7 @@
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
     
-    [self.tableView setAllowsMultipleSelectionDuringEditing:YES];
+    [self.tableView setAllowsSelectionDuringEditing:YES];
 }
 
 - (void)viewDidUnload
@@ -223,8 +223,15 @@
     
     sVC.callback = ^(NSNumber *sId, NSString *name) {
         [self.data setObject:sId forEncodedKey:@"tree.species"];
-        [self.data setObject:name forEncodedKey:@"tree.species_name"];   
+        [self.data setObject:name forEncodedKey:@"tree.species_name"];
         [self syncTopData];
+        
+        [self.tableView reloadRowsAtIndexPaths:[NSArray
+                                                    arrayWithObject:
+                                                [NSIndexPath 
+                                                 indexPathForRow:0
+                                                      inSection:0]]
+                              withRowAnimation:UITableViewRowAnimationNone];
     };
 }
 
@@ -256,25 +263,10 @@
     Function1v clicker = [[[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] clickCallback];
     
     if (clicker) {
-        clicker(tblView);
-    }
-}
-
-- (void)tableViewCell:(UITableViewCell *)tblViewCell updatedToValue:(NSString *)value {
-    NSIndexPath *path = [self.tableView indexPathForCell:tblViewCell];
-    int section = [path section];
-    int row = [path row];
-    
-    if (editMode) {
-        if (section == 0) { return; }
-        section -= 1;
+        clicker(self);
     }
     
-    NSMutableDictionary* cellinfo = [[self.keys objectAtIndex:section] objectAtIndex:row+1];
-    
-    [data setObject:value forEncodedKey:[cellinfo objectForKey:@"key"]];
-    
-    
+    [tblView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
