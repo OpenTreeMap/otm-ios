@@ -207,8 +207,11 @@
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
-    [dict setObject:self.cell.diameterTextField.text
-      forEncodedKey:self.dataKey];
+    NSString *newDBH = self.cell.diameterTextField.text;
+    if (newDBH && [newDBH length] > 0) {
+        [dict setObject:self.cell.diameterTextField.text
+          forEncodedKey:self.dataKey];
+    }
     
     return dict;
 }
