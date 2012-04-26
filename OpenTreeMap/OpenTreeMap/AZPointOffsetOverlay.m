@@ -55,13 +55,18 @@
 {    
     NSString* key = [self getCacheKeyForMapRect:mapRect];
     
+    __block AZPointOffsetOverlay *blockSelf = self;
+    
     [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) callback:
      ^(CFArrayRef points, NSError* error) {
          if (error == nil) {
              UIImage* image = [AZPointOffsetOverlay createImageWithOffsets:points stamp:[self pointStamp] alpha:tileAlpha];
              
              [renderedImageCache setObject:image forKey:key];
-             [self setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];         
+             dispatch_async(dispatch_get_main_queue(), 
+                            ^{
+                                [blockSelf setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];         
+                            });
          } else {
              NSLog(@"Error loading tile images: %@", error);
          }
