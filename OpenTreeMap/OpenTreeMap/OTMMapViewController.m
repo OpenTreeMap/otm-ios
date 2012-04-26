@@ -104,6 +104,13 @@
     if (addTreePlacemark) {
         [addTreeDict setObject:addTreePlacemark.name forKey:@"geocode_address"];
         [addTreeDict setObject:addTreePlacemark.name forKey:@"edit_address_street"];
+        [addTreeDict setObject:addTreePlacemark.name forKey:@"address_street"]; 
+        if ([addTreePlacemark postalCode]) {
+            [addTreeDict setObject:[addTreePlacemark postalCode] forKey:@"address_zip"];
+        }
+        if ([addTreePlacemark locality]) {
+            [addTreeDict setObject:[addTreePlacemark locality] forKey:@"address_city"];
+        }
     } else {
         // geocode_address and edit_street_address are required by the Django application
         // but they are not srictly nessesary to have a functional app.
