@@ -41,8 +41,8 @@
 
 -(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)cb {
     
-    if (self.loggedInUser.userId > 0) {
-        callback(YES, self.loggedInUser);
+    if ([self.loggedInUser userId] > 0) {
+        cb(YES, self.loggedInUser);
         return;
         
     }
