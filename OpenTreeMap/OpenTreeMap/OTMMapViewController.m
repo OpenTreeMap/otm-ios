@@ -458,7 +458,14 @@
 
 - (void)startAddingTree
 {
-    [self changeMode:Add];
+    OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+
+    [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
+        if (success) {
+            loginManager.loggedInUser = aUser;
+            [self changeMode:Add];
+        }
+    }];
 }
 
 - (void)showNewTreeEditView
