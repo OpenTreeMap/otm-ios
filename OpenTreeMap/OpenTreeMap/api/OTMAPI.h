@@ -190,4 +190,12 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  */
 -(void)addPlotWithOptionalTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback;
 
+/**
+ * Update the plot and its current tree
+ * @param details dictionary with plot, tree, and geometry information
+ * @param user the authenticated user who is making the edit
+ * @param callback block to be executed when the request is complete or an error occurs
+ */
+-(void)updatePlotAndTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
 @end

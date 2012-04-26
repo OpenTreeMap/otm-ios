@@ -411,4 +411,18 @@
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
+-(void)updatePlotAndTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    if ([details objectForKey:@"id"] == nil) {
+        if (callback) {
+            callback(nil, [NSError errorWithDomain:@"No id specified in details dictionary" code:0 userInfo:details]);
+        }
+    }
+    [request put:@"plots/:id"
+        withUser:user
+          params:[NSDictionary dictionaryWithObject:[details objectForKey:@"id"] forKey:@"id"]
+            data:[self jsonEncode:details]
+        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 @end

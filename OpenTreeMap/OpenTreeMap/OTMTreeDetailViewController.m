@@ -217,13 +217,15 @@
         
         [self.tableView endUpdates];
 
+        OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+        OTMUser *user = loginManager.loggedInUser;
+
         if ([self.data objectForKey:@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
-            OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
 
             NSLog(@"Sending new tree data:\n%@", data);
-            
+
             // TODO: Handle a slow save by showing an activity spinner
-            [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:loginManager.loggedInUser callback:^(id json, NSError *err){
+            [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:user callback:^(id json, NSError *err){
                 if (err == nil) {
                     [self.delegate viewController:self addedTree:data];
 
@@ -231,6 +233,20 @@
                     NSLog(@"Error adding tree: %@", err);
                     [[[UIAlertView alloc] initWithTitle:nil
                                                 message:@"Sorry. There was a problem saving the new tree."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil] show];
+                }
+            }];
+        } else {
+            NSLog(@"Updating existing plot/tree data:\n%@", data);
+
+            // TODO: Handle a slow save by showing an activity spinner
+            [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:data user:user callback:^(id json, NSError *err){
+                if (err != nil) {
+                    NSLog(@"Error updating tree: %@\n %@", err, data);
+                    [[[UIAlertView alloc] initWithTitle:nil
+                                                message:@"Sorry. There was a problem saving the updated tree details."
                                                delegate:nil
                                       cancelButtonTitle:@"OK"
                                       otherButtonTitles:nil] show];
