@@ -139,6 +139,8 @@
                            nil], @"bbox", nil]
                     mime:@"otm/trees"
                 callback:[OTMAPI liftResponse:^(id data, NSError* error) {
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     if (error != nil) { callback(nil, error); return; }
                     uint32_t magic = 0;
                     
@@ -191,6 +193,7 @@
                     
                     CFRelease(points);
                     points = NULL;
+        });
                 }]];        
 }
 
