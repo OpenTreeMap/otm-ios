@@ -46,7 +46,7 @@
     NSArray *curFields;
 }
 
-@property (nonatomic,strong) id<OTMTreeDetailViewDelegate> delegate;
+@property (nonatomic,weak) id<OTMTreeDetailViewDelegate> delegate;
 
 @property (nonatomic,strong) IBOutlet OTMPictureTaker *pictureTaker;
 

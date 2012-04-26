@@ -111,12 +111,6 @@
         [addTreeDict setObject:@"No Address" forKey:@"edit_address_street"];
     }
 
-    [addTreeDict setObject:[NSNumber numberWithInt:0] forKey:@"id"];
-    [addTreeDict setObject:[NSNull null] forKey:@"length"];
-    [addTreeDict setObject:[NSNull null] forKey:@"readonly"];
-    [addTreeDict setObject:[NSNull null] forKey:@"tree"];
-    [addTreeDict setObject:[NSNull null] forKey:@"type"];
-    [addTreeDict setObject:[NSNull null] forKey:@"width"];
     return addTreeDict;
 }
 

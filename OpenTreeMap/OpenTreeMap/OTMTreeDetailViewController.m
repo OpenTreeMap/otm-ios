@@ -187,11 +187,6 @@
         
         [self.tableView endUpdates];
     } else { // Tx from edit mdoe
-        BOOL isNewTree = false;
-        if ([[self.data objectForKey:@"id"] intValue] == 0) {
-            isNewTree = true;
-        }
-
         for(NSArray *section in editFields) {
             for(OTMEditDetailCellRenderer *editFld in section) {
                 self.data = [editFld updateDictWithValueFromCell:data];
@@ -222,9 +217,11 @@
         
         [self.tableView endUpdates];
 
-        if (isNewTree) {
+        if ([self.data objectForKey:@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
             OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
 
+            NSLog(@"Sending new tree data:\n%@", data);
+            
             // TODO: Handle a slow save by showing an activity spinner
             [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:loginManager.loggedInUser callback:^(id json, NSError *err){
                 if (err == nil) {
