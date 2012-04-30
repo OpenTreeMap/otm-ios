@@ -24,10 +24,11 @@
  */
 #import "OTMEnvironment.h"
 #import "AZHttpRequest.h"
+#import "OTMDetailCellRenderer.h"
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey, choices;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey, choices, fieldKeys;
 
 + (id)sharedEnvironment
 {
@@ -131,6 +132,82 @@
     self.api = otmApi;
     
     return self;
+}
+
+-(NSArray *)fieldKeys {
+    id keys = [NSArray arrayWithObjects:
+               [NSArray arrayWithObjects:                      
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"id", @"key",
+                 @"Tree Number", @"label", 
+                 [NSNumber numberWithBool:YES], @"readonly",
+                 nil],
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"tree.sci_name", @"key",
+                 @"Scientific Name", @"label",
+                 [NSNumber numberWithBool:YES], @"readonly", nil],                      
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"tree.dbh", @"key",
+                 @"Trunk Diameter", @"label", 
+                 @"fmtIn:", @"format",  
+                 @"OTMDBHEditDetailCellRenderer", @"editClass",
+                 nil],
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"tree.height", @"key",
+                 @"Tree Height", @"label",
+                 @"fmtM:", @"format",  
+                 nil],
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"tree.canopy_height", @"key",
+                 @"Canopy Height", @"label", 
+                 @"fmtM:", @"format", 
+                 nil],
+                nil],
+               [NSArray arrayWithObjects:
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"width", @"key",
+                 @"Plot Width", @"label", 
+                 @"fmtFt:", @"format", 
+                 nil],
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"length", @"key",
+                 @"Plot Length", @"label", 
+                 @"fmtFt:", @"format", 
+                 nil],
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"powerlines", @"key",
+                 @"Powerlines", @"label", 
+                 @"OTMChoicesDetailCellRenderer", @"class",
+                 @"powerline_conflict_potential", @"fname",
+                 nil],
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"sidewalk_damage", @"key",
+                 @"Sidewalk", @"label", 
+                 @"OTMChoicesDetailCellRenderer", @"class",
+                 @"sidewalk_damage", @"fname",
+                 nil],
+                [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"canopy_condition", @"key",
+                 @"Canopy Condition", @"label", 
+                 @"OTMChoicesDetailCellRenderer", @"class",
+                 @"canopy_condition", @"fname",
+                 nil],
+                nil],
+               nil];    
+    
+    NSMutableArray *sections = [NSMutableArray array];
+    for(NSArray *sectionArray in keys) {
+        NSMutableArray *section = [NSMutableArray array];
+        
+        for(NSDictionary *rowDict in sectionArray) {
+            [section addObject:
+             [OTMDetailCellRenderer cellRendererFromDict:rowDict]];
+        }
+        
+        [sections addObject:section];
+    }
+    
+    return sections;
 }
 
 

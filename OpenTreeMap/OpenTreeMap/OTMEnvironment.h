@@ -112,6 +112,8 @@
 @property (nonatomic, copy) NSString* baseURL;
 @property (nonatomic, copy) NSString* apiKey;
 
+@property (nonatomic, strong) NSArray *fieldKeys;
+
 // Choices values
 @property (nonatomic, retain) NSDictionary* choices;
 

@@ -80,7 +80,7 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  */
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)maxResults callback:(AZJSONCallback)callback;
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
-
+ 
 /**
  * Request an image for a given tree/plot
  *

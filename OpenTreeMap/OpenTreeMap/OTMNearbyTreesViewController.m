@@ -8,6 +8,7 @@
 
 #import "OTMNearbyTreesViewController.h"
 #import "OTMDistanceTableViewCell.h"
+#import "OTMTreeDetailViewController.h"
 
 #define kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier @"kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier"
 
@@ -105,7 +106,25 @@
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)path {
+    NSDictionary *plot = [self.nearbyTrees objectAtIndex:[path row]];
+        
+    [self performSegueWithIdentifier:@"pushDetails" sender:plot];
+}
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+{
+    if ([segue.identifier isEqualToString:@"pushDetails"]) {
+        OTMTreeDetailViewController *dest = segue.destinationViewController;
+        [dest view]; // Force it load its view
+        
+        NSDictionary *plot = sender;
+        
+        id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
+        
+        dest.data = plot;
+        dest.keys = keys;
+        //dest.imageView.image = self.treeImage.image;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
