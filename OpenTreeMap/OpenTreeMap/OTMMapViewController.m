@@ -118,6 +118,9 @@
         [addTreeDict setObject:@"No Address" forKey:@"edit_address_street"];
     }
 
+    // The edit view does not set values correctly if there isn't an empty tree property
+    [addTreeDict setObject:[[NSMutableDictionary alloc] init] forKey:@"tree"];
+
     return addTreeDict;
 }
 
