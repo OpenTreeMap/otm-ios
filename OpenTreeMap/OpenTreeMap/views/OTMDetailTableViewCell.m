@@ -37,7 +37,7 @@
                                       CGRectGetMidX(frame),
                                       frame.size.height);
         CGRect rightFrame = CGRectMake(CGRectGetMidX(frame), 0,
-                                       CGRectGetMidX(frame),
+                                       CGRectGetMidX(frame) - 25,
                                        frame.size.height);
         
         CGRect inputFrame = CGRectInset(rightFrame, 0, 10);
