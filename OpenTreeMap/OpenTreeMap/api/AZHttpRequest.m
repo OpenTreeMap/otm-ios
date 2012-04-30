@@ -60,6 +60,12 @@
 -(void)executeAuthorizedRequestWithURL:(NSString*)url username:(NSString*)username password:(NSString*)password callback:(ASIRequestCallback)callback config:(ASIRequestConfig)config; 
 -(void)executeAuthorizedRequestWithURL:(NSString*)url username:(NSString*)username password:(NSString*)password callback:(ASIRequestCallback)callback;
 
+/**
+ * Log the details of an HTTP request
+ * @param request the ASIHTTPRequest to be logged
+ *
+ */
+-(void)logHttpRequest:(ASIHTTPRequest *)request;
 
 @end
 
@@ -209,8 +215,6 @@
 -(void)executeRequestWithURL:(NSString*)urlsfx callback:(ASIRequestCallback)callback config:(ASIRequestConfig)config {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",self.baseURL,urlsfx]];
     
-    NSLog(@"[Debug] Request: %@", url);
-    
     __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     __weak ASIHTTPRequest *blockRequest = request;
     [request setCompletionBlock:^{
@@ -236,7 +240,23 @@
         config(request);
     }
     
+    [self logHttpRequest:request];
+
     [[self queue] addOperation:request];
+}
+
+-(void)logHttpRequest:(ASIHTTPRequest *)request {
+    if ([request postBody]) {
+        NSString *postBodyAsString;
+        if ([[request postBody] length] <= 1024) {
+            postBodyAsString = [[NSString alloc] initWithData:[request postBody] encoding:NSUTF8StringEncoding];
+        } else {
+            postBodyAsString = @"<body larger than 1024 bytes>";
+        }
+        NSLog(@"%@ %@\n%@", [request requestMethod], [request url], postBodyAsString);
+    } else {
+        NSLog(@"%@ %@", [request requestMethod], [request url]);
+    }
 }
 
 @end
