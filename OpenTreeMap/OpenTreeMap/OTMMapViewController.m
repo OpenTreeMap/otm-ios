@@ -773,4 +773,9 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details
+{
+    [self setDetailViewData:details];
+}
+
 @end

@@ -256,7 +256,9 @@
 
             // TODO: Handle a slow save by showing an activity spinner
             [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:data user:user callback:^(id json, NSError *err){
-                if (err != nil) {
+                if (err == nil) {
+                    [delegate viewController:self editedTree:(NSDictionary *)data];
+                } else {
                     NSLog(@"Error updating tree: %@\n %@", err, data);
                     [[[UIAlertView alloc] initWithTitle:nil
                                                 message:@"Sorry. There was a problem saving the updated tree details."
