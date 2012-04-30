@@ -151,7 +151,20 @@
     curFields = allFields;
 }
 
-- (IBAction)startEditing:(id)sender {    
+- (IBAction)startEditing:(id)sender
+{
+    OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+
+    [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
+        if (success) {
+            loginManager.loggedInUser = aUser;
+            [self toggleEditMode];
+        }
+    }];
+}
+
+- (void)toggleEditMode
+{
     [self.activeField resignFirstResponder];
     
     // Edit mode represents the mode that we are transitioning to
