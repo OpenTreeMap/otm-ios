@@ -24,7 +24,7 @@
 
 @implementation OTMProfileViewController
 
-@synthesize tableView, user, pictureTaker, recentActivity, loadingView;
+@synthesize tableView, user, pictureTaker, recentActivity, loadingView, didShowLogin, pwReqView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -194,11 +194,26 @@
     // Release any retained subviews of the main view.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+- (void)showLoginReqView {
+    if (self.pwReqView == nil) {
+        [[NSBundle mainBundle] loadNibNamed:@"LoginRequiredView"
+                                      owner:self
+                                    options:nil];
+    }
+    
+    [self.view addSubview:self.pwReqView];
+}
 
+- (IBAction)doLogin:(id)sender {
+    OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+    
     [mgr presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
+            if (self.pwReqView) {
+                [self.pwReqView removeFromSuperview];
+                self.title = @"Profile";
+            }                
+            
             self.user = aUser;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:kOTMProfileViewControllerSectionInfo]
                           withRowAnimation:UITableViewRowAnimationNone];
@@ -206,8 +221,20 @@
             if ([self.recentActivity count] == 0) {
                 [self loadRecentEdits];
             }
+        } else {
+            [self showLoginReqView];
         }
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    if (didShowLogin) {
+        [self showLoginReqView];        
+    } else {
+        didShowLogin = YES;
+        
+        [self doLogin:nil];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {

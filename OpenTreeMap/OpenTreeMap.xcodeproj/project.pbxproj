@@ -78,6 +78,11 @@
 		D7CC152715065AC200277C7C /* tree_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CC152615065AC200277C7C /* tree_icon.png */; };
 		D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
+		D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59B41550311800D37425 /* LoginRequiredView.xib */; };
+		D7CF59B91550324C00D37425 /* ptm_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59B71550324C00D37425 /* ptm_logo.png */; };
+		D7CF59BA1550324C00D37425 /* ptm_logo@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59B81550324C00D37425 /* ptm_logo@x2.png */; };
+		D7CF59BD1550330D00D37425 /* ptm_btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59BB1550330D00D37425 /* ptm_btn_bg.png */; };
+		D7CF59BE1550330D00D37425 /* ptm_btn_bg@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59BC1550330D00D37425 /* ptm_btn_bg@x2.png */; };
 		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
 		E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
 		E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
@@ -205,6 +210,11 @@
 		D7CC152615065AC200277C7C /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
 		D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
 		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
+		D7CF59B41550311800D37425 /* LoginRequiredView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRequiredView.xib; sourceTree = "<group>"; };
+		D7CF59B71550324C00D37425 /* ptm_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ptm_logo.png; path = ../../../../../../../../Volumes/projects/Azavea_OpenTreeMap/documents/design/mobile/assets/images/ptm_logo.png; sourceTree = "<group>"; };
+		D7CF59B81550324C00D37425 /* ptm_logo@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ptm_logo@x2.png"; path = "../../../../../../../../Volumes/projects/Azavea_OpenTreeMap/documents/design/mobile/assets/images/ptm_logo@x2.png"; sourceTree = "<group>"; };
+		D7CF59BB1550330D00D37425 /* ptm_btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ptm_btn_bg.png; path = ../../../../../../../../Volumes/projects/Azavea_OpenTreeMap/documents/design/mobile/assets/images/ptm_btn_bg.png; sourceTree = "<group>"; };
+		D7CF59BC1550330D00D37425 /* ptm_btn_bg@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ptm_btn_bg@x2.png"; path = "../../../../../../../../Volumes/projects/Azavea_OpenTreeMap/documents/design/mobile/assets/images/ptm_btn_bg@x2.png"; sourceTree = "<group>"; };
 		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943971614F447EB007CD0D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E943971814F447EB007CD0D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -377,6 +387,10 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D7CF59BB1550330D00D37425 /* ptm_btn_bg.png */,
+				D7CF59BC1550330D00D37425 /* ptm_btn_bg@x2.png */,
+				D7CF59B71550324C00D37425 /* ptm_logo.png */,
+				D7CF59B81550324C00D37425 /* ptm_logo@x2.png */,
 				641495CA1545D02500592E2F /* handle_icon.png */,
 				641495CB1545D02500592E2F /* handle_icon@x2.png */,
 				6489E23215372DA300DA7924 /* gps_icon.png */,
@@ -443,6 +457,7 @@
 				D76319A9151B697F00332BEA /* Login and Register */,
 				E943971D14F447EB007CD0D1 /* Supporting Files */,
 				7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */,
+				D7CF59B41550311800D37425 /* LoginRequiredView.xib */,
 				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
 				64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */,
 				64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */,
@@ -594,6 +609,11 @@
 				D7829CA71547275700DBFE7C /* Choices.plist in Resources */,
 				641495CC1545D02500592E2F /* handle_icon.png in Resources */,
 				641495CD1545D02500592E2F /* handle_icon@x2.png in Resources */,
+				D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */,
+				D7CF59B91550324C00D37425 /* ptm_logo.png in Resources */,
+				D7CF59BA1550324C00D37425 /* ptm_logo@x2.png in Resources */,
+				D7CF59BD1550330D00D37425 /* ptm_btn_bg.png in Resources */,
+				D7CF59BE1550330D00D37425 /* ptm_btn_bg@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
