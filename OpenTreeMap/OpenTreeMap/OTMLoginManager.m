@@ -56,12 +56,14 @@
     return self;
 }
 
+// callback if autologin fails
 -(void)setAutoLoginFailed:(Function0v)alf {
     @synchronized(self) {
         autoLoginFailed = [alf copy];
     }
 }
 
+// callback if autologin fails
 -(Function0v)autoLoginFailed {
     @synchronized(self) {
         return autoLoginFailed;
@@ -74,6 +76,8 @@
     }
 }
 
+// atomically set the callback if the
+// auto login is running
 -(void)installAutoLoginFailedCallback:(Function0v)f {
     @synchronized(self) {
         if (runningLogin) {
@@ -82,6 +86,8 @@
     }
 }
 
+// atomically clear the running flag and
+// call and clear the update handler
 -(void)setRunningLoginDoneWithFailure {
     @synchronized(self) {
         runningLogin = NO;
