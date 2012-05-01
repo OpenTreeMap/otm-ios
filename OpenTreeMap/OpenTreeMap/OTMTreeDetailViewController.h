@@ -31,6 +31,7 @@
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details;
+- (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
 @end
 
 @interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, OTMDetailTableViewCellDelegate, UITextFieldDelegate> {
@@ -77,6 +78,7 @@
  */
 @property (nonatomic, strong) NSArray* keys;
 
-- (IBAction)startEditing:(id)sender;
+- (IBAction)startOrCommitEditing:(id)sender;
+- (IBAction)cancelEditing:(id)sender;
 
 @end

@@ -152,19 +152,25 @@
     curFields = allFields;
 }
 
-- (IBAction)startEditing:(id)sender
+- (IBAction)startOrCommitEditing:(id)sender
 {
     OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
 
     [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
             loginManager.loggedInUser = aUser;
-            [self toggleEditMode];
+            [self toggleEditMode:YES];
         }
     }];
 }
 
-- (void)toggleEditMode
+- (IBAction)cancelEditing:(id)sender
+{
+    [self toggleEditMode:NO];
+    [self.tableView reloadData];
+}
+
+- (void)toggleEditMode:(BOOL)saveChanges
 {
     [self.activeField resignFirstResponder];
     
@@ -172,11 +178,14 @@
     editMode = !editMode;
     
     if (editMode) {
-        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleDone;
-        self.navigationItem.rightBarButtonItem.title = @"Done";
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(startOrCommitEditing:)];
+
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing:)];
+
     } else {
-        self.navigationItem.rightBarButtonItem.style = UIBarButtonItemStyleBordered;
-        self.navigationItem.rightBarButtonItem.title = @"Edit";
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(startOrCommitEditing:)];
+
+        self.navigationItem.leftBarButtonItem = nil;
     }
 
     if (editMode) { // Tx to edit mode
@@ -201,9 +210,11 @@
         
         [self.tableView endUpdates];
     } else { // Tx from edit mdoe
-        for(NSArray *section in editFields) {
-            for(OTMEditDetailCellRenderer *editFld in section) {
-                self.data = [editFld updateDictWithValueFromCell:data];
+        if (saveChanges) {
+            for(NSArray *section in editFields) {
+                for(OTMEditDetailCellRenderer *editFld in section) {
+                    self.data = [editFld updateDictWithValueFromCell:data];
+                }
             }
         }
         
@@ -231,54 +242,61 @@
         
         [self.tableView endUpdates];
 
-        OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
-        OTMUser *user = loginManager.loggedInUser;
+        if (saveChanges) {
+            OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+            OTMUser *user = loginManager.loggedInUser;
 
-        if ([self.data objectForKey:@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
+            if ([self.data objectForKey:@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
 
-            NSLog(@"Sending new tree data:\n%@", data);
+                NSLog(@"Sending new tree data:\n%@", data);
 
-            [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
+                [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
 
-            [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:user callback:^(id json, NSError *err){
+                [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:user callback:^(id json, NSError *err){
 
-                [[AZWaitingOverlayController sharedController] hideOverlay];
+                    [[AZWaitingOverlayController sharedController] hideOverlay];
 
-                if (err == nil) {
-                    [self.delegate viewController:self addedTree:data];
+                    if (err == nil) {
+                        [self.delegate viewController:self addedTree:data];
 
-                } else {
-                    NSLog(@"Error adding tree: %@", err);
-                    [[[UIAlertView alloc] initWithTitle:nil
-                                                message:@"Sorry. There was a problem saving the new tree."
-                                               delegate:nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil] show];
-                }
-            }];
-        } else {
-            NSLog(@"Updating existing plot/tree data:\n%@", data);
+                    } else {
+                        NSLog(@"Error adding tree: %@", err);
+                        [[[UIAlertView alloc] initWithTitle:nil
+                                                    message:@"Sorry. There was a problem saving the new tree."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil] show];
+                    }
+                }];
+            } else {
+                NSLog(@"Updating existing plot/tree data:\n%@", data);
 
-            [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
+                [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
 
-            [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:data user:user callback:^(id json, NSError *err){
+                [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:data user:user callback:^(id json, NSError *err){
 
-                [[AZWaitingOverlayController sharedController] hideOverlay];
+                    [[AZWaitingOverlayController sharedController] hideOverlay];
 
-                if (err == nil) {
-                    [delegate viewController:self editedTree:(NSDictionary *)data];
-                } else {
-                    NSLog(@"Error updating tree: %@\n %@", err, data);
-                    [[[UIAlertView alloc] initWithTitle:nil
-                                                message:@"Sorry. There was a problem saving the updated tree details."
-                                               delegate:nil
-                                      cancelButtonTitle:@"OK"
-                                      otherButtonTitles:nil] show];
-                }
-            }];
+                    if (err == nil) {
+                        [delegate viewController:self editedTree:(NSDictionary *)data];
+                    } else {
+                        NSLog(@"Error updating tree: %@\n %@", err, data);
+                        [[[UIAlertView alloc] initWithTitle:nil
+                                                    message:@"Sorry. There was a problem saving the updated tree details."
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil] show];
+                    }
+                }];
+            }
         }
     }
     
+    // No 'id' parameter indicates that this view was shown to edit a new plot/tree
+    if ([self.data objectForKey:@"id"] == nil && !saveChanges) {
+        [delegate treeAddCanceledByViewController:self];
+    }
+
     // Need to reload all of the cells after animation is done
     double delayInMSeconds = 250;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInMSeconds * NSEC_PER_MSEC);

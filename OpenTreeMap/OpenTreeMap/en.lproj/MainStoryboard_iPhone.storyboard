@@ -328,7 +328,7 @@
                     <navigationItem key="navigationItem" id="b7l-sL-luW">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="FPD-mA-QHc">
                             <connections>
-                                <action selector="startEditing:" destination="Z5j-QU-uNU" id="FT5-xe-qIc"/>
+                                <action selector="startOrCommitEditing:" destination="Z5j-QU-uNU" id="T3F-JG-cuv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

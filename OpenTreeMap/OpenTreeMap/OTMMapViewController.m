@@ -152,7 +152,7 @@
         dest.imageView.image = self.treeImage.image;
         if (self.mode != Select) {
             // When adding a new tree the detail view is automatically in edit mode
-            [dest startEditing:self];
+            [dest startOrCommitEditing:self];
         }
     }
 }
@@ -737,6 +737,12 @@
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details
 {
     [self setDetailViewData:details];
+}
+
+- (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController
+{
+    [self changeMode:Select];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
