@@ -165,17 +165,17 @@
                 nil],
                [NSArray arrayWithObjects:
                 [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"width", @"key",
+                 @"plot_width", @"key",
                  @"Plot Width", @"label", 
                  @"fmtFt:", @"format", 
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"length", @"key",
+                 @"plot_length", @"key",
                  @"Plot Length", @"label", 
                  @"fmtFt:", @"format", 
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"powerlines", @"key",
+                 @"power_lines", @"key",
                  @"Powerlines", @"label", 
                  @"OTMChoicesDetailCellRenderer", @"class",
                  @"powerline_conflict_potential", @"fname",
@@ -187,7 +187,7 @@
                  @"sidewalk_damage", @"fname",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"canopy_condition", @"key",
+                 @"tree.canopy_condition", @"key",
                  @"Canopy Condition", @"label", 
                  @"OTMChoicesDetailCellRenderer", @"class",
                  @"canopy_condition", @"fname",

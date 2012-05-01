@@ -118,6 +118,9 @@
         [addTreeDict setObject:@"No Address" forKey:@"edit_address_street"];
     }
 
+    // The edit view does not set values correctly if there isn't an empty tree property
+    [addTreeDict setObject:[[NSMutableDictionary alloc] init] forKey:@"tree"];
+
     return addTreeDict;
 }
 
@@ -133,7 +136,7 @@
         } else {
             dest.data = [self createAddTreeDictionaryFromAnnotation:self.addTreeAnnotation placemark:self.addTreePlacemark];
         }
-        
+
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
         
         dest.keys = keys;
@@ -701,6 +704,11 @@
     // TODO: Redraw the tile with the new tree
     [self changeMode:Select];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details
+{
+    [self setDetailViewData:details];
 }
 
 @end

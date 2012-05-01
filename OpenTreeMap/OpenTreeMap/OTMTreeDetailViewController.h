@@ -30,6 +30,7 @@
 @protocol OTMTreeDetailViewDelegate <NSObject>
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details;
 @end
 
 @interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, OTMDetailTableViewCellDelegate, UITextFieldDelegate> {

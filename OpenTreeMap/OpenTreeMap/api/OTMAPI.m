@@ -45,10 +45,16 @@
         if (req.responseStatusCode >= 200 && req.responseStatusCode <= 299) {
             callback([req responseData], nil);
         } else {
+            NSString *responseBodyAsString = [[NSString alloc] initWithData:[req responseData] encoding:NSUTF8StringEncoding];
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                req.url, @"url",
+                req.requestMethod, @"method",
+                responseBodyAsString, @"body",
+                [NSNumber numberWithInt:req.responseStatusCode], @"statusCode",
+                nil];
             NSError* error = [[NSError alloc] initWithDomain:@"otm"
                                                         code:req.responseStatusCode
-                                                    userInfo:nil];
-            
+                                                    userInfo:userInfo];
             callback(nil, error);
         }
     } copy];
