@@ -34,12 +34,39 @@
         rootVC = [loginWorkflow instantiateInitialViewController];
         loginVC = [[rootVC viewControllers] objectAtIndex:0];
         loginVC.loginDelegate = self;
+        
+        OTMUser *user = [[OTMUser alloc] init];
+        user.keychain = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] keychain];
+        
+        if ([user.username length] > 0 && [user.password length] > 0) {
+            runningLogin = YES;
+            [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser *u, OTMAPILoginResponse loginResp)
+             {
+                 if (loginResp == kOTMAPILoginResponseOK) {
+                     self.loggedInUser = u;
+                 }
+                 
+                 runningLogin = NO;
+             }];
+        }
     }
     
     return self;
 }
 
+-(void)delayLoop:(NSArray *)objs {
+    [self presentModelLoginInViewController:[objs objectAtIndex:0]
+                                   callback:[objs objectAtIndex:1]];
+}
+
 -(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)cb {
+    
+    if (runningLogin) {
+        [self performSelector:@selector(delayLoop:)
+                   withObject:[NSArray arrayWithObjects:viewController,cb, nil]
+                   afterDelay:300.0];
+        return;
+    }
     
     if ([self.loggedInUser userId] > 0) {
         cb(YES, self.loggedInUser);

@@ -50,6 +50,7 @@ typedef void(^OTMLoginUserCallback)(OTMUser *user);
     OTMLoginViewController *loginVC;
     OTMLoginCallback callback;
     UINavigationController* rootVC;
+    BOOL runningLogin;
 }
 
 @property (nonatomic,strong) OTMUser *loggedInUser;
