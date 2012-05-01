@@ -26,6 +26,7 @@
 #import "OTMFormatters.h"
 #import "OTMMapViewController.h"
 #import "OTMDetailCellRenderer.h"
+#import "AZWaitingOverlayController.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -237,8 +238,12 @@
 
             NSLog(@"Sending new tree data:\n%@", data);
 
-            // TODO: Handle a slow save by showing an activity spinner
+            [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
+
             [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:user callback:^(id json, NSError *err){
+
+                [[AZWaitingOverlayController sharedController] hideOverlay];
+
                 if (err == nil) {
                     [self.delegate viewController:self addedTree:data];
 
@@ -254,8 +259,12 @@
         } else {
             NSLog(@"Updating existing plot/tree data:\n%@", data);
 
-            // TODO: Handle a slow save by showing an activity spinner
+            [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
+
             [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:data user:user callback:^(id json, NSError *err){
+
+                [[AZWaitingOverlayController sharedController] hideOverlay];
+
                 if (err == nil) {
                     [delegate viewController:self editedTree:(NSDictionary *)data];
                 } else {
