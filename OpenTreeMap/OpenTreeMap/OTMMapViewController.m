@@ -47,6 +47,8 @@
 
 - (void)viewDidLoad
 {
+    firstAppearance = YES;
+
     self.detailsVisible = NO;
 
     [self changeMode:Select];
@@ -85,6 +87,13 @@
 {
     MKCoordinateRegion region = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapRegion];
     [mapView setRegion:region];
+    if (firstAppearance) {
+        firstAppearance = NO;
+        NSLog(@"Trying to find location on first load of the map view");
+        if ([CLLocationManager locationServicesEnabled]) {
+            [self startFindingLocation:self];
+        }
+    }
 }
 
 /**

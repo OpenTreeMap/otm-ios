@@ -39,6 +39,7 @@ typedef enum {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIBarButtonItem *findLocationButton;
+    BOOL firstAppearance;
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
