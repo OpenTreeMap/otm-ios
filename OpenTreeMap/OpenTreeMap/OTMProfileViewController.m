@@ -224,16 +224,20 @@
         } else {
             [self showLoginReqView];
         }
-    }];
+    }];    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (didShowLogin) {
-        [self showLoginReqView];        
-    } else {
-        didShowLogin = YES;
-        
-        [self doLogin:nil];
+    OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+    
+    @synchronized(mgr) {
+        if (mgr.runningLogin) {        
+            [mgr installAutoLoginFailedCallback:^{
+                [self doLogin:nil];
+            }];
+        } else {
+            [self doLogin:nil];
+        }
     }
 }
 
