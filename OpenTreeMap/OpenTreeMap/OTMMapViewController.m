@@ -43,7 +43,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView;
 
 - (void)viewDidLoad
 {
@@ -638,6 +638,21 @@
 - (IBAction)startFindingLocation:(id)sender
 {
     if ([CLLocationManager locationServicesEnabled]) {
+
+        if (!locationActivityView) {
+            locationActivityView = [[UIActivityIndicatorView alloc]
+                                    initWithActivityIndicatorStyle:
+                                    UIActivityIndicatorViewStyleWhite];
+
+            [(UIActivityIndicatorView *)locationActivityView startAnimating];
+            [locationActivityView setUserInteractionEnabled:NO];
+            [locationActivityView setFrame:CGRectMake(12, 12, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
+        }
+
+        [searchNavigationBar addSubview:locationActivityView];
+        findLocationButton.image = [UIImage imageNamed:@"transparent_14"];
+        findLocationButton.action = @selector(stopFindingLocation:);
+
         if (nil == [self locationManager]) {
             [self setLocationManager:[[CLLocationManager alloc] init]];
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
@@ -652,15 +667,19 @@
     }
 }
 
-- (void)stopFindingLocation {
+- (IBAction)stopFindingLocation:(id)sender {
+    findLocationButton.action = @selector(startFindingLocation:);
     [[self locationManager] stopUpdatingLocation];
     // When using the debugger I found that extra events would arrive after calling stopUpdatingLocation.
     // Setting the delegate to nil ensures that those events are not ignored.
     [locationManager setDelegate:nil];
+    findLocationButton.image = [UIImage imageNamed:@"gps_icon_14"];
+    [locationActivityView removeFromSuperview];
 }
 
+
 - (void)stopFindingLocationAndSetMostAccurateLocation {
-    [self stopFindingLocation];
+    [self stopFindingLocation:self];
     if ([self mostAccurateLocationResponse] != nil) {
         MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
         [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:NO];
@@ -684,7 +703,7 @@
         }
 
         if ([newLocation horizontalAccuracy] > 0 && [newLocation horizontalAccuracy] < [manager desiredAccuracy]) {
-            [self stopFindingLocation];
+            [self stopFindingLocation:self];
             [self setMostAccurateLocationResponse:nil];
             // Cancel the previous performSelector:withObject:afterDelay: - it's no longer necessary
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopFindingLocation:) object:nil];
