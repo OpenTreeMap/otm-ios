@@ -271,7 +271,7 @@
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
 
     MKCoordinateRegion region = [env mapViewInitialCoordinateRegion];
-    [mapView setRegion:region animated:FALSE];
+    [mapView setRegion:region animated:NO];
     [mapView regionThatFits:region];
     [mapView setDelegate:self];
     [self addGestureRecognizersToView:mapView];
@@ -663,7 +663,7 @@
     [self stopFindingLocation];
     if ([self mostAccurateLocationResponse] != nil) {
         MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-        [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:YES];
+        [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:NO];
     }
     [self setMostAccurateLocationResponse:nil];
 }
@@ -694,7 +694,7 @@
                   newLocation.coordinate.longitude);
 
             MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-            [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:YES];
+            [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
         }
     }
 }
