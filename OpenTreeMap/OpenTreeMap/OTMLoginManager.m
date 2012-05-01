@@ -21,10 +21,11 @@
 //  
 
 #import "OTMLoginManager.h"
+#import "OTMAppDelegate.h"
 
 @implementation OTMLoginManager
 
-@synthesize loggedInUser;
+@synthesize loggedInUser, runningLogin, autoLoginFailed;
 
 -(id)init {
     self = [super init];
@@ -34,12 +35,87 @@
         rootVC = [loginWorkflow instantiateInitialViewController];
         loginVC = [[rootVC viewControllers] objectAtIndex:0];
         loginVC.loginDelegate = self;
+        
+        OTMUser *user = [[OTMUser alloc] init];
+        user.keychain = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] keychain];
+        
+        if ([user.username length] > 0 && [user.password length] > 0) {
+            self.runningLogin = YES;
+            [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser *u, OTMAPILoginResponse loginResp)
+             {
+                 if (loginResp == kOTMAPILoginResponseOK) {
+                     self.loggedInUser = u;
+                     self.runningLogin = NO;
+                 } else {
+                     [self setRunningLoginDoneWithFailure];
+                 }
+             }];
+        }
     }
     
     return self;
 }
 
+// callback if autologin fails
+-(void)setAutoLoginFailed:(Function0v)alf {
+    @synchronized(self) {
+        autoLoginFailed = [alf copy];
+    }
+}
+
+// callback if autologin fails
+-(Function0v)autoLoginFailed {
+    @synchronized(self) {
+        return autoLoginFailed;
+    }    
+}
+
+-(void)setRunningLogin:(BOOL)rl {
+    @synchronized(self) {
+        runningLogin = rl;
+    }
+}
+
+// atomically set the callback if the
+// auto login is running
+-(void)installAutoLoginFailedCallback:(Function0v)f {
+    @synchronized(self) {
+        if (runningLogin) {
+            autoLoginFailed = f;
+        }
+    }
+}
+
+// atomically clear the running flag and
+// call and clear the update handler
+-(void)setRunningLoginDoneWithFailure {
+    @synchronized(self) {
+        runningLogin = NO;
+        if (autoLoginFailed) {
+            autoLoginFailed();
+            
+            autoLoginFailed = nil;
+        }
+    }
+}
+
+-(BOOL)runningLogin {
+    return runningLogin;
+}
+
+-(void)delayLoop:(NSArray *)objs {
+    [self presentModelLoginInViewController:[objs objectAtIndex:0]
+                                   callback:[objs objectAtIndex:1]];
+}
+
 -(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)cb {
+    
+    if (runningLogin) {
+        [self performSelector:@selector(delayLoop:)
+                   withObject:[NSArray arrayWithObjects:viewController,cb, nil]
+                   afterDelay:300.0];
+        return;
+    }
     
     if ([self.loggedInUser userId] > 0) {
         cb(YES, self.loggedInUser);
