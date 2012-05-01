@@ -194,9 +194,9 @@
     // Release any retained subviews of the main view.
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+-(IBAction)doLogin:(id)sender {
     OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
-
+    
     [mgr presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
             self.user = aUser;
@@ -207,7 +207,21 @@
                 [self loadRecentEdits];
             }
         }
-    }];
+    }];    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+    
+    @synchronized(mgr) {
+        if (mgr.runningLogin) {        
+            [mgr installAutoLoginFailedCallback:^{
+                [self doLogin:nil];
+            }];
+        } else {
+            [self doLogin:nil];
+        }
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {

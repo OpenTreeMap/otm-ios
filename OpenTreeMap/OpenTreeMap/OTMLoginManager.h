@@ -50,9 +50,10 @@ typedef void(^OTMLoginUserCallback)(OTMUser *user);
     OTMLoginViewController *loginVC;
     OTMLoginCallback callback;
     UINavigationController* rootVC;
-    BOOL runningLogin;
 }
 
+@property (assign) BOOL runningLogin;
+@property (strong) Function0v autoLoginFailed;
 @property (nonatomic,strong) OTMUser *loggedInUser;
 
 /**
@@ -74,5 +75,13 @@ typedef void(^OTMLoginUserCallback)(OTMUser *user);
  * Called when the login controller is done with logging in
  */
 -(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user;
+
+/**
+ * Install a callback handler if this is running the "auto login" sequence
+ *
+ * It is safe to always call this method
+ */
+-(void)installAutoLoginFailedCallback:(Function0v)f;
+
 
 @end
