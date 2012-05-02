@@ -13,7 +13,7 @@
 -(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self setBackgroundColor:[[OTMEnvironment sharedEnvironment] viewBackgroundColor]];
+        [self loadTheme];
     }
     
     return self;
@@ -22,10 +22,14 @@
 -(id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setBackgroundColor:[[OTMEnvironment sharedEnvironment] viewBackgroundColor]];
+        [self loadTheme];
     }
     
     return self;
+}
+
+-(void)loadTheme {
+    [self setBackgroundColor:[[OTMEnvironment sharedEnvironment] viewBackgroundColor]];
 }
 
 @end
