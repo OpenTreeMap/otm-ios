@@ -228,15 +228,19 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
     
-    @synchronized(mgr) {
-        if (mgr.runningLogin) {        
-            [mgr installAutoLoginFailedCallback:^{
+    if (!self.didShowLogin) {
+        self.didShowLogin = YES;
+        OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+        
+        @synchronized(mgr) {
+            if (mgr.runningLogin) {        
+                [mgr installAutoLoginFailedCallback:^{
+                    [self doLogin:nil];
+                }];
+            } else {
                 [self doLogin:nil];
-            }];
-        } else {
-            [self doLogin:nil];
+            }
         }
     }
 }

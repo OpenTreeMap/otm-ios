@@ -28,7 +28,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey, choices, fieldKeys;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, geoServerWMSServiceURL, geoServerLayerNames, geoServerFormat, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor;
 
 + (id)sharedEnvironment
 {
@@ -58,6 +58,19 @@
     NSDictionary* environment = [[NSDictionary alloc] initWithContentsOfFile:environmentPListPath];
 
     choices = [[NSDictionary alloc] initWithContentsOfFile:choicesPListPath];
+    
+    viewBackgroundColor = [UIColor colorWithRed:0.87f
+                                          green:0.95f
+                                           blue:0.94f
+                                          alpha:1.0f];
+    
+    navBarTintColor = [UIColor colorWithRed:0.27f
+                                      green:0.64f
+                                       blue:0.53f
+                                      alpha:1.0f];
+    
+    buttonTextColor = [UIColor whiteColor];
+    buttonImage = [UIImage imageNamed:@"btn_bg"];
     
     // Environment - URLCache
 
