@@ -205,7 +205,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem id="buS-y3-AQP">
-                                        <barButtonItem key="leftBarButtonItem" image="gps_icon.png" id="aEH-bQ-xwn">
+                                        <barButtonItem key="leftBarButtonItem" image="gps_icon_14.png" id="aEH-bQ-xwn">
                                             <connections>
                                                 <action selector="startFindingLocation:" destination="2" id="xfq-cf-c8K"/>
                                             </connections>
@@ -247,6 +247,7 @@
                         <outlet property="findLocationButton" destination="aEH-bQ-xwn" id="bpO-qt-PfZ"/>
                         <outlet property="mapView" destination="HdG-pl-Slh" id="jdm-Cq-jrb"/>
                         <outlet property="searchBar" destination="tpv-GO-iyB" id="IWn-if-GRP"/>
+                        <outlet property="searchNavigationBar" destination="Yxa-pc-A0G" id="gam-ig-llq"/>
                         <outlet property="species" destination="F3b-37-QZN" id="O6W-yo-o7a"/>
                         <outlet property="treeImage" destination="yCz-ce-iHJ" id="3qj-zu-mbR"/>
                         <outlet property="view" destination="16" id="vLX-hG-hPZ"/>
@@ -327,7 +328,7 @@
                     <navigationItem key="navigationItem" id="b7l-sL-luW">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="FPD-mA-QHc">
                             <connections>
-                                <action selector="startEditing:" destination="Z5j-QU-uNU" id="FT5-xe-qIc"/>
+                                <action selector="startOrCommitEditing:" destination="Z5j-QU-uNU" id="T3F-JG-cuv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -586,7 +587,7 @@
     </scenes>
     <resources>
         <image name="first" width="16" height="16"/>
-        <image name="gps_icon.png" width="20" height="20"/>
+        <image name="gps_icon_14.png" width="14" height="14"/>
     </resources>
     <classes>
         <class className="OTMDetailSliderview" superclassName="UIView">

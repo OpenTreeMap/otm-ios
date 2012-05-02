@@ -72,21 +72,6 @@
      The text on the main map view navigation bar
      */
     NSString *mapViewTitle;
-
-    /**
-     The GeoServer WMS endpoint url from which map tiles will be requested
-     */
-    NSString *geoServerWMSServiceURL;
-
-    /**
-     The names of the GeoServer layers that are composited to produce map tiles
-     */
-    NSArray *geoServerLayerNames;
-
-    /**
-     The image format in which image tiles should be requested
-     */
-    NSString *geoServerFormat;
 }
 
 /**
@@ -106,9 +91,6 @@
 @property (nonatomic, retain) NSNumber *locationSearchTimeoutInSeconds;
 @property (nonatomic, copy) NSString* mapViewTitle;
 
-@property (nonatomic, retain) NSString *geoServerWMSServiceURL;
-@property (nonatomic, retain) NSArray *geoServerLayerNames;
-@property (nonatomic, retain) NSString *geoServerFormat;
 @property (nonatomic, copy) NSString* baseURL;
 @property (nonatomic, copy) NSString* apiKey;
 

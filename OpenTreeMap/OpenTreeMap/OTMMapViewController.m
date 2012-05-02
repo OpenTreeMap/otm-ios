@@ -21,8 +21,8 @@
 //  
 
 #import "OTMMapViewController.h"
-#import "AZWMSOverlay.h"
 #import "AZPointOffsetOverlay.h"
+#import "AZPointOffsetOverlayView.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
 #import "OTMTreeDetailViewController.h"
@@ -43,10 +43,12 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView;
 
 - (void)viewDidLoad
 {
+    firstAppearance = YES;
+
     self.detailsVisible = NO;
 
     [self changeMode:Select];
@@ -85,6 +87,13 @@
 {
     MKCoordinateRegion region = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapRegion];
     [mapView setRegion:region];
+    if (firstAppearance) {
+        firstAppearance = NO;
+        NSLog(@"Trying to find location on first load of the map view");
+        if ([CLLocationManager locationServicesEnabled]) {
+            [self startFindingLocation:self];
+        }
+    }
 }
 
 /**
@@ -143,7 +152,7 @@
         dest.imageView.image = self.treeImage.image;
         if (self.mode != Select) {
             // When adding a new tree the detail view is automatically in edit mode
-            [dest startEditing:self];
+            [dest startOrCommitEditing:self];
         }
     }
 }
@@ -262,18 +271,12 @@
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
 
     MKCoordinateRegion region = [env mapViewInitialCoordinateRegion];
-    [mapView setRegion:region animated:FALSE];
+    [mapView setRegion:region animated:NO];
     [mapView regionThatFits:region];
     [mapView setDelegate:self];
     [self addGestureRecognizersToView:mapView];
 
-    AZWMSOverlay *overlay = [[AZWMSOverlay alloc] init];
-
-    [overlay setServiceUrl:[env geoServerWMSServiceURL]];
-    [overlay setLayerNames:[env geoServerLayerNames]];
-    [overlay setFormat:[env geoServerFormat]];
-
-    [mapView addOverlay:overlay];
+    [mapView addOverlay:[[AZPointOffsetOverlay alloc] init]];
 }
 
 - (void)addGestureRecognizersToView:(UIView *)view
@@ -563,7 +566,7 @@
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
-    return [[AZPointOffsetOverlay alloc] initWithOverlay:overlay];
+    return [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
@@ -629,6 +632,21 @@
 - (IBAction)startFindingLocation:(id)sender
 {
     if ([CLLocationManager locationServicesEnabled]) {
+
+        if (!locationActivityView) {
+            locationActivityView = [[UIActivityIndicatorView alloc]
+                                    initWithActivityIndicatorStyle:
+                                    UIActivityIndicatorViewStyleWhite];
+
+            [(UIActivityIndicatorView *)locationActivityView startAnimating];
+            [locationActivityView setUserInteractionEnabled:NO];
+            [locationActivityView setFrame:CGRectMake(12, 12, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
+        }
+
+        [searchNavigationBar addSubview:locationActivityView];
+        findLocationButton.image = [UIImage imageNamed:@"transparent_14"];
+        findLocationButton.action = @selector(stopFindingLocation:);
+
         if (nil == [self locationManager]) {
             [self setLocationManager:[[CLLocationManager alloc] init]];
             locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
@@ -643,18 +661,22 @@
     }
 }
 
-- (void)stopFindingLocation {
+- (IBAction)stopFindingLocation:(id)sender {
+    findLocationButton.action = @selector(startFindingLocation:);
     [[self locationManager] stopUpdatingLocation];
     // When using the debugger I found that extra events would arrive after calling stopUpdatingLocation.
     // Setting the delegate to nil ensures that those events are not ignored.
     [locationManager setDelegate:nil];
+    findLocationButton.image = [UIImage imageNamed:@"gps_icon_14"];
+    [locationActivityView removeFromSuperview];
 }
 
+
 - (void)stopFindingLocationAndSetMostAccurateLocation {
-    [self stopFindingLocation];
+    [self stopFindingLocation:self];
     if ([self mostAccurateLocationResponse] != nil) {
         MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-        [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:YES];
+        [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:NO];
     }
     [self setMostAccurateLocationResponse:nil];
 }
@@ -675,7 +697,7 @@
         }
 
         if ([newLocation horizontalAccuracy] > 0 && [newLocation horizontalAccuracy] < [manager desiredAccuracy]) {
-            [self stopFindingLocation];
+            [self stopFindingLocation:self];
             [self setMostAccurateLocationResponse:nil];
             // Cancel the previous performSelector:withObject:afterDelay: - it's no longer necessary
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopFindingLocation:) object:nil];
@@ -685,7 +707,7 @@
                   newLocation.coordinate.longitude);
 
             MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-            [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:YES];
+            [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
         }
     }
 }
@@ -709,6 +731,12 @@
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details
 {
     [self setDetailViewData:details];
+}
+
+- (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController
+{
+    [self changeMode:Select];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

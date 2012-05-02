@@ -39,6 +39,7 @@ typedef enum {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIBarButtonItem *findLocationButton;
+    BOOL firstAppearance;
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
@@ -54,6 +55,8 @@ typedef enum {
 @property (nonatomic,strong) IBOutlet UILabel* address;
 @property (nonatomic,strong) IBOutlet UIView* addTreeHelpView;
 @property (nonatomic,strong) IBOutlet UILabel* addTreeHelpLabel;
+@property (nonatomic,strong) IBOutlet UINavigationBar* searchNavigationBar;
+@property (nonatomic,strong) IBOutlet UIView* locationActivityView;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
@@ -65,5 +68,6 @@ typedef enum {
 -(void)setDetailViewData:(NSDictionary*)plot;
 
 -(IBAction) startFindingLocation:(id)sender;
+-(IBAction) stopFindingLocation:(id)sender;
 
 @end
