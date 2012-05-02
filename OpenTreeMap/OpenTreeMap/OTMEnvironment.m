@@ -59,19 +59,6 @@
 
     choices = [[NSDictionary alloc] initWithContentsOfFile:choicesPListPath];
     
-    viewBackgroundColor = [UIColor colorWithRed:0.87f
-                                          green:0.95f
-                                           blue:0.94f
-                                          alpha:1.0f];
-    
-    navBarTintColor = [UIColor colorWithRed:0.27f
-                                      green:0.64f
-                                       blue:0.53f
-                                      alpha:1.0f];
-    
-    buttonTextColor = [UIColor whiteColor];
-    buttonImage = [UIImage imageNamed:@"btn_bg"];
-    
     // Environment - URLCache
 
     NSDictionary *urlCache = [environment valueForKey:@"URLCache"];
@@ -86,6 +73,14 @@
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
     
     self.apiKey = [implementation valueForKey:@"APIKey"];
+    
+    viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
+    
+    navBarTintColor = [self colorFromArray:[implementation objectForKey:@"tintColor"] defaultColor:nil];    
+    
+    buttonTextColor = [self colorFromArray:[implementation objectForKey:@"buttonFontColor"] defaultColor:[UIColor whiteColor]];
+    
+    buttonImage = [UIImage imageNamed:@"btn_bg"];    
 
     NSDictionary* url = [implementation valueForKey:@"APIURL"];
     
@@ -145,6 +140,17 @@
     self.api = otmApi;
     
     return self;
+}
+
+-(UIColor *)colorFromArray:(NSArray *)array defaultColor:(UIColor *)c {
+    if (array == nil || [array count] != 4) {
+        return c;
+    } else {
+        return [UIColor colorWithRed:[[array objectAtIndex:0] floatValue]
+                               green:[[array objectAtIndex:1] floatValue]
+                                blue:[[array objectAtIndex:2] floatValue]
+                               alpha:[[array objectAtIndex:3] floatValue]];
+    }
 }
 
 -(NSArray *)fieldKeys {
