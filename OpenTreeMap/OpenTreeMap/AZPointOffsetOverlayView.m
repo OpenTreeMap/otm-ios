@@ -16,17 +16,17 @@
 
 */
 
+#import <math.h>
 #import "AZPointOffsetOverlayView.h"
 #import "AZPointOffsetOverlay.h"
 
 @implementation AZPointOffsetOverlayView
 
-@synthesize renderedImageCache, tileAlpha, pointStamp;
+@synthesize renderedImageCache, tileAlpha;
 
 - (id)initWithOverlay:(id<MKOverlay>)overlay {
     if (self = [super initWithOverlay:overlay]) {
         renderedImageCache = [[NSMutableDictionary alloc] init];
-        self.pointStamp = [UIImage imageNamed:@"tree_icon"];
         self.tileAlpha = 1.0f;
         self.clipsToBounds = NO;
     }
@@ -53,7 +53,7 @@
     [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) callback:
      ^(CFArrayRef points, NSError* error) {
          if (error == nil) {
-             UIImage* image = [AZPointOffsetOverlayView createImageWithOffsets:points stamp:[self pointStamp] alpha:tileAlpha];
+             UIImage* image = [AZPointOffsetOverlayView createImageWithOffsets:points stamp:[self stampForZoom:zoomScale] alpha:tileAlpha];
              
              [renderedImageCache setObject:image forKey:key];
              dispatch_async(dispatch_get_main_queue(), 
@@ -64,6 +64,38 @@
              NSLog(@"Error loading tile images: %@", error);
          }
      }];     
+}
+
+-(UIImage *)stampForZoom:(MKZoomScale)zoom {
+    int baseScale = 18 + log2f(zoom); // OSM 18 level scale
+    
+    NSString *imageName;
+    switch(baseScale) {
+    case 10:
+    case 11:
+        imageName = @"tree_zoom1";
+        break;
+    case 12:
+    case 13:
+        imageName = @"tree_zoom3";
+        break;
+    case 14:
+    case 15:
+        imageName = @"tree_zoom5";
+        break;
+    case 16:
+        imageName = @"tree_zoom6";
+        break;
+    case 17:
+        imageName = @"tree_zoom7";
+        break;
+    default:
+        imageName = @"tree_zoom1";
+        break;
+    }
+    
+    
+    return [UIImage imageNamed:imageName];
 }
 
 #pragma mark MKOverlayView methods

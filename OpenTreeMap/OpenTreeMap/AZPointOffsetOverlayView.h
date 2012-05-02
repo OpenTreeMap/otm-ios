@@ -26,7 +26,6 @@
 }
 
 @property (nonatomic,readonly) NSDictionary* renderedImageCache;
-@property (nonatomic,strong) UIImage* pointStamp;
 @property (nonatomic,assign) CGFloat tileAlpha;
 
 @end
