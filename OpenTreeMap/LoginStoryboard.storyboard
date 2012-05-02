@@ -11,7 +11,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L0C-eW-pfw" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="EnD-Jy-kmP" customClass="OTMLoginViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HeN-cx-VCM">
+                    <view key="view" contentMode="scaleToFill" id="HeN-cx-VCM" customClass="OTMView">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -52,11 +52,11 @@
                                             <outlet property="delegate" destination="EnD-Jy-kmP" id="IDn-4p-tz8"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqW-QL-Yv8">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqW-QL-Yv8" customClass="OTMButton">
                                         <rect key="frame" x="20" y="206" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Login" backgroundImage="ptm_btn_bg.png">
+                                        <state key="normal" title="Login">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -67,11 +67,11 @@
                                             <action selector="attemptLogin:" destination="EnD-Jy-kmP" eventType="touchUpInside" id="n5P-tb-JLK"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NMm-8N-6Ik">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NMm-8N-6Ik" customClass="OTMButton">
                                         <rect key="frame" x="20" y="251" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Forgot Password?" backgroundImage="ptm_btn_bg.png">
+                                        <state key="normal" title="Forgot Password?">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -87,11 +87,11 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="H9A-Nd-VAQ">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="H9A-Nd-VAQ" customClass="OTMButton">
                                         <rect key="frame" x="20" y="305" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Register" backgroundImage="ptm_btn_bg.png">
+                                        <state key="normal" title="Register">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -102,14 +102,14 @@
                                             <segue destination="EHZ-o9-hUZ" kind="push" id="w30-MA-MRK"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="ptm_logo.png" id="zdp-Bv-4Jj">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" id="zdp-Bv-4Jj">
                                         <rect key="frame" x="20" y="7" width="280" height="108"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.91372555494308472" green="0.9647059440612793" blue="0.96078437566757202" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="AbS-sY-mI2">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Rbc-pD-x0L">
@@ -135,9 +135,9 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gax-s2-Jyp" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="yby-6X-duV" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="TCb-Vy-8MH">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="TCb-Vy-8MH" customClass="OTMNavigationBar">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.41176474094390869" green="0.75294125080108643" blue="0.67450982332229614" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="1" green="0.90907542610000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="976-v1-ttu">
                         <rect key="frame" x="0.0" y="416" width="320" height="44"/>
@@ -155,7 +155,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lDl-L0-tWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="EHZ-o9-hUZ" customClass="OTMRegistrationViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="rdP-k2-Kth">
+                    <view key="view" contentMode="scaleToFill" id="rdP-k2-Kth" customClass="OTMView">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -226,11 +226,11 @@
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="7Eb-OG-SdF"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fxs-wP-v2T">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fxs-wP-v2T" customClass="OTMButton">
                                         <rect key="frame" x="87" y="335" width="213" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Add Profile Picture" backgroundImage="ptm_btn_bg.png">
+                                        <state key="normal" title="Add Profile Picture">
                                             <color key="titleColor" red="1" green="0.98690542999999997" blue="0.94762171989999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -246,14 +246,14 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="ptm_logo.png" id="6b2-Zt-3vn">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" id="6b2-Zt-3vn">
                                         <rect key="frame" x="20" y="7" width="280" height="108"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.85882359743118286" green="0.92549026012420654" blue="0.93725496530532837" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" red="1" green="0.98690542999999997" blue="0.94762171989999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Profile" id="6Uz-Gy-6Uu">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="Fma-Oh-J3E">
@@ -285,7 +285,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wa-gv-6ua" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="H9t-wG-bYo" customClass="OTMPasswordResetViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MWR-vL-RSB">
+                    <view key="view" contentMode="scaleToFill" id="MWR-vL-RSB" customClass="OTMView">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -295,11 +295,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MTs-kv-CnC">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MTs-kv-CnC" customClass="OTMButton">
                                 <rect key="frame" x="20" y="170" width="280" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Reset Password" backgroundImage="ptm_btn_bg.png">
+                                <state key="normal" title="Reset Password">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -310,12 +310,12 @@
                                     <action selector="resetPassword:" destination="H9t-wG-bYo" eventType="touchUpInside" id="TdF-je-qb7"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="ptm_logo.png" id="U4r-UV-K7e">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" id="U4r-UV-K7e">
                                 <rect key="frame" x="14" y="7" width="280" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.85882359743118286" green="0.92549026012420654" blue="0.93725496530532837" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" red="1" green="0.98690542999999997" blue="0.94762171989999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Reset Password" id="WYc-Vo-vK0"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -329,10 +329,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ptm_btn_bg.png" width="3" height="35"/>
-        <image name="ptm_logo.png" width="300" height="170"/>
+        <image name="logo.png" width="300" height="170"/>
     </resources>
     <classes>
+        <class className="OTMButton" superclassName="UIButton">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMButton.h"/>
+        </class>
         <class className="OTMLoginViewController" superclassName="OTMScrollAwareViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMLoginViewController.h"/>
             <relationships>
@@ -340,6 +342,9 @@
                 <relationship kind="outlet" name="password" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="username" candidateClass="UITextField"/>
             </relationships>
+        </class>
+        <class className="OTMNavigationBar" superclassName="UINavigationBar">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNavigationBar.h"/>
         </class>
         <class className="OTMPasswordResetViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordResetViewController.h"/>
@@ -369,6 +374,9 @@
                 <relationship kind="action" name="completedForm:"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
+        </class>
+        <class className="OTMView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMView.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

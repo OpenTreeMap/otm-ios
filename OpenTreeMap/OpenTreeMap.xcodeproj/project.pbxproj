@@ -39,10 +39,15 @@
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B881C1510E63D000C280C /* OTMBase64Test.m */; };
-		D70F859015505EDE00D108D5 /* ptm_btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F858C15505EDD00D108D5 /* ptm_btn_bg.png */; };
-		D70F859115505EDE00D108D5 /* ptm_btn_bg@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F858D15505EDE00D108D5 /* ptm_btn_bg@x2.png */; };
-		D70F859215505EDE00D108D5 /* ptm_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F858E15505EDE00D108D5 /* ptm_logo.png */; };
-		D70F859315505EDE00D108D5 /* ptm_logo@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F858F15505EDE00D108D5 /* ptm_logo@x2.png */; };
+		D70F8596155187E800D108D5 /* OTMView.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F8595155187E800D108D5 /* OTMView.m */; };
+		D70F859915518D7300D108D5 /* OTMNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F859815518D7300D108D5 /* OTMNavigationBar.m */; };
+		D70F859C1551920C00D108D5 /* OTMSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F859B1551920C00D108D5 /* OTMSearchBar.m */; };
+		D70F859F1551927500D108D5 /* OTMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F859E1551927500D108D5 /* OTMSegmentedControl.m */; };
+		D70F85A2155192E200D108D5 /* OTMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F85A1155192E200D108D5 /* OTMButton.m */; };
+		D70F85A71551935C00D108D5 /* btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85A31551935B00D108D5 /* btn_bg.png */; };
+		D70F85A81551935C00D108D5 /* btn_bg@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85A41551935C00D108D5 /* btn_bg@x2.png */; };
+		D70F85A91551935C00D108D5 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85A51551935C00D108D5 /* logo.png */; };
+		D70F85AA1551935C00D108D5 /* logo@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85A61551935C00D108D5 /* logo@x2.png */; };
 		D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
 		D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
 		D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64715122DE800AB6664 /* DictionaryDecode.m */; };
@@ -163,10 +168,20 @@
 		D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDetailViewController.m; sourceTree = "<group>"; };
 		D70B881B1510E63D000C280C /* OTMBase64Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBase64Test.h; sourceTree = "<group>"; };
 		D70B881C1510E63D000C280C /* OTMBase64Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBase64Test.m; sourceTree = "<group>"; };
-		D70F858C15505EDD00D108D5 /* ptm_btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ptm_btn_bg.png; sourceTree = "<group>"; };
-		D70F858D15505EDE00D108D5 /* ptm_btn_bg@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ptm_btn_bg@x2.png"; sourceTree = "<group>"; };
-		D70F858E15505EDE00D108D5 /* ptm_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ptm_logo.png; sourceTree = "<group>"; };
-		D70F858F15505EDE00D108D5 /* ptm_logo@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ptm_logo@x2.png"; sourceTree = "<group>"; };
+		D70F8594155187E800D108D5 /* OTMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMView.h; sourceTree = "<group>"; };
+		D70F8595155187E800D108D5 /* OTMView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMView.m; sourceTree = "<group>"; };
+		D70F859715518D7300D108D5 /* OTMNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNavigationBar.h; sourceTree = "<group>"; };
+		D70F859815518D7300D108D5 /* OTMNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMNavigationBar.m; sourceTree = "<group>"; };
+		D70F859A1551920C00D108D5 /* OTMSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSearchBar.h; sourceTree = "<group>"; };
+		D70F859B1551920C00D108D5 /* OTMSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSearchBar.m; sourceTree = "<group>"; };
+		D70F859D1551927500D108D5 /* OTMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSegmentedControl.h; sourceTree = "<group>"; };
+		D70F859E1551927500D108D5 /* OTMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSegmentedControl.m; sourceTree = "<group>"; };
+		D70F85A0155192E200D108D5 /* OTMButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMButton.h; sourceTree = "<group>"; };
+		D70F85A1155192E200D108D5 /* OTMButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMButton.m; sourceTree = "<group>"; };
+		D70F85A31551935B00D108D5 /* btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg.png; sourceTree = "<group>"; };
+		D70F85A41551935C00D108D5 /* btn_bg@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_bg@x2.png"; sourceTree = "<group>"; };
+		D70F85A51551935C00D108D5 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		D70F85A61551935C00D108D5 /* logo@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@x2.png"; sourceTree = "<group>"; };
 		D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = WashingtonDC.gpx; sourceTree = "<group>"; };
 		D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DecodeKey.h"; sourceTree = "<group>"; };
 		D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DecodeKey.m"; sourceTree = "<group>"; };
@@ -400,6 +415,16 @@
 				D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */,
 				D7829C8715409EF300DBFE7C /* OTMDBHTableViewCell.h */,
 				D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */,
+				D70F8594155187E800D108D5 /* OTMView.h */,
+				D70F8595155187E800D108D5 /* OTMView.m */,
+				D70F859715518D7300D108D5 /* OTMNavigationBar.h */,
+				D70F859815518D7300D108D5 /* OTMNavigationBar.m */,
+				D70F859A1551920C00D108D5 /* OTMSearchBar.h */,
+				D70F859B1551920C00D108D5 /* OTMSearchBar.m */,
+				D70F859D1551927500D108D5 /* OTMSegmentedControl.h */,
+				D70F859E1551927500D108D5 /* OTMSegmentedControl.m */,
+				D70F85A0155192E200D108D5 /* OTMButton.h */,
+				D70F85A1155192E200D108D5 /* OTMButton.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -407,10 +432,10 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
-				D70F858C15505EDD00D108D5 /* ptm_btn_bg.png */,
-				D70F858D15505EDE00D108D5 /* ptm_btn_bg@x2.png */,
-				D70F858E15505EDE00D108D5 /* ptm_logo.png */,
-				D70F858F15505EDE00D108D5 /* ptm_logo@x2.png */,
+				D70F85A31551935B00D108D5 /* btn_bg.png */,
+				D70F85A41551935C00D108D5 /* btn_bg@x2.png */,
+				D70F85A51551935C00D108D5 /* logo.png */,
+				D70F85A61551935C00D108D5 /* logo@x2.png */,
 				641495CA1545D02500592E2F /* handle_icon.png */,
 				641495CB1545D02500592E2F /* handle_icon@x2.png */,
 				6489E23215372DA300DA7924 /* gps_icon.png */,
@@ -640,10 +665,10 @@
 				64F224F315506F5F00512E42 /* transparent_14.png in Resources */,
 				64F224F515506FF900512E42 /* gps_icon_14@x2.png in Resources */,
 				D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */,
-				D70F859015505EDE00D108D5 /* ptm_btn_bg.png in Resources */,
-				D70F859115505EDE00D108D5 /* ptm_btn_bg@x2.png in Resources */,
-				D70F859215505EDE00D108D5 /* ptm_logo.png in Resources */,
-				D70F859315505EDE00D108D5 /* ptm_logo@x2.png in Resources */,
+				D70F85A71551935C00D108D5 /* btn_bg.png in Resources */,
+				D70F85A81551935C00D108D5 /* btn_bg@x2.png in Resources */,
+				D70F85A91551935C00D108D5 /* logo.png in Resources */,
+				D70F85AA1551935C00D108D5 /* logo@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -717,6 +742,11 @@
 				645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */,
 				645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */,
 				649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */,
+				D70F8596155187E800D108D5 /* OTMView.m in Sources */,
+				D70F859915518D7300D108D5 /* OTMNavigationBar.m in Sources */,
+				D70F859C1551920C00D108D5 /* OTMSearchBar.m in Sources */,
+				D70F859F1551927500D108D5 /* OTMSegmentedControl.m in Sources */,
+				D70F85A2155192E200D108D5 /* OTMButton.m in Sources */,
 				648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

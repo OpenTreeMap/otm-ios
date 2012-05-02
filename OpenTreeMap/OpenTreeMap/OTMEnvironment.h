@@ -95,6 +95,10 @@
 @property (nonatomic, copy) NSString* apiKey;
 
 @property (nonatomic, strong) NSArray *fieldKeys;
+@property (nonatomic, strong) UIColor *viewBackgroundColor;
+@property (nonatomic, strong) UIColor *navBarTintColor;
+@property (nonatomic, strong) UIImage *buttonImage;
+@property (nonatomic, strong) UIColor *buttonTextColor;
 
 // Choices values
 @property (nonatomic, retain) NSDictionary* choices;

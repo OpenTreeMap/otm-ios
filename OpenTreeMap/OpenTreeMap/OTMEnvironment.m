@@ -21,7 +21,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor;
 
 + (id)sharedEnvironment
 {
@@ -66,6 +66,14 @@
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
     
     self.apiKey = [implementation valueForKey:@"APIKey"];
+    
+    viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
+    
+    navBarTintColor = [self colorFromArray:[implementation objectForKey:@"tintColor"] defaultColor:nil];    
+    
+    buttonTextColor = [self colorFromArray:[implementation objectForKey:@"buttonFontColor"] defaultColor:[UIColor whiteColor]];
+    
+    buttonImage = [UIImage imageNamed:@"btn_bg"];    
 
     NSDictionary* url = [implementation valueForKey:@"APIURL"];
     
@@ -117,6 +125,17 @@
     self.api = otmApi;
     
     return self;
+}
+
+-(UIColor *)colorFromArray:(NSArray *)array defaultColor:(UIColor *)c {
+    if (array == nil || [array count] != 4) {
+        return c;
+    } else {
+        return [UIColor colorWithRed:[[array objectAtIndex:0] floatValue]
+                               green:[[array objectAtIndex:1] floatValue]
+                                blue:[[array objectAtIndex:2] floatValue]
+                               alpha:[[array objectAtIndex:3] floatValue]];
+    }
 }
 
 -(NSArray *)fieldKeys {
