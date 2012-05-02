@@ -21,11 +21,11 @@
 
 @implementation AZPointOffsetOverlayView
 
-@synthesize renderedImageCache, tileAlpha, pointStamp;
+@synthesize tileAlpha, pointStamp, memoryTileCache;
 
 - (id)initWithOverlay:(id<MKOverlay>)overlay {
     if (self = [super initWithOverlay:overlay]) {
-        renderedImageCache = [[NSMutableDictionary alloc] init];
+        memoryTileCache = [[AZMemoryTileCache alloc] init];
         self.pointStamp = [UIImage imageNamed:@"tree_icon"];
         self.tileAlpha = 1.0f;
         self.clipsToBounds = NO;
@@ -55,7 +55,7 @@
          if (error == nil) {
              UIImage* image = [AZPointOffsetOverlayView createImageWithOffsets:points stamp:[self pointStamp] alpha:tileAlpha];
              
-             [renderedImageCache setObject:image forKey:key];
+             [memoryTileCache cacheImage:image forMapRect:mapRect zoomScale:zoomScale];
              dispatch_async(dispatch_get_main_queue(), 
                             ^{
                                 [blockSelf setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];         
@@ -73,8 +73,7 @@
  */
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
 {
-    NSString* key = [self getCacheKeyForMapRect:mapRect];
-    if ([renderedImageCache objectForKey:key] != nil) {
+    if ([memoryTileCache getImageForMapRect:mapRect zoomScale:zoomScale]) {
         return YES;
     } else {
         // If the cache does not have a tile for the requested URL, start a new request in the backround and
@@ -118,13 +117,11 @@
  */
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context 
 {   
-    NSString* key = [NSString stringWithFormat:@"%f,%f,%f,%f", mapRect.origin.x, mapRect.origin.y, mapRect.size.width, mapRect.size.width];
-    
     CGRect drawRect = [self rectForMapRect:mapRect];
     
     UIGraphicsPushContext(context);
     
-    UIImage* imageData = [renderedImageCache objectForKey:key];
+    UIImage* imageData = [memoryTileCache getImageForMapRect:mapRect zoomScale:zoomScale];
     [imageData drawInRect:drawRect blendMode:kCGBlendModeNormal alpha:1];
     
     UIGraphicsPopContext();

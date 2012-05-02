@@ -1,8 +1,8 @@
 /*
  
- AZPointOffsetOverlayView.h
+ AZMemoryTileCache.h
  
- Created by Justin Walgran on 2/21/12.
+ Created by Justin Walgran on 5/2/12.
  
  License
  =======
@@ -16,17 +16,16 @@
  
  */
 
-#import <MapKit/MapKit.h>
-#import "AZMemoryTileCache.h"
-/**
- A view for rendering AZPointOffsetOverlay instances on a MapKit map.
- */
-@interface AZPointOffsetOverlayView : MKOverlayView {
+#import "AZTileCache.h"
 
+@interface AZMemoryTileCache : AZTileCache {
+    NSMutableDictionary *tileImageDict;
+    NSMutableDictionary *tileMapRectAndScaleDict;
+    NSMutableDictionary *tileSizeDict;
+    NSMutableArray *tileKeyQueue;
+    NSInteger cacheSizeInKB;
 }
 
-@property (nonatomic,strong) AZMemoryTileCache *memoryTileCache;
-@property (nonatomic,strong) UIImage* pointStamp;
-@property (nonatomic,assign) CGFloat tileAlpha;
+@property (nonatomic) NSInteger maxCacheSizeInKB;
 
 @end

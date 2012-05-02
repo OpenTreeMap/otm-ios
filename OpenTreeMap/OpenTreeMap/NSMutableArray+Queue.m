@@ -1,8 +1,8 @@
 /*
  
- AZPointOffsetOverlayView.h
+ NSMutableArray+Queue.m
  
- Created by Justin Walgran on 2/21/12.
+ Created by Justin Walgran on 5/2/12.
  
  License
  =======
@@ -16,17 +16,21 @@
  
  */
 
-#import <MapKit/MapKit.h>
-#import "AZMemoryTileCache.h"
-/**
- A view for rendering AZPointOffsetOverlay instances on a MapKit map.
- */
-@interface AZPointOffsetOverlayView : MKOverlayView {
+#import "NSMutableArray+Queue.h"
 
+@implementation NSMutableArray (Queue)
+
+- (id)enqueue:(id)item
+{
+    [self insertObject:item atIndex:0];
+    return item;
 }
 
-@property (nonatomic,strong) AZMemoryTileCache *memoryTileCache;
-@property (nonatomic,strong) UIImage* pointStamp;
-@property (nonatomic,assign) CGFloat tileAlpha;
+- (id)dequeue
+{
+    id lastObject = [self lastObject];
+    [self removeLastObject];
+    return lastObject;
+}
 
 @end

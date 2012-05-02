@@ -9,10 +9,15 @@
 /* Begin PBXBuildFile section */
 		641495CC1545D02500592E2F /* handle_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 641495CA1545D02500592E2F /* handle_icon.png */; };
 		641495CD1545D02500592E2F /* handle_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 641495CB1545D02500592E2F /* handle_icon@x2.png */; };
+		64318CD21551E22E001C827F /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64318CD11551E22E001C827F /* libASI.a */; };
+		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
 		645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */; };
 		645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */; };
 		648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */; };
+		648550A51551C457006C9FF7 /* AZTileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A41551C457006C9FF7 /* AZTileCache.m */; };
+		648550A81551C8BC006C9FF7 /* AZMemoryTileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */; };
+		648550AB1551CEDE006C9FF7 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550AA1551CEDE006C9FF7 /* NSMutableArray+Queue.m */; };
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
@@ -122,6 +127,7 @@
 /* Begin PBXFileReference section */
 		641495CA1545D02500592E2F /* handle_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = handle_icon.png; sourceTree = "<group>"; };
 		641495CB1545D02500592E2F /* handle_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle_icon@x2.png"; sourceTree = "<group>"; };
+		64318CD11551E22E001C827F /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../DerivedData/opentreemap/Build/Products/Debug-iphoneos/libASI.a"; sourceTree = "<group>"; };
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
 		645497F91542191900C7F423 /* OTMAddTreeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAddTreeAnnotationView.h; sourceTree = "<group>"; };
 		645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAddTreeAnnotationView.m; sourceTree = "<group>"; };
@@ -129,6 +135,12 @@
 		645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMReverseGeocodeOperation.m; sourceTree = "<group>"; };
 		648550A01551B4D3006C9FF7 /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
 		648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
+		648550A31551C457006C9FF7 /* AZTileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileCache.h; sourceTree = "<group>"; };
+		648550A41551C457006C9FF7 /* AZTileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileCache.m; sourceTree = "<group>"; };
+		648550A61551C8BC006C9FF7 /* AZMemoryTileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMemoryTileCache.h; sourceTree = "<group>"; };
+		648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMemoryTileCache.m; sourceTree = "<group>"; };
+		648550A91551CEDD006C9FF7 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Queue.h"; sourceTree = "<group>"; };
+		648550AA1551CEDE006C9FF7 /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Queue.m"; sourceTree = "<group>"; };
 		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
 		6489E23315372DA300DA7924 /* gps_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@x2.png"; sourceTree = "<group>"; };
@@ -279,6 +291,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */,
+				64318CD21551E22E001C827F /* libASI.a in Frameworks */,
 				D70B881A1510E620000C280C /* MapKit.framework in Frameworks */,
 				D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */,
 				E943974314F447EB007CD0D1 /* SenTestingKit.framework in Frameworks */,
@@ -354,6 +368,12 @@
 				D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */,
 				649F8D22155041DA007B196D /* AZWaitingOverlayController.h */,
 				649F8D23155041DA007B196D /* AZWaitingOverlayController.m */,
+				648550A31551C457006C9FF7 /* AZTileCache.h */,
+				648550A41551C457006C9FF7 /* AZTileCache.m */,
+				648550A61551C8BC006C9FF7 /* AZMemoryTileCache.h */,
+				648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */,
+				648550A91551CEDD006C9FF7 /* NSMutableArray+Queue.h */,
+				648550AA1551CEDE006C9FF7 /* NSMutableArray+Queue.m */,
 			);
 			name = AZ;
 			sourceTree = "<group>";
@@ -433,6 +453,7 @@
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
+				64318CD11551E22E001C827F /* libASI.a */,
 				E943971C14F447EB007CD0D1 /* OpenTreeMap */,
 				E943974814F447EB007CD0D1 /* OpenTreeMapTests */,
 				E943971514F447EB007CD0D1 /* Frameworks */,
@@ -718,6 +739,9 @@
 				645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */,
 				649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */,
 				648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */,
+				648550A51551C457006C9FF7 /* AZTileCache.m in Sources */,
+				648550A81551C8BC006C9FF7 /* AZMemoryTileCache.m in Sources */,
+				648550AB1551CEDE006C9FF7 /* NSMutableArray+Queue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,10 +862,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Debug-iphoneos\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
+				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = "Ad Hoc";
@@ -963,10 +990,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Debug-iphoneos\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
+				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -982,10 +1012,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMapTests/OpenTreeMapTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
+					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Debug-iphoneos\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				USER_HEADER_SEARCH_PATHS = "../lib/three20/Build/Products/three20 ../DerivedData/opentreemap/Build/Products/three20";
+				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes ../DerivedData/opentreemap/Build/Products/three20";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
