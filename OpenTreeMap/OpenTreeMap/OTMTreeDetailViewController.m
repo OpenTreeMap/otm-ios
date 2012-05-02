@@ -48,8 +48,6 @@
 -(void)viewWillAppear:(BOOL)animated {
     // Set some fields
     [self syncTopData];
-    
-//    [self.tableView reloadData];
 }
 
 -(void)syncTopData {
@@ -167,7 +165,6 @@
 - (IBAction)cancelEditing:(id)sender
 {
     [self toggleEditMode:NO];
-    [self.tableView reloadData];
 }
 
 - (void)toggleEditMode:(BOOL)saveChanges
