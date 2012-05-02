@@ -12,13 +12,14 @@
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
 		645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */; };
 		645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */; };
+		648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */; };
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
 		649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F8D23155041DA007B196D /* AZWaitingOverlayController.m */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
-		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */; };
+		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlayView.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
@@ -126,6 +127,8 @@
 		645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAddTreeAnnotationView.m; sourceTree = "<group>"; };
 		645497FC1545A1E600C7F423 /* OTMReverseGeocodeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMReverseGeocodeOperation.h; sourceTree = "<group>"; };
 		645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMReverseGeocodeOperation.m; sourceTree = "<group>"; };
+		648550A01551B4D3006C9FF7 /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
+		648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
 		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
 		6489E23315372DA300DA7924 /* gps_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@x2.png"; sourceTree = "<group>"; };
@@ -134,8 +137,8 @@
 		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
-		64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
-		64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
+		64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlayView.h; sourceTree = "<group>"; };
+		64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlayView.m; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		64DDCDB814F53102004FA0CF /* Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
@@ -341,8 +344,10 @@
 				64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */,
 				D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */,
 				D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */,
-				64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlay.h */,
-				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlay.m */,
+				648550A01551B4D3006C9FF7 /* AZPointOffsetOverlay.h */,
+				648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */,
+				64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlayView.h */,
+				64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlayView.m */,
 				D702FAB7153369E900A406A1 /* NSDictionary+MutableDeepCopy.h */,
 				D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */,
 				D702FABB15336AE400A406A1 /* NSArray+MutableDeepCopy.h */,
@@ -678,7 +683,7 @@
 				E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */,
 				E943973014F447EB007CD0D1 /* OTMMapViewController.m in Sources */,
 				64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */,
-				64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlay.m in Sources */,
+				64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlayView.m in Sources */,
 				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
 				D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */,
 				D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */,
@@ -712,6 +717,7 @@
 				645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */,
 				645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */,
 				649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */,
+				648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

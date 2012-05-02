@@ -21,8 +21,8 @@
 //  
 
 #import "OTMMapViewController.h"
-#import "AZWMSOverlay.h"
 #import "AZPointOffsetOverlay.h"
+#import "AZPointOffsetOverlayView.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
 #import "OTMTreeDetailViewController.h"
@@ -276,13 +276,7 @@
     [mapView setDelegate:self];
     [self addGestureRecognizersToView:mapView];
 
-    AZWMSOverlay *overlay = [[AZWMSOverlay alloc] init];
-
-    [overlay setServiceUrl:[env geoServerWMSServiceURL]];
-    [overlay setLayerNames:[env geoServerLayerNames]];
-    [overlay setFormat:[env geoServerFormat]];
-
-    [mapView addOverlay:overlay];
+    [mapView addOverlay:[[AZPointOffsetOverlay alloc] init]];
 }
 
 - (void)addGestureRecognizersToView:(UIView *)view
@@ -572,7 +566,7 @@
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
-    return [[AZPointOffsetOverlay alloc] initWithOverlay:overlay];
+    return [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
