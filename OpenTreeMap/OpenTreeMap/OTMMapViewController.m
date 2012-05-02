@@ -725,6 +725,10 @@
 {
     // TODO: Redraw the tile with the new tree
     [self changeMode:Select];
+    NSDictionary *geometryDict = [details objectForKey:@"geometry"];
+    CLLocationDegrees lat = [[geometryDict objectForKey:@"lat"] doubleValue];
+    CLLocationDegrees lon = [[geometryDict objectForKey:@"lon"] doubleValue];
+    [self selectTreeNearCoordinate:CLLocationCoordinate2DMake(lat, lon)];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
