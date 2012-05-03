@@ -20,7 +20,7 @@
 
 @interface AZMemoryTileCache : AZTileCache {
     NSMutableDictionary *tileImageDict;
-    NSMutableDictionary *tileMapRectAndScaleDict;
+    NSMutableDictionary *tileMapRectDict;
     NSMutableDictionary *tileSizeDict;
     NSMutableArray *tileKeyQueue;
     NSInteger cacheSizeInKB;

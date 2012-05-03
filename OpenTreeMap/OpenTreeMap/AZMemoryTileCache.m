@@ -24,7 +24,7 @@
 - (void)initializeMembers 
 {
     tileImageDict = [[NSMutableDictionary alloc] init];
-    tileMapRectAndScaleDict = [[NSMutableDictionary alloc] init];
+    tileMapRectDict = [[NSMutableDictionary alloc] init];
     tileSizeDict = [[NSMutableDictionary alloc] init];
     tileKeyQueue = [[NSMutableArray alloc] init];
     cacheSizeInKB = 0;
@@ -34,7 +34,7 @@
 {
     if ([tileImageDict objectForKey:key]) {
         [tileImageDict removeObjectForKey:key];
-        [tileMapRectAndScaleDict removeObjectForKey:key];
+        [tileMapRectDict removeObjectForKey:key];
         cacheSizeInKB -= [[tileSizeDict objectForKey:key] intValue];
 //        NSLog(@"Cache size: %dKB", cacheSizeInKB);
         [tileSizeDict removeObjectForKey:key];
@@ -66,8 +66,7 @@
         [self disruptCacheForKey:key];
 
         [tileImageDict setObject:image forKey:key];
-        AZMapRectAndScale mapRectAndScale = { mapRect, zoomScale };
-        [tileMapRectAndScaleDict setObject:[NSValue valueWithPointer:&mapRectAndScale] forKey:key];
+        [tileMapRectDict setObject:[self arrayFromMapRect:mapRect] forKey:key];
         [tileKeyQueue enqueue:key];
         NSInteger imageSizeInKB = [UIImagePNGRepresentation(image) length] / 1024;
         [tileSizeDict setObject:[NSNumber numberWithInt:imageSizeInKB] forKey:key];
@@ -79,6 +78,25 @@
             [self disruptCacheForKey:key];
         }
     }
+}
+
+- (NSArray *)arrayFromMapRect:(MKMapRect)mapRect
+{
+   return [NSArray arrayWithObjects:
+              [NSNumber numberWithFloat:mapRect.origin.x],
+              [NSNumber numberWithFloat:mapRect.origin.y],
+              [NSNumber numberWithFloat:mapRect.size.width],
+              [NSNumber numberWithFloat:mapRect.size.height],
+               nil];
+}
+
+- (MKMapRect)mapRectFromArray:(NSArray *)array
+{
+    return MKMapRectMake(
+        [[array objectAtIndex:0] floatValue],
+        [[array objectAtIndex:1] floatValue],
+        [[array objectAtIndex:2] floatValue],
+        [[array objectAtIndex:3] floatValue]);
 }
 
 - (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
@@ -97,14 +115,17 @@
 
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
 {
+    MKMapPoint point =  MKMapPointForCoordinate(coordinate);
+    NSMutableArray *keysToBeDisrupted = [[NSMutableArray alloc] init];
     @synchronized (self) {
-        for (NSString *key in tileMapRectAndScaleDict) {
-            NSValue *value = [tileMapRectAndScaleDict objectForKey:key];
-            AZMapRectAndScale mapRectAndScale;
-            [value getValue:&mapRectAndScale];
-            if ([AZTileCache coordinate:coordinate isInMapRect:mapRectAndScale.mapRect]) {
-                [self disruptCacheForKey:key];
+        for (NSString *key in tileMapRectDict) {
+            MKMapRect mapRect = [self mapRectFromArray:[tileMapRectDict objectForKey:key]];
+            if (MKMapRectContainsPoint(mapRect, point)) {
+                [keysToBeDisrupted addObject:key];
             }
+        }
+        for (NSString *key in keysToBeDisrupted) {
+            [self disruptCacheForKey:key];
         }
     }
 }
