@@ -34,10 +34,6 @@
     return self;
 }
 
--(NSString*)getCacheKeyForMapRect:(MKMapRect)mapRect {
-    return [NSString stringWithFormat:@"%f,%f,%f,%f", mapRect.origin.x, mapRect.origin.y, mapRect.size.width, mapRect.size.width];
-}
-
 /**
  Send an asynchronous request to a server that returns a point offset 'tile' then render those point offsets to an image and then notify MapKit that the region is ready to be redrawn.
  @param url The url to be opened
@@ -46,8 +42,6 @@
  */
 - (void)sendTileRequestWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
 {    
-    NSString* key = [self getCacheKeyForMapRect:mapRect];
-    
     __block AZPointOffsetOverlayView *blockSelf = self;
     
     [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) callback:
