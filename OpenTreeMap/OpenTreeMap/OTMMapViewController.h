@@ -25,6 +25,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDetailViewController.h"
+#import "AZPointOffsetOverlayView.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
@@ -40,6 +41,7 @@ typedef enum {
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIBarButtonItem *findLocationButton;
     BOOL firstAppearance;
+    AZPointOffsetOverlayView *pointOffsetOverlayView;
 }
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;

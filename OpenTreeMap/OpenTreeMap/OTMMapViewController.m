@@ -566,7 +566,10 @@
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
-    return [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
+    if (!pointOffsetOverlayView) {
+       pointOffsetOverlayView = [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
+    }
+    return pointOffsetOverlayView;
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
@@ -728,7 +731,12 @@
     NSDictionary *geometryDict = [details objectForKey:@"geometry"];
     CLLocationDegrees lat = [[geometryDict objectForKey:@"lat"] doubleValue];
     CLLocationDegrees lon = [[geometryDict objectForKey:@"lon"] doubleValue];
-    [self selectTreeNearCoordinate:CLLocationCoordinate2DMake(lat, lon)];
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
+
+    [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+    [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+
+    [self selectTreeNearCoordinate:coordinate];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
