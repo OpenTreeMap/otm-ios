@@ -84,7 +84,14 @@
 - (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 {
     @synchronized (tileImageDict) {
-        return [tileImageDict objectForKey:[AZMemoryTileCache cacheKeyForMapRect:mapRect zoomScale:zoomScale]];
+        NSString *key = [AZMemoryTileCache cacheKeyForMapRect:mapRect zoomScale:zoomScale];
+        // When a cached tile is requested, move it to the end of the queue so that it is
+        // least likely to get purged. 'Popular' tiles should be preserved.
+        if ([tileImageDict objectForKey:key]) {
+            [tileKeyQueue removeObject:key];
+            [tileKeyQueue enqueue:key];
+        }
+        return [tileImageDict objectForKey:key];
     }
 }
 
