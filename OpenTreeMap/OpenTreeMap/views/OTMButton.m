@@ -7,6 +7,7 @@
 //
 
 #import "OTMButton.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation OTMButton
 
@@ -32,6 +33,9 @@
     [self setBackgroundColor:[UIColor colorWithPatternImage:[[OTMEnvironment sharedEnvironment] buttonImage]]]; 
 
     self.titleLabel.textColor = [[OTMEnvironment sharedEnvironment] buttonTextColor];
+
+    [self.layer setCornerRadius:7.0f];
+    [self.layer setMasksToBounds:YES];
 }
 
 @end
