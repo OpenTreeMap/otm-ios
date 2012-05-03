@@ -22,10 +22,11 @@
     NSMutableDictionary *tileImageDict;
     NSMutableDictionary *tileMapRectDict;
     NSMutableDictionary *tileSizeDict;
-    NSMutableArray *tileKeyQueue;
+    NSMutableOrderedSet *tileKeyQueue;
     NSInteger cacheSizeInKB;
 }
 
 @property (nonatomic) NSInteger maxCacheSizeInKB;
+@property (nonatomic, readonly) NSInteger cacheSizeInKB;
 
 @end

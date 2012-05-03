@@ -17,7 +17,7 @@
 		648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */; };
 		648550A51551C457006C9FF7 /* AZTileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A41551C457006C9FF7 /* AZTileCache.m */; };
 		648550A81551C8BC006C9FF7 /* AZMemoryTileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */; };
-		648550AB1551CEDE006C9FF7 /* NSMutableArray+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550AA1551CEDE006C9FF7 /* NSMutableArray+Queue.m */; };
+		648550AB1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */; };
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
@@ -139,8 +139,8 @@
 		648550A41551C457006C9FF7 /* AZTileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileCache.m; sourceTree = "<group>"; };
 		648550A61551C8BC006C9FF7 /* AZMemoryTileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMemoryTileCache.h; sourceTree = "<group>"; };
 		648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMemoryTileCache.m; sourceTree = "<group>"; };
-		648550A91551CEDD006C9FF7 /* NSMutableArray+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Queue.h"; sourceTree = "<group>"; };
-		648550AA1551CEDE006C9FF7 /* NSMutableArray+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Queue.m"; sourceTree = "<group>"; };
+		648550A91551CEDD006C9FF7 /* NSMutableOrderedSet+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; path = "NSMutableOrderedSet+Queue.h"; sourceTree = "<group>"; };
+		648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableOrderedSet+Queue.m"; sourceTree = "<group>"; };
 		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
 		6489E23315372DA300DA7924 /* gps_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@x2.png"; sourceTree = "<group>"; };
@@ -372,8 +372,8 @@
 				648550A41551C457006C9FF7 /* AZTileCache.m */,
 				648550A61551C8BC006C9FF7 /* AZMemoryTileCache.h */,
 				648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */,
-				648550A91551CEDD006C9FF7 /* NSMutableArray+Queue.h */,
-				648550AA1551CEDE006C9FF7 /* NSMutableArray+Queue.m */,
+				648550A91551CEDD006C9FF7 /* NSMutableOrderedSet+Queue.h */,
+				648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */,
 			);
 			name = AZ;
 			sourceTree = "<group>";
@@ -741,7 +741,7 @@
 				648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */,
 				648550A51551C457006C9FF7 /* AZTileCache.m in Sources */,
 				648550A81551C8BC006C9FF7 /* AZMemoryTileCache.m in Sources */,
-				648550AB1551CEDE006C9FF7 /* NSMutableArray+Queue.m in Sources */,
+				648550AB1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

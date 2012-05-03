@@ -17,28 +17,31 @@
  */
 
 #import "AZMemoryTileCache.h"
-#import "NSMutableArray+Queue.h"
+#import "NSMutableOrderedSet+Queue.h"
 
 @implementation AZMemoryTileCache (Private)
 
 - (void)initializeMembers 
 {
-    tileImageDict = [[NSMutableDictionary alloc] init];
-    tileMapRectDict = [[NSMutableDictionary alloc] init];
-    tileSizeDict = [[NSMutableDictionary alloc] init];
-    tileKeyQueue = [[NSMutableArray alloc] init];
-    cacheSizeInKB = 0;
+    @synchronized (self) {
+        tileImageDict = [[NSMutableDictionary alloc] init];
+        tileMapRectDict = [[NSMutableDictionary alloc] init];
+        tileSizeDict = [[NSMutableDictionary alloc] init];
+        tileKeyQueue = [[NSMutableOrderedSet alloc] init];
+        cacheSizeInKB = 0;
+    }
 }
 
 - (void)disruptCacheForKey:(NSString *)key
 {
-    if ([tileImageDict objectForKey:key]) {
-        [tileImageDict removeObjectForKey:key];
-        [tileMapRectDict removeObjectForKey:key];
-        cacheSizeInKB -= [[tileSizeDict objectForKey:key] intValue];
-//        NSLog(@"Cache size: %dKB", cacheSizeInKB);
-        [tileSizeDict removeObjectForKey:key];
-        [tileKeyQueue removeObject:key];
+    @synchronized (self) {
+        if ([tileImageDict objectForKey:key]) {
+            [tileImageDict removeObjectForKey:key];
+            [tileMapRectDict removeObjectForKey:key];
+            cacheSizeInKB -= [[tileSizeDict objectForKey:key] intValue];
+            [tileSizeDict removeObjectForKey:key];
+            [tileKeyQueue removeObject:key];
+        }
     }
 }
 
@@ -46,7 +49,7 @@
 
 @implementation AZMemoryTileCache
 
-@synthesize maxCacheSizeInKB;
+@synthesize maxCacheSizeInKB, cacheSizeInKB;
 
 - (id)init
 {
@@ -60,57 +63,39 @@
 
 - (void)cacheImage:(UIImage *)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
 {
+    NSInteger imageSizeInKB = [UIImagePNGRepresentation(image) length] / 1024;
+    if (imageSizeInKB > maxCacheSizeInKB) {
+        [NSException raise:NSInvalidArgumentException format:@"The PNG representation of the image is larger than the max cache size of %dKB", maxCacheSizeInKB];
+    }
     @synchronized (self) {
         NSString *key = [AZMemoryTileCache cacheKeyForMapRect:mapRect zoomScale:zoomScale];
 
         [self disruptCacheForKey:key];
 
         [tileImageDict setObject:image forKey:key];
-        [tileMapRectDict setObject:[self arrayFromMapRect:mapRect] forKey:key];
-        [tileKeyQueue enqueue:key];
-        NSInteger imageSizeInKB = [UIImagePNGRepresentation(image) length] / 1024;
+
+        [tileMapRectDict setObject:[NSValue valueWithBytes:&mapRect objCType:@encode(MKMapRect)] forKey:key];
+
+        [tileKeyQueue addObject:key];
+
         [tileSizeDict setObject:[NSNumber numberWithInt:imageSizeInKB] forKey:key];
         cacheSizeInKB += imageSizeInKB;
-//        NSLog(@"Cache size: %dKB", cacheSizeInKB);
         
         while ([tileKeyQueue count] > 0 && cacheSizeInKB > maxCacheSizeInKB) {
-            NSString *key = [tileKeyQueue dequeue];
-            [self disruptCacheForKey:key];
+            [self disruptCacheForKey:[tileKeyQueue firstObject]];
         }
     }
-}
-
-- (NSArray *)arrayFromMapRect:(MKMapRect)mapRect
-{
-   return [NSArray arrayWithObjects:
-              [NSNumber numberWithFloat:mapRect.origin.x],
-              [NSNumber numberWithFloat:mapRect.origin.y],
-              [NSNumber numberWithFloat:mapRect.size.width],
-              [NSNumber numberWithFloat:mapRect.size.height],
-               nil];
-}
-
-- (MKMapRect)mapRectFromArray:(NSArray *)array
-{
-    return MKMapRectMake(
-        [[array objectAtIndex:0] floatValue],
-        [[array objectAtIndex:1] floatValue],
-        [[array objectAtIndex:2] floatValue],
-        [[array objectAtIndex:3] floatValue]);
 }
 
 - (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 {
-    @synchronized (tileImageDict) {
-        NSString *key = [AZMemoryTileCache cacheKeyForMapRect:mapRect zoomScale:zoomScale];
-        // When a cached tile is requested, move it to the end of the queue so that it is
-        // least likely to get purged. 'Popular' tiles should be preserved.
-        if ([tileImageDict objectForKey:key]) {
-            [tileKeyQueue removeObject:key];
-            [tileKeyQueue enqueue:key];
-        }
-        return [tileImageDict objectForKey:key];
+    NSString *key = [AZMemoryTileCache cacheKeyForMapRect:mapRect zoomScale:zoomScale];
+    // When a cached tile is requested, move it to the end of the queue so that it is
+    // least likely to get purged. 'Popular' tiles should be preserved.
+    if ([tileImageDict objectForKey:key]) {        
+        [tileKeyQueue requeue:key];
     }
+    return [tileImageDict objectForKey:key];
 }
 
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
@@ -119,7 +104,9 @@
     NSMutableArray *keysToBeDisrupted = [[NSMutableArray alloc] init];
     @synchronized (self) {
         for (NSString *key in tileMapRectDict) {
-            MKMapRect mapRect = [self mapRectFromArray:[tileMapRectDict objectForKey:key]];
+            // The mapRect is boxed in an NSValue
+            MKMapRect mapRect;
+            [[tileMapRectDict objectForKey:key] getValue:&mapRect];
             if (MKMapRectContainsPoint(mapRect, point)) {
                 [keysToBeDisrupted addObject:key];
             }
