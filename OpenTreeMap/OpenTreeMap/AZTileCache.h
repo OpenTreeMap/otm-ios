@@ -33,11 +33,6 @@ typedef struct
 + (NSString *)cacheKeyForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 
 /**
- Test if the specified coordinate is contained within the specified mapRect
- */
-+ (BOOL)coordinate:(CLLocationCoordinate2D)coordinate isInMapRect:(MKMapRect)mapRect;
-
-/**
  Save an image in the cache associated with the specified mapRect and zoomScale.
  */
 ABSTRACT_METHOD

@@ -25,19 +25,6 @@
     return [NSString stringWithFormat:@"%f,%f,%f,%f,%f", mapRect.origin.x, mapRect.origin.y, mapRect.size.width, mapRect.size.width, zoomScale];
 }
 
-+ (BOOL)coordinate:(CLLocationCoordinate2D)coordinate isInMapRect:(MKMapRect)mapRect
-{
-    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
-    float maxLat = region.center.latitude + region.span.latitudeDelta;
-    float minLat = region.center.latitude - region.span.latitudeDelta;
-    float maxLon = region.center.longitude + region.span.longitudeDelta;
-    float minLon = region.center.longitude - region.span.longitudeDelta;
-    return coordinate.latitude >= minLat 
-        && coordinate.latitude <= maxLat 
-        && coordinate.longitude >= minLon 
-        && coordinate.longitude <= maxLon;
-}
-
 - (void)cacheImage:(UIImage *)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
 {
     ABSTRACT_METHOD_BODY
