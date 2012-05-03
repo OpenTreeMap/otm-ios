@@ -121,4 +121,9 @@
     UIGraphicsPopContext();
 }
 
+- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    [memoryTileCache disruptCacheForCoordinate:coordinate];
+}
+
 @end

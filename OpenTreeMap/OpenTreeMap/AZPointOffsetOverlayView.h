@@ -29,4 +29,11 @@
 @property (nonatomic,strong) UIImage* pointStamp;
 @property (nonatomic,assign) CGFloat tileAlpha;
 
+/**
+ The view renders images and caches them. When a tree is added or removed,
+ this cache needs to be disrupted so that the image will be rerendered from
+ the data source.
+ */
+- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate;
+
 @end
