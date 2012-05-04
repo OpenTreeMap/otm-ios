@@ -17,85 +17,18 @@
  */
 
 #import "AZMemoryTileCache.h"
-#import "NSMutableOrderedSet+Queue.h"
-
-@implementation AZMemoryTileCache (Private)
-
-- (void)initializeMembers 
-{
-    @synchronized (self) {
-        tileImageDict = [[NSMutableDictionary alloc] init];
-        tileMapRectDict = [[NSMutableDictionary alloc] init];
-        tileSizeDict = [[NSMutableDictionary alloc] init];
-        tileKeyQueue = [[NSMutableOrderedSet alloc] init];
-        cacheSizeInKB = 0;
-    }
-}
-
-- (void)disruptCacheForKey:(NSString *)key
-{
-    @synchronized (self) {
-        if ([tileImageDict objectForKey:key]) {
-            [tileImageDict removeObjectForKey:key];
-            [tileMapRectDict removeObjectForKey:key];
-            cacheSizeInKB -= [[tileSizeDict objectForKey:key] intValue];
-            [tileSizeDict removeObjectForKey:key];
-            [tileKeyQueue removeObject:key];
-        }
-    }
-}
-
-@end
+#import "AZTileCacheKey.h"
 
 @implementation AZMemoryTileCache
 
-@synthesize maxCacheSizeInKB, cacheSizeInKB;
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        [self initializeMembers];
-        maxCacheSizeInKB = 1024 * 8;
-    }
-    return self;
-}
-
 - (void)cacheImage:(UIImage *)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
 {
-    NSInteger imageSizeInKB = [UIImagePNGRepresentation(image) length] / 1024;
-    if (imageSizeInKB > maxCacheSizeInKB) {
-        [NSException raise:NSInvalidArgumentException format:@"The PNG representation of the image is larger than the max cache size of %dKB", maxCacheSizeInKB];
-    }
-    @synchronized (self) {
-        NSString *key = [AZMemoryTileCache cacheKeyForMapRect:mapRect zoomScale:zoomScale];
-
-        [self disruptCacheForKey:key];
-
-        [tileImageDict setObject:image forKey:key];
-
-        [tileMapRectDict setObject:[NSValue valueWithBytes:&mapRect objCType:@encode(MKMapRect)] forKey:key];
-
-        [tileKeyQueue addObject:key];
-
-        [tileSizeDict setObject:[NSNumber numberWithInt:imageSizeInKB] forKey:key];
-        cacheSizeInKB += imageSizeInKB;
-        
-        while ([tileKeyQueue count] > 0 && cacheSizeInKB > maxCacheSizeInKB) {
-            [self disruptCacheForKey:[tileKeyQueue firstObject]];
-        }
-    }
+    [self cacheObject:image forKey:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
 }
 
 - (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 {
-    NSString *key = [AZMemoryTileCache cacheKeyForMapRect:mapRect zoomScale:zoomScale];
-    // When a cached tile is requested, move it to the end of the queue so that it is
-    // least likely to get purged. 'Popular' tiles should be preserved.
-    if ([tileImageDict objectForKey:key]) {        
-        [tileKeyQueue requeue:key];
-    }
-    return [tileImageDict objectForKey:key];
+    return [self objectForKey:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
 }
 
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
@@ -103,24 +36,24 @@
     MKMapPoint point =  MKMapPointForCoordinate(coordinate);
     NSMutableArray *keysToBeDisrupted = [[NSMutableArray alloc] init];
     @synchronized (self) {
-        for (NSString *key in tileMapRectDict) {
-            // The mapRect is boxed in an NSValue
-            MKMapRect mapRect;
-            [[tileMapRectDict objectForKey:key] getValue:&mapRect];
-            if (MKMapRectContainsPoint(mapRect, point)) {
+        for (AZTileCacheKey *key in keyQueue) {;
+            if (MKMapRectContainsPoint(key.mapRect, point)) {
                 [keysToBeDisrupted addObject:key];
             }
         }
-        for (NSString *key in keysToBeDisrupted) {
-            [self disruptCacheForKey:key];
+        for (AZTileCacheKey *key in keysToBeDisrupted) {
+            [self removeObjectWithKey:key];
         }
     }
 }
 
-- (void)purgeCache 
-{
-    @synchronized (self) {
-        [self initializeMembers];
+#pragma mark AZMemoryObjectCache methods
+
+- (NSUInteger)sizeInKBOf:(id)object {
+    if ([object isKindOfClass:[UIImage class]]) {
+        return [UIImagePNGRepresentation(object) length] / 1024;
+    } else {
+        return [super sizeInKBOf:object];
     }
 }
 

@@ -1,8 +1,8 @@
 /*
  
- AZMemoryTileCache.h
+ AZMemoryObjectCache.h
  
- Created by Justin Walgran on 5/2/12.
+ Created by Justin Walgran on 5/3/12.
  
  License
  =======
@@ -16,24 +16,29 @@
  
  */
 
-#import "AZMemoryObjectCache.h"
+#import <Foundation/Foundation.h>
+#import "AZObjectCache.h"
+#import "NSMutableOrderedSet+Queue.h"
 
-@interface AZMemoryTileCache : AZMemoryObjectCache
+#define kAZMemoryObjectCacheDefauleMaxSizeInKB 8192
+
+@interface AZMemoryObjectCache : AZObjectCache {
+    NSUInteger cacheSizeInKB;
+    NSMutableDictionary *cache;
+    NSMutableOrderedSet *keyQueue;
+}
+
+@property (nonatomic) NSUInteger maxCacheSizeInKB;
+@property (nonatomic, readonly) NSUInteger cacheSizeInKB;
 
 /**
- Save a tile image in the cache representing the specified mapRect and zoomScale.
+ Designated initializer
  */
-- (void)cacheImage:(UIImage *)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+- (id)initWithMaxCacheSizeInKB:(NSUInteger)maxSize;
 
 /**
- Retrieve a tile image from the cache for the specified mapRect and zoomScale.
+ Return the size, in kilobytes of an object to be cached.
  */
-- (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
-
-/**
- Remove any tile image from the cache if the mapRect associated with the tile
- intersects the specified coordinate.
- */
-- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate;
+- (NSUInteger)sizeInKBOf:(id)object;
 
 @end
