@@ -24,7 +24,7 @@
 
 - (id)init
 {
-    return [self initWithMaxCacheSizeInKB:kAZMemoryObjectCacheDefauleMaxSizeInKB];
+    return [self initWithMaxCacheSizeInKB:kAZMemoryObjectCacheDefaultMaxSizeInKB];
 }
 
 - (id)initWithMaxCacheSizeInKB:(NSUInteger)maxSize

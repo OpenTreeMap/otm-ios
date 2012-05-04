@@ -20,7 +20,7 @@
 #import "AZObjectCache.h"
 #import "NSMutableOrderedSet+Queue.h"
 
-#define kAZMemoryObjectCacheDefauleMaxSizeInKB 8192
+#define kAZMemoryObjectCacheDefaultMaxSizeInKB 8192
 
 @interface AZMemoryObjectCache : AZObjectCache {
     NSUInteger cacheSizeInKB;
