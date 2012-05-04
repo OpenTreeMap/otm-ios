@@ -1,8 +1,8 @@
 /*
  
- AZPointOffsetOverlayView.h
+ AZMemoryObjectCache.h
  
- Created by Justin Walgran on 2/21/12.
+ Created by Justin Walgran on 5/3/12.
  
  License
  =======
@@ -16,24 +16,29 @@
  
  */
 
-#import <MapKit/MapKit.h>
-#import "AZMemoryTileCache.h"
-/**
- A view for rendering AZPointOffsetOverlay instances on a MapKit map.
- */
-@interface AZPointOffsetOverlayView : MKOverlayView {
+#import <Foundation/Foundation.h>
+#import "AZObjectCache.h"
+#import "NSMutableOrderedSet+Queue.h"
 
+#define kAZMemoryObjectCacheDefauleMaxSizeInKB 8192
+
+@interface AZMemoryObjectCache : AZObjectCache {
+    NSUInteger cacheSizeInKB;
+    NSMutableDictionary *cache;
+    NSMutableOrderedSet *keyQueue;
 }
 
-@property (nonatomic,strong) AZMemoryTileCache *memoryTileCache;
-@property (nonatomic,strong) UIImage* pointStamp;
-@property (nonatomic,assign) CGFloat tileAlpha;
+@property (nonatomic) NSUInteger maxCacheSizeInKB;
+@property (nonatomic, readonly) NSUInteger cacheSizeInKB;
 
 /**
- The view renders images and caches them. When a tree is added or removed,
- this cache needs to be disrupted so that the image will be rerendered from
- the data source.
+ Designated initializer
  */
-- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate;
+- (id)initWithMaxCacheSizeInKB:(NSUInteger)maxSize;
+
+/**
+ Return the size, in kilobytes of an object to be cached.
+ */
+- (NSUInteger)sizeInKBOf:(id)object;
 
 @end

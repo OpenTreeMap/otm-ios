@@ -1,8 +1,8 @@
 /*
  
- AZPointOffsetOverlayView.h
+ AZTileCache.m
  
- Created by Justin Walgran on 2/21/12.
+ Created by Justin Walgran on 5/2/12.
  
  License
  =======
@@ -16,24 +16,33 @@
  
  */
 
-#import <MapKit/MapKit.h>
-#import "AZMemoryTileCache.h"
-/**
- A view for rendering AZPointOffsetOverlay instances on a MapKit map.
- */
-@interface AZPointOffsetOverlayView : MKOverlayView {
+#import "AZTileCache.h"
 
+@implementation AZTileCache
+
++ (NSString *)cacheKeyForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
+{
+    return [NSString stringWithFormat:@"%f,%f,%f,%f,%f", mapRect.origin.x, mapRect.origin.y, mapRect.size.width, mapRect.size.width, zoomScale];
 }
 
-@property (nonatomic,strong) AZMemoryTileCache *memoryTileCache;
-@property (nonatomic,strong) UIImage* pointStamp;
-@property (nonatomic,assign) CGFloat tileAlpha;
+- (void)cacheImage:(UIImage *)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
+{
+    ABSTRACT_METHOD_BODY
+}
 
-/**
- The view renders images and caches them. When a tree is added or removed,
- this cache needs to be disrupted so that the image will be rerendered from
- the data source.
- */
-- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate;
+- (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+{
+    ABSTRACT_METHOD_BODY
+}
+
+- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    ABSTRACT_METHOD_BODY
+}
+
+- (void)purgeCache 
+{
+    ABSTRACT_METHOD_BODY
+}
 
 @end
