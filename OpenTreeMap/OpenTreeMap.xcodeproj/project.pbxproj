@@ -18,7 +18,6 @@
 		645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */; };
 		645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */; };
 		648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */; };
-		648550A51551C457006C9FF7 /* AZTileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A41551C457006C9FF7 /* AZTileCache.m */; };
 		648550A81551C8BC006C9FF7 /* AZMemoryTileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */; };
 		648550AB1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */; };
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
@@ -149,8 +148,6 @@
 		645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMReverseGeocodeOperation.m; sourceTree = "<group>"; };
 		648550A01551B4D3006C9FF7 /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
 		648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
-		648550A31551C457006C9FF7 /* AZTileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileCache.h; sourceTree = "<group>"; };
-		648550A41551C457006C9FF7 /* AZTileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileCache.m; sourceTree = "<group>"; };
 		648550A61551C8BC006C9FF7 /* AZMemoryTileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMemoryTileCache.h; sourceTree = "<group>"; };
 		648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMemoryTileCache.m; sourceTree = "<group>"; };
 		648550A91551CEDD006C9FF7 /* NSMutableOrderedSet+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableOrderedSet+Queue.h"; sourceTree = "<group>"; };
@@ -392,8 +389,6 @@
 				644C190F155339A30055CDE8 /* AZObjectCache.m */,
 				644C190515532FE80055CDE8 /* AZMemoryObjectCache.h */,
 				644C190615532FE80055CDE8 /* AZMemoryObjectCache.m */,
-				648550A31551C457006C9FF7 /* AZTileCache.h */,
-				648550A41551C457006C9FF7 /* AZTileCache.m */,
 				648550A61551C8BC006C9FF7 /* AZMemoryTileCache.h */,
 				648550A71551C8BC006C9FF7 /* AZMemoryTileCache.m */,
 				644C190B155338E00055CDE8 /* AZTileCacheKey.h */,
@@ -784,7 +779,6 @@
 				D70F859F1551927500D108D5 /* OTMSegmentedControl.m in Sources */,
 				D70F85A2155192E200D108D5 /* OTMButton.m in Sources */,
 				648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */,
-				648550A51551C457006C9FF7 /* AZTileCache.m in Sources */,
 				648550A81551C8BC006C9FF7 /* AZMemoryTileCache.m in Sources */,
 				648550AB1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m in Sources */,
 				644C190715532FE80055CDE8 /* AZMemoryObjectCache.m in Sources */,
