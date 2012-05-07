@@ -452,9 +452,8 @@
              double lat = [[geom objectForKey:@"lat"] doubleValue];
              double lon = [[geom objectForKey:@"lng"] doubleValue];
              CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
-             MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
 
-             [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+             [self zoomMapIfNeededAndCenterMapOnCoordinate:center];
 
              if (self.lastClickedTree) {
                  [mapView removeAnnotation:self.lastClickedTree];
@@ -469,6 +468,18 @@
              NSLog(@"Here with plot %@", plot);
          }
      }];
+}
+
+- (void)zoomMapIfNeededAndCenterMapOnCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    MKCoordinateSpan defaultZoomSpan = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+
+    if (defaultZoomSpan.latitudeDelta < mapView.region.span.latitudeDelta
+        || defaultZoomSpan.longitudeDelta < mapView.region.span.longitudeDelta) {
+        [mapView setRegion:MKCoordinateRegionMake(coordinate, defaultZoomSpan) animated:YES];
+    } else {
+        [mapView setCenterCoordinate:coordinate animated:YES];
+    }
 }
 
 - (void)fetchAndSetAddTreePlacemarkForCoordinate:(CLLocationCoordinate2D)coordinate
@@ -566,7 +577,10 @@
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
-    return [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
+    if (!pointOffsetOverlayView) {
+       pointOffsetOverlayView = [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
+    }
+    return pointOffsetOverlayView;
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
@@ -725,6 +739,15 @@
 {
     // TODO: Redraw the tile with the new tree
     [self changeMode:Select];
+    NSDictionary *geometryDict = [details objectForKey:@"geometry"];
+    CLLocationDegrees lat = [[geometryDict objectForKey:@"lat"] doubleValue];
+    CLLocationDegrees lon = [[geometryDict objectForKey:@"lon"] doubleValue];
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
+
+    [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+    [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+
+    [self selectTreeNearCoordinate:coordinate];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
