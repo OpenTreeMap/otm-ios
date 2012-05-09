@@ -23,6 +23,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OTMDetailSliderview : UIView
+@interface OTMDetailSliderview : UIView {
+    BOOL fadeAtBottom;
+}
 
 @end

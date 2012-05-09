@@ -24,30 +24,40 @@
 
 @implementation OTMDetailSliderview
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        // Initialization code
+        [self loadTheme];
     }
+    
     return self;
 }
 
+-(id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self loadTheme];
+    }
+    
+    return self;
+}
+
+-(void)loadTheme {
+    fadeAtBottom = NO;
+}
+
 - (void)drawRect:(CGRect)rect
-{
+{    
     float pct = .90;   
-    float height = 10;
+    float height = self.frame.size.height;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [[self backgroundColor] CGColor]);
-    CGContextFillRect(context, self.frame);
-    
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    
+
+    /// Main Gradient
     float color[] = { pct, pct, pct, 1.0 };
-    CGColorRef startColor = CGColorCreate(colorSpace, color);
-    CGColorRef endColor = [[self backgroundColor] CGColor];
+    CGColorRef startColor = [[UIColor whiteColor] CGColor];
+    CGColorRef endColor = CGColorCreate(colorSpace, color);
 
     float locations[] = {0.0, 1.0};
     const void* colors[] = { startColor, endColor };
@@ -55,26 +65,67 @@
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace,
                                                         colorArray, 
                                                         locations);
+        
+    CGFloat fadeOffset = fadeAtBottom ? 0 : 15;
+    CGRect gframe = CGRectMake(0, fadeOffset, self.frame.size.width, height - 15);
     
-    CGRect gframe = CGRectMake(0, 0, self.frame.size.width, height);
+    CGContextSetFillColorWithColor(context, [[self backgroundColor] CGColor]);
+    CGContextFillRect(context, gframe);    
     
     CGContextSaveGState(context);
     CGContextAddRect(context,
                      gframe);
     CGContextClip(context);
     CGContextDrawLinearGradient(context, gradient, 
-                                CGPointMake(CGRectGetMidX(gframe), 0),
-                                CGPointMake(CGRectGetMidX(gframe), gframe.size.height),
+                                CGPointMake(CGRectGetMidX(gframe), fadeOffset),
+                                CGPointMake(CGRectGetMidX(gframe), gframe.size.height + fadeOffset),
                                 0);
+    CFRelease(colorArray);
+    CGColorRelease(endColor);
+    
     CGContextRestoreGState(context);
     
-    CGContextSetStrokeColorWithColor(context, [[UIColor colorWithWhite:0.50 alpha:1.0] CGColor]);    
-    CGContextMoveToPoint(context, 0, 0.5);
-    CGContextAddLineToPoint(context, self.frame.size.width, 0.5);
-    CGContextStrokePath(context);
+    pct = .69;
+    float color1[] = { 1.0f, 1.0f, 1.0f, 0.0f };
+    startColor = CGColorCreate(colorSpace, color1);
+    
+    float color2[] = { pct, pct, pct, 1.0 };    
+    endColor = CGColorCreate(colorSpace, color2);
+    
+    const void* colors2[] = { 
+        fadeAtBottom ? endColor : startColor, 
+        fadeAtBottom ? startColor : endColor };
+    
+    colorArray = CFArrayCreate(NULL, colors2, 2, NULL);
+    gradient = CGGradientCreateWithColors(colorSpace,
+                                          colorArray, 
+                                          locations);
+    
+    CGFloat topOffset = fadeAtBottom ? self.frame.size.height - 15 : 0;
+    gframe = CGRectMake(0, topOffset, self.frame.size.width, 15);
+    
+    CGContextSaveGState(context);
+    
+    CGFloat fadeY = fadeAtBottom ? self.frame.size.height : 15;
+    
+    CGContextBeginTransparencyLayer(context, NULL);
+    [[UIColor clearColor] setFill];
+    CGContextFillRect(context,gframe);
+
+    CGContextAddRect(context,
+                     gframe);
+    CGContextClip(context);
+    CGContextDrawLinearGradient(context, gradient, 
+                                CGPointMake(CGRectGetMidX(gframe), gframe.origin.y),
+                                CGPointMake(CGRectGetMidX(gframe), fadeY),
+                                0);    
+    
+    CGContextEndTransparencyLayer(context);
+    CGContextRestoreGState(context);
                      
     CFRelease(colorArray);
     CGColorRelease(startColor);
+    CGColorRelease(endColor);
     CGColorSpaceRelease(colorSpace);
 }
 

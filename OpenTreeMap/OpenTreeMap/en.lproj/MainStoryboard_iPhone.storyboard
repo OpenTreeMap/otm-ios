@@ -144,7 +144,7 @@
                                     <action selector="setMapMode:" destination="2" eventType="valueChanged" id="Nhx-DC-WMp"/>
                                 </connections>
                             </segmentedControl>
-                            <view contentMode="scaleToFill" id="cSI-Ty-HIV" customClass="OTMDetailSliderview">
+                            <view opaque="NO" contentMode="scaleToFill" id="cSI-Ty-HIV" customClass="OTMDetailSliderview">
                                 <rect key="frame" x="0.0" y="267" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
@@ -177,9 +177,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fyw-rm-Lup">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" size="button"/>
                                         <state key="normal">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <state key="highlighted">
@@ -190,7 +190,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                             </view>
                             <searchBar contentMode="redraw" id="tpv-GO-iyB" customClass="OTMSearchBar">
                                 <rect key="frame" x="226" y="93" width="320" height="44"/>
@@ -265,16 +265,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="V6I-F9-Jy3">
-                                <rect key="frame" x="0.0" y="85" width="320" height="1"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hqL-kc-WAV">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hqL-kc-WAV" customClass="OTMTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <inset key="contentInset" minX="0.0" minY="85" maxX="0.0" maxY="0.0"/>
+                                <inset key="contentInset" minX="0.0" minY="90" maxX="0.0" maxY="0.0"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <sections/>
                                 <connections>
@@ -282,8 +277,8 @@
                                     <outlet property="delegate" destination="Z5j-QU-uNU" id="HOc-8s-7iO"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" id="SBG-lE-den">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
+                            <view opaque="NO" contentMode="scaleToFill" id="SBG-lE-den" customClass="OTMDetailBoxView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Imi-kc-vP1">
@@ -308,7 +303,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="h2p-MS-lx6">
-                                        <rect key="frame" x="20" y="11" width="72" height="67"/>
+                                        <rect key="frame" x="20" y="11" width="72" height="66"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </imageView>
@@ -320,7 +315,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.94083921370967749" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.94083921370967749" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -590,6 +585,9 @@
         <image name="gps_icon_14.png" width="14" height="14"/>
     </resources>
     <classes>
+        <class className="OTMDetailBoxView" superclassName="OTMDetailSliderview">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailBoxView.h"/>
+        </class>
         <class className="OTMDetailSliderview" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
         </class>
@@ -597,14 +595,17 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
             <relationships>
                 <relationship kind="action" name="startFindingLocation:"/>
+                <relationship kind="action" name="stopFindingLocation:"/>
                 <relationship kind="outlet" name="addTreeHelpLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="addTreeHelpView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="findLocationButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="locationActivityView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="searchNavigationBar" candidateClass="UINavigationBar"/>
                 <relationship kind="outlet" name="species" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="treeImage" candidateClass="UIImageView"/>
             </relationships>
@@ -656,10 +657,14 @@
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
+        <class className="OTMTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTableView.h"/>
+        </class>
         <class className="OTMTreeDetailViewController" superclassName="OTMScrollAwareViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTreeDetailViewController.h"/>
             <relationships>
-                <relationship kind="action" name="startEditing:"/>
+                <relationship kind="action" name="cancelEditing:"/>
+                <relationship kind="action" name="startOrCommitEditing:"/>
                 <relationship kind="outlet" name="acell" candidateClass="UITableViewCell"/>
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
