@@ -6,12 +6,12 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - Tree Map-->
         <scene sceneID="q3d-8f-SBs">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4mF-Gi-CZB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="IOc-fB-8NC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="Wk0-IF-fcm"/>
+                    <tabBarItem key="tabBarItem" title="Tree Map" image="tree_map.png" id="Wk0-IF-fcm"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="rge-YT-ir8" customClass="OTMNavigationBar">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -516,12 +516,12 @@
             </objects>
             <point key="canvasLocation" x="1194" y="455"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - Trees Nearby-->
         <scene sceneID="f8G-zt-XN4">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3s4-ZD-HQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="Bua-WS-BqB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="first" id="jUG-J8-9UY"/>
+                    <tabBarItem key="tabBarItem" title="Trees Nearby" image="recent_trees.png" id="jUG-J8-9UY"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Zvq-9t-LHn" customClass="OTMNavigationBar">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -583,6 +583,8 @@
     <resources>
         <image name="first" width="16" height="16"/>
         <image name="gps_icon_14.png" width="14" height="14"/>
+        <image name="recent_trees.png" width="30" height="30"/>
+        <image name="tree_map.png" width="30" height="30"/>
     </resources>
     <classes>
         <class className="OTMDetailBoxView" superclassName="OTMDetailSliderview">
