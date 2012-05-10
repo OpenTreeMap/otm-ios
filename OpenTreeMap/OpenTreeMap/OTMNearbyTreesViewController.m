@@ -95,8 +95,12 @@
         if (cell.textLabel.text == nil) {
             cell.textLabel.text = @"(No Species)";
         }
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",
-                                     [tree valueForKey:@"dbh"]];
+        if ([tree valueForKey:@"dbh"] && [tree valueForKey:@"dbh"] != @"<null>") {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ in. Diameter",
+                                         [tree valueForKey:@"dbh"]];
+        } else {
+            cell.detailTextLabel.text = @"Diameter Missing";
+        }
                     
     }
     cell.thisLoc = treeLoc;

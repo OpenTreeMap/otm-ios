@@ -53,10 +53,37 @@
 -(void)syncTopData {
     if (self.data) {
         self.address.text = [self.data objectForKey:@"address"];
-        self.species.text = [self.data decodeKey:@"tree.species_name"];
-        self.lastUpdateDate.text = @"Today";
-        self.updateUser.text = @"Joe User";
+        if (!self.address.text || [self.address.text isEqualToString:@""]) {
+            self.address.text = @"No Address";
+        }
+        if ([self.data decodeKey:@"tree.species_name"]) {
+            self.species.text = [self.data decodeKey:@"tree.species_name"];
+        } else {
+            self.species.text = @"Missing Species";
+        }
+        self.lastUpdateDate.text = [NSString stringWithFormat:@"Updated %@", [self reformatLastUpdateDate:[self.data objectForKey:@"last_updated"]]];
+        self.updateUser.text = @"By Joe User";
     }    
+}
+
+- (NSString *)reformatLastUpdateDate:(NSString *)dateString
+{
+    if (!dateString) {
+        return nil;
+    }
+
+    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateFormatter *readFormatter = [[NSDateFormatter alloc] init];
+    [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.S"];
+    [readFormatter setCalendar:cal];
+    [readFormatter setLocale:[NSLocale currentLocale]];
+    NSDate *date = [readFormatter dateFromString:dateString];
+
+    NSDateFormatter *writeFormatter = [[NSDateFormatter alloc] init];
+    [writeFormatter setDateFormat:@"MMMM d, yyyy HH:mm a"];
+    [writeFormatter setCalendar:cal];
+    [writeFormatter setLocale:[NSLocale currentLocale]];
+    return [writeFormatter stringFromDate:date];
 }
 
 - (void)viewDidLoad
