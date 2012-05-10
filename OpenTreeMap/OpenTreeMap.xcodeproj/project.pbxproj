@@ -65,6 +65,14 @@
 		D70F85CD1551C66800D108D5 /* tree_zoom6.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85C41551C66800D108D5 /* tree_zoom6.png */; };
 		D70F85CE1551C66800D108D5 /* tree_zoom6_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85C51551C66800D108D5 /* tree_zoom6_highlight.png */; };
 		D70F85CF1551C66800D108D5 /* tree_zoom7.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85C61551C66800D108D5 /* tree_zoom7.png */; };
+		D70F85DE155AB4E900D108D5 /* OTMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F85DD155AB4E900D108D5 /* OTMTableView.m */; };
+		D70F85E2155AB5A300D108D5 /* OTMDetailBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */; };
+		D70F85E5155ABAA600D108D5 /* tree_map.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85E3155ABAA600D108D5 /* tree_map.png */; };
+		D70F85E6155ABAA600D108D5 /* tree_map@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85E4155ABAA600D108D5 /* tree_map@x2.png */; };
+		D70F85ED155ABB4400D108D5 /* recent_trees.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85E9155ABB4400D108D5 /* recent_trees.png */; };
+		D70F85EE155ABB4400D108D5 /* recent_trees@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85EA155ABB4400D108D5 /* recent_trees@x2.png */; };
+		D70F85F0155ABB6500D108D5 /* iphone_app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85EF155ABB6500D108D5 /* iphone_app-icon.png */; };
+		D70F85F2155ABB7800D108D5 /* iphone_app-icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70F85F1155ABB7800D108D5 /* iphone_app-icon@x2.png */; };
 		D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
 		D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
 		D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64715122DE800AB6664 /* DictionaryDecode.m */; };
@@ -221,6 +229,16 @@
 		D70F85C41551C66800D108D5 /* tree_zoom6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom6.png; sourceTree = "<group>"; };
 		D70F85C51551C66800D108D5 /* tree_zoom6_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom6_highlight.png; sourceTree = "<group>"; };
 		D70F85C61551C66800D108D5 /* tree_zoom7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom7.png; sourceTree = "<group>"; };
+		D70F85DC155AB4E900D108D5 /* OTMTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTableView.h; sourceTree = "<group>"; };
+		D70F85DD155AB4E900D108D5 /* OTMTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTableView.m; sourceTree = "<group>"; };
+		D70F85E0155AB5A300D108D5 /* OTMDetailBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailBoxView.h; sourceTree = "<group>"; };
+		D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailBoxView.m; sourceTree = "<group>"; };
+		D70F85E3155ABAA600D108D5 /* tree_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_map.png; sourceTree = "<group>"; };
+		D70F85E4155ABAA600D108D5 /* tree_map@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tree_map@x2.png"; sourceTree = "<group>"; };
+		D70F85E9155ABB4400D108D5 /* recent_trees.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recent_trees.png; sourceTree = "<group>"; };
+		D70F85EA155ABB4400D108D5 /* recent_trees@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recent_trees@x2.png"; sourceTree = "<group>"; };
+		D70F85EF155ABB6500D108D5 /* iphone_app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iphone_app-icon.png"; path = "../../iphone_app-icon.png"; sourceTree = "<group>"; };
+		D70F85F1155ABB7800D108D5 /* iphone_app-icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iphone_app-icon@x2.png"; path = "../../iphone_app-icon@x2.png"; sourceTree = "<group>"; };
 		D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = WashingtonDC.gpx; sourceTree = "<group>"; };
 		D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DecodeKey.h"; sourceTree = "<group>"; };
 		D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DecodeKey.m"; sourceTree = "<group>"; };
@@ -494,6 +512,10 @@
 				D70F859E1551927500D108D5 /* OTMSegmentedControl.m */,
 				D70F85A0155192E200D108D5 /* OTMButton.h */,
 				D70F85A1155192E200D108D5 /* OTMButton.m */,
+				D70F85DC155AB4E900D108D5 /* OTMTableView.h */,
+				D70F85DD155AB4E900D108D5 /* OTMTableView.m */,
+				D70F85E0155AB5A300D108D5 /* OTMDetailBoxView.h */,
+				D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -501,6 +523,12 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D70F85EF155ABB6500D108D5 /* iphone_app-icon.png */,
+				D70F85F1155ABB7800D108D5 /* iphone_app-icon@x2.png */,
+				D70F85E9155ABB4400D108D5 /* recent_trees.png */,
+				D70F85EA155ABB4400D108D5 /* recent_trees@x2.png */,
+				D70F85E3155ABAA600D108D5 /* tree_map.png */,
+				D70F85E4155ABAA600D108D5 /* tree_map@x2.png */,
 				D70F85BD1551C66800D108D5 /* map_icons */,
 				D70F85A31551935B00D108D5 /* btn_bg.png */,
 				D70F85A41551935C00D108D5 /* btn_bg@x2.png */,
@@ -749,6 +777,12 @@
 				D70F85CD1551C66800D108D5 /* tree_zoom6.png in Resources */,
 				D70F85CE1551C66800D108D5 /* tree_zoom6_highlight.png in Resources */,
 				D70F85CF1551C66800D108D5 /* tree_zoom7.png in Resources */,
+				D70F85E5155ABAA600D108D5 /* tree_map.png in Resources */,
+				D70F85E6155ABAA600D108D5 /* tree_map@x2.png in Resources */,
+				D70F85ED155ABB4400D108D5 /* recent_trees.png in Resources */,
+				D70F85EE155ABB4400D108D5 /* recent_trees@x2.png in Resources */,
+				D70F85F0155ABB6500D108D5 /* iphone_app-icon.png in Resources */,
+				D70F85F2155ABB7800D108D5 /* iphone_app-icon@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,6 +868,8 @@
 				644C190D155338E00055CDE8 /* AZTileCacheKey.m in Sources */,
 				644C1910155339A30055CDE8 /* AZObjectCache.m in Sources */,
 				644C1922155431740055CDE8 /* AZCachedObject.m in Sources */,
+				D70F85DE155AB4E900D108D5 /* OTMTableView.m in Sources */,
+				D70F85E2155AB5A300D108D5 /* OTMDetailBoxView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
