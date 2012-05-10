@@ -82,6 +82,7 @@
         imageName = @"tree_zoom6";
         break;
     case 17:
+    case 18:
         imageName = @"tree_zoom7";
         break;
     default:
