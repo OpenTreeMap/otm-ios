@@ -17,21 +17,24 @@
  */
 
 #import "AZMemoryObjectCache.h"
+#import "AZCachedObject.h"
 
 @implementation AZMemoryObjectCache
 
-@synthesize cacheSizeInKB, maxCacheSizeInKB;
+@synthesize cacheSizeInKB, maxCacheSizeInKB, secondsUntilObjectsExpire;
 
 - (id)init
 {
-    return [self initWithMaxCacheSizeInKB:kAZMemoryObjectCacheDefauleMaxSizeInKB];
+    return [self initWithMaxCacheSizeInKB:kAZMemoryObjectCacheDefaultMaxSizeInKB
+                secondsUntilObjectsExpire:kAZMemoryObjectCacheDefaultSecondsUntilObjectsExpire];
 }
 
-- (id)initWithMaxCacheSizeInKB:(NSUInteger)maxSize
+- (id)initWithMaxCacheSizeInKB:(NSUInteger)maxSize secondsUntilObjectsExpire:(NSTimeInterval)seconds
 {
     self = [super init];
     if (self) {
         maxCacheSizeInKB = maxSize;
+        secondsUntilObjectsExpire = seconds;
         [self initializeMembers];
     }
     return self;
@@ -59,7 +62,7 @@
         }
         [self removeObjectWithKey:key];
         
-        [cache setObject:object forKey:key];
+        [cache setObject:[AZCachedObject createWithObject:object] forKey:key];
         [keyQueue addObject:key];
         cacheSizeInKB += size;
         
@@ -77,7 +80,17 @@
         if ([cache objectForKey:key]) {        
             [keyQueue requeue:key];
         }
-        return [cache objectForKey:key];
+        AZCachedObject *cachedObject = [cache objectForKey:key];
+        if (cachedObject) {
+            if (secondsUntilObjectsExpire == kAZMemoryObjectCacheObjectsNeverExpire || [cachedObject ageInSeconds] <= secondsUntilObjectsExpire) {
+                return [cachedObject object];
+            } else {
+                [self removeObjectWithKey:key];
+                return nil;
+            }
+        } else {
+            return nil;
+        }
     }
 }
 
@@ -85,7 +98,8 @@
 {
     @synchronized (self) {
         if ([cache objectForKey:key]) {
-            NSUInteger size = [self sizeInKBOf:[cache objectForKey:key]];
+            AZCachedObject *cachedObject = [cache objectForKey:key];
+            NSUInteger size = [self sizeInKBOf:[cachedObject object]];
             [cache removeObjectForKey:key];
             [keyQueue removeObject:key];
             cacheSizeInKB -= size;

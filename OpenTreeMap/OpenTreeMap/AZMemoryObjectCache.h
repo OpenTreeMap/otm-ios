@@ -20,7 +20,9 @@
 #import "AZObjectCache.h"
 #import "NSMutableOrderedSet+Queue.h"
 
-#define kAZMemoryObjectCacheDefauleMaxSizeInKB 8192
+#define kAZMemoryObjectCacheDefaultMaxSizeInKB 8192
+#define kAZMemoryObjectCacheDefaultSecondsUntilObjectsExpire 600.0
+#define kAZMemoryObjectCacheObjectsNeverExpire 0
 
 @interface AZMemoryObjectCache : AZObjectCache {
     NSUInteger cacheSizeInKB;
@@ -30,11 +32,12 @@
 
 @property (nonatomic) NSUInteger maxCacheSizeInKB;
 @property (nonatomic, readonly) NSUInteger cacheSizeInKB;
+@property (nonatomic) NSTimeInterval secondsUntilObjectsExpire;
 
 /**
  Designated initializer
  */
-- (id)initWithMaxCacheSizeInKB:(NSUInteger)maxSize;
+- (id)initWithMaxCacheSizeInKB:(NSUInteger)maxSize secondsUntilObjectsExpire:(NSTimeInterval)seconds;
 
 /**
  Return the size, in kilobytes of an object to be cached.
