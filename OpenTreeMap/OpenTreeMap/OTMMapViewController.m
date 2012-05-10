@@ -192,7 +192,7 @@
         NSString* dbhValue = [tree objectForKey:@"dbh"];
         
         if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
-            tdbh =  [NSString stringWithFormat:@"%@", dbhValue];   
+            tdbh =  [NSString stringWithFormat:@"%@ in. Diameter", dbhValue];
         }
         
         tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species_name"]];
@@ -200,9 +200,9 @@
     
     taddress = [plot objectForKey:@"address"];
     
-    if (tdbh == nil || tdbh == @"<null>") { tdbh = @"Diameter"; }
-    if (tspecies == nil || tspecies == @"<null>") { tspecies = @"Species"; }
-    if (taddress == nil || taddress == @"<null>") { taddress = @"Address"; }
+    if (tdbh == nil || tdbh == @"<null>") { tdbh = @"Missing Diameter"; }
+    if (tspecies == nil || tspecies == @"<null>") { tspecies = @"Missing Species"; }
+    if (taddress == nil || taddress == @"<null>" || [taddress isEqualToString:@""]) { taddress = @"No Address"; }
     
     [self.dbh setText:tdbh];
     [self.species setText:tspecies];
