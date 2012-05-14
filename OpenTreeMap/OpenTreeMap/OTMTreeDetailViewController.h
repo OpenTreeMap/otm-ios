@@ -59,6 +59,7 @@
 @property (nonatomic,strong) IBOutlet UILabel* updateUser;
 @property (nonatomic,strong) IBOutlet UIImageView* imageView;
 @property (nonatomic,strong) IBOutlet UIView* headerView;
+@property (nonatomic,strong) IBOutlet MKMapView *mapView;
 
 @property (nonatomic,strong) IBOutlet UITableViewCell *acell;
 

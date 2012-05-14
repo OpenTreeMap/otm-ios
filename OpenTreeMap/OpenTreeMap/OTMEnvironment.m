@@ -142,6 +142,15 @@
     id keys = [NSArray arrayWithObjects:
                [NSArray arrayWithObjects:                      
                 [NSDictionary dictionaryWithObjectsAndKeys:
+                 @"geometry", @"key",
+                 @"", @"label",
+                 @"OTMMapDetailCellRenderer", @"class",
+                 @"OTMEditMapDetailCellRenderer", @"editClass",
+                 [NSNumber numberWithBool:NO], @"readonly",
+                 nil],
+                nil],
+               [NSArray arrayWithObjects:
+                [NSDictionary dictionaryWithObjectsAndKeys:
                  @"id", @"key",
                  @"Tree Number", @"label", 
                  [NSNumber numberWithBool:YES], @"readonly",

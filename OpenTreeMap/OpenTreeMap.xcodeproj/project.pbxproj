@@ -26,6 +26,8 @@
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
 		649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F8D23155041DA007B196D /* AZWaitingOverlayController.m */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
+		64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */; };
+		64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D34563156169420073C62D /* OTMMapTableViewCell.m */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlayView.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
@@ -178,6 +180,10 @@
 		649F8D22155041DA007B196D /* AZWaitingOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWaitingOverlayController.h; sourceTree = "<group>"; };
 		649F8D23155041DA007B196D /* AZWaitingOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWaitingOverlayController.m; sourceTree = "<group>"; };
 		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
+		64D3455E156161DE0073C62D /* OTMMapDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapDetailCellRenderer.h; sourceTree = "<group>"; };
+		64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapDetailCellRenderer.m; sourceTree = "<group>"; };
+		64D34562156169420073C62D /* OTMMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OTMMapTableViewCell.h; sourceTree = "<group>"; };
+		64D34563156169420073C62D /* OTMMapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapTableViewCell.m; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
 		64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlayView.h; sourceTree = "<group>"; };
@@ -423,6 +429,8 @@
 				D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */,
 				D7829CA915472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.h */,
 				D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */,
+				64D3455E156161DE0073C62D /* OTMMapDetailCellRenderer.h */,
+				64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */,
 			);
 			name = "Edit Details";
 			sourceTree = "<group>";
@@ -516,6 +524,8 @@
 				D70F85DD155AB4E900D108D5 /* OTMTableView.m */,
 				D70F85E0155AB5A300D108D5 /* OTMDetailBoxView.h */,
 				D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */,
+				64D34562156169420073C62D /* OTMMapTableViewCell.h */,
+				64D34563156169420073C62D /* OTMMapTableViewCell.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -870,6 +880,8 @@
 				644C1922155431740055CDE8 /* AZCachedObject.m in Sources */,
 				D70F85DE155AB4E900D108D5 /* OTMTableView.m in Sources */,
 				D70F85E2155AB5A300D108D5 /* OTMDetailBoxView.m in Sources */,
+				64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */,
+				64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
