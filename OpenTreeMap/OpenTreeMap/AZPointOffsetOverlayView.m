@@ -112,15 +112,16 @@
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets stamp:(UIImage*)stamp alpha:(CGFloat)alpha {
     CGSize imageSize = [stamp size];
-    UIGraphicsBeginImageContext(CGSizeMake(256, 256));
+    UIGraphicsBeginImageContext(CGSizeMake(256 + imageSize.width * 2, 256 + imageSize.height * 2));
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
     
-    CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);
+    CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
+    CGContextStrokeRect(context, CGRectMake(imageSize.height, imageSize.width, 256, 256));
     
-    CGRect baseRect = CGRectMake(-imageSize.width / 2.0f, 
-                                 -imageSize.height / 2.0f, 
+    CGRect baseRect = CGRectMake(-imageSize.width / 2.0f + imageSize.width, 
+                                 -imageSize.height / 2.0f + imageSize.height, 
                                  imageSize.width, imageSize.height);
     
     for(int i=0;i<CFArrayGetCount(offsets);i++) {
@@ -147,6 +148,11 @@
     CGRect drawRect = [self rectForMapRect:mapRect];
     
     UIGraphicsPushContext(context);
+    
+    UIImage *stamp = [self stampForZoom:zoomScale];
+    // Example draw rect by image size
+    drawRect = CGRectInset(drawRect, -(stamp.size.height*2.0)/zoomScale, -(stamp.size.height*2.0)/zoomScale);
+    drawRect = CGRectOffset(drawRect, -stamp.size.width/zoomScale, -stamp.size.height/zoomScale);
     
     UIImage* imageData = [memoryTileCache getImageForMapRect:mapRect zoomScale:zoomScale];
     [imageData drawInRect:drawRect blendMode:kCGBlendModeNormal alpha:1];
