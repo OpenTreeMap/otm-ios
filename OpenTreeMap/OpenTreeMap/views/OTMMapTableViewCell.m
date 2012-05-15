@@ -34,6 +34,10 @@
         self.mapView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         self.backgroundView = self.mapView;
 
+        // The mini map in the table cell is never interactive since a small scrolling map view
+        // will not work well nested inside a scrolling table view.
+        [self.mapView setUserInteractionEnabled:NO];
+
         UIImage *detailImage = [UIImage imageNamed:@"detail"];
         detailImageView = [[UIImageView alloc] initWithImage:detailImage];
 

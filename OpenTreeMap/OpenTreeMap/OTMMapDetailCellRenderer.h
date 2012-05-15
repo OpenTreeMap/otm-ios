@@ -24,7 +24,7 @@
 @interface OTMMapDetailCellRenderer : OTMDetailCellRenderer
 @end
 
-@interface OTMEditMapDetailCellRenderer : OTMEditDetailCellRenderer {
+@interface OTMEditMapDetailCellRenderer : OTMMapDetailCellRenderer {
     OTMMapDetailCellRenderer *renderer;
 }
 

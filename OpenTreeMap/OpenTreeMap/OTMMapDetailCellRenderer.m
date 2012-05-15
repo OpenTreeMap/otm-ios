@@ -39,8 +39,6 @@
                                                    reuseIdentifier:kOTMMapDetailCellRendererTableCellId];
     } 
     
-    [detailCell.mapView setUserInteractionEnabled:NO];
-    
     NSDictionary *geometryDict = [data objectForKey:@"geometry"];
     
     float lat = [[geometryDict objectForKey:@"lat"] floatValue];
@@ -77,28 +75,12 @@
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    OTMMapTableViewCell *detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMEditMapDetailCellRendererTableCellId];
     
-    if (detailCell == nil) {
-        detailCell = [[OTMMapTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                reuseIdentifier:kOTMEditMapDetailCellRendererTableCellId];
-    } 
+    OTMMapTableViewCell *detailCell = (OTMMapTableViewCell *)[super prepareCell:data inTable:tableView];
+    
+    // The edit cell is the same as the non-edit cell except for the presence of the
+    // detail "greater than" arrow.
     [detailCell setDetailArrowHidden:NO];
-    NSDictionary *geometryDict = [data objectForKey:@"geometry"];
-    
-    float lat = [[geometryDict objectForKey:@"lat"] floatValue];
-    
-    float lon;
-    if ([geometryDict objectForKey:@"lon"]) {
-        lon = [[geometryDict objectForKey:@"lon"] floatValue];
-    } else {
-        lon = [[geometryDict objectForKey:@"lng"] floatValue];
-    }
-    CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
-    
-    [detailCell annotateCenter:center];
-    
-    detailCell.accessoryType = UITableViewCellAccessoryNone;
     
     return detailCell;
 }   
