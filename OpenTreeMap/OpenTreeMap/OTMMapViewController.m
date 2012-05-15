@@ -146,8 +146,18 @@
             dest.data = [self createAddTreeDictionaryFromAnnotation:self.addTreeAnnotation placemark:self.addTreePlacemark];
         }
 
+        NSDictionary *geometryDict = [dest.data objectForKey:@"geometry"];
+        float lat = [[geometryDict objectForKey:@"lat"] floatValue];
+        float lon;
+        if ([geometryDict objectForKey:@"lon"]) {
+            lon = [[geometryDict objectForKey:@"lon"] floatValue];
+        } else {
+            lon = [[geometryDict objectForKey:@"lng"] floatValue];
+        }
+        dest.originalLocation = CLLocationCoordinate2DMake(lat, lon);
+
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
-        
+
         dest.keys = keys;
         dest.imageView.image = self.treeImage.image;
         if (self.mode != Select) {
@@ -751,9 +761,25 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate
 {
     [self setDetailViewData:details];
+
+    NSDictionary *geometryDict = [details objectForKey:@"geometry"];
+    CLLocationDegrees lat = [[geometryDict objectForKey:@"lat"] doubleValue];
+    CLLocationDegrees lon;
+    if ([geometryDict objectForKey:@"lon"]) {
+        lon = [[geometryDict objectForKey:@"lon"] doubleValue];
+    } else {
+        lon = [[geometryDict objectForKey:@"lng"] doubleValue];
+    }
+    CLLocationCoordinate2D newCoordinate = CLLocationCoordinate2DMake(lat, lon);
+    if (newCoordinate.latitude != coordinate.latitude || newCoordinate.longitude != coordinate.longitude) {
+        [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+        [pointOffsetOverlayView disruptCacheForCoordinate:newCoordinate];
+        [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+        [self selectTreeNearCoordinate:newCoordinate];
+    }
 }
 
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController

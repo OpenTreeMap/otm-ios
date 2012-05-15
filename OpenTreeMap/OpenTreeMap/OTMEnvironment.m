@@ -146,7 +146,7 @@
                  @"", @"label",
                  @"OTMMapDetailCellRenderer", @"class",
                  @"OTMEditMapDetailCellRenderer", @"editClass",
-                 [NSNumber numberWithBool:NO], @"readonly",
+                 [NSNumber numberWithBool:YES], @"readonly",
                  nil],
                 nil],
                [NSArray arrayWithObjects:

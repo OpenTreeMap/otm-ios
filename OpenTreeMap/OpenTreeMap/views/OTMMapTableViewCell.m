@@ -28,13 +28,32 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kOTMMapTableViewCellHeight)];
-        
+
         self.mapView.layer.cornerRadius = 10.0;
         self.mapView.layer.borderWidth = 1.0;
         self.mapView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         self.backgroundView = self.mapView;
+
+        UIImage *detailImage = [UIImage imageNamed:@"detail"];
+        detailImageView = [[UIImageView alloc] initWithImage:detailImage];
+
+        detailImageView.frame = CGRectMake(
+            self.mapView.frame.size.width - 40,
+            (self.mapView.frame.size.height / 2) - (detailImage.size.height / 2),
+            detailImage.size.width,
+            detailImage.size.height
+        );
+
+        [detailImageView setHidden:YES];
+
+        [self.backgroundView addSubview:detailImageView];
     }
     return self;
+}
+
+- (void)setDetailArrowHidden:(BOOL)hidden
+{
+    detailImageView.hidden = hidden;
 }
 
 - (void)setHighlighted: (BOOL)highlighted animated: (BOOL)animated

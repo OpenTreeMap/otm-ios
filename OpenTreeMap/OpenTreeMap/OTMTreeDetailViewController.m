@@ -27,6 +27,7 @@
 #import "OTMMapViewController.h"
 #import "OTMDetailCellRenderer.h"
 #import "AZWaitingOverlayController.h"
+#import "OTMChangeLocationViewController.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -34,7 +35,7 @@
 
 @implementation OTMTreeDetailViewController
 
-@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView, acell, delegate;
+@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView, acell, delegate, originalLocation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -132,7 +133,18 @@
     allFields = k;
     
     NSMutableArray *editableFields = [NSMutableArray array];
+
+    OTMMapDetailCellRenderer *mapDetailCellRenderer = [[OTMMapDetailCellRenderer alloc] init];
+
+    OTMEditMapDetailCellRenderer *mapEditCellRenderer = [[OTMEditMapDetailCellRenderer alloc] initWithDetailRenderer:mapDetailCellRenderer];
     
+    mapEditCellRenderer.clickCallback = ^(OTMDetailCellRenderer *renderer) {
+        [self performSegueWithIdentifier:@"changeLocation" sender:self];
+    };
+
+    NSArray *mapSection = [NSArray arrayWithObjects:mapEditCellRenderer,nil];
+    [editableFields addObject:mapSection];
+
     OTMStaticClickCellRenderer *speciesRow = 
     [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
                                       clickCallback:^(OTMDetailCellRenderer *renderer) 
@@ -219,10 +231,11 @@
         
         [self.tableView deleteRowsAtIndexPaths:txToEditRemove
                               withRowAnimation:UITableViewRowAnimationFade];
-        
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:0]
+
+        // There are 2 fixed sections to be added when editing: the mini map section and the species/photo section
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];
-        
+
         [UIView animateWithDuration:0.3
                          animations:^{
                              self.headerView.frame =
@@ -248,7 +261,8 @@
         
         [self.tableView beginUpdates];
         
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:0]
+        // There are 2 fixed sections to be removed after editing: the mini map section and the species/photo section
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];        
         
         [self.tableView insertRowsAtIndexPaths:txToEditRemove
@@ -302,7 +316,7 @@
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
-                        [delegate viewController:self editedTree:(NSDictionary *)data];
+                        [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
                         [[[UIAlertView alloc] initWithTitle:nil
@@ -330,20 +344,43 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    OTMSpeciesTableViewController *sVC = (OTMSpeciesTableViewController *)segue.destinationViewController;
-    
-    sVC.callback = ^(NSNumber *sId, NSString *name) {
-        [self.data setObject:sId forEncodedKey:@"tree.species"];
-        [self.data setObject:name forEncodedKey:@"tree.species_name"];
-        [self syncTopData];
+    if (segue.identifier == @"changeSpecies") {
+        OTMSpeciesTableViewController *sVC = (OTMSpeciesTableViewController *)segue.destinationViewController;
         
-        [self.tableView reloadRowsAtIndexPaths:[NSArray
+        sVC.callback = ^(NSNumber *sId, NSString *name) {
+            [self.data setObject:sId forEncodedKey:@"tree.species"];
+            [self.data setObject:name forEncodedKey:@"tree.species_name"];
+            [self syncTopData];
+
+            [self.tableView reloadRowsAtIndexPaths:[NSArray
                                                     arrayWithObject:
-                                                [NSIndexPath 
-                                                 indexPathForRow:0
-                                                      inSection:0]]
-                              withRowAnimation:UITableViewRowAnimationNone];
-    };
+                                                    [NSIndexPath
+                                                     indexPathForRow:0
+                                                     inSection:0]]
+                                  withRowAnimation:UITableViewRowAnimationNone];
+        };
+    } else if ([segue.identifier isEqualToString:@"changeLocation"]) {
+        OTMChangeLocationViewController *changeLocationViewController = segue.destinationViewController;
+        // Trigger the view to load so all subviews are unarchived
+        [changeLocationViewController view];
+
+        changeLocationViewController.delegate = self;
+
+        changeLocationViewController.navigationItem.title = @"Move Tree";
+
+        NSDictionary *geometryDict = [data objectForKey:@"geometry"];
+
+        float lat = [[geometryDict objectForKey:@"lat"] floatValue];
+        float lon;
+        if ([geometryDict objectForKey:@"lon"]) {
+            lon = [[geometryDict objectForKey:@"lon"] floatValue];
+        } else {
+            lon = [[geometryDict objectForKey:@"lng"] floatValue];
+        }
+        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
+
+        [changeLocationViewController annotateCenter:center];
+    }
 }
 
 #pragma mark -

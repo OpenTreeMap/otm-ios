@@ -26,6 +26,8 @@
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
 		649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F8D23155041DA007B196D /* AZWaitingOverlayController.m */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
+		64C76EAC1561905E0037805F /* detail.png in Resources */ = {isa = PBXBuildFile; fileRef = 64C76EAB1561905E0037805F /* detail.png */; };
+		64C76EB01561ACB10037805F /* OTMChangeLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */; };
 		64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */; };
 		64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D34563156169420073C62D /* OTMMapTableViewCell.m */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
@@ -180,9 +182,12 @@
 		649F8D22155041DA007B196D /* AZWaitingOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWaitingOverlayController.h; sourceTree = "<group>"; };
 		649F8D23155041DA007B196D /* AZWaitingOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWaitingOverlayController.m; sourceTree = "<group>"; };
 		64A7D95214F5420A004D7FC8 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
+		64C76EAB1561905E0037805F /* detail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail.png; sourceTree = "<group>"; };
+		64C76EAE1561ACB10037805F /* OTMChangeLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMChangeLocationViewController.h; sourceTree = "<group>"; };
+		64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMChangeLocationViewController.m; sourceTree = "<group>"; };
 		64D3455E156161DE0073C62D /* OTMMapDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapDetailCellRenderer.h; sourceTree = "<group>"; };
 		64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapDetailCellRenderer.m; sourceTree = "<group>"; };
-		64D34562156169420073C62D /* OTMMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OTMMapTableViewCell.h; sourceTree = "<group>"; };
+		64D34562156169420073C62D /* OTMMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapTableViewCell.h; sourceTree = "<group>"; };
 		64D34563156169420073C62D /* OTMMapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapTableViewCell.m; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
@@ -431,6 +436,8 @@
 				D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */,
 				64D3455E156161DE0073C62D /* OTMMapDetailCellRenderer.h */,
 				64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */,
+				64C76EAE1561ACB10037805F /* OTMChangeLocationViewController.h */,
+				64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */,
 			);
 			name = "Edit Details";
 			sourceTree = "<group>";
@@ -533,6 +540,7 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				64C76EAB1561905E0037805F /* detail.png */,
 				D70F85EF155ABB6500D108D5 /* iphone_app-icon.png */,
 				D70F85F1155ABB7800D108D5 /* iphone_app-icon@x2.png */,
 				D70F85E9155ABB4400D108D5 /* recent_trees.png */,
@@ -793,6 +801,7 @@
 				D70F85EE155ABB4400D108D5 /* recent_trees@x2.png in Resources */,
 				D70F85F0155ABB6500D108D5 /* iphone_app-icon.png in Resources */,
 				D70F85F2155ABB7800D108D5 /* iphone_app-icon@x2.png in Resources */,
+				64C76EAC1561905E0037805F /* detail.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -882,6 +891,7 @@
 				D70F85E2155AB5A300D108D5 /* OTMDetailBoxView.m in Sources */,
 				64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */,
 				64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */,
+				64C76EB01561ACB10037805F /* OTMChangeLocationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

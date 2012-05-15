@@ -24,13 +24,14 @@
 #import "OTMScrollAwareViewController.h"
 #import "OTMDetailTableViewCell.h"
 #import "OTMPictureTaker.h"
+#import "OTMMapDetailCellRenderer.h"
 
 @class OTMTreeDetailViewController; // declared early so the delegate can use the type in its declaration
 
 @protocol OTMTreeDetailViewDelegate <NSObject>
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
-- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details;
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate;
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
 @end
 
@@ -60,6 +61,7 @@
 @property (nonatomic,strong) IBOutlet UIImageView* imageView;
 @property (nonatomic,strong) IBOutlet UIView* headerView;
 @property (nonatomic,strong) IBOutlet MKMapView *mapView;
+@property (nonatomic) CLLocationCoordinate2D originalLocation;
 
 @property (nonatomic,strong) IBOutlet UITableViewCell *acell;
 

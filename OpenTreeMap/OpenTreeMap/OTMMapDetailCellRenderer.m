@@ -25,7 +25,6 @@
     self = [super initWithDict:dict];
     
     if (self) {
-        self.editCellRenderer = [[OTMEditMapDetailCellRenderer alloc] initWithDetailRenderer:self];
         self.cellHeight = kOTMMapTableViewCellHeight;
     }
     
@@ -65,7 +64,10 @@
 
 @implementation OTMEditMapDetailCellRenderer
 
--(id)initWithDetailRenderer:(OTMMapDetailCellRenderer *)mapDetailCellRenderer {
+@synthesize clickCallback;
+
+-(id)initWithDetailRenderer:(OTMMapDetailCellRenderer *)mapDetailCellRenderer
+{
     self = [super init];
     if (self) {
         renderer = mapDetailCellRenderer;
@@ -81,7 +83,7 @@
         detailCell = [[OTMMapTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                 reuseIdentifier:kOTMEditMapDetailCellRendererTableCellId];
     } 
-    
+    [detailCell setDetailArrowHidden:NO];
     NSDictionary *geometryDict = [data objectForKey:@"geometry"];
     
     float lat = [[geometryDict objectForKey:@"lat"] floatValue];

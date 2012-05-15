@@ -339,6 +339,7 @@
                         <outlet property="updateUser" destination="2GN-8f-yyH" id="MBB-Pd-TIG"/>
                         <outlet property="view" destination="kdd-4U-sUB" id="yl3-yg-jqn"/>
                         <segue destination="v8c-v7-6H5" kind="push" identifier="changeSpecies" id="Lek-fL-nUD"/>
+                        <segue destination="XIE-5U-YPU" kind="push" identifier="changeLocation" id="DyZ-zz-mYa"/>
                     </connections>
                 </viewController>
             </objects>
@@ -376,7 +377,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2168" y="-158"/>
+            <point key="canvasLocation" x="2256" y="-488"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -463,6 +464,33 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1770" y="455"/>
+        </scene>
+        <!--Change Location View Controller-->
+        <scene sceneID="cLA-X3-gPH">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Etn-hM-jbV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="XIE-5U-YPU" customClass="OTMChangeLocationViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YoZ-YO-Il8">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="K3J-BM-y6q">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="XIE-5U-YPU" id="ELd-NP-fUD"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KJT-79-0UQ"/>
+                    <connections>
+                        <outlet property="mapView" destination="K3J-BM-y6q" id="cNA-H7-dYA"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2248" y="133"/>
         </scene>
         <!--Profile View Controller - Profile-->
         <scene sceneID="5wF-2u-wWk">
@@ -586,102 +614,6 @@
         <image name="recent_trees.png" width="30" height="30"/>
         <image name="tree_map.png" width="30" height="30"/>
     </resources>
-    <classes>
-        <class className="OTMDetailBoxView" superclassName="OTMDetailSliderview">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailBoxView.h"/>
-        </class>
-        <class className="OTMDetailSliderview" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
-        </class>
-        <class className="OTMMapViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="startFindingLocation:"/>
-                <relationship kind="action" name="stopFindingLocation:"/>
-                <relationship kind="outlet" name="addTreeHelpLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="addTreeHelpView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="findLocationButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="locationActivityView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-                <relationship kind="outlet" name="searchNavigationBar" candidateClass="UINavigationBar"/>
-                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="treeImage" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="OTMNavigationBar" superclassName="UINavigationBar">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNavigationBar.h"/>
-        </class>
-        <class className="OTMNearbyTreesViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNearbyTreesViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="OTMPasswordChangeViewController" superclassName="OTMScrollAwareViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordChangeViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="aNewPassword" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="aNewPasswordVerify" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="oldPassword" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="OTMPictureTaker" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPictureTaker.h"/>
-        </class>
-        <class className="OTMProfileViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="loadingView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="pwReqView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="OTMScrollAwareViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMScrollAwareViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="completedForm:"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="OTMSearchBar" superclassName="UISearchBar">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMSearchBar.h"/>
-        </class>
-        <class className="OTMSegmentedControl" superclassName="UISegmentedControl">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMSegmentedControl.h"/>
-        </class>
-        <class className="OTMSpeciesTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMSpeciesTableViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="OTMTableView" superclassName="UITableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTableView.h"/>
-        </class>
-        <class className="OTMTreeDetailViewController" superclassName="OTMScrollAwareViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTreeDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancelEditing:"/>
-                <relationship kind="action" name="startOrCommitEditing:"/>
-                <relationship kind="outlet" name="acell" candidateClass="UITableViewCell"/>
-                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="lastUpdateDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="pictureTaker" candidateClass="OTMPictureTaker"/>
-                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="updateUser" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="OTMView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMView.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

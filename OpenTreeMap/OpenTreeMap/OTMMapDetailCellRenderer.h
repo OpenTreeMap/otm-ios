@@ -28,6 +28,8 @@
     OTMMapDetailCellRenderer *renderer;
 }
 
+@property (nonatomic,strong) Function1v clickCallback;
+
 -(id)initWithDetailRenderer:(OTMMapDetailCellRenderer *)mapDetailCellRenderer;
 
 @end
