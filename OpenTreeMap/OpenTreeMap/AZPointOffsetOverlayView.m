@@ -205,9 +205,7 @@ typedef enum {
     UIGraphicsPushContext(context);
     
     UIImage *stamp = [self stampForZoom:zoomScale];
-    // Example draw rect by image size
     CGRect centerRect = CGRectInset(drawRect, -(stamp.size.height)/zoomScale, -(stamp.size.height)/zoomScale);
-//    centerRect = CGRectOffset(centerRect, -stamp.size.width/zoomScale, -stamp.size.height/zoomScale);
     
     UIImage* imageData = [memoryTileCache getImageForMapRect:mapRect zoomScale:zoomScale];
     [imageData drawInRect:centerRect blendMode:kCGBlendModeNormal alpha:1];
@@ -269,11 +267,9 @@ typedef enum {
     
     UIImage *neigh = [memoryTileCache getImageForMapRect:neighMapRect zoomScale:zoomScale];
     
-    // North
     if (neigh) {
         CGRect newRect = CGRectOffset(centerRect, offsetX, offsetY);
         [neigh drawInRect:newRect blendMode:kCGBlendModeNormal alpha:1];   
-//        [self setNeedsDisplayInMapRect:MKMapRectIntersection(neighMapRect, mapRect) zoomScale:zoomScale];
     }        
 }
 
