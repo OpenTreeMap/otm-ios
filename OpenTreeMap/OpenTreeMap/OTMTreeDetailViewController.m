@@ -28,6 +28,7 @@
 #import "OTMDetailCellRenderer.h"
 #import "AZWaitingOverlayController.h"
 #import "OTMChangeLocationViewController.h"
+#import "OTMTreeDictionaryHelper.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -368,16 +369,7 @@
 
         changeLocationViewController.navigationItem.title = @"Move Tree";
 
-        NSDictionary *geometryDict = [data objectForKey:@"geometry"];
-
-        float lat = [[geometryDict objectForKey:@"lat"] floatValue];
-        float lon;
-        if ([geometryDict objectForKey:@"lon"]) {
-            lon = [[geometryDict objectForKey:@"lon"] floatValue];
-        } else {
-            lon = [[geometryDict objectForKey:@"lng"] floatValue];
-        }
-        CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
+        CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data];
 
         [changeLocationViewController annotateCenter:center];
     }

@@ -29,6 +29,7 @@
 #import "OTMAppDelegate.h"
 #import "OTMDetailCellRenderer.h"
 #import "OTMAddTreeAnnotationView.h"
+#import "OTMTreeDictionaryHelper.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -146,15 +147,7 @@
             dest.data = [self createAddTreeDictionaryFromAnnotation:self.addTreeAnnotation placemark:self.addTreePlacemark];
         }
 
-        NSDictionary *geometryDict = [dest.data objectForKey:@"geometry"];
-        float lat = [[geometryDict objectForKey:@"lat"] floatValue];
-        float lon;
-        if ([geometryDict objectForKey:@"lon"]) {
-            lon = [[geometryDict objectForKey:@"lon"] floatValue];
-        } else {
-            lon = [[geometryDict objectForKey:@"lng"] floatValue];
-        }
-        dest.originalLocation = CLLocationCoordinate2DMake(lat, lon);
+        dest.originalLocation = [OTMTreeDictionaryHelper getCoordinateFromDictionary:dest.data];
 
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
 
@@ -434,8 +427,6 @@
 
              self.selectedPlot = [plot mutableDeepCopy];
 
-             NSDictionary* geom = [plot objectForKey:@"geometry"];
-
              NSDictionary* tree = [plot objectForKey:@"tree"];
 
              self.treeImage.image = nil;
@@ -459,9 +450,7 @@
              [self setDetailViewData:plot];
              [self slideDetailUpAnimated:YES];
 
-             double lat = [[geom objectForKey:@"lat"] doubleValue];
-             double lon = [[geom objectForKey:@"lng"] doubleValue];
-             CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
+             CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:plot];
 
              [self zoomMapIfNeededAndCenterMapOnCoordinate:center];
 
@@ -749,10 +738,7 @@
 {
     // TODO: Redraw the tile with the new tree
     [self changeMode:Select];
-    NSDictionary *geometryDict = [details objectForKey:@"geometry"];
-    CLLocationDegrees lat = [[geometryDict objectForKey:@"lat"] doubleValue];
-    CLLocationDegrees lon = [[geometryDict objectForKey:@"lon"] doubleValue];
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
+    CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
 
     [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
     [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
@@ -765,15 +751,7 @@
 {
     [self setDetailViewData:details];
 
-    NSDictionary *geometryDict = [details objectForKey:@"geometry"];
-    CLLocationDegrees lat = [[geometryDict objectForKey:@"lat"] doubleValue];
-    CLLocationDegrees lon;
-    if ([geometryDict objectForKey:@"lon"]) {
-        lon = [[geometryDict objectForKey:@"lon"] doubleValue];
-    } else {
-        lon = [[geometryDict objectForKey:@"lng"] doubleValue];
-    }
-    CLLocationCoordinate2D newCoordinate = CLLocationCoordinate2DMake(lat, lon);
+    CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
     if (newCoordinate.latitude != coordinate.latitude || newCoordinate.longitude != coordinate.longitude) {
         [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
         [pointOffsetOverlayView disruptCacheForCoordinate:newCoordinate];

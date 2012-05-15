@@ -7,6 +7,7 @@
 //
 
 #import "OTMChangeLocationViewController.h"
+#import "OTMTreeDictionaryHelper.h"
 
 @implementation OTMChangeLocationViewController
 
@@ -72,16 +73,9 @@
 
 - (void)movedAnnotation:(MKPointAnnotation *)annotation
 {
-    NSMutableDictionary *geometryDict = [delegate.data objectForKey:@"geometry"];
-    
-    [geometryDict setValue:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"lat"];
-    
-    if ([geometryDict objectForKey:@"lon"]) {
-        [geometryDict setValue:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"lon"];
-    } else {
-        [geometryDict setValue:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"lng"];
-    }
-    NSLog(@"Moved tree to %@", geometryDict);
+    NSMutableDictionary *data = [delegate.data mutableDeepCopy];
+    [OTMTreeDictionaryHelper setCoordinate:annotation.coordinate inDictionary:data];
+    delegate.data = data;
     [delegate.tableView reloadData];
 }
 
