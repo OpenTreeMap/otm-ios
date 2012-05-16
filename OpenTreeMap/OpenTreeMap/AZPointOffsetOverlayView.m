@@ -20,6 +20,17 @@
 #import "AZPointOffsetOverlayView.h"
 #import "AZPointOffsetOverlay.h"
 
+typedef enum {
+    North = 1,
+    NorthEast,
+    East,
+    SouthEast,
+    South,
+    SouthWest,
+    West,
+    NorthWest
+} OTMDirection;
+
 @implementation AZPointOffsetOverlayView
 
 @synthesize tileAlpha, pointStamp, memoryTileCache;
@@ -53,7 +64,13 @@
              [memoryTileCache cacheImage:image forMapRect:mapRect zoomScale:zoomScale];
              dispatch_async(dispatch_get_main_queue(), 
                             ^{
-                                [blockSelf setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];         
+                                UIImage *stamp = [blockSelf stampForZoom:zoomScale];
+                                MKMapRect adjustedRect = 
+                                    MKMapRectInset(mapRect,
+                                                   -(stamp.size.width*2.0)/zoomScale, 
+                                                   -(stamp.size.height*2.0)/zoomScale);
+
+                                [blockSelf setNeedsDisplayInMapRect:adjustedRect zoomScale:zoomScale];         
                             });
          } else {
              NSLog(@"Error loading tile images: %@", error);
@@ -113,15 +130,21 @@
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets stamp:(UIImage*)stamp alpha:(CGFloat)alpha {
     CGSize imageSize = [stamp size];
-    UIGraphicsBeginImageContext(CGSizeMake(256, 256));
+    CGSize frameSize = CGSizeMake(256 + imageSize.width * 2, 256 + imageSize.height * 2);
+    UIGraphicsBeginImageContext(frameSize);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
+
+//    Uncomment to debug issues with tile boundaries
+//    CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
+//    CGContextStrokeRect(context, CGRectMake(imageSize.height, imageSize.width, 256, 256));
+//    
+//    CGContextSetStrokeColorWithColor(context, [[UIColor redColor] CGColor]);
+//    CGContextStrokeRect(context, CGRectMake(0, 0, frameSize.width, frameSize.height));
     
-    CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);
-    
-    CGRect baseRect = CGRectMake(-imageSize.width / 2.0f, 
-                                 -imageSize.height / 2.0f, 
+    CGRect baseRect = CGRectMake(-imageSize.width / 2.0f + imageSize.width, 
+                                 -imageSize.height / 2.0f + imageSize.height, 
                                  imageSize.width, imageSize.height);
     
     for(int i=0;i<CFArrayGetCount(offsets);i++) {
@@ -140,6 +163,39 @@
     return image;
 }
 
+-(MKMapRect)mapRectForNeighbor:(MKMapRect)rect direction:(OTMDirection)dir {
+    switch (dir) {
+        case North:
+            rect = MKMapRectOffset(rect, 0, -rect.size.height);
+            break;
+        case NorthEast:
+            rect = MKMapRectOffset(rect, rect.size.width, -rect.size.height);
+            break;
+        case East:
+            rect = MKMapRectOffset(rect, rect.size.width, 0);
+            break;
+        case SouthEast:
+            rect = MKMapRectOffset(rect, rect.size.width, rect.size.height);
+            break;
+        case South:
+            rect = MKMapRectOffset(rect, 0, rect.size.height);
+            break;
+        case SouthWest:
+            rect = MKMapRectOffset(rect, -rect.size.width, rect.size.height);
+            break;
+        case West:
+            rect = MKMapRectOffset(rect, -rect.size.width, 0);
+            break;
+        case NorthWest:
+            rect = MKMapRectOffset(rect, -rect.size.width, -rect.size.height);
+            break;
+        default:
+            break;
+    }
+    
+    return rect;
+}
+
 /**
  Draws the contents of the overlay view.
  */
@@ -149,10 +205,73 @@
     
     UIGraphicsPushContext(context);
     
+    UIImage *stamp = [self stampForZoom:zoomScale];
+    CGRect centerRect = CGRectInset(drawRect, -(stamp.size.height)/zoomScale, -(stamp.size.height)/zoomScale);
+    
     UIImage* imageData = [memoryTileCache getImageForMapRect:mapRect zoomScale:zoomScale];
-    [imageData drawInRect:drawRect blendMode:kCGBlendModeNormal alpha:1];
+    [imageData drawInRect:centerRect blendMode:kCGBlendModeNormal alpha:1];
+    
+    for(OTMDirection dir=North;dir<=NorthWest;dir++) {
+        [self drawNeighbor:dir mapRect:mapRect zoomScale:zoomScale centerRect:centerRect stampSize:stamp.size];
+    }
     
     UIGraphicsPopContext();
+}
+
+-(void)drawNeighbor:(OTMDirection)dir mapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale centerRect:(CGRect)centerRect stampSize:(CGSize)stampSize {
+
+    MKMapRect neighMapRect = [self mapRectForNeighbor:mapRect direction:dir];
+    
+    CGFloat offsetX = 0;
+    CGFloat offsetY = 0;
+    
+    CGFloat stampHeightOffset = (stampSize.height*2.0)/zoomScale;
+    CGFloat stampWidthOffset = (stampSize.width*2.0)/zoomScale;
+    
+    switch (dir) {
+        case North:
+            offsetX = 0;
+            offsetY = -centerRect.size.height + stampHeightOffset;
+            break;
+        case NorthEast:
+            offsetX = centerRect.size.width - stampWidthOffset;
+            offsetY = -centerRect.size.height + stampHeightOffset;
+            break;
+        case East:
+            offsetX = centerRect.size.width - stampWidthOffset;
+            offsetY = 0;
+            break;
+        case SouthEast:   
+            offsetX = centerRect.size.width - stampWidthOffset;
+            offsetY = centerRect.size.height - stampHeightOffset;
+            break;
+        case South:   
+            offsetX = 0;
+            offsetY = centerRect.size.height - stampHeightOffset;
+            break;
+        case SouthWest:   
+            offsetX = -centerRect.size.width + stampWidthOffset;
+            offsetY = centerRect.size.height - stampHeightOffset;
+            break;
+        case West:
+            offsetX = -centerRect.size.width + stampWidthOffset;
+            offsetY = 0;
+            break;      
+        case NorthWest:
+            offsetX = -centerRect.size.width + stampWidthOffset;
+            offsetY = -centerRect.size.height + stampHeightOffset;
+            break;            
+            
+        default:
+            break;
+    }
+    
+    UIImage *neigh = [memoryTileCache getImageForMapRect:neighMapRect zoomScale:zoomScale];
+    
+    if (neigh) {
+        CGRect newRect = CGRectOffset(centerRect, offsetX, offsetY);
+        [neigh drawInRect:newRect blendMode:kCGBlendModeNormal alpha:1];   
+    }        
 }
 
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
