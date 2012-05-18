@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) OTMTreeDetailViewController *delegate;
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *mapModeSegmentedControl;
 
 - (void)annotateCenter:(CLLocationCoordinate2D)center;
 

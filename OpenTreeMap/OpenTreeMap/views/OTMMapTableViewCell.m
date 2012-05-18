@@ -51,6 +51,8 @@
         [detailImageView setHidden:YES];
 
         [self.backgroundView addSubview:detailImageView];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMapMode:) name:kOTMChangeMapModeNotification object:nil];
     }
     return self;
 }
@@ -71,8 +73,34 @@
     //[super setSelected:selected animated:animated];
 }
 
+-(void)changeMapMode:(NSNotification *)note {
+    switch ([note.object intValue]) {
+        case 0:
+            self.mapView.mapType = MKMapTypeStandard;
+            break;
+        case 1:
+            self.mapView.mapType = MKMapTypeSatellite;
+            break;
+        default:
+            self.mapView.mapType = MKMapTypeHybrid;
+            break;
+    }
+}
+
 - (void)annotateCenter:(CLLocationCoordinate2D)center
 {
+    switch ([(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode]) {
+        case 0:
+            self.mapView.mapType = MKMapTypeStandard;
+            break;
+        case 1:
+            self.mapView.mapType = MKMapTypeSatellite;
+            break;
+        default:
+            self.mapView.mapType = MKMapTypeHybrid;
+            break;
+    }
+
     if (!annotation) {
         annotation = [[MKPointAnnotation alloc] init];
     }

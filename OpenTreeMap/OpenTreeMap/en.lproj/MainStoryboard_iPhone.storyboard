@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
     <dependencies>
+        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
@@ -248,6 +249,7 @@
                         <outlet property="dbh" destination="Kf6-Fe-hNX" id="BtX-Yy-F6q"/>
                         <outlet property="detailView" destination="cSI-Ty-HIV" id="psF-sh-2Xv"/>
                         <outlet property="findLocationButton" destination="aEH-bQ-xwn" id="bpO-qt-PfZ"/>
+                        <outlet property="mapModeSegmentedControl" destination="w2g-B4-7BF" id="DFC-xS-z7c"/>
                         <outlet property="mapView" destination="HdG-pl-Slh" id="jdm-Cq-jrb"/>
                         <outlet property="searchBar" destination="tpv-GO-iyB" id="IWn-if-GRP"/>
                         <outlet property="searchNavigationBar" destination="Yxa-pc-A0G" id="gam-ig-llq"/>
@@ -484,11 +486,24 @@
                                     <outlet property="delegate" destination="XIE-5U-YPU" id="ELd-NP-fUD"/>
                                 </connections>
                             </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8qt-i8-0kO" customClass="OTMSegmentedControl">
+                                <rect key="frame" x="125" y="11" width="185" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Map"/>
+                                    <segment title="Satellite"/>
+                                    <segment title="Hybrid"/>
+                                </segments>
+                                <connections>
+                                    <action selector="setMapMode:" destination="XIE-5U-YPU" eventType="valueChanged" id="LG8-7K-A0q"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="KJT-79-0UQ"/>
                     <connections>
+                        <outlet property="mapModeSegmentedControl" destination="8qt-i8-0kO" id="iGW-vN-gs1"/>
                         <outlet property="mapView" destination="K3J-BM-y6q" id="cNA-H7-dYA"/>
                     </connections>
                 </viewController>
@@ -622,6 +637,7 @@
         <class className="OTMChangeLocationViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMChangeLocationViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="mapModeSegmentedControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
         </class>
@@ -643,6 +659,7 @@
                 <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="findLocationButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="locationActivityView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapModeSegmentedControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
                 <relationship kind="outlet" name="searchNavigationBar" candidateClass="UINavigationBar"/>
@@ -710,7 +727,6 @@
                 <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="lastUpdateDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
                 <relationship kind="outlet" name="pictureTaker" candidateClass="OTMPictureTaker"/>
                 <relationship kind="outlet" name="species" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>

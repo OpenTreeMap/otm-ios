@@ -15,7 +15,7 @@
 
 @implementation OTMAppDelegate
 
-@synthesize window = _window, keychain, loginManager, mapRegion;
+@synthesize window = _window, keychain, loginManager, mapRegion, mapMode;
 
 #pragma mark UIApplicationDelegate methods
 
@@ -26,6 +26,8 @@
     
     loginManager = [[OTMLoginManager alloc] init];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMapMode:) name:kOTMChangeMapModeNotification object:nil];
+
     return YES;
 }
 							
@@ -57,5 +59,10 @@
 }
 
 
+#pragma mark NSNotification handlers
+
+-(void)changeMapMode:(NSNotification *)note {
+    self.mapMode = [note.object intValue];
+}
 
 @end

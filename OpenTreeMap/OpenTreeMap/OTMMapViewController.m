@@ -44,7 +44,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl;
 
 - (void)viewDidLoad
 {
@@ -64,6 +64,12 @@
                                                  name:kOTMMapViewControllerImageUpdate
                                                object:nil];    
     
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeMapMode:)
+                                                 name:kOTMChangeMapModeNotification
+                                               object:nil];
+
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
@@ -78,6 +84,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:kOTMMapViewControllerImageUpdate
                                                   object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:kOTMChangeMapModeNotification
+                                               object:nil];
 }
 
 -(void)updatedImage:(NSNotification *)note {
@@ -170,7 +180,13 @@
 }
 
 - (IBAction)setMapMode:(UISegmentedControl *)sender {
-    switch (sender.selectedSegmentIndex) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMChangeMapModeNotification object:[NSNumber numberWithInt:sender.selectedSegmentIndex]];
+}
+
+-(void)changeMapMode:(NSNotification *)note {
+    mapModeSegmentedControl.selectedSegmentIndex = [note.object intValue];
+
+    switch ([note.object intValue]) {
         case 0:
             self.mapView.mapType = MKMapTypeStandard;
             break;

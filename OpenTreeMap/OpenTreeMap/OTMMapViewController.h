@@ -59,6 +59,7 @@ typedef enum {
 @property (nonatomic,strong) IBOutlet UILabel* addTreeHelpLabel;
 @property (nonatomic,strong) IBOutlet UINavigationBar* searchNavigationBar;
 @property (nonatomic,strong) IBOutlet UIView* locationActivityView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *mapModeSegmentedControl;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
