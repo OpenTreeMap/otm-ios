@@ -42,5 +42,9 @@
     [keychain setObject:pass forKey:(__bridge id)kSecValueData];
 }
 
+-(void)logout {
+    [self setUsername:nil];
+    [self setPassword:nil];
+}
 
 @end

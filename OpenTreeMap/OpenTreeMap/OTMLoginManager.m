@@ -39,7 +39,7 @@
         OTMUser *user = [[OTMUser alloc] init];
         user.keychain = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] keychain];
         
-        if ([user.username length] > 0 && [user.password length] > 0) {
+        if (user.username && user.password && [user.username length] > 0 && [user.password length] > 0) {
             self.runningLogin = YES;
             [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser *u, OTMAPILoginResponse loginResp)
              {
@@ -51,9 +51,19 @@
                  }
              }];
         }
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(logout:)
+                                                     name:kOTMLoginWorkflowLogout
+                                                   object:nil];
     }
     
     return self;
+}
+
+-(void)logout:(NSNotification *)note {
+    [self.loggedInUser logout];
+    self.loggedInUser = nil;
 }
 
 // callback if autologin fails
@@ -158,6 +168,10 @@
 -(void)loginController:(OTMLoginViewController*)vc registeredUser:(OTMUser*)user {
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowUserRegistered
                                                         object:user];    
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -31,4 +31,6 @@
 @property (nonatomic,strong) NSString *password;
 @property (nonatomic,assign) BOOL loggedIn;
 
+-(void)logout;
+
 @end

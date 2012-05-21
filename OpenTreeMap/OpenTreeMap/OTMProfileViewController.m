@@ -45,7 +45,11 @@
                                           reuseIdentifier:kOTMProfileViewControllerSectionChangePasswordCellIdentifier];
         }
         
-        cell.textLabel.text = @"Change Password";
+        if ([indexPath row] == 0) {
+            cell.textLabel.text = @"Change Password";
+        } else {
+            cell.textLabel.text = @"Logout";
+        }
         
         return cell;
     } else if ([indexPath section] == kOTMProfileViewControllerSectionChangeProfilePicture) {
@@ -130,7 +134,15 @@
         
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)path {
     if ([path section] == kOTMProfileViewControllerSectionChangePassword) {
-        [self performSegueWithIdentifier:@"ChangePassword" sender:self];
+        if ([path row] == 0) {
+            [self performSegueWithIdentifier:@"ChangePassword" sender:self];
+        } else {
+            [self setDidShowLogin:NO];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowLogout
+                                                                object:self
+                                                              userInfo:nil];
+            [self viewWillAppear:YES];
+        }
     } else if ([path section] == kOTMProfileViewControllerSectionChangeProfilePicture) {
         [pictureTaker getPictureInViewController:self
                                         callback:^(UIImage *image) 
@@ -159,6 +171,7 @@
         case kOTMProfileViewControllerSectionInfo:
             return 4;
         case kOTMProfileViewControllerSectionChangePassword:
+            return 2;
         case kOTMProfileViewControllerSectionChangeProfilePicture:
             return 1;
         case kOTMProfileViewControllerSectionRecentEdits:
