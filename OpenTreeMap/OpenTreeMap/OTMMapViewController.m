@@ -409,6 +409,7 @@
 - (void)showFilters
 {
     // TODO: hide the wizard label
+    pointOffsetOverlayView.filtered = !pointOffsetOverlayView.filtered;
 }
 
 - (void)startAddingTree

@@ -24,6 +24,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import "AZHttpRequest.h"
+#import "AZPointCollection.h"
 #import "OTMUser.h"
 
 typedef enum {
@@ -40,7 +41,7 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
 
 typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
 
-typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
+typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
 
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
@@ -93,11 +94,14 @@ typedef void(^AZPointDataCallback)(CFArrayRef, NSError* error);
  * Get point offsets for a given tile
  * To keep this method performant it uses a custom callback
  *
- * @param region WSG84 Region
+ * @param region WSG84 Region, mapRect and zoomScale
  * @param callback the callback we get when we are done
  * @param error error pointer
  */
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback;
+-(void)getPointOffsetsInTile:(MKCoordinateRegion)region 
+                     mapRect:(MKMapRect)mapRect
+                   zoomScale:(MKZoomScale)zoomScale 
+                    callback:(AZPointDataCallback)callback;
 
 /**
  * Attempt to log the given user in. If successful user.loggedIn will return

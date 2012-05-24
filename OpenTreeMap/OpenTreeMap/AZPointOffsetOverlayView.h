@@ -17,7 +17,7 @@
  */
 
 #import <MapKit/MapKit.h>
-#import "AZMemoryTileCache.h"
+#import "AZGeoCache.h"
 /**
  A view for rendering AZPointOffsetOverlay instances on a MapKit map.
  */
@@ -25,7 +25,11 @@
 
 }
 
-@property (nonatomic,strong) AZMemoryTileCache *memoryTileCache;
+@property (nonatomic,assign) BOOL filtered;
+
+@property (nonatomic,strong) AZGeoCache *memoryTileCache;
+@property (nonatomic,strong) AZGeoCache *memoryFilterTileCache;
+@property (nonatomic,strong) AZGeoCache *memoryPointCache;
 @property (nonatomic,strong) UIImage* pointStamp;
 @property (nonatomic,assign) CGFloat tileAlpha;
 

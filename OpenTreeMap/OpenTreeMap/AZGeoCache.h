@@ -18,17 +18,17 @@
 
 #import "AZMemoryObjectCache.h"
 
-@interface AZMemoryTileCache : AZMemoryObjectCache
+@interface AZGeoCache : AZMemoryObjectCache
 
 /**
  Save a tile image in the cache representing the specified mapRect and zoomScale.
  */
-- (void)cacheImage:(UIImage *)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+- (void)cacheObject:(id)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 
 /**
  Retrieve a tile image from the cache for the specified mapRect and zoomScale.
  */
-- (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+- (id)getObjectForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 
 /**
  Remove any tile image from the cache if the mapRect associated with the tile

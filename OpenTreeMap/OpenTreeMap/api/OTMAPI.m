@@ -23,6 +23,7 @@
 #import "OTMAPI.h"
 #import "ASIHTTPRequest.h"
 #import "OTMReverseGeocodeOperation.h"
+#import "AZPointCollection.h"
 
 @interface OTMAPI()
 +(int)parseSection:(NSData*)data 
@@ -134,7 +135,11 @@
                 }]];
 }
 
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region callback:(AZPointDataCallback)callback {
+-(void)getPointOffsetsInTile:(MKCoordinateRegion)region 
+                     mapRect:(MKMapRect)mapRect
+                   zoomScale:(MKZoomScale)zoomScale 
+                    callback:(AZPointDataCallback)callback {
+    
     [self.tileRequest getRaw:@"tiles"
                   params:[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%f,%f,%f,%f", 
@@ -150,7 +155,7 @@
                     if (error != nil) { callback(nil, error); return; }
                     uint32_t magic = 0;
                     
-                    if ([data length] < 12) {
+                    if ([data length] < 8) {
                         // Signal error? Invalid datastream (too small)
                         NSError* myError = [[NSError alloc] initWithDomain:@"otm.parse" 
                                                                       code:0  
@@ -190,12 +195,12 @@
                             return;
                         }
                     }
-                    
-                    callback(points, nil);
-                    
-                    for(int i=0;i<CFArrayGetCount(points);i++) {
-                        free((void *)CFArrayGetValueAtIndex(points, i));
-                    }
+            
+                    AZPointCollection *pcol = [[AZPointCollection alloc] initWithMapRect:mapRect
+                                                                               zoomScale:zoomScale
+                                                                                  points:points];
+            
+                    callback(pcol, nil);
                     
                     CFRelease(points);
                     points = NULL;
@@ -224,6 +229,7 @@
         OTMPoint* const p = malloc(sizeof(OTMPoint));
         p->xoffset = 0;
         p->yoffset = 0;
+        p->style = sectionType;
         
         [data getBytes:&(p->xoffset) range:NSMakeRange(offset, 1)];
         offset += 1;

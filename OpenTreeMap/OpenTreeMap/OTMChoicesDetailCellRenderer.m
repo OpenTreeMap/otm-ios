@@ -77,8 +77,8 @@
             [aController.navigationController pushViewController:tableController animated:YES];
         };
         
-        controller.tableView.delegate = self;
-        controller.tableView.dataSource = self;
+        controller.tableView.delegate = (id<UITableViewDelegate>)self;
+        controller.tableView.dataSource = (id<UITableViewDataSource>)self;
     }
     
     return self;

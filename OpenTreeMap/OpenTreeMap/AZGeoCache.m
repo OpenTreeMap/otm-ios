@@ -16,17 +16,17 @@
  
  */
 
-#import "AZMemoryTileCache.h"
+#import "AZGeoCache.h"
 #import "AZTileCacheKey.h"
 
-@implementation AZMemoryTileCache
+@implementation AZGeoCache
 
-- (void)cacheImage:(UIImage *)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
+- (void)cacheObject:(id)image forMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
 {
     [self cacheObject:image forKey:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
 }
 
-- (UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+- (id)getObjectForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 {
     return [self objectForKey:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
 }
