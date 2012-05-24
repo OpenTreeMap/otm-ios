@@ -185,18 +185,7 @@
 
 -(void)changeMapMode:(NSNotification *)note {
     mapModeSegmentedControl.selectedSegmentIndex = [note.object intValue];
-
-    switch ([note.object intValue]) {
-        case 0:
-            self.mapView.mapType = MKMapTypeStandard;
-            break;
-        case 1:
-            self.mapView.mapType = MKMapTypeSatellite;
-            break;
-        default:
-            self.mapView.mapType = MKMapTypeHybrid;
-            break;
-    }
+    self.mapView.mapType = (MKMapType)[note.object intValue];
 }
 
 #pragma mark Detail View

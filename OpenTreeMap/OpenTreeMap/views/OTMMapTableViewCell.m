@@ -74,32 +74,12 @@
 }
 
 -(void)changeMapMode:(NSNotification *)note {
-    switch ([note.object intValue]) {
-        case 0:
-            self.mapView.mapType = MKMapTypeStandard;
-            break;
-        case 1:
-            self.mapView.mapType = MKMapTypeSatellite;
-            break;
-        default:
-            self.mapView.mapType = MKMapTypeHybrid;
-            break;
-    }
+    self.mapView.mapType = (MKMapType)[note.object intValue];
 }
 
 - (void)annotateCenter:(CLLocationCoordinate2D)center
 {
-    switch ([(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode]) {
-        case 0:
-            self.mapView.mapType = MKMapTypeStandard;
-            break;
-        case 1:
-            self.mapView.mapType = MKMapTypeSatellite;
-            break;
-        default:
-            self.mapView.mapType = MKMapTypeHybrid;
-            break;
-    }
+    self.mapView.mapType = (MKMapType)[(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode];
 
     if (!annotation) {
         annotation = [[MKPointAnnotation alloc] init];

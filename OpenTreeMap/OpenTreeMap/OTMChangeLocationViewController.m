@@ -30,18 +30,7 @@
 
     self.mapModeSegmentedControl.selectedSegmentIndex = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode];
 
-    switch ([(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode]) {
-        case 0:
-            self.mapView.mapType = MKMapTypeStandard;
-            break;
-        case 1:
-            self.mapView.mapType = MKMapTypeSatellite;
-            break;
-        default:
-            self.mapView.mapType = MKMapTypeHybrid;
-            break;
-    }
-
+    self.mapView.mapType = (MKMapType)[(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode];
 }
 
 - (IBAction)setMapMode:(UISegmentedControl *)sender {
@@ -49,23 +38,13 @@
 }
 
 -(void)changeMapMode:(NSNotification *)note {
-    switch ([note.object intValue]) {
-        case 0:
-            self.mapView.mapType = MKMapTypeStandard;
-            break;
-        case 1:
-            self.mapView.mapType = MKMapTypeSatellite;
-            break;
-        default:
-            self.mapView.mapType = MKMapTypeHybrid;
-            break;
-    }
+    self.mapView.mapType = (MKMapType)[note.object intValue];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
