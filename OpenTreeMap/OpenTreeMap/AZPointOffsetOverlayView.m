@@ -146,11 +146,10 @@ typedef enum {
 {   
     UIGraphicsPushContext(context);
     
+    [self renderTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context withCache:memoryTileCache];    
+    
     if (filtered) {
-        [self renderTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context withCache:memoryTileCache];
         [self renderFilteredTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context];
-    } else {
-        [self renderTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context withCache:memoryTileCache];
     }
     
     UIGraphicsPopContext();

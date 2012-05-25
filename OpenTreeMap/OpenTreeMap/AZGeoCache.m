@@ -1,7 +1,5 @@
 /*
  
- AZMemoryTileCache.m
- 
  Created by Justin Walgran on 5/2/12.
  
  License
