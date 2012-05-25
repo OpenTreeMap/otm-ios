@@ -29,6 +29,20 @@
     return [self objectForKey:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
 }
 
+- (UIImage *)removeFromCache:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
+    AZTileCacheKey *key = [AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale];
+    
+    @synchronized (self) {
+        UIImage *image = [self objectForKey:key];
+        
+        if (image) {
+            [self removeObjectWithKey:key];
+        }
+        
+        return image;
+    }
+}
+
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
 {
     MKMapPoint point =  MKMapPointForCoordinate(coordinate);

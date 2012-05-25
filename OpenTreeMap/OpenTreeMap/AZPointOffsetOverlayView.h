@@ -22,7 +22,7 @@
  A view for rendering AZPointOffsetOverlay instances on a MapKit map.
  */
 @interface AZPointOffsetOverlayView : MKOverlayView {
-
+    CFMutableArrayRef edges;
 }
 
 @property (nonatomic,assign) BOOL filtered;

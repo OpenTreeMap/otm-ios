@@ -32,6 +32,31 @@ typedef enum {
     NorthWest
 } OTMDirection;
 
+typedef struct {
+    OTMPoint *point;
+    u_char edges;
+    MKZoomScale zoomScale;
+    MKMapRect mapRect;
+} OTMEdgePoint;
+
+typedef struct {
+    void *image; //UIImage (ARC forbids this... but we'll be safe about it)
+    MKZoomScale zoomScale;
+    MKMapRect mapRect;
+} OTMAnnotatedImage;
+
+#define NORTH 0x01
+#define NORTHEAST 0x02
+#define EAST 0x04
+#define SOUTHEAST 0x08
+#define SOUTH 0x10
+#define SOUTHWEST 0x20
+#define WEST 0x40
+#define NORTHWEST 0x80
+
+static u_char DIRECTIONS[] = { NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST };
+static NSUInteger NDIRS = 8;
+
 @implementation AZPointOffsetOverlayView
 
 @synthesize tileAlpha, pointStamp, memoryTileCache, memoryPointCache, memoryFilterTileCache, filtered;
@@ -44,6 +69,7 @@ typedef enum {
         self.pointStamp = [UIImage imageNamed:@"tree_icon"];
         self.tileAlpha = 1.0f;
         self.clipsToBounds = NO;
+        edges = CFArrayCreateMutable(NULL, 0, NULL);
     }
     
     return self;
@@ -67,6 +93,7 @@ typedef enum {
              
              [memoryPointCache cacheObject:pcol forMapRect:mapRect zoomScale:zoomScale];
              [memoryTileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
+
              dispatch_async(dispatch_get_main_queue(), 
                             ^{
                                 UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
@@ -151,6 +178,14 @@ typedef enum {
     if (filtered) {
         [self renderFilteredTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context];
     }
+
+    __block id blockSelf = self;
+    
+    dispatch_async(dispatch_get_main_queue(), 
+                   ^{
+                       [blockSelf setNeedsDisplayInMapRect:MKMapRectWorld zoomScale:zoomScale];         
+                   });
+
     
     UIGraphicsPopContext();
 }

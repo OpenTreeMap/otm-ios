@@ -29,6 +29,11 @@
 - (id)getObjectForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 
 /**
+ * Remove and return an image from the cache
+ */
+- (UIImage *)removeFromCache:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+
+/**
  Remove any tile image from the cache if the mapRect associated with the tile
  intersects the specified coordinate.
  */
