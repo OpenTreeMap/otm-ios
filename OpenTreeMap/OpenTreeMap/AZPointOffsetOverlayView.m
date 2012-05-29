@@ -45,18 +45,6 @@ typedef struct {
     MKMapRect mapRect;
 } OTMAnnotatedImage;
 
-#define NORTH 0x01
-#define NORTHEAST 0x02
-#define EAST 0x04
-#define SOUTHEAST 0x08
-#define SOUTH 0x10
-#define SOUTHWEST 0x20
-#define WEST 0x40
-#define NORTHWEST 0x80
-
-static u_char DIRECTIONS[] = { NORTH,NORTHEAST,EAST,SOUTHEAST,SOUTH,SOUTHWEST,WEST,NORTHWEST };
-static NSUInteger NDIRS = 8;
-
 @implementation AZPointOffsetOverlayView
 
 @synthesize tileAlpha, pointStamp, memoryTileCache, memoryPointCache, memoryFilterTileCache, filtered;
