@@ -15,7 +15,8 @@
 
 typedef enum {
     AZTileFilterModeAny,
-    AZTileFilterModeAll 
+    AZTileFilterModeAll,
+    AZTileFilterModeNone
 } AZTileFilterMode;
 
 @interface AZTileRenderer : NSObject

@@ -239,7 +239,11 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="7"/>
                     <navigationItem key="navigationItem" id="Ka4-ap-ix0">
-                        <barButtonItem key="leftBarButtonItem" title="Filter" id="8gu-xT-odz"/>
+                        <barButtonItem key="leftBarButtonItem" title="Filter" id="8gu-xT-odz">
+                            <connections>
+                                <segue destination="hZa-Zz-ezt" kind="modal" identifier="filtersList" id="PGB-zI-a3U"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kSh-FL-AwC"/>
                     </navigationItem>
                     <connections>
@@ -349,6 +353,106 @@
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1764" y="-158"/>
+        </scene>
+        <!--Filter List View Controller-->
+        <scene sceneID="zp8-W1-VWl">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="o8v-re-juQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="hZa-Zz-ezt" customClass="OTMFilterListViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bgp-np-5MP">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ePV-bU-uUu">
+                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Tree" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1kE-tt-9Ou">
+                                        <rect key="frame" x="20" y="23" width="134" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="gX2-Pn-cAz">
+                                        <rect key="frame" x="221" y="20" width="79" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Species" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="98j-ZP-iyX">
+                                        <rect key="frame" x="20" y="58" width="134" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="FMK-3X-97D">
+                                        <rect key="frame" x="221" y="55" width="79" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Diameter" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="VyY-xp-7Za">
+                                        <rect key="frame" x="20" y="93" width="134" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="gDx-iv-vQh">
+                                        <rect key="frame" x="221" y="90" width="79" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Diameter between:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="4CP-Rs-Nhi">
+                                        <rect key="frame" x="20" y="133" width="144" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="qeh-Cb-8KR">
+                                        <rect key="frame" x="20" y="157" width="64" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="in and                in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="IcZ-L7-XxM">
+                                        <rect key="frame" x="88" y="162" width="144" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="fHX-s6-If6">
+                                        <rect key="frame" x="141" y="157" width="64" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                    </textField>
+                                </subviews>
+                            </scrollView>
+                            <navigationBar contentMode="scaleToFill" id="Fhr-TU-00d" customClass="OTMNavigationBar">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Title" id="za0-ck-hfk">
+                                        <barButtonItem key="leftBarButtonItem" title="Done" id="50L-7V-eyE">
+                                            <connections>
+                                                <action selector="updateFilters:" destination="hZa-Zz-ezt" id="IFD-Fh-Bcb"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="mQf-uv-59X"/>
+                    <connections>
+                        <outlet property="missingDBH" destination="gDx-iv-vQh" id="5uj-dz-zan"/>
+                        <outlet property="missingSpecies" destination="FMK-3X-97D" id="Fs4-Je-hpV"/>
+                        <outlet property="missingTree" destination="gX2-Pn-cAz" id="WG3-m6-TLf"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1768" y="-783"/>
         </scene>
         <!--Species Table View Controller-->
         <scene sceneID="UYx-NC-Q9u">
@@ -646,6 +750,14 @@
         </class>
         <class className="OTMDetailSliderview" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
+        </class>
+        <class className="OTMFilterListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMFilterListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="missingDBH" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="missingSpecies" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="missingTree" candidateClass="UISwitch"/>
+            </relationships>
         </class>
         <class className="OTMMapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>

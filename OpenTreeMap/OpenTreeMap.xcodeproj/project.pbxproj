@@ -123,6 +123,7 @@
 		D7C990251518C8890094770C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990241518C8890094770C /* SystemConfiguration.framework */; };
 		D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990261518C88F0094770C /* MobileCoreServices.framework */; };
 		D7C990291518C89F0094770C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990281518C89F0094770C /* libz.dylib */; };
+		D7CBD06A1577C871009D08FF /* OTMFilterListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CBD0691577C871009D08FF /* OTMFilterListViewController.m */; };
 		D7CC152715065AC200277C7C /* tree_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CC152615065AC200277C7C /* tree_icon.png */; };
 		D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
@@ -324,6 +325,8 @@
 		D7C990241518C8890094770C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D7C990261518C88F0094770C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D7C990281518C89F0094770C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D7CBD0681577C871009D08FF /* OTMFilterListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFilterListViewController.h; sourceTree = "<group>"; };
+		D7CBD0691577C871009D08FF /* OTMFilterListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFilterListViewController.m; sourceTree = "<group>"; };
 		D7CC152615065AC200277C7C /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
 		D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
 		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
@@ -562,6 +565,15 @@
 			path = views;
 			sourceTree = "<group>";
 		};
+		D7CBD0661577C825009D08FF /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				D7CBD0681577C871009D08FF /* OTMFilterListViewController.h */,
+				D7CBD0691577C871009D08FF /* OTMFilterListViewController.m */,
+			);
+			name = Filters;
+			sourceTree = "<group>";
+		};
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
@@ -650,6 +662,7 @@
 				D7C252CD14FE84680028519E /* views */,
 				D7BEA4A414FC213F006CC456 /* api */,
 				D76319A9151B697F00332BEA /* Login and Register */,
+				D7CBD0661577C825009D08FF /* Filters */,
 				E943971D14F447EB007CD0D1 /* Supporting Files */,
 				7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */,
 				D7CF59B41550311800D37425 /* LoginRequiredView.xib */,
@@ -930,6 +943,7 @@
 				64A7157C1562B46F003430E8 /* OTMTreeDictionaryHelper.m in Sources */,
 				D7837B90156BDD65007C9D52 /* AZTileRenderer.m in Sources */,
 				D7837B94156BE23B007C9D52 /* AZPointCollection.m in Sources */,
+				D7CBD06A1577C871009D08FF /* OTMFilterListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

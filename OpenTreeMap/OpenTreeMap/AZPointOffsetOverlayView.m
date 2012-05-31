@@ -32,22 +32,9 @@ typedef enum {
     NorthWest
 } OTMDirection;
 
-typedef struct {
-    OTMPoint *point;
-    u_char edges;
-    MKZoomScale zoomScale;
-    MKMapRect mapRect;
-} OTMEdgePoint;
-
-typedef struct {
-    void *image; //UIImage (ARC forbids this... but we'll be safe about it)
-    MKZoomScale zoomScale;
-    MKMapRect mapRect;
-} OTMAnnotatedImage;
-
 @implementation AZPointOffsetOverlayView
 
-@synthesize tileAlpha, pointStamp, memoryTileCache, memoryPointCache, memoryFilterTileCache, filtered;
+@synthesize tileAlpha, pointStamp, memoryTileCache, memoryPointCache, memoryFilterTileCache, filters;
 
 - (id)initWithOverlay:(id<MKOverlay>)overlay {
     if (self = [super initWithOverlay:overlay]) {
@@ -148,10 +135,10 @@ typedef struct {
     return rect;
 }
 
--(void)setFiltered:(BOOL)filter {
-    [memoryFilterTileCache purgeCache];
-    [self setNeedsDisplay];
-    filtered = filter;
+-(void)setFilters:(OTMFilters *)f {
+  [memoryFilterTileCache purgeCache];
+  filters = f;
+  [self setNeedsDisplay];  
 }
 
 /**
@@ -163,8 +150,8 @@ typedef struct {
     
     [self renderTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context withCache:memoryTileCache];    
     
-    if (filtered) {
-        [self renderFilteredTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context];
+    if (filters) {
+      [self renderFilteredTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context filters:filters];
     }
 
     __block id blockSelf = self;
@@ -178,17 +165,22 @@ typedef struct {
     UIGraphicsPopContext();
 }
 
--(void)renderFilteredTilesInMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha inContext:(CGContextRef)context {
+-(void)renderFilteredTilesInMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha inContext:(CGContextRef)context filters:(OTMFilters *)f {
  
     // Stick the image into the filter tile cache and render
     if (![self.memoryFilterTileCache getObjectForMapRect:mapRect
                                                zoomScale:zoomScale]) {
         AZPointCollection *pcol = [self.memoryPointCache getObjectForMapRect:mapRect zoomScale:zoomScale];
         if (pcol) {
+            int filter = 0;
+            if (f.missingDBH) { filter |= AZTileHasDBH; }
+            if (f.missingTree) { filter |= AZTileHasTree; }
+            if (f.missingSpecies) { filter |= AZTileHasSpecies; }
+
             UIImage *image = [AZTileRenderer createImageWithOffsets:pcol.points
                                                           zoomScale:zoomScale
                                                               alpha:1.0
-                                                             filter:AZTileHasSpecies
+                                                             filter:filter
                                                                mode:AZTileFilterModeAny];
             
             [self.memoryFilterTileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];

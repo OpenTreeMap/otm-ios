@@ -18,6 +18,8 @@
 
 #import <MapKit/MapKit.h>
 #import "AZGeoCache.h"
+#import "OTMFilterListViewController.h"
+
 /**
  A view for rendering AZPointOffsetOverlay instances on a MapKit map.
  */
@@ -25,7 +27,7 @@
     CFMutableArrayRef edges;
 }
 
-@property (nonatomic,assign) BOOL filtered;
+@property (nonatomic,strong) OTMFilters *filters;
 
 @property (nonatomic,strong) AZGeoCache *memoryTileCache;
 @property (nonatomic,strong) AZGeoCache *memoryFilterTileCache;

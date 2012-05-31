@@ -21,6 +21,7 @@
 //  
 
 #import "OTMMapViewController.h"
+#import "OTMFilterListViewController.h"
 #import "AZPointOffsetOverlay.h"
 #import "AZPointOffsetOverlayView.h"
 #import "OTMEnvironment.h"
@@ -167,6 +168,17 @@
             // When adding a new tree the detail view is automatically in edit mode
             [dest startOrCommitEditing:self];
         }
+    } else if ([segue.identifier isEqualToString:@"filtersList"]) {
+        OTMFilters *filters = pointOffsetOverlayView.filters;
+
+        OTMFilterListViewController *vc = (OTMFilterListViewController *)segue.destinationViewController;
+        [vc view]; // Force the view to load
+
+        [vc setFilters:filters];
+
+        vc.callback = ^(OTMFilters *filters) {
+            [self showFilters:filters];
+        };
     }
 }
 
@@ -352,8 +364,6 @@
         }
         self.navigationItem.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
         self.navigationItem.leftBarButtonItem.title = @"Filter";
-        self.navigationItem.leftBarButtonItem.target = self;
-        self.navigationItem.leftBarButtonItem.action = @selector(showFilters);
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(startAddingTree)];
         [self slideAddTreeHelpDownAnimated:YES];
     }
@@ -395,10 +405,10 @@
     [self changeMode:Select];
 }
 
-- (void)showFilters
+- (void)showFilters:(OTMFilters *)filters
 {
+  pointOffsetOverlayView.filters = filters;
     // TODO: hide the wizard label
-    pointOffsetOverlayView.filtered = !pointOffsetOverlayView.filtered;
 }
 
 - (void)startAddingTree

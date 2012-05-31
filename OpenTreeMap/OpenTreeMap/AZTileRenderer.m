@@ -11,7 +11,7 @@
 @implementation AZTileRenderer
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha {
-    return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:AZTileFilterNone mode:AZTileFilterModeAny];
+    return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:AZTileFilterNone mode:AZTileFilterModeNone];
 }
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha filter:(u_char)filter mode:(AZTileFilterMode)mode {
@@ -23,7 +23,7 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
-    
+
     CGRect baseRect = CGRectMake(-imageSize.width / 2.0f + imageSize.width, 
                                  -imageSize.height / 2.0f + imageSize.height, 
                                  imageSize.width, imageSize.height);
@@ -31,7 +31,21 @@
     for(int i=0;i<CFArrayGetCount(offsets);i++) {
         const OTMPoint* p = CFArrayGetValueAtIndex(offsets, i);
         
-        if (filter == AZTileFilterNone || p->style == filter || (((p->style & filter) != 0) && mode == AZTileFilterModeAny)) {
+        //        if (filter == AZTileFilterNone || p->style == filter || (((p->style & filter) != 0) && mode == AZTileFilterModeAny)) {
+        BOOL draw = YES;
+        if (mode == AZTileFilterModeNone) {
+          draw = YES;
+        } else if (mode == AZTileFilterModeAny) {
+          if ((p->style & filter) != 0) {
+            draw = NO;
+          }
+        } else if (mode == AZTileFilterModeAll) {
+          if (p->style == filter) {
+            draw = NO;
+          }
+        }
+
+        if (draw) {
             CGRect rect = CGRectOffset(baseRect, p->xoffset, 255 - p->yoffset);
         
             [stamp drawInRect:rect blendMode:kCGBlendModeNormal alpha:alpha];
