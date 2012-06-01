@@ -94,6 +94,8 @@
 @property (nonatomic, copy) NSString* baseURL;
 @property (nonatomic, copy) NSString* apiKey;
 
+@property (nonatomic, strong) NSArray *filters;
+
 @property (nonatomic, strong) NSArray *fieldKeys;
 @property (nonatomic, strong) UIColor *viewBackgroundColor;
 @property (nonatomic, strong) UIColor *navBarTintColor;

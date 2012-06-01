@@ -92,6 +92,7 @@ typedef enum {
  */
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
 {
+    
     if ([memoryTileCache getObjectForMapRect:mapRect zoomScale:zoomScale]) {
         return YES;
     } else {
@@ -150,7 +151,7 @@ typedef enum {
     
     [self renderTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context withCache:memoryTileCache];    
     
-    if (filters) {
+    if ([filters active]) {
       [self renderFilteredTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context filters:filters];
     }
 

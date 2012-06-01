@@ -45,7 +45,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl, filters;
 
 - (void)viewDidLoad
 {
@@ -55,6 +55,9 @@
 
     [self changeMode:Select];
 
+    filters = [[OTMFilters alloc] init];
+    filters.filters = [[OTMEnvironment sharedEnvironment] filters];
+    
     self.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
     if (!self.title) {
         self.title = @"Tree Map";
@@ -169,8 +172,6 @@
             [dest startOrCommitEditing:self];
         }
     } else if ([segue.identifier isEqualToString:@"filtersList"]) {
-        OTMFilters *filters = pointOffsetOverlayView.filters;
-
         OTMFilterListViewController *vc = (OTMFilterListViewController *)segue.destinationViewController;
         [vc view]; // Force the view to load
 
@@ -405,9 +406,9 @@
     [self changeMode:Select];
 }
 
-- (void)showFilters:(OTMFilters *)filters
+- (void)showFilters:(OTMFilters *)f
 {
-  pointOffsetOverlayView.filters = filters;
+  pointOffsetOverlayView.filters = f;
     // TODO: hide the wizard label
 }
 

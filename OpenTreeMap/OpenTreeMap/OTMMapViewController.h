@@ -44,6 +44,8 @@ typedef enum {
     AZPointOffsetOverlayView *pointOffsetOverlayView;
 }
 
+@property (nonatomic,strong) OTMFilters* filters;
+
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
 @property (nonatomic,assign) BOOL detailsVisible;
 @property (nonatomic,strong) CLLocationManager *locationManager;

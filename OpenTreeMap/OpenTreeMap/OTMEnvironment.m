@@ -18,10 +18,11 @@
 #import "OTMEnvironment.h"
 #import "AZHttpRequest.h"
 #import "OTMDetailCellRenderer.h"
+#import "OTMFilterListViewController.h"
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters;
 
 + (id)sharedEnvironment
 {
@@ -136,6 +137,22 @@
                                 blue:[[array objectAtIndex:2] floatValue]
                                alpha:[[array objectAtIndex:3] floatValue]];
     }
+}
+
+-(NSArray *)filters {
+    id filts = [NSArray arrayWithObjects:
+                  [NSDictionary dictionaryWithObjectsAndKeys:
+                   @"OTMBoolFilter", OTMFilterKeyType,
+                   @"Edible", OTMFilterKeyName,
+                   @"edible", OTMFilterKeyKey, nil],
+                   nil];
+
+    NSMutableArray* fs = [NSMutableArray array];
+    for(NSDictionary *f in filts) {
+        [fs addObject:[OTMFilter filterFromDictionary:f]];
+    }
+
+    return fs;
 }
 
 -(NSArray *)fieldKeys {

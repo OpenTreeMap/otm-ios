@@ -10,7 +10,25 @@
 
 @implementation OTMFilters
 
-@synthesize missingTree, missingDBH, missingSpecies, queryStrings;
+@synthesize missingTree, missingDBH, missingSpecies, filters;
+
+- (BOOL)active {
+    return [self standardFiltersActive] || [self customFiltersActive];
+}
+
+- (BOOL)standardFiltersActive {
+    return missingTree || missingDBH || missingSpecies;
+}
+
+- (BOOL)customFiltersActive {
+    for(OTMFilter *f in filters) {
+        if ([f active]) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 @end 
 
@@ -18,25 +36,34 @@
 - (void)setName:(NSString *)s;
 - (void)setKey:(NSString *)k;
 - (void)setView:(UIView *)k;
+
+- (BOOL)viewSet;
 @end
 
 @implementation OTMFilter
 
 @synthesize view, name, key;
 
++ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
+    return [NSClassFromString([dict objectForKey:OTMFilterKeyType]) filterFromDictionary:dict];
+}
+
 - (NSString *)queryString { ABSTRACT_METHOD_BODY }
+- (BOOL)active { ABSTRACT_METHOD_BODY }
 
 - (void)setKey:(NSString *)k {
-  key = k;
+    key = k;
 }
 
 - (void)setName:(NSString *)s {
-  name = s;
+    name = s;
 }
 
 - (void)setView:(UIView *)v {
-  view = v;
+    view = v;
 }
+
+- (BOOL)viewSet { return view != nil; }
 
 @end
 
@@ -44,46 +71,54 @@
 
 @synthesize toggle, nameLbl;
 
-- (id)initWithName:(NSString *)nm key:(NSString *)k {
-  self = [super init];
-  if (self) {
-    [self setName:nm];
-    [self setKey:k];
-  }
++ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
+    return [[OTMBoolFilter alloc] initWithName:[dict objectForKey:OTMFilterKeyName] key:[dict objectForKey:OTMFilterKeyKey]];
+}
 
-  return self;
+- (id)initWithName:(NSString *)nm key:(NSString *)k {
+    self = [super init];
+    if (self) {
+        [self setName:nm];
+        [self setKey:k];
+    }
+
+    return self;
 }
 
 - (UIView *)view {
-  if ([self view] == nil) {
-    [self setView:[self createView]];
-  }
-  return [self view];
+    if (![self viewSet]) {
+        [self setView:[self createView]];
+    }
+    return [super view];
 }
 
 - (UIView *)createView {
-  CGRect r = CGRectMake(0,0,320,50);
-  [self setView:[[UIView alloc] initWithFrame:r]];
+    CGRect r = CGRectMake(0,0,320,50);
+    [self setView:[[UIView alloc] initWithFrame:r]];
 
-  nameLbl = [[UILabel alloc] initWithFrame:self.view.frame]; // we'll just align left
-  nameLbl.textAlignment = UITextAlignmentLeft;
-  nameLbl.text = self.name;
+    nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
+    nameLbl.textAlignment = UITextAlignmentLeft;
+    nameLbl.text = self.name;
   
-  CGRect switchRect = CGRectMake(0,0,79,27); // these are standard values
-  CGFloat rightPad = 20.0;
-  CGFloat ox = r.size.width - (rightPad + switchRect.size.width);
-  CGFloat oy = (r.size.height - switchRect.size.height) / 2.0;
+    CGRect switchRect = CGRectMake(0,0,79,27); // these are standard values
+    CGFloat rightPad = 20.0;
+    CGFloat ox = r.size.width - (rightPad + switchRect.size.width);
+    CGFloat oy = (int)((r.size.height - switchRect.size.height) / 2.0);
 
-  toggle = [[UISwitch alloc] initWithFrame:CGRectOffset(switchRect, ox, oy)];
+    toggle = [[UISwitch alloc] initWithFrame:CGRectOffset(switchRect, ox, oy)];
 
-  [self.view addSubview:nameLbl];
-  [self.view addSubview:toggle];
+    [self.view addSubview:nameLbl];
+    [self.view addSubview:toggle];
 
-  return self.view;
+    return self.view;
+}
+
+- (BOOL)active {
+    return toggle.on;
 }
 
 - (NSString *)queryString {
-  return [NSString stringWithFormat:@"%@=%@", self.key, toggle.on ? @"true" : @"false"];
+    return [NSString stringWithFormat:@"%@=%@", self.key, toggle.on ? @"true" : @"false"];
 }
 
 @end
@@ -108,7 +143,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
 }
 
 - (void)viewDidUnload
@@ -127,11 +162,15 @@
     self.missingTree.on = f.missingTree;
     self.missingDBH.on = f.missingDBH;
     self.missingSpecies.on = f.missingSpecies;
+
+    filters = f;
+
+    [self buildFilters:filters.filters];
 }
 
 - (IBAction)updateFilters:(id)sender {
     if (callback) {
-      callback([self generateFilters]);
+        callback([self generateFilters]);
     }
 
     [self dismissModalViewControllerAnimated:YES];
@@ -143,13 +182,7 @@
     filtersobj.missingDBH = missingDBH.on;
     filtersobj.missingSpecies = missingSpecies.on;
 
-    NSMutableArray *qstrings = [NSMutableArray array];
-
-    for(OTMFilter *filter in filters) {
-        [qstrings addObject:filter];
-    }
-   
-    filtersobj.queryStrings = qstrings;
+    filtersobj.filters = filters;
 
     return filtersobj;
 }
@@ -158,30 +191,30 @@
  * Should be a list of filter objects
  */
 - (void)buildFilters:(NSArray *)f {
-  filters = f;
+    filters = f;
 
-  CGFloat pad = 10.0;
+    CGFloat pad = 10.0;
 
-  // Reset filters frame
-  for (UIView *v in otherFiltersView.subviews) { [v removeFromSuperview]; }
-  otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,
-                                      otherFiltersView.frame.origin.y,
-                                      otherFiltersView.frame.size.width,
-                                      0.0);
-  
-  for(OTMFilter *filter in filters) {
-    UIView *v = [filter view];
-    v.frame = CGRectOffset(v.frame, 0, otherFiltersView.frame.origin.y);
-    [otherFiltersView addSubview:v];
-
+    // Reset filters frame
+    for (UIView *v in otherFiltersView.subviews) { [v removeFromSuperview]; }
     otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,
                                         otherFiltersView.frame.origin.y,
                                         otherFiltersView.frame.size.width,
-                                        otherFiltersView.frame.size.height + v.frame.size.height + pad);
-  }    
+                                        0.0);
+  
+    for(OTMFilter *filter in filters) {
+        UIView *v = [filter view];
+        v.frame = CGRectOffset(v.frame, 0, otherFiltersView.frame.size.height);
+        [otherFiltersView addSubview:v];
 
-  scrollView.contentSize = CGSizeMake(otherFiltersView.frame.size.width,
-                                      otherFiltersView.frame.origin.y + otherFiltersView.frame.size.height + pad);
+        otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,
+                                            otherFiltersView.frame.origin.y,
+                                            otherFiltersView.frame.size.width,
+                                            otherFiltersView.frame.size.height + v.frame.size.height + pad);
+    }    
+
+    scrollView.contentSize = CGSizeMake(otherFiltersView.frame.size.width,
+                                        otherFiltersView.frame.origin.y + otherFiltersView.frame.size.height + pad);
   
 }
 
