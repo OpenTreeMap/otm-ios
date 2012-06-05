@@ -369,7 +369,6 @@ typedef enum {
     CGFloat stampHeightOffset = (stampSize.height*2.0);
     CGFloat stampWidthOffset = (stampSize.width*2.0);
     CGRect centerRect = CGRectMake(stampWidthOffset, stampHeightOffset, image.size.width, image.size.height);
-    //- stampWidthOffset, image.size.height - stampHeightOffset);
     
     switch (dir) {
         case North:

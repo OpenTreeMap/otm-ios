@@ -42,8 +42,6 @@
         }
     }
     
-    [[UIColor redColor] setStroke];
-    [[UIColor redColor] setFill];
     CGContextStrokeRect(context, CGRectMake(0,0,frameSize.width,frameSize.height));
 
     UIGraphicsPopContext();
