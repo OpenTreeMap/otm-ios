@@ -35,7 +35,7 @@
     for(int i=0;i<CFArrayGetCount(offsets);i++) {
         const OTMPoint* p = CFArrayGetValueAtIndex(offsets, i);
         
-        if ([self pointIsFiltered:p withMode:mode filter:filter]) {
+        if ([self point:p isFilteredWithMode:mode filter:filter]) {
             CGRect rect = CGRectOffset(baseRect, p->xoffset, 255 - p->yoffset);
         
             [stamp drawInRect:rect blendMode:kCGBlendModeNormal alpha:alpha];
@@ -52,7 +52,7 @@
 }
 
 
-+(BOOL)pointIsFiltered:(const OTMPoint *)p withMode:(AZTileFilterMode)mode filter:(u_char)filter {
++(BOOL)point:(const OTMPoint *)p isFilteredWithMode:(AZTileFilterMode)mode filter:(u_char)filter {
     BOOL draw = YES;
     if (mode == AZTileFilterModeNone) {
         draw = YES;
