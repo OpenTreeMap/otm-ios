@@ -73,4 +73,8 @@
     return [[self cacheKey] hash];
 }
 
+-(NSString *)description {
+    return [self cacheKey];
+}
+
 @end

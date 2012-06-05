@@ -101,6 +101,7 @@
 		D7775FC91520E864008301E4 /* OTMValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FC81520E864008301E4 /* OTMValidator.m */; };
 		D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FCB15210492008301E4 /* OTMProfileViewController.m */; };
 		D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */; };
+		D77EA785157D6A320079302E /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D77EA784157D6A320079302E /* tree_zoom1_plot.png */; };
 		D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */; };
 		D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */; };
 		D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */; };
@@ -294,6 +295,7 @@
 		D7775FCB15210492008301E4 /* OTMProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMProfileViewController.m; sourceTree = "<group>"; };
 		D7775FD01521123A008301E4 /* OTMPasswordChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordChangeViewController.h; sourceTree = "<group>"; };
 		D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordChangeViewController.m; sourceTree = "<group>"; };
+		D77EA784157D6A320079302E /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom1_plot.png; path = map_icons/tree_zoom1_plot.png; sourceTree = "<group>"; };
 		D7829C82153F3AE200DBFE7C /* OTMDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailCellRenderer.h; sourceTree = "<group>"; };
 		D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailCellRenderer.m; sourceTree = "<group>"; };
 		D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMDBHTableViewCell.xib; sourceTree = "<group>"; };
@@ -493,9 +495,9 @@
 				D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */,
 				648550A91551CEDD006C9FF7 /* NSMutableOrderedSet+Queue.h */,
 				648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */,
+				D7837B92156BE23B007C9D52 /* AZPointCollection.h */,
 				D7837B8E156BDD65007C9D52 /* AZTileRenderer.h */,
 				D7837B8F156BDD65007C9D52 /* AZTileRenderer.m */,
-				D7837B92156BE23B007C9D52 /* AZPointCollection.h */,
 				D7837B93156BE23B007C9D52 /* AZPointCollection.m */,
 			);
 			name = AZ;
@@ -577,6 +579,7 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				D77EA784157D6A320079302E /* tree_zoom1_plot.png */,
 				D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */,
 				D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */,
 				D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */,
@@ -850,6 +853,7 @@
 				D7F352C0156BEFAF00E54060 /* tree_zoom5_plot.png in Resources */,
 				D7F352C1156BEFAF00E54060 /* tree_zoom6_plot.png in Resources */,
 				D7F352C2156BEFAF00E54060 /* tree_zoom7_plot.png in Resources */,
+				D77EA785157D6A320079302E /* tree_zoom1_plot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

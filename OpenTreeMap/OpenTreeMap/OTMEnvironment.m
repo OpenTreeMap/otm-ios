@@ -144,7 +144,7 @@
                   [NSDictionary dictionaryWithObjectsAndKeys:
                    @"OTMBoolFilter", OTMFilterKeyType,
                    @"Edible", OTMFilterKeyName,
-                   @"edible", OTMFilterKeyKey, nil],
+                   @"filter_edible", OTMFilterKeyKey, nil],
                    nil];
 
     NSMutableArray* fs = [NSMutableArray array];

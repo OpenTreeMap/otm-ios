@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "OTMFilterListViewController.h"
 #import "AZHttpRequest.h"
 #import "AZPointCollection.h"
 #import "OTMUser.h"
@@ -99,6 +100,7 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  * @param error error pointer
  */
 -(void)getPointOffsetsInTile:(MKCoordinateRegion)region 
+                     filters:(OTMFilters *)filters
                      mapRect:(MKMapRect)mapRect
                    zoomScale:(MKZoomScale)zoomScale 
                     callback:(AZPointDataCallback)callback;

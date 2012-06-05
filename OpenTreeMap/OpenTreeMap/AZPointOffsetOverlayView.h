@@ -24,7 +24,8 @@
  A view for rendering AZPointOffsetOverlay instances on a MapKit map.
  */
 @interface AZPointOffsetOverlayView : MKOverlayView {
-    CFMutableArrayRef edges;
+    NSMutableSet *loading;
+    NSMutableSet *loadingFilter;
 }
 
 @property (nonatomic,strong) OTMFilters *filters;
@@ -32,8 +33,11 @@
 @property (nonatomic,strong) AZGeoCache *memoryTileCache;
 @property (nonatomic,strong) AZGeoCache *memoryFilterTileCache;
 @property (nonatomic,strong) AZGeoCache *memoryPointCache;
+
 @property (nonatomic,strong) UIImage* pointStamp;
 @property (nonatomic,assign) CGFloat tileAlpha;
+
+@property (nonatomic,assign) CGSize maximumStampSize;
 
 /**
  The view renders images and caches them. When a tree is added or removed,

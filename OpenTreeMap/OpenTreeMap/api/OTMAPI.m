@@ -136,18 +136,23 @@
 }
 
 -(void)getPointOffsetsInTile:(MKCoordinateRegion)region 
+                     filters:(OTMFilters *)filters
                      mapRect:(MKMapRect)mapRect
                    zoomScale:(MKZoomScale)zoomScale 
                     callback:(AZPointDataCallback)callback {
     
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSString stringWithFormat:@"%f,%f,%f,%f", 
+                                                                   region.center.longitude - region.span.longitudeDelta / 2.0,
+                                                                   region.center.latitude - region.span.latitudeDelta / 2.0,
+                                                                   region.center.longitude + region.span.longitudeDelta / 2.0,
+                                                                   region.center.latitude + region.span.latitudeDelta / 2.0, 
+                                                                   nil], @"bbox", nil];
+
+    [params addEntriesFromDictionary:[filters customFiltersDict]];
+
     [self.tileRequest getRaw:@"tiles"
-                  params:[NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%f,%f,%f,%f", 
-                           region.center.longitude - region.span.longitudeDelta / 2.0,
-                           region.center.latitude - region.span.latitudeDelta / 2.0,
-                           region.center.longitude + region.span.longitudeDelta / 2.0,
-                           region.center.latitude + region.span.latitudeDelta / 2.0, 
-                           nil], @"bbox", nil]
+                  params:params
                     mime:@"otm/trees"
                 callback:[OTMAPI liftResponse:^(id data, NSError* error) {
         

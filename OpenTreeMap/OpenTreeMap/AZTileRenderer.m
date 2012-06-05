@@ -10,12 +10,16 @@
 
 @implementation AZTileRenderer
 
++(UIImage*)createFilterImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha {
+    return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:0x00 mode:AZTileFilterModeAny];
+}
+
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha {
     return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:AZTileFilterNone mode:AZTileFilterModeNone];
 }
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha filter:(u_char)filter mode:(AZTileFilterMode)mode {
-    UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale filter:filter];
+    UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale filter:filter mode:mode];
 
     CGSize imageSize = [stamp size];
     CGSize frameSize = CGSizeMake(256 + imageSize.width * 2, 256 + imageSize.height * 2);
@@ -31,21 +35,7 @@
     for(int i=0;i<CFArrayGetCount(offsets);i++) {
         const OTMPoint* p = CFArrayGetValueAtIndex(offsets, i);
         
-        //        if (filter == AZTileFilterNone || p->style == filter || (((p->style & filter) != 0) && mode == AZTileFilterModeAny)) {
-        BOOL draw = YES;
-        if (mode == AZTileFilterModeNone) {
-          draw = YES;
-        } else if (mode == AZTileFilterModeAny) {
-          if ((p->style & filter) != 0) {
-            draw = NO;
-          }
-        } else if (mode == AZTileFilterModeAll) {
-          if (p->style == filter) {
-            draw = NO;
-          }
-        }
-
-        if (draw) {
+        if ([self pointIsFiltered:p withMode:mode filter:filter]) {
             CGRect rect = CGRectOffset(baseRect, p->xoffset, 255 - p->yoffset);
         
             [stamp drawInRect:rect blendMode:kCGBlendModeNormal alpha:alpha];
@@ -61,11 +51,28 @@
     return image;
 }
 
-+(UIImage *)stampForZoom:(MKZoomScale)zoom {
-    return [AZTileRenderer stampForZoom:zoom filter:AZTileFilterNone];
++(BOOL)pointIsFiltered:(const OTMPoint*)p withMode:(AZTileFilterMode)mode filter:(u_char)filter {
+    BOOL draw = YES;
+    if (mode == AZTileFilterModeNone) {
+        draw = YES;
+    } else if (mode == AZTileFilterModeAny) {
+        if ((p->style & filter) != 0) {
+            draw = NO;
+        }
+    } else if (mode == AZTileFilterModeAll) {
+        if (p->style == filter) {
+            draw = NO;
+        }
+    }
+    
+    return draw;
 }
 
-+(UIImage *)stampForZoom:(MKZoomScale)zoom filter:(u_char)filter {
++(UIImage *)stampForZoom:(MKZoomScale)zoom {
+    return [AZTileRenderer stampForZoom:zoom filter:AZTileFilterNone mode:AZTileFilterModeNone];
+}
+
++(UIImage *)stampForZoom:(MKZoomScale)zoom filter:(u_char)filter mode:(AZTileFilterMode)mode {
     int baseScale = 18 + log2f(zoom); // OSM 18 level scale
     
     NSString *imageName;
@@ -94,8 +101,8 @@
             break;
     }
     
-    if (filter != AZTileFilterNone) {
-        imageName = [NSString stringWithFormat:@"%@_plot",imageName];
+    if (mode != AZTileFilterModeNone) {
+        imageName = @"tree_zoom1_plot";
     }
     
     return [UIImage imageNamed:imageName];

@@ -19,6 +19,8 @@
 - (BOOL)standardFiltersActive;
 - (BOOL)customFiltersActive;
 
+- (NSDictionary *)customFiltersDict;
+
 @end 
 
 #define OTMFilterKeyType @"OTMFilterKeyType"
@@ -36,10 +38,8 @@
 @property (nonatomic,readonly) NSString *name;
 @property (nonatomic,readonly) NSString *key;
 
-ABSTRACT_METHOD
-- (NSString *)queryString;
 
-ABSTRACT_METHOD
+- (NSDictionary *)queryParams;
 - (BOOL)active;
 
 @end

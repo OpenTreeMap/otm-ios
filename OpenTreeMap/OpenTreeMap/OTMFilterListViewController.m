@@ -30,6 +30,14 @@
     return false;
 }
 
+- (NSDictionary *)customFiltersDict {
+    NSMutableDictionary *m = [NSMutableDictionary dictionary];
+    for(OTMFilter *f in filters) {
+        [m addEntriesFromDictionary:[f queryParams]];
+    }
+    return m;
+}
+
 @end 
 
 @interface OTMFilter () 
@@ -117,8 +125,8 @@
     return toggle.on;
 }
 
-- (NSString *)queryString {
-    return [NSString stringWithFormat:@"%@=%@", self.key, toggle.on ? @"true" : @"false"];
+- (NSString *)queryParams {
+    return [NSDictionary dictionaryWithObjectsAndKeys:toggle.on ? @"true" : @"false", self.key, nil];
 }
 
 @end

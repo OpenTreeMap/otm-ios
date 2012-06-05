@@ -20,6 +20,7 @@
 #import "AZPointOffsetOverlayView.h"
 #import "AZPointOffsetOverlay.h"
 #import "AZTileRenderer.h"
+#import "AZTileCacheKey.h"
 
 typedef enum {
     North = 1,
@@ -34,7 +35,7 @@ typedef enum {
 
 @implementation AZPointOffsetOverlayView
 
-@synthesize tileAlpha, pointStamp, memoryTileCache, memoryPointCache, memoryFilterTileCache, filters;
+@synthesize tileAlpha, pointStamp, memoryTileCache, memoryPointCache, memoryFilterTileCache, filters, maximumStampSize;
 
 - (id)initWithOverlay:(id<MKOverlay>)overlay {
     if (self = [super initWithOverlay:overlay]) {
@@ -44,10 +45,17 @@ typedef enum {
         self.pointStamp = [UIImage imageNamed:@"tree_icon"];
         self.tileAlpha = 1.0f;
         self.clipsToBounds = NO;
-        edges = CFArrayCreateMutable(NULL, 0, NULL);
+        loading = [NSMutableSet set];
+        loadingFilter = [NSMutableSet set];
+        maximumStampSize = CGSizeMake(30,30);
     }
     
     return self;
+}
+
+- (void)sendFilterTileRequestWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
+{
+    [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale tileCache:memoryFilterTileCache pointCache:nil filters:filters mask:loadingFilter];
 }
 
 /**
@@ -56,28 +64,44 @@ typedef enum {
  @param mapRect The extent of the map tile being requested
  @param zoomScale The ratio of pixels to map units for the reqested map tile
  */
-- (void)sendTileRequestWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
+- (void)sendTileRequestWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
+    [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale tileCache:memoryTileCache pointCache:memoryPointCache filters:nil mask:loading];
+}
+
+- (void)sendTileRequestWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
+                         tileCache:(AZGeoCache *)tileCache pointCache:(AZGeoCache *)pointCache
+                           filters:(OTMFilters *)fs
+                              mask:(NSMutableSet *)mask
 {    
     __block AZPointOffsetOverlayView *blockSelf = self;
     
-    [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) mapRect:mapRect zoomScale:zoomScale callback:
+    [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) filters:fs mapRect:mapRect zoomScale:zoomScale callback:
      ^(AZPointCollection *pcol, NSError* error) {
          if (error == nil) {
              CFArrayRef points = pcol.points;
-             UIImage* image = [AZTileRenderer createImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
-             
-             [memoryPointCache cacheObject:pcol forMapRect:mapRect zoomScale:zoomScale];
-             [memoryTileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
 
+             UIImage *image;
+             if (fs) {
+                 image = [AZTileRenderer createFilterImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
+             } else {
+                 image = [AZTileRenderer createImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
+             }
+             
+             [pointCache cacheObject:pcol forMapRect:mapRect zoomScale:zoomScale];
+             [tileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
+
+             @synchronized(mask) {
+                 [mask removeObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
+             }
+             
              dispatch_async(dispatch_get_main_queue(), 
                             ^{
-                                UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
                                 MKMapRect adjustedRect = 
                                     MKMapRectInset(mapRect,
-                                                   -(stamp.size.width*2.0)/zoomScale, 
-                                                   -(stamp.size.height*2.0)/zoomScale);
+                                                   -(maximumStampSize.width*2.0)/zoomScale, 
+                                                   -(maximumStampSize.height*2.0)/zoomScale);
 
-                                [blockSelf setNeedsDisplayInMapRect:adjustedRect zoomScale:zoomScale];         
+                                [blockSelf setNeedsDisplayInMapRect:adjustedRect];         
                             });
          } else {
              NSLog(@"Error loading tile images: %@", error);
@@ -92,15 +116,30 @@ typedef enum {
  */
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
 {
-    
-    if ([memoryTileCache getObjectForMapRect:mapRect zoomScale:zoomScale]) {
-        return YES;
-    } else {
+    if ([filters customFiltersActive]) {
+        if ([memoryFilterTileCache getObjectForMapRect:mapRect zoomScale:zoomScale] == nil) {
+            if (![loadingFilter containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
+                @synchronized(loadingFilter) {
+                    [loadingFilter addObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
+                }
+                [self sendFilterTileRequestWithMapRect:mapRect zoomScale:zoomScale];
+            }
+            return NO;
+        } else { NSLog(@"Deferred loading filter"); }
+    }
+    if ([memoryTileCache getObjectForMapRect:mapRect zoomScale:zoomScale] == nil) {
         // If the cache does not have a tile for the requested URL, start a new request in the backround and
         // return NO to let the caller know that the tile is not yet loaded.
-        [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale];
+        if (![loading containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
+            @synchronized(loading) {
+                [loading addObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
+            }
+            [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale];
+        } else { NSLog(@"Deferred loading %@/%@", [AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale], loading); }
         return NO;
     }
+
+    return YES;
 }
 
 -(MKMapRect)mapRectForNeighbor:(MKMapRect)rect direction:(OTMDirection)dir {
@@ -157,43 +196,46 @@ typedef enum {
 
     __block id blockSelf = self;
     
-    dispatch_async(dispatch_get_main_queue(), 
-                   ^{
-                       [blockSelf setNeedsDisplayInMapRect:MKMapRectWorld zoomScale:zoomScale];         
-                   });
-
-    
     UIGraphicsPopContext();
+    
+//    dispatch_async(dispatch_get_main_queue(), 
+//                   ^{
+//                       [blockSelf setNeedsDisplayInMapRect:MKMapRectInset(mapRect, -mapRect.size.width/2.0, -mapRect.size.height/2.0)
+//                                                 zoomScale:zoomScale];         
+//                   });
 }
 
 -(void)renderFilteredTilesInMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha inContext:(CGContextRef)context filters:(OTMFilters *)f {
  
-    // Stick the image into the filter tile cache and render
-    if (![self.memoryFilterTileCache getObjectForMapRect:mapRect
-                                               zoomScale:zoomScale]) {
-        AZPointCollection *pcol = [self.memoryPointCache getObjectForMapRect:mapRect zoomScale:zoomScale];
-        if (pcol) {
-            int filter = 0;
-            if (f.missingDBH) { filter |= AZTileHasDBH; }
-            if (f.missingTree) { filter |= AZTileHasTree; }
-            if (f.missingSpecies) { filter |= AZTileHasSpecies; }
+    // If we are using the standard filters we don't need to pull down more data
+    // instead we will render it in place
+    if ([filters standardFiltersActive]) {
+        if (![self.memoryFilterTileCache getObjectForMapRect:mapRect
+                                                   zoomScale:zoomScale]) {
+            AZPointCollection *pcol = [self.memoryPointCache getObjectForMapRect:mapRect zoomScale:zoomScale];
+            if (pcol) {
+                int filter = 0;
+                if (f.missingDBH) { filter |= AZTileHasDBH; }
+                if (f.missingTree) { filter |= AZTileHasTree; }
+                if (f.missingSpecies) { filter |= AZTileHasSpecies; }
 
-            UIImage *image = [AZTileRenderer createImageWithOffsets:pcol.points
-                                                          zoomScale:zoomScale
-                                                              alpha:1.0
-                                                             filter:filter
-                                                               mode:AZTileFilterModeAny];
+                UIImage *image = [AZTileRenderer createImageWithOffsets:pcol.points
+                                                              zoomScale:zoomScale
+                                                                  alpha:1.0
+                                                                 filter:filter
+                                                                   mode:AZTileFilterModeAny];
             
-            [self.memoryFilterTileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
+                [self.memoryFilterTileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
+            }
         }
     }
-    
+
     [self renderTilesInMapRect:mapRect zoomScale:zoomScale alpha:alpha inContext:context withCache:memoryFilterTileCache];
 }
 
 -(void)renderTilesInMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha inContext:(CGContextRef)context withCache:(AZGeoCache *)cache {
     CGRect drawRect = [self rectForMapRect:mapRect];
-    
+
     UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
     CGRect centerRect = CGRectInset(drawRect, -(stamp.size.height)/zoomScale, -(stamp.size.height)/zoomScale);
     
@@ -204,7 +246,7 @@ typedef enum {
     [imageData drawInRect:centerRect blendMode:kCGBlendModeNormal alpha:alpha];
     
     for(OTMDirection dir=North;dir<=NorthWest;dir++) {
-        [self drawNeighbor:dir mapRect:mapRect zoomScale:zoomScale centerRect:centerRect stampSize:stamp.size alpha:alpha cache:cache];
+        [self drawNeighbor:dir mapRect:mapRect zoomScale:zoomScale centerRect:centerRect stampSize:centerRect.size alpha:alpha cache:cache];
     }
 }
 
@@ -267,6 +309,7 @@ typedef enum {
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
 {
     [memoryTileCache disruptCacheForCoordinate:coordinate];
+    [loading removeAllObjects];
 }
 
 @end
