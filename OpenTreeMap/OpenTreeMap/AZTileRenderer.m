@@ -31,21 +31,7 @@
     for(int i=0;i<CFArrayGetCount(offsets);i++) {
         const OTMPoint* p = CFArrayGetValueAtIndex(offsets, i);
         
-        //        if (filter == AZTileFilterNone || p->style == filter || (((p->style & filter) != 0) && mode == AZTileFilterModeAny)) {
-        BOOL draw = YES;
-        if (mode == AZTileFilterModeNone) {
-          draw = YES;
-        } else if (mode == AZTileFilterModeAny) {
-          if ((p->style & filter) != 0) {
-            draw = NO;
-          }
-        } else if (mode == AZTileFilterModeAll) {
-          if (p->style == filter) {
-            draw = NO;
-          }
-        }
-
-        if (draw) {
+        if ([self pointIsFiltered:p withMode:mode filter:filter]) {
             CGRect rect = CGRectOffset(baseRect, p->xoffset, 255 - p->yoffset);
         
             [stamp drawInRect:rect blendMode:kCGBlendModeNormal alpha:alpha];
@@ -59,6 +45,22 @@
     UIGraphicsEndImageContext();
     
     return image;
+}
+
++(BOOL)pointIsFiltered:(const OTMPoint *)p withMode:(AZTileFilterMode)mode filter:(u_char)filter {
+    BOOL draw = YES;
+    if (mode == AZTileFilterModeNone) {
+        draw = YES;
+    } else if (mode == AZTileFilterModeAny) {
+        if ((p->style & filter) != 0) {
+            draw = NO;
+        }
+    } else if (mode == AZTileFilterModeAll) {
+        if (p->style == filter) {
+            draw = NO;
+        }
+    }
+    return draw;
 }
 
 +(UIImage *)stampForZoom:(MKZoomScale)zoom {
