@@ -51,7 +51,8 @@
     return image;
 }
 
-+(BOOL)pointIsFiltered:(const OTMPoint*)p withMode:(AZTileFilterMode)mode filter:(u_char)filter {
+
++(BOOL)pointIsFiltered:(const OTMPoint *)p withMode:(AZTileFilterMode)mode filter:(u_char)filter {
     BOOL draw = YES;
     if (mode == AZTileFilterModeNone) {
         draw = YES;
@@ -64,7 +65,7 @@
             draw = NO;
         }
     }
-    
+
     return draw;
 }
 

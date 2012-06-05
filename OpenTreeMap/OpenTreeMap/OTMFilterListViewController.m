@@ -108,7 +108,7 @@
     nameLbl.textAlignment = UITextAlignmentLeft;
     nameLbl.text = self.name;
   
-    CGRect switchRect = CGRectMake(0,0,79,27); // these are standard values
+    CGRect switchRect = CGRectMake(0,0,79,27); // this isthe default (and only?) size for an iOS toggle switch
     CGFloat rightPad = 20.0;
     CGFloat ox = r.size.width - (rightPad + switchRect.size.width);
     CGFloat oy = (int)((r.size.height - switchRect.size.height) / 2.0);
