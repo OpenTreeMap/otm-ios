@@ -77,7 +77,8 @@ typedef enum {
     
     [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) filters:fs mapRect:mapRect zoomScale:zoomScale callback:
      ^(AZPointCollection *pcol, NSError* error) {
-         if (error == nil) {
+         if (error == nil && [tileCache getObjectForMapRect:mapRect zoomScale:zoomScale] == nil) {
+
              CFArrayRef points = pcol.points;
 
              UIImage *image;
@@ -121,7 +122,11 @@ typedef enum {
                                 [blockSelf setNeedsDisplayInMapRect:mapRect];         
                             });
          } else {
-             NSLog(@"Error loading tile images: %@", error);
+             if (error != nil) {
+                 NSLog(@"Error loading tile images: %@", error);
+             } else {
+                 NSLog(@"This tile is already cached.");
+             }
          }
      }];     
 }
