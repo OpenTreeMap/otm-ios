@@ -13,6 +13,8 @@
 @property (nonatomic,assign) BOOL missingTree;
 @property (nonatomic,assign) BOOL missingDBH;
 @property (nonatomic,assign) BOOL missingSpecies;
+@property (nonatomic,strong) NSString *speciesName;
+@property (nonatomic,strong) NSString *speciesId;
 @property (nonatomic,strong) NSArray *filters;
 
 - (BOOL)active;
@@ -55,7 +57,7 @@
 
 @interface OTMFilterListViewController : UIViewController
 
-@property (nonatomic,readonly) OTMFilters *filters;
+@property (nonatomic,readonly) NSArray *filters;
 @property (nonatomic,strong) Function1v callback;
 
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
@@ -63,7 +65,10 @@
 @property (nonatomic,strong) IBOutlet UISwitch *missingTree;
 @property (nonatomic,strong) IBOutlet UISwitch *missingDBH;
 @property (nonatomic,strong) IBOutlet UISwitch *missingSpecies;
+@property (nonatomic,strong) IBOutlet UIButton *speciesButton;
+@property (nonatomic,strong) NSString *speciesName;
+@property (nonatomic,strong) NSString *speciesId;
 
-- (void)setFilters:(OTMFilters *)f;
+- (void)setAllFilters:(OTMFilters *)f;
 
 @end

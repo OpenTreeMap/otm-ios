@@ -143,9 +143,8 @@ typedef enum {
             @synchronized(loadingFilter) {
                 if (![loadingFilter containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
                     [loadingFilter addObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
+                    [self sendFilterTileRequestWithMapRect:mapRect zoomScale:zoomScale];
                 }
-
-                [self sendFilterTileRequestWithMapRect:mapRect zoomScale:zoomScale];
             }
             return NO;
         }
@@ -156,8 +155,8 @@ typedef enum {
         @synchronized(loading) {
             if (![loading containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
                 [loading addObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
+                [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale];
             }
-            [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale];
         }
         return NO;
     }

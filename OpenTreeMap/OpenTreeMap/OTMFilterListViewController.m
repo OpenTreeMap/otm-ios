@@ -7,10 +7,11 @@
 //
 
 #import "OTMFilterListViewController.h"
+#import "OTMSpeciesTableViewController.h"
 
 @implementation OTMFilters
 
-@synthesize missingTree, missingDBH, missingSpecies, filters;
+@synthesize missingTree, missingDBH, missingSpecies, filters, speciesName, speciesId;
 
 - (BOOL)active {
     return [self standardFiltersActive] || [self customFiltersActive];
@@ -21,6 +22,8 @@
 }
 
 - (BOOL)customFiltersActive {
+    if (speciesId != nil) { return true; }
+
     for(OTMFilter *f in filters) {
         if ([f active]) {
             return true;
@@ -32,6 +35,10 @@
 
 - (NSDictionary *)customFiltersDict {
     NSMutableDictionary *m = [NSMutableDictionary dictionary];
+    if (speciesId != nil) {
+        [m setObject:speciesId forKey:@"filter_species"];
+    }
+
     for(OTMFilter *f in filters) {
         [m addEntriesFromDictionary:[f queryParams]];
     }
@@ -137,7 +144,7 @@
 
 @implementation OTMFilterListViewController
 
-@synthesize callback, missingTree, missingDBH, missingSpecies, scrollView, filters, otherFiltersView;
+@synthesize callback, missingTree, missingDBH, missingSpecies, scrollView, filters, otherFiltersView, speciesButton, speciesName, speciesId;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -165,15 +172,17 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)setFilters:(OTMFilters *)f 
+- (void)setAllFilters:(OTMFilters *)f 
 {
     self.missingTree.on = f.missingTree;
     self.missingDBH.on = f.missingDBH;
     self.missingSpecies.on = f.missingSpecies;
+    self.speciesName = f.speciesName;
+    self.speciesId = f.speciesId;
 
-    filters = f;
+    filters = f.filters;
 
-    [self buildFilters:filters.filters];
+    [self buildFilters:f.filters];
 }
 
 - (IBAction)updateFilters:(id)sender {
@@ -189,6 +198,8 @@
     filtersobj.missingTree = missingTree.on;
     filtersobj.missingDBH = missingDBH.on;
     filtersobj.missingSpecies = missingSpecies.on;
+    filtersobj.speciesId = self.speciesId;
+    filtersobj.speciesName = self.speciesName;
 
     filtersobj.filters = filters;
 
@@ -225,5 +236,30 @@
                                         otherFiltersView.frame.origin.y + otherFiltersView.frame.size.height + pad);
   
 }
+
+- (void)setSpeciesName:(NSString *)name {
+    speciesName = name;
+
+    if (name == nil) {
+        name = @"Not Filtered";
+    }
+
+    [speciesButton setTitle:[NSString stringWithFormat:@"Species: %@",name] forState: UIControlStateNormal];
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+{
+    if ([segue.identifier isEqualToString:@"pushSpecies"]) {
+        OTMSpeciesTableViewController *vc = (OTMSpeciesTableViewController *)segue.destinationViewController;
+        [vc view]; // Force the view to load
+
+        vc.callback = ^(NSString *sid, NSString *species) {
+            self.speciesName = species;
+            self.speciesId = sid;
+        };
+    }
+}
+
 
 @end
