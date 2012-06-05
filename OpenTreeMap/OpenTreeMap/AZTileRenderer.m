@@ -42,8 +42,6 @@
         }
     }
     
-    CGContextStrokeRect(context, CGRectMake(0,0,frameSize.width,frameSize.height));
-
     UIGraphicsPopContext();
     
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
