@@ -145,6 +145,22 @@
                    @"OTMBoolFilter", OTMFilterKeyType,
                    @"Edible", OTMFilterKeyName,
                    @"filter_edible", OTMFilterKeyKey, nil],
+                  [NSDictionary dictionaryWithObjectsAndKeys:
+                   @"OTMBoolFilter", OTMFilterKeyType,
+                   @"Fall Colors", OTMFilterKeyName,
+                   @"filter_fall_colors", OTMFilterKeyKey, nil],
+                  [NSDictionary dictionaryWithObjectsAndKeys:
+                   @"OTMBoolFilter", OTMFilterKeyType,
+                   @"Flowering", OTMFilterKeyName,
+                   @"filter_flowering", OTMFilterKeyKey, nil],
+                  [NSDictionary dictionaryWithObjectsAndKeys:
+                   @"OTMBoolFilter", OTMFilterKeyType,
+                   @"Native", OTMFilterKeyName,
+                   @"filter_native", OTMFilterKeyKey, nil],
+                  [NSDictionary dictionaryWithObjectsAndKeys:
+                   @"OTMRangeFilter", OTMFilterKeyType,
+                   @"Diameter", OTMFilterKeyName,
+                   @"filter_dbh", OTMFilterKeyKey, nil],
                    nil];
 
     NSMutableArray* fs = [NSMutableArray array];

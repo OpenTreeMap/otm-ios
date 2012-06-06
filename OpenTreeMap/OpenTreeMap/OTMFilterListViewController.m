@@ -57,7 +57,7 @@
 
 @implementation OTMFilter
 
-@synthesize view, name, key;
+@synthesize view, name, key, delegate;
 
 + (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
     return [NSClassFromString([dict objectForKey:OTMFilterKeyType]) filterFromDictionary:dict];
@@ -108,7 +108,7 @@
 }
 
 - (UIView *)createView {
-    CGRect r = CGRectMake(0,0,320,50);
+    CGRect r = CGRectMake(0,0,320,32);
     [self setView:[[UIView alloc] initWithFrame:r]];
 
     nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
@@ -133,10 +133,101 @@
 }
 
 - (NSString *)queryParams {
-    return [NSDictionary dictionaryWithObjectsAndKeys:toggle.on ? @"true" : @"false", self.key, nil];
+    if ([self active]) {
+        return [NSDictionary dictionaryWithObjectsAndKeys:toggle.on ? @"true" : @"false", self.key, nil];
+    } else {
+        return [NSDictionary dictionary];
+    }
 }
 
 @end
+
+@implementation OTMRangeFilter
+
+@synthesize nameLbl, maxValue, minValue;
+
++ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
+    return [[OTMRangeFilter alloc] initWithName:[dict objectForKey:OTMFilterKeyName] key:[dict objectForKey:OTMFilterKeyKey]];
+}
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k {
+    self = [super init];
+    if (self) {
+        [self setName:nm];
+        [self setKey:k];
+    }
+
+    return self;
+}
+
+- (UIView *)view {
+    if (![self viewSet]) {
+        [self setView:[self createView]];
+    }
+
+    return [super view];
+}
+
+- (UIView *)createView {
+    CGRect r = CGRectMake(0,0,320,75);
+    [self setView:[[UIView alloc] initWithFrame:r]];
+
+    CGFloat padding = 10.0f;
+
+    CGRect nameFrame = CGRectMake(21,0,320,50);
+    CGRect leftFrame = CGRectMake(21,50,60,31);
+    CGRect toFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding, 0);
+    CGRect rightFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding + 25, 0);
+
+    nameLbl = [[UILabel alloc] initWithFrame:nameFrame];
+    nameLbl.text = self.name;
+    minValue = [[UITextField alloc] initWithFrame:leftFrame];
+    maxValue = [[UITextField alloc] initWithFrame:rightFrame];
+
+    minValue.keyboardType = UIKeyboardTypeNumberPad;
+    maxValue.keyboardType = UIKeyboardTypeNumberPad;
+
+    [minValue setDelegate:[self delegate]];
+    [maxValue setDelegate:[self delegate]];
+
+    minValue.borderStyle = UITextBorderStyleRoundedRect;
+    maxValue.borderStyle = UITextBorderStyleRoundedRect;
+
+    UILabel *toLabel = [[UILabel alloc] initWithFrame:toFrame];
+    toLabel.backgroundColor = [UIColor clearColor];
+    toLabel.text = @"to";
+
+    [self.view addSubview:nameLbl];
+    [self.view addSubview:minValue];
+    [self.view addSubview:maxValue];
+    [self.view addSubview:toLabel];
+
+    return self.view;
+}
+
+- (void)setDelegate:(id)d {
+    [super setDelegate:d];
+    [minValue setDelegate:d];
+    [maxValue setDelegate:d];
+}   
+
+- (BOOL)active {
+    //TODO- How to handle this?
+    return ([minValue.text intValue] != 0 || [maxValue.text intValue] != 0);
+}
+
+- (NSString *)queryParams {
+    if ([self active]) {
+        NSString *max = [NSString stringWithFormat:@"%@_max",self.key];
+        NSString *min = [NSString stringWithFormat:@"%@_min",self.key];
+        return [NSDictionary dictionaryWithObjectsAndKeys:maxValue.text, max, minValue.text, min, nil];
+    } else {
+        return [NSDictionary dictionary];
+    }
+}
+
+@end
+
 
 @interface OTMFilterListViewController ()
 
@@ -210,20 +301,20 @@
  * Should be a list of filter objects
  */
 - (void)buildFilters:(NSArray *)f {
-    filters = f;
-
-    CGFloat pad = 10.0;
+    CGFloat pad = 0.0f;
 
     // Reset filters frame
     for (UIView *v in otherFiltersView.subviews) { [v removeFromSuperview]; }
+
     otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,
                                         otherFiltersView.frame.origin.y,
                                         otherFiltersView.frame.size.width,
                                         0.0);
   
     for(OTMFilter *filter in filters) {
+        filter.delegate = self;
         UIView *v = [filter view];
-        v.frame = CGRectOffset(v.frame, 0, otherFiltersView.frame.size.height);
+        v.frame = CGRectMake(v.frame.origin.x, otherFiltersView.frame.size.height, v.frame.size.width, v.frame.size.height);
         [otherFiltersView addSubview:v];
 
         otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,

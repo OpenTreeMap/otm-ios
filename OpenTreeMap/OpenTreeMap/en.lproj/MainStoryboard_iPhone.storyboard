@@ -364,7 +364,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ePV-bU-uUu">
-                                <rect key="frame" x="0.0" y="-1" width="320" height="372"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="417"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Tree" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1kE-tt-9Ou">
@@ -401,9 +401,9 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </switch>
                                     <view contentMode="scaleToFill" id="ba0-Rh-Fwi">
-                                        <rect key="frame" x="0.0" y="203" width="320" height="73"/>
+                                        <rect key="frame" x="0.0" y="177" width="320" height="73"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Jc-w3-d6h">
                                         <rect key="frame" x="-21" y="132" width="363" height="37"/>
@@ -763,7 +763,7 @@
         <class className="OTMDetailSliderview" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
         </class>
-        <class className="OTMFilterListViewController" superclassName="UIViewController">
+        <class className="OTMFilterListViewController" superclassName="OTMScrollAwareViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMFilterListViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="missingDBH" candidateClass="UISwitch"/>
