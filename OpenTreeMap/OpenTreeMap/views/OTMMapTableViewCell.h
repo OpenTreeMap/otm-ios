@@ -24,7 +24,7 @@
 /*
  A table cell for displaying a "mini map" on the tree details page
  */
-@interface OTMMapTableViewCell : UITableViewCell {
+@interface OTMMapTableViewCell : UITableViewCell <MKMapViewDelegate> {
     MKPointAnnotation *annotation;
     UIImageView *detailImageView;
 }
