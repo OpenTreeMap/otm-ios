@@ -241,7 +241,7 @@
                     <navigationItem key="navigationItem" id="Ka4-ap-ix0">
                         <barButtonItem key="leftBarButtonItem" title="Filter" id="8gu-xT-odz">
                             <connections>
-                                <segue destination="hZa-Zz-ezt" kind="modal" identifier="filtersList" id="PGB-zI-a3U"/>
+                                <segue destination="5L2-2I-7tO" kind="modal" identifier="filtersList" id="cgy-qy-I9w"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kSh-FL-AwC"/>
@@ -360,11 +360,11 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8v-re-juQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="hZa-Zz-ezt" customClass="OTMFilterListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bgp-np-5MP">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ePV-bU-uUu">
-                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="417"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Tree" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1kE-tt-9Ou">
@@ -400,62 +400,45 @@
                                         <rect key="frame" x="221" y="90" width="79" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </switch>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Diameter between:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="4CP-Rs-Nhi">
-                                        <rect key="frame" x="20" y="133" width="144" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="qeh-Cb-8KR">
-                                        <rect key="frame" x="20" y="157" width="64" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                    </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="in and                in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="IcZ-L7-XxM">
-                                        <rect key="frame" x="88" y="162" width="144" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="fHX-s6-If6">
-                                        <rect key="frame" x="141" y="157" width="64" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                    </textField>
                                     <view contentMode="scaleToFill" id="ba0-Rh-Fwi">
-                                        <rect key="frame" x="0.0" y="203" width="320" height="73"/>
+                                        <rect key="frame" x="0.0" y="177" width="320" height="73"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Jc-w3-d6h">
+                                        <rect key="frame" x="-21" y="132" width="363" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Species">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="v8c-v7-6H5" kind="push" identifier="pushSpecies" id="145-jK-ChU"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </scrollView>
-                            <navigationBar contentMode="scaleToFill" id="Fhr-TU-00d" customClass="OTMNavigationBar">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Title" id="za0-ck-hfk">
-                                        <barButtonItem key="leftBarButtonItem" title="Done" id="50L-7V-eyE">
-                                            <connections>
-                                                <action selector="updateFilters:" destination="hZa-Zz-ezt" id="IFD-Fh-Bcb"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="mQf-uv-59X"/>
+                    <navigationItem key="navigationItem" id="mQf-uv-59X">
+                        <barButtonItem key="leftBarButtonItem" title="Done" id="50L-7V-eyE">
+                            <connections>
+                                <action selector="updateFilters:" destination="hZa-Zz-ezt" id="IFD-Fh-Bcb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="missingDBH" destination="gDx-iv-vQh" id="5uj-dz-zan"/>
                         <outlet property="missingSpecies" destination="FMK-3X-97D" id="Fs4-Je-hpV"/>
                         <outlet property="missingTree" destination="gX2-Pn-cAz" id="WG3-m6-TLf"/>
                         <outlet property="otherFiltersView" destination="ba0-Rh-Fwi" id="gC1-Ym-7xN"/>
                         <outlet property="scrollView" destination="ePV-bU-uUu" id="sl1-dn-15l"/>
+                        <outlet property="speciesButton" destination="1Jc-w3-d6h" id="uen-cY-WIQ"/>
                     </connections>
                 </viewController>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="1Qb-5j-uDL">
@@ -465,7 +448,23 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
             </objects>
-            <point key="canvasLocation" x="1768" y="-783"/>
+            <point key="canvasLocation" x="2262" y="-761"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="U6E-AK-C7a">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uue-lv-1fO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="5L2-2I-7tO" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Rvk-wT-pIR"/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="0p1-rY-Wf3">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="hZa-Zz-ezt" kind="relationship" relationship="rootViewController" id="3uS-m5-ljY"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="1764" y="-761"/>
         </scene>
         <!--Species Table View Controller-->
         <scene sceneID="UYx-NC-Q9u">
@@ -473,7 +472,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kOL-lh-UMg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -499,7 +498,7 @@
                     </connections>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="2256" y="-488"/>
+            <point key="canvasLocation" x="2816" y="-524"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -750,6 +749,121 @@
         <image name="recent_trees.png" width="30" height="30"/>
         <image name="tree_map.png" width="30" height="30"/>
     </resources>
+    <classes>
+        <class className="OTMChangeLocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMChangeLocationViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapModeSegmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+        <class className="OTMDetailBoxView" superclassName="OTMDetailSliderview">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailBoxView.h"/>
+        </class>
+        <class className="OTMDetailSliderview" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMDetailSliderview.h"/>
+        </class>
+        <class className="OTMFilterListViewController" superclassName="OTMScrollAwareViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMFilterListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="missingDBH" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="missingSpecies" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="missingTree" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="otherFiltersView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="speciesButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="OTMMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="startFindingLocation:"/>
+                <relationship kind="action" name="stopFindingLocation:"/>
+                <relationship kind="outlet" name="addTreeHelpLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="addTreeHelpView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="findLocationButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="locationActivityView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapModeSegmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="searchNavigationBar" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="treeImage" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="OTMNavigationBar" superclassName="UINavigationBar">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNavigationBar.h"/>
+        </class>
+        <class className="OTMNearbyTreesViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNearbyTreesViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="OTMPasswordChangeViewController" superclassName="OTMScrollAwareViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordChangeViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="aNewPassword" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="aNewPasswordVerify" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="oldPassword" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="OTMPictureTaker" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPictureTaker.h"/>
+        </class>
+        <class className="OTMProfileViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="loadingView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="pwReqView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="OTMScrollAwareViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMScrollAwareViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="completedForm:"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="OTMSearchBar" superclassName="UISearchBar">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMSearchBar.h"/>
+        </class>
+        <class className="OTMSegmentedControl" superclassName="UISegmentedControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMSegmentedControl.h"/>
+        </class>
+        <class className="OTMSpeciesTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMSpeciesTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="OTMTableView" superclassName="UITableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTableView.h"/>
+        </class>
+        <class className="OTMTreeDetailViewController" superclassName="OTMScrollAwareViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTreeDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelEditing:"/>
+                <relationship kind="action" name="startOrCommitEditing:"/>
+                <relationship kind="outlet" name="acell" candidateClass="UITableViewCell"/>
+                <relationship kind="outlet" name="address" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="lastUpdateDate" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="pictureTaker" candidateClass="OTMPictureTaker"/>
+                <relationship kind="outlet" name="species" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="updateUser" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="OTMView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMView.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
@@ -757,5 +871,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="ROJ-aE-inW"/>
+        <segue reference="145-jK-ChU"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -113,6 +113,14 @@
     [pictureTaker getPictureInViewController:self
                                     callback:^(UIImage *image)
      {
+         CGFloat aspect = image.size.height / image.size.width;
+         CGFloat newWidth = 800.0;
+         CGFloat newHeight = aspect * newWidth;
+         UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), YES, 0.0);
+         [image drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+         image = UIGraphicsGetImageFromCurrentImageContext();
+         UIGraphicsEndImageContext();
+         
          self.imageView.image = image;
          [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
                                                onPlotWithID:[[self.data objectForKey:@"id"] intValue]

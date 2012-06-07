@@ -77,7 +77,8 @@ typedef enum {
     
     [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) filters:fs mapRect:mapRect zoomScale:zoomScale callback:
      ^(AZPointCollection *pcol, NSError* error) {
-         if (error == nil) {
+         if (error == nil && [tileCache getObjectForMapRect:mapRect zoomScale:zoomScale] == nil) {
+
              CFArrayRef points = pcol.points;
 
              UIImage *image;
@@ -86,9 +87,31 @@ typedef enum {
              } else {
                  image = [AZTileRenderer createImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
              }
+
+             @synchronized(self) {
+
+                 image = [self fillInBorders:image mapRect:mapRect zoomScale:zoomScale tileCache:tileCache alpha:tileAlpha];
              
-             [pointCache cacheObject:pcol forMapRect:mapRect zoomScale:zoomScale];
-             [tileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
+                 [pointCache cacheObject:pcol forMapRect:mapRect zoomScale:zoomScale];
+                 [tileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
+
+                 UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
+
+                 for(OTMDirection dir=North;dir<=NorthWest;dir++) {                    
+                     MKMapRect neighMapRect = [self mapRectForNeighbor:mapRect direction:dir];
+                     UIImage *neighborImage = [tileCache getObjectForMapRect:neighMapRect zoomScale:zoomScale];
+                     if (neighborImage) {
+                         neighborImage = [self fillInImage:neighborImage fromCenterImage:image directionFromCenter:dir stampSize:stamp.size];
+
+                         [tileCache cacheObject:neighborImage forMapRect:neighMapRect zoomScale:zoomScale];
+                         dispatch_async(dispatch_get_main_queue(), 
+                                        ^{
+                                            [blockSelf setNeedsDisplayInMapRect:neighMapRect zoomScale:zoomScale];         
+                                        });
+                     }
+                 }
+
+             }
 
              @synchronized(mask) {
                  [mask removeObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
@@ -96,15 +119,14 @@ typedef enum {
              
              dispatch_async(dispatch_get_main_queue(), 
                             ^{
-                                MKMapRect adjustedRect = 
-                                    MKMapRectInset(mapRect,
-                                                   -(maximumStampSize.width*2.0)/zoomScale, 
-                                                   -(maximumStampSize.height*2.0)/zoomScale);
-
-                                [blockSelf setNeedsDisplayInMapRect:adjustedRect];         
+                                [blockSelf setNeedsDisplayInMapRect:mapRect];         
                             });
          } else {
-             NSLog(@"Error loading tile images: %@", error);
+             if (error != nil) {
+                 NSLog(@"Error loading tile images: %@", error);
+             } else {
+                 NSLog(@"This tile is already cached.");
+             }
          }
      }];     
 }
@@ -118,24 +140,24 @@ typedef enum {
 {
     if ([filters customFiltersActive]) {
         if ([memoryFilterTileCache getObjectForMapRect:mapRect zoomScale:zoomScale] == nil) {
-            if (![loadingFilter containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
-                @synchronized(loadingFilter) {
+            @synchronized(loadingFilter) {
+                if (![loadingFilter containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
                     [loadingFilter addObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
+                    [self sendFilterTileRequestWithMapRect:mapRect zoomScale:zoomScale];
                 }
-                [self sendFilterTileRequestWithMapRect:mapRect zoomScale:zoomScale];
             }
             return NO;
-        } else { NSLog(@"Deferred loading filter"); }
+        }
     }
     if ([memoryTileCache getObjectForMapRect:mapRect zoomScale:zoomScale] == nil) {
         // If the cache does not have a tile for the requested URL, start a new request in the backround and
         // return NO to let the caller know that the tile is not yet loaded.
-        if (![loading containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
-            @synchronized(loading) {
+        @synchronized(loading) {
+            if (![loading containsObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]]) {
                 [loading addObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
+                [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale];
             }
-            [self sendTileRequestWithMapRect:mapRect zoomScale:zoomScale];
-        } else { NSLog(@"Deferred loading %@/%@", [AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale], loading); }
+        }
         return NO;
     }
 
@@ -194,15 +216,8 @@ typedef enum {
       [self renderFilteredTilesInMapRect:mapRect zoomScale:zoomScale alpha:1.0 inContext:context filters:filters];
     }
 
-    __block id blockSelf = self;
-    
     UIGraphicsPopContext();
     
-//    dispatch_async(dispatch_get_main_queue(), 
-//                   ^{
-//                       [blockSelf setNeedsDisplayInMapRect:MKMapRectInset(mapRect, -mapRect.size.width/2.0, -mapRect.size.height/2.0)
-//                                                 zoomScale:zoomScale];         
-//                   });
 }
 
 -(void)renderFilteredTilesInMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha inContext:(CGContextRef)context filters:(OTMFilters *)f {
@@ -245,20 +260,58 @@ typedef enum {
     
     [imageData drawInRect:centerRect blendMode:kCGBlendModeNormal alpha:alpha];
     
+}
+
+-(UIImage *)fillInBorders:(UIImage *)image mapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale tileCache:(AZGeoCache *)tiles alpha:(CGFloat)alpha  {
+
+    UIGraphicsBeginImageContext([image size]);
+    [image drawInRect:CGRectMake(0,0,image.size.width,image.size.height)];
+
+    UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
+
     for(OTMDirection dir=North;dir<=NorthWest;dir++) {
-        [self drawNeighbor:dir mapRect:mapRect zoomScale:zoomScale centerRect:centerRect stampSize:centerRect.size alpha:alpha cache:cache];
+        [self drawNeighbor:dir mapRect:mapRect zoomScale:zoomScale stampSize:stamp.size alpha:alpha cache:tiles image:image];
+    }
+
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsPopContext();
+
+    return newImage;
+}
+
+-(OTMDirection)oppositeDir:(OTMDirection)dir {
+    switch (dir) {
+        case North:
+            return South;
+        case NorthEast:
+            return SouthWest;
+        case East:
+            return West;
+        case SouthEast:   
+            return NorthWest;
+        case South:   
+            return North;
+        case SouthWest:   
+            return NorthEast;
+        case West:
+            return East;
+        case NorthWest:
+            return SouthEast;
+        default:
+            return North;
     }
 }
 
--(void)drawNeighbor:(OTMDirection)dir mapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale centerRect:(CGRect)centerRect stampSize:(CGSize)stampSize alpha:(CGFloat)alpha cache:(AZGeoCache *)cache {
-
-    MKMapRect neighMapRect = [self mapRectForNeighbor:mapRect direction:dir];
-    
+-(UIImage *)fillInImage:(UIImage *)image fromCenterImage:(UIImage *)cimage directionFromCenter:(OTMDirection)dirFrom stampSize:(CGSize)stampSize  {
     CGFloat offsetX = 0;
     CGFloat offsetY = 0;
+
+    OTMDirection dir = [self oppositeDir:dirFrom];
     
-    CGFloat stampHeightOffset = (stampSize.height*2.0)/zoomScale;
-    CGFloat stampWidthOffset = (stampSize.width*2.0)/zoomScale;
+    CGFloat stampHeightOffset = (stampSize.height*2.0);
+    CGFloat stampWidthOffset = (stampSize.width*2.0);
+    CGRect centerRect = CGRectMake(stampWidthOffset, stampHeightOffset, image.size.width, image.size.height);
     
     switch (dir) {
         case North:
@@ -297,11 +350,73 @@ typedef enum {
         default:
             break;
     }
+
+    UIGraphicsBeginImageContext([image size]);
+
+    [image drawInRect:CGRectMake(0,0,image.size.width,image.size.height)];
+
+    CGRect newRect = CGRectMake(offsetX,offsetY,image.size.width,image.size.height); 
+    [cimage drawInRect:newRect];
+
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsPopContext();
+
+    return newImage;
+}
+
+-(void)drawNeighbor:(OTMDirection)dir mapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale stampSize:(CGSize)stampSize alpha:(CGFloat)alpha cache:(AZGeoCache *)cache image:(UIImage*)image {
+   
+    CGFloat offsetX = 0;
+    CGFloat offsetY = 0;
     
+    CGFloat stampHeightOffset = (stampSize.height*2.0);
+    CGFloat stampWidthOffset = (stampSize.width*2.0);
+    CGRect centerRect = CGRectMake(stampWidthOffset, stampHeightOffset, image.size.width, image.size.height);
+    
+    switch (dir) {
+        case North:
+            offsetX = 0;
+            offsetY = -centerRect.size.height + stampHeightOffset;
+            break;
+        case NorthEast:
+            offsetX = centerRect.size.width - stampWidthOffset;
+            offsetY = -centerRect.size.height + stampHeightOffset;
+            break;
+        case East:
+            offsetX = centerRect.size.width - stampWidthOffset;
+            offsetY = 0;
+            break;
+        case SouthEast:   
+            offsetX = centerRect.size.width - stampWidthOffset;
+            offsetY = centerRect.size.height - stampHeightOffset;
+            break;
+        case South:   
+            offsetX = 0;
+            offsetY = centerRect.size.height - stampHeightOffset;
+            break;
+        case SouthWest:   
+            offsetX = -centerRect.size.width + stampWidthOffset;
+            offsetY = centerRect.size.height - stampHeightOffset;
+            break;
+        case West:
+            offsetX = -centerRect.size.width + stampWidthOffset;
+            offsetY = 0;
+            break;      
+        case NorthWest:
+            offsetX = -centerRect.size.width + stampWidthOffset;
+            offsetY = -centerRect.size.height + stampHeightOffset;
+            break;            
+            
+        default:
+            break;
+    }
+
+    MKMapRect neighMapRect = [self mapRectForNeighbor:mapRect direction:dir];    
     UIImage *neigh = [cache getObjectForMapRect:neighMapRect zoomScale:zoomScale];
     
     if (neigh) {
-        CGRect newRect = CGRectOffset(centerRect, offsetX, offsetY);
+        CGRect newRect = CGRectMake(offsetX,offsetY,neigh.size.width,neigh.size.height); 
         [neigh drawInRect:newRect blendMode:kCGBlendModeNormal alpha:alpha];   
     }        
 }

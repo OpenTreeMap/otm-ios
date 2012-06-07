@@ -172,13 +172,15 @@
             [dest startOrCommitEditing:self];
         }
     } else if ([segue.identifier isEqualToString:@"filtersList"]) {
-        OTMFilterListViewController *vc = (OTMFilterListViewController *)segue.destinationViewController;
+        UINavigationController *nvc =segue.destinationViewController;
+        OTMFilterListViewController *vc = (OTMFilterListViewController *)nvc.topViewController;
         [vc view]; // Force the view to load
 
-        [vc setFilters:filters];
+        [vc setAllFilters:filters];
 
-        vc.callback = ^(OTMFilters *filters) {
-            [self showFilters:filters];
+        vc.callback = ^(OTMFilters *f) {
+            self.filters = f;
+            [self showFilters:f];
         };
     }
 }
@@ -435,6 +437,7 @@
 {
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:coordinate.latitude
                                                          longitude:coordinate.longitude
+                                                           filters:self.filters
                                                           callback:^(NSArray* plots, NSError* error)
      {
          if ([plots count] == 0) { // No plots returned

@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OTMScrollAwareViewController.h"
 
 @interface OTMFilters : NSObject
 
 @property (nonatomic,assign) BOOL missingTree;
 @property (nonatomic,assign) BOOL missingDBH;
 @property (nonatomic,assign) BOOL missingSpecies;
+@property (nonatomic,strong) NSString *speciesName;
+@property (nonatomic,strong) NSString *speciesId;
 @property (nonatomic,strong) NSArray *filters;
 
 - (BOOL)active;
@@ -37,7 +40,7 @@
 @property (nonatomic,readonly) UIView *view;
 @property (nonatomic,readonly) NSString *name;
 @property (nonatomic,readonly) NSString *key;
-
+@property (nonatomic,strong) id delegate;
 
 - (NSDictionary *)queryParams;
 - (BOOL)active;
@@ -53,9 +56,20 @@
 
 @end
 
-@interface OTMFilterListViewController : UIViewController
+@interface OTMRangeFilter : OTMFilter
 
-@property (nonatomic,readonly) OTMFilters *filters;
+@property (nonatomic,readonly) UILabel *nameLbl;
+@property (nonatomic,readonly) UITextField *minValue;
+@property (nonatomic,readonly) UITextField *maxValue;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k;
+
+@end
+
+
+@interface OTMFilterListViewController : OTMScrollAwareViewController
+
+@property (nonatomic,readonly) NSArray *filters;
 @property (nonatomic,strong) Function1v callback;
 
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
@@ -63,7 +77,10 @@
 @property (nonatomic,strong) IBOutlet UISwitch *missingTree;
 @property (nonatomic,strong) IBOutlet UISwitch *missingDBH;
 @property (nonatomic,strong) IBOutlet UISwitch *missingSpecies;
+@property (nonatomic,strong) IBOutlet UIButton *speciesButton;
+@property (nonatomic,strong) NSString *speciesName;
+@property (nonatomic,strong) NSString *speciesId;
 
-- (void)setFilters:(OTMFilters *)f;
+- (void)setAllFilters:(OTMFilters *)f;
 
 @end

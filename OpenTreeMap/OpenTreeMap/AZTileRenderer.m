@@ -41,7 +41,7 @@
             [stamp drawInRect:rect blendMode:kCGBlendModeNormal alpha:alpha];
         }
     }
-    
+
     UIGraphicsPopContext();
     
     UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
@@ -103,7 +103,7 @@
     }
     
     if (mode != AZTileFilterModeNone) {
-        imageName = @"tree_zoom1_plot";
+        imageName = [NSString stringWithFormat:@"%@_plot", imageName];
     }
     
     return [UIImage imageNamed:imageName];
