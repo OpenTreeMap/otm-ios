@@ -78,9 +78,11 @@ typedef enum {
     [[[OTMEnvironment sharedEnvironment] api] getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) filters:fs mapRect:mapRect zoomScale:zoomScale callback:
      ^(AZPointCollection *pcol, NSError* error) {
          if (error == nil && [tileCache getObjectForMapRect:mapRect zoomScale:zoomScale] == nil) {
-
+             NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
+             
              CFArrayRef points = pcol.points;
 
+             NSTimeInterval start1 = [NSDate timeIntervalSinceReferenceDate];
              UIImage *image;
              if (fs) {
                  image = [AZTileRenderer createFilterImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
@@ -89,6 +91,7 @@ typedef enum {
              }
 
              @synchronized(self) {
+                 NSLog(@"\t -> %0.3f second for initial render",[NSDate timeIntervalSinceReferenceDate]-start1);
 
                  image = [self fillInBorders:image mapRect:mapRect zoomScale:zoomScale tileCache:tileCache alpha:tileAlpha];
              
@@ -113,14 +116,14 @@ typedef enum {
 
              }
 
-             @synchronized(mask) {
-                 [mask removeObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
-             }
-             
              dispatch_async(dispatch_get_main_queue(), 
                             ^{
-                                [blockSelf setNeedsDisplayInMapRect:mapRect];         
+                                [blockSelf setNeedsDisplayInMapRect:mapRect]; 
+                                [mask removeObject:[AZTileCacheKey keyWithMapRect:mapRect zoomScale:zoomScale]];
                             });
+
+             NSTimeInterval end = [NSDate timeIntervalSinceReferenceDate];
+             NSLog(@"Took %0.3f seconds to render",end-start);
          } else {
              if (error != nil) {
                  NSLog(@"Error loading tile images: %@", error);
