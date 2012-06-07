@@ -108,12 +108,27 @@
     [self getPlotsNearLatitude:lat longitude:lon maxResults:1 callback:callback];
 }
 
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon filters:(OTMFilters *)filters callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon maxResults:1 filters:filters callback:callback];
+}
+
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon maxResults:max filters:nil callback:callback];
+}
+
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback {
+
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   [NSString stringWithFormat:@"%f", lat], @"lat",
+                                   [NSString stringWithFormat:@"%f", lon], @"lon",
+                                   [NSNumber numberWithInt:max], @"max_plots", nil];
+
+    if (filters != nil) {
+        [params addEntriesFromDictionary:[filters customFiltersDict]];
+    }
+
     [self.request get:@"locations/:lat,:lon/plots" 
-               params:[NSDictionary dictionaryWithObjectsAndKeys:
-                       [NSString stringWithFormat:@"%f", lat], @"lat",
-                       [NSString stringWithFormat:@"%f", lon], @"lon",
-                       [NSNumber numberWithInt:max], @"max_plots", nil]
+               params:params
              callback:[OTMAPI liftResponse:
                        [OTMAPI jsonCallback:callback]]];
 }
