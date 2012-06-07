@@ -601,19 +601,29 @@
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
 
+#define kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier @"kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier"
+
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation
 {
+    MKAnnotationView *annotationView;
     if (annotation == self.addTreeAnnotation) {
-        MKAnnotationView *annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
+        annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
             annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
             ((OTMAddTreeAnnotationView *)annotationView).delegate = self;
             ((OTMAddTreeAnnotationView *)annotationView).mapView = mv;
         }
-        return annotationView;
-    } else {
-        return nil;
+    } else { // The only two annotation types on the map are add tree and selected tree
+        annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc]
+                initWithAnnotation:annotation
+                   reuseIdentifier:kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier];
+            annotationView.image = [UIImage imageNamed:@"selected_marker"];
+            annotationView.centerOffset = CGPointMake(12,-29);
+        }
     }
+    return annotationView;
 }
 
 #pragma mark UISearchBarDelegate methods

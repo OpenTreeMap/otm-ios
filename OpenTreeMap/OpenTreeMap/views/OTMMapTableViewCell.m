@@ -28,6 +28,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kOTMMapTableViewCellHeight)];
+        self.mapView.delegate = self;
 
         self.mapView.layer.cornerRadius = 10.0;
         self.mapView.layer.borderWidth = 1.0;
@@ -92,6 +93,25 @@
     
     annotation.coordinate = center;
     [mapView addAnnotation:annotation];
+}
+
+#pragma mark MKMapViewDelegate Methods
+
+#define kOTMMapTableViewCellSelectedTreeAnnotationViewReuseIdentifier @"kOTMMapTableViewCellSelectedTreeAnnotationViewReuseIdentifier"
+
+- (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)anno
+{
+    MKAnnotationView *annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapTableViewCellSelectedTreeAnnotationViewReuseIdentifier];
+
+    if (!annotationView) {
+        annotationView  = [[MKAnnotationView alloc]
+            initWithAnnotation:anno
+               reuseIdentifier:kOTMMapTableViewCellSelectedTreeAnnotationViewReuseIdentifier];
+        annotationView.image = [UIImage imageNamed:@"selected_marker"];
+        annotationView.centerOffset = CGPointMake(12,-29);
+    }
+
+    return annotationView;
 }
 
 @end

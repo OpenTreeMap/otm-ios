@@ -24,6 +24,8 @@
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
 		6489E23515372DA300DA7924 /* gps_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23315372DA300DA7924 /* gps_icon@x2.png */; };
+		648A8AB7157EAEE1006D3771 /* selected_marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 648A8AB5157EAEE1006D3771 /* selected_marker.png */; };
+		648A8AB8157EAEE1006D3771 /* selected_marker@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 648A8AB6157EAEE1006D3771 /* selected_marker@x2.png */; };
 		649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F8D23155041DA007B196D /* AZWaitingOverlayController.m */; };
 		64A7157C1562B46F003430E8 /* OTMTreeDictionaryHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 64A7157B1562B46F003430E8 /* OTMTreeDictionaryHelper.m */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
@@ -189,6 +191,8 @@
 		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
 		6489E23315372DA300DA7924 /* gps_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@x2.png"; sourceTree = "<group>"; };
+		648A8AB5157EAEE1006D3771 /* selected_marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_marker.png; sourceTree = "<group>"; };
+		648A8AB6157EAEE1006D3771 /* selected_marker@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_marker@x2.png"; sourceTree = "<group>"; };
 		649F8D22155041DA007B196D /* AZWaitingOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWaitingOverlayController.h; sourceTree = "<group>"; };
 		649F8D23155041DA007B196D /* AZWaitingOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWaitingOverlayController.m; sourceTree = "<group>"; };
 		64A7157A1562B46F003430E8 /* OTMTreeDictionaryHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDictionaryHelper.h; sourceTree = "<group>"; };
@@ -579,6 +583,8 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				648A8AB5157EAEE1006D3771 /* selected_marker.png */,
+				648A8AB6157EAEE1006D3771 /* selected_marker@x2.png */,
 				D77EA784157D6A320079302E /* tree_zoom1_plot.png */,
 				D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */,
 				D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */,
@@ -854,6 +860,8 @@
 				D7F352C1156BEFAF00E54060 /* tree_zoom6_plot.png in Resources */,
 				D7F352C2156BEFAF00E54060 /* tree_zoom7_plot.png in Resources */,
 				D77EA785157D6A320079302E /* tree_zoom1_plot.png in Resources */,
+				648A8AB7157EAEE1006D3771 /* selected_marker.png in Resources */,
+				648A8AB8157EAEE1006D3771 /* selected_marker@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
