@@ -42,6 +42,7 @@ typedef void(^ASIRequestConfig)(ASIHTTPRequest* req);
 @property (nonatomic,copy,readonly) NSString* baseURL;
 @property (nonatomic,strong) NSDictionary* headers;
 @property (nonatomic,readonly) NSOperationQueue *queue;
+@property (nonatomic,assign) BOOL synchronous;
 
 /**
  * Initialize with a base url

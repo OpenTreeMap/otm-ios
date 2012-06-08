@@ -71,7 +71,7 @@
 
 @implementation AZHttpRequest
 
-@synthesize baseURL, headers, queue;
+@synthesize baseURL, headers, queue, synchronous;
 
 -(id)initWithURL:(NSString*)base {
     if (self = [[AZHttpRequest alloc] init]) {
@@ -242,7 +242,11 @@
     
     [self logHttpRequest:request];
 
-    [[self queue] addOperation:request];
+    if (synchronous) {
+        [request startSynchronous];
+    } else {
+        [[self queue] addOperation:request];
+    }
 }
 
 -(void)logHttpRequest:(ASIHTTPRequest *)request {

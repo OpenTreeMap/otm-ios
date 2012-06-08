@@ -90,7 +90,7 @@ typedef enum {
                  image = [AZTileRenderer createImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
              }
 
-             @synchronized(self) {
+             { //@synchronized(self) {
                  NSLog(@"\t -> %0.3f second for initial render",[NSDate timeIntervalSinceReferenceDate]-start1);
 
                  image = [self fillInBorders:image mapRect:mapRect zoomScale:zoomScale tileCache:tileCache alpha:tileAlpha];

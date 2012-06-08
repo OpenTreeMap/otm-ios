@@ -44,6 +44,8 @@ typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
 
 typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
 
+@class AZTileQueue;
+
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
  *
@@ -59,6 +61,7 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  */
 @property (nonatomic,strong) AZHttpRequest* tileRequest;
 @property (nonatomic,strong) AZHttpRequest* request;
+@property (nonatomic,readonly,strong) AZTileQueue *tiles;
 
 /**
  * Get species list
@@ -96,6 +99,8 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
 /**
  * Get point offsets for a given tile
  * To keep this method performant it uses a custom callback
+ * Also note that this method uses a custom tile request queue
+ * to order tile requests.
  *
  * @param region WSG84 Region, mapRect and zoomScale
  * @param callback the callback we get when we are done
@@ -106,6 +111,15 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
                      mapRect:(MKMapRect)mapRect
                    zoomScale:(MKZoomScale)zoomScale 
                     callback:(AZPointDataCallback)callback;
+
+
+// Perform a request right away
+// this request is perform on the tileRequest object
+-(void)performGetPointOffsetsInTile:(MKCoordinateRegion)region 
+                            filters:(OTMFilters *)filters
+                            mapRect:(MKMapRect)mapRect
+                          zoomScale:(MKZoomScale)zoomScale 
+                           callback:(AZPointDataCallback)callback;
 
 /**
  * Attempt to log the given user in. If successful user.loggedIn will return

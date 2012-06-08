@@ -24,6 +24,7 @@
 #import "ASIHTTPRequest.h"
 #import "OTMReverseGeocodeOperation.h"
 #import "AZPointCollection.h"
+#import "AZTileQueue.h"
 
 @interface OTMAPI()
 +(int)parseSection:(NSData*)data 
@@ -38,7 +39,7 @@
 
 @implementation OTMAPI
 
-@synthesize request, tileRequest;
+@synthesize request, tileRequest, tiles;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
     if (callback == nil) { return [^(id obj, id error) {} copy]; }
@@ -75,6 +76,18 @@
                 callback(json, error);
             }
     } copy];
+}
+
+-(id)init {
+    if ((self = [super init])) {
+        tiles = [[AZTileQueue alloc] init];
+        tiles.api = self;
+        tiles.opQueue = [[NSOperationQueue alloc] init];
+        tiles.opQueue.maxConcurrentOperationCount = 3;
+
+        
+    }
+    return self;
 }
 
 -(void)getSpeciesListWithCallback:(AZJSONCallback)callback {
@@ -155,6 +168,20 @@
                      mapRect:(MKMapRect)mapRect
                    zoomScale:(MKZoomScale)zoomScale 
                     callback:(AZPointDataCallback)callback {
+
+    [tiles queueRequest:[[AZTileRequest alloc] initWithRegion:region
+                                                      mapRect:mapRect
+                                                    zoomScale:zoomScale
+                                                      filters:filters
+                                                     callback:callback]];
+                                        
+}
+
+-(void)performGetPointOffsetsInTile:(MKCoordinateRegion)region 
+                            filters:(OTMFilters *)filters
+                            mapRect:(MKMapRect)mapRect
+                          zoomScale:(MKZoomScale)zoomScale 
+                           callback:(AZPointDataCallback)callback {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                          [NSString stringWithFormat:@"%f,%f,%f,%f", 

@@ -116,6 +116,7 @@
     req.headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", nil];
     AZHttpRequest* treq = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
     treq.headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", nil];
+    treq.synchronous = YES;
 
     req.queue.maxConcurrentOperationCount = 3;
     treq.queue.maxConcurrentOperationCount = 2;

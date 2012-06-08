@@ -31,6 +31,7 @@
 #import "OTMDetailCellRenderer.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDictionaryHelper.h"
+#import "AZTileQueue.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -572,6 +573,11 @@
 
 - (void)mapView:(MKMapView*)mView regionDidChangeAnimated:(BOOL)animated {
     MKCoordinateRegion region = [mView region];
+    
+    MKZoomScale currentZoomScale = mView.bounds.size.width / mView.visibleMapRect.size.width;
+
+    [[[[OTMEnvironment sharedEnvironment] api] tiles] setVisibleMapRect:mView.visibleMapRect];
+    [[[[OTMEnvironment sharedEnvironment] api] tiles] setZoomScale:currentZoomScale];
 
     [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] setMapRegion:region];
 
@@ -597,7 +603,7 @@
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
     if (!pointOffsetOverlayView) {
-       pointOffsetOverlayView = [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
+        pointOffsetOverlayView = [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
     }
     return pointOffsetOverlayView;
 }
