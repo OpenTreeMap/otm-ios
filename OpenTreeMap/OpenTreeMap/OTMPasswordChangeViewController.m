@@ -33,7 +33,7 @@
         if (![vc.aNewPassword.text isEqualToString:vc.aNewPasswordVerify.text]) {
             return @"Password and password confirmation must match";
         } else {
-            return nil;
+            return (NSString *)nil;
         }
     } copy];
     
@@ -46,7 +46,7 @@
         if (user == nil) {
             return @"You must be logged in to change your password";
         } else {
-            return nil;
+            return (NSString *)nil;
         }
     } copy];
     
@@ -56,7 +56,7 @@
         if (![user.password isEqualToString:vc.oldPassword.text]) {
             return @"Your current password is incorrect, please try again";
         } else {
-            return nil;
+            return (NSString *)nil;
         }
     } copy];
     
