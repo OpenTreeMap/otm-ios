@@ -24,6 +24,47 @@
 
 @implementation OTMUser
 
-@synthesize firstName, lastName, zipcode, email, photo, userId, reputation;
+@synthesize firstName, lastName, zipcode, email, photo, userId, reputation, permissions;
+
+- (bool)canDeleteAnyTree
+{
+    return [self hasPermission:@"delete_tree"];
+}
+
+- (bool)canApprovePendingEdits
+{
+    // OTM does not currently have a separate permission for approving pending
+    // edits and, instead, assumes that a user who can delete any tree is
+    // an "administrative" user that also has the power to approve a pending edit.
+    return self.canDeleteAnyTree;
+}
+
+- (bool)hasPermission:(NSString *)permission
+{
+    if (!permissions || !permission) {
+        return false;
+    }
+
+    // Check for an exact, case-insensitive match
+    for (NSString *allowed in permissions) {
+        if ([[permission lowercaseString] isEqualToString:[allowed lowercaseString]]) {
+            return true;
+        }
+    }
+
+    // If the specified permission argument is not prefixed with "module.", check for any
+    // matching permission by stripping off the module prefix.
+    if ([[permission componentsSeparatedByString:@"."] count] == 1) {
+        for (NSString *allowed in permissions) {
+            NSArray *components = [[allowed lowercaseString] componentsSeparatedByString:@"."];
+            if ([[permission lowercaseString] isEqualToString:[components objectAtIndex:1]]) {
+                return true;
+            }
+        }
+    }
+
+    // No matches were found earler in the method.
+    return false;
+}
 
 @end

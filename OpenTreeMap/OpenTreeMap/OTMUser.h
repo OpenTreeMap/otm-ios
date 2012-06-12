@@ -32,5 +32,11 @@
 @property (nonatomic,strong) NSString* zipcode;
 @property (nonatomic,strong) NSString* email;
 @property (nonatomic,strong) UIImage *photo;
+@property (nonatomic,strong) NSArray* permissions;
+
+@property (nonatomic,readonly) bool canDeleteAnyTree;
+@property (nonatomic,readonly) bool canApprovePendingEdits;
+
+- (bool)hasPermission:(NSString *)permission;
 
 @end
