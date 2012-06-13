@@ -33,7 +33,7 @@
         if (![vc.password.text isEqualToString:vc.verifyPassword.text]) {
             return @"Passwords must match";
         } else {
-            return nil;
+            return (NSString *)nil;
         }
     } copy];
     

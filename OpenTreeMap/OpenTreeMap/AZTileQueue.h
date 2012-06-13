@@ -17,8 +17,10 @@
 
 @property (nonatomic,readonly,strong) OTMFilters *filters;
 @property (nonatomic,readonly,copy) AZPointDataCallback callback;
+@property (nonatomic,copy) Function1v operation;
 
--(id)initWithRegion:(MKCoordinateRegion)r mapRect:(MKMapRect)mr zoomScale:(MKZoomScale)zs filters:(OTMFilters *)f callback:(AZPointDataCallback)cb;
+-(id)initWithRegion:(MKCoordinateRegion)r mapRect:(MKMapRect)mr zoomScale:(MKZoomScale)zs
+            filters:(OTMFilters *)f callback:(AZPointDataCallback)cb operation:(Function1v)op;
 
 @end
 

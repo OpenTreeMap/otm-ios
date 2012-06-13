@@ -39,7 +39,7 @@
 
 @implementation OTMAPI
 
-@synthesize request, tileRequest, tiles;
+@synthesize request, tileRequest, tiles, renders;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
     if (callback == nil) { return [^(id obj, id error) {} copy]; }
@@ -85,9 +85,21 @@
         tiles.opQueue = [[NSOperationQueue alloc] init];
         tiles.opQueue.maxConcurrentOperationCount = 3;
 
-        
+        renders = [[AZTileQueue alloc] init];
+        renders.opQueue = [[NSOperationQueue alloc] init];
+        renders.opQueue.maxConcurrentOperationCount = 2;
     }
     return self;
+}
+
+-(void)setVisibleMapRect:(MKMapRect)r{
+    [renders setVisibleMapRect:r];
+    [tiles setVisibleMapRect:r];
+}
+
+-(void)setZoomScale:(MKZoomScale)z {
+    [renders setZoomScale:z];
+    [tiles setZoomScale:z];
 }
 
 -(void)getSpeciesListWithCallback:(AZJSONCallback)callback {
@@ -173,7 +185,14 @@
                                                       mapRect:mapRect
                                                     zoomScale:zoomScale
                                                       filters:filters
-                                                     callback:callback]];
+                                                     callback:callback
+                                                    operation:^(AZTileRequest *r) {
+                    [self performGetPointOffsetsInTile:r.region
+                                               filters:r.filters
+                                               mapRect:r.mapRect
+                                             zoomScale:r.zoomScale
+                                              callback:r.callback];
+            }]];
                                         
 }
 

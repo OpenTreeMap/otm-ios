@@ -9,15 +9,17 @@
 #import "AZTileQueue.h"
 
 @implementation AZTileRequest
-@synthesize region, mapRect, zoomScale, filters, callback;
+@synthesize region, mapRect, zoomScale, filters, callback, operation;
 
--(id)initWithRegion:(MKCoordinateRegion)r mapRect:(MKMapRect)mr zoomScale:(MKZoomScale)zs filters:(OTMFilters *)f callback:(AZPointDataCallback)cb {
+-(id)initWithRegion:(MKCoordinateRegion)r mapRect:(MKMapRect)mr zoomScale:(MKZoomScale)zs
+            filters:(OTMFilters *)f callback:(AZPointDataCallback)cb operation:(Function1v)op {
     if ((self = [super init])) {
         region = r;
         mapRect = mr;
         zoomScale = zs;
         filters = f;
         callback = cb;
+        operation = op;
     }
 
     return self;
@@ -89,12 +91,8 @@
     [opQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
                 AZTileRequest *r = [self dequeueRequest];
                 NSLog(@"Dequeue: Queue contains %d objects",[queue count]);
-                if (r) {
-                    [api performGetPointOffsetsInTile:r.region
-                                              filters:r.filters
-                                              mapRect:r.mapRect
-                                            zoomScale:r.zoomScale
-                                             callback:r.callback];
+                if (r && r.operation) {
+                    r.operation(r);
                 }
             }]];
 }
@@ -120,14 +118,14 @@
                 int zoomDiffA = ABS(a.zoomScale - zoomScale);
                 int zoomDiffB = ABS(b.zoomScale - zoomScale);
                 if (zoomDiffA < zoomDiffB) { // A is closer
-                    return NSOrderedDescending; // B is before A
+                    return (NSComparisonResult)NSOrderedDescending; // B is before A
                 } else if (zoomDiffA > zoomDiffB) { // B is closer
-                    return NSOrderedAscending; // A is before B in the array
+                    return (NSComparisonResult)NSOrderedAscending; // A is before B in the array
                 } else { // Equal zoom values, queue in order of distance
-                    return [self distanceOrdering:a to:b];
+                    return (NSComparisonResult)[self distanceOrdering:a to:b];
                 }
             } else { // zoom scale is the same
-                return [self distanceOrdering:a to:b];
+                return (NSComparisonResult)[self distanceOrdering:a to:b];
             }
         }];
 }
