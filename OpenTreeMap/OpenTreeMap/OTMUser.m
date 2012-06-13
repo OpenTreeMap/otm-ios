@@ -28,15 +28,17 @@
 
 - (bool)canDeleteAnyTree
 {
+    // A user can always delete trees they have personally added, but only
+    // privileged users can delete any tree.
     return [self hasPermission:@"delete_tree"];
 }
 
-- (bool)canApprovePendingEdits
+- (bool)canApproveOrRejectPendingEdits
 {
-    // OTM does not currently have a separate permission for approving pending
-    // edits and, instead, assumes that a user who can delete any tree is
-    // an "administrative" user that also has the power to approve a pending edit.
-    return self.canDeleteAnyTree;
+    // Normal users can only create pending rows, not update them.
+    // Approving or rejecting an edit involves updating a pending
+    // row so users with this permission are "approvers."
+    return [self hasPermission:@"update_pending"];
 }
 
 - (bool)hasPermission:(NSString *)permission

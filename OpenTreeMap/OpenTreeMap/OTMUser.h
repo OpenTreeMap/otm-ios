@@ -35,7 +35,7 @@
 @property (nonatomic,strong) NSArray* permissions;
 
 @property (nonatomic,readonly) bool canDeleteAnyTree;
-@property (nonatomic,readonly) bool canApprovePendingEdits;
+@property (nonatomic,readonly) bool canApproveOrRejectPendingEdits;
 
 - (bool)hasPermission:(NSString *)permission;
 
