@@ -144,7 +144,7 @@
         
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
         
-        dest.data = plot;
+        dest.data = [plot mutableDeepCopy];
         dest.keys = keys;
         //dest.imageView.image = self.treeImage.image;
     }
