@@ -87,7 +87,7 @@
 
         renders = [[AZTileQueue alloc] init];
         renders.opQueue = [[NSOperationQueue alloc] init];
-        renders.opQueue.maxConcurrentOperationCount = 2;
+        renders.opQueue.maxConcurrentOperationCount = 3;
     }
     return self;
 }

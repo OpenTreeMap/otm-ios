@@ -84,7 +84,7 @@
                                         {
                                             dispatch_async(dispatch_get_main_queue(), 
                                                            ^{
-                                                               [self setNeedsDisplayInMapRect:mapRect zoomScale:z]; 
+                                                               [self setNeedsDisplayInMapRect:m zoomScale:z]; 
                                                            });
                                         }];
                         @synchronized(mask) {
