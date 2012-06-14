@@ -22,15 +22,24 @@
 
 @implementation OTMNearbyTreesViewController
 
-@synthesize locationManager, tableView, nearbyTrees, lastLocation;
+@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        filters = [[OTMFilters alloc] init];
     }
     return self;
+}
+
+
+-(IBAction)updateList:(UISegmentedControl *)control {
+    self.filters.listFilterType = (OTMListFilterType)control.selectedSegmentIndex;
+    self.nearbyTrees = [NSArray array];
+    [self.tableView reloadData];
+
+    [self refreshTableWithLocation:self.lastLocation];
 }
 
 //TODO: Handle unauthorized view
@@ -140,9 +149,12 @@
 }
 
 -(void)refreshTableWithLocation:(CLLocation *)loc {
+    if (loc == nil) { loc = self.lastLocation; }
+
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:loc.coordinate.latitude
                                                          longitude:loc.coordinate.longitude
                                                         maxResults:50
+                                                           filters:filters
                                                           callback:^(NSArray *json, NSError *error)
      {
          if (json) {

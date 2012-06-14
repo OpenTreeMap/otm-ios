@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OTMFilterListViewController.h"
 
 @interface OTMNearbyTreesViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -15,5 +16,8 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *nearbyTrees;
 @property (nonatomic, strong) CLLocation *lastLocation;
+@property (nonatomic, strong) OTMFilters *filters;
+
+-(IBAction)updateList:(UISegmentedControl *)control;
 
 @end

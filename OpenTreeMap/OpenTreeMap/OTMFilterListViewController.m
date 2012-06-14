@@ -11,7 +11,7 @@
 
 @implementation OTMFilters
 
-@synthesize missingTree, missingDBH, missingSpecies, filters, speciesName, speciesId;
+@synthesize missingTree, missingDBH, missingSpecies, filters, speciesName, speciesId, listFilterType;
 
 - (BOOL)active {
     return [self standardFiltersActive] || [self customFiltersActive];
@@ -31,6 +31,19 @@
     }
 
     return false;
+}
+
+- (NSDictionary *)filtersDict {
+    NSMutableDictionary *m = [NSMutableDictionary dictionary];
+    [m addEntriesFromDictionary:[self customFiltersDict]];
+
+    if ([self listFilterType] == kOTMFiltersShowRecent) {
+        [m setObject:@"true" forKey:@"filter_recent"];
+    } else if ([self listFilterType] == kOTMFiltersShowPending) {
+        [m setObject:@"true" forKey:@"filter_pending"];
+    }
+
+    return m;
 }
 
 - (NSDictionary *)customFiltersDict {
