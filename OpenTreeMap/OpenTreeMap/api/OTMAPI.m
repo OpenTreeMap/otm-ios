@@ -39,7 +39,7 @@
 
 @implementation OTMAPI
 
-@synthesize request, tileRequest, tiles;
+@synthesize request, tileRequest, tilesQueue;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
     if (callback == nil) { return [^(id obj, id error) {} copy]; }
@@ -80,10 +80,10 @@
 
 -(id)init {
     if ((self = [super init])) {
-        tiles = [[AZTileQueue alloc] init];
-        tiles.api = self;
-        tiles.opQueue = [[NSOperationQueue alloc] init];
-        tiles.opQueue.maxConcurrentOperationCount = 3;
+        tileQueue = [[AZTileQueue alloc] init];
+        tileQueue.api = self;
+        tileQueue.opQueue = [[NSOperationQueue alloc] init];
+        tileQueue.opQueue.maxConcurrentOperationCount = 3;
 
         
     }
@@ -169,11 +169,11 @@
                    zoomScale:(MKZoomScale)zoomScale 
                     callback:(AZPointDataCallback)callback {
 
-    [tiles queueRequest:[[AZTileRequest alloc] initWithRegion:region
-                                                      mapRect:mapRect
-                                                    zoomScale:zoomScale
-                                                      filters:filters
-                                                     callback:callback]];
+    [tileQueue queueRequest:[[AZTileRequest alloc] initWithRegion:region
+                                                          mapRect:mapRect
+                                                        zoomScale:zoomScale
+                                                          filters:filters
+                                                         callback:callback]];
                                         
 }
 

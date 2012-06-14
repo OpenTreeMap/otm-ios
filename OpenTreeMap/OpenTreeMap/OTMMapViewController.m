@@ -576,8 +576,7 @@
     
     MKZoomScale currentZoomScale = mView.bounds.size.width / mView.visibleMapRect.size.width;
 
-    [[[[OTMEnvironment sharedEnvironment] api] tiles] setVisibleMapRect:mView.visibleMapRect];
-    [[[[OTMEnvironment sharedEnvironment] api] tiles] setZoomScale:currentZoomScale];
+    [[[[OTMEnvironment sharedEnvironment] api] tiles] setVisibleMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
 
     [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] setMapRegion:region];
 

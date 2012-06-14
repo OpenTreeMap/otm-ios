@@ -61,6 +61,14 @@
     return self;
 }
 
+-(void)setVisibleMapRect:(MKMapRect)r zoomScale:(MKZoomScale)z {
+    @synchronized(self) {
+        visibleMapRect = r;
+        zoomScale = z;
+        [self sort];
+    }
+}        
+
 -(void)setVisibleMapRect:(MKMapRect)r {
     @synchronized(self) {
         visibleMapRect = r;
