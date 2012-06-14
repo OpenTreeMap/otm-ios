@@ -28,7 +28,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        filters = [[OTMFilters alloc] init];
     }
     return self;
 }
@@ -46,6 +45,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    filters = [[OTMFilters alloc] init];
     
     if (self.locationManager == nil) {
         CLLocationManager *manager = [[CLLocationManager alloc] init];
