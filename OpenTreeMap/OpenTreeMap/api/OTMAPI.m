@@ -149,7 +149,7 @@
                                    [NSNumber numberWithInt:max], @"max_plots", nil];
 
     if (filters != nil) {
-        [params addEntriesFromDictionary:[filters customFiltersDict]];
+        [params addEntriesFromDictionary:[filters filtersDict]];
     }
 
     [self.request get:@"locations/:lat,:lon/plots" 
@@ -210,7 +210,7 @@
                                                                    region.center.latitude + region.span.latitudeDelta / 2.0, 
                                                                    nil], @"bbox", nil];
 
-    [params addEntriesFromDictionary:[filters customFiltersDict]];
+    [params addEntriesFromDictionary:[filters filtersDict]];
 
     [self.tileRequest getRaw:@"tiles"
                   params:params

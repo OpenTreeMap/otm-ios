@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "OTMScrollAwareViewController.h"
 
+typedef enum {
+    kOTMFiltersShowAll = 0,
+    kOTMFiltersShowRecent,
+    kOTMFiltersShowPending
+} OTMListFilterType;
+
 @interface OTMFilters : NSObject
 
 @property (nonatomic,assign) BOOL missingTree;
@@ -16,9 +22,13 @@
 @property (nonatomic,assign) BOOL missingSpecies;
 @property (nonatomic,strong) NSString *speciesName;
 @property (nonatomic,strong) NSString *speciesId;
+
+@property (nonatomic,assign) OTMListFilterType listFilterType;
+
 @property (nonatomic,strong) NSArray *filters;
 
 - (BOOL)active;
+- (NSDictionary *)filtersDict;
 - (BOOL)standardFiltersActive;
 - (BOOL)customFiltersActive;
 
