@@ -39,7 +39,7 @@
 
 @implementation OTMAPI
 
-@synthesize request, tileRequest, tiles, renders;
+@synthesize request, tileRequest, tileQueue, renderQueue;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
     if (callback == nil) { return [^(id obj, id error) {} copy]; }
@@ -80,26 +80,31 @@
 
 -(id)init {
     if ((self = [super init])) {
-        tiles = [[AZTileQueue alloc] init];
-        tiles.api = self;
-        tiles.opQueue = [[NSOperationQueue alloc] init];
-        tiles.opQueue.maxConcurrentOperationCount = 3;
+        tileQueue = [[AZTileQueue alloc] init];
+        tileQueue.api = self;
+        tileQueue.opQueue = [[NSOperationQueue alloc] init];
+        tileQueue.opQueue.maxConcurrentOperationCount = 3;
 
-        renders = [[AZTileQueue alloc] init];
-        renders.opQueue = [[NSOperationQueue alloc] init];
-        renders.opQueue.maxConcurrentOperationCount = 2;
+        renderQueue = [[AZTileQueue alloc] init];
+        renderQueue.opQueue = [[NSOperationQueue alloc] init];
+        renderQueue.opQueue.maxConcurrentOperationCount = 2;
     }
     return self;
 }
 
 -(void)setVisibleMapRect:(MKMapRect)r{
-    [renders setVisibleMapRect:r];
-    [tiles setVisibleMapRect:r];
+    [renderQueue setVisibleMapRect:r];
+    [tileQueue setVisibleMapRect:r];
 }
 
 -(void)setZoomScale:(MKZoomScale)z {
-    [renders setZoomScale:z];
-    [tiles setZoomScale:z];
+    [renderQueue setZoomScale:z];
+    [tileQueue setZoomScale:z];
+}
+
+-(void)setVisibleMapRect:(MKMapRect)r zoomScale:(MKZoomScale)z {
+    [renderQueue setVisibleMapRect:r zoomScale:z];
+    [tileQueue setVisibleMapRect:r zoomScale:z];
 }
 
 -(void)getSpeciesListWithCallback:(AZJSONCallback)callback {
@@ -181,7 +186,7 @@
                    zoomScale:(MKZoomScale)zoomScale 
                     callback:(AZPointDataCallback)callback {
 
-    [tiles queueRequest:[[AZTileRequest alloc] initWithRegion:region
+    [tileQueue queueRequest:[[AZTileRequest alloc] initWithRegion:region
                                                       mapRect:mapRect
                                                     zoomScale:zoomScale
                                                       filters:filters

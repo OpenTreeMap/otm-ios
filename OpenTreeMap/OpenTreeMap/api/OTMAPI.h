@@ -61,12 +61,13 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  */
 @property (nonatomic,strong) AZHttpRequest* tileRequest;
 @property (nonatomic,strong) AZHttpRequest* request;
-@property (nonatomic,readonly,strong) AZTileQueue *tiles;
-@property (nonatomic,readonly,strong) AZTileQueue *renders;
+@property (nonatomic,readonly,strong) AZTileQueue *tileQueue;
+@property (nonatomic,readonly,strong) AZTileQueue *renderQueue;
 
 
 -(void)setVisibleMapRect:(MKMapRect)r;
 -(void)setZoomScale:(MKZoomScale)z;
+-(void)setVisibleMapRect:(MKMapRect)r zoomScale:(MKZoomScale)z;
 
 /**
  * Get species list

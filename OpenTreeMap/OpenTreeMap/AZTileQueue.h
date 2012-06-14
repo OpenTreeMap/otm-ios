@@ -35,5 +35,6 @@
 
 -(void)queueRequest:(AZTileRequest *)req;
 -(AZTileRequest *)dequeueRequest;
+-(void)setVisibleMapRect:(MKMapRect)r zoomScale:(MKZoomScale)z;
 
 @end

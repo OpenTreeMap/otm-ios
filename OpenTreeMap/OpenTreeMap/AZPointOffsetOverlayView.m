@@ -63,15 +63,15 @@
                            filters:(OTMFilters *)fs
                               mask:(NSMutableSet *)mask
 {    
-    //    __block AZPointOffsetOverlayView *blockSelf = self;
     OTMAPI *api = [[OTMEnvironment sharedEnvironment] api];
     [api getPointOffsetsInTile:MKCoordinateRegionForMapRect(mapRect) filters:fs mapRect:mapRect zoomScale:zoomScale callback:^(AZPointCollection *p, NSError *e) {
-            [api.renders queueRequest:[[AZTileRequest alloc] initWithRegion:MKCoordinateRegionForMapRect(mapRect)
-                                                                    mapRect:mapRect
-                                                                  zoomScale:zoomScale
-                                                                    filters:filters
-                                                                   callback:nil
+            [api.renderQueue queueRequest:[[AZTileRequest alloc] initWithRegion:MKCoordinateRegionForMapRect(mapRect)
+                                                                        mapRect:mapRect
+                                                                      zoomScale:zoomScale
+                                                                        filters:filters
+                                                                       callback:nil
                                                                   operation:^(AZTileRequest *r) {
+
                         [AZTileRenderer createImageWithPoints:p
                                                         error:e
                                                       mapRect:mapRect
