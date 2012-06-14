@@ -29,6 +29,10 @@
 {
     [super viewDidLoad];
 
+    sections =  [NSArray arrayWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",
+                    @"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
+    sectionDict = [NSMutableDictionary dictionary];
+
     [[[OTMEnvironment sharedEnvironment] api] getSpeciesListWithCallback:^(id json, NSError *err) 
      {
          if (err) {
@@ -40,6 +44,23 @@
              [self.navigationController popViewControllerAnimated:YES];
          } else {
              species = json;
+
+             for(NSString *displayValue in [species allKeys]) {
+                 NSString *key = [[displayValue substringToIndex:1] uppercaseString];
+                 NSMutableArray *vals = [sectionDict objectForKey:key];
+                 if (vals == nil) {
+                     vals = [NSMutableArray array];
+                     [sectionDict setObject:vals forKey:key];
+                 }
+                 [vals addObject:displayValue];
+             }
+             for(NSString *s in sections) {
+                 NSArray *vals = [sectionDict objectForKey:s];
+                 if (vals) {
+                     [sectionDict setObject:[vals sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]
+                                     forKey:s];
+                 }
+             }
              [self.tableView reloadData];
          }
      }];
@@ -59,14 +80,23 @@
 
 #pragma mark - Table view data source
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
+{
+    return sections;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return MAX(1, [sections count]);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return MAX(1, [species count]);
+    if ([species count] == 0 && section == 0) {
+        return 1; // show the loading row
+    } else {
+        return [[sectionDict objectForKey:[sections objectAtIndex:section]] count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,7 +112,7 @@
     if (species == nil) {
         cell.textLabel.text = @"Loading Species...";
     } else {
-        cell.textLabel.text = [[species allKeys] objectAtIndex:indexPath.row];
+        cell.textLabel.text = [[sectionDict objectForKey:[sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
     }
     
     return cell;
@@ -129,10 +159,14 @@
 
 #pragma mark - Table view delegate
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [sections objectAtIndex:section];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (callback) {
-        id key = [[species allKeys] objectAtIndex:indexPath.row];
+        id key = [[sectionDict objectForKey:[sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
         callback([species objectForKey:key], key);
     }
     
