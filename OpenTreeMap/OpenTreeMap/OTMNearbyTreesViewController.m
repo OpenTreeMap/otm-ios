@@ -22,7 +22,7 @@
 
 @implementation OTMNearbyTreesViewController
 
-@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters;
+@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters, segControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -60,12 +60,21 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [self.locationManager startUpdatingLocation];
+    [self reloadBackground];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [self.locationManager stopUpdatingLocation];
 }
 
+- (void)reloadBackground {
+    OTMListFilterType t = (OTMListFilterType)segControl.selectedSegmentIndex;
+    if (t == kOTMFiltersShowRecent || t == kOTMFiltersShowPending) {
+        self.nearbyTrees = [NSArray array];
+        [self.tableView reloadData];
+        [self refreshTableWithLocation:self.lastLocation];
+    }
+}
 
 - (void)viewDidUnload
 {

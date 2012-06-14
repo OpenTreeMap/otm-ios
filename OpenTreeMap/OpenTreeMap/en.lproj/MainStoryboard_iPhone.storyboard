@@ -731,6 +731,7 @@
                         </segmentedControl>
                     </navigationItem>
                     <connections>
+                        <outlet property="segControl" destination="0jT-hi-5b1" id="irt-XY-cwS"/>
                         <outlet property="tableView" destination="pMW-wp-VsW" id="82L-ce-BV8"/>
                         <outlet property="view" destination="FfX-zR-YUX" id="aIH-MY-6pq"/>
                         <segue destination="Z5j-QU-uNU" kind="push" identifier="pushDetails" id="l7d-z8-dsy"/>
@@ -815,6 +816,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNearbyTreesViewController.h"/>
             <relationships>
                 <relationship kind="action" name="updateList:" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="segControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>

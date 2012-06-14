@@ -14,6 +14,7 @@
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *segControl;
 @property (nonatomic, strong) NSMutableArray *nearbyTrees;
 @property (nonatomic, strong) CLLocation *lastLocation;
 @property (nonatomic, strong) OTMFilters *filters;
