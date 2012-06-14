@@ -10,6 +10,8 @@
 
 @interface OTMSpeciesTableViewController : UITableViewController {
     NSDictionary *species;
+    NSArray *sections;
+    NSMutableDictionary *sectionDict;
 }
 
 @property (nonatomic,strong) Function2v callback;

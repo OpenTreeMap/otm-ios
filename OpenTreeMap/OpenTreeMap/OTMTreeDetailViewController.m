@@ -353,7 +353,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if (segue.identifier == @"changeSpecies") {
+    if ([segue.identifier isEqualToString:@"changeSpecies"]) {
         OTMSpeciesTableViewController *sVC = (OTMSpeciesTableViewController *)segue.destinationViewController;
         
         sVC.callback = ^(NSNumber *sId, NSString *name) {
