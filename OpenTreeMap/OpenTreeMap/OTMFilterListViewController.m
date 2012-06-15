@@ -121,7 +121,7 @@
 }
 
 - (UIView *)createView {
-    CGRect r = CGRectMake(0,0,320,32);
+    CGRect r = CGRectMake(0,0,320,40);
     [self setView:[[UIView alloc] initWithFrame:r]];
 
     nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
@@ -189,7 +189,7 @@
     CGFloat padding = 10.0f;
 
     CGRect nameFrame = CGRectMake(21,0,320,50);
-    CGRect leftFrame = CGRectMake(21,50,60,31);
+    CGRect leftFrame = CGRectMake(106,10,79,31);
     CGRect toFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding, 0);
     CGRect rightFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding + 25, 0);
 
@@ -322,7 +322,7 @@
     for (UIView *v in otherFiltersView.subviews) { [v removeFromSuperview]; }
 
     otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,
-                                        otherFiltersView.frame.origin.y,
+                                        otherFiltersView.frame.origin.y + 18,
                                         otherFiltersView.frame.size.width,
                                         0.0);
   
