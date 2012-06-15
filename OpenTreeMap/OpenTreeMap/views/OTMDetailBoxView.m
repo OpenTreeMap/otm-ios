@@ -7,13 +7,15 @@
 //
 
 #import "OTMDetailBoxView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation OTMDetailBoxView
 
-
-
 -(void)loadTheme {
     fadeAtBottom = YES;
+    self.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    self.layer.shadowOpacity = 0.3;
 }
 
 @end

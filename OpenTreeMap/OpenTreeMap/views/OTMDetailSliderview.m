@@ -21,6 +21,7 @@
 //    
 
 #import "OTMDetailSliderview.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation OTMDetailSliderview
 
@@ -44,6 +45,9 @@
 
 -(void)loadTheme {
     fadeAtBottom = NO;
+    self.layer.shadowColor = [[UIColor blackColor] CGColor];
+    self.layer.shadowOffset = CGSizeMake(0.0f, -1.0f);
+    self.layer.shadowOpacity = 0.3;
 }
 
 - (void)drawRect:(CGRect)rect
@@ -80,52 +84,10 @@
                                 CGPointMake(CGRectGetMidX(gframe), fadeOffset),
                                 CGPointMake(CGRectGetMidX(gframe), gframe.size.height + fadeOffset),
                                 0);
-    CFRelease(colorArray);
-    CGColorRelease(endColor);
     
     CGContextRestoreGState(context);
-    
-    pct = .69;
-    float color1[] = { 1.0f, 1.0f, 1.0f, 0.0f };
-    startColor = CGColorCreate(colorSpace, color1);
-    
-    float color2[] = { pct, pct, pct, 1.0 };    
-    endColor = CGColorCreate(colorSpace, color2);
-    
-    const void* colors2[] = { 
-        fadeAtBottom ? endColor : startColor, 
-        fadeAtBottom ? startColor : endColor };
-    
-    colorArray = CFArrayCreate(NULL, colors2, 2, NULL);
-    gradient = CGGradientCreateWithColors(colorSpace,
-                                          colorArray, 
-                                          locations);
-    
-    CGFloat topOffset = fadeAtBottom ? self.frame.size.height - 15 : 0;
-    gframe = CGRectMake(0, topOffset, self.frame.size.width, 15);
-    
-    CGContextSaveGState(context);
-    
-    CGFloat fadeY = fadeAtBottom ? self.frame.size.height : 15;
-    
-    CGContextBeginTransparencyLayer(context, NULL);
-    [[UIColor clearColor] setFill];
-    CGContextFillRect(context,gframe);
 
-    CGContextAddRect(context,
-                     gframe);
-    CGContextClip(context);
-    CGContextDrawLinearGradient(context, gradient, 
-                                CGPointMake(CGRectGetMidX(gframe), gframe.origin.y),
-                                CGPointMake(CGRectGetMidX(gframe), fadeY),
-                                0);    
-    
-    CGContextEndTransparencyLayer(context);
-    CGContextRestoreGState(context);
-                     
     CFRelease(colorArray);
-    CGColorRelease(startColor);
-    CGColorRelease(endColor);
     CGColorSpaceRelease(colorSpace);
 }
 
