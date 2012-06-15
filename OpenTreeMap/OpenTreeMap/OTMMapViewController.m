@@ -154,9 +154,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
 {
     if ([segue.identifier isEqualToString:@"Details"]) {
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tree Map"style:UIBarButtonItemStyleBordered target:nil action:nil];
+
         OTMTreeDetailViewController *dest = segue.destinationViewController;
         [dest view]; // Force it load its view
         dest.delegate = self;
+        if (self.mode == Select) {
+            dest.navigationItem.title = @"Tree Detail";
+        } else if (self.mode = Add) {
+            dest.navigationItem.title = @"New Tree";
+        }
+
 
         if (self.mode == Select) {
             dest.data = self.selectedPlot;

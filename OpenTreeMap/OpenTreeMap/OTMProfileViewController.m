@@ -199,6 +199,7 @@
     if (self.recentActivity == nil) {
         self.recentActivity = [NSMutableArray array];
     }
+    self.navigationItem.title = @"Profile";
 }
 
 - (void)viewDidUnload

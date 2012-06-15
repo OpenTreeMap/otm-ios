@@ -238,7 +238,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="First" image="first" id="7"/>
-                    <navigationItem key="navigationItem" id="Ka4-ap-ix0">
+                    <navigationItem key="navigationItem" title="Tree" id="Ka4-ap-ix0">
                         <barButtonItem key="leftBarButtonItem" title="Filter" id="8gu-xT-odz">
                             <connections>
                                 <segue destination="5L2-2I-7tO" kind="modal" identifier="filtersList" id="cgy-qy-I9w"/>
@@ -354,7 +354,7 @@
             </objects>
             <point key="canvasLocation" x="1764" y="-158"/>
         </scene>
-        <!--Filter List View Controller-->
+        <!--Filter List View Controller - Filter-->
         <scene sceneID="zp8-W1-VWl">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8v-re-juQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -425,7 +425,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="mQf-uv-59X">
+                    <navigationItem key="navigationItem" title="Filter" id="mQf-uv-59X">
                         <barButtonItem key="leftBarButtonItem" title="Done" id="50L-7V-eyE">
                             <connections>
                                 <action selector="updateFilters:" destination="hZa-Zz-ezt" id="IFD-Fh-Bcb"/>
@@ -472,7 +472,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kOL-lh-UMg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -678,12 +678,12 @@
             </objects>
             <point key="canvasLocation" x="1194" y="455"/>
         </scene>
-        <!--Navigation Controller - Trees Nearby-->
+        <!--Navigation Controller - Tree List-->
         <scene sceneID="f8G-zt-XN4">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3s4-ZD-HQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="Bua-WS-BqB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Trees Nearby" image="recent_trees.png" id="jUG-J8-9UY"/>
+                    <tabBarItem key="tabBarItem" title="Tree List" image="recent_trees.png" id="jUG-J8-9UY"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Zvq-9t-LHn" customClass="OTMNavigationBar">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -744,7 +744,7 @@
         <scene sceneID="SRH-GT-8eT">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mm9-Mo-H1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController definesPresentationContext="YES" id="bif-JI-aQc" sceneMemberID="viewController">
+                <navigationController title="Profile" definesPresentationContext="YES" id="bif-JI-aQc" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="first" id="f7D-yS-5T9"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="8Lt-af-vsI" customClass="OTMNavigationBar">
                         <autoresizingMask key="autoresizingMask"/>
@@ -888,6 +888,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="ROJ-aE-inW"/>
-        <segue reference="Lek-fL-nUD"/>
+        <segue reference="145-jK-ChU"/>
     </inferredMetricsTieBreakers>
 </document>
