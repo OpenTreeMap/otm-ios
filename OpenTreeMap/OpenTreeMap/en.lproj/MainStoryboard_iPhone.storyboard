@@ -426,7 +426,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Filter" id="mQf-uv-59X">
-                        <barButtonItem key="leftBarButtonItem" title="Done" id="50L-7V-eyE">
+                        <barButtonItem key="leftBarButtonItem" title="Clear" id="Y2P-DX-RZK">
+                            <connections>
+                                <action selector="clearFilters:" destination="hZa-Zz-ezt" id="pkm-i2-3of"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="50L-7V-eyE">
                             <connections>
                                 <action selector="updateFilters:" destination="hZa-Zz-ezt" id="IFD-Fh-Bcb"/>
                             </connections>
@@ -781,6 +786,8 @@
         <class className="OTMFilterListViewController" superclassName="OTMScrollAwareViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMFilterListViewController.h"/>
             <relationships>
+                <relationship kind="action" name="clearFilters:"/>
+                <relationship kind="action" name="updateFilters:"/>
                 <relationship kind="outlet" name="missingDBH" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="missingSpecies" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="missingTree" candidateClass="UISwitch"/>

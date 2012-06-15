@@ -78,6 +78,8 @@
 
 - (NSString *)queryString { ABSTRACT_METHOD_BODY }
 - (BOOL)active { ABSTRACT_METHOD_BODY }
+- (void)clear { ABSTRACT_METHOD_BODY }
+- (void)resignFirstResponder { /* Stub for concreate filters with text boxes */ }
 
 - (void)setKey:(NSString *)k {
     key = k;
@@ -144,6 +146,10 @@
 
 - (BOOL)active {
     return toggle.on;
+}
+
+- (void)clear {
+    [toggle setOn:NO animated:YES];
 }
 
 - (NSString *)queryParams {
@@ -231,6 +237,16 @@
     return ([minValue.text intValue] != 0 || [maxValue.text intValue] != 0);
 }
 
+- (void)clear {
+    minValue.text = nil;
+    maxValue.text = nil;
+}
+
+- (void)resignFirstResponder {
+    [minValue resignFirstResponder];
+    [maxValue resignFirstResponder];
+}
+
 - (NSString *)queryParams {
     if ([self active]) {
         NSString *max = [NSString stringWithFormat:@"%@_max",self.key];
@@ -295,8 +311,21 @@
     if (callback) {
         callback([self generateFilters]);
     }
-
+    for (OTMFilter *filter in filters) {
+        [filter resignFirstResponder];
+    }
     [self dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)clearFilters:(id)sender {
+    [self.missingTree setOn:NO animated:YES];
+    [self.missingDBH setOn:NO animated:YES];
+    [self.missingSpecies setOn:NO animated:YES];
+    [self setSpeciesName:nil];
+    speciesId = nil;
+    for (OTMFilter *filter in filters) {
+        [filter clear];
+    }
 }
 
 - (OTMFilters *)generateFilters {

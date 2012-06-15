@@ -54,6 +54,8 @@ typedef enum {
 
 - (NSDictionary *)queryParams;
 - (BOOL)active;
+- (void)clear;
+- (void)resignFirstResponder;
 
 @end
 
@@ -90,6 +92,9 @@ typedef enum {
 @property (nonatomic,strong) IBOutlet UIButton *speciesButton;
 @property (nonatomic,strong) NSString *speciesName;
 @property (nonatomic,strong) NSString *speciesId;
+
+- (IBAction)updateFilters:(id)sender;
+- (IBAction)clearFilters:(id)sender;
 
 - (void)setAllFilters:(OTMFilters *)f;
 
