@@ -125,6 +125,7 @@
     [self setView:[[UIView alloc] initWithFrame:r]];
 
     nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
+    nameLbl.backgroundColor = [UIColor clearColor];
     nameLbl.textAlignment = UITextAlignmentLeft;
     nameLbl.text = self.name;
   
@@ -193,6 +194,7 @@
     CGRect rightFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding + 25, 0);
 
     nameLbl = [[UILabel alloc] initWithFrame:nameFrame];
+    nameLbl.backgroundColor = [UIColor clearColor];
     nameLbl.text = self.name;
     minValue = [[UITextField alloc] initWithFrame:leftFrame];
     maxValue = [[UITextField alloc] initWithFrame:rightFrame];
