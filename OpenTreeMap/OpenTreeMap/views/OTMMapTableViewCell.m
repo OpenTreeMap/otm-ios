@@ -107,8 +107,8 @@
         annotationView  = [[MKAnnotationView alloc]
             initWithAnnotation:anno
                reuseIdentifier:kOTMMapTableViewCellSelectedTreeAnnotationViewReuseIdentifier];
-        annotationView.image = [UIImage imageNamed:@"selected_marker"];
-        annotationView.centerOffset = CGPointMake(12,-29);
+        annotationView.image = [UIImage imageNamed:@"selected_marker_small"];
+        annotationView.centerOffset = CGPointMake(9,-19);
     }
 
     return annotationView;

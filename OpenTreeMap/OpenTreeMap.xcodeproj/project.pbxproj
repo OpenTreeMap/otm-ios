@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		641495CC1545D02500592E2F /* handle_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 641495CA1545D02500592E2F /* handle_icon.png */; };
 		641495CD1545D02500592E2F /* handle_icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 641495CB1545D02500592E2F /* handle_icon@x2.png */; };
+		64249DCA158B95D000461DD0 /* selected_marker_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 64249DC8158B95CF00461DD0 /* selected_marker_small.png */; };
+		64249DCB158B95D000461DD0 /* selected_marker_small@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 64249DC9158B95D000461DD0 /* selected_marker_small@x2.png */; };
 		64318CD21551E22E001C827F /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64318CD11551E22E001C827F /* libASI.a */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
@@ -169,6 +171,8 @@
 /* Begin PBXFileReference section */
 		641495CA1545D02500592E2F /* handle_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = handle_icon.png; sourceTree = "<group>"; };
 		641495CB1545D02500592E2F /* handle_icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle_icon@x2.png"; sourceTree = "<group>"; };
+		64249DC8158B95CF00461DD0 /* selected_marker_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_marker_small.png; sourceTree = "<group>"; };
+		64249DC9158B95D000461DD0 /* selected_marker_small@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_marker_small@x2.png"; sourceTree = "<group>"; };
 		64318CD11551E22E001C827F /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../DerivedData/opentreemap/Build/Products/Debug-iphoneos/libASI.a"; sourceTree = "<group>"; };
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
 		644C190515532FE80055CDE8 /* AZMemoryObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMemoryObjectCache.h; sourceTree = "<group>"; };
@@ -588,6 +592,8 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				64249DC8158B95CF00461DD0 /* selected_marker_small.png */,
+				64249DC9158B95D000461DD0 /* selected_marker_small@x2.png */,
 				648A8AB5157EAEE1006D3771 /* selected_marker.png */,
 				648A8AB6157EAEE1006D3771 /* selected_marker@x2.png */,
 				D77EA784157D6A320079302E /* tree_zoom1_plot.png */,
@@ -867,6 +873,8 @@
 				D77EA785157D6A320079302E /* tree_zoom1_plot.png in Resources */,
 				648A8AB7157EAEE1006D3771 /* selected_marker.png in Resources */,
 				648A8AB8157EAEE1006D3771 /* selected_marker@x2.png in Resources */,
+				64249DCA158B95D000461DD0 /* selected_marker_small.png in Resources */,
+				64249DCB158B95D000461DD0 /* selected_marker_small@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
