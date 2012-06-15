@@ -59,9 +59,11 @@
     filters = [[OTMFilters alloc] init];
     filters.filters = [[OTMEnvironment sharedEnvironment] filters];
     
-    self.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
-    if (!self.title) {
-        self.title = @"Tree Map";
+    // This sets the label at the top of the view, which can be different
+    // from the tab bar item label
+    self.navigationItem.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
+    if (!self.navigationItem.title) {
+        self.navigationItem.title = @"Tree Map";
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
