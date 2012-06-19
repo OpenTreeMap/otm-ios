@@ -104,7 +104,8 @@
     CLLocation *treeLoc = [[CLLocation alloc] initWithLatitude:[[geom valueForKey:@"lat"] doubleValue]
                                                      longitude:[[geom valueForKey:@"lng"] doubleValue]];
     
-    NSDictionary *tree = [plot objectForKey:@"tree"];
+    // tree variable may end up containing an NSDictionary or NSNull
+    id tree = [plot objectForKey:@"tree"];
     
     if (tree == nil || tree == [NSNull null]) {
         cell.textLabel.text = @"Unassigned Plot";
