@@ -1159,7 +1159,6 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos5.0]" = "iPhone Developer: Adam Hinz (EWMA7MNLJR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
