@@ -105,7 +105,6 @@
 		D7775FC91520E864008301E4 /* OTMValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FC81520E864008301E4 /* OTMValidator.m */; };
 		D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FCB15210492008301E4 /* OTMProfileViewController.m */; };
 		D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */; };
-		D77EA785157D6A320079302E /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D77EA784157D6A320079302E /* tree_zoom1_plot.png */; };
 		D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */; };
 		D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */; };
 		D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */; };
@@ -870,7 +869,6 @@
 				D7F352C0156BEFAF00E54060 /* tree_zoom5_plot.png in Resources */,
 				D7F352C1156BEFAF00E54060 /* tree_zoom6_plot.png in Resources */,
 				D7F352C2156BEFAF00E54060 /* tree_zoom7_plot.png in Resources */,
-				D77EA785157D6A320079302E /* tree_zoom1_plot.png in Resources */,
 				648A8AB7157EAEE1006D3771 /* selected_marker.png in Resources */,
 				648A8AB8157EAEE1006D3771 /* selected_marker@x2.png in Resources */,
 				64249DCA158B95D000461DD0 /* selected_marker_small.png in Resources */,
