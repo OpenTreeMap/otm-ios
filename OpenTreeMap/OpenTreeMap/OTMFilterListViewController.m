@@ -76,6 +76,7 @@
     return [NSClassFromString([dict objectForKey:OTMFilterKeyType]) filterFromDictionary:dict];
 }
 
+- (NSDictionary *)queryParams { ABSTRACT_METHOD_BODY }
 - (NSString *)queryString { ABSTRACT_METHOD_BODY }
 - (BOOL)active { ABSTRACT_METHOD_BODY }
 - (void)clear { ABSTRACT_METHOD_BODY }
