@@ -25,7 +25,7 @@
 
 @implementation OTMDetailTableViewCell
 
-@synthesize fieldLabel, fieldValue, editFieldValue, tfDelegate, allowsEditing, delegate, formatKey;
+@synthesize fieldLabel, fieldValue, editFieldValue, pendImageView, tfDelegate, allowsEditing, delegate, formatKey;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -50,10 +50,15 @@
         
         [self.fieldLabel setTextColor:[UIColor grayColor]];
         
+        self.pendImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pend"]];        
+        self.pendImageView.frame = CGRectMake(self.frame.size.width - pendImageView.frame.size.width- 20, self.frame.origin.y + 15, pendImageView.frame.size.width, pendImageView.frame.size.height);
+        
         [self addSubview:self.fieldValue];
         [self addSubview:self.fieldLabel];
         [self addSubview:self.editFieldValue];
+        [self addSubview:self.pendImageView];
         
+        pendImageView.hidden = YES;
         editFieldValue.hidden = YES;
     }
     return self;

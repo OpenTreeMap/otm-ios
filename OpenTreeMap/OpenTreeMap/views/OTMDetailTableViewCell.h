@@ -33,6 +33,7 @@
 @property (nonatomic, strong) UILabel *fieldLabel;
 @property (nonatomic, strong) UILabel *fieldValue;
 @property (nonatomic, strong) UITextField *editFieldValue;
+@property (nonatomic, strong) UIImageView *pendImageView;
 @property (nonatomic, assign) BOOL allowsEditing;
 @property (nonatomic, copy) NSString *formatKey;
 

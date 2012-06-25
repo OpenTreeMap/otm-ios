@@ -85,6 +85,16 @@
     
     id value = [data decodeKey:self.dataKey];
     
+    NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
+    if (pendingEditDict) {
+        if ([pendingEditDict objectForKey:self.dataKey]) {
+            detailcell.pendImageView.hidden = NO;
+            value = [[pendingEditDict objectForKey:self.dataKey] objectForKey:@"latest_value"];
+        } else {
+            detailcell.pendImageView.hidden = YES;
+        }
+    }
+
     detailcell.fieldLabel.text = self.label;
     detailcell.fieldValue.text = [OTMFormatters fmtObject:value withKey:self.formatStr];
     
