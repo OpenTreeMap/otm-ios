@@ -40,6 +40,16 @@
     
     NSString *output = @"(Not Set)";
     
+    NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
+    if (pendingEditDict) {
+        if ([pendingEditDict objectForKey:self.dataKey]) {
+            detailcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            value = [[pendingEditDict objectForKey:self.dataKey] objectForKey:@"latest_value"];
+        } else {
+            detailcell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    }
+
     for(NSDictionary *choice in fieldChoices) {
         if ([value isEqualToString:[[choice objectForKey:@"key"] description]]) {
             output = [choice objectForKey:@"value"];
@@ -47,8 +57,7 @@
     }
     
     detailcell.fieldLabel.text = self.label;
-    detailcell.fieldValue.text = output;   
-    detailcell.accessoryType = UITableViewCellAccessoryNone;
+    detailcell.fieldValue.text = output;
     
     return detailcell;
 }    
