@@ -88,10 +88,10 @@
     NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
     if (pendingEditDict) {
         if ([pendingEditDict objectForKey:self.dataKey]) {
-            detailcell.pendImageView.hidden = NO;
+            detailcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             value = [[pendingEditDict objectForKey:self.dataKey] objectForKey:@"latest_value"];
         } else {
-            detailcell.pendImageView.hidden = YES;
+            detailcell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
 

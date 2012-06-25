@@ -407,11 +407,15 @@
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    Function1v clicker = [[[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] clickCallback];
-    
-    if (clicker) {
-        clicker(self);
+    if (editMode) {
+        Function1v clicker = [[[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] clickCallback];
+
+        if (clicker) {
+            clicker(self);
+        }
+    } else {
+        if ([[tblView cellForRowAtIndexPath:indexPath] accessoryType] != UITableViewCellAccessoryNone)
+        [self performSegueWithIdentifier:@"fieldDetail" sender:self];
     }
     
     [tblView deselectRowAtIndexPath:indexPath animated:YES];

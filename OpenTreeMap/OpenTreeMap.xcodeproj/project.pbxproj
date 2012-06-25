@@ -51,6 +51,7 @@
 		64C76EB01561ACB10037805F /* OTMChangeLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */; };
 		64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */; };
 		64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D34563156169420073C62D /* OTMMapTableViewCell.m */; };
+		64DD10941598DDE70053AC57 /* OTMFieldDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlayView.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
@@ -235,6 +236,8 @@
 		64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapDetailCellRenderer.m; sourceTree = "<group>"; };
 		64D34562156169420073C62D /* OTMMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapTableViewCell.h; sourceTree = "<group>"; };
 		64D34563156169420073C62D /* OTMMapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapTableViewCell.m; sourceTree = "<group>"; };
+		64DD10921598DDE70053AC57 /* OTMFieldDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OTMFieldDetailViewController.h; sourceTree = "<group>"; };
+		64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFieldDetailViewController.m; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
 		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
 		64DDCDAB14F51A2C004FA0CF /* AZPointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlayView.h; sourceTree = "<group>"; };
@@ -492,6 +495,8 @@
 				64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */,
 				64C76EAE1561ACB10037805F /* OTMChangeLocationViewController.h */,
 				64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */,
+				64DD10921598DDE70053AC57 /* OTMFieldDetailViewController.h */,
+				64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */,
 			);
 			name = "Edit Details";
 			sourceTree = "<group>";
@@ -1008,6 +1013,7 @@
 				D7837B94156BE23B007C9D52 /* AZPointCollection.m in Sources */,
 				D7CBD06A1577C871009D08FF /* OTMFilterListViewController.m in Sources */,
 				D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */,
+				64DD10941598DDE70053AC57 /* OTMFieldDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
