@@ -502,7 +502,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="22h-7e-38J" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Field Detail" id="usY-jy-etI" customClass="OTMFieldDetailViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="GE4-sH-eGU">
+                    <view key="view" contentMode="scaleToFill" id="GE4-sH-eGU" customClass="OTMView">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
