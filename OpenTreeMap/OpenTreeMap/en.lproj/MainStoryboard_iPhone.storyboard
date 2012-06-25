@@ -424,6 +424,7 @@
                         <segue destination="IOc-fB-8NC" kind="relationship" relationship="viewControllers" id="yrs-Ul-Kac"/>
                         <segue destination="bif-JI-aQc" kind="relationship" relationship="viewControllers" id="dBz-IX-rYE"/>
                         <segue destination="Bua-WS-BqB" kind="relationship" relationship="viewControllers" id="RWl-OJ-DUu"/>
+                        <segue destination="eCd-qX-6ya" kind="relationship" relationship="viewControllers" id="Sn7-tC-W3Z"/>
                     </connections>
                 </tabBarController>
             </objects>
@@ -654,7 +655,7 @@
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mm9-Mo-H1x" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController title="Profile" definesPresentationContext="YES" id="bif-JI-aQc" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="first" id="f7D-yS-5T9"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="profile.png" id="f7D-yS-5T9"/>
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="8Lt-af-vsI" customClass="OTMNavigationBar">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -665,12 +666,36 @@
             </objects>
             <point key="canvasLocation" x="688" y="447"/>
         </scene>
+        <!--View Controller - About-->
+        <scene sceneID="IIX-qj-m7w">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XdU-T2-aji" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="eCd-qX-6ya" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6bg-QM-6ly">
+                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="splash_screen.png" id="LDK-Mi-JKH">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="411"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="About" image="about.png" id="Ci9-zh-qBm"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="688" y="1046"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="about.png" width="30" height="30"/>
         <image name="detail.png" width="11" height="16"/>
         <image name="first" width="16" height="16"/>
         <image name="gps_icon_14.png" width="14" height="14"/>
+        <image name="profile.png" width="30" height="30"/>
         <image name="recent_trees.png" width="30" height="30"/>
+        <image name="splash_screen.png" width="320" height="480"/>
         <image name="tree_map.png" width="30" height="30"/>
     </resources>
     <classes>

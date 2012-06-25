@@ -16,6 +16,9 @@
 			<array>
 				<string>iphone_app-icon.png</string>
 				<string>iphone_app-icon@x2.png</string>
+				<string>iphone_app-icon@2x.png</string>
+				<string>Default.png</string>
+				<string>Default@2x.png</string>
 			</array>
 		</dict>
 	</dict>
