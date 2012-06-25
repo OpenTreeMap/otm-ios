@@ -103,6 +103,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] navBarTintColor]];
+
     MKCoordinateRegion region = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapRegion];
     [mapView setRegion:region];
     if (firstAppearance) {
