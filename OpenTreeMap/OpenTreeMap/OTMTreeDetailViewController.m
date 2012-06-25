@@ -326,6 +326,8 @@
 
                     if (err == nil) {
                         [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
+                        self.data = [json mutableDeepCopy];
+                        [self.tableView reloadData];
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
                         [[[UIAlertView alloc] initWithTitle:nil
