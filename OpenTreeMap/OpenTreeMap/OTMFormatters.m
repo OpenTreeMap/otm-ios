@@ -51,7 +51,7 @@
     NSDate *date = [isoFormatter dateFromString:dateString];
 
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MMMM d, yyyy 'at' HH:MM aaa"];
+    [formatter setDateFormat:@"MMMM d, yyyy 'at' h:MM aaa"];
     [formatter setCalendar:cal];
     [formatter setLocale:[NSLocale currentLocale]];
     return [formatter stringFromDate:date];
