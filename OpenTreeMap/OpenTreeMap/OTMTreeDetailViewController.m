@@ -368,7 +368,7 @@
                                                     arrayWithObject:
                                                     [NSIndexPath
                                                      indexPathForRow:0
-                                                     inSection:0]]
+                                                     inSection:1]]
                                   withRowAnimation:UITableViewRowAnimationNone];
         };
     } else if ([segue.identifier isEqualToString:@"changeLocation"]) {
