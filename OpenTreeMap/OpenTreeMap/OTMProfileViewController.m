@@ -7,6 +7,7 @@
 //
 
 #import "OTMProfileViewController.h"
+#import "OTMView.h"
 
 #define kOTMProfileViewControllerSectionInfo 0
 #define kOTMProfileViewControllerSectionChangePassword 1
@@ -200,6 +201,8 @@
         self.recentActivity = [NSMutableArray array];
     }
     self.navigationItem.title = @"Profile";
+
+    self.tableView.backgroundView = [[OTMView alloc] init];
 }
 
 - (void)viewDidUnload
