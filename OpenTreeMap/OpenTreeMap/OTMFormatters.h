@@ -30,6 +30,7 @@
 +(NSString*)fmtIn:(NSNumber*)number;
 +(NSString*)fmtFt:(NSNumber*)number;
 +(NSString*)fmtM:(NSNumber*)number;
++(NSString*)fmtOtmApiDateString:(NSString*)dateString;
 
 +(NSString*)fmtObject:(id)obj withKey:(NSString*)key;
 

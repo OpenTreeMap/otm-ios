@@ -39,6 +39,24 @@
     return [NSString stringWithFormat:@"%0.2f m",[number floatValue]];
 }
 
++(NSString*)fmtOtmApiDateString:(NSString*)dateString
+{
+    NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+
+    NSDateFormatter *isoFormatter = [[NSDateFormatter alloc] init];
+    [isoFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [isoFormatter setCalendar:cal];
+    [isoFormatter setLocale:[NSLocale currentLocale]];
+
+    NSDate *date = [isoFormatter dateFromString:dateString];
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MMMM d, yyyy 'at' HH:MM aaa"];
+    [formatter setCalendar:cal];
+    [formatter setLocale:[NSLocale currentLocale]];
+    return [formatter stringFromDate:date];
+}
+
 +(NSString*)fmtObject:(id)obj withKey:(NSString*)key {
     if (obj == nil) {
         return @"";

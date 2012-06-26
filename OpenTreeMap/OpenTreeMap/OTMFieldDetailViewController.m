@@ -133,7 +133,8 @@
                     if (editDict) {
                         rawValueString = [editDict objectForKey:@"value"];
                         valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
-                        editDescription = [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], [editDict objectForKey:@"submitted"]];
+                        NSString *dateString = [OTMFormatters fmtOtmApiDateString:[editDict objectForKey:@"submitted"]];
+                        editDescription = [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], dateString];
                     }
                 }
             }
