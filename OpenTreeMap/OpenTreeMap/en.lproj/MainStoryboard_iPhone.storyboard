@@ -740,7 +740,7 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="411"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="splash_screen.png" id="LDK-Mi-JKH">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="about_bg.png" id="LDK-Mi-JKH">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="411"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -755,12 +755,12 @@
     </scenes>
     <resources>
         <image name="about.png" width="30" height="30"/>
+        <image name="about_bg.png" width="320" height="410"/>
         <image name="detail.png" width="11" height="16"/>
         <image name="first" width="16" height="16"/>
         <image name="gps_icon_14.png" width="14" height="14"/>
         <image name="profile.png" width="30" height="30"/>
         <image name="recent_trees.png" width="30" height="30"/>
-        <image name="splash_screen.png" width="320" height="480"/>
         <image name="tree_map.png" width="30" height="30"/>
     </resources>
     <classes>

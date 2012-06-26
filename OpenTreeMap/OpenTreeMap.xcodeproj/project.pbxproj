@@ -59,6 +59,8 @@
 		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
 		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
 		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
+		64E13D38159A361A003D6788 /* about_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 64E13D37159A361A003D6788 /* about_bg.png */; };
+		64E13D3B159A36C7003D6788 /* about_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64E13D3A159A36C7003D6788 /* about_bg@2x.png */; };
 		64E2AB9D155052B600EFA775 /* Philadelphia.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 64E2AB9C155052B600EFA775 /* Philadelphia.gpx */; };
 		64E2ABA01550535600EFA775 /* Azavea.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 64E2AB9F1550535600EFA775 /* Azavea.gpx */; };
 		64F224F215506F5F00512E42 /* gps_icon_14.png in Resources */ = {isa = PBXBuildFile; fileRef = 64F224F015506F5F00512E42 /* gps_icon_14.png */; };
@@ -248,6 +250,8 @@
 		64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMEnvironment.h; sourceTree = "<group>"; };
 		64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
 		64DDCDC414F53D8F004FA0CF /* Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
+		64E13D37159A361A003D6788 /* about_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about_bg.png; sourceTree = "<group>"; };
+		64E13D3A159A36C7003D6788 /* about_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about_bg@2x.png"; sourceTree = "<group>"; };
 		64E2AB9C155052B600EFA775 /* Philadelphia.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Philadelphia.gpx; sourceTree = "<group>"; };
 		64E2AB9F1550535600EFA775 /* Azavea.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Azavea.gpx; sourceTree = "<group>"; };
 		64F224F015506F5F00512E42 /* gps_icon_14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon_14.png; sourceTree = "<group>"; };
@@ -616,6 +620,8 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				64E13D3A159A36C7003D6788 /* about_bg@2x.png */,
+				64E13D37159A361A003D6788 /* about_bg.png */,
 				641E98AE1598B47500F7EDE0 /* Default.png */,
 				641E98B01598B48300F7EDE0 /* Default@2x.png */,
 				641E98AA1598B38300F7EDE0 /* splash_screen.png */,
@@ -918,6 +924,8 @@
 				641E98B11598B48300F7EDE0 /* Default@2x.png in Resources */,
 				64249DCE1590DAB600461DD0 /* pend.png in Resources */,
 				64F7BA491598CCB600BA2FF4 /* pend@2x.png in Resources */,
+				64E13D38159A361A003D6788 /* about_bg.png in Resources */,
+				64E13D3B159A36C7003D6788 /* about_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
