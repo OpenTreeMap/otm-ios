@@ -390,6 +390,7 @@
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
         fieldDetailViewController.fieldName = [renderer label];
+        fieldDetailViewController.fieldFormatString = [renderer formatStr];
     }
 }
 

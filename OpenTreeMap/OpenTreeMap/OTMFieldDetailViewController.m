@@ -22,6 +22,7 @@
 
 #import "OTMFieldDetailViewController.h"
 #import "OTMView.h"
+#import "OTMFormatters.h"
 
 @interface OTMFieldDetailViewController ()
 
@@ -29,7 +30,7 @@
 
 @implementation OTMFieldDetailViewController
 
-@synthesize data, fieldKey, fieldName;
+@synthesize data, fieldKey, fieldName, fieldFormatString;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -108,19 +109,20 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
+    NSString *rawValueString;
+    NSString *valueString;
+    NSString *editDescription;
 
     if (indexPath.section == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailCurrentValueCellIdentifier];
-        NSString *valueString = [[self.data decodeKey:self.fieldKey] description];
+        rawValueString = [[self.data decodeKey:self.fieldKey] description];
+        valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
         if (valueString && valueString != @"") {
             cell.textLabel.text = valueString;
         } else {
             cell.textLabel.text = @"No Value";
         }
     } else {
-        NSString *valueString;
-        NSString *editDescription;
-
         NSDictionary *pendingEditsDict = [self.data objectForKey:@"pending_edits"];
         if (pendingEditsDict) {
             NSDictionary *editsDict = [pendingEditsDict objectForKey:self.fieldKey];
@@ -129,7 +131,8 @@
                 if (edits) {
                     NSDictionary *editDict = [edits objectAtIndex:indexPath.row];
                     if (editDict) {
-                        valueString = [editDict objectForKey:@"value"];
+                        rawValueString = [editDict objectForKey:@"value"];
+                        valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
                         editDescription = [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], [editDict objectForKey:@"submitted"]];
                     }
                 }
