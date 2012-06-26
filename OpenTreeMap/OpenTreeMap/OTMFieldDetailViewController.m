@@ -30,7 +30,7 @@
 
 @implementation OTMFieldDetailViewController
 
-@synthesize data, fieldKey, fieldName, fieldFormatString;
+@synthesize data, fieldKey, fieldName, fieldFormatString, choices;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -116,7 +116,15 @@
     if (indexPath.section == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailCurrentValueCellIdentifier];
         rawValueString = [[self.data decodeKey:self.fieldKey] description];
-        valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+        if (choices) {
+            for(NSDictionary *choice in choices) {
+                if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
+                    valueString = [choice objectForKey:@"value"];
+                }
+            }
+        } else {
+            valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+        }
         if (valueString && valueString != @"") {
             cell.textLabel.text = valueString;
         } else {
@@ -132,7 +140,15 @@
                     NSDictionary *editDict = [edits objectAtIndex:indexPath.row];
                     if (editDict) {
                         rawValueString = [editDict objectForKey:@"value"];
-                        valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+                        if (choices) {
+                            for(NSDictionary *choice in choices) {
+                                if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
+                                    valueString = [choice objectForKey:@"value"];
+                                }
+                            }
+                        } else {
+                            valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+                        }
                         NSString *dateString = [OTMFormatters fmtOtmApiDateString:[editDict objectForKey:@"submitted"]];
                         editDescription = [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], dateString];
                     }

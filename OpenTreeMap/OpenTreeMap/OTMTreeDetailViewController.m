@@ -390,7 +390,16 @@
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
         fieldDetailViewController.fieldName = [renderer label];
-        fieldDetailViewController.fieldFormatString = [renderer formatStr];
+        if ([renderer respondsToSelector:@selector(formatStr)]) {
+            fieldDetailViewController.fieldFormatString = [renderer formatStr];
+        }
+        if ([renderer respondsToSelector:@selector(fieldName)] && [renderer respondsToSelector:@selector(fieldChoices)]) {
+            fieldDetailViewController.choices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:[renderer fieldName]];
+        } else {
+            // The view controller uses the presence of this property to determine how
+            // to display the value, so it must be nil'd out if ot os not a choices field
+            fieldDetailViewController.choices = nil;
+        }
     }
 }
 
