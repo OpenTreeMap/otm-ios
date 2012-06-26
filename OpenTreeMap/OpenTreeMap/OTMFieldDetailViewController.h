@@ -22,6 +22,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OTMFieldDetailViewController : UIViewController
+@interface OTMFieldDetailViewController : UITableViewController
+
+@property (nonatomic, strong) NSDictionary *data;
+@property (nonatomic, strong) NSString *fieldName;
+@property (nonatomic, strong) NSString *fieldKey;
 
 @end

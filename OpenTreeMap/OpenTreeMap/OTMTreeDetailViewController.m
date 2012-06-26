@@ -29,6 +29,7 @@
 #import "AZWaitingOverlayController.h"
 #import "OTMChangeLocationViewController.h"
 #import "OTMTreeDictionaryHelper.h"
+#import "OTMFieldDetailViewController.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -382,6 +383,13 @@
         CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data];
 
         [changeLocationViewController annotateCenter:center];
+    } else if ([segue.identifier isEqualToString:@"fieldDetail"]) {
+        NSIndexPath *indexPath = (NSIndexPath *)sender;
+        id renderer = [[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        OTMFieldDetailViewController *fieldDetailViewController = segue.destinationViewController;
+        fieldDetailViewController.data = data;
+        fieldDetailViewController.fieldKey = [renderer dataKey];
+        fieldDetailViewController.fieldName = [renderer label];
     }
 }
 
@@ -417,7 +425,7 @@
         }
     } else {
         if ([[tblView cellForRowAtIndexPath:indexPath] accessoryType] != UITableViewCellAccessoryNone)
-        [self performSegueWithIdentifier:@"fieldDetail" sender:self];
+        [self performSegueWithIdentifier:@"fieldDetail" sender:indexPath];
     }
     
     [tblView deselectRowAtIndexPath:indexPath animated:YES];
