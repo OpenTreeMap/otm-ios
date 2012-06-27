@@ -390,7 +390,7 @@
         OTMSpeciesTableViewController *vc = (OTMSpeciesTableViewController *)segue.destinationViewController;
         [vc view]; // Force the view to load
 
-        vc.callback = ^(NSString *sid, NSString *species) {
+        vc.callback = ^(NSString *sid, NSString *species, NSString *scientificName) {
             self.speciesName = species;
             self.speciesId = sid;
         };

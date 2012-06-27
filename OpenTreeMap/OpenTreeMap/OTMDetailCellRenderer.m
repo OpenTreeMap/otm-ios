@@ -11,7 +11,7 @@
 
 @implementation OTMDetailCellRenderer
 
-@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight;
+@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey;
 
 +(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict {
     NSString *clazz = [dict objectForKey:@"class"];
@@ -267,7 +267,7 @@
     UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
     
     if (detailcell == nil) {
-        detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+        detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                             reuseIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
     } 
     
@@ -279,8 +279,12 @@
         }
         
         detailcell.textLabel.text = val;
+        // If the detailDataKey is nil or it is not present in the data, setting the
+        // label text to nil is the correct behavior
+        detailcell.detailTextLabel.text = [renderData decodeKey:self.detailDataKey];
     } else {
         detailcell.textLabel.text = name;        
+        detailcell.detailTextLabel.text = nil;
     }
     
     detailcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

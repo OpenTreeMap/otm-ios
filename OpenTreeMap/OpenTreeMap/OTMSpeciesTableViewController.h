@@ -14,7 +14,7 @@
     NSMutableDictionary *sectionDict;
 }
 
-@property (nonatomic,strong) Function2v callback;
+@property (nonatomic,strong) Function3v callback;
 @property (nonatomic,strong) IBOutlet UITableView *tableView;
 
 @end

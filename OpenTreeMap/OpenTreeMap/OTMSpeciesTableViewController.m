@@ -99,20 +99,17 @@
     }
 }
 
+#define kSpeciesListCellReuseIdentifier @"kSpeciesListCellReuseIdentifier"
+
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"cell";
-    UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                      reuseIdentifier:@"cell"];
-    }
+    UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kSpeciesListCellReuseIdentifier];
     
     if (species == nil) {
         cell.textLabel.text = @"Loading Species...";
     } else {
         cell.textLabel.text = [[sectionDict objectForKey:[sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        cell.detailTextLabel.text = [[species objectForKey:cell.textLabel.text] objectForKey:@"scientific_name"];
     }
     
     return cell;
@@ -167,7 +164,8 @@
 {
     if (callback) {
         id key = [[sectionDict objectForKey:[sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
-        callback([species objectForKey:key], key);
+        NSDictionary *speciesDetailDict = [species objectForKey:key];
+        callback([speciesDetailDict objectForKey:@"id"], key, [speciesDetailDict objectForKey:@"scientific_name"]);
     }
     
     [self.navigationController popViewControllerAnimated:YES];

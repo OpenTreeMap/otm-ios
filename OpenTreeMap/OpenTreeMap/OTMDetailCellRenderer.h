@@ -37,6 +37,16 @@
 @property (nonatomic,strong) NSString *dataKey;
 
 /**
+ * Key to access data for the second line of this cell.
+ * Used primarily for showing the species scientific name
+ * beneath the common name.
+ *
+ * Example:
+ *  tree.scientific_name
+ */
+@property (nonatomic,strong) NSString *detailDataKey;
+
+/**
  * Block that takes a single argument (the renderer)
  * and returns a UITableViewCell
  *
