@@ -188,7 +188,7 @@
 
 - (void)viewDidLoad
 {
-    delayTime = 1.0; // minimum 2 second delay time
+    delayTime = 1.0; // minimum 1.0 second delay time
 
     [super viewDidLoad];
     [self.loadingView removeFromSuperview];
