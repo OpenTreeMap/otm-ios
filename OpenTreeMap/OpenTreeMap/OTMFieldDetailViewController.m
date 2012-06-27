@@ -24,7 +24,10 @@
 #import "OTMView.h"
 #import "OTMFormatters.h"
 
-@interface OTMFieldDetailViewController ()
+@interface OTMFieldDetailViewController (Private)
+
+- (NSString *)pendingValueAtIndex:(NSInteger)index;
+- (NSString *)pendingEditDescriptionAtIndex:(NSInteger)index;
 
 @end
 
@@ -76,23 +79,69 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
+        // The top section has a single cell with the current value
         return 1;
     } else {
+        // The second section has a cell for each pending edit
         NSDictionary *pendingEditsDict = [self.data objectForKey:@"pending_edits"];
         if (pendingEditsDict) {
             NSDictionary *editsDict = [pendingEditsDict objectForKey:self.fieldKey];
             if (!editsDict) {
                 editsDict = [pendingEditsDict objectForKey:self.ownerFieldKey];
             }
-            NSArray *edits = [editsDict objectForKey:@"pending_edits"];
-            if (edits) {
-                return [edits count];
-            } else {
-                return 0;
-            }
+            return [[editsDict objectForKey:@"pending_edits"] count];
         } else {
             return 0;
         }
+    }
+}
+
+- (NSString *)pendingValueAtIndex:(NSInteger)index
+{
+    bool thisFieldsValueIsControlledByAnotherField = NO;
+    NSDictionary *editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.fieldKey];
+    if (!editsDict) {
+        editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.ownerFieldKey];
+        thisFieldsValueIsControlledByAnotherField = YES;
+    }
+
+    NSDictionary *editDict = [[editsDict objectForKey:@"pending_edits"] objectAtIndex:index];
+    NSString *rawValueString;
+    if (thisFieldsValueIsControlledByAnotherField) {
+        rawValueString = [[editDict objectForKey:@"related_fields"] objectForKey:self.fieldKey];
+    } else {
+        rawValueString = [editDict objectForKey:@"value"];
+    }
+
+    NSString *valueString;
+    if (choices) {
+        for(NSDictionary *choice in choices) {
+            if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
+                valueString = [choice objectForKey:@"value"];
+            }
+        }
+    } else {
+        if (thisFieldsValueIsControlledByAnotherField) {
+            valueString = rawValueString;
+        } else {
+            valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+        }
+    }
+    return valueString;
+}
+
+- (NSString *)pendingEditDescriptionAtIndex:(NSInteger)index
+{
+    NSDictionary *editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.fieldKey];
+    if (!editsDict) {
+        editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.ownerFieldKey];
+    }
+    NSDictionary *editDict = [[editsDict objectForKey:@"pending_edits"] objectAtIndex:index];
+    NSString *dateString = [OTMFormatters fmtOtmApiDateString:[editDict objectForKey:@"submitted"]];
+    if (dateString) {
+        return [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], dateString];
+    } else {
+        return nil;
     }
 }
 
@@ -102,13 +151,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    NSString *rawValueString;
-    NSString *valueString;
-    NSString *editDescription;
 
     if (indexPath.section == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailCurrentValueCellIdentifier];
-        rawValueString = [[self.data decodeKey:self.fieldKey] description];
+        NSString *rawValueString = [[self.data decodeKey:self.fieldKey] description];
+        NSString *valueString;
         if (choices) {
             for(NSDictionary *choice in choices) {
                 if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
@@ -124,47 +171,9 @@
             cell.textLabel.text = @"No Value";
         }
     } else {
-        NSDictionary *pendingEditsDict = [self.data objectForKey:@"pending_edits"];
-        if (pendingEditsDict) {
-            bool owned = NO;
-            NSDictionary *editsDict = [pendingEditsDict objectForKey:self.fieldKey];
-            if (!editsDict) {
-                editsDict = [pendingEditsDict objectForKey:self.ownerFieldKey];
-                owned = YES;
-            }
-            if (editsDict) {
-                NSArray *edits = [editsDict objectForKey:@"pending_edits"];
-                if (edits) {
-                    NSDictionary *editDict = [edits objectAtIndex:indexPath.row];
-                    if (editDict) {
-                        if (owned) {
-                            rawValueString = [[editDict objectForKey:@"related_fields"] objectForKey:self.fieldKey];
-                        } else {
-                            rawValueString = [editDict objectForKey:@"value"];
-                        }
-                        if (choices) {
-                            for(NSDictionary *choice in choices) {
-                                if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
-                                    valueString = [choice objectForKey:@"value"];
-                                }
-                            }
-                        } else {
-                            if (owned) {
-                                valueString = rawValueString;
-                            } else {
-                                valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
-                            }
-                        }
-                        NSString *dateString = [OTMFormatters fmtOtmApiDateString:[editDict objectForKey:@"submitted"]];
-                        editDescription = [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], dateString];
-                    }
-                }
-            }
-        }
-
         cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailPendingEditCellIdentifier];
-        cell.textLabel.text = valueString;
-        cell.detailTextLabel.text = editDescription;
+        cell.textLabel.text = [self pendingValueAtIndex:indexPath.row];
+        cell.detailTextLabel.text = [self pendingEditDescriptionAtIndex:indexPath.row];
     }
 
     return cell;
