@@ -188,6 +188,8 @@
 
 - (void)viewDidLoad
 {
+    delayTime = 1.0; // minimum 2 second delay time
+
     [super viewDidLoad];
     [self.loadingView removeFromSuperview];
     [self.tableView addSubview:self.loadingView];
@@ -265,7 +267,7 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (self.loadingView.hidden == YES && scrollView.contentOffset.y > scrollView.contentSize.height - 400) {
         heightOffset = self.loadingView.frame.size.height + 5;
-        
+
         self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width,
                                                 self.tableView.contentSize.height +
                                                 heightOffset);
@@ -274,6 +276,7 @@
                                             self.tableView.contentSize.height - heightOffset,
                                             320,
                                             40);
+
         self.loadingView.hidden = NO;
         [self loadRecentEdits];
     }
@@ -286,10 +289,12 @@
     }
     
     loading = YES;
+    startedTime = CFAbsoluteTimeGetCurrent();
     [[[OTMEnvironment sharedEnvironment] api] getRecentActionsForUser:self.user
                                                                offset:[self.recentActivity count]
                                                              callback:
      ^(NSArray *json, NSError *error) {
+         int rowsBefore = [self.recentActivity count];
          for(NSDictionary *event in json) {
              if ([self.recentActivity indexOfObjectPassingTest:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
                  if ([[obj valueForKey:@"id"] intValue] == [[event valueForKey:@"id"] intValue]) {
@@ -303,22 +308,33 @@
              }
                      
          }
+
+         int rowsAdded = [self.recentActivity count] - rowsBefore;
          
-         [UIView animateWithDuration:0.3
-                          animations:
-         ^{
-             self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width,
-                                                     self.tableView.contentSize.height - heightOffset);
-         }
-                          completion:^(BOOL finished) 
-         {
-             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:kOTMProfileViewControllerSectionRecentEdits]
-                           withRowAnimation:UITableViewRowAnimationNone];             
+         dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * MAX(0,startedTime + delayTime - CFAbsoluteTimeGetCurrent()));
+         dispatch_after(delay, dispatch_get_main_queue(), ^{             
+                 [UIView animateWithDuration:.4
+                                  animations:
+                             ^{
+                         self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width,
+                                                                 self.tableView.contentSize.height - heightOffset);
+                     }
+                 completion:^(BOOL finished) 
+                         {
+                             NSMutableArray *addedRows = [NSMutableArray array];
+                             for(int i=0;i<rowsAdded;i++) {
+                                 [addedRows addObject:[NSIndexPath indexPathForRow:i+rowsBefore inSection:kOTMProfileViewControllerSectionRecentEdits]];
+                             }
+
+                             // [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:kOTMProfileViewControllerSectionRecentEdits]
+                             // withRowAnimation:UITableViewRowAnimationNone
+                             //               ];             
+                             [self.tableView insertRowsAtIndexPaths:addedRows withRowAnimation:UITableViewRowAnimationNone];
              
-             self.loadingView.hidden = YES;
-         }];
-         
-         loading = NO;
+                             self.loadingView.hidden = YES;
+                         }];
+                 loading = NO;
+             });
      }];
 }
 
