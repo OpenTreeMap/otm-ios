@@ -73,7 +73,7 @@
         }
 
         self.lastUpdateDate.text = [NSString stringWithFormat:@"Updated %@", [self reformatLastUpdateDate:[self.data objectForKey:@"last_updated"]]];
-        self.updateUser.text = @"By Joe User";
+        self.updateUser.text = [NSString stringWithFormat:@"By %@", [self.data objectForKey:@"last_updated_by"]];
     }    
 }
 
@@ -85,7 +85,7 @@
 
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateFormatter *readFormatter = [[NSDateFormatter alloc] init];
-    [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.S"];
+    [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     [readFormatter setCalendar:cal];
     [readFormatter setLocale:[NSLocale currentLocale]];
     NSDate *date = [readFormatter dateFromString:dateString];
