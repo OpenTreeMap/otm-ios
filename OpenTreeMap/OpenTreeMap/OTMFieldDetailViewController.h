@@ -27,6 +27,7 @@
 @property (nonatomic, strong) NSDictionary *data;
 @property (nonatomic, strong) NSString *fieldName;
 @property (nonatomic, strong) NSString *fieldKey;
+@property (nonatomic, strong) NSString *ownerFieldKey;
 @property (nonatomic, strong) NSString *fieldFormatString;
 @property (nonatomic, strong) NSArray *choices;
 

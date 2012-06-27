@@ -225,13 +225,27 @@
     
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
-        NSString* dbhValue = [tree objectForKey:@"dbh"];
+        NSDictionary *pendingEdits = [plot objectForKey:@"pending_edits"];
+        NSDictionary *latestDbhEdit = [[[pendingEdits objectForKey:@"tree.dbh"] objectForKey:@"pending_edits"] objectAtIndex:0];
+
+        NSString* dbhValue;
+
+        if (latestDbhEdit) {
+            dbhValue = [latestDbhEdit objectForKey:@"value"];
+        } else {
+            dbhValue = [tree objectForKey:@"dbh"];
+        }
         
         if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
             tdbh =  [NSString stringWithFormat:@"%@ in. Diameter", dbhValue];
         }
         
-        tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species_name"]];
+        NSDictionary *latestSpeciesEdit = [[[pendingEdits objectForKey:@"tree.species"] objectForKey:@"pending_edits"] objectAtIndex:0];
+        if (latestSpeciesEdit) {
+            tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
+        } else {
+            tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species_name"]];
+        }
     }
     
     taddress = [plot objectForKey:@"address"];

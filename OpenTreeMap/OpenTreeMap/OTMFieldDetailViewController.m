@@ -30,7 +30,7 @@
 
 @implementation OTMFieldDetailViewController
 
-@synthesize data, fieldKey, fieldName, fieldFormatString, choices;
+@synthesize data, fieldKey, ownerFieldKey, fieldName, fieldFormatString, choices;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -87,13 +87,12 @@
         NSDictionary *pendingEditsDict = [self.data objectForKey:@"pending_edits"];
         if (pendingEditsDict) {
             NSDictionary *editsDict = [pendingEditsDict objectForKey:self.fieldKey];
-            if (editsDict) {
-                NSArray *edits = [editsDict objectForKey:@"pending_edits"];
-                if (edits) {
-                    return [edits count];
-                } else {
-                    return 0;
-                }
+            if (!editsDict) {
+                editsDict = [pendingEditsDict objectForKey:self.ownerFieldKey];
+            }
+            NSArray *edits = [editsDict objectForKey:@"pending_edits"];
+            if (edits) {
+                return [edits count];
             } else {
                 return 0;
             }
@@ -133,13 +132,22 @@
     } else {
         NSDictionary *pendingEditsDict = [self.data objectForKey:@"pending_edits"];
         if (pendingEditsDict) {
+            bool owned = NO;
             NSDictionary *editsDict = [pendingEditsDict objectForKey:self.fieldKey];
+            if (!editsDict) {
+                editsDict = [pendingEditsDict objectForKey:self.ownerFieldKey];
+                owned = YES;
+            }
             if (editsDict) {
                 NSArray *edits = [editsDict objectForKey:@"pending_edits"];
                 if (edits) {
                     NSDictionary *editDict = [edits objectAtIndex:indexPath.row];
                     if (editDict) {
-                        rawValueString = [editDict objectForKey:@"value"];
+                        if (owned) {
+                            rawValueString = [[editDict objectForKey:@"related_fields"] objectForKey:self.fieldKey];
+                        } else {
+                            rawValueString = [editDict objectForKey:@"value"];
+                        }
                         if (choices) {
                             for(NSDictionary *choice in choices) {
                                 if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
@@ -147,7 +155,11 @@
                                 }
                             }
                         } else {
-                            valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+                            if (owned) {
+                                valueString = rawValueString;
+                            } else {
+                                valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+                            }
                         }
                         NSString *dateString = [OTMFormatters fmtOtmApiDateString:[editDict objectForKey:@"submitted"]];
                         editDescription = [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], dateString];

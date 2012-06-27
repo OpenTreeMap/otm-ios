@@ -192,7 +192,8 @@
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"tree.sci_name", @"key",
                  @"Scientific Name", @"label",
-                 [NSNumber numberWithBool:YES], @"readonly", nil],                      
+                 @"tree.species", @"owner",
+                 [NSNumber numberWithBool:YES], @"readonly", nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"tree.dbh", @"key",
                  @"Trunk Diameter", @"label", 

@@ -59,11 +59,19 @@
         if (!self.address.text || [self.address.text isEqualToString:@""]) {
             self.address.text = @"No Address";
         }
-        if ([self.data decodeKey:@"tree.species_name"]) {
-            self.species.text = [self.data decodeKey:@"tree.species_name"];
+
+        NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species"];
+        if (pendingSpeciesEditDict) {
+            NSDictionary *latestEdit = [[pendingSpeciesEditDict objectForKey:@"pending_edits"] objectAtIndex:0];
+            self.species.text = [[latestEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            self.species.text = @"Missing Species";
+            if ([self.data decodeKey:@"tree.species_name"]) {
+                self.species.text = [self.data decodeKey:@"tree.species_name"];
+            } else {
+                self.species.text = @"Missing Species";
+            }
         }
+
         self.lastUpdateDate.text = [NSString stringWithFormat:@"Updated %@", [self reformatLastUpdateDate:[self.data objectForKey:@"last_updated"]]];
         self.updateUser.text = @"By Joe User";
     }    
@@ -327,8 +335,9 @@
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
-                        [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
                         self.data = [json mutableDeepCopy];
+                        [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
+                        [self syncTopData];
                         [self.tableView reloadData];
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
@@ -392,6 +401,7 @@
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
         fieldDetailViewController.fieldName = [renderer label];
+        fieldDetailViewController.ownerFieldKey = [renderer ownerDataKey];
         if ([renderer respondsToSelector:@selector(formatStr)]) {
             fieldDetailViewController.fieldFormatString = [renderer formatStr];
         }

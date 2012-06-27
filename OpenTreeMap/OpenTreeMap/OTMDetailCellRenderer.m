@@ -11,7 +11,7 @@
 
 @implementation OTMDetailCellRenderer
 
-@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey;
+@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey, ownerDataKey;
 
 +(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict {
     NSString *clazz = [dict objectForKey:@"class"];
@@ -41,6 +41,7 @@
     
     if (self) {
         dataKey = [dict objectForKey:@"key"];
+        ownerDataKey = [dict objectForKey:@"owner"];
         
         id ro = [dict valueForKey:@"readonly"];
         
@@ -87,9 +88,14 @@
     
     NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
     if (pendingEditDict) {
-        if ([pendingEditDict objectForKey:self.dataKey]) {
+        if ([pendingEditDict objectForKey:self.dataKey] || [pendingEditDict objectForKey:self.ownerDataKey]) {
             detailcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            value = [[pendingEditDict objectForKey:self.dataKey] objectForKey:@"latest_value"];
+            if ([pendingEditDict objectForKey:self.ownerDataKey]) {
+                NSDictionary *latestOwnerEdit = [[[pendingEditDict objectForKey:self.ownerDataKey] objectForKey:@"pending_edits"] objectAtIndex:0];
+                value = [[latestOwnerEdit objectForKey:@"related_fields"] objectForKey:self.dataKey];
+            } else {
+                value = [[pendingEditDict objectForKey:self.dataKey] objectForKey:@"latest_value"];
+            }
         } else {
             detailcell.accessoryType = UITableViewCellAccessoryNone;
         }

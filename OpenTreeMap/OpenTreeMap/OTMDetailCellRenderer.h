@@ -47,6 +47,17 @@
 @property (nonatomic,strong) NSString *detailDataKey;
 
 /**
+ * Key to indicate that this field is linked to the
+ * value of another field. Used primarily to link
+ * the species scientific name field to the species
+ * id.
+ *
+ * Example:
+ *  tree.species
+ */
+@property (nonatomic,strong) NSString *ownerDataKey;
+
+/**
  * Block that takes a single argument (the renderer)
  * and returns a UITableViewCell
  *
