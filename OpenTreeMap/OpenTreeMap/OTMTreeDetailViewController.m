@@ -91,7 +91,7 @@
     NSDate *date = [readFormatter dateFromString:dateString];
 
     NSDateFormatter *writeFormatter = [[NSDateFormatter alloc] init];
-    [writeFormatter setDateFormat:@"MMMM d, yyyy HH:mm a"];
+    [writeFormatter setDateFormat:@"MMMM d, yyyy hh:mm a"];
     [writeFormatter setCalendar:cal];
     [writeFormatter setLocale:[NSLocale currentLocale]];
     return [writeFormatter stringFromDate:date];
