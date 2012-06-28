@@ -13,6 +13,8 @@
 @interface OTMProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
     BOOL loading;
     CGFloat heightOffset;
+    double startedTime;
+    double delayTime;
 }
 
 @property (nonatomic,strong) NSMutableArray *recentActivity;

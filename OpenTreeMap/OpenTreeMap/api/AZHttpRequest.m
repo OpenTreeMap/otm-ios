@@ -77,7 +77,7 @@
     if (self = [[AZHttpRequest alloc] init]) {
         baseURL = [base copy];
         queue = [[NSOperationQueue alloc] init];
-        queue.maxConcurrentOperationCount = 1;
+        queue.maxConcurrentOperationCount = 2;
     }
     
     return self;
