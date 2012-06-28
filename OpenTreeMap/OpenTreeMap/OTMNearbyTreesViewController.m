@@ -35,6 +35,7 @@
 
 -(IBAction)updateList:(UISegmentedControl *)control {
     self.filters.listFilterType = (OTMListFilterType)control.selectedSegmentIndex;
+    
     self.nearbyTrees = [NSArray array];
     [self.tableView reloadData];
 
@@ -164,8 +165,9 @@
 
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:loc.coordinate.latitude
                                                          longitude:loc.coordinate.longitude
-                                                        maxResults:50
+                                                        maxResults:15
                                                            filters:filters
+                                                          distance:1 // 1 decimal degree
                                                           callback:^(NSArray *json, NSError *error)
      {
          if (json) {

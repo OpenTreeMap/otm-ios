@@ -149,6 +149,10 @@
 }
 
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon maxResults:max filters:filters distance:0 callback:callback];
+}
+
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback {
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    [NSString stringWithFormat:@"%f", lat], @"lat",
@@ -157,6 +161,11 @@
 
     if (filters != nil) {
         [params addEntriesFromDictionary:[filters filtersDict]];
+    }
+    
+    if (distance > 0) {
+        [params setObject:[NSString stringWithFormat:@"%f", distance]
+                   forKey:@"distance"];
     }
 
     [self.request get:@"locations/:lat,:lon/plots" 
