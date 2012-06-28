@@ -224,7 +224,7 @@
 }
 
 - (IBAction)doLogin:(id)sender {
-    OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+    OTMLoginManager* mgr = [SharedAppDelegate loginManager];
     
     [mgr presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
@@ -250,7 +250,7 @@
     
     if (!self.didShowLogin) {
         self.didShowLogin = YES;
-        OTMLoginManager* mgr = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+        OTMLoginManager* mgr = [SharedAppDelegate loginManager];
         
         @synchronized(mgr) {
             if (mgr.runningLogin) {        

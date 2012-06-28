@@ -28,9 +28,9 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMapMode:) name:kOTMChangeMapModeNotification object:nil];
 
-    self.mapModeSegmentedControl.selectedSegmentIndex = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode];
+    self.mapModeSegmentedControl.selectedSegmentIndex = [SharedAppDelegate mapMode];
 
-    self.mapView.mapType = (MKMapType)[(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode];
+    self.mapView.mapType = (MKMapType)[SharedAppDelegate mapMode];
 }
 
 - (IBAction)setMapMode:(UISegmentedControl *)sender {

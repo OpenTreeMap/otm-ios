@@ -210,7 +210,7 @@
 
 - (IBAction)startOrCommitEditing:(id)sender
 {
-    OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
 
     [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
@@ -300,7 +300,7 @@
         [self.tableView endUpdates];
 
         if (saveChanges) {
-            OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+            OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
             OTMUser *user = loginManager.loggedInUser;
 
             if ([self.data objectForKey:@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree

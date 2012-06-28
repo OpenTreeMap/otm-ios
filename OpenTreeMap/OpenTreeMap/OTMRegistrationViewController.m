@@ -85,7 +85,7 @@
 -(IBAction)createNewUser:(id)sender {
     if ([self.validator executeValidationsAndAlertWithViewController:self]) {
         OTMUser *user = [[OTMUser alloc] init];
-        user.keychain = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] keychain];
+        user.keychain = [SharedAppDelegate keychain];
         user.username = self.username.text;
         user.password = self.password.text;
         user.firstName = self.firstName.text;

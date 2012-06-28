@@ -37,7 +37,7 @@
         loginVC.loginDelegate = self;
         
         OTMUser *user = [[OTMUser alloc] init];
-        user.keychain = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] keychain];
+        user.keychain = [SharedAppDelegate keychain];
         
         if (user.username && user.password && [user.username length] > 0 && [user.password length] > 0) {
             self.runningLogin = YES;

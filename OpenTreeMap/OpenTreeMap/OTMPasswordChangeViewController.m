@@ -41,7 +41,7 @@
     // nor would we be able to change it, but just in case this provides a user
     // friendly message
     OTMValidatorValidation requiresLogin = [^(OTMPasswordChangeViewController *vc) {
-        OTMUser *user = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] loginManager].loggedInUser;
+        OTMUser *user = [SharedAppDelegate loginManager].loggedInUser;
         
         if (user == nil) {
             return @"You must be logged in to change your password";
@@ -51,7 +51,7 @@
     } copy];
     
     OTMValidatorValidation curPassword = [^(OTMPasswordChangeViewController *vc) {
-        OTMUser *user = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] loginManager].loggedInUser;
+        OTMUser *user = [SharedAppDelegate loginManager].loggedInUser;
         
         if (![user.password isEqualToString:vc.oldPassword.text]) {
             return @"Your current password is incorrect, please try again";
@@ -89,7 +89,7 @@
 
 -(IBAction)changePassword:(id)sender {
     if ([validator executeValidationsAndAlertWithViewController:self]) {
-        OTMUser *user = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] loginManager].loggedInUser;
+        OTMUser *user = [SharedAppDelegate loginManager].loggedInUser;
         
         [[[OTMEnvironment sharedEnvironment] api] changePasswordForUser:user 
                                                               to:self.aNewPassword.text 

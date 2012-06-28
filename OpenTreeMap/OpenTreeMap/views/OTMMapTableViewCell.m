@@ -80,7 +80,7 @@
 
 - (void)annotateCenter:(CLLocationCoordinate2D)center
 {
-    self.mapView.mapType = (MKMapType)[(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapMode];
+    self.mapView.mapType = (MKMapType)[SharedAppDelegate mapMode];
 
     if (!annotation) {
         annotation = [[MKPointAnnotation alloc] init];

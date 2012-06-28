@@ -105,7 +105,7 @@
 {
     [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] navBarTintColor]];
 
-    MKCoordinateRegion region = [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] mapRegion];
+    MKCoordinateRegion region = [SharedAppDelegate mapRegion];
     [mapView setRegion:region];
     if (firstAppearance) {
         firstAppearance = NO;
@@ -443,7 +443,7 @@
 
 - (void)startAddingTree
 {
-    OTMLoginManager* loginManager = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] loginManager];
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
 
     [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
@@ -604,7 +604,7 @@
 
     [[[OTMEnvironment sharedEnvironment] api] setVisibleMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
 
-    [(OTMAppDelegate *)[[UIApplication sharedApplication] delegate] setMapRegion:region];
+    [SharedAppDelegate setMapRegion:region];
 
     double lngMin = region.center.longitude - region.span.longitudeDelta / 2.0;
     double lngMax = region.center.longitude + region.span.longitudeDelta / 2.0;

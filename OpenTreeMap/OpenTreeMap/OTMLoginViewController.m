@@ -68,7 +68,7 @@
     self.view.userInteractionEnabled = NO;
     
     OTMUser* user = [[OTMUser alloc] init];
-    user.keychain = [(OTMAppDelegate*)[[UIApplication sharedApplication] delegate] keychain];
+    user.keychain = [SharedAppDelegate keychain];
     user.username = self.username.text;
     user.password = self.password.text;
 
