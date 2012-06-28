@@ -376,7 +376,7 @@
             </objects>
             <point key="canvasLocation" x="1764" y="-761"/>
         </scene>
-        <!--Species Table View Controller-->
+        <!--Species Table View Controller - Species-->
         <scene sceneID="UYx-NC-Q9u">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kOL-lh-UMg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -417,7 +417,7 @@
                             <outlet property="delegate" destination="v8c-v7-6H5" id="Vdk-Sk-MHL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="uwD-xv-6vk"/>
+                    <navigationItem key="navigationItem" title="Species" id="uwD-xv-6vk"/>
                     <connections>
                         <outlet property="tableView" destination="vV2-mt-eHo" id="Phu-fE-cZW"/>
                         <outlet property="view" destination="vV2-mt-eHo" id="5Az-M6-9pS"/>
