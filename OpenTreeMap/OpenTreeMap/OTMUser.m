@@ -38,7 +38,7 @@
     // Normal users can only create pending rows, not update them.
     // Approving or rejecting an edit involves updating a pending
     // row so users with this permission are "approvers."
-    return [self hasPermission:@"update_pending"];
+    return [self hasPermission:@"change_plotpending"] && [self hasPermission:@"change_treepending"];
 }
 
 - (bool)hasPermission:(NSString *)permission
