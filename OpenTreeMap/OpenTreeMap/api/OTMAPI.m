@@ -532,4 +532,13 @@
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
+-(void)rejectPendingEdit:(NSInteger)pendingEditId user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    [request post:@"pending-edits/:id/reject/"
+         withUser:user
+           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pendingEditId] forKey:@"id"]
+             data:nil
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 @end

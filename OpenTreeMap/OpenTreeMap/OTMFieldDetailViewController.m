@@ -24,6 +24,7 @@
 #import "OTMView.h"
 #import "OTMFormatters.h"
 #import "OTMEnvironment.h"
+#import "AZWaitingOverlayController.h"
 
 @interface OTMFieldDetailViewController (Private)
 
@@ -208,6 +209,39 @@
     }
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits] && section == 1)
+    {
+        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, self.tableView.frame.size.width, 44.0)];
+
+        UIButton *rejectAllButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        rejectAllButton.frame = CGRectMake(10.0, 20.0, 300.0, 44.0);
+        [rejectAllButton setTitle:@"Reject All Edits" forState:UIControlStateNormal];
+        [rejectAllButton addTarget:self action:@selector(rejectAllEdits:) forControlEvents:UIControlEventTouchUpInside];
+        [footerView addSubview:rejectAllButton];
+
+        return footerView;
+    } else {
+        return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+        if (section == 0) {
+            return 80.0;
+        } else if (section == 1) {
+            return 100.0;
+        } else {
+            return 0.0;
+        }
+    } else {
+        return 0.0;
+    }
+}
+
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -278,17 +312,21 @@
 
     OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
 
+    [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Approving"];
+
     [[[OTMEnvironment sharedEnvironment] api] approvePendingEdit:pendingEditId user:user callback:^(id json, NSError *error) {
 
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 
         if (!error) {
+            [[AZWaitingOverlayController sharedController] hideOverlay];
             self.data = [json mutableDeepCopy];
             if (pendingEditsUpdatedCallback) {
                 pendingEditsUpdatedCallback(self.data);
             }
             [self.navigationController popViewControllerAnimated:YES];
         } else {
+            [[AZWaitingOverlayController sharedController] hideOverlay];
             NSLog(@"Error approving pending edit: %@", [error description]);
             [UIAlertView showAlertWithTitle:nil message:@"There was a problem approving the pending edit." cancelButtonTitle:@"OK"otherButtonTitle:nil callback:nil];
 
@@ -306,5 +344,42 @@
         [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     }
 }
+
+- (void)rejectAllEdits:(id)sender
+{
+    [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Rejecting"];
+    [self rejectNextEdit];
+}
+
+- (void)rejectNextEdit
+{
+    NSDictionary *editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.fieldKey];
+    if (!editsDict) {
+        editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.ownerFieldKey];
+    }
+    NSDictionary *editDict = [[editsDict objectForKey:@"pending_edits"] objectAtIndex:0];
+    if (editDict) {
+        NSInteger pendingEditId = [[editDict objectForKey:@"id"] intValue];
+        OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
+        [[[OTMEnvironment sharedEnvironment] api] rejectPendingEdit:pendingEditId user:user callback:^(id json, NSError *error) {
+
+            if (!error) {
+                self.data = [json mutableDeepCopy];
+                [self rejectNextEdit];
+            } else {
+                [[AZWaitingOverlayController sharedController] hideOverlay];
+                NSLog(@"Error rejecting pending edit: %@", [error description]);
+                [UIAlertView showAlertWithTitle:nil message:@"There was a problem rejecting a pending edit." cancelButtonTitle:@"OK"otherButtonTitle:nil callback:nil];
+            }
+        }];
+    } else {
+        [[AZWaitingOverlayController sharedController] hideOverlay];
+        if (pendingEditsUpdatedCallback) {
+            pendingEditsUpdatedCallback(self.data);
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+}
+
 
 @end

@@ -235,4 +235,12 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  */
 -(void)approvePendingEdit:(NSInteger)pendingEditId user:(OTMUser *)user callback:(AZJSONCallback)callback;
 
+/**
+ * Reject a pending edit
+ * @param pendingEditId the id of the pending edit to be rejected
+ * @param user the authenticated user who is approving the pending edit
+ * @param callback block to be executed when the request is complete or an error occurs
+ */
+-(void)rejectPendingEdit:(NSInteger)pendingEditId user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
 @end
