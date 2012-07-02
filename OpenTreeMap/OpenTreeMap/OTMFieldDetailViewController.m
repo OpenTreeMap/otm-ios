@@ -23,17 +23,19 @@
 #import "OTMFieldDetailViewController.h"
 #import "OTMView.h"
 #import "OTMFormatters.h"
+#import "OTMEnvironment.h"
 
 @interface OTMFieldDetailViewController (Private)
 
 - (NSString *)pendingValueAtIndex:(NSInteger)index;
 - (NSString *)pendingEditDescriptionAtIndex:(NSInteger)index;
+- (NSInteger)numberOfPendingEdits;
 
 @end
 
 @implementation OTMFieldDetailViewController
 
-@synthesize data, fieldKey, ownerFieldKey, fieldName, fieldFormatString, choices;
+@synthesize data, fieldKey, ownerFieldKey, fieldName, fieldFormatString, choices, pendingEditsUpdatedCallback;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -62,6 +64,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationItem.title = self.fieldName;
+    [self.tableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -82,17 +85,21 @@
         // The top section has a single cell with the current value
         return 1;
     } else {
-        // The second section has a cell for each pending edit
-        NSDictionary *pendingEditsDict = [self.data objectForKey:@"pending_edits"];
-        if (pendingEditsDict) {
-            NSDictionary *editsDict = [pendingEditsDict objectForKey:self.fieldKey];
-            if (!editsDict) {
-                editsDict = [pendingEditsDict objectForKey:self.ownerFieldKey];
-            }
-            return [[editsDict objectForKey:@"pending_edits"] count];
-        } else {
-            return 0;
+        return [self numberOfPendingEdits];
+    }
+}
+
+- (NSInteger)numberOfPendingEdits
+{
+    NSDictionary *pendingEditsDict = [self.data objectForKey:@"pending_edits"];
+    if (pendingEditsDict) {
+        NSDictionary *editsDict = [pendingEditsDict objectForKey:self.fieldKey];
+        if (!editsDict) {
+            editsDict = [pendingEditsDict objectForKey:self.ownerFieldKey];
         }
+        return [[editsDict objectForKey:@"pending_edits"] count];
+    } else {
+        return 0;
     }
 }
 
@@ -174,6 +181,11 @@
         cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailPendingEditCellIdentifier];
         cell.textLabel.text = [self pendingValueAtIndex:indexPath.row];
         cell.detailTextLabel.text = [self pendingEditDescriptionAtIndex:indexPath.row];
+        if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        } else {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
     }
 
     return cell;
@@ -182,9 +194,17 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section == 0) {
         return @"Current Value";
-    }
-    else {
+    } else {
         return @"Pending Edits";
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 0 && [[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+        return @"Tap one of the pending edits below to approve it and to reject any other pending edits for the field.";
+    } else {
+        return nil;
     }
 }
 
@@ -231,13 +251,60 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    NSString *actionSheetMessage;
+    if ([self numberOfPendingEdits] > 1) {
+        actionSheetMessage = @"Do you want to approve this edit and reject all the other edits for this field?";
+    } else {
+        actionSheetMessage = @"Do you want to approve this edit?";
+    }
+
+    if (indexPath.section == 1 && [[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:actionSheetMessage delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Approve" otherButtonTitles:nil];
+        [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
+    }
+}
+
+- (void)approveSelectedPendingEdit
+{
+    NSInteger index = [[self.tableView indexPathForSelectedRow] row];
+
+    NSDictionary *editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.fieldKey];
+    if (!editsDict) {
+        editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.ownerFieldKey];
+    }
+    NSDictionary *editDict = [[editsDict objectForKey:@"pending_edits"] objectAtIndex:index];
+
+    NSInteger pendingEditId = [[editDict objectForKey:@"id"] intValue];
+
+    OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
+
+    [[[OTMEnvironment sharedEnvironment] api] approvePendingEdit:pendingEditId user:user callback:^(id json, NSError *error) {
+
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+
+        if (!error) {
+            self.data = [json mutableDeepCopy];
+            if (pendingEditsUpdatedCallback) {
+                pendingEditsUpdatedCallback(self.data);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            NSLog(@"Error approving pending edit: %@", [error description]);
+            [UIAlertView showAlertWithTitle:nil message:@"There was a problem approving the pending edit." cancelButtonTitle:@"OK"otherButtonTitle:nil callback:nil];
+
+        }
+    }];
+}
+
+#pragma mark - UIActionSheet delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self approveSelectedPendingEdit];
+    } else {
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    }
 }
 
 @end

@@ -412,6 +412,11 @@
             // to display the value, so it must be nil'd out if ot os not a choices field
             fieldDetailViewController.choices = nil;
         }
+        fieldDetailViewController.pendingEditsUpdatedCallback = ^(NSDictionary *updatedData) {
+            self.data = [updatedData mutableDeepCopy];
+            [self syncTopData];
+            [self.tableView reloadData];
+        };
     }
 }
 

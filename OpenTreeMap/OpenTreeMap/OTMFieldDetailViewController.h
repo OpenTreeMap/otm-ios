@@ -22,7 +22,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OTMFieldDetailViewController : UITableViewController
+@interface OTMFieldDetailViewController : UITableViewController <UIActionSheetDelegate>
 
 @property (nonatomic, strong) NSDictionary *data;
 @property (nonatomic, strong) NSString *fieldName;
@@ -30,5 +30,6 @@
 @property (nonatomic, strong) NSString *ownerFieldKey;
 @property (nonatomic, strong) NSString *fieldFormatString;
 @property (nonatomic, strong) NSArray *choices;
+@property (nonatomic, strong) Function1v pendingEditsUpdatedCallback;
 
 @end
