@@ -22,7 +22,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OTMFieldDetailViewController : UITableViewController <UIActionSheetDelegate>
+@interface OTMFieldDetailViewController : UITableViewController <UIActionSheetDelegate> {
+	NSString *action;
+}
 
 @property (nonatomic, strong) NSDictionary *data;
 @property (nonatomic, strong) NSString *fieldName;

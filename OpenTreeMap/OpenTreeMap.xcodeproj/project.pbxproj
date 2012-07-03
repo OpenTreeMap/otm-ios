@@ -51,6 +51,8 @@
 		64C76EB01561ACB10037805F /* OTMChangeLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */; };
 		64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */; };
 		64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D34563156169420073C62D /* OTMMapTableViewCell.m */; };
+		64D6F94E15A346BE00AEA516 /* button_glass_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 64D6F94D15A346BE00AEA516 /* button_glass_red.png */; };
+		64D6F95115A346C400AEA516 /* button_glass_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64D6F95015A346C400AEA516 /* button_glass_red@2x.png */; };
 		64DD10941598DDE70053AC57 /* OTMFieldDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */; };
 		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
 		64DDCDAE14F51A2C004FA0CF /* AZPointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAC14F51A2C004FA0CF /* AZPointOffsetOverlayView.m */; };
@@ -238,6 +240,8 @@
 		64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapDetailCellRenderer.m; sourceTree = "<group>"; };
 		64D34562156169420073C62D /* OTMMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapTableViewCell.h; sourceTree = "<group>"; };
 		64D34563156169420073C62D /* OTMMapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapTableViewCell.m; sourceTree = "<group>"; };
+		64D6F94D15A346BE00AEA516 /* button_glass_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_glass_red.png; sourceTree = "<group>"; };
+		64D6F95015A346C400AEA516 /* button_glass_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_glass_red@2x.png"; sourceTree = "<group>"; };
 		64DD10921598DDE70053AC57 /* OTMFieldDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFieldDetailViewController.h; sourceTree = "<group>"; };
 		64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFieldDetailViewController.m; sourceTree = "<group>"; };
 		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
@@ -620,6 +624,8 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				64D6F94D15A346BE00AEA516 /* button_glass_red.png */,
+				64D6F95015A346C400AEA516 /* button_glass_red@2x.png */,
 				64E13D3A159A36C7003D6788 /* about_bg@2x.png */,
 				64E13D37159A361A003D6788 /* about_bg.png */,
 				641E98AE1598B47500F7EDE0 /* Default.png */,
@@ -926,6 +932,8 @@
 				64F7BA491598CCB600BA2FF4 /* pend@2x.png in Resources */,
 				64E13D38159A361A003D6788 /* about_bg.png in Resources */,
 				64E13D3B159A36C7003D6788 /* about_bg@2x.png in Resources */,
+				64D6F94E15A346BE00AEA516 /* button_glass_red.png in Resources */,
+				64D6F95115A346C400AEA516 /* button_glass_red@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

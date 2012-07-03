@@ -217,8 +217,10 @@
 
         UIButton *rejectAllButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         rejectAllButton.frame = CGRectMake(10.0, 20.0, 300.0, 44.0);
+        [rejectAllButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [rejectAllButton setTitle:@"Reject All Edits" forState:UIControlStateNormal];
-        [rejectAllButton addTarget:self action:@selector(rejectAllEdits:) forControlEvents:UIControlEventTouchUpInside];
+        [rejectAllButton addTarget:self action:@selector(beginRejectAllEdits:) forControlEvents:UIControlEventTouchUpInside];
+        [rejectAllButton setBackgroundImage:[UIImage imageNamed:@"button_glass_red"] forState:UIControlStateNormal];
         [footerView addSubview:rejectAllButton];
 
         return footerView;
@@ -294,6 +296,7 @@
 
     if (indexPath.section == 1 && [[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:actionSheetMessage delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Approve" otherButtonTitles:nil];
+        action = @"approve";
         [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
     }
 }
@@ -338,17 +341,31 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
-        [self approveSelectedPendingEdit];
-    } else {
-        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    if (action == @"approve")
+    {
+        if (buttonIndex == 0) {
+            [self approveSelectedPendingEdit];
+        } else {
+            [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+        }
+    } else if (action == @"reject") {
+        if (buttonIndex == 0)
+        {
+            [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Rejecting"];
+            [self rejectNextEdit];
+        }
     }
 }
 
-- (void)rejectAllEdits:(id)sender
+- (void)beginRejectAllEdits:(id)sender
 {
-    [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Rejecting"];
-    [self rejectNextEdit];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Do you want to reject all the pending edits for this field?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:@"Reject"
+                                                    otherButtonTitles:nil];
+        action = @"reject";
+    [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
 }
 
 - (void)rejectNextEdit
