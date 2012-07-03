@@ -25,6 +25,8 @@
 #import "OTMFormatters.h"
 #import "OTMEnvironment.h"
 #import "AZWaitingOverlayController.h"
+#import "AZMapHelper.h"
+#import "OTMMapTableViewCell.h"
 
 @interface OTMFieldDetailViewController (Private)
 
@@ -155,37 +157,75 @@
 
 #define kFieldDetailCurrentValueCellIdentifier @"kFieldDetailCurrentValueCellIdentifier"
 #define kFieldDetailPendingEditCellIdentifier @"kFieldDetailPendingEditCellIdentifier"
+#define kFieldDetailPendingLocationEditCellIdentifier @"kFieldDetailPendingLocationEditCellIdentifier"
+
+- (UITableViewCell *)buildMapCellWithWkt:(NSString *)wkt forTableView:(UITableView *)tableView
+{
+    CLLocationCoordinate2D coordinate = [AZMapHelper CLLocationCoordinate2DMakeWithWkt:wkt];
+    return [self buildMapCellWithCoordinate:coordinate forTableView:tableView];
+}
+
+- (UITableViewCell *)buildMapCellWithDictionary:(NSDictionary *)dict forTableView:(UITableView *)tableView
+{
+    CLLocationCoordinate2D coordinate = [AZMapHelper CLLocationCoordinate2DMakeWithDictionary:dict];
+    return [self buildMapCellWithCoordinate:coordinate forTableView:tableView];
+}
+
+- (UITableViewCell *)buildMapCellWithCoordinate:(CLLocationCoordinate2D)coordinate forTableView:(UITableView *)tableView
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"kOTMMapDetailCellRendererTableCellId"];
+
+    if (cell == nil) {
+        cell = [[OTMMapTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"kOTMMapDetailCellRendererTableCellId"];
+    }
+
+    [(OTMMapTableViewCell *)cell annotateCenter:coordinate];
+
+    cell.contentView.frame = CGRectOffset(cell.frame, 10, 10);
+
+    return cell;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
 
     if (indexPath.section == 0) {
-        cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailCurrentValueCellIdentifier];
-        NSString *rawValueString = [[self.data decodeKey:self.fieldKey] description];
-        NSString *valueString;
-        if (choices) {
-            for(NSDictionary *choice in choices) {
-                if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
-                    valueString = [choice objectForKey:@"value"];
+        if (self.fieldKey == @"geometry")
+        {
+            cell = [self buildMapCellWithDictionary:[self.data objectForKey:self.fieldKey] forTableView:tableView];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailCurrentValueCellIdentifier];
+            NSString *rawValueString = [[self.data decodeKey:self.fieldKey] description];
+            NSString *valueString;
+            if (choices) {
+                for(NSDictionary *choice in choices) {
+                    if ([rawValueString isEqualToString:[[choice objectForKey:@"key"] description]]) {
+                        valueString = [choice objectForKey:@"value"];
+                    }
                 }
+            } else {
+                valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
             }
-        } else {
-            valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
-        }
-        if (valueString && valueString != @"") {
-            cell.textLabel.text = valueString;
-        } else {
-            cell.textLabel.text = @"No Value";
+            if (valueString && valueString != @"") {
+                cell.textLabel.text = valueString;
+            } else {
+                cell.textLabel.text = @"No Value";
+            }
         }
     } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailPendingEditCellIdentifier];
-        cell.textLabel.text = [self pendingValueAtIndex:indexPath.row];
-        cell.detailTextLabel.text = [self pendingEditDescriptionAtIndex:indexPath.row];
-        if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        if (self.fieldKey == @"geometry")
+        {
+            cell = [self buildMapCellWithWkt:[self pendingValueAtIndex:indexPath.row] forTableView:tableView];
         } else {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailPendingEditCellIdentifier];
+            cell.textLabel.text = [self pendingValueAtIndex:indexPath.row];
+            cell.detailTextLabel.text = [self pendingEditDescriptionAtIndex:indexPath.row];
+            if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            } else {
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
         }
     }
 
@@ -241,6 +281,15 @@
         }
     } else {
         return 0.0;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.fieldKey == @"geometry") {
+        return 120.0;
+    } else {
+        return 44.0;
     }
 }
 

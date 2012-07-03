@@ -44,7 +44,13 @@
     
     [detailCell annotateCenter:center];
     
-    detailCell.accessoryType = UITableViewCellAccessoryNone;
+    NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
+    if ([pendingEditDict objectForKey:self.dataKey]) {
+        detailCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        [detailCell setDetailArrowHidden:NO];
+    } else {
+        detailCell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return detailCell;
 }    

@@ -400,7 +400,9 @@
         OTMFieldDetailViewController *fieldDetailViewController = segue.destinationViewController;
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
-        fieldDetailViewController.fieldName = [renderer label];
+        if ([renderer respondsToSelector:@selector(label)]) {
+            fieldDetailViewController.fieldName = [renderer label];
+        }
         fieldDetailViewController.ownerFieldKey = [renderer ownerDataKey];
         if ([renderer respondsToSelector:@selector(formatStr)]) {
             fieldDetailViewController.fieldFormatString = [renderer formatStr];
@@ -412,10 +414,12 @@
             // to display the value, so it must be nil'd out if ot os not a choices field
             fieldDetailViewController.choices = nil;
         }
-        fieldDetailViewController.pendingEditsUpdatedCallback = ^(NSDictionary *updatedData) {
+        fieldDetailViewController.pendingEditsUpdatedCallback = ^(NSDictionary *updatedData){
             self.data = [updatedData mutableDeepCopy];
             [self syncTopData];
             [self.tableView reloadData];
+            [delegate viewController:self editedTree:self.data withOriginalLocation:originalLocation]
+            ;
         };
     }
 }
