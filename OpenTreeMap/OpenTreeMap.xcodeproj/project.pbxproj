@@ -44,6 +44,7 @@
 		6489E23115371E0300DA7924 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23015371E0300DA7924 /* marker-selected-sm.png */; };
 		6489E23415372DA300DA7924 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6489E23215372DA300DA7924 /* gps_icon.png */; };
 		648A8AB7157EAEE1006D3771 /* selected_marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 648A8AB5157EAEE1006D3771 /* selected_marker.png */; };
+		6490025D15A3648D00DC492B /* AZMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490025C15A3648D00DC492B /* AZMapHelper.m */; };
 		649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F8D23155041DA007B196D /* AZWaitingOverlayController.m */; };
 		64A7157C1562B46F003430E8 /* OTMTreeDictionaryHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 64A7157B1562B46F003430E8 /* OTMTreeDictionaryHelper.m */; };
 		64A7D95314F5420A004D7FC8 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64A7D95214F5420A004D7FC8 /* Implementation.plist */; };
@@ -228,6 +229,8 @@
 		6489E23015371E0300DA7924 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
 		6489E23215372DA300DA7924 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
 		648A8AB5157EAEE1006D3771 /* selected_marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_marker.png; sourceTree = "<group>"; };
+		6490025B15A3648D00DC492B /* AZMapHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMapHelper.h; sourceTree = "<group>"; };
+		6490025C15A3648D00DC492B /* AZMapHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMapHelper.m; sourceTree = "<group>"; };
 		649F8D22155041DA007B196D /* AZWaitingOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWaitingOverlayController.h; sourceTree = "<group>"; };
 		649F8D23155041DA007B196D /* AZWaitingOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWaitingOverlayController.m; sourceTree = "<group>"; };
 		64A7157A1562B46F003430E8 /* OTMTreeDictionaryHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDictionaryHelper.h; sourceTree = "<group>"; };
@@ -544,6 +547,8 @@
 				D7837B93156BE23B007C9D52 /* AZPointCollection.m */,
 				D7EF1952158240DE0099B973 /* AZTileQueue.h */,
 				D7EF1953158240DE0099B973 /* AZTileQueue.m */,
+				6490025B15A3648D00DC492B /* AZMapHelper.h */,
+				6490025C15A3648D00DC492B /* AZMapHelper.m */,
 			);
 			name = AZ;
 			sourceTree = "<group>";
@@ -1030,6 +1035,7 @@
 				D7CBD06A1577C871009D08FF /* OTMFilterListViewController.m in Sources */,
 				D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */,
 				64DD10941598DDE70053AC57 /* OTMFieldDetailViewController.m in Sources */,
+				6490025D15A3648D00DC492B /* AZMapHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
