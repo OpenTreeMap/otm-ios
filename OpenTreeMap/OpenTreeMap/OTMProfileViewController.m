@@ -165,6 +165,8 @@
              }
          }];
     }
+    // These cells behave like buttons so we immediately deselect them
+    [tableView deselectRowAtIndexPath:path animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
