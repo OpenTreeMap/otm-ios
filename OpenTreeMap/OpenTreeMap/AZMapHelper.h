@@ -24,12 +24,18 @@
 
 @interface AZMapHelper : NSObject
 
-/**
- Convert a well-know text POINT into a CLLocationCoordinate2D
- @param wkt the well-known text for a POINT
- @returns a CLLocationCoordinate2D representing the POINT specified in the wkt
+/*
+
+ The original version of this class had a method:
+
+   (CLLocationCoordinate2D)CLLocationCoordinate2DMakeWithWkt:(NSString *)wkt
+
+ I removed it when I standardized the OTM API to always return a
+ lat,lon dictionary, making the method obsolete. If you need to create a
+ CLLocationCoordinate2D from WKT, look you can resurect this function from
+ commit 4602ef34.
+
  */
-+ (CLLocationCoordinate2D)CLLocationCoordinate2DMakeWithWkt:(NSString *)wkt;
 
 /**
  Convert a dictionary containing point geometry attributes into a CLLocationCoordinate2D

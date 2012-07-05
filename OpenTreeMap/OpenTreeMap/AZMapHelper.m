@@ -24,28 +24,6 @@
 
 @implementation AZMapHelper
 
-static NSString *wktPointPattern = @"POINT \\((-?\\d*\\.?\\d{0,}) (\\d*\\.?\\d{0,})\\)";
-
-+ (CLLocationCoordinate2D)CLLocationCoordinate2DMakeWithWkt:(NSString *)wkt
-{
-
-    NSError *error = NULL;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:wktPointPattern options:NSRegularExpressionCaseInsensitive error:&error];
-    NSArray *matches = [regex matchesInString:wkt
-                                      options:0
-                                        range:NSMakeRange(0, [wkt length])];
-    
-    if (!matches) {
-        [NSException raise:NSInvalidArgumentException format:@"The argument %@ could not be parsed as a WKT point.", wkt];
-    }
-    
-    NSTextCheckingResult *match = [matches objectAtIndex:0];
-    double lon = [[wkt substringWithRange:[match rangeAtIndex:1]] doubleValue];
-    double lat = [[wkt substringWithRange:[match rangeAtIndex:2]] doubleValue];
-    return CLLocationCoordinate2DMake(lat, lon);
-}
-
-
 + (CLLocationCoordinate2D)CLLocationCoordinate2DMakeWithDictionary:(NSDictionary *)dict
 {
     double lon;

@@ -106,7 +106,7 @@
     }
 }
 
-- (NSString *)pendingValueAtIndex:(NSInteger)index
+- (id)pendingValueAtIndex:(NSInteger)index
 {
     bool thisFieldsValueIsControlledByAnotherField = NO;
     NSDictionary *editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.fieldKey];
@@ -116,6 +116,14 @@
     }
 
     NSDictionary *editDict = [[editsDict objectForKey:@"pending_edits"] objectAtIndex:index];
+
+    // geometry is a special case. It has a dictionary value rather than a plain string.
+    // There is no need to check for related fields or format the value, so the rest of
+    // the method can be skipped.
+    if ([self.fieldKey isEqualToString:@"geometry"]) {
+        return [editDict objectForKey:@"value"];
+    }
+
     NSString *rawValueString;
     if (thisFieldsValueIsControlledByAnotherField) {
         rawValueString = [[editDict objectForKey:@"related_fields"] objectForKey:self.fieldKey];
@@ -158,12 +166,6 @@
 #define kFieldDetailCurrentValueCellIdentifier @"kFieldDetailCurrentValueCellIdentifier"
 #define kFieldDetailPendingEditCellIdentifier @"kFieldDetailPendingEditCellIdentifier"
 #define kFieldDetailPendingLocationEditCellIdentifier @"kFieldDetailPendingLocationEditCellIdentifier"
-
-- (UITableViewCell *)buildMapCellWithWkt:(NSString *)wkt forTableView:(UITableView *)tableView
-{
-    CLLocationCoordinate2D coordinate = [AZMapHelper CLLocationCoordinate2DMakeWithWkt:wkt];
-    return [self buildMapCellWithCoordinate:coordinate forTableView:tableView];
-}
 
 - (UITableViewCell *)buildMapCellWithDictionary:(NSDictionary *)dict forTableView:(UITableView *)tableView
 {
@@ -216,7 +218,7 @@
     } else {
         if (self.fieldKey == @"geometry")
         {
-            cell = [self buildMapCellWithWkt:[self pendingValueAtIndex:indexPath.row] forTableView:tableView];
+            cell = [self buildMapCellWithDictionary:[self pendingValueAtIndex:indexPath.row]  forTableView:tableView];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailPendingEditCellIdentifier];
             cell.textLabel.text = [self pendingValueAtIndex:indexPath.row];
