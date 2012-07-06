@@ -8,6 +8,7 @@
 
 #import "OTMProfileViewController.h"
 #import "OTMView.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kOTMProfileViewControllerSectionInfo 0
 #define kOTMProfileViewControllerSectionChangePassword 1
@@ -69,21 +70,39 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:kOTMProfileViewControllerSectionRecentEditsCellIdentifier];
             
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(250,0,44,44)];
-            label.backgroundColor = [UIColor clearColor];
-            label.textAlignment = UITextAlignmentRight;
-            label.textColor = [UIColor blueColor];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(240,7,60,30)];
+            label.backgroundColor = [UIColor colorWithRed:226/255.0 green:226/255.0 blue:226/255.0 alpha:1.0];
+            label.textAlignment = UITextAlignmentCenter;
+            label.textColor = [UIColor colorWithRed:46/255.0 green:136/255.0 blue:103/255.0 alpha:1.0];
             label.font = [UIFont systemFontOfSize:24];
             label.tag = 2012;
+            label.layer.cornerRadius = 15;
+            label.layer.borderColor = [[UIColor colorWithRed:155/255.0 green:155/255.0 blue:155/255.0 alpha:1.0] CGColor];
+            label.layer.borderWidth = 1;
+                
             
             [cell addSubview:label];
         }
         
         UILabel *rep = (UILabel *)[cell viewWithTag:2012];
-        
         NSDictionary *action = [self.recentActivity objectAtIndex:[indexPath row]];
-        cell.textLabel.text = [action objectForKey:@"name"];
-        cell.detailTextLabel.text = [action objectForKey:@"created"];
+
+        NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateFormatter *readFormatter = [[NSDateFormatter alloc] init];
+        [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [readFormatter setCalendar:cal];
+        [readFormatter setLocale:[NSLocale currentLocale]];
+
+        NSDate *date = [readFormatter dateFromString:[action objectForKey:@"created"]];
+
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMMM d, yyyy 'at' h:MM aaa"];
+        [formatter setCalendar:cal];
+        [formatter setLocale:[NSLocale currentLocale]];
+        NSString *fdate = [formatter stringFromDate:date];
+
+        cell.textLabel.text = [[action objectForKey:@"name"] capitalizedString];
+        cell.detailTextLabel.text = fdate;
         rep.text = [NSString stringWithFormat:@"+%@",[action valueForKey:@"value"]];
         
         return cell;
