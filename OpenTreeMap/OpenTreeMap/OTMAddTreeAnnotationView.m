@@ -40,11 +40,11 @@
  */
 - (void)updateCoordinateFromTouch:(UITouch *)touch
 {
-    CGPoint point = [touch locationInView:self.superview];
+    CGPoint point = [touch locationInView:nil]; // nil means "use the application window"
     point.x -= touchXOffset;
     point.y -= touchYOffset;
     CLLocationCoordinate2D newCoordinate = [mapView convertPoint:point
-                                            toCoordinateFromView:self.superview];
+                                            toCoordinateFromView:nil]; // nil means "use the application window"
     self.annotation.coordinate = newCoordinate;
 }
 
