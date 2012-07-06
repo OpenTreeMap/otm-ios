@@ -673,6 +673,7 @@
                         <outlet property="tableView" destination="wzi-4l-jz6" id="3QV-7G-hTm"/>
                         <outlet property="view" destination="npN-2P-HfN" id="aXq-tM-8gg"/>
                         <segue destination="u8W-4J-SZB" kind="push" identifier="ChangePassword" id="6t2-c4-alG"/>
+                        <segue destination="Z5j-QU-uNU" kind="push" identifier="pushDetails" id="ezI-WE-lzv"/>
                     </connections>
                 </viewController>
             </objects>
@@ -922,7 +923,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ROJ-aE-inW"/>
+        <segue reference="ezI-WE-lzv"/>
         <segue reference="Lek-fL-nUD"/>
     </inferredMetricsTieBreakers>
 </document>

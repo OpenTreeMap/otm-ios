@@ -6,9 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "OTMProfileViewController.h"
-#import "OTMView.h"
 #import <QuartzCore/QuartzCore.h>
+
+#import "OTMProfileViewController.h"
+#import "OTMTreeDetailViewController.h"
+#import "OTMView.h"
+
 
 #define kOTMProfileViewControllerSectionInfo 0
 #define kOTMProfileViewControllerSectionChangePassword 1
@@ -183,7 +186,15 @@
                   }];
              }
          }];
+    } else if ([path section] == kOTMProfileViewControllerSectionRecentEdits) {
+        NSDictionary *action = [self.recentActivity objectAtIndex:[path row]];
+        NSDictionary *plot = [action objectForKey:@"plot"];
+
+        if (plot != nil) {
+            [self performSegueWithIdentifier:@"pushDetails" sender:plot];
+        }
     }
+
     // These cells behave like buttons so we immediately deselect them
     [tableView deselectRowAtIndexPath:path animated:YES];
 }
@@ -242,6 +253,22 @@
     }
     
     [self.view addSubview:self.pwReqView];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+{
+    if ([segue.identifier isEqualToString:@"pushDetails"]) {
+        OTMTreeDetailViewController *dest = segue.destinationViewController;
+        [dest view]; // Force it load its view
+        
+        NSDictionary *plot = sender;
+        
+        id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
+        
+        dest.data = [plot mutableDeepCopy];
+        dest.keys = keys;
+        //dest.imageView.image = self.treeImage.image;
+    }
 }
 
 - (IBAction)doLogin:(id)sender {
