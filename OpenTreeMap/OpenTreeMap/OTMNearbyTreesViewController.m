@@ -72,10 +72,11 @@
 	// Do any additional setup after loading the view.
 }
 - (void)viewWillAppear:(BOOL)animated {
-    [nearBy removeAllObjects];
     [pending removeAllObjects];
     [recent removeAllObjects];
 
+    [self updateList:segControl];
+    
     [self.locationManager startUpdatingLocation];
     [self reloadBackground];
 }
@@ -86,8 +87,9 @@
 
 - (void)reloadBackground {
     OTMListFilterType t = (OTMListFilterType)segControl.selectedSegmentIndex;
-    if (t == kOTMFiltersShowRecent || t == kOTMFiltersShowPending) {
-        self.nearbyTrees = [NSArray array];
+    if (t == kOTMFiltersShowRecent || t == kOTMFiltersShowPending ||
+        (t == kOTMFiltersShowAll && [self.nearBy count] == 0)) {
+        [self.nearbyTrees removeAllObjects];
         [self.tableView reloadData];
         [self refreshTableWithLocation:self.lastLocation];
     }
