@@ -22,7 +22,7 @@
 
 @implementation OTMNearbyTreesViewController
 
-@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters, segControl;
+@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters, segControl, nearBy, pending, recent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,10 +36,19 @@
 -(IBAction)updateList:(UISegmentedControl *)control {
     self.filters.listFilterType = (OTMListFilterType)control.selectedSegmentIndex;
     
-    self.nearbyTrees = [NSArray array];
+    if (self.filters.listFilterType == kOTMFiltersShowAll) {
+        self.nearbyTrees = nearBy;
+    } else if (self.filters.listFilterType == kOTMFiltersShowRecent) {
+        self.nearbyTrees = recent;
+    } else {
+        self.nearbyTrees = pending;
+    }
+
     [self.tableView reloadData];
 
-    [self refreshTableWithLocation:self.lastLocation];
+    if (self.nearbyTrees == nil || [self.nearbyTrees count] == 0) {
+        [self refreshTableWithLocation:self.lastLocation];
+    }
 }
 
 //TODO: Handle unauthorized view
@@ -48,6 +57,9 @@
     [super viewDidLoad];
     
     filters = [[OTMFilters alloc] init];
+    nearBy = [NSMutableArray array];
+    pending = [NSMutableArray array];
+    recent = [NSMutableArray array];
     
     if (self.locationManager == nil) {
         CLLocationManager *manager = [[CLLocationManager alloc] init];
@@ -60,6 +72,10 @@
 	// Do any additional setup after loading the view.
 }
 - (void)viewWillAppear:(BOOL)animated {
+    [nearBy removeAllObjects];
+    [pending removeAllObjects];
+    [recent removeAllObjects];
+
     [self.locationManager startUpdatingLocation];
     [self reloadBackground];
 }
@@ -171,7 +187,8 @@
                                                           callback:^(NSArray *json, NSError *error)
      {
          if (json) {
-             self.nearbyTrees = [json mutableCopy];             
+             [self.nearbyTrees removeAllObjects];
+             [self.nearbyTrees addObjectsFromArray:[json mutableCopy]];
              [self.tableView reloadData];
          }
      }];    
