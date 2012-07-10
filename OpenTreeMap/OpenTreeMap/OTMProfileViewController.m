@@ -220,9 +220,10 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+
     delayTime = 1.0; // minimum 1.0 second delay time
 
-    [super viewDidLoad];
     [self.loadingView removeFromSuperview];
     [self.tableView addSubview:self.loadingView];
     
@@ -231,18 +232,23 @@
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
-    if (self.recentActivity == nil) {
-        self.recentActivity = [NSMutableArray array];
-    }
+
     self.navigationItem.title = @"Profile";
 
     self.tableView.backgroundView = [[OTMView alloc] init];
+
+
+    [self loadData];
+}
+
+-(void)loadData {
+    loading = NO
+    self.recentActivity = [NSMutableArray array];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (void)showLoginReqView {
@@ -282,8 +288,9 @@
             }                
             
             self.user = aUser;
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:kOTMProfileViewControllerSectionInfo]
-                          withRowAnimation:UITableViewRowAnimationNone];
+
+            [self loadData];
+            [self.tableView reloadData];
             
             if ([self.recentActivity count] == 0) {
                 [self loadRecentEdits];
