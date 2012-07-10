@@ -244,7 +244,7 @@
         if (latestSpeciesEdit) {
             tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species_name"]];
+            tspecies = [[tree objectForKey:@"species_name"] description];
         }
     }
     
