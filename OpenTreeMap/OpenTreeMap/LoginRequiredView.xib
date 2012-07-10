@@ -50,7 +50,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">ptm_logo.png</string>
+							<string key="NSResourceName">logo.png</string>
 						</object>
 					</object>
 					<object class="IBUILabel" id="752103644">
@@ -59,7 +59,7 @@
 						<string key="NSFrame">{{20, 132}, {280, 50}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="280389775"/>
+						<reference key="NSNextKeyView" ref="553157242"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -93,7 +93,7 @@
 						<string key="NSFrame">{{20, 215}, {280, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="553157242"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -110,7 +110,7 @@
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC41AA</bytes>
 						</object>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="87493874">
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">ptm_btn_bg.png</string>
 						</object>
@@ -130,6 +130,7 @@
 						<string key="NSFrame">{{20, 208}, {280, 51}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="280389775"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -140,7 +141,10 @@
 						<reference key="IBUIHighlightedTitleColor" ref="919020629"/>
 						<reference key="IBUINormalTitleColor" ref="919020629"/>
 						<reference key="IBUINormalTitleShadowColor" ref="1055903168"/>
-						<reference key="IBUINormalBackgroundImage" ref="87493874"/>
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">btn_bg.png</string>
+						</object>
 						<reference key="IBUIFontDescription" ref="1034108071"/>
 						<reference key="IBUIFont" ref="863152009"/>
 					</object>
@@ -288,8 +292,9 @@
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
+			<string key="btn_bg.png">{3, 35}</string>
+			<string key="logo.png">{300, 170}</string>
 			<string key="ptm_btn_bg.png">{3, 35}</string>
-			<string key="ptm_logo.png">{300, 170}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1875</string>
 	</data>
