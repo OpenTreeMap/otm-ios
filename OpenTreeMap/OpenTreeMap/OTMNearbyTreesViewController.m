@@ -47,6 +47,12 @@
 {
     [super viewDidLoad];
     
+    BOOL pends = [[OTMEnvironment sharedEnvironment] pendingActive];
+
+    if (!pends && [segControl numberOfSegments]) {
+        [segControl removeSegmentAtIndex:2 animated:NO];
+    }
+
     filters = [[OTMFilters alloc] init];
     
     if (self.locationManager == nil) {

@@ -242,7 +242,7 @@
 }
 
 -(void)loadData {
-    loading = NO
+    loading = NO;
     self.recentActivity = [NSMutableArray array];
 }
 
