@@ -22,7 +22,7 @@
 
 @implementation OTMNearbyTreesViewController
 
-@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters, segControl, nearBy, pending, recent;
+@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters, segControl, nearby, pending, recent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,7 +37,7 @@
     self.filters.listFilterType = (OTMListFilterType)control.selectedSegmentIndex;
     
     if (self.filters.listFilterType == kOTMFiltersShowAll) {
-        self.nearbyTrees = nearBy;
+        self.nearbyTrees = nearby;
     } else if (self.filters.listFilterType == kOTMFiltersShowRecent) {
         self.nearbyTrees = recent;
     } else {
@@ -57,7 +57,7 @@
     [super viewDidLoad];
     
     filters = [[OTMFilters alloc] init];
-    nearBy = [NSMutableArray array];
+    nearby = [NSMutableArray array];
     pending = [NSMutableArray array];
     recent = [NSMutableArray array];
     
@@ -88,7 +88,7 @@
 - (void)reloadBackground {
     OTMListFilterType t = (OTMListFilterType)segControl.selectedSegmentIndex;
     if (t == kOTMFiltersShowRecent || t == kOTMFiltersShowPending ||
-        (t == kOTMFiltersShowAll && [self.nearBy count] == 0)) {
+        (t == kOTMFiltersShowAll && [self.nearby count] == 0)) {
         [self.nearbyTrees removeAllObjects];
         [self.tableView reloadData];
         [self refreshTableWithLocation:self.lastLocation];

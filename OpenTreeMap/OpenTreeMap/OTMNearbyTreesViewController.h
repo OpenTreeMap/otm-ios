@@ -19,7 +19,7 @@
 @property (nonatomic, strong) CLLocation *lastLocation;
 @property (nonatomic, strong) OTMFilters *filters;
 
-@property (nonatomic, strong, readonly) NSMutableArray *nearBy;
+@property (nonatomic, strong, readonly) NSMutableArray *nearby;
 @property (nonatomic, strong, readonly) NSMutableArray *pending;
 @property (nonatomic, strong, readonly) NSMutableArray *recent;
 
