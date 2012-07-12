@@ -83,10 +83,10 @@ typedef enum {
     UIGraphicsBeginImageContext([image size]);
     [image drawInRect:CGRectMake(0,0,image.size.width,image.size.height)];
 
-    UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
+    CGSize stampSize = [AZTileRenderer largestStampSize];
 
     for(OTMDirection dir=North;dir<=NorthWest;dir++) {
-        [self drawNeighbor:dir mapRect:mapRect zoomScale:zoomScale stampSize:stamp.size alpha:alpha cache:tiles image:image];
+        [self drawNeighbor:dir mapRect:mapRect zoomScale:zoomScale stampSize:stampSize alpha:alpha cache:tiles image:image];
     }
 
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -101,9 +101,9 @@ typedef enum {
     CGFloat offsetX = 0;
     CGFloat offsetY = 0;
     
-    CGFloat stampHeightOffset = (stampSize.height*2.0);
-    CGFloat stampWidthOffset = (stampSize.width*2.0);
-    CGRect centerRect = CGRectMake(stampWidthOffset, stampHeightOffset, image.size.width, image.size.height);
+    CGFloat stampHeightOffset = (stampSize.height);
+    CGFloat stampWidthOffset = (stampSize.width);
+    CGRect centerRect = CGRectMake(0, 0, image.size.width, image.size.height);
     
     switch (dir) {
         case North:
@@ -158,9 +158,9 @@ typedef enum {
 
     OTMDirection dir = [self oppositeDir:dirFrom];
     
-    CGFloat stampHeightOffset = (stampSize.height*2.0);
-    CGFloat stampWidthOffset = (stampSize.width*2.0);
-    CGRect centerRect = CGRectMake(stampWidthOffset, stampHeightOffset, image.size.width, image.size.height);
+    CGFloat stampHeightOffset = (stampSize.height);
+    CGFloat stampWidthOffset = (stampSize.width);
+    CGRect centerRect = CGRectMake(0, 0, image.size.width, image.size.height);
     
     switch (dir) {
         case North:
@@ -231,7 +231,7 @@ typedef enum {
         NSTimeInterval start1 = [NSDate timeIntervalSinceReferenceDate];
         UIImage *image;
         if (fs) {
-            image = [AZTileRenderer createFilterImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
+            image = [AZTileRenderer createFilterImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha filters:fs];
         } else {
             image = [AZTileRenderer createImageWithOffsets:points zoomScale:zoomScale alpha:tileAlpha];
         }
@@ -244,13 +244,13 @@ typedef enum {
             [pointCache cacheObject:pcol forMapRect:mapRect zoomScale:zoomScale];
             [tileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
 
-            UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
+            CGSize stampSize = [AZTileRenderer largestStampSize];
 
             for(OTMDirection dir=North;dir<=NorthWest;dir++) {                    
                 MKMapRect neighMapRect = [self mapRectForNeighbor:mapRect direction:dir];
                 UIImage *neighborImage = [tileCache getObjectForMapRect:neighMapRect zoomScale:zoomScale];
                 if (neighborImage) {
-                    neighborImage = [self fillInImage:neighborImage fromCenterImage:image directionFromCenter:dir stampSize:stamp.size];
+                    neighborImage = [self fillInImage:neighborImage fromCenterImage:image directionFromCenter:dir stampSize:stampSize];
 
                     [tileCache cacheObject:neighborImage forMapRect:neighMapRect zoomScale:zoomScale];
                     if (cb) { cb(neighMapRect, zoomScale); }
@@ -273,8 +273,13 @@ typedef enum {
 }
 
 
-+(UIImage*)createFilterImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha {
-    return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:0x00 mode:AZTileFilterModeAny];
++(UIImage*)createFilterImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha filters:(OTMFilters *)f {
+    int filter = 0;
+    if (f.missingDBH) { filter |= AZTileHasDBH; }
+    if (f.missingTree) { filter |= AZTileHasTree; }
+    if (f.missingSpecies) { filter |= AZTileHasSpecies; }
+
+    return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:filter mode:AZTileFilterModeAny];
 }
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha {
@@ -282,28 +287,36 @@ typedef enum {
 }
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha filter:(u_char)filter mode:(AZTileFilterMode)mode {
-    UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale filter:filter mode:mode];
-
-    CGSize imageSize = [stamp size];
-    CGSize frameSize = CGSizeMake(256 + imageSize.width * 2, 256 + imageSize.height * 2);
+    // We need to know the image size ahead of time to determine the frame border buffer
+    CGSize imageSize = [AZTileRenderer largestStampSize];
+    CGSize frameSize = CGSizeMake(256 + imageSize.width, 256 + imageSize.height);
     UIGraphicsBeginImageContext(frameSize);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
 
-    CGRect baseRect = CGRectMake(-imageSize.width / 2.0f + imageSize.width, 
-                                 -imageSize.height / 2.0f + imageSize.height, 
-                                 imageSize.width, imageSize.height);
-    
     for(int i=0;i<CFArrayGetCount(offsets);i++) {
         const OTMPoint* p = CFArrayGetValueAtIndex(offsets, i);
         
         if ([self point:p isFilteredWithMode:mode filter:filter]) {
+            UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale filter:filter mode:mode hasTree:((p->style & AZTileHasTree) > 0)];
+
+            CGRect baseRect = CGRectMake(imageSize.width / 2.0f - stamp.size.width / 2.0f, // Offset for border
+                                         imageSize.height / 2.0f - stamp.size.height / 2.0f,
+                                         stamp.size.width, stamp.size.height);
+    
             CGRect rect = CGRectOffset(baseRect, p->xoffset, 255 - p->yoffset);
-        
+
             [stamp drawInRect:rect blendMode:kCGBlendModeNormal alpha:alpha];
         }
     }
+
+    // DEBUG tile overlap issues
+    // [[UIColor blueColor] setStroke];
+    // CGContextStrokeRect(context, CGRectMake(imageSize.width/2.0f, imageSize.height/2.0f, 
+    //                                         frameSize.width-imageSize.width/2.0f,frameSize.height-imageSize.height/2.0f));
+    // [[UIColor redColor] setStroke];
+    // CGContextStrokeRect(context, CGRectMake(0,0,frameSize.width,frameSize.height));
 
     UIGraphicsPopContext();
     
@@ -312,6 +325,10 @@ typedef enum {
     UIGraphicsEndImageContext();
     
     return image;
+}
+
++(CGSize)largestStampSize {
+    return CGSizeMake(20,20);
 }
 
 
@@ -332,11 +349,12 @@ typedef enum {
     return draw;
 }
 
-+(UIImage *)stampForZoom:(MKZoomScale)zoom {
-    return [AZTileRenderer stampForZoom:zoom filter:AZTileFilterNone mode:AZTileFilterModeNone];
+
++(UIImage *)stampForZoom:(MKZoomScale)zoom hasTree:(BOOL)hastree {
+    return [AZTileRenderer stampForZoom:zoom filter:AZTileFilterNone mode:AZTileFilterModeNone hasTree:hastree];
 }
 
-+(UIImage *)stampForZoom:(MKZoomScale)zoom filter:(u_char)filter mode:(AZTileFilterMode)mode {
++(UIImage *)stampForZoom:(MKZoomScale)zoom filter:(u_char)filter mode:(AZTileFilterMode)mode hasTree:(BOOL)hastree {
     int baseScale = 18 + log2f(zoom); // OSM 18 level scale
     
     NSString *imageName;
@@ -365,8 +383,12 @@ typedef enum {
             break;
     }
     
-    if (mode != AZTileFilterModeNone) {
-        imageName = [NSString stringWithFormat:@"%@_plot", imageName];
+    if (mode == AZTileFilterModeNone) {
+        if (!hastree) {
+            imageName = [NSString stringWithFormat:@"%@_plot", imageName];
+        }
+    } else {
+        imageName = @"tree_search";
     }
     
     return [UIImage imageNamed:imageName];
