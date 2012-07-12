@@ -26,6 +26,7 @@
 
 @interface AZTileQueue : NSObject {
     NSMutableOrderedSet *queue;
+    int maxr;
 }
 
 @property (nonatomic,assign) MKMapRect visibleMapRect;
