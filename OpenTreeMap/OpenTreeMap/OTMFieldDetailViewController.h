@@ -24,6 +24,7 @@
 
 @interface OTMFieldDetailViewController : UITableViewController <UIActionSheetDelegate> {
 	NSString *action;
+    UITableViewCell *selectedCell;
 }
 
 @property (nonatomic, strong) NSDictionary *data;
@@ -33,5 +34,7 @@
 @property (nonatomic, strong) NSString *fieldFormatString;
 @property (nonatomic, strong) NSArray *choices;
 @property (nonatomic, strong) Function1v pendingEditsUpdatedCallback;
+
+@property (readonly) BOOL currentValueIsSelected;
 
 @end

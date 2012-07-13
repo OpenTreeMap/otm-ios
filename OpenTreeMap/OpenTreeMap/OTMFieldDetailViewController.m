@@ -68,6 +68,7 @@
     [super viewWillAppear:animated];
     self.navigationItem.title = self.fieldName;
     [self.tableView reloadData];
+    [self clearSelection];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -214,6 +215,11 @@
             } else {
                 cell.textLabel.text = @"No Value";
             }
+            if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            } else {
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
         }
     } else {
         if (self.fieldKey == @"geometry")
@@ -231,58 +237,91 @@
         }
     }
 
+    if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+        [self styleCell:cell asStatus:nil];
+    }
+
     return cell;
 }
+
+- (void)styleCell:(UITableViewCell *)cell asStatus:(NSString *)status
+{
+    NSString *imageName;
+    if (status == @"approved") {
+        imageName = @"pending-approved";
+    } else if (status == @"rejected") {
+        imageName = nil;
+    } else {
+        imageName = @"pending-unapproved";
+    }
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
+}
+
+- (void)clearSelection
+{
+    for (int section = 0; section < [self.tableView numberOfSections]; section++) {
+        for (int row = 0; row < [self.tableView numberOfRowsInSection:section]; row++) {
+            NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
+            UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:cellPath];
+            [self styleCell:cell asStatus:nil];
+            [self.tableView deselectRowAtIndexPath:cellPath animated:NO];
+        }
+    }
+    selectedCell = nil;
+    [self.navigationItem setRightBarButtonItem:nil animated:NO];
+
+    [self.navigationItem setLeftBarButtonItem:nil animated:NO];
+}
+
+- (void)tableView:(UITableView *)tableView approveCellAtPath:(NSIndexPath *)indexPath
+{
+    for (int section = 0; section < [tableView numberOfSections]; section++) {
+        for (int row = 0; row < [tableView numberOfRowsInSection:section]; row++) {
+            NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:section];
+            UITableViewCell* cell = [tableView cellForRowAtIndexPath:cellPath];
+            if ([cellPath compare:indexPath] == NSOrderedSame) {
+                [self styleCell:cell asStatus:@"approved"];
+             } else {
+                [self styleCell:cell asStatus:@"rejected"];
+             }
+        }
+    }
+
+    if (!selectedCell) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(confirmSelection:)] animated:NO];
+
+        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelPendingSelection:)] animated:NO];
+
+        selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    }
+}
+
+- (BOOL)currentValueIsSelected
+{
+    return selectedCell && ([[self.tableView indexPathForSelectedRow] section] == 0);
+}
+
+- (void)confirmSelection:(id)sender
+{
+    if (self.currentValueIsSelected) {
+        [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
+        [self rejectNextEdit];
+    } else {
+        [self approveSelectedPendingEdit];
+    }
+}
+
+- (void)cancelPendingSelection:(id)sender
+{
+    [self clearSelection];
+}
+
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section == 0) {
         return @"Current Value";
     } else {
         return @"Pending Edits";
-    }
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
-{
-    if (section == 0 && [[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
-        return @"Tap one of the pending edits below to approve it and to reject any other pending edits for the field.";
-    } else {
-        return nil;
-    }
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits] && section == 1)
-    {
-        UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, self.tableView.frame.size.width, 44.0)];
-
-        UIButton *rejectAllButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        rejectAllButton.frame = CGRectMake(10.0, 20.0, 300.0, 44.0);
-        [rejectAllButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [rejectAllButton setTitle:@"Reject All Edits" forState:UIControlStateNormal];
-        [rejectAllButton addTarget:self action:@selector(beginRejectAllEdits:) forControlEvents:UIControlEventTouchUpInside];
-        [rejectAllButton setBackgroundImage:[UIImage imageNamed:@"button_glass_red"] forState:UIControlStateNormal];
-        [footerView addSubview:rejectAllButton];
-
-        return footerView;
-    } else {
-        return nil;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
-        if (section == 0) {
-            return 80.0;
-        } else if (section == 1) {
-            return 100.0;
-        } else {
-            return 0.0;
-        }
-    } else {
-        return 0.0;
     }
 }
 
@@ -338,17 +377,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *actionSheetMessage;
-    if ([self numberOfPendingEdits] > 1) {
-        actionSheetMessage = @"Do you want to approve this edit and reject all the other edits for this field?";
-    } else {
-        actionSheetMessage = @"Do you want to approve this edit?";
-    }
-
-    if (indexPath.section == 1 && [[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:actionSheetMessage delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Approve" otherButtonTitles:nil];
-        action = @"approve";
-        [actionSheet showFromTabBar:self.navigationController.tabBarController.tabBar];
+    if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits]) {
+        [self tableView:tableView approveCellAtPath:indexPath];
     }
 }
 

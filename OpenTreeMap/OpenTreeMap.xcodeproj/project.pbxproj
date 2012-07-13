@@ -18,6 +18,10 @@
 		641E98B11598B48300F7EDE0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 641E98B01598B48300F7EDE0 /* Default@2x.png */; };
 		64249DCA158B95D000461DD0 /* selected_marker_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 64249DC8158B95CF00461DD0 /* selected_marker_small.png */; };
 		64249DCE1590DAB600461DD0 /* pend.png in Resources */ = {isa = PBXBuildFile; fileRef = 64249DCD1590DAB600461DD0 /* pend.png */; };
+		64313C9515AC98C700CC1224 /* pending-unapproved.png in Resources */ = {isa = PBXBuildFile; fileRef = 64313C8F15AC98C700CC1224 /* pending-unapproved.png */; };
+		64313C9615AC98C700CC1224 /* pending-approved.png in Resources */ = {isa = PBXBuildFile; fileRef = 64313C9015AC98C700CC1224 /* pending-approved.png */; };
+		64313C9715AC98C700CC1224 /* pending-unapproved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64313C9115AC98C700CC1224 /* pending-unapproved@2x.png */; };
+		64313C9915AC98C700CC1224 /* pending-approved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64313C9315AC98C700CC1224 /* pending-approved@2x.png */; };
 		64318CD21551E22E001C827F /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64318CD11551E22E001C827F /* libASI.a */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
@@ -195,6 +199,10 @@
 		641E98B01598B48300F7EDE0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../../Default@2x.png"; sourceTree = "<group>"; };
 		64249DC8158B95CF00461DD0 /* selected_marker_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_marker_small.png; sourceTree = "<group>"; };
 		64249DCD1590DAB600461DD0 /* pend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pend.png; sourceTree = "<group>"; };
+		64313C8F15AC98C700CC1224 /* pending-unapproved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-unapproved.png"; sourceTree = "<group>"; };
+		64313C9015AC98C700CC1224 /* pending-approved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-approved.png"; sourceTree = "<group>"; };
+		64313C9115AC98C700CC1224 /* pending-unapproved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-unapproved@2x.png"; sourceTree = "<group>"; };
+		64313C9315AC98C700CC1224 /* pending-approved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-approved@2x.png"; sourceTree = "<group>"; };
 		64318CD11551E22E001C827F /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../DerivedData/opentreemap/Build/Products/Debug-iphoneos/libASI.a"; sourceTree = "<group>"; };
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
 		64435A391598AC61000355DE /* selected_marker_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_marker_small@2x.png"; sourceTree = "<group>"; };
@@ -443,6 +451,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64313C8C15AC98B400CC1224 /* pending_edits */ = {
+			isa = PBXGroup;
+			children = (
+				64313C8F15AC98C700CC1224 /* pending-unapproved.png */,
+				64313C9115AC98C700CC1224 /* pending-unapproved@2x.png */,
+				64313C9015AC98C700CC1224 /* pending-approved.png */,
+				64313C9315AC98C700CC1224 /* pending-approved@2x.png */,
+			);
+			name = pending_edits;
+			sourceTree = "<group>";
+		};
 		64DDCDBA14F53177004FA0CF /* Environments */ = {
 			isa = PBXGroup;
 			children = (
@@ -629,6 +648,7 @@
 		D7CC152515065AC100277C7C /* images */ = {
 			isa = PBXGroup;
 			children = (
+				64313C8C15AC98B400CC1224 /* pending_edits */,
 				64D6F94D15A346BE00AEA516 /* button_glass_red.png */,
 				64D6F95015A346C400AEA516 /* button_glass_red@2x.png */,
 				64E13D3A159A36C7003D6788 /* about_bg@2x.png */,
@@ -939,6 +959,10 @@
 				64E13D3B159A36C7003D6788 /* about_bg@2x.png in Resources */,
 				64D6F94E15A346BE00AEA516 /* button_glass_red.png in Resources */,
 				64D6F95115A346C400AEA516 /* button_glass_red@2x.png in Resources */,
+				64313C9515AC98C700CC1224 /* pending-unapproved.png in Resources */,
+				64313C9615AC98C700CC1224 /* pending-approved.png in Resources */,
+				64313C9715AC98C700CC1224 /* pending-unapproved@2x.png in Resources */,
+				64313C9915AC98C700CC1224 /* pending-approved@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
