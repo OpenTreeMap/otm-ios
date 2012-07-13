@@ -58,6 +58,7 @@
 -(id)init {
     if ((self = [super init])) {
         queue = [[NSMutableOrderedSet alloc] init];
+        maxr = 0;
     }
 
     return self;
@@ -90,7 +91,9 @@
         [queue addObject:req];
         [self sort];
 
-        NSLog(@"Enqueue: Queue contains %d objects",[queue count]);
+        maxr = MAX(maxr,[queue count]);
+
+        NSLog(@"Enqueue: Queue contains %d objects (max # objs: %d)",[queue count], maxr);
         [self pushOpQueue];
     }
 }
@@ -98,7 +101,7 @@
 -(void)pushOpQueue {
     [opQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
                 AZTileRequest *r = [self dequeueRequest];
-                NSLog(@"Dequeue: Queue contains %d objects",[queue count]);
+                NSLog(@"Enqueue: Queue contains %d objects (max # objs: %d)",[queue count], maxr);
                 if (r && r.operation) {
                     r.operation(r);
                 }

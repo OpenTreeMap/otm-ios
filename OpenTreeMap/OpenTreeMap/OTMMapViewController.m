@@ -244,7 +244,7 @@
         if (latestSpeciesEdit) {
             tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            tspecies = [NSString stringWithFormat:@"%@",[tree objectForKey:@"species_name"]];
+            tspecies = [[tree objectForKey:@"species_name"] description];
         }
     }
     
@@ -394,11 +394,17 @@
         }
         self.navigationItem.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
         self.navigationItem.leftBarButtonItem.title = @"Filter";
+        self.navigationItem.leftBarButtonItem.target = self;
+        self.navigationItem.leftBarButtonItem.action = @selector(showFilters);
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(startAddingTree)];
         [self slideAddTreeHelpDownAnimated:YES];
     }
 
     self.mode = newMode;
+}
+
+- (void)showFilters {
+    [self performSegueWithIdentifier:@"filtersList" sender:self];
 }
 
 - (void)crossfadeLabel:(UILabel *)label newText:(NSString *)newText

@@ -72,8 +72,21 @@
             }
         }
 
-        self.lastUpdateDate.text = [NSString stringWithFormat:@"Updated %@", [self reformatLastUpdateDate:[self.data objectForKey:@"last_updated"]]];
-        self.updateUser.text = [NSString stringWithFormat:@"By %@", [self.data objectForKey:@"last_updated_by"]];
+        NSString *upd_on = [self reformatLastUpdateDate:[self.data objectForKey:@"last_updated"]];
+
+        if (upd_on == nil) {
+            upd_on = @"just now";
+        }
+
+        self.lastUpdateDate.text = [NSString stringWithFormat:@"Updated %@", upd_on];
+
+        NSString *by = [self.data objectForKey:@"last_updated_by"];
+
+        if (by) {
+            self.updateUser.text = [NSString stringWithFormat:@"By %@", by];
+        } else {
+            self.updateUser.text = @"";
+        }
     }    
 }
 
@@ -91,7 +104,7 @@
     NSDate *date = [readFormatter dateFromString:dateString];
 
     NSDateFormatter *writeFormatter = [[NSDateFormatter alloc] init];
-    [writeFormatter setDateFormat:@"MMMM d, yyyy hh:mm a"];
+    [writeFormatter setDateFormat:@"MMMM d, yyyy h:mm a"];
     [writeFormatter setCalendar:cal];
     [writeFormatter setLocale:[NSLocale currentLocale]];
     return [writeFormatter stringFromDate:date];

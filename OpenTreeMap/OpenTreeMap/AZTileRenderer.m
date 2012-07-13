@@ -320,7 +320,7 @@ typedef enum {
     if (mode == AZTileFilterModeNone) {
         draw = YES;
     } else if (mode == AZTileFilterModeAny) {
-        if ((p->style & filter) != 0) {
+        if ((~(p->style) & filter) == 0) {
             draw = NO;
         }
     } else if (mode == AZTileFilterModeAll) {

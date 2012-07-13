@@ -101,6 +101,7 @@
 @property (nonatomic, strong) UIColor *navBarTintColor;
 @property (nonatomic, strong) UIImage *buttonImage;
 @property (nonatomic, strong) UIColor *buttonTextColor;
+@property (nonatomic, assign) BOOL pendingActive;
 
 // Choices values
 @property (nonatomic, retain) NSDictionary* choices;

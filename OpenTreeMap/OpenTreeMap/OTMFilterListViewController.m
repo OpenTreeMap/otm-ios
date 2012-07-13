@@ -43,6 +43,18 @@
         [m setObject:@"true" forKey:@"filter_pending"];
     }
 
+    if (missingTree) {
+        [m setObject:@"false" forKey:@"has_tree"];
+    }
+
+    if (missingDBH) {
+        [m setObject:@"false" forKey:@"has_dbh"];
+    }
+
+    if (missingSpecies) {
+        [m setObject:@"false" forKey:@"has_species"];
+    }
+
     return m;
 }
 

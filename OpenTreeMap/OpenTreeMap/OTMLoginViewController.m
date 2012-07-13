@@ -133,4 +133,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    username.text = @"";
+    password.text = @"";
+}
+
+
 @end
