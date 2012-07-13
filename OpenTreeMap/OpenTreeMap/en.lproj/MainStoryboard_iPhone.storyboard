@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
     </dependencies>
@@ -169,7 +168,7 @@
             </objects>
             <point key="canvasLocation" x="1194" y="-158"/>
         </scene>
-        <!--Tree Detail View Controller-->
+        <!--Tree Detail View Controller - Tree Detail-->
         <scene sceneID="Dv8-v2-A1v">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8hd-Es-WvR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -233,7 +232,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="b7l-sL-luW">
+                    <navigationItem key="navigationItem" title="Tree Detail" id="b7l-sL-luW">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="FPD-mA-QHc">
                             <connections>
                                 <action selector="startOrCommitEditing:" destination="Z5j-QU-uNU" id="T3F-JG-cuv"/>
