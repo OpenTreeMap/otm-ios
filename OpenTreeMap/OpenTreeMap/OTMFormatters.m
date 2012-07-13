@@ -58,7 +58,7 @@
 }
 
 +(NSString*)fmtObject:(id)obj withKey:(NSString*)key {
-    if (obj == nil) {
+    if (obj == nil || [[obj description] isEqualToString:@"<null>"]) {
         return @"";
     } else if (key == nil || [key length] == 0) {
         return [obj description];
