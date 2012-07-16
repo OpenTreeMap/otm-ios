@@ -224,7 +224,7 @@
     } else {
         if (self.fieldKey == @"geometry")
         {
-            cell = [self buildMapCellWithDictionary:[self pendingValueAtIndex:indexPath.row]  forTableView:tableView];
+            cell = [self buildMapCellWithDictionary:(NSDictionary *)[self pendingValueAtIndex:indexPath.row]  forTableView:tableView];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailPendingEditCellIdentifier];
             cell.textLabel.text = [self pendingValueAtIndex:indexPath.row];
