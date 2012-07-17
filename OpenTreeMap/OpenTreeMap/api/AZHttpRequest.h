@@ -128,7 +128,7 @@ typedef void(^ASIRequestConfig)(ASIHTTPRequest* req);
  * @param callback called on success
  *
  */
--(void)post:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback;
+-(void)post:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data contentType:(NSString *)contentType callback:(ASIRequestCallback)callback;
 
 /**
  * Perform an API call
