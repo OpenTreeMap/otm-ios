@@ -168,7 +168,7 @@
             </objects>
             <point key="canvasLocation" x="1194" y="-158"/>
         </scene>
-        <!--Tree Detail View Controller-->
+        <!--Tree Detail View Controller - Tree Detail-->
         <scene sceneID="Dv8-v2-A1v">
             <objects>
                 <viewController id="Z5j-QU-uNU" customClass="OTMTreeDetailViewController" sceneMemberID="viewController">
@@ -231,7 +231,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="b7l-sL-luW">
+                    <navigationItem key="navigationItem" title="Tree Detail" id="b7l-sL-luW">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="FPD-mA-QHc">
                             <connections>
                                 <action selector="startOrCommitEditing:" destination="Z5j-QU-uNU" id="T3F-JG-cuv"/>
