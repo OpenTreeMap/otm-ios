@@ -161,7 +161,7 @@
 - (void)setKeys:(NSArray *)k {
     NSMutableArray *txToEditRm = [NSMutableArray array];
     NSMutableArray *txToEditRel = [NSMutableArray array];
-    allFields = k;
+    allFields = [k mutableCopy];
     
     NSMutableArray *editableFields = [NSMutableArray array];
 
@@ -197,20 +197,28 @@
     NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow,pictureRow,nil];
     [editableFields addObject:speciesAndPicSection];
     
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+    OTMUser *user = loginManager.loggedInUser;
+
+    
     for(int section=0;section < [allFields count];section++) {
-        NSArray *sectionArray = [allFields objectAtIndex:section];
+        NSMutableArray *sectionArray = [[allFields objectAtIndex:section] mutableCopy];
         NSMutableArray *editSectionArray = [NSMutableArray array];
         
         for(int row=0;row < [sectionArray count]; row++) {
-            OTMDetailCellRenderer *renderer = [sectionArray objectAtIndex:row];
+            OTMDetailCellRenderer *renderer = [OTMDetailCellRenderer cellRendererFromDict:[sectionArray objectAtIndex:row] user:user];
+        
             if (renderer.editCellRenderer != nil) {
                 [editSectionArray addObject:renderer.editCellRenderer];
                 [txToEditRel addObject:[NSIndexPath indexPathForRow:row inSection:section]];
             } else {
                 [txToEditRm addObject:[NSIndexPath indexPathForRow:row inSection:section]];
             }
+
+            [sectionArray replaceObjectAtIndex:row withObject:renderer];
         }
-        
+                
+        [allFields replaceObjectAtIndex:section withObject:sectionArray];
         [editableFields addObject:editSectionArray];
     }
     

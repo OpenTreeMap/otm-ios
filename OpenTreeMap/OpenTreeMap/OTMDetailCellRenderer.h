@@ -14,6 +14,7 @@
 #define kOTMDefaultEditDetailRenderer OTMLabelEditDetailCellRenderer
 
 @class OTMEditDetailCellRenderer;
+@class OTMUser;
 
 /**
  * Generic interface for rendering cells
@@ -25,7 +26,7 @@
 /**
  * Use the given dict as the bases for the cell renderer
  */
-+(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict;
++(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict user:(OTMUser *)user;
 
 /**
  * Key to access data for this cell
@@ -78,7 +79,7 @@
 /**
  * Initialize with dictionary structure
  */
--(id)initWithDict:(NSDictionary *)dict;
+-(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user;
 
 /**
  * Given a tableView create a new cell (or reuse an old one), prepare
@@ -94,7 +95,7 @@ ABSTRACT_METHOD
  */
 @interface OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
-+(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict;
++(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict user:(OTMUser *)user;
 
 ABSTRACT_METHOD
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;

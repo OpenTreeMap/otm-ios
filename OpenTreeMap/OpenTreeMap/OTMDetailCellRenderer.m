@@ -8,19 +8,20 @@
 
 #import "OTMDetailCellRenderer.h"
 #import "OTMFormatters.h"
+#import "OTMUser.h"
 
 @implementation OTMDetailCellRenderer
 
 @synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey, ownerDataKey;
 
-+(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict {
++(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user {
     NSString *clazz = [dict objectForKey:@"class"];
            
     OTMDetailCellRenderer *renderer;
     if (clazz == nil) {
-        renderer = [[kOTMDefaultDetailRenderer alloc] initWithDict:dict];
+        renderer = [[kOTMDefaultDetailRenderer alloc] initWithDict:dict user:user];
     } else {
-        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict];
+        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
     }
     
     return renderer;
@@ -36,17 +37,17 @@
     return self;
 }
 
--(id)initWithDict:(NSDictionary *)dict {
+-(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [self init];
     
     if (self) {
         dataKey = [dict objectForKey:@"key"];
         ownerDataKey = [dict objectForKey:@"owner"];
         
-        id ro = [dict valueForKey:@"readonly"];
+        id editLevel = [dict valueForKey:@"minimumToEdit"];
         
-        if (ro == nil || [ro boolValue] == NO) {
-            self.editCellRenderer = [OTMLabelEditDetailCellRenderer editCellRendererFromDict:dict];
+        if (editLevel != nil && user != nil && user.level >= [editLevel intValue]) {
+            self.editCellRenderer = [OTMLabelEditDetailCellRenderer editCellRendererFromDict:dict user:user];
         }        
     }
     
@@ -65,8 +66,8 @@
 
 @synthesize label, formatStr;
 
--(id)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
+-(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+    self = [super initWithDict:dict user:user];
     
     if (self) {
         label = [dict objectForKey:@"label"];
@@ -111,7 +112,7 @@
 
 @implementation OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
--(id)initWithDict:(NSDictionary *)dict {
+-(id)initWithDict:(NSDictionary *)dict  user:(OTMUser*)user {
     self = [super init];
     
     if (self) {
@@ -125,14 +126,14 @@
     ABSTRACT_METHOD_BODY
 }
 
-+(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict {
++(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user{
     NSString *clazz = [dict objectForKey:@"editClass"];
     
     OTMEditDetailCellRenderer *renderer;
     if (clazz == nil) {
-        renderer = [[kOTMDefaultEditDetailRenderer alloc] initWithDict:dict];
+        renderer = [[kOTMDefaultEditDetailRenderer alloc] initWithDict:dict user:user];
     } else {
-        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict];
+        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
     }
     
     return renderer;
@@ -144,8 +145,8 @@
 
 @synthesize label, updatedString;
 
--(id)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
+-(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+    self = [super initWithDict:dict user:user];
     
     if (self) {
         label = [dict objectForKey:@"label"];
@@ -195,8 +196,8 @@
 
 @synthesize cell;
 
--(id)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
+ -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+    self = [super initWithDict:dict user:user];
     
     if (self) {
         cell = [OTMDBHTableViewCell loadFromNib];

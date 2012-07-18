@@ -24,7 +24,7 @@
 
 @implementation OTMUser
 
-@synthesize firstName, lastName, zipcode, email, photo, userId, reputation, permissions;
+@synthesize firstName, lastName, zipcode, email, photo, userId, reputation, permissions, level, userType;
 
 - (bool)canDeleteAnyTree
 {

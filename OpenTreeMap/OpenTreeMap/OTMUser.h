@@ -27,6 +27,8 @@
 
 @property (nonatomic,assign) int userId;
 @property (nonatomic,assign) int reputation;
+@property (nonatomic,assign) int level;
+@property (nonatomic,strong) NSString* userType;
 @property (nonatomic,strong) NSString* firstName;
 @property (nonatomic,strong) NSString* lastName;
 @property (nonatomic,strong) NSString* zipcode;

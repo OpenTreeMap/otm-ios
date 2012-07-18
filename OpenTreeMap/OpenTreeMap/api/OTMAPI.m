@@ -359,6 +359,8 @@
             user.zipcode = [json objectForKey:@"zipcode"];
             user.reputation = [[json valueForKey:@"reputation"] intValue];
             user.permissions = [json objectForKey:@"permissions"];
+            user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
+            user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
             [user setLoggedIn:YES];
             callback(user, kOTMAPILoginResponseOK);
         }
