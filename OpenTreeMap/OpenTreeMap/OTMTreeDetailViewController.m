@@ -493,12 +493,32 @@
     return cell;
 }
 
-#define kTreeDetailFooterViewHeight 148.0
+- (CGFloat)footerHeight
+{
+    if (data == nil) {
+        return 0;
+    }
+    if ([data objectForKey:@"perm"] == nil) {
+        return 0;
+    }
+    CGFloat height = 0;
+    if ([[[[data objectForKey:@"perm"] objectForKey:@"plot"] objectForKey:@"can_delete"] intValue] == 1) {
+        height += 74;
+    }
+    if ([[[[data objectForKey:@"perm"] objectForKey:@"tree"] objectForKey:@"can_delete"] intValue] == 1) {
+        height += 74;
+    }
+    return height;
+}
 
 - (UIView *)tableView:(UITableView *)aTableView viewForFooterInSection:(NSInteger)section
 {
     if (editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section) {
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,kTreeDetailFooterViewHeight)];
+        CGFloat height = [self footerHeight];
+        if (height == 0) {
+            return nil;
+        }
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,height)];
 
         UIButton *deleteTreeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [deleteTreeButton setFrame:CGRectMake(10,20,300,44)];
@@ -525,7 +545,7 @@
 - (CGFloat)tableView:(UITableView *)aTableView heightForFooterInSection:(NSInteger)section
 {
     if (editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section) {
-        return kTreeDetailFooterViewHeight;
+        return [self footerHeight];
     } else {
         return 0.0;
     }
