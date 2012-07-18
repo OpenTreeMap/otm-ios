@@ -35,7 +35,7 @@
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
 @end
 
-@interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate> {
+@interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate> {
     BOOL editMode;
     BOOL updated;
     NSMutableDictionary *data;
@@ -47,6 +47,8 @@
     NSArray *allFields;
     
     NSArray *curFields;
+
+    NSString *deleteType;
 }
 
 @property (nonatomic,weak) id<OTMTreeDetailViewDelegate> delegate;

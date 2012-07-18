@@ -493,4 +493,78 @@
     return cell;
 }
 
+#define kTreeDetailFooterViewHeight 148.0
+
+- (UIView *)tableView:(UITableView *)aTableView viewForFooterInSection:(NSInteger)section
+{
+    if (editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section) {
+        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,kTreeDetailFooterViewHeight)];
+
+        UIButton *deleteTreeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [deleteTreeButton setFrame:CGRectMake(10,20,300,44)];
+        [deleteTreeButton setBackgroundImage:[UIImage imageNamed:@"button_glass_red"] forState:UIControlStateNormal];
+        [deleteTreeButton setTitle:@"Remove Tree" forState:UIControlStateNormal];
+        [deleteTreeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [deleteTreeButton addTarget:self action:@selector(deleteTreeTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [footer addSubview:deleteTreeButton];
+
+        UIButton *deletePlotButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [deletePlotButton setFrame:CGRectMake(10,84,300,44)];
+        [deletePlotButton setBackgroundImage:[UIImage imageNamed:@"button_glass_red"] forState:UIControlStateNormal];
+        [deletePlotButton setTitle:@"Remove Planting Site" forState:UIControlStateNormal];
+        [deletePlotButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [deletePlotButton addTarget:self action:@selector(deletePlotTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [footer addSubview:deletePlotButton];
+
+        return footer;
+    } else {
+        return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)aTableView heightForFooterInSection:(NSInteger)section
+{
+    if (editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section) {
+        return kTreeDetailFooterViewHeight;
+    } else {
+        return 0.0;
+    }
+}
+
+- (void)deleteTreeTapped:(id)sender
+{
+    deleteType = @"tree";
+    [self showActionSheet];
+}
+
+- (void)deletePlotTapped:(id)sender
+{
+    deleteType = @"plot";
+    [self showActionSheet];
+}
+
+- (void)showActionSheet
+{
+    NSString *title;
+    NSString *destructiveButtonTitle;
+    if (deleteType == @"tree") {
+        title = @"Remove the tree from this planting site?";
+        destructiveButtonTitle = @"Remove Tree";
+    } else if (deleteType == @"plot") {
+        title = @"Remove this planting site?";
+        destructiveButtonTitle = @"Remove Planting Site";
+    }
+
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:destructiveButtonTitle otherButtonTitles:nil];
+    [actionSheet showFromTabBar:self.tabBarController.tabBar];
+}
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    // TODO: Call delete API
+}
+
 @end
