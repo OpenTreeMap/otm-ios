@@ -187,12 +187,15 @@
 -(void)refreshTableWithLocation:(CLLocation *)loc {
     if (loc == nil) { loc = self.lastLocation; }
 
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:loc.coordinate.latitude
-                                                         longitude:loc.coordinate.longitude
-                                                        maxResults:15
-                                                           filters:filters
-                                                          distance:1 // 1 decimal degree
-                                                          callback:^(NSArray *json, NSError *error)
+                   longitude:loc.coordinate.longitude
+                        user:[loginManager loggedInUser]
+                  maxResults:15
+                     filters:filters
+                    distance:1 // 1 decimal degree
+                    callback:^(NSArray *json, NSError *error)
      {
          if (json) {
              [self.nearbyTrees removeAllObjects];

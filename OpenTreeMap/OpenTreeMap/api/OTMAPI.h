@@ -86,14 +86,15 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  * Get the plot nearested to (lat,lon)
  *
  * @param lat,lon latitude and longitude of the point of intererest
+ * @param the user making the request
  * @param macResults maximum number of trees to return
  * @param callback receives a NSArray of NSDictionaries representing plots
  */
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)maxResults callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)maxResults callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback;
  
 /**
  * Request an image for a given tree/plot

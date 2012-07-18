@@ -468,10 +468,13 @@
 
 - (void)selectTreeNearCoordinate:(CLLocationCoordinate2D)coordinate
 {
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:coordinate.latitude
-                                                         longitude:coordinate.longitude
-                                                           filters:self.filters
-                                                          callback:^(NSArray* plots, NSError* error)
+                   longitude:coordinate.longitude
+                        user:loginManager.loggedInUser
+                     filters:self.filters
+                    callback:^(NSArray* plots, NSError* error)
      {
          if ([plots count] == 0) { // No plots returned
              [self slideDetailDownAnimated:YES];
