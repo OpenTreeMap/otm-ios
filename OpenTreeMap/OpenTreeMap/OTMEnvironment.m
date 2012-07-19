@@ -182,35 +182,39 @@
                  @"", @"label",
                  @"OTMMapDetailCellRenderer", @"class",
                  @"OTMEditMapDetailCellRenderer", @"editClass",
-                 [NSNumber numberWithBool:YES], @"readonly",
+                 [NSNumber numberWithInt:99999], @"minimumToEdit",
                  nil],
                 nil],
                [NSArray arrayWithObjects:
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"id", @"key",
                  @"Tree Number", @"label", 
-                 [NSNumber numberWithBool:YES], @"readonly",
+                 [NSNumber numberWithInt:99999], @"minimumToEdit",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"tree.sci_name", @"key",
                  @"Scientific Name", @"label",
                  @"tree.species", @"owner",
-                 [NSNumber numberWithBool:YES], @"readonly", nil],
+                 [NSNumber numberWithInt:10000], @"minimumToEdit",
+                 nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"tree.dbh", @"key",
                  @"Trunk Diameter", @"label", 
                  @"fmtIn:", @"format",  
                  @"OTMDBHEditDetailCellRenderer", @"editClass",
+                 [NSNumber numberWithInt:0], @"minimumToEdit",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"tree.height", @"key",
                  @"Tree Height", @"label",
                  @"fmtM:", @"format",  
+                 [NSNumber numberWithInt:500], @"minimumToEdit",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"tree.canopy_height", @"key",
                  @"Canopy Height", @"label", 
                  @"fmtM:", @"format", 
+                 [NSNumber numberWithInt:500], @"minimumToEdit",
                  nil],
                 nil],
                [NSArray arrayWithObjects:
@@ -218,46 +222,39 @@
                  @"plot_width", @"key",
                  @"Plot Width", @"label", 
                  @"fmtFt:", @"format", 
+                 [NSNumber numberWithInt:0], @"minimumToEdit",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"plot_length", @"key",
                  @"Plot Length", @"label", 
                  @"fmtFt:", @"format", 
+                 [NSNumber numberWithInt:0], @"minimumToEdit",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"power_lines", @"key",
                  @"Powerlines", @"label", 
                  @"OTMChoicesDetailCellRenderer", @"class",
                  @"powerline_conflict_potential", @"fname",
+                 [NSNumber numberWithInt:0], @"minimumToEdit",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"sidewalk_damage", @"key",
                  @"Sidewalk", @"label", 
                  @"OTMChoicesDetailCellRenderer", @"class",
                  @"sidewalk_damage", @"fname",
+                 [NSNumber numberWithInt:500], @"minimumToEdit",
                  nil],
                 [NSDictionary dictionaryWithObjectsAndKeys:
                  @"tree.canopy_condition", @"key",
                  @"Canopy Condition", @"label", 
                  @"OTMChoicesDetailCellRenderer", @"class",
                  @"canopy_condition", @"fname",
+                 [NSNumber numberWithInt:500], @"minimumToEdit",
                  nil],
                 nil],
                nil];    
-    
-    NSMutableArray *sections = [NSMutableArray array];
-    for(NSArray *sectionArray in keys) {
-        NSMutableArray *section = [NSMutableArray array];
-        
-        for(NSDictionary *rowDict in sectionArray) {
-            [section addObject:
-             [OTMDetailCellRenderer cellRendererFromDict:rowDict]];
-        }
-        
-        [sections addObject:section];
-    }
-    
-    return sections;
+  
+    return keys;
 }
 
 

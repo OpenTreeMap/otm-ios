@@ -44,7 +44,7 @@
     NSArray *txToEditReload;
     
     NSArray *editFields;
-    NSArray *allFields;
+    NSMutableArray *allFields;
     
     NSArray *curFields;
 

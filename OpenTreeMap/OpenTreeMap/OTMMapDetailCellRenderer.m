@@ -22,8 +22,8 @@
 
 @implementation OTMMapDetailCellRenderer
 
--(id)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
+-(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+    self = [super initWithDict:dict user:user];
     
     if (self) {
         self.cellHeight = kOTMMapTableViewCellHeight;

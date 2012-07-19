@@ -103,7 +103,7 @@
                          }];
 }
 
--(void)post:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data callback:(ASIRequestCallback)callback {
+-(void)post:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params data:(NSData*)data contentType:(NSString *)contentType callback:(ASIRequestCallback)callback {
     [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params] 
                                  username:user.username
                                  password:user.password
@@ -112,7 +112,7 @@
                                        [r setPostBody:[NSMutableData dataWithData:data]];
                                        [r setRequestMethod:@"POST"];
                                        [r addRequestHeader:@"Content-Type"
-                                                     value:@"application/json"];
+                                                     value:contentType];
                                    }];
 }
 

@@ -360,6 +360,8 @@
             user.zipcode = [json objectForKey:@"zipcode"];
             user.reputation = [[json valueForKey:@"reputation"] intValue];
             user.permissions = [json objectForKey:@"permissions"];
+            user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
+            user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
             [user setLoggedIn:YES];
             callback(user, kOTMAPILoginResponseOK);
         }
@@ -403,6 +405,7 @@
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                               forKey:@"user_id"]
              data:UIImagePNGRepresentation(user.photo) 
+      contentType:@"image/png"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
@@ -412,6 +415,7 @@
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pId]
                                               forKey:@"plot_id"]
              data:UIImagePNGRepresentation(image) 
+      contentType:@"image/png"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:cb]]];    
 }
 
@@ -507,6 +511,7 @@
          withUser:user
            params:nil
              data:[self jsonEncode:details]
+      contentType:@"image/png"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
@@ -530,6 +535,7 @@
         withUser:user
           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pendingEditId] forKey:@"id"]
             data:nil
+      contentType:@"application/json"
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
@@ -539,6 +545,7 @@
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pendingEditId] forKey:@"id"]
              data:nil
+      contentType:@"application/json"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 

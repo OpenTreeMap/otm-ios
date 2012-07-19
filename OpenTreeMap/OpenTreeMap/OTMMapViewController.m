@@ -491,7 +491,7 @@
                  NSArray* images = [tree objectForKey:@"images"];
 
                  if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-                     int imageId = [[[images objectAtIndex:0] objectForKey:@"id"] intValue];
+                     int imageId = [[[images lastObject] objectForKey:@"id"] intValue];
                      int plotId = [[plot objectForKey:@"id"] intValue];
 
                      [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId

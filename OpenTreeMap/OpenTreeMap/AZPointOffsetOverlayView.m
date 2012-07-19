@@ -160,18 +160,30 @@
                                                    zoomScale:zoomScale]) {
             AZPointCollection *pcol = [self.memoryPointCache getObjectForMapRect:mapRect zoomScale:zoomScale];
             if (pcol) {
-                int filter = 0;
-                if (f.missingDBH) { filter |= AZTileHasDBH; }
-                if (f.missingTree) { filter |= AZTileHasTree; }
-                if (f.missingSpecies) { filter |= AZTileHasSpecies; }
 
-                UIImage *image = [AZTileRenderer createImageWithOffsets:pcol.points
-                                                              zoomScale:zoomScale
-                                                                  alpha:1.0
-                                                                 filter:filter
-                                                                   mode:AZTileFilterModeAny];
-            
-                [self.memoryFilterTileCache cacheObject:image forMapRect:mapRect zoomScale:zoomScale];
+                OTMAPI *api = [[OTMEnvironment sharedEnvironment] api];
+                [api.renderQueue queueRequest:[[AZTileRequest alloc] initWithRegion:MKCoordinateRegionForMapRect(mapRect)
+                                                                            mapRect:mapRect
+                                                                          zoomScale:zoomScale
+                                                                            filters:filters
+                                                                           callback:nil
+                                                                          operation:^(AZTileRequest *r) {
+                            [AZTileRenderer createImageWithPoints:pcol
+                                                            error:NULL
+                                                          mapRect:mapRect
+                                                        zoomScale:zoomScale
+                                                        tileAlpha:alpha
+                                                          filters:f
+                                                        tileCache:memoryFilterTileCache
+                                                       pointCache:nil
+                                           displayRequestCallback:^(MKMapRect m, MKZoomScale z) 
+                                            {
+                                                dispatch_async(dispatch_get_main_queue(), 
+                                                               ^{
+                                                                   [self setNeedsDisplayInMapRect:m zoomScale:z]; 
+                                                               });
+                                            }];
+                        }]];
             }
         }
     }
@@ -182,8 +194,8 @@
 -(void)renderTilesInMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha inContext:(CGContextRef)context withCache:(AZGeoCache *)cache {
     CGRect drawRect = [self rectForMapRect:mapRect];
 
-    UIImage *stamp = [AZTileRenderer stampForZoom:zoomScale];
-    CGRect centerRect = CGRectInset(drawRect, -(stamp.size.height)/zoomScale, -(stamp.size.height)/zoomScale);
+    CGSize stampSize = [AZTileRenderer largestStampSize];
+    CGRect centerRect = CGRectInset(drawRect, -(stampSize.width/2.0f)/zoomScale, -(stampSize.height/2.0f)/zoomScale);
     
     UIImage* imageData = [cache getObjectForMapRect:mapRect zoomScale:zoomScale];
     

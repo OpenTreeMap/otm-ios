@@ -136,6 +136,8 @@
 		D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
 		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
+		D7A8F05A15AF62C40037E26D /* tree_zoom7_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A8F05915AF62C40037E26D /* tree_zoom7_highlight.png */; };
+		D7A8F05D15AF63810037E26D /* tree_search.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A8F05C15AF63810037E26D /* tree_search.png */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
 		D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
 		D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
@@ -366,6 +368,8 @@
 		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
 		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
 		D791171E15113F70004BE79C /* OTMFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFormatters.m; sourceTree = "<group>"; };
+		D7A8F05915AF62C40037E26D /* tree_zoom7_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom7_highlight.png; path = map_icons/tree_zoom7_highlight.png; sourceTree = "<group>"; };
+		D7A8F05C15AF63810037E26D /* tree_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_search.png; path = map_icons/tree_search.png; sourceTree = "<group>"; };
 		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
 		D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZHttpRequest.m; sourceTree = "<group>"; };
 		D7BEA4AE14FD3587006CC456 /* OTMAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAPI.h; sourceTree = "<group>"; };
@@ -667,11 +671,13 @@
 				64435A391598AC61000355DE /* selected_marker_small@2x.png */,
 				648A8AB5157EAEE1006D3771 /* selected_marker.png */,
 				64435A3B1598ACAA000355DE /* selected_marker@2x.png */,
+				D7A8F05C15AF63810037E26D /* tree_search.png */,
 				D77EA784157D6A320079302E /* tree_zoom1_plot.png */,
 				D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */,
 				D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */,
 				D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */,
 				D7F352BC156BEFAF00E54060 /* tree_zoom6_plot.png */,
+				D7A8F05915AF62C40037E26D /* tree_zoom7_highlight.png */,
 				D7F352BD156BEFAF00E54060 /* tree_zoom7_plot.png */,
 				64C76EAB1561905E0037805F /* detail.png */,
 				D70F85EF155ABB6500D108D5 /* iphone_app-icon.png */,
@@ -959,6 +965,8 @@
 				64E13D3B159A36C7003D6788 /* about_bg@2x.png in Resources */,
 				64D6F94E15A346BE00AEA516 /* button_glass_red.png in Resources */,
 				64D6F95115A346C400AEA516 /* button_glass_red@2x.png in Resources */,
+				D7A8F05A15AF62C40037E26D /* tree_zoom7_highlight.png in Resources */,
+				D7A8F05D15AF63810037E26D /* tree_search.png in Resources */,
 				64313C9515AC98C700CC1224 /* pending-unapproved.png in Resources */,
 				64313C9615AC98C700CC1224 /* pending-approved.png in Resources */,
 				64313C9715AC98C700CC1224 /* pending-unapproved@2x.png in Resources */,

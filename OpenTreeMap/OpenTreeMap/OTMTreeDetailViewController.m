@@ -144,16 +144,24 @@
          UIGraphicsEndImageContext();
          
          self.imageView.image = image;
-         [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
-                                               onPlotWithID:[[self.data objectForKey:@"id"] intValue]
-                                                   withUser:nil 
-                                                   callback:^(id json, NSError *err)
-          {
-              if (err == nil) {
-                  [[NSNotificationCenter defaultCenter] postNotificationName:kOTMMapViewControllerImageUpdate
-                                                                      object:image];
-              }
-          }];
+
+         NSMutableDictionary *tree = [[self data] objectForKey:@"tree"];
+         if (!tree || tree == [NSNull null]) {
+             tree = [NSMutableDictionary dictionary];
+             [(id)[self data] setObject:tree forKey:@"tree"];
+         }
+
+         NSArray *photos = [tree objectForKey:@"images"];
+         if (photos == nil) {
+             photos = [NSArray array];
+         }
+
+         NSMutableDictionary *newPhotoInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           @"OTM-Mobile Photo", @"title", 
+                                                           image, @"data", nil];
+
+         [tree setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
+
      }];
 
 }
@@ -161,7 +169,7 @@
 - (void)setKeys:(NSArray *)k {
     NSMutableArray *txToEditRm = [NSMutableArray array];
     NSMutableArray *txToEditRel = [NSMutableArray array];
-    allFields = k;
+    allFields = [k mutableCopy];
     
     NSMutableArray *editableFields = [NSMutableArray array];
 
@@ -197,20 +205,28 @@
     NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow,pictureRow,nil];
     [editableFields addObject:speciesAndPicSection];
     
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+    OTMUser *user = loginManager.loggedInUser;
+
+    
     for(int section=0;section < [allFields count];section++) {
-        NSArray *sectionArray = [allFields objectAtIndex:section];
+        NSMutableArray *sectionArray = [[allFields objectAtIndex:section] mutableCopy];
         NSMutableArray *editSectionArray = [NSMutableArray array];
         
         for(int row=0;row < [sectionArray count]; row++) {
-            OTMDetailCellRenderer *renderer = [sectionArray objectAtIndex:row];
+            OTMDetailCellRenderer *renderer = [OTMDetailCellRenderer cellRendererFromDict:[sectionArray objectAtIndex:row] user:user];
+        
             if (renderer.editCellRenderer != nil) {
                 [editSectionArray addObject:renderer.editCellRenderer];
                 [txToEditRel addObject:[NSIndexPath indexPathForRow:row inSection:section]];
             } else {
                 [txToEditRm addObject:[NSIndexPath indexPathForRow:row inSection:section]];
             }
+
+            [sectionArray replaceObjectAtIndex:row withObject:renderer];
         }
-        
+                
+        [allFields replaceObjectAtIndex:section withObject:sectionArray];
         [editableFields addObject:editSectionArray];
     }
     
@@ -322,13 +338,13 @@
 
                 [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
 
+                NSArray *pendingImageData = [self stripPendingImageData];
                 [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:user callback:^(id json, NSError *err){
 
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
-                        [self.delegate viewController:self addedTree:data];
-
+                        [self pushImageData:pendingImageData newTree:YES];
                     } else {
                         NSLog(@"Error adding tree: %@", err);
                         [[[UIAlertView alloc] initWithTitle:nil
@@ -343,15 +359,16 @@
 
                 [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
 
+                NSArray *pendingImageData = [self stripPendingImageData];
                 [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:data user:user callback:^(id json, NSError *err){
 
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
-                        self.data = [json mutableDeepCopy];
-                        [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
-                        [self syncTopData];
-                        [self.tableView reloadData];
+                        if (err == nil) {
+                            [self pushImageData:pendingImageData newTree:NO];
+                            self.data = [json mutableDeepCopy];
+                        }
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
                         [[[UIAlertView alloc] initWithTitle:nil
@@ -376,6 +393,66 @@
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self.tableView reloadData];
     });
+}
+
+- (NSArray *)stripPendingImageData {
+    NSMutableArray *pending = [NSMutableArray array];
+    NSArray *treePhotos = [[data objectForKey:@"tree"] objectForKey:@"images"];
+    NSMutableArray *savedTreePhotos = [NSMutableArray array];
+    if (treePhotos) {
+        for(NSDictionary *treePhoto in treePhotos) {
+            if ([treePhoto objectForKey:@"id"] == nil) {
+                [pending addObject:[treePhoto objectForKey:@"data"]];
+            } else {
+                [savedTreePhotos addObject:treePhoto];
+            }
+        }
+        [[data objectForKey:@"tree"] setObject:savedTreePhotos forKey:@"images"];
+    }
+    return pending;
+}
+
+- (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree {
+    if (images == nil || [images count] == 0) { // No images to push
+        [[AZWaitingOverlayController sharedController] hideOverlay];
+        if (newTree) {
+            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
+            [self syncTopData];
+            [self.tableView reloadData];
+        } else {
+            [self.delegate viewController:self addedTree:data];
+        }
+    } else {
+        UIImage *image = [images objectAtIndex:0];
+        NSArray *rest = [images subarrayWithRange:NSMakeRange(1,[images count]-1)];
+
+        [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving Images"];
+
+        OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+        OTMUser *user = loginManager.loggedInUser;
+
+        [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
+                                              onPlotWithID:[[self.data objectForKey:@"id"] intValue]
+                                                  withUser:user
+                                                  callback:^(id json, NSError *err)
+           {
+               if (err == nil) {
+                   [[NSNotificationCenter defaultCenter] postNotificationName:kOTMMapViewControllerImageUpdate
+                                                                       object:image];
+                   //TODO: Need to stick image back in here somehow
+                   [self pushImageData:rest newTree:newTree];
+               } else {
+                   [[AZWaitingOverlayController sharedController] hideOverlay];
+                   NSLog(@"Error adding photo to tree: %@\n %@", err, data);
+                   [[[UIAlertView alloc] initWithTitle:nil
+                                               message:@"Sorry. There was a problem saving the updated tree photos."
+                                              delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil] show];
+
+               }
+           }];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

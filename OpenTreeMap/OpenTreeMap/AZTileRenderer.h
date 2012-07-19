@@ -36,9 +36,11 @@ typedef enum {
       displayRequestCallback:(AZRefreshCallback)cb;
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha;
-+(UIImage*)createFilterImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha;
++(UIImage*)createFilterImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha filters:(OTMFilters *)f;
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha filter:(u_char)filter mode:(AZTileFilterMode)mode;
 
-+(UIImage *)stampForZoom:(MKZoomScale)zoom;
++(UIImage *)stampForZoom:(MKZoomScale)zoom hasTree:(BOOL)hastree;
++(CGSize)largestStampSize;
+
 
 @end

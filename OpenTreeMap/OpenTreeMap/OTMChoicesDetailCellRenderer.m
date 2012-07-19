@@ -14,15 +14,19 @@
 
 @synthesize label, fieldName, fieldChoices;
 
--(id)initWithDict:(NSDictionary *)dict {
-    self = [super initWithDict:dict];
+-(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+    self = [super initWithDict:dict user:user];
     
     if (self) {
         label = [dict objectForKey:@"label"];
         fieldName = [dict objectForKey:@"fname"];
         fieldChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:fieldName];
+
+        id editLevel = [dict valueForKey:@"minimumToEdit"];
         
-        self.editCellRenderer = [[OTMEditChoicesDetailCellRenderer alloc] initWithDetailRenderer:self];
+        if (editLevel != nil && user != nil && user.level >= [editLevel intValue]) {
+            self.editCellRenderer = [[OTMEditChoicesDetailCellRenderer alloc] initWithDetailRenderer:self];
+        }                
     }
     
     return self;
