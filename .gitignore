@@ -3,4 +3,6 @@ Build
 DerivedData
 xcuserdata
 Implementation.plist
+version.plist
+*.pyc
 
