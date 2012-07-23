@@ -88,7 +88,7 @@
 	  <key>key</key>
 	  <string>tree.dbh</string>
 	  <key>label</key>
-	  <string>Trunk Diameter</string>
+	  <string>Trunk Diameter (in)</string>
 	  <key>minimumToEdit</key>
 	  <integer>0</integer>
 	</dict>
@@ -98,7 +98,7 @@
 	  <key>key</key>
 	  <string>tree.height</string>
 	  <key>label</key>
-	  <string>Tree Height</string>
+	  <string>Tree Height (ft)</string>
 	  <key>minimumToEdit</key>
 	  <integer>500</integer>
 	</dict>
@@ -108,7 +108,7 @@
 	  <key>key</key>
 	  <string>tree.canopy_height</string>
 	  <key>label</key>
-	  <string>Canopy Height</string>
+	  <string>Canopy Height (ft)</string>
 	  <key>minimumToEdit</key>
 	  <integer>500</integer>
 	</dict>
@@ -120,7 +120,7 @@
 	  <key>key</key>
 	  <string>plot_width</string>
 	  <key>label</key>
-	  <string>Plot Width</string>
+	  <string>Plot Width (ft)</string>
 	  <key>minimumToEdit</key>
 	  <integer>0</integer>
 	</dict>
@@ -130,7 +130,7 @@
 	  <key>key</key>
 	  <string>plot_length</string>
 	  <key>label</key>
-	  <string>Plot Length</string>
+	  <string>Plot Length (ft)</string>
 	  <key>minimumToEdit</key>
 	  <integer>0</integer>
 	</dict>

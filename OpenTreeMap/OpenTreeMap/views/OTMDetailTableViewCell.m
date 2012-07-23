@@ -46,6 +46,7 @@
         self.fieldValue = [self labelWithFrame:rightFrame];
         
         self.editFieldValue = [[UITextField alloc] initWithFrame:inputFrame];
+        self.editFieldValue.textAlignment = UITextAlignmentRight;
         self.editFieldValue.delegate = self;
         
         [self.fieldLabel setTextColor:[UIColor grayColor]];
