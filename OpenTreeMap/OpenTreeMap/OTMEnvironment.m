@@ -22,7 +22,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive, fields, filts;
 
 + (id)sharedEnvironment
 {
@@ -68,6 +68,9 @@
     
     self.apiKey = [implementation valueForKey:@"APIKey"];
     
+    fields = [implementation objectForKey:@"fields"];
+    filts = [implementation objectForKey:@"filters"];
+
     pendingActive = [[implementation valueForKey:@"pending"] boolValue];
 
     viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
@@ -112,12 +115,22 @@
 
     OTMAPI* otmApi = [[OTMAPI alloc] init];
     
+    NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];
+    NSDictionary* version = [[NSDictionary alloc] initWithContentsOfFile:versionPlistPath];
+    NSString *ver = [NSString stringWithFormat:@"ios-%@-b%@",
+                         [version objectForKey:@"version"],
+                         [version objectForKey:@"build"]];
+
     // Note: treq is used for tile requests, this prevents the main
     // operation queue from overloading with tiles
+    NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", 
+                                          ver, @"ApplicationVersion",
+                                          nil];
+
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
-    req.headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", nil];
+    req.headers = headers;
     AZHttpRequest* treq = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
-    treq.headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", nil];
+    treq.headers = headers;
     treq.synchronous = YES;
 
     req.queue.maxConcurrentOperationCount = 3;
@@ -143,29 +156,6 @@
 }
 
 -(NSArray *)filters {
-    id filts = [NSArray arrayWithObjects:
-                  [NSDictionary dictionaryWithObjectsAndKeys:
-                   @"OTMBoolFilter", OTMFilterKeyType,
-                   @"Edible", OTMFilterKeyName,
-                   @"filter_edible", OTMFilterKeyKey, nil],
-                  [NSDictionary dictionaryWithObjectsAndKeys:
-                   @"OTMBoolFilter", OTMFilterKeyType,
-                   @"Fall Colors", OTMFilterKeyName,
-                   @"filter_fall_colors", OTMFilterKeyKey, nil],
-                  [NSDictionary dictionaryWithObjectsAndKeys:
-                   @"OTMBoolFilter", OTMFilterKeyType,
-                   @"Flowering", OTMFilterKeyName,
-                   @"filter_flowering", OTMFilterKeyKey, nil],
-                  [NSDictionary dictionaryWithObjectsAndKeys:
-                   @"OTMBoolFilter", OTMFilterKeyType,
-                   @"Native", OTMFilterKeyName,
-                   @"filter_native", OTMFilterKeyKey, nil],
-                  [NSDictionary dictionaryWithObjectsAndKeys:
-                   @"OTMRangeFilter", OTMFilterKeyType,
-                   @"Diameter", OTMFilterKeyName,
-                   @"filter_dbh", OTMFilterKeyKey, nil],
-                   nil];
-
     NSMutableArray* fs = [NSMutableArray array];
     for(NSDictionary *f in filts) {
         [fs addObject:[OTMFilter filterFromDictionary:f]];
@@ -175,86 +165,7 @@
 }
 
 -(NSArray *)fieldKeys {
-    id keys = [NSArray arrayWithObjects:
-               [NSArray arrayWithObjects:                      
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"geometry", @"key",
-                 @"", @"label",
-                 @"OTMMapDetailCellRenderer", @"class",
-                 @"OTMEditMapDetailCellRenderer", @"editClass",
-                 [NSNumber numberWithInt:99999], @"minimumToEdit",
-                 nil],
-                nil],
-               [NSArray arrayWithObjects:
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"id", @"key",
-                 @"Tree Number", @"label", 
-                 [NSNumber numberWithInt:99999], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"tree.sci_name", @"key",
-                 @"Scientific Name", @"label",
-                 @"tree.species", @"owner",
-                 [NSNumber numberWithInt:10000], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"tree.dbh", @"key",
-                 @"Trunk Diameter", @"label", 
-                 @"fmtIn:", @"format",  
-                 @"OTMDBHEditDetailCellRenderer", @"editClass",
-                 [NSNumber numberWithInt:0], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"tree.height", @"key",
-                 @"Tree Height", @"label",
-                 @"fmtM:", @"format",  
-                 [NSNumber numberWithInt:500], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"tree.canopy_height", @"key",
-                 @"Canopy Height", @"label", 
-                 @"fmtM:", @"format", 
-                 [NSNumber numberWithInt:500], @"minimumToEdit",
-                 nil],
-                nil],
-               [NSArray arrayWithObjects:
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"plot_width", @"key",
-                 @"Plot Width", @"label", 
-                 @"fmtFt:", @"format", 
-                 [NSNumber numberWithInt:0], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"plot_length", @"key",
-                 @"Plot Length", @"label", 
-                 @"fmtFt:", @"format", 
-                 [NSNumber numberWithInt:0], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"power_lines", @"key",
-                 @"Powerlines", @"label", 
-                 @"OTMChoicesDetailCellRenderer", @"class",
-                 @"powerline_conflict_potential", @"fname",
-                 [NSNumber numberWithInt:0], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"sidewalk_damage", @"key",
-                 @"Sidewalk", @"label", 
-                 @"OTMChoicesDetailCellRenderer", @"class",
-                 @"sidewalk_damage", @"fname",
-                 [NSNumber numberWithInt:500], @"minimumToEdit",
-                 nil],
-                [NSDictionary dictionaryWithObjectsAndKeys:
-                 @"tree.canopy_condition", @"key",
-                 @"Canopy Condition", @"label", 
-                 @"OTMChoicesDetailCellRenderer", @"class",
-                 @"canopy_condition", @"fname",
-                 [NSNumber numberWithInt:500], @"minimumToEdit",
-                 nil],
-                nil],
-               nil];    
-  
-    return keys;
+    return fields;
 }
 
 
