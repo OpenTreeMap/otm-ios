@@ -154,6 +154,7 @@
 		D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59B41550311800D37425 /* LoginRequiredView.xib */; };
+		D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86A415BDA4C30063D0B6 /* version.plist */; };
 		D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF1953158240DE0099B973 /* AZTileQueue.m */; };
 		D7F352BE156BEFAF00E54060 /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */; };
 		D7F352BF156BEFAF00E54060 /* tree_zoom3_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */; };
@@ -387,6 +388,7 @@
 		D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
 		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
 		D7CF59B41550311800D37425 /* LoginRequiredView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRequiredView.xib; sourceTree = "<group>"; };
+		D7DE86A415BDA4C30063D0B6 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		D7EF1952158240DE0099B973 /* AZTileQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileQueue.h; sourceTree = "<group>"; };
 		D7EF1953158240DE0099B973 /* AZTileQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileQueue.m; sourceTree = "<group>"; };
 		D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom1_plot.png; path = map_icons/tree_zoom1_plot.png; sourceTree = "<group>"; };
@@ -797,6 +799,7 @@
 				E943972414F447EB007CD0D1 /* OpenTreeMap-Prefix.pch */,
 				64A7D95214F5420A004D7FC8 /* Implementation.plist */,
 				643FEFB4152E0647002D3B96 /* Implementation.plist.base */,
+				D7DE86A415BDA4C30063D0B6 /* version.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -971,6 +974,7 @@
 				64313C9615AC98C700CC1224 /* pending-approved.png in Resources */,
 				64313C9715AC98C700CC1224 /* pending-unapproved@2x.png in Resources */,
 				64313C9915AC98C700CC1224 /* pending-approved@2x.png in Resources */,
+				D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
