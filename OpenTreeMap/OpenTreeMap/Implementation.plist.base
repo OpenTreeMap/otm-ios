@@ -94,7 +94,7 @@
 	</dict>
 	<dict>
 	  <key>format</key>
-	  <string>fmtM:</string>
+	  <string>fmtFt:</string>
 	  <key>key</key>
 	  <string>tree.height</string>
 	  <key>label</key>
@@ -170,6 +170,48 @@
 	  <key>minimumToEdit</key>
 	  <integer>500</integer>
 	</dict>
+      </array>
+      <array>
+	<dict>
+	  <key>format</key>
+	  <string>fmtUnitDict:</string>
+	  <key>key</key>
+	  <string>tree.eco.annual_co2_reduced</string>
+	  <key>label</key>
+	  <string>Greenhouse Gas</string>
+	  <key>minimumToEdit</key>
+	  <integer>99999</integer>
+        </dict>
+	<dict>
+	  <key>format</key>
+	  <string>fmtUnitDict:</string>
+	  <key>key</key>
+	  <string>tree.eco.annual_stormwater_management</string>
+	  <key>label</key>
+	  <string>Water Benefits</string>
+	  <key>minimumToEdit</key>
+	  <integer>99999</integer>
+        </dict>
+	<dict>
+	  <key>format</key>
+	  <string>fmtUnitDict:</string>
+	  <key>key</key>
+	  <string>tree.eco.annual_energy_conserved</string>
+	  <key>label</key>
+	  <string>Energy Benefits</string>
+	  <key>minimumToEdit</key>
+	  <integer>99999</integer>
+        </dict>
+	<dict>
+	  <key>format</key>
+	  <string>fmtUnitDict:</string>
+	  <key>key</key>
+	  <string>tree.eco.annual_air_quality_improvement</string>
+	  <key>label</key>
+	  <string>Air Quality</string>
+	  <key>minimumToEdit</key>
+	  <integer>99999</integer>
+        </dict>
       </array>
     </array> 
     <key>pending</key>
