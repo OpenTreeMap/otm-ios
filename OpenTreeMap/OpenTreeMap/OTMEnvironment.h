@@ -102,6 +102,8 @@
 @property (nonatomic, strong) UIImage *buttonImage;
 @property (nonatomic, strong) UIColor *buttonTextColor;
 @property (nonatomic, assign) BOOL pendingActive;
+@property (nonatomic, strong) NSDictionary* fields;
+@property (nonatomic, strong) NSArray* filts;
 
 // Choices values
 @property (nonatomic, retain) NSDictionary* choices;
