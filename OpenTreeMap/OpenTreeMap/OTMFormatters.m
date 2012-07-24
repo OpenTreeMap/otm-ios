@@ -39,6 +39,11 @@
     return [NSString stringWithFormat:@"%0.2f m",[number floatValue]];
 }
 
++(NSString*)fmtUnitDict:(NSDictionary*)d 
+{
+    return [NSString stringWithFormat:@"%@ %@", [d objectForKey:@"value"], [d objectForKey:@"unit"]];
+}
+
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString
 {
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];

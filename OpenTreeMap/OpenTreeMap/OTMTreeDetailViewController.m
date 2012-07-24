@@ -416,11 +416,11 @@
     if (images == nil || [images count] == 0) { // No images to push
         [[AZWaitingOverlayController sharedController] hideOverlay];
         if (newTree) {
+            [self.delegate viewController:self addedTree:data];
+        } else {
             [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
             [self syncTopData];
-            [self.tableView reloadData];
-        } else {
-            [self.delegate viewController:self addedTree:data];
+            [self.tableView reloadData];            
         }
     } else {
         UIImage *image = [images objectAtIndex:0];
