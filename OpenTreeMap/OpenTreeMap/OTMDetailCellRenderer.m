@@ -190,11 +190,11 @@
     detailcell.delegate = self;
     detailcell.editFieldValue.hidden = NO;
     detailcell.fieldValue.hidden = YES;
+    detailcell.keyboardType = keyboard;
     
     id value = [data decodeKey:self.dataKey];
     
     detailcell.editFieldValue.text = [OTMFormatters fmtObject:value withKey:@""];
-    detailcell.editFieldValue.keyboardType = keyboard;
     detailcell.fieldLabel.text = self.label;
     
     return detailcell;
@@ -222,12 +222,12 @@
     
     if (field == self.cell.circumferenceTextField) {
         CGFloat circ = [v floatValue];
-        NSString *diam = [NSString stringWithFormat:@"%0.0f",circ / M_PI];
+        NSString *diam = [NSString stringWithFormat:@"%0.2f",circ / M_PI];
         
         self.cell.diameterTextField.text = diam;
     } else {
         CGFloat diam = [v floatValue];
-        NSString *circ = [NSString stringWithFormat:@"%0.0f",diam * M_PI];
+        NSString *circ = [NSString stringWithFormat:@"%0.2f",diam * M_PI];
         
         self.cell.circumferenceTextField.text = circ;        
     }

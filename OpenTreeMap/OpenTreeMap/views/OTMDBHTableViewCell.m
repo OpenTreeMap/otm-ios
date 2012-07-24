@@ -24,8 +24,12 @@
     [[NSBundle mainBundle] loadNibNamed:@"OTMDBHTableViewCell"
                                   owner:dummy
                                 options:nil];
-    
-    return (id)dummy.acell;
+    OTMDBHTableViewCell *cell = (OTMDBHTableViewCell *)dummy.acell;
+
+    cell.circumferenceTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    cell.diameterTextField.keyboardType = UIKeyboardTypeDecimalPad;
+
+    return cell;
 }
 
 #pragma mark Text Field Delegates
@@ -35,9 +39,13 @@
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range
                                                                 withString:string];
     
-    [delegate tableViewCell:self textField:textField updatedToValue:newText];
-    
-    return YES;
+    if ([[newText componentsSeparatedByString:@"."] count] > 2) {
+        return NO;
+    } else {
+        [delegate tableViewCell:self textField:textField updatedToValue:newText];
+        
+        return YES;
+    }
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

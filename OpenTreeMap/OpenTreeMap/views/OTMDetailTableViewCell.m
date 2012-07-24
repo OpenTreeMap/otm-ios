@@ -65,6 +65,14 @@
     return self;
 }
 
+- (UIKeyboardType)keyboardType {
+    return self.editFieldValue.keyboardType;
+}
+
+- (void)setKeyboardType:(UIKeyboardType)t {
+    self.editFieldValue.keyboardType = t;
+}
+
 - (UILabel*)labelWithFrame:(CGRect)rect {
     UILabel* label = [[UILabel alloc] initWithFrame:rect];
     label.textAlignment = UITextAlignmentLeft;
@@ -75,6 +83,14 @@
 }
 
 #pragma mark Text Field Delegates
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    NSString *newText = [textField.text stringByReplacingCharactersInRange:range
+                                                                withString:string];
+    
+    return textField.keyboardType != UIKeyboardTypeDecimalPad || [[newText componentsSeparatedByString:@"."] count] <= 2;
+}
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
