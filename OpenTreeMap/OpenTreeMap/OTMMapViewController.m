@@ -691,7 +691,7 @@
                 double lat = [[firstMatch objectForKey:@"y"] doubleValue];
                 CLLocationCoordinate2D center = CLLocationCoordinate2DMake(lat, lon);
                 MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-                [mapView setRegion:MKCoordinateRegionMake(center, span) animated:YES];
+                [mapView setRegion:MKCoordinateRegionMake(center, span) animated:NO];
                 [bar setShowsCancelButton:NO animated:YES];
                 [bar resignFirstResponder];
             } else {
