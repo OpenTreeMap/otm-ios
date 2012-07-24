@@ -151,6 +151,18 @@
                          }];
 }
 
+-(void)delete:(NSString*)url withUser:(AZUser *)user params:(NSDictionary*)params callback:(ASIRequestCallback)callback {
+    [self executeAuthorizedRequestWithURL:[self generateURL:url withParams:params]
+                                 username:user.username
+                                 password:user.password
+                                 callback:callback
+                                   config:^(ASIHTTPRequest* r) {
+                                       [r setRequestMethod:@"DELETE"];
+                                       [r addRequestHeader:@"Content-Type"
+                                                     value:@"application/json"];
+                                   }];
+}
+
 @end
 
 @implementation AZHttpRequest(private)
