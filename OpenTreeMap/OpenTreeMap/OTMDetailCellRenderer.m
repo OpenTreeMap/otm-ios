@@ -122,6 +122,14 @@
     return self; 
 }
 
+-(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
+    if ([ktype isEqualToString:@"UIKeyboardTypeDecimalPad"]) {
+        return UIKeyboardTypeDecimalPad;
+    } else {
+        return UIKeyboardTypeDefault;
+    }
+}
+
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     ABSTRACT_METHOD_BODY
 }
@@ -143,12 +151,13 @@
 
 @implementation OTMLabelEditDetailCellRenderer
 
-@synthesize label, updatedString;
+@synthesize label, updatedString, keyboard;
 
 -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [super initWithDict:dict user:user];
     
     if (self) {
+        keyboard = [self decodeKeyboard:[dict objectForKey:@"keyboard"]];
         label = [dict objectForKey:@"label"];
     }
     
@@ -181,6 +190,7 @@
     detailcell.delegate = self;
     detailcell.editFieldValue.hidden = NO;
     detailcell.fieldValue.hidden = YES;
+    detailcell.keyboardType = keyboard;
     
     id value = [data decodeKey:self.dataKey];
     
@@ -212,12 +222,12 @@
     
     if (field == self.cell.circumferenceTextField) {
         CGFloat circ = [v floatValue];
-        NSString *diam = [NSString stringWithFormat:@"%0.0f",circ / M_PI];
+        NSString *diam = [NSString stringWithFormat:@"%0.2f",circ / M_PI];
         
         self.cell.diameterTextField.text = diam;
     } else {
         CGFloat diam = [v floatValue];
-        NSString *circ = [NSString stringWithFormat:@"%0.0f",diam * M_PI];
+        NSString *circ = [NSString stringWithFormat:@"%0.2f",diam * M_PI];
         
         self.cell.circumferenceTextField.text = circ;        
     }
