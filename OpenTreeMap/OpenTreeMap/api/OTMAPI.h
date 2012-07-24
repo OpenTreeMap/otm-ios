@@ -86,14 +86,15 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  * Get the plot nearested to (lat,lon)
  *
  * @param lat,lon latitude and longitude of the point of intererest
+ * @param the user making the request
  * @param macResults maximum number of trees to return
  * @param callback receives a NSArray of NSDictionaries representing plots
  */
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)maxResults callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)maxResults callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback;
  
 /**
  * Request an image for a given tree/plot
@@ -242,5 +243,21 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  * @param callback block to be executed when the request is complete or an error occurs
  */
 -(void)rejectPendingEdit:(NSInteger)pendingEditId user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
+/**
+ * Delete the current tree from a plot
+ * @param plotId the ID of a plot from which the tree should be removed
+ * @param user the authenticated user who is deleting the tree
+ * @param callback block to be executed when the request is complete or an error occurs
+ */
+-(void)deleteTreeFromPlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
+/**
+ * Delete a plot
+ * @param plotId the ID of a plot to be deleted
+ * @param user the authenticated user who is deleting the plot
+ * @param callback block to be executed when the request is complete or an error occurs
+ */
+-(void)deletePlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback;
 
 @end

@@ -136,23 +136,23 @@
     }
 }
 
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon callback:(AZJSONCallback)callback {
-    [self getPlotsNearLatitude:lat longitude:lon maxResults:1 callback:callback];
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon user:user maxResults:1 callback:callback];
 }
 
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon filters:(OTMFilters *)filters callback:(AZJSONCallback)callback {
-    [self getPlotsNearLatitude:lat longitude:lon maxResults:1 filters:filters callback:callback];
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user filters:(OTMFilters *)filters callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon user:user maxResults:1 filters:filters callback:callback];
 }
 
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max callback:(AZJSONCallback)callback {
-    [self getPlotsNearLatitude:lat longitude:lon maxResults:max filters:nil callback:callback];
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon user:user maxResults:max filters:nil callback:callback];
 }
 
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback {
-    [self getPlotsNearLatitude:lat longitude:lon maxResults:max filters:filters distance:0 callback:callback];
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters callback:(AZJSONCallback)callback {
+    [self getPlotsNearLatitude:lat longitude:lon user:user maxResults:max filters:filters distance:0 callback:callback];
 }
 
--(void)getPlotsNearLatitude:(double)lat longitude:(double)lon maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback {
+-(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback {
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    [NSString stringWithFormat:@"%f", lat], @"lat",
@@ -168,7 +168,8 @@
                    forKey:@"distance"];
     }
 
-    [self.request get:@"locations/:lat,:lon/plots" 
+    [self.request get:@"locations/:lat,:lon/plots"
+             withUser:user
                params:params
              callback:[OTMAPI liftResponse:
                        [OTMAPI jsonCallback:callback]]];
@@ -546,6 +547,22 @@
              data:nil
       contentType:@"application/json"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
+-(void)deleteTreeFromPlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    [request delete:@"plots/:id/tree"
+         withUser:user
+           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
+-(void)deletePlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    [request delete:@"plots/:id"
+           withUser:user
+             params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
+           callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 @end

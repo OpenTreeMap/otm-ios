@@ -468,10 +468,13 @@
 
 - (void)selectTreeNearCoordinate:(CLLocationCoordinate2D)coordinate
 {
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:coordinate.latitude
-                                                         longitude:coordinate.longitude
-                                                           filters:self.filters
-                                                          callback:^(NSArray* plots, NSError* error)
+                   longitude:coordinate.longitude
+                        user:loginManager.loggedInUser
+                     filters:self.filters
+                    callback:^(NSArray* plots, NSError* error)
      {
          if ([plots count] == 0) { // No plots returned
              [self slideDetailDownAnimated:YES];
@@ -825,6 +828,15 @@
         [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
         [self selectTreeNearCoordinate:newCoordinate];
     }
+}
+
+- (void)plotDeletedByViewController:(OTMTreeDetailViewController *)viewController
+{
+    CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:selectedPlot];
+    [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+    [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+    [self clearSelectedTree];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController
