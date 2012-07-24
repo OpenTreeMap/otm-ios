@@ -244,4 +244,20 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  */
 -(void)rejectPendingEdit:(NSInteger)pendingEditId user:(OTMUser *)user callback:(AZJSONCallback)callback;
 
+/**
+ * Delete the current tree from a plot
+ * @param plotId the ID of a plot from which the tree should be removed
+ * @param user the authenticated user who is deleting the tree
+ * @param callback block to be executed when the request is complete or an error occurs
+ */
+-(void)deleteTreeFromPlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
+/**
+ * Delete a plot
+ * @param plotId the ID of a plot to be deleted
+ * @param user the authenticated user who is deleting the plot
+ * @param callback block to be executed when the request is complete or an error occurs
+ */
+-(void)deletePlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
 @end

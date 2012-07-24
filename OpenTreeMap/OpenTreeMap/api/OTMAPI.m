@@ -549,4 +549,20 @@
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
+-(void)deleteTreeFromPlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    [request delete:@"plots/:id/tree"
+         withUser:user
+           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
+-(void)deletePlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback
+{
+    [request delete:@"plots/:id"
+           withUser:user
+             params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
+           callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 @end
