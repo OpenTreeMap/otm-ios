@@ -49,6 +49,10 @@
     return self;
 }
 
+- (BOOL)isGeomField {
+    return [self.fieldKey isEqualToString:@"geometry"];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -80,12 +84,19 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    // Geometry field keys use 1 second per edit
+    if ([self isGeomField]) {
+        return [self numberOfPendingEdits] + 1;
+    } else { // Otherwise, we have a top section
+             // for the original, and a bottom section
+             // for all the rest
+        return 2;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
+    if (section == 0 || [self isGeomField]) {
         // The top section has a single cell with the current value
         return 1;
     } else {
@@ -121,7 +132,7 @@
     // geometry is a special case. It has a dictionary value rather than a plain string.
     // There is no need to check for related fields or format the value, so the rest of
     // the method can be skipped.
-    if ([self.fieldKey isEqualToString:@"geometry"]) {
+    if ([self isGeomField]) {
         return [editDict objectForKey:@"value"];
     }
 
@@ -194,7 +205,7 @@
     UITableViewCell *cell;
 
     if (indexPath.section == 0) {
-        if (self.fieldKey == @"geometry")
+        if ([self isGeomField])
         {
             cell = [self buildMapCellWithDictionary:[self.data objectForKey:self.fieldKey] forTableView:tableView];
         } else {
@@ -222,9 +233,9 @@
             }
         }
     } else {
-        if (self.fieldKey == @"geometry")
+        if ([self isGeomField])
         {
-            cell = [self buildMapCellWithDictionary:(NSDictionary *)[self pendingValueAtIndex:indexPath.row]  forTableView:tableView];
+            cell = [self buildMapCellWithDictionary:(NSDictionary *)[self pendingValueAtIndex:(indexPath.section - 1)]  forTableView:tableView];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:kFieldDetailPendingEditCellIdentifier];
             cell.textLabel.text = [self pendingValueAtIndex:indexPath.row];
@@ -247,9 +258,9 @@
 - (void)styleCell:(UITableViewCell *)cell asStatus:(NSString *)status
 {
     NSString *imageName;
-    if (status == @"approved") {
+    if ([status isEqualToString:@"approved"]) {
         imageName = @"pending-approved";
-    } else if (status == @"rejected") {
+    } else if ([status isEqualToString:@"rejected"]) {
         imageName = nil;
     } else {
         imageName = @"pending-unapproved";
@@ -320,14 +331,16 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section == 0) {
         return @"Current Value";
-    } else {
+    } else if (section == 1) {
         return @"Pending Edits";
+    } else {
+        return nil;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.fieldKey == @"geometry") {
+    if ([self isGeomField]) {
         return 120.0;
     } else {
         return 44.0;
@@ -422,14 +435,14 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (action == @"approve")
+    if ([action isEqualToString:@"approve"])
     {
         if (buttonIndex == 0) {
             [self approveSelectedPendingEdit];
         } else {
             [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
         }
-    } else if (action == @"reject") {
+    } else if ([action isEqualToString:@"reject"]) {
         if (buttonIndex == 0)
         {
             [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Rejecting"];
