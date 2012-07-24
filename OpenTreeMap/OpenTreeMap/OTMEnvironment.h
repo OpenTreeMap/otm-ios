@@ -105,7 +105,7 @@
 @property (nonatomic, strong) NSDictionary* fields;
 @property (nonatomic, strong) NSArray* filts;
 @property (nonatomic, assign) BOOL useOtmGeocoder;
-@property (nonatomic, retain) NSNumber *searchRegionRadiusInMeters;
+@property (nonatomic, assign) double searchRegionRadiusInMeters;
 
 // Choices values
 @property (nonatomic, retain) NSDictionary* choices;

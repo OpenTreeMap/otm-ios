@@ -109,7 +109,7 @@
 
     [self setUseOtmGeocoder:[[mapView valueForKey:@"UseOtmGeocoder"] boolValue]];
 
-    [self setSearchRegionRadiusInMeters:[mapView valueForKey:@"SearchRegionRadiusInMeters"]];
+    [self setSearchRegionRadiusInMeters:[[mapView valueForKey:@"SearchRegionRadiusInMeters"] doubleValue]];
 
     [self setSearchSuffix:[mapView valueForKey:@"SearchSuffix"]];
 

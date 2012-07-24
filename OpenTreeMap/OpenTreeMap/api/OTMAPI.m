@@ -508,7 +508,7 @@
 {
     if (geocodeRegion == nil) {
         CLLocationCoordinate2D center = [[OTMEnvironment sharedEnvironment] mapViewInitialCoordinateRegion].center;
-        double radius = [[[OTMEnvironment sharedEnvironment] searchRegionRadiusInMeters] doubleValue];
+        double radius = [[OTMEnvironment sharedEnvironment] searchRegionRadiusInMeters];
         geocodeRegion = [[CLRegion alloc] initCircularRegionWithCenter:center radius:radius identifier:@"geocoderRegion"];
     }
 
