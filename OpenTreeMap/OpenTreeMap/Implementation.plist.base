@@ -259,6 +259,10 @@
       <real>15</real>
       <key>MapViewTitle</key>
       <string>OpenTreeMap</string>
+      <key>UseOtmGeocoder</key>
+	  <false/>
+	  <key>SearchRegionRadiusInMeters</key>
+	  <integer>40000</integer>
     </dict>
     <key>APIURL</key>
     <dict>

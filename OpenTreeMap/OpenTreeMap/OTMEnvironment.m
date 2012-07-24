@@ -22,7 +22,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive, fields, filts;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters;
 
 + (id)sharedEnvironment
 {
@@ -106,6 +106,10 @@
         [[mapView objectForKey:@"SearchZoomLongitudeDelta"] floatValue]);
 
     [self setMapViewSearchZoomCoordinateSpan:searchZoomCoordinateSpan];
+
+    [self setUseOtmGeocoder:[[mapView valueForKey:@"UseOtmGeocoder"] boolValue]];
+
+    [self setSearchRegionRadiusInMeters:[mapView valueForKey:@"SearchRegionRadiusInMeters"]];
 
     [self setSearchSuffix:[mapView valueForKey:@"SearchSuffix"]];
 

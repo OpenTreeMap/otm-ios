@@ -54,6 +54,8 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
 @interface OTMAPI : NSObject {
     NSDictionary *species;
     NSOperationQueue *geocodeQueue;
+    CLRegion *geocodeRegion;
+    CLGeocoder *geocoder;
 }
 
 /**

@@ -25,6 +25,7 @@
 #import "OTMReverseGeocodeOperation.h"
 #import "AZPointCollection.h"
 #import "AZTileQueue.h"
+#import "OTMEnvironment.h"
 
 @interface OTMAPI()
 +(int)parseSection:(NSData*)data 
@@ -487,10 +488,63 @@
 
 -(void)geocodeAddress:(NSString *)address callback:(AZJSONCallback)callback
 {
-    NSString *urlEncodedSearchText = [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [request get:@"addresses/:address"
-          params:[NSDictionary dictionaryWithObject:urlEncodedSearchText forKey:@"address"]
-        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+    if (callback == nil) { return; }
+    if ([[OTMEnvironment sharedEnvironment] useOtmGeocoder]) {
+        [self geocodeWithOtmGeocoder:address callback:callback];
+    } else {
+        [self geocodeWithCLGeocoder:address callback:callback];
+    }
+}
+
+-(void)geocodeWithOtmGeocoder:(NSString *)address callback:(AZJSONCallback)callback
+{
+     NSString *urlEncodedSearchText = [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+     [request get:@"addresses/:address"
+     params:[NSDictionary dictionaryWithObject:urlEncodedSearchText forKey:@"address"]
+     callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
+-(void)geocodeWithCLGeocoder:(NSString *)address callback:(AZJSONCallback)callback
+{
+    if (geocodeRegion == nil) {
+        CLLocationCoordinate2D center = [[OTMEnvironment sharedEnvironment] mapViewInitialCoordinateRegion].center;
+        double radius = [[[OTMEnvironment sharedEnvironment] searchRegionRadiusInMeters] doubleValue];
+        geocodeRegion = [[CLRegion alloc] initCircularRegionWithCenter:center radius:radius identifier:@"geocoderRegion"];
+    }
+
+    if (geocoder == nil) {
+        geocoder = [[CLGeocoder alloc] init];
+    }
+
+    [geocoder geocodeAddressString:address inRegion:geocodeRegion completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (error) { callback(nil, error); }
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:[placemarks count]];
+        for (CLPlacemark *placemark in placemarks) {
+            CLLocationCoordinate2D coordinate = [[placemark location] coordinate];
+            if ([geocodeRegion containsCoordinate:coordinate]) {
+                [results addObject:[self createDictionaryFromPlacemark:placemark]];
+            } else {
+                NSLog(@"Excluding CLGeocoder result lat:%f lon:%f outside the geocoding region defined in the environment", coordinate.latitude, coordinate.longitude);
+            }
+        }
+        callback(results, nil);
+    }];
+}
+
+-(NSDictionary *)createDictionaryFromPlacemark:(CLPlacemark *)placemark
+{
+    CLLocationCoordinate2D coordinate = [[placemark location] coordinate];
+    // This dictionary format is matches the JSON format returned by the server-side
+    // OTM geocoder API, so the two gecoders can be used interchangably.
+    return [[NSDictionary alloc] initWithObjectsAndKeys:
+            @"", @"match_addr",
+            [NSNumber numberWithDouble:coordinate.longitude], @"x",
+            [NSNumber numberWithDouble:coordinate.latitude], @"y",
+            [NSNumber numberWithInt:100], @"score", // CLGeocoder responses are not ranked with a score
+            @"CLGeocoder", @"locator",
+            @"iOS", @"geoservice",
+            [NSNumber numberWithInt:4326], @"wkid",
+            nil];
 }
 
 -(void)reverseGeocodeCoordinate:(CLLocationCoordinate2D)coordinate callback:(AZGenericCallback)callback
