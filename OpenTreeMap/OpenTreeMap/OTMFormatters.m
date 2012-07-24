@@ -41,7 +41,7 @@
 
 +(NSString*)fmtUnitDict:(NSDictionary*)d 
 {
-    return [NSString stringWithFormat:@"%@ %@", [d objectForKey:@"value"], [d objectForKey:@"unit"]];
+    return [NSString stringWithFormat:@"%0.1f %@", [[d valueForKey:@"value"] floatValue], [d objectForKey:@"unit"]];
 }
 
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString
