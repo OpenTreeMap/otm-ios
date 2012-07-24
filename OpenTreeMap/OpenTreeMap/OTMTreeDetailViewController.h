@@ -31,8 +31,12 @@
 @protocol OTMTreeDetailViewDelegate <NSObject>
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
+
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate;
+
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
+
+- (void)plotDeletedByViewController:(OTMTreeDetailViewController *)viewController;
 @end
 
 @interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate> {

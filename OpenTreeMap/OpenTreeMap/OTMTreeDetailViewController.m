@@ -570,53 +570,77 @@
     return cell;
 }
 
+- (BOOL)canDeletePlot
+{
+    return [[[[data objectForKey:@"perm"] objectForKey:@"plot"] objectForKey:@"can_delete"] intValue] == 1;
+}
+
+- (BOOL)canDeleteTree
+{
+    return [[[[data objectForKey:@"perm"] objectForKey:@"tree"] objectForKey:@"can_delete"] intValue] == 1;
+}
+
+- (BOOL)cannotDeletePlotOrTree
+{
+    return !([self canDeletePlot] || [self canDeleteTree]);
+}
+
+- (BOOL)shouldNotShowDeleteButtonsInFooterForSection:(NSInteger)section ofTableView:(UITableView *)aTableView
+{
+    return !(editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section);
+}
+
 - (CGFloat)footerHeight
 {
-    if (data == nil) {
-        return 0;
-    }
-    if ([data objectForKey:@"perm"] == nil) {
-        return 0;
-    }
     CGFloat height = 0;
-    if ([[[[data objectForKey:@"perm"] objectForKey:@"plot"] objectForKey:@"can_delete"] intValue] == 1) {
+    if ([self canDeletePlot]) {
         height += 74;
     }
-    if ([[[[data objectForKey:@"perm"] objectForKey:@"tree"] objectForKey:@"can_delete"] intValue] == 1) {
+    if ([self canDeleteTree]) {
         height += 74;
     }
     return height;
 }
 
+- (UIButton *)createDeleteButtonWithTitle:(NSString *)title yCoord:(CGFloat)y action:(SEL)action
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button setFrame:CGRectMake(10, y, 300, 44)];
+    [button setBackgroundImage:[UIImage imageNamed:@"button_glass_red"] forState:UIControlStateNormal];
+    [button setTitle:title forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
 - (UIView *)tableView:(UITableView *)aTableView viewForFooterInSection:(NSInteger)section
 {
-    if (editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section) {
-        CGFloat height = [self footerHeight];
-        if (height == 0) {
-            return nil;
-        }
-        UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,height)];
-
-        UIButton *deleteTreeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [deleteTreeButton setFrame:CGRectMake(10,20,300,44)];
-        [deleteTreeButton setBackgroundImage:[UIImage imageNamed:@"button_glass_red"] forState:UIControlStateNormal];
-        [deleteTreeButton setTitle:@"Remove Tree" forState:UIControlStateNormal];
-        [deleteTreeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [deleteTreeButton addTarget:self action:@selector(deleteTreeTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [footer addSubview:deleteTreeButton];
-
-        UIButton *deletePlotButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [deletePlotButton setFrame:CGRectMake(10,84,300,44)];
-        [deletePlotButton setBackgroundImage:[UIImage imageNamed:@"button_glass_red"] forState:UIControlStateNormal];
-        [deletePlotButton setTitle:@"Remove Planting Site" forState:UIControlStateNormal];
-        [deletePlotButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [deletePlotButton addTarget:self action:@selector(deletePlotTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [footer addSubview:deletePlotButton];
-
-        return footer;
-    } else {
+    if ([self shouldNotShowDeleteButtonsInFooterForSection:section ofTableView:aTableView]) {
         return nil;
     }
+
+    if ([self cannotDeletePlotOrTree]) {
+        return nil;
+    }
+
+    CGFloat height = [self footerHeight];
+    UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,height)];
+    CGFloat deleteButtonY = 0;
+
+    if ([self canDeleteTree]) {
+        [footer addSubview:[self createDeleteButtonWithTitle:@"Remove Tree"
+                                                      yCoord:deleteButtonY
+                                                      action:@selector(deleteTreeTapped:)]];
+        deleteButtonY += 64;
+    }
+
+    if ([self canDeletePlot]) {
+        [footer addSubview:[self createDeleteButtonWithTitle:@"Remove Planting Site"
+                                                      yCoord:deleteButtonY
+                                                      action:@selector(deletePlotTapped:)]];
+    }
+
+    return footer;
 }
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForFooterInSection:(NSInteger)section
@@ -656,12 +680,53 @@
     [actionSheet showFromTabBar:self.tabBarController.tabBar];
 }
 
+- (void)deleteTreeFromPlot:(NSInteger)plotId user:(OTMUser *)user
+{
+    [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Removing"];
+    [[[OTMEnvironment sharedEnvironment] api] deleteTreeFromPlot:plotId user:user callback:^(id json, NSError *error) {
+        [[AZWaitingOverlayController sharedController] hideOverlay];
+        if (!error) {
+            self.data = [json mutableDeepCopy];
+            [delegate viewController:self editedTree:(NSDictionary *)self.data
+                withOriginalLocation:originalLocation];
+            [self toggleEditMode:NO];
+        } else {
+            [[AZWaitingOverlayController sharedController] hideOverlay];
+            NSLog(@"Error deleting tree: %@", [error description]);
+            [UIAlertView showAlertWithTitle:nil message:@"There was a problem removing the tree." cancelButtonTitle:@"OK"otherButtonTitle:nil callback:nil];
+        }
+    }];
+}
+
+- (void)deletePlot:(NSInteger)plotId user:(OTMUser *)user
+{
+    [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Removing"];
+    [[[OTMEnvironment sharedEnvironment] api] deletePlot:plotId user:user callback:^(id json, NSError *error) {
+        [[AZWaitingOverlayController sharedController] hideOverlay];
+        if (!error) {
+            [delegate plotDeletedByViewController:self];
+            [self toggleEditMode:NO];
+        } else {
+            [[AZWaitingOverlayController sharedController] hideOverlay];
+            NSLog(@"Error deleting plot: %@", [error description]);
+            [UIAlertView showAlertWithTitle:nil message:@"There was a problem removing the planting site." cancelButtonTitle:@"OK"otherButtonTitle:nil callback:nil];
+
+        }
+    }];
+}
+
 #pragma mark -
 #pragma mark UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // TODO: Call delete API
+    NSInteger plotId = [[data objectForKey:@"id"] intValue];
+    OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
+    if (deleteType == @"tree") {
+        [self deleteTreeFromPlot:plotId user:user];
+    } else if (deleteType == @"plot") {
+        [self deletePlot:plotId user:user];
+    }
 }
 
 @end

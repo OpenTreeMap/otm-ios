@@ -830,6 +830,15 @@
     }
 }
 
+- (void)plotDeletedByViewController:(OTMTreeDetailViewController *)viewController
+{
+    CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:selectedPlot];
+    [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+    [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+    [self clearSelectedTree];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController
 {
     [self changeMode:Select];
