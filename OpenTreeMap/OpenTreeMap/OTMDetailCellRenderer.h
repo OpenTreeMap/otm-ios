@@ -114,8 +114,11 @@ ABSTRACT_METHOD
 
 @interface OTMLabelEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
 
+@property (nonatomic,assign) UIKeyboardType keyboard;
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) NSString *updatedString;
+
+-(UIKeyboardType)decodeKeyboard:(NSString *)ktype;
 
 @end
 

@@ -89,6 +89,8 @@
 	  <string>tree.dbh</string>
 	  <key>label</key>
 	  <string>Trunk Diameter (in)</string>
+          <key>keyboard</key>
+          <string>UIKeyboardTypeDecimalPad</string>
 	  <key>minimumToEdit</key>
 	  <integer>0</integer>
 	</dict>
@@ -99,6 +101,8 @@
 	  <string>tree.height</string>
 	  <key>label</key>
 	  <string>Tree Height (ft)</string>
+          <key>keyboard</key>
+          <string>UIKeyboardTypeDecimalPad</string>
 	  <key>minimumToEdit</key>
 	  <integer>500</integer>
 	</dict>
@@ -109,6 +113,8 @@
 	  <string>tree.canopy_height</string>
 	  <key>label</key>
 	  <string>Canopy Height (ft)</string>
+          <key>keyboard</key>
+          <string>UIKeyboardTypeDecimalPad</string>
 	  <key>minimumToEdit</key>
 	  <integer>500</integer>
 	</dict>
@@ -121,6 +127,8 @@
 	  <string>plot_width</string>
 	  <key>label</key>
 	  <string>Plot Width (ft)</string>
+          <key>keyboard</key>
+          <string>UIKeyboardTypeDecimalPad</string>
 	  <key>minimumToEdit</key>
 	  <integer>0</integer>
 	</dict>
@@ -131,6 +139,8 @@
 	  <string>plot_length</string>
 	  <key>label</key>
 	  <string>Plot Length (ft)</string>
+          <key>keyboard</key>
+          <string>UIKeyboardTypeDecimalPad</string>
 	  <key>minimumToEdit</key>
 	  <integer>0</integer>
 	</dict>

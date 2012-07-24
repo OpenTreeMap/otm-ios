@@ -122,6 +122,14 @@
     return self; 
 }
 
+-(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
+    if ([ktype isEqualToString:@"UIKeyboardTypeDecimalPad"]) {
+        return UIKeyboardTypeDecimalPad;
+    } else {
+        return UIKeyboardTypeDefault;
+    }
+}
+
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     ABSTRACT_METHOD_BODY
 }
@@ -143,12 +151,13 @@
 
 @implementation OTMLabelEditDetailCellRenderer
 
-@synthesize label, updatedString;
+@synthesize label, updatedString, keyboard;
 
 -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [super initWithDict:dict user:user];
     
     if (self) {
+        keyboard = [self decodeKeyboard:[dict objectForKey:@"keyboard"]];
         label = [dict objectForKey:@"label"];
     }
     
@@ -185,6 +194,7 @@
     id value = [data decodeKey:self.dataKey];
     
     detailcell.editFieldValue.text = [OTMFormatters fmtObject:value withKey:@""];
+    detailcell.editFieldValue.keyboardType = keyboard;
     detailcell.fieldLabel.text = self.label;
     
     return detailcell;
