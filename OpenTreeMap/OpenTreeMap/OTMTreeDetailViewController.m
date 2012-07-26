@@ -723,12 +723,14 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSInteger plotId = [[data objectForKey:@"id"] intValue];
-    OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
-    if (deleteType == @"tree") {
-        [self deleteTreeFromPlot:plotId user:user];
-    } else if (deleteType == @"plot") {
-        [self deletePlot:plotId user:user];
+    if (buttonIndex == 0) { // The destructive button is always at index 0
+        NSInteger plotId = [[data objectForKey:@"id"] intValue];
+        OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
+        if (deleteType == @"tree") {
+            [self deleteTreeFromPlot:plotId user:user];
+        } else if (deleteType == @"plot") {
+            [self deletePlot:plotId user:user];
+        }
     }
 }
 
