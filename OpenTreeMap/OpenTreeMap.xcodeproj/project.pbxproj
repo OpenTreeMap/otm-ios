@@ -25,6 +25,9 @@
 		64318CD21551E22E001C827F /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64318CD11551E22E001C827F /* libASI.a */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		643FEFB5152E0647002D3B96 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = 643FEFB4152E0647002D3B96 /* Implementation.plist.base */; };
+		644357AC15C092A60064BD80 /* OTMHelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 644357AB15C092A60064BD80 /* OTMHelpView.m */; };
+		644357AF15C09B400064BD80 /* add_help_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 644357AE15C09B400064BD80 /* add_help_bg.png */; };
+		644357B115C09C8A0064BD80 /* add_help_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 644357B015C09C8A0064BD80 /* add_help_bg@2x.png */; };
 		64435A3A1598AC61000355DE /* selected_marker_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64435A391598AC61000355DE /* selected_marker_small@2x.png */; };
 		64435A3C1598ACAA000355DE /* selected_marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64435A3B1598ACAA000355DE /* selected_marker@2x.png */; };
 		64435A3E1598AD28000355DE /* iphone_app-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64435A3D1598AD28000355DE /* iphone_app-icon@2x.png */; };
@@ -208,6 +211,10 @@
 		64313C9315AC98C700CC1224 /* pending-approved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-approved@2x.png"; sourceTree = "<group>"; };
 		64318CD11551E22E001C827F /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../DerivedData/opentreemap/Build/Products/Debug-iphoneos/libASI.a"; sourceTree = "<group>"; };
 		643FEFB4152E0647002D3B96 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
+		644357AA15C092A60064BD80 /* OTMHelpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMHelpView.h; sourceTree = "<group>"; };
+		644357AB15C092A60064BD80 /* OTMHelpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMHelpView.m; sourceTree = "<group>"; };
+		644357AE15C09B400064BD80 /* add_help_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_help_bg.png; sourceTree = "<group>"; };
+		644357B015C09C8A0064BD80 /* add_help_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_help_bg@2x.png"; sourceTree = "<group>"; };
 		64435A391598AC61000355DE /* selected_marker_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_marker_small@2x.png"; sourceTree = "<group>"; };
 		64435A3B1598ACAA000355DE /* selected_marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_marker@2x.png"; sourceTree = "<group>"; };
 		64435A3D1598AD28000355DE /* iphone_app-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone_app-icon@2x.png"; sourceTree = SOURCE_ROOT; };
@@ -638,6 +645,8 @@
 				D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */,
 				64D34562156169420073C62D /* OTMMapTableViewCell.h */,
 				64D34563156169420073C62D /* OTMMapTableViewCell.m */,
+				644357AA15C092A60064BD80 /* OTMHelpView.h */,
+				644357AB15C092A60064BD80 /* OTMHelpView.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -662,6 +671,8 @@
 				641E98AE1598B47500F7EDE0 /* Default.png */,
 				641E98B01598B48300F7EDE0 /* Default@2x.png */,
 				641E98AA1598B38300F7EDE0 /* splash_screen.png */,
+				644357AE15C09B400064BD80 /* add_help_bg.png */,
+				644357B015C09C8A0064BD80 /* add_help_bg@2x.png */,
 				641E98AB1598B38300F7EDE0 /* splash_screen@2x.png */,
 				641E98A61598B35400F7EDE0 /* about.png */,
 				641E98A71598B35400F7EDE0 /* about@2x.png */,
@@ -975,6 +986,8 @@
 				64313C9715AC98C700CC1224 /* pending-unapproved@2x.png in Resources */,
 				64313C9915AC98C700CC1224 /* pending-approved@2x.png in Resources */,
 				D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */,
+				644357AF15C09B400064BD80 /* add_help_bg.png in Resources */,
+				644357B115C09C8A0064BD80 /* add_help_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1072,6 +1085,7 @@
 				D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */,
 				64DD10941598DDE70053AC57 /* OTMFieldDetailViewController.m in Sources */,
 				6490025D15A3648D00DC492B /* AZMapHelper.m in Sources */,
+				644357AC15C092A60064BD80 /* OTMHelpView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

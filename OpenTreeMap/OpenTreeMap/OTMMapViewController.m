@@ -105,6 +105,10 @@
 {
     [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] navBarTintColor]];
 
+    self.addTreeHelpLabel.textColor = [UIColor whiteColor];
+    self.addTreeHelpLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    self.addTreeHelpLabel.shadowOffset = CGSizeMake(0, -1);
+
     MKCoordinateRegion region = [SharedAppDelegate mapRegion];
     [mapView setRegion:region];
     if (firstAppearance) {
