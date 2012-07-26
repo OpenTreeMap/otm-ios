@@ -400,7 +400,7 @@
         self.navigationItem.leftBarButtonItem.title = @"Filter";
         self.navigationItem.leftBarButtonItem.target = self;
         self.navigationItem.leftBarButtonItem.action = @selector(showFilters);
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(startAddingTree)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Add" style:UIBarButtonItemStyleBordered target:self action:@selector(startAddingTree)];
         [self slideAddTreeHelpDownAnimated:YES];
     }
 
