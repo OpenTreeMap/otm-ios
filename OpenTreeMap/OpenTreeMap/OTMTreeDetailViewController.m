@@ -368,6 +368,7 @@
                         if (err == nil) {
                             [self pushImageData:pendingImageData newTree:NO];
                             self.data = [json mutableDeepCopy];
+                            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
                         }
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);

@@ -823,6 +823,7 @@
 
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate
 {
+    self.selectedPlot = [details mutableDeepCopy];
     [self setDetailViewData:details];
 
     CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
