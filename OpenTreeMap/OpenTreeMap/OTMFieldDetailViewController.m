@@ -258,12 +258,18 @@
 - (void)styleCell:(UITableViewCell *)cell asStatus:(NSString *)status
 {
     NSString *imageName;
-    if ([status isEqualToString:@"approved"]) {
-        imageName = @"pending-approved";
-    } else if ([status isEqualToString:@"rejected"]) {
-        imageName = nil;
+    if ([[[SharedAppDelegate loginManager] loggedInUser] canApproveOrRejectPendingEdits])
+    {
+        if ([status isEqualToString:@"approved"]) {
+            imageName = @"pending-approved";
+        } else if ([status isEqualToString:@"rejected"]) {
+            imageName = nil;
+        } else {
+            imageName = @"pending-unapproved";
+        }
     } else {
-        imageName = @"pending-unapproved";
+        // No accessory image is displayed if the user cannot approve pending edits
+        imageName = nil;
     }
     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imageName]];
 }
