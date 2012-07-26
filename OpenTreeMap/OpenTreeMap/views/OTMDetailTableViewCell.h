@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UITextField *editFieldValue;
 @property (nonatomic, strong) UIImageView *pendImageView;
 @property (nonatomic, assign) BOOL allowsEditing;
+@property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, copy) NSString *formatKey;
 
 @property (nonatomic, weak) id<UITextFieldDelegate> tfDelegate;
