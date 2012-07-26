@@ -397,7 +397,10 @@
 
 - (NSArray *)stripPendingImageData {
     NSMutableArray *pending = [NSMutableArray array];
-    NSArray *treePhotos = [[data objectForKey:@"tree"] objectForKey:@"images"];
+    NSArray *treePhotos;
+    if ([data objectForKey:@"tree"] && [data objectForKey:@"tree"] != [NSNull null]) {
+        treePhotos = [[data objectForKey:@"tree"] objectForKey:@"images"];
+    }
     NSMutableArray *savedTreePhotos = [NSMutableArray array];
     if (treePhotos) {
         for(NSDictionary *treePhoto in treePhotos) {
