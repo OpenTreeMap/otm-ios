@@ -37,7 +37,7 @@
 
 @implementation OTMTreeDetailViewController
 
-@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView, acell, delegate, originalLocation;
+@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView, acell, delegate, originalLocation, originalData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -368,7 +368,7 @@
                         if (err == nil) {
                             [self pushImageData:pendingImageData newTree:NO];
                             self.data = [json mutableDeepCopy];
-                            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
+                            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData];
                         }
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
@@ -422,7 +422,7 @@
         if (newTree) {
             [self.delegate viewController:self addedTree:data];
         } else {
-            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation];
+            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData];
             [self syncTopData];
             [self.tableView reloadData];            
         }
@@ -512,7 +512,7 @@
             self.data = [updatedData mutableDeepCopy];
             [self syncTopData];
             [self.tableView reloadData];
-            [delegate viewController:self editedTree:self.data withOriginalLocation:originalLocation]
+            [delegate viewController:self editedTree:self.data withOriginalLocation:originalLocation originalData:originalData]
             ;
         };
     }
@@ -692,7 +692,7 @@
         if (!error) {
             self.data = [json mutableDeepCopy];
             [delegate viewController:self editedTree:(NSDictionary *)self.data
-                withOriginalLocation:originalLocation];
+                withOriginalLocation:originalLocation originalData:originalData];
             [self toggleEditMode:NO];
         } else {
             [[AZWaitingOverlayController sharedController] hideOverlay];

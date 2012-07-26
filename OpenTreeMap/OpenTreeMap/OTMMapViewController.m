@@ -180,6 +180,8 @@
 
         dest.originalLocation = [OTMTreeDictionaryHelper getCoordinateFromDictionary:dest.data];
 
+        dest.originalData = [dest.data mutableDeepCopy];
+
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
 
         dest.keys = keys;
@@ -821,18 +823,48 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate
+- (BOOL)plotEditRequiresNewTiles:(NSDictionary *)newData originalCoordinate:(CLLocationCoordinate2D)originalCoordinate originalData:(NSDictionary *)originalData
 {
-    self.selectedPlot = [details mutableDeepCopy];
-    [self setDetailViewData:details];
+    if ([newData objectForKey:@"tree"]) {
+        if (![originalData objectForKey:@"tree"]) {
+            return YES;
+        }
+    }
 
-    CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
-    if (newCoordinate.latitude != coordinate.latitude || newCoordinate.longitude != coordinate.longitude) {
+    if ([newData objectForKey:@"tree"] == [NSNull null]) {
+        if ([originalData objectForKey:@"tree"] != [NSNull null]) {
+            return YES;
+        }
+    }
+
+    if (![newData objectForKey:@"tree"]) {
+        if ([originalData objectForKey:@"tree"]) {
+            return YES;
+        }
+    }
+
+    if ([newData objectForKey:@"tree"] != [NSNull null]) {
+        if ([originalData objectForKey:@"tree"] == [NSNull null]) {
+            return YES;
+        }
+    }
+
+    CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:newData];
+    return newCoordinate.latitude != originalCoordinate.latitude || newCoordinate.longitude != originalCoordinate.longitude;
+}
+
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData
+{
+    if ([self plotEditRequiresNewTiles:details originalCoordinate:coordinate originalData:originalData]) {
+        CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
         [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
         [pointOffsetOverlayView disruptCacheForCoordinate:newCoordinate];
         [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
         [self selectTreeNearCoordinate:newCoordinate];
     }
+
+    self.selectedPlot = [details mutableDeepCopy];
+    [self setDetailViewData:details];
 }
 
 - (void)plotDeletedByViewController:(OTMTreeDetailViewController *)viewController

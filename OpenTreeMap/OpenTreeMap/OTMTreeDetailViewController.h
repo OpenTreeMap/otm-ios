@@ -32,7 +32,7 @@
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
 
-- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate;
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData;
 
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
 
@@ -67,6 +67,7 @@
 @property (nonatomic,strong) IBOutlet UIImageView* imageView;
 @property (nonatomic,strong) IBOutlet UIView* headerView;
 @property (nonatomic) CLLocationCoordinate2D originalLocation;
+@property (nonatomic) NSDictionary *originalData;
 
 @property (nonatomic,strong) IBOutlet UITableViewCell *acell;
 
