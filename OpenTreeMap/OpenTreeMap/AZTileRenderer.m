@@ -388,7 +388,30 @@ typedef enum {
             imageName = [NSString stringWithFormat:@"%@_plot", imageName];
         }
     } else {
-        imageName = @"tree_search";
+        switch(baseScale) {
+            case 10:
+            case 11:
+                imageName = @"tree_search_zoom1";
+                break;
+            case 12:
+            case 13:
+                imageName = @"tree_search_zoom3";
+                break;
+            case 14:
+            case 15:
+                imageName = @"tree_search_zoom5";
+                break;
+            case 16:
+                imageName = @"tree_search_zoom6";
+                break;
+            case 17:
+            case 18:
+                imageName = @"tree_search_zoom7";
+                break;
+            default:
+                imageName = @"tree_search_zoom1";
+                break;
+        }
     }
     
     return [UIImage imageNamed:imageName];
