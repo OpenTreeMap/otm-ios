@@ -70,6 +70,34 @@
     return m;
 }
 
+- (NSString *)description
+{
+    NSMutableArray *descriptions = [[NSMutableArray alloc] init];
+    if (missingTree) {
+        [descriptions addObject:@"Missing Tree"];
+    }
+    if (missingSpecies) {
+        [descriptions addObject:@"Missing Species"];
+    }
+    if (missingDBH) {
+        [descriptions addObject:@"Missing Diameter"];
+    }
+    for(OTMFilter *f in filters) {
+        if ([f active]) {
+            [descriptions addObject:[f name]];
+        }
+    }
+    if (speciesId != nil)
+    {
+        [descriptions addObject:speciesName];
+    }
+    if ([descriptions count] > 1) {
+        return [descriptions componentsJoinedByString:@", "];
+    } else {
+        return [descriptions objectAtIndex:0];
+    }
+}
+
 @end 
 
 @interface OTMFilter () 

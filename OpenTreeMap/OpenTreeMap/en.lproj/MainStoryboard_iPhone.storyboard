@@ -35,7 +35,7 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="w2g-B4-7BF" customClass="OTMSegmentedControl">
-                                <rect key="frame" x="130" y="50" width="185" height="30"/>
+                                <rect key="frame" x="130" y="74" width="185" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Map"/>
@@ -136,6 +136,21 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" id="gMy-qL-BtE" customClass="OTMFilterStatusView">
+                                <rect key="frame" x="0.0" y="44" width="320" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Showing: Missing Species" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="rh9-R0-UUJ">
+                                        <rect key="frame" x="8" y="0.0" width="280" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.21507727581521741" green="0.21507727581521741" blue="0.21507727581521741" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                        <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.80794630629999997" blue="0.95198657659999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -154,6 +169,8 @@
                         <outlet property="address" destination="iUl-4y-q6w" id="bnH-IJ-YUU"/>
                         <outlet property="dbh" destination="Kf6-Fe-hNX" id="BtX-Yy-F6q"/>
                         <outlet property="detailView" destination="cSI-Ty-HIV" id="psF-sh-2Xv"/>
+                        <outlet property="filterStatusLabel" destination="rh9-R0-UUJ" id="jig-AY-HvF"/>
+                        <outlet property="filterStatusView" destination="gMy-qL-BtE" id="88F-Am-EpQ"/>
                         <outlet property="findLocationButton" destination="aEH-bQ-xwn" id="bpO-qt-PfZ"/>
                         <outlet property="mapModeSegmentedControl" destination="w2g-B4-7BF" id="DFC-xS-z7c"/>
                         <outlet property="mapView" destination="HdG-pl-Slh" id="jdm-Cq-jrb"/>
@@ -380,7 +397,7 @@
             <objects>
                 <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -818,6 +835,9 @@
                 <relationship kind="outlet" name="speciesButton" candidateClass="UIButton"/>
             </relationships>
         </class>
+        <class className="OTMFilterStatusView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMFilterStatusView.h"/>
+        </class>
         <class className="OTMHelpView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMHelpView.h"/>
         </class>
@@ -837,6 +857,8 @@
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="dbh" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="detailView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="filterStatusLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="filterStatusView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="findLocationButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="locationActivityView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="mapModeSegmentedControl" candidateClass="UISegmentedControl"/>
@@ -925,7 +947,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ROJ-aE-inW"/>
-        <segue reference="Lek-fL-nUD"/>
+        <segue reference="145-jK-ChU"/>
+        <segue reference="l7d-z8-dsy"/>
     </inferredMetricsTieBreakers>
 </document>

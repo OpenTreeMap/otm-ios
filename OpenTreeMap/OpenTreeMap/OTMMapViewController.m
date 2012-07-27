@@ -46,7 +46,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl, filters;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
 
 - (void)viewDidLoad
 {
@@ -80,7 +80,9 @@
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
-     
+
+    [self hideFilterStatus];
+
     [self setupMapView];
 }
 
@@ -449,7 +451,12 @@
 
 - (void)showFilters:(OTMFilters *)f
 {
-  pointOffsetOverlayView.filters = f;
+    if ([f active]) {
+        [self showFilterStatusWithMessage:[NSString stringWithFormat:@"Filter: %@", [f description]]];
+    } else {
+        [self hideFilterStatus];
+    }
+    pointOffsetOverlayView.filters = f;
     // TODO: hide the wizard label
 }
 
@@ -880,6 +887,21 @@
 {
     [self changeMode:Select];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark Filter Status
+
+- (void)hideFilterStatus
+{
+    [self.filterStatusView setHidden:YES];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 50, 185, 30)];
+}
+
+- (void)showFilterStatusWithMessage:(NSString *)message
+{
+    [self.filterStatusLabel setText:message];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 74, 185, 30)];
+    [self.filterStatusView setHidden:NO];
 }
 
 @end

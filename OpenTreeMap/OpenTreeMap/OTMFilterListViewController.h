@@ -34,6 +34,8 @@ typedef enum {
 
 - (NSDictionary *)customFiltersDict;
 
+- (NSString *)description;
+
 @end 
 
 #define OTMFilterKeyType @"OTMFilterKeyType"
