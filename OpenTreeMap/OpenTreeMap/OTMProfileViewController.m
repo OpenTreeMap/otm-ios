@@ -99,7 +99,7 @@
         NSDate *date = [readFormatter dateFromString:[action objectForKey:@"created"]];
 
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MMMM d, yyyy 'at' h:MM aaa"];
+        [formatter setDateFormat:@"MMMM d, yyyy 'at' h:mm aaa"];
         [formatter setCalendar:cal];
         [formatter setLocale:[NSLocale currentLocale]];
         NSString *fdate = [formatter stringFromDate:date];
