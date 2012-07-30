@@ -138,6 +138,11 @@
             itemValue = self.user.zipcode;
             break;
 
+        case 4:
+            itemTitle = @"Reputation";
+            itemValue = [NSString stringWithFormat:@"%d", self.user.reputation];
+            break;
+
         default:
             break;
     }
@@ -202,7 +207,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case kOTMProfileViewControllerSectionInfo:
-            return 4;
+            return 5;
         case kOTMProfileViewControllerSectionChangePassword:
             return 2;
         case kOTMProfileViewControllerSectionChangeProfilePicture:
@@ -302,7 +307,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+    [self refreshTotalReputation];
+
     if (!self.didShowLogin) {
         self.didShowLogin = YES;
         OTMLoginManager* mgr = [SharedAppDelegate loginManager];
@@ -316,6 +322,23 @@
                 [self doLogin:nil];
             }
         }
+    }
+}
+
+- (void)refreshTotalReputation
+{
+    if (self.user) {
+        [[[OTMEnvironment sharedEnvironment] api] getProfileForUser:self.user callback:
+         ^(NSDictionary *json, NSError *error) {
+             if (!error) {
+                 if (self.user && [json objectForKey:@"reputation"]) {
+                     self.user.reputation = [[json objectForKey:@"reputation"] intValue];
+                     [self.tableView reloadData];
+                 }
+             } else {
+                 NSLog(@"Failed to get profile for user: %@", error);
+             }
+         }];
     }
 }
 

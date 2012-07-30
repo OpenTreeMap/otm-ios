@@ -141,6 +141,14 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback;
 
 /**
+ * Retrieve a dictionary of user profile details.
+ *
+ * @param user the user for whom details are being fetches
+ * @param callback the callback to call when execution has finished
+ */
+-(void)getProfileForUser:(OTMUser*)user callback:(AZJSONCallback)callback;
+
+/**
  * Reset the password on an account
  *
  * @param email the email attached to the user that is to be reset

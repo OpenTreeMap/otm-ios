@@ -370,6 +370,13 @@
     
 }
 
+-(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
+    [request get:@"login"
+        withUser:user
+          params:nil
+        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
     [request post:@"login/reset_password"
            params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
