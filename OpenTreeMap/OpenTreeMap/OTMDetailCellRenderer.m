@@ -165,7 +165,11 @@
 }
 
 -(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
-    self.updatedString = v;
+    if ([v isEqualToString:@""]) {
+        self.updatedString = nil;
+    } else {
+        self.updatedString = v;
+    }
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
