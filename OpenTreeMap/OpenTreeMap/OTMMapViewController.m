@@ -493,49 +493,53 @@
              [self slideDetailDownAnimated:YES];
          } else {
              NSDictionary* plot = [plots objectAtIndex:0];
-
-             self.selectedPlot = [plot mutableDeepCopy];
-
-             NSDictionary* tree = [plot objectForKey:@"tree"];
-
-             self.treeImage.image = nil;
-
-             if (tree && [tree isKindOfClass:[NSDictionary class]]) {
-                 NSArray* images = [tree objectForKey:@"images"];
-
-                 if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-                     int imageId = [[[images lastObject] objectForKey:@"id"] intValue];
-                     int plotId = [[plot objectForKey:@"id"] intValue];
-
-                     [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
-                                                                       photoId:imageId
-                                                                      callback:^(UIImage* image, NSError* error)
-                      {
-                          self.treeImage.image = image;
-                      }];
-                 }
-             }
-
-             [self setDetailViewData:plot];
-             [self slideDetailUpAnimated:YES];
-
-             CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:plot];
-
-             [self zoomMapIfNeededAndCenterMapOnCoordinate:center];
-
-             if (self.lastClickedTree) {
-                 [mapView removeAnnotation:self.lastClickedTree];
-                 self.lastClickedTree = nil;
-             }
-
-             self.lastClickedTree = [[MKPointAnnotation alloc] init];
-
-             [self.lastClickedTree setCoordinate:center];
-
-             [mapView addAnnotation:self.lastClickedTree];
+             [self selectPlot:plot];
              NSLog(@"Here with plot %@", plot);
          }
      }];
+}
+
+- (void)selectPlot:(NSDictionary *)plot
+{
+    self.selectedPlot = [plot mutableDeepCopy];
+
+    NSDictionary* tree = [plot objectForKey:@"tree"];
+
+    self.treeImage.image = nil;
+
+    if (tree && [tree isKindOfClass:[NSDictionary class]]) {
+        NSArray* images = [tree objectForKey:@"images"];
+
+        if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
+            int imageId = [[[images lastObject] objectForKey:@"id"] intValue];
+            int plotId = [[plot objectForKey:@"id"] intValue];
+
+            [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
+                                                              photoId:imageId
+                                                             callback:^(UIImage* image, NSError* error)
+             {
+                 self.treeImage.image = image;
+             }];
+        }
+    }
+
+    [self setDetailViewData:plot];
+    [self slideDetailUpAnimated:YES];
+
+    CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:plot];
+
+    [self zoomMapIfNeededAndCenterMapOnCoordinate:center];
+
+    if (self.lastClickedTree) {
+        [mapView removeAnnotation:self.lastClickedTree];
+        self.lastClickedTree = nil;
+    }
+
+    self.lastClickedTree = [[MKPointAnnotation alloc] init];
+
+    [self.lastClickedTree setCoordinate:center];
+
+    [mapView addAnnotation:self.lastClickedTree];
 }
 
 - (void)zoomMapIfNeededAndCenterMapOnCoordinate:(CLLocationCoordinate2D)coordinate
@@ -819,14 +823,13 @@
 
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details
 {
-    // TODO: Redraw the tile with the new tree
     [self changeMode:Select];
     CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
 
     [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
     [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
 
-    [self selectTreeNearCoordinate:coordinate];
+    [self selectPlot:details];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -867,7 +870,7 @@
         [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
         [pointOffsetOverlayView disruptCacheForCoordinate:newCoordinate];
         [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
-        [self selectTreeNearCoordinate:newCoordinate];
+        [self selectPlot:details];
     }
 
     self.selectedPlot = [details mutableDeepCopy];

@@ -344,6 +344,7 @@
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
+                        data = [json mutableDeepCopy];
                         [self pushImageData:pendingImageData newTree:YES];
                     } else {
                         NSLog(@"Error adding tree: %@", err);
