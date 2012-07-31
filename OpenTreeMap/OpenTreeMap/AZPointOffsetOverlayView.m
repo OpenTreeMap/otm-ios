@@ -208,6 +208,8 @@
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate
 {
     [memoryTileCache disruptCacheForCoordinate:coordinate];
+    [memoryFilterTileCache disruptCacheForCoordinate:coordinate];
+    [memoryPointCache disruptCacheForCoordinate:coordinate];
     [loading removeAllObjects];
 }
 
