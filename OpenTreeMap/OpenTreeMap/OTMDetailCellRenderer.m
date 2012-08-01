@@ -110,6 +110,32 @@
 
 @end
 
+@implementation OTMBenefitsDetailCellRenderer
+
+@synthesize cell;
+
+ -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+    self = [super initWithDict:dict user:user];
+    
+    if (self) {
+        cell = [OTMBenefitsTableViewCell loadFromNib];
+        self.cellHeight = cell.frame.size.height;
+        self.cell.benefitName.text = [dict objectForKey:@"label"];
+    }
+    
+    return self;
+}
+
+-(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+    self.cell.benefitValue.text = [OTMFormatters fmtUnitDict:(NSDictionary *)[data decodeKey:self.dataKey]];
+    self.cell.benefitDollarAmt.text = [OTMFormatters fmtDollarsDict:(NSDictionary *)[data decodeKey:self.dataKey]];
+
+    return cell;
+}
+
+@end
+
+
 @implementation OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
 -(id)initWithDict:(NSDictionary *)dict  user:(OTMUser*)user {
