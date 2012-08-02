@@ -279,7 +279,14 @@ typedef enum {
     if (f.missingTree) { filter |= AZTileHasTree; }
     if (f.missingSpecies) { filter |= AZTileHasSpecies; }
 
-    return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:filter mode:AZTileFilterModeAny];
+    AZTileFilterMode mode = AZTileFilterModeAny;
+    
+    if ([f customFiltersActive]) {
+        // Force filter skin since this was a request
+        // just for tiles with filter icons
+        mode = AZTileFilterForceFilter;
+    }
+    return [self createImageWithOffsets:offsets zoomScale:zoomScale alpha:alpha filter:filter mode:mode];
 }
 
 +(UIImage*)createImageWithOffsets:(CFArrayRef)offsets zoomScale:(MKZoomScale)zoomScale alpha:(CGFloat)alpha {
@@ -334,7 +341,9 @@ typedef enum {
 
 +(BOOL)point:(const OTMPoint *)p isFilteredWithMode:(AZTileFilterMode)mode filter:(u_char)filter {
     BOOL draw = YES;
-    if (mode == AZTileFilterModeNone) {
+    if (mode == AZTileFilterForceFilter) {
+        draw = YES;
+    } if (mode == AZTileFilterModeNone) {
         draw = YES;
     } else if (mode == AZTileFilterModeAny) {
         if ((~(p->style) & filter) == 0) {

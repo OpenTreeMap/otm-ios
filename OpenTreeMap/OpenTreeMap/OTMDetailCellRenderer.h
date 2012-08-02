@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "OTMDetailTableViewCell.h"
 #import "OTMDBHTableViewCell.h"
+#import "OTMBenefitsTableViewCell.h"
 
 #define kOTMDefaultDetailRenderer OTMLabelDetailCellRenderer
 #define kOTMDefaultEditDetailRenderer OTMLabelEditDetailCellRenderer
@@ -87,6 +88,13 @@
  */
 ABSTRACT_METHOD
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView;
+
+@end
+
+
+@interface OTMBenefitsDetailCellRenderer : OTMDetailCellRenderer
+
+@property (nonatomic,strong) OTMBenefitsTableViewCell *cell;
 
 @end
 

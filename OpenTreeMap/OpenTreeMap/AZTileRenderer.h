@@ -20,7 +20,8 @@ typedef void(^AZRefreshCallback)(MKMapRect m, MKZoomScale z);
 typedef enum {
     AZTileFilterModeAny,
     AZTileFilterModeAll,
-    AZTileFilterModeNone
+    AZTileFilterModeNone,
+    AZTileFilterForceFilter
 } AZTileFilterMode;
 
 @interface AZTileRenderer : NSObject

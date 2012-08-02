@@ -166,6 +166,8 @@
 		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59B41550311800D37425 /* LoginRequiredView.xib */; };
 		D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86A415BDA4C30063D0B6 /* version.plist */; };
+		D7DE86AC15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */; };
+		D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */; };
 		D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF1953158240DE0099B973 /* AZTileQueue.m */; };
 		D7F352BE156BEFAF00E54060 /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */; };
 		D7F352BF156BEFAF00E54060 /* tree_zoom3_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */; };
@@ -413,6 +415,9 @@
 		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
 		D7CF59B41550311800D37425 /* LoginRequiredView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRequiredView.xib; sourceTree = "<group>"; };
 		D7DE86A415BDA4C30063D0B6 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
+		D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMBenefitsTableViewCell.xib; sourceTree = "<group>"; };
+		D7DE86AE15C965FF0063D0B6 /* OTMBenefitsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBenefitsTableViewCell.h; sourceTree = "<group>"; };
+		D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBenefitsTableViewCell.m; sourceTree = "<group>"; };
 		D7EF1952158240DE0099B973 /* AZTileQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileQueue.h; sourceTree = "<group>"; };
 		D7EF1953158240DE0099B973 /* AZTileQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileQueue.m; sourceTree = "<group>"; };
 		D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom1_plot.png; path = map_icons/tree_zoom1_plot.png; sourceTree = "<group>"; };
@@ -648,6 +653,7 @@
 				D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */,
 				D78CCCD5152CC34C00A6E9B7 /* OTMDistanceTableViewCell.h */,
 				D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */,
+				D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */,
 				D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */,
 				D7829C8715409EF300DBFE7C /* OTMDBHTableViewCell.h */,
 				D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */,
@@ -671,6 +677,8 @@
 				644357AB15C092A60064BD80 /* OTMHelpView.m */,
 				643ED26215C3196000BD4461 /* OTMFilterStatusView.h */,
 				643ED26315C3196000BD4461 /* OTMFilterStatusView.m */,
+				D7DE86AE15C965FF0063D0B6 /* OTMBenefitsTableViewCell.h */,
+				D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -1021,6 +1029,7 @@
 				643ED27115C3426F00BD4461 /* tree_search_zoom5.png in Resources */,
 				643ED27215C3426F00BD4461 /* tree_search_zoom6.png in Resources */,
 				643ED27315C3426F00BD4461 /* tree_search_zoom7.png in Resources */,
+				D7DE86AC15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1120,6 +1129,7 @@
 				6490025D15A3648D00DC492B /* AZMapHelper.m in Sources */,
 				644357AC15C092A60064BD80 /* OTMHelpView.m in Sources */,
 				643ED26415C3196000BD4461 /* OTMFilterStatusView.m in Sources */,
+				D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,7 +41,17 @@
 
 +(NSString*)fmtUnitDict:(NSDictionary*)d 
 {
-    return [NSString stringWithFormat:@"%0.1f %@", [[d valueForKey:@"value"] floatValue], [d objectForKey:@"unit"]];
+    id unit = [d objectForKey:@"unit"];
+    if (nil == unit) {
+        unit = @"";
+    }
+
+    return [NSString stringWithFormat:@"%0.1f %@", [[d valueForKey:@"value"] floatValue], unit];
+}
+
++(NSString*)fmtDollarsDict:(NSDictionary*)d
+{
+    return [NSString stringWithFormat:@"$%0.2f", [[d valueForKey:@"dollars"] floatValue]];
 }
 
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString

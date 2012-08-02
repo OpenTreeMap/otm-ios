@@ -32,6 +32,7 @@
 +(NSString*)fmtM:(NSNumber*)number;
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString;
 +(NSString*)fmtUnitDict:(NSDictionary*)d;
++(NSString*)fmtDollarsDict:(NSDictionary*)d;
 
 +(NSString*)fmtObject:(id)obj withKey:(NSString*)key;
 
