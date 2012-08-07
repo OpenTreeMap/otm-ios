@@ -168,6 +168,9 @@
 		D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86A415BDA4C30063D0B6 /* version.plist */; };
 		D7DE86AC15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */; };
 		D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */; };
+		D7DE86BD15D14DD60063D0B6 /* AZTile.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86BC15D14DD60063D0B6 /* AZTile.m */; };
+		D7DE86C015D14DEF0063D0B6 /* AZTiler.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */; };
+		D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86C215D14E060063D0B6 /* AZPointParser.m */; };
 		D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF1953158240DE0099B973 /* AZTileQueue.m */; };
 		D7F352BE156BEFAF00E54060 /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */; };
 		D7F352BF156BEFAF00E54060 /* tree_zoom3_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */; };
@@ -418,6 +421,12 @@
 		D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMBenefitsTableViewCell.xib; sourceTree = "<group>"; };
 		D7DE86AE15C965FF0063D0B6 /* OTMBenefitsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBenefitsTableViewCell.h; sourceTree = "<group>"; };
 		D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBenefitsTableViewCell.m; sourceTree = "<group>"; };
+		D7DE86BB15D14DD60063D0B6 /* AZTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTile.h; sourceTree = "<group>"; };
+		D7DE86BC15D14DD60063D0B6 /* AZTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTile.m; sourceTree = "<group>"; };
+		D7DE86BE15D14DEF0063D0B6 /* AZTiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTiler.h; sourceTree = "<group>"; };
+		D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTiler.m; sourceTree = "<group>"; };
+		D7DE86C115D14E060063D0B6 /* AZPointParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointParser.h; sourceTree = "<group>"; };
+		D7DE86C215D14E060063D0B6 /* AZPointParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointParser.m; sourceTree = "<group>"; };
 		D7EF1952158240DE0099B973 /* AZTileQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileQueue.h; sourceTree = "<group>"; };
 		D7EF1953158240DE0099B973 /* AZTileQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileQueue.m; sourceTree = "<group>"; };
 		D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom1_plot.png; path = map_icons/tree_zoom1_plot.png; sourceTree = "<group>"; };
@@ -757,6 +766,19 @@
 			path = images;
 			sourceTree = "<group>";
 		};
+		D7DE86B915D14DAA0063D0B6 /* Tiles */ = {
+			isa = PBXGroup;
+			children = (
+				D7DE86BB15D14DD60063D0B6 /* AZTile.h */,
+				D7DE86BC15D14DD60063D0B6 /* AZTile.m */,
+				D7DE86BE15D14DEF0063D0B6 /* AZTiler.h */,
+				D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */,
+				D7DE86C115D14E060063D0B6 /* AZPointParser.h */,
+				D7DE86C215D14E060063D0B6 /* AZPointParser.m */,
+			);
+			path = Tiles;
+			sourceTree = "<group>";
+		};
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
@@ -828,6 +850,7 @@
 				645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */,
 				645497FC1545A1E600C7F423 /* OTMReverseGeocodeOperation.h */,
 				645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */,
+				D7DE86B915D14DAA0063D0B6 /* Tiles */,
 				64E2AB9C155052B600EFA775 /* Philadelphia.gpx */,
 				64E2AB9F1550535600EFA775 /* Azavea.gpx */,
 			);
@@ -1130,6 +1153,9 @@
 				644357AC15C092A60064BD80 /* OTMHelpView.m in Sources */,
 				643ED26415C3196000BD4461 /* OTMFilterStatusView.m in Sources */,
 				D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */,
+				D7DE86BD15D14DD60063D0B6 /* AZTile.m in Sources */,
+				D7DE86C015D14DEF0063D0B6 /* AZTiler.m in Sources */,
+				D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
