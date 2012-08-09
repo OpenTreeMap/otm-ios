@@ -629,6 +629,7 @@
     MKZoomScale currentZoomScale = mView.bounds.size.width / mView.visibleMapRect.size.width;
 
     [[[OTMEnvironment sharedEnvironment] api] setVisibleMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
+    [tilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
 
     [SharedAppDelegate setMapRegion:region];
 

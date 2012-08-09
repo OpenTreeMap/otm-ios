@@ -92,4 +92,10 @@ typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect r
  */
 -(UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
 
+/**
+ * Sort the current queues by distance from the current visible map rect with
+ * the given zoom scale
+ */
+-(void)sortWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+
 @end

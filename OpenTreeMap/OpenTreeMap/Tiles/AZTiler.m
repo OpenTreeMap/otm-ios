@@ -114,6 +114,8 @@
         waitingForRenderQueue = [NSMutableOrderedSet orderedSet];
         waitingForDownloadOpQueue = [[NSOperationQueue alloc] init];
         waitingForDownloadQueue = [NSMutableOrderedSet orderedSet];
+
+        waitingForRenderOpQueue.maxConcurrentOperationCount = 1;
     }
     return self;
 }
@@ -266,7 +268,7 @@
     }
 }
 
--(void)sortWithMapRect:(MKMapRect)mapRect ZoomScale:(MKZoomScale)zoomScale  {
+-(void)sortWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
     NSComparator cmp = ^(AZTile *a, AZTile *b) {
             // Use zoom level first
             if (a.zoomScale != b.zoomScale) {
@@ -288,8 +290,13 @@
     NSLog(@"Enqueue: Sorting %d objects (render)",[waitingForRenderQueue count]);
     NSLog(@"Enqueue: Sorting %d objects (download)",[waitingForDownloadQueue count]);
 
-    [waitingForRenderQueue sortUsingComparator:cmp];
-    [waitingForDownloadQueue sortUsingComparator:cmp];
+    @synchronized(waitingForRenderQueue) {
+        [waitingForRenderQueue sortUsingComparator:cmp];
+    }
+
+    @synchronized(waitingForDownloadQueue) {
+        [waitingForDownloadQueue sortUsingComparator:cmp];
+    }
 }
 
 

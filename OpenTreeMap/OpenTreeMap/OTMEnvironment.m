@@ -138,7 +138,8 @@
     treq.synchronous = YES;
 
     req.queue.maxConcurrentOperationCount = 3;
-    treq.queue.maxConcurrentOperationCount = 1;
+    treq.queue.maxConcurrentOperationCount = 1; // Limit this... having this too high
+                                                // prevents google tiles from loading!
     
     otmApi.request = req;
     otmApi.tileRequest = treq;
