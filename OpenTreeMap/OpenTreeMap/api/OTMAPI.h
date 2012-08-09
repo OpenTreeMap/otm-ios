@@ -71,6 +71,8 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
 -(void)setZoomScale:(MKZoomScale)z;
 -(void)setVisibleMapRect:(MKMapRect)r zoomScale:(MKZoomScale)z;
 
++(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
+
 /**
  * Get species list
  */

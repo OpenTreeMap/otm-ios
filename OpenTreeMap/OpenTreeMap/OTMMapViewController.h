@@ -26,6 +26,7 @@
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDetailViewController.h"
 #import "AZPointOffsetOverlayView.h"
+#import "AZTilePointOffsetOverlayView.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
@@ -42,6 +43,7 @@ typedef enum {
     IBOutlet UIBarButtonItem *findLocationButton;
     BOOL firstAppearance;
     AZPointOffsetOverlayView *pointOffsetOverlayView;
+    AZTilePointOffsetOverlayView *tilePointOffsetOverlayView;
 }
 
 @property (nonatomic,strong) OTMFilters* filters;

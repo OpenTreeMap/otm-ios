@@ -653,10 +653,13 @@
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
 {
+    if (!tilePointOffsetOverlayView) {
+        tilePointOffsetOverlayView = [[AZTilePointOffsetOverlayView alloc] initWithOverlay:overlay];
+    }
     if (!pointOffsetOverlayView) {
         pointOffsetOverlayView = [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
     }
-    return pointOffsetOverlayView;
+    return tilePointOffsetOverlayView;
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
@@ -826,8 +829,8 @@
     [self changeMode:Select];
     CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
 
-    [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
-    [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+    // [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+    // [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
 
     [self selectPlot:details];
     [self.navigationController popViewControllerAnimated:YES];

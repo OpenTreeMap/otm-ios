@@ -22,7 +22,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, tileRequest;
 
 + (id)sharedEnvironment
 {
@@ -138,11 +138,12 @@
     treq.synchronous = YES;
 
     req.queue.maxConcurrentOperationCount = 3;
-    treq.queue.maxConcurrentOperationCount = 2;
+    treq.queue.maxConcurrentOperationCount = 1;
     
     otmApi.request = req;
     otmApi.tileRequest = treq;
-    
+
+    self.tileRequest = treq;    
     self.api = otmApi;
     
     return self;

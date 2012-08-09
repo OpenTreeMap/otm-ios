@@ -107,6 +107,8 @@
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
 
+@property (nonatomic, strong) AZHttpRequest *tileRequest;
+
 // Choices values
 @property (nonatomic, retain) NSDictionary* choices;
 
