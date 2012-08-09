@@ -19,16 +19,25 @@
     }
 
     CGSize frameSize = CGSizeMake(256, 256);
-    UIGraphicsBeginImageContext(frameSize);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(NULL, // Empty data pointer
+                                                 256, // 256x256
+                                                 256, 
+                                                 8,  // 8 bits per channel
+                                                 4 * 256, // 256 pixels per row x 4 bytes per pixel
+                                                 colorSpace,
+                                                 kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
 
     // If there is no image, then we start be drawing the main points
     if (rendered.image == nil) {
         [self drawImage:tile.points 
               zoomScale:tile.zoomScale
                 xOffset:0
-                yOffset:0];
+                yOffset:0
+                context:context];
     } else { // Otherwise, draw the image
-        [rendered.image drawInRect:CGRectMake(0,0,256,256) blendMode:kCGBlendModeNormal alpha:1.0];
+        CGContextDrawImage(context, CGRectMake(0,0,256,256), rendered.image.CGImage);
     }
 
     for(AZDirection dir in [[tile borderTiles] allKeys]) {
@@ -51,7 +60,8 @@
             [self drawImage:[[tile borderTiles] objectForKey:dir]
                   zoomScale:tile.zoomScale
                     xOffset:xoff
-                    yOffset:yoff];        
+                    yOffset:yoff
+                    context:context];        
 
         }
     }
@@ -60,9 +70,10 @@
     // [[UIColor redColor] setStroke];
     // CGContextStrokeRect(UIGraphicsGetCurrentContext(), CGRectMake(0,0,256,256));
 
-    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
+    CGImageRef cimage = CGBitmapContextCreateImage(context);
+    UIImage* image = [UIImage imageWithCGImage:cimage];
 
-    UIGraphicsPopContext();
+    CGContextRelease(context);
 
     rendered.image = image;
     return rendered;
@@ -71,7 +82,8 @@
 +(void)drawImage:(NSArray *)points
        zoomScale:(MKZoomScale)zoomScale
          xOffset:(CGFloat)xoffset
-         yOffset:(CGFloat)yoffset {
+         yOffset:(CGFloat)yoffset
+         context:(CGContextRef)context {
 
     BOOL plot = (xoffset != 0.0 || yoffset != 0.0);
 
@@ -84,8 +96,30 @@
     
         CGRect rect = CGRectOffset(baseRect, p.xoffset + xoffset, 255 - p.yoffset + yoffset);
 
-        [stamp drawInRect:rect blendMode:kCGBlendModeNormal alpha:1.0];
+        CGContextDrawImage(context, rect, stamp.CGImage);
     }
+}
+
++(UIImage *)mangleStamp:(UIImage *)image {
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGSize size = image.size;
+    CGContextRef context = CGBitmapContextCreate(NULL, // Empty data pointer
+                                                 size.width, // 256x256
+                                                 size.height, 
+                                                 8,  // 8 bits per channel
+                                                 4 * size.width, // 256 pixels per row x 4 bytes per pixel
+                                                 colorSpace,
+                                                 kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
+
+    CGContextDrawImage(context, CGRectMake(0,0,size.width,size.height), image.CGImage);
+
+    CGImageRef cimage = CGBitmapContextCreateImage(context);
+    image = [UIImage imageWithCGImage:cimage];
+
+    CGContextRelease(context);
+
+    return image;
 }
 
 +(NSArray *)stamps {
@@ -95,37 +129,37 @@
 
         // Stamp objects start at Zoom Level 10
         // Regular trees
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom1"]]; // Level 10
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom1"]]; // Level 11
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom3"]]; // Level 12
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom3"]]; // Level 13
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom5"]]; // Level 14
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom5"]]; // Level 15
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom6"]]; // Level 16
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7"]]; // Level 17
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7"]]; // Level 18
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1"]]]; // Level 10
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1"]]]; // Level 11
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3"]]]; // Level 12
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3"]]]; // Level 13
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5"]]]; // Level 14
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5"]]]; // Level 15
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom6"]]]; // Level 16
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 17
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 18
 
         // Plots
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom1_plot"]]; // Level 10
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom1_plot"]]; // Level 11
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom3_plot"]]; // Level 12
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom3_plot"]]; // Level 13
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom5_plot"]]; // Level 14
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom5_plot"]]; // Level 15
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom6_plot"]]; // Level 16
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_plot"]]; // Level 17
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_plot"]]; // Level 18
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1_plot"]]]; // Level 10
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1_plot"]]]; // Level 11
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3_plot"]]]; // Level 12
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3_plot"]]]; // Level 13
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5_plot"]]]; // Level 14
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5_plot"]]]; // Level 15
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom6_plot"]]]; // Level 16
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 17
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 18
 
         // Highlight (same for all levels)
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 10
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 11
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 12
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 13
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 14
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 15
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 16
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 17
-        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 18
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 10
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 11
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 12
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 13
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 14
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 15
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 16
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 17
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 18
 
 
     }
