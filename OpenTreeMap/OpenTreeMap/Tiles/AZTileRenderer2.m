@@ -89,6 +89,19 @@
 }
 
 +(UIImage *)stampForZoom:(MKZoomScale)zoom plot:(BOOL)plot {
+    static NSMutableDictionary *memo = nil;
+    
+    NSString *cacheKey = [NSString stringWithFormat:@"%f:%d",zoom,plot];
+
+    if (!memo) {
+        memo = [NSMutableDictionary dictionary];
+    }
+
+    UIImage *value = [memo objectForKey:cacheKey];
+    if (value) {
+        return value;
+    }
+
     int baseScale = 18 + log2f(zoom); // OSM 18 level scale
     
     NSString *imageName;
@@ -122,7 +135,9 @@
     }
 
     
-    return [UIImage imageNamed:imageName];
+    UIImage *img = [UIImage imageNamed:imageName];
+    [memo setObject:img forKey:cacheKey];
+    return img;
 }
 
 @end
