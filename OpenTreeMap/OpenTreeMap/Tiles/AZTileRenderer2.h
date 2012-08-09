@@ -10,6 +10,18 @@
 #import "AZTile.h"
 #import "AZTiler.h"
 
+#define kAZTileRendererStampFirstLevel 10
+#define kAZTileRendererStampLastLevel 18
+#define kAZTileRendererStampOffsetRegular 0
+#define kAZTileRendererStampOffsetPlot ((kAZTileRendererStampLastLevel - \
+                                         kAZTileRendererStampFirstLevel)+1)
+
+#define kAZTileRendererStampOffsetHighlight (kAZTileRendererStampOffsetPlot + \
+                                             (kAZTileRendererStampLastLevel - \
+                                              kAZTileRendererStampFirstLevel)+1)
+
+typedef NSUInteger AZPointStyle;
+
 @interface AZTileRenderer2 : NSObject
 
 +(AZRenderedTile *)drawTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered;

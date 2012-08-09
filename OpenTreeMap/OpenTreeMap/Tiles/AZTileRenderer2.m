@@ -88,56 +88,58 @@
     }
 }
 
++(NSArray *)stamps {
+    static NSMutableArray *stamps = nil;
+    if (!stamps) {
+        stamps = [NSMutableArray array];
+
+        // Stamp objects start at Zoom Level 10
+        // Regular trees
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom1"]]; // Level 10
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom1"]]; // Level 11
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom3"]]; // Level 12
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom3"]]; // Level 13
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom5"]]; // Level 14
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom5"]]; // Level 15
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom6"]]; // Level 16
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7"]]; // Level 17
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7"]]; // Level 18
+
+        // Plots
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom1_plot"]]; // Level 10
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom1_plot"]]; // Level 11
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom3_plot"]]; // Level 12
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom3_plot"]]; // Level 13
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom5_plot"]]; // Level 14
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom5_plot"]]; // Level 15
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom6_plot"]]; // Level 16
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_plot"]]; // Level 17
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_plot"]]; // Level 18
+
+        // Highlight (same for all levels)
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 10
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 11
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 12
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 13
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 14
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 15
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 16
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 17
+        [stamps addObject:[UIImage imageNamed:@"tree_zoom7_highlight"]]; // Level 18
+
+
+    }
+
+    return stamps;
+}
+    
+
+
 +(UIImage *)stampForZoom:(MKZoomScale)zoom plot:(BOOL)plot {
-    static NSMutableDictionary *memo = nil;
-    
-    NSString *cacheKey = [NSString stringWithFormat:@"%f:%d",zoom,plot];
-
-    if (!memo) {
-        memo = [NSMutableDictionary dictionary];
-    }
-
-    UIImage *value = [memo objectForKey:cacheKey];
-    if (value) {
-        return value;
-    }
-
     int baseScale = 18 + log2f(zoom); // OSM 18 level scale
-    
-    NSString *imageName;
-    switch(baseScale) {
-        case 10:
-        case 11:
-            imageName = @"tree_zoom1";
-            break;
-        case 12:
-        case 13:
-            imageName = @"tree_zoom3";
-            break;
-        case 14:
-        case 15:
-            imageName = @"tree_zoom5";
-            break;
-        case 16:
-            imageName = @"tree_zoom6";
-            break;
-        case 17:
-        case 18:
-            imageName = @"tree_zoom7";
-            break;
-        default:
-            imageName = @"tree_zoom1";
-            break;
-    }
-
-    if (plot) {
-        imageName = [NSString stringWithFormat:@"%@_plot", imageName];
-    }
-
-    
-    UIImage *img = [UIImage imageNamed:imageName];
-    [memo setObject:img forKey:cacheKey];
-    return img;
+    baseScale = MAX(baseScale, kAZTileRendererStampFirstLevel);
+    return [[self stamps] objectAtIndex:
+            (baseScale - kAZTileRendererStampFirstLevel + (plot? kAZTileRendererStampOffsetPlot : 0))];
 }
 
 @end
