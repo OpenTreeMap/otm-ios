@@ -475,6 +475,7 @@
         [self hideFilterStatus];
     }
     [filterTilePointOffsetOverlayView setFilters:f];
+    [filterTilePointOffsetOverlayView setNeedsDisplayInMapRect:MKMapRectWorld]; // Invalidate the darn thing
     // TODO: hide the wizard label
 }
 
