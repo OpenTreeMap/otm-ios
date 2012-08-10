@@ -172,6 +172,9 @@
 		D7DE86C015D14DEF0063D0B6 /* AZTiler.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */; };
 		D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86C215D14E060063D0B6 /* AZPointParser.m */; };
 		D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF1953158240DE0099B973 /* AZTileQueue.m */; };
+		D7EF4A3E15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
+		D7EF4A4015D2E5E10014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
+		D7EF4A4315D2ECF80014A685 /* AZTileRenderer2.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A4215D2ECF80014A685 /* AZTileRenderer2.m */; };
 		D7F352BE156BEFAF00E54060 /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */; };
 		D7F352BF156BEFAF00E54060 /* tree_zoom3_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */; };
 		D7F352C0156BEFAF00E54060 /* tree_zoom5_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */; };
@@ -429,6 +432,10 @@
 		D7DE86C215D14E060063D0B6 /* AZPointParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointParser.m; sourceTree = "<group>"; };
 		D7EF1952158240DE0099B973 /* AZTileQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileQueue.h; sourceTree = "<group>"; };
 		D7EF1953158240DE0099B973 /* AZTileQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileQueue.m; sourceTree = "<group>"; };
+		D7EF4A3C15D2E53E0014A685 /* AZTilePointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTilePointOffsetOverlayView.h; sourceTree = "<group>"; };
+		D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTilePointOffsetOverlayView.m; sourceTree = "<group>"; };
+		D7EF4A4115D2ECF80014A685 /* AZTileRenderer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileRenderer2.h; sourceTree = "<group>"; };
+		D7EF4A4215D2ECF80014A685 /* AZTileRenderer2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileRenderer2.m; sourceTree = "<group>"; };
 		D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom1_plot.png; path = map_icons/tree_zoom1_plot.png; sourceTree = "<group>"; };
 		D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom3_plot.png; path = map_icons/tree_zoom3_plot.png; sourceTree = "<group>"; };
 		D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom5_plot.png; path = map_icons/tree_zoom5_plot.png; sourceTree = "<group>"; };
@@ -769,12 +776,16 @@
 		D7DE86B915D14DAA0063D0B6 /* Tiles */ = {
 			isa = PBXGroup;
 			children = (
+				D7EF4A3C15D2E53E0014A685 /* AZTilePointOffsetOverlayView.h */,
+				D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */,
 				D7DE86BB15D14DD60063D0B6 /* AZTile.h */,
 				D7DE86BC15D14DD60063D0B6 /* AZTile.m */,
 				D7DE86BE15D14DEF0063D0B6 /* AZTiler.h */,
 				D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */,
 				D7DE86C115D14E060063D0B6 /* AZPointParser.h */,
 				D7DE86C215D14E060063D0B6 /* AZPointParser.m */,
+				D7EF4A4115D2ECF80014A685 /* AZTileRenderer2.h */,
+				D7EF4A4215D2ECF80014A685 /* AZTileRenderer2.m */,
 			);
 			path = Tiles;
 			sourceTree = "<group>";
@@ -1154,8 +1165,10 @@
 				643ED26415C3196000BD4461 /* OTMFilterStatusView.m in Sources */,
 				D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */,
 				D7DE86BD15D14DD60063D0B6 /* AZTile.m in Sources */,
+				D7EF4A4015D2E5E10014A685 /* AZTilePointOffsetOverlayView.m in Sources */,
 				D7DE86C015D14DEF0063D0B6 /* AZTiler.m in Sources */,
 				D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */,
+				D7EF4A4315D2ECF80014A685 /* AZTileRenderer2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,6 +1188,7 @@
 				D72BF66415177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */,
 				D72BF66A151785B300AB6664 /* OTMUser.m in Sources */,
 				D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */,
+				D7EF4A3E15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,8 +1236,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Azavea Inc.";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Azavea Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1236,6 +1250,8 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -1292,7 +1308,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos5.0]" = "iPhone Distribution: Azavea Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos5.0]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1312,6 +1328,7 @@
 					"-ObjC",
 					"-all_load",
 				);
+				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1323,7 +1340,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Azavea Inc.";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -1331,11 +1348,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"-g3",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
+				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
@@ -1369,7 +1390,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
@@ -1383,6 +1404,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=*]" = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "../lib/asi/Classes/** ../DerivedData/opentreemap/Build/Products/three20/**";
 				WRAPPER_EXTENSION = app;
