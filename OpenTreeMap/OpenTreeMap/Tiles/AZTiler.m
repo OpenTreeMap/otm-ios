@@ -123,7 +123,8 @@
 -(void)sendTileRequestWithMapRect:(MKMapRect)mapRect
                         zoomScale:(MKZoomScale)zs
                            region:(MKCoordinateRegion)region {
-    if ([tiles objectForKey:[self tileKeyWithMapRect:mapRect zoomScale:zs]] == nil) {
+    AZTile *tile = [tiles objectForKey:[self tileKeyWithMapRect:mapRect zoomScale:zs]];
+    if (tile == nil) {
         AZTileDownloadRequest *dlreq = [[AZTileDownloadRequest alloc] 
                                                initWithRegion:region
                                                       mapRect:mapRect
@@ -132,12 +133,64 @@
                     onQueue:waitingForDownloadQueue
                      withOp:waitingForDownloadOpQueue
                  onComplete:@selector(doAsyncTileDownload:)];
-    }
+    } else {
+        [self enqueueObject:tile
+                    onQueue:waitingForRenderQueue
+                     withOp:waitingForRenderOpQueue
+                 onComplete:@selector(renderTile:)];
+    }   
 }
 
 -(UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
     return [[renderedTiles objectForKey:[self tileKeyWithMapRect:mapRect
                                                        zoomScale:zoomScale]] image];
+}
+
+-(void)clearTilesWithZoomScale:(MKZoomScale)zoomScale andPoints:(BOOL)points {
+    NSUInteger count = 0;
+    @synchronized (tiles) {
+        for(NSString *key in [tiles allKeys]) {
+            if ([key hasSuffix:[NSString stringWithFormat:@"%f", zoomScale]]) {
+                count++;
+                if (points) { [tiles removeObjectForKey:key]; }
+                [renderedTiles removeObjectForKey:key];
+            }
+        }
+    }
+    NSLog(@"[AZTiler] Purged %d tiles",count);
+}
+
+-(void)clearTilesNotAtZoomScale:(MKZoomScale)zoomScale andPoints:(BOOL)points {
+    NSUInteger count = 0;
+    @synchronized (tiles) {
+        for(NSString *key in [tiles allKeys]) {
+            if (![key hasSuffix:[NSString stringWithFormat:@"%f", zoomScale]]) {
+                count++;
+                if (points) { [tiles removeObjectForKey:key]; }
+                [renderedTiles removeObjectForKey:key];
+            }
+        }
+    }
+    NSLog(@"[AZTiler] Purged %d tiles",count);
+}
+
+-(void)clearTilesContainingPoint:(MKMapPoint)mapPoint andPoints:(BOOL)points {
+    @synchronized (tiles) {
+        for(AZTile *tile in [tiles allValues]) {            
+            if (MKMapRectContainsPoint(tile.mapRect, mapPoint)) {
+                NSArray *matchingTiles = [[self tilesSurroundingMapRect:tile.mapRect
+                                                              zoomScale:tile.zoomScale] allValues];
+
+                [renderedTiles removeObjectForKey:[self tileKey:tile]];
+                if (points) { [tiles removeObjectForKey:[self tileKey:tile]]; }
+
+                for(AZTile *atile in matchingTiles) {
+                    [renderedTiles removeObjectForKey:[self tileKey:atile]];
+                    if (points) { [tiles removeObjectForKey:[self tileKey:atile]]; }
+                }
+            }
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -301,6 +354,8 @@
     @synchronized(waitingForDownloadQueue) {
         [waitingForDownloadQueue sortUsingComparator:cmp];
     }
+
+    NSLog(@"Sorted tile request queues");
 }
 
 
@@ -396,7 +451,7 @@
 }
 
 -(NSString *)tileKeyWithMapRect:(MKMapRect)m zoomScale:(MKZoomScale)zs {
-    return [NSString stringWithFormat:@"tile:%@:%f",MKStringFromMapRect(m),zs];
+    return [NSString stringWithFormat:@"tile:%@:zoom=%f",MKStringFromMapRect(m),zs];
 }
 
 -(NSString *)tileKey:(AZTile *)t {

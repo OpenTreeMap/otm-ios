@@ -82,6 +82,9 @@ typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect r
 
 -(id)init;
 
+/**
+ * Request that the tiler send a tile request
+ */
 -(void)sendTileRequestWithMapRect:(MKMapRect)mapRect
                         zoomScale:(MKZoomScale)zs
                            region:(MKCoordinateRegion)region;
@@ -97,5 +100,27 @@ typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect r
  * the given zoom scale
  */
 -(void)sortWithMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+
+/**
+ * Clear all tiles with the specified zoom scale
+ *
+ * If andPoints is YES also clear out the backing points
+ */
+-(void)clearTilesWithZoomScale:(MKZoomScale)zoomScale andPoints:(BOOL)points;
+
+/**
+ * Clear all tiles that are not at the specified zoom scale
+ *
+ * If andPoints is YES also clear out the backing points
+ */
+-(void)clearTilesNotAtZoomScale:(MKZoomScale)zoomScale andPoints:(BOOL)points;
+
+/**
+ * Clear all tiles that contain the given point
+ *
+ * If andPoints is YES also clear out the backing points
+ */
+-(void)clearTilesContainingPoint:(MKMapPoint)mapPoint andPoints:(BOOL)points;
+
 
 @end

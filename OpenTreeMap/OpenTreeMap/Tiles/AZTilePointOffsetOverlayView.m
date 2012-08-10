@@ -84,4 +84,8 @@
     
 }
 
+- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate {
+    [self.tiler clearTilesContainingPoint:MKMapPointForCoordinate(coordinate) andPoints:YES];
+}
+
 @end

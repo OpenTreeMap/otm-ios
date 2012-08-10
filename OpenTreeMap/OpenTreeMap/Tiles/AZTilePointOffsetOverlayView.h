@@ -27,4 +27,6 @@
 
 @property (nonatomic,strong) AZTiler *tiler;
 
+- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate;
+
 @end
