@@ -22,6 +22,7 @@
 
 @synthesize boundingMapRect; // from <MKOverlay>
 @synthesize coordinate;      // from <MKOverlay>
+@synthesize overlayId;
 
 -(id) init {
     self = [super init];

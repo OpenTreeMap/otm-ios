@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AZTile.h"
 #import "AZTiler.h"
+#import "OTMFilterListViewController.h"
 
 #define kAZTileRendererStampFirstLevel 10
 #define kAZTileRendererStampLastLevel 18
@@ -24,7 +25,7 @@ typedef NSUInteger AZPointStyle;
 
 @interface AZTileRenderer2 : NSObject
 
-+(AZRenderedTile *)drawTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered;
++(AZRenderedTile *)drawTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters;
 
 +(UIImage *)stampForZoom:(MKZoomScale)zoom plot:(BOOL)plot;
 

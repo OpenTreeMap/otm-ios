@@ -20,4 +20,6 @@
 
 @interface AZPointOffsetOverlay : NSObject <MKOverlay>
 
+@property (nonatomic,assign) NSUInteger overlayId;
+
 @end

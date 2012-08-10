@@ -13,7 +13,7 @@
 
 @implementation AZTileRenderer2
 
-+(AZRenderedTile *)drawTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered {
++(AZRenderedTile *)drawTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters {
     if (rendered == nil) {
         rendered = [[AZRenderedTile alloc] init];
     }
@@ -35,7 +35,8 @@
               zoomScale:tile.zoomScale
                 xOffset:0
                 yOffset:0
-                context:context];
+                context:context
+                filters:filters];
     } else { // Otherwise, draw the image
         CGContextDrawImage(context, CGRectMake(0,0,256,256), rendered.image.CGImage);
     }
@@ -61,7 +62,8 @@
                   zoomScale:tile.zoomScale
                     xOffset:xoff
                     yOffset:yoff
-                    context:context];        
+                    context:context
+                    filters:filters];        
 
         }
     }
@@ -83,17 +85,36 @@
        zoomScale:(MKZoomScale)zoomScale
          xOffset:(CGFloat)xoffset
          yOffset:(CGFloat)yoffset
-         context:(CGContextRef)context {
+         context:(CGContextRef)context
+         filters:(OTMFilters *)filters {
 
     NSArray *stampArray = [self stamps];
+
+    // Drawing options.
+    // If [filters active]:
+    //    if [bit filters]:
+    //       if point->style & filterbits > 0:
+    //          stamp = HighLightStamp
+    //       else
+    //          stamp = nil
+    //    else
+    //          stamp = HighLightStamp
+    // else:
+    //     normal plot
 
     int baseScale = 18 + log2f(zoomScale); // OSM 18 level scale
     baseScale = MIN(MAX(baseScale, kAZTileRendererStampFirstLevel), 18);
     NSUInteger regularTreeIdx = baseScale - kAZTileRendererStampFirstLevel;
     NSUInteger plotIdx = baseScale - kAZTileRendererStampFirstLevel + kAZTileRendererStampOffsetPlot;
+    NSUInteger searchIdx = baseScale - kAZTileRendererStampFirstLevel + kAZTileRendererStampOffsetHighlight;
 
     CGImageRef plotStamp = [[stampArray objectAtIndex:plotIdx] CGImage];
     CGImageRef treeStamp = [[stampArray objectAtIndex:regularTreeIdx] CGImage];
+    CGImageRef searchStamp = [[stampArray objectAtIndex:searchIdx] CGImage];
+
+    BOOL filtersActive = filters != nil;
+    BOOL bitFiltersActive = [filters standardFiltersActive];
+    uint8_t filterBits = filters.missingTree | (filters.missingDBH << 1) | (filters.missingSpecies << 2);
 
     size_t h = 0;
     size_t w = 0;
@@ -101,22 +122,41 @@
     CGImageRef stamp;
 
     for(int i=0;i<points.length;i++) {
+        stamp = NULL;
         AZPoint *p = points.pointer[i];
-        if ((p->style & 0x1) == 0x1) {
-            stamp = treeStamp;
+        
+        if (filtersActive) {
+            if (bitFiltersActive) {
+                // Invert from present to missing and
+                // mask by '111' since we only care about
+                // those three bits
+                if ((((~p->style) & 0x6) & filterBits) > 0) { 
+                    stamp = searchStamp;
+                } else {
+                    stamp = NULL;
+                }
+            } else {
+                stamp = searchStamp;
+            }
         } else {
-            stamp = plotStamp;
+            if ((p->style & 0x1) == 0x1) {
+                stamp = treeStamp;
+            } else {
+                stamp = plotStamp;
+            }
         }
 
-        w = CGImageGetWidth(stamp);
-        h = CGImageGetHeight(stamp);
-        CGRect baseRect = CGRectMake(-((CGFloat)w) / 2.0f,
-                                     -((CGFloat)h) / 2.0f,
-                                     w, h);
+        if (stamp != NULL) {
+            w = CGImageGetWidth(stamp);
+            h = CGImageGetHeight(stamp);
+            CGRect baseRect = CGRectMake(-((CGFloat)w) / 2.0f,
+                                         -((CGFloat)h) / 2.0f,
+                                         w, h);
    
-        CGRect rect = CGRectOffset(baseRect, p->xoffset + xoffset, 255 - p->yoffset + yoffset);
+            CGRect rect = CGRectOffset(baseRect, p->xoffset + xoffset, 255 - p->yoffset + yoffset);
 
-        CGContextDrawImage(context, rect, stamp);
+            CGContextDrawImage(context, rect, stamp);
+        }
     }
 }
 
@@ -171,15 +211,15 @@
         [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 18
 
         // Highlight (same for all levels)
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 10
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 11
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 12
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 13
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 14
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 15
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 16
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 17
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_highlight"]]]; // Level 18
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 10
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 11
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 12
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 13
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 14
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 15
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 16
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 17
+        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 18
 
 
     }

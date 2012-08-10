@@ -103,7 +103,7 @@
 
 @implementation AZTiler
 
-@synthesize renderCallback;
+@synthesize renderCallback, filters;
 
 -(id)init {
     self = [super init];
@@ -123,6 +123,7 @@
 -(void)sendTileRequestWithMapRect:(MKMapRect)mapRect
                         zoomScale:(MKZoomScale)zs
                            region:(MKCoordinateRegion)region {
+
     AZTile *tile = [tiles objectForKey:[self tileKeyWithMapRect:mapRect zoomScale:zs]];
     if (tile == nil) {
         AZTileDownloadRequest *dlreq = [[AZTileDownloadRequest alloc] 
@@ -144,6 +145,16 @@
 -(UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
     return [[renderedTiles objectForKey:[self tileKeyWithMapRect:mapRect
                                                        zoomScale:zoomScale]] image];
+}
+
+-(void)setFilters:(OTMFilters *)f {
+    filters = f;
+
+    // Clear all tiles
+    @synchronized (tiles) {
+        [tiles removeAllObjects];
+        [renderedTiles removeAllObjects];
+    }
 }
 
 -(void)clearTilesWithZoomScale:(MKZoomScale)zoomScale andPoints:(BOOL)points {
@@ -214,7 +225,6 @@
                                                                    region.center.longitude + region.span.longitudeDelta / 2.0,
                                                                    region.center.latitude + region.span.latitudeDelta / 2.0, 
                                                                    nil], @"bbox", nil];
-    id filters = nil; //TODO: FILTERS
     if (filters) {
         [params addEntriesFromDictionary:[filters filtersDict]];
     }
@@ -317,7 +327,7 @@
     }
     
     AZRenderedTile *rtile = [renderedTiles objectForKey:[self tileKey:tile]];
-    rtile = [AZTileRenderer2 drawTile:tile renderedTile:rtile];
+    rtile = [AZTileRenderer2 drawTile:tile renderedTile:rtile filters:filters];
 
     [renderedTiles setObject:rtile forKey:[self tileKey:tile]];
     

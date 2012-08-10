@@ -42,8 +42,8 @@ typedef enum {
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIBarButtonItem *findLocationButton;
     BOOL firstAppearance;
-    AZPointOffsetOverlayView *pointOffsetOverlayView;
     AZTilePointOffsetOverlayView *tilePointOffsetOverlayView;
+    AZTilePointOffsetOverlayView *filterTilePointOffsetOverlayView;
 }
 
 @property (nonatomic,strong) OTMFilters* filters;

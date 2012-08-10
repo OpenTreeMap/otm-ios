@@ -19,6 +19,7 @@
 #import <MapKit/MapKit.h>
 #import "AZGeoCache.h"
 #import "AZTiler.h"
+#import "OTMFilterListViewController.h"
 
 /**
  A view for rendering AZPointOffsetOverlay instances on a MapKit map.
@@ -26,6 +27,8 @@
 @interface AZTilePointOffsetOverlayView : MKOverlayView 
 
 @property (nonatomic,strong) AZTiler *tiler;
+@property (nonatomic,strong) OTMFilters *filters;
+@property (nonatomic,assign) BOOL filterOnlyLayer;
 
 - (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate;
 

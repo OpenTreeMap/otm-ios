@@ -36,6 +36,8 @@
 @interface OTMMapViewController ()
 - (void)setupMapView;
 
+- (void)disruptCoordinate:(CLLocationCoordinate2D)loc;
+
 -(void)slideDetailUpAnimated:(BOOL)anim;
 -(void)slideDetailDownAnimated:(BOOL)anim;
 /**
@@ -47,6 +49,15 @@
 @implementation OTMMapViewController
 
 @synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
+
+- (void)didReceiveMemoryWarning
+{
+    MKZoomScale currentZoomScale = mapView.bounds.size.width / mapView.visibleMapRect.size.width;
+    [tilePointOffsetOverlayView.tiler clearTilesNotAtZoomScale:currentZoomScale andPoints:YES];
+    [filterTilePointOffsetOverlayView.tiler clearTilesNotAtZoomScale:currentZoomScale andPoints:YES];
+
+    [super didReceiveMemoryWarning];
+}
 
 - (void)viewDidLoad
 {
@@ -334,7 +345,14 @@
     [mapView setDelegate:self];
     [self addGestureRecognizersToView:mapView];
 
-    [mapView addOverlay:[[AZPointOffsetOverlay alloc] init]];
+    AZPointOffsetOverlay *regular = [[AZPointOffsetOverlay alloc] init];
+    regular.overlayId = 0;
+
+    AZPointOffsetOverlay *filter = [[AZPointOffsetOverlay alloc] init];
+    filter.overlayId = 1;
+
+    [mapView addOverlay:filter];
+    [mapView addOverlay:regular];
 }
 
 - (void)addGestureRecognizersToView:(UIView *)view
@@ -456,7 +474,7 @@
     } else {
         [self hideFilterStatus];
     }
-    pointOffsetOverlayView.filters = f;
+    [filterTilePointOffsetOverlayView setFilters:f];
     // TODO: hide the wizard label
 }
 
@@ -630,6 +648,7 @@
 
     [[[OTMEnvironment sharedEnvironment] api] setVisibleMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
     [tilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
+    [filterTilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
 
     [SharedAppDelegate setMapRegion:region];
 
@@ -657,10 +676,11 @@
     if (!tilePointOffsetOverlayView) {
         tilePointOffsetOverlayView = [[AZTilePointOffsetOverlayView alloc] initWithOverlay:overlay];
     }
-    if (!pointOffsetOverlayView) {
-        pointOffsetOverlayView = [[AZPointOffsetOverlayView alloc] initWithOverlay:overlay];
+    if (!filterTilePointOffsetOverlayView) {
+        filterTilePointOffsetOverlayView = [[AZTilePointOffsetOverlayView alloc] initWithOverlay:overlay];
+        filterTilePointOffsetOverlayView.filterOnlyLayer = YES;
     }
-    return tilePointOffsetOverlayView;
+    return ((AZPointOffsetOverlay*)overlay).overlayId == 0? tilePointOffsetOverlayView : filterTilePointOffsetOverlayView;
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
@@ -825,57 +845,32 @@
 
 #pragma mark OTMTreeDetailViewDelegate methods
 
+- (void)disruptCoordinate:(CLLocationCoordinate2D)coordinate {
+    [tilePointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+    [tilePointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+    [filterTilePointOffsetOverlayView disruptCacheForCoordinate:coordinate];
+    [filterTilePointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+}
+
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details
 {
     [self changeMode:Select];
     CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
-
-    // [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
-    // [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+    
+    [self disruptCoordinate:coordinate];
 
     [self selectPlot:details];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (BOOL)plotEditRequiresNewTiles:(NSDictionary *)newData originalCoordinate:(CLLocationCoordinate2D)originalCoordinate originalData:(NSDictionary *)originalData
-{
-    if ([newData objectForKey:@"tree"]) {
-        if (![originalData objectForKey:@"tree"]) {
-            return YES;
-        }
-    }
-
-    if ([newData objectForKey:@"tree"] == [NSNull null]) {
-        if ([originalData objectForKey:@"tree"] != [NSNull null]) {
-            return YES;
-        }
-    }
-
-    if (![newData objectForKey:@"tree"]) {
-        if ([originalData objectForKey:@"tree"]) {
-            return YES;
-        }
-    }
-
-    if ([newData objectForKey:@"tree"] != [NSNull null]) {
-        if ([originalData objectForKey:@"tree"] == [NSNull null]) {
-            return YES;
-        }
-    }
-
-    CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:newData];
-    return newCoordinate.latitude != originalCoordinate.latitude || newCoordinate.longitude != originalCoordinate.longitude;
-}
-
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData
 {
-    if ([self plotEditRequiresNewTiles:details originalCoordinate:coordinate originalData:originalData]) {
-        CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
-        [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
-        [pointOffsetOverlayView disruptCacheForCoordinate:newCoordinate];
-        [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
-        [self selectPlot:details];
-    }
+    CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
+
+    [self disruptCoordinate:coordinate];
+    [self disruptCoordinate:newCoordinate];
+
+    [self selectPlot:details];
 
     self.selectedPlot = [details mutableDeepCopy];
     [self setDetailViewData:details];
@@ -884,8 +879,9 @@
 - (void)plotDeletedByViewController:(OTMTreeDetailViewController *)viewController
 {
     CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:selectedPlot];
-    [pointOffsetOverlayView disruptCacheForCoordinate:coordinate];
-    [pointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
+
+    [self disruptCoordinate:coordinate];
+
     [self clearSelectedTree];
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -23,7 +23,7 @@
 
 @implementation AZTilePointOffsetOverlayView
 
-@synthesize tiler;
+@synthesize tiler, filterOnlyLayer;
 
 - (id)initWithOverlay:(id<MKOverlay>)overlay {
     if (self = [super initWithOverlay:overlay]) {
@@ -35,6 +35,14 @@
     }
     
     return self;
+}
+
+- (void)setFilters:(OTMFilters *)f {
+    [tiler setFilters:f];
+}
+
+- (OTMFilters *)filters {
+    return [tiler filters];
 }
 
 #pragma mark MKOverlayView methods
@@ -55,6 +63,9 @@
     //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.94971,-75.16255))) &&
     //       !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.94904,-75.16368)))) return;
 
+    // Just abort with a yes if filter only is set but filters are not
+    if (filterOnlyLayer && ([self filters] == nil || ![[self filters] active])) { return YES; }
+    
     UIImage *image = [tiler getImageForMapRect:mapRect zoomScale:zoomScale];
         
     if (!image) {
@@ -71,6 +82,9 @@
  */
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context 
 {   
+    // Don't draw anything if we are a filter-only layer but no filters are set or active
+    if (filterOnlyLayer && ([self filters] == nil || ![[self filters] active])) { return; }
+
     UIImage *imageData = [tiler getImageForMapRect:mapRect zoomScale:zoomScale];
 
     if (imageData) {

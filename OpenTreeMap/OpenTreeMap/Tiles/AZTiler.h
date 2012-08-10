@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AZPointParser.h"
 #import "AZTile.h"
+#import "OTMFilterListViewController.h"
 
 typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect rect, MKZoomScale zs);
 
@@ -79,6 +80,7 @@ typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect r
  * before a tile has all edges loaded (so some edge effects may result)
  */
 @property (nonatomic, copy) AZTilerTileLoadedCallback renderCallback;
+@property (nonatomic, strong) OTMFilters *filters;
 
 -(id)init;
 
