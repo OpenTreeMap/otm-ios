@@ -57,6 +57,11 @@ typedef NSString * AZDirection;
 @property (nonatomic, readonly) BOOL fullyLoaded;
 
 /**
+ * A key that can be used to cache this tile
+ */
+@property (nonatomic, readonly) NSString *cacheKey;
+
+/**
  * Create a new AZTile
  */
 -(id)initWithPoints:(AZPointerArrayWrapper *)points 
@@ -73,5 +78,7 @@ typedef NSString * AZDirection;
 -(AZTile *)createTileWithNeighborTile:(AZTile *)tile
                           atDirection:(AZDirection)d;
 
++(NSString *)tileKeyWithMapRect:(MKMapRect)m zoomScale:(MKZoomScale)zs;
++(NSString *)tileKey:(AZTile *)t;
 
 @end

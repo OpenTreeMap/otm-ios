@@ -251,8 +251,10 @@
     if (config != nil) {
         config(request);
     }
-    
+
+    #ifdef DEBUG
     [self logHttpRequest:request];
+    #endif
 
     if (synchronous) {
         [request startSynchronous];

@@ -10,7 +10,7 @@
 
 @implementation AZTile
 
-@synthesize points, borderTiles, mapRect, zoomScale;
+@synthesize points, borderTiles, mapRect, zoomScale, cacheKey;
 
 /**
  * Create a new AZTile
@@ -25,6 +25,7 @@
         borderTiles = b;
         mapRect = m;
         zoomScale = z;
+        cacheKey = [AZTile tileKeyWithMapRect:mapRect zoomScale:zoomScale];
     }
     return self;
 }
@@ -50,5 +51,14 @@
                      [borderTiles allKeys],
                      MKStringFromMapRect(mapRect)];
 }
+
++(NSString *)tileKeyWithMapRect:(MKMapRect)m zoomScale:(MKZoomScale)zs {
+    return [NSString stringWithFormat:@"tile:%@:zoom=%f",MKStringFromMapRect(m),zs];
+}
+
++(NSString *)tileKey:(AZTile *)t {
+    return t.cacheKey;
+}
+
 
 @end

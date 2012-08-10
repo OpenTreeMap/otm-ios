@@ -97,8 +97,6 @@
 
 -(MKMapRect)translateMapRect:(MKMapRect)m x:(double)x y:(double)y;
 
--(NSString *)tileKeyWithMapRect:(MKMapRect)m zoomScale:(MKZoomScale)zs;
-
 @end
 
 @implementation AZTiler
@@ -124,7 +122,7 @@
                         zoomScale:(MKZoomScale)zs
                            region:(MKCoordinateRegion)region {
 
-    AZTile *tile = [tiles objectForKey:[self tileKeyWithMapRect:mapRect zoomScale:zs]];
+    AZTile *tile = [tiles objectForKey:[AZTile tileKeyWithMapRect:mapRect zoomScale:zs]];
     if (tile == nil) {
         AZTileDownloadRequest *dlreq = [[AZTileDownloadRequest alloc] 
                                                initWithRegion:region
@@ -143,7 +141,7 @@
 }
 
 -(UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
-    return [[renderedTiles objectForKey:[self tileKeyWithMapRect:mapRect
+    return [[renderedTiles objectForKey:[AZTile tileKeyWithMapRect:mapRect
                                                        zoomScale:zoomScale]] image];
 }
 
@@ -192,12 +190,12 @@
                 NSArray *matchingTiles = [[self tilesSurroundingMapRect:tile.mapRect
                                                               zoomScale:tile.zoomScale] allValues];
 
-                [renderedTiles removeObjectForKey:[self tileKey:tile]];
-                if (points) { [tiles removeObjectForKey:[self tileKey:tile]]; }
+                [renderedTiles removeObjectForKey:[AZTile tileKey:tile]];
+                if (points) { [tiles removeObjectForKey:[AZTile tileKey:tile]]; }
 
                 for(AZTile *atile in matchingTiles) {
-                    [renderedTiles removeObjectForKey:[self tileKey:atile]];
-                    if (points) { [tiles removeObjectForKey:[self tileKey:atile]]; }
+                    [renderedTiles removeObjectForKey:[AZTile tileKey:atile]];
+                    if (points) { [tiles removeObjectForKey:[AZTile tileKey:atile]]; }
                 }
             }
         }
@@ -275,7 +273,7 @@
                                                                zoomScale:dlreq.zoomScale];
 
                            // Insert tile into cache
-                           [tiles setObject:tile forKey:[self tileKey:tile]];
+                           [tiles setObject:tile forKey:[AZTile tileKey:tile]];
 
                            // Update the surrounding tiles
                            NSMutableArray *newTiles = [NSMutableArray array];
@@ -283,7 +281,7 @@
                                AZTile *newTile = [atile createTileWithNeighborTile:tile
                                                                        atDirection:[self directionFrom:atile to:tile]];
                        
-                               [tiles setObject:newTile forKey:[self tileKey:newTile]];
+                               [tiles setObject:newTile forKey:[AZTile tileKey:newTile]];
                                [newTiles addObject:newTile];
                            }
 
@@ -320,16 +318,16 @@
     }
 
     // It's possible a fresher version of the tile exists...
-    AZTile *fresh = [tiles objectForKey:[self tileKey:tile]];
+    AZTile *fresh = [tiles objectForKey:[AZTile tileKey:tile]];
     
     if (fresh) {
         tile = fresh;
     }
     
-    AZRenderedTile *rtile = [renderedTiles objectForKey:[self tileKey:tile]];
+    AZRenderedTile *rtile = [renderedTiles objectForKey:[AZTile tileKey:tile]];
     rtile = [AZTileRenderer2 drawTile:tile renderedTile:rtile filters:filters];
 
-    [renderedTiles setObject:rtile forKey:[self tileKey:tile]];
+    [renderedTiles setObject:rtile forKey:[AZTile tileKey:tile]];
     
     if (renderCallback) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -388,14 +386,14 @@
     MKMapRect westRect      = [self translateMapRect:mapRect x:-width y:0];
     MKMapRect northWestRect = [self translateMapRect:mapRect x:-width y:height];
 
-    AZTile *north     = [tiles objectForKey:[self tileKeyWithMapRect:northRect     zoomScale:zoomScale]];
-    AZTile *northEast = [tiles objectForKey:[self tileKeyWithMapRect:northEastRect zoomScale:zoomScale]];
-    AZTile *east      = [tiles objectForKey:[self tileKeyWithMapRect:eastRect      zoomScale:zoomScale]];
-    AZTile *southEast = [tiles objectForKey:[self tileKeyWithMapRect:southEastRect zoomScale:zoomScale]];
-    AZTile *south     = [tiles objectForKey:[self tileKeyWithMapRect:southRect     zoomScale:zoomScale]];
-    AZTile *southWest = [tiles objectForKey:[self tileKeyWithMapRect:southWestRect zoomScale:zoomScale]];
-    AZTile *west      = [tiles objectForKey:[self tileKeyWithMapRect:westRect      zoomScale:zoomScale]];
-    AZTile *northWest = [tiles objectForKey:[self tileKeyWithMapRect:northWestRect zoomScale:zoomScale]];
+    AZTile *north     = [tiles objectForKey:[AZTile tileKeyWithMapRect:northRect     zoomScale:zoomScale]];
+    AZTile *northEast = [tiles objectForKey:[AZTile tileKeyWithMapRect:northEastRect zoomScale:zoomScale]];
+    AZTile *east      = [tiles objectForKey:[AZTile tileKeyWithMapRect:eastRect      zoomScale:zoomScale]];
+    AZTile *southEast = [tiles objectForKey:[AZTile tileKeyWithMapRect:southEastRect zoomScale:zoomScale]];
+    AZTile *south     = [tiles objectForKey:[AZTile tileKeyWithMapRect:southRect     zoomScale:zoomScale]];
+    AZTile *southWest = [tiles objectForKey:[AZTile tileKeyWithMapRect:southWestRect zoomScale:zoomScale]];
+    AZTile *west      = [tiles objectForKey:[AZTile tileKeyWithMapRect:westRect      zoomScale:zoomScale]];
+    AZTile *northWest = [tiles objectForKey:[AZTile tileKeyWithMapRect:northWestRect zoomScale:zoomScale]];
 
     NSMutableDictionary *neighbors = [NSMutableDictionary dictionary];
 
@@ -458,14 +456,6 @@
     if (west) { return kAZWest; }
 
     return nil;
-}
-
--(NSString *)tileKeyWithMapRect:(MKMapRect)m zoomScale:(MKZoomScale)zs {
-    return [NSString stringWithFormat:@"tile:%@:zoom=%f",MKStringFromMapRect(m),zs];
-}
-
--(NSString *)tileKey:(AZTile *)t {
-    return [self tileKeyWithMapRect:t.mapRect zoomScale:t.zoomScale];
 }
 
 -(void)enqueueObject:(id)obj 

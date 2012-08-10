@@ -26,7 +26,7 @@
                                                  8,  // 8 bits per channel
                                                  4 * 256, // 256 pixels per row x 4 bytes per pixel
                                                  colorSpace,
-                                                 kCGImageAlphaPremultipliedFirst);
+                                                 kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedFirst);
     CGColorSpaceRelease(colorSpace);
 
     // If there is no image, then we start be drawing the main points
@@ -90,17 +90,7 @@
 
     NSArray *stampArray = [self stamps];
 
-    // Drawing options.
-    // If [filters active]:
-    //    if [bit filters]:
-    //       if point->style & filterbits > 0:
-    //          stamp = HighLightStamp
-    //       else
-    //          stamp = nil
-    //    else
-    //          stamp = HighLightStamp
-    // else:
-    //     normal plot
+    CGRect frameRect = CGRectMake(0,0,25,256);
 
     int baseScale = 18 + log2f(zoomScale); // OSM 18 level scale
     baseScale = MIN(MAX(baseScale, kAZTileRendererStampFirstLevel), 18);
@@ -155,7 +145,9 @@
    
             CGRect rect = CGRectOffset(baseRect, p->xoffset + xoffset, 255 - p->yoffset + yoffset);
 
-            CGContextDrawImage(context, rect, stamp);
+            if (CGRectIntersectsRect(rect, frameRect)) {
+                CGContextDrawImage(context, rect, stamp);
+            }
         }
     }
 }
@@ -169,7 +161,7 @@
                                                  8,  // 8 bits per channel
                                                  4 * size.width, // 256 pixels per row x 4 bytes per pixel
                                                  colorSpace,
-                                                 kCGImageAlphaPremultipliedFirst);
+                                                 kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedFirst);
     CGColorSpaceRelease(colorSpace);
 
     CGContextDrawImage(context, CGRectMake(0,0,size.width,size.height), image.CGImage);
