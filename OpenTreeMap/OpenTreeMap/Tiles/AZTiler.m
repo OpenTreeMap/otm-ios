@@ -178,11 +178,18 @@
                        [NSException raise:@"main thread exception" format:@""];
                    }
 
-                   NSError *parseError = NULL;
-                   NSArray *points = [AZPointParser parseData:data error:&parseError];
-                   if (points == nil || parseError != NULL) {
+                   AZPointParserError parseError = 0;
+                   NSUInteger nPoints;
+                   AZPoint **pointsRaw = parseData([data bytes], [data length], &nPoints, &parseError);
+
+                   if (parseError != 0) {
                        NSLog(@"errororororor");
                    } else {
+                       // Wrap the points in an NSValue
+                       AZPointerArrayWrapper *points = [AZPointerArrayWrapper wrapperWithPointer:pointsRaw 
+                                                                                          length:nPoints
+                                                                                 deallocCallback:parserFreePoints()];
+
                        // Get all surrounding tiles               
                        //TODO: Not sure we need this @sync block here
                        // but it seems like it would be bad if we grabbed tiles from

@@ -79,7 +79,7 @@
     return rendered;
 }
 
-+(void)drawImage:(NSArray *)points
++(void)drawImage:(AZPointerArrayWrapper *)points
        zoomScale:(MKZoomScale)zoomScale
          xOffset:(CGFloat)xoffset
          yOffset:(CGFloat)yoffset
@@ -100,8 +100,9 @@
 
     CGImageRef stamp;
 
-    for(AZPoint *p in points) {        
-        if ((p.style & 0x1) == 0x1) {
+    for(int i=0;i<points.length;i++) {
+        AZPoint *p = points.pointer[i];
+        if ((p->style & 0x1) == 0x1) {
             stamp = treeStamp;
         } else {
             stamp = plotStamp;
@@ -112,8 +113,8 @@
         CGRect baseRect = CGRectMake(-((CGFloat)w) / 2.0f,
                                      -((CGFloat)h) / 2.0f,
                                      w, h);
-    
-        CGRect rect = CGRectOffset(baseRect, p.xoffset + xoffset, 255 - p.yoffset + yoffset);
+   
+        CGRect rect = CGRectOffset(baseRect, p->xoffset + xoffset, 255 - p->yoffset + yoffset);
 
         CGContextDrawImage(context, rect, stamp);
     }

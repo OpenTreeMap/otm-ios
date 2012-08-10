@@ -15,7 +15,7 @@
 /**
  * Create a new AZTile
  */
--(id)initWithPoints:(NSArray *)p 
+-(id)initWithPoints:(AZPointerArrayWrapper *)p 
         borderTiles:(NSDictionary *)b
             mapRect:(MKMapRect)m 
           zoomScale:(MKZoomScale)z {
@@ -46,7 +46,7 @@
 
 -(NSString *)description {
     return [NSString stringWithFormat:@"AZTile(npoints=%d,borderTiles=%@,mapRect=%@)",
-                     [points count],
+                     points.length,
                      [borderTiles allKeys],
                      MKStringFromMapRect(mapRect)];
 }

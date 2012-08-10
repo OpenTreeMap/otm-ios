@@ -8,18 +8,52 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AZPoint : NSObject
+typedef struct { 
+    uint8_t xoffset; 
+    uint8_t yoffset; 
+    uint8_t style; 
+} AZPoint;
 
-@property (nonatomic,readonly,assign) NSUInteger xoffset;
-@property (nonatomic,readonly,assign) NSUInteger yoffset;
-@property (nonatomic,readonly,assign) NSUInteger style;
+typedef enum {
+    AZPointParserBadLength = 1,
+    AZPointParserBadMagicNumber = 2,
+    AZPointParserBufferOverflow = 3,
+    AZPointParserMallocError = 4
+} AZPointParserError;
 
--(id)initWithXOffset:(NSUInteger)xoff yOffset:(NSUInteger)yoff style:(NSUInteger)style;
+/**
+ * Parse the raw byte data
+ *
+ * @param bytes the data
+ * @return array of AZPoints
+ * @return nPoints_ptr number of points in the returned array
+ */
+AZPoint** parseData(const uint8_t *bytes, uint32_t length, uint32_t *nPoints_ptr, AZPointParserError *error);
 
-@end
+static uint32_t parseSection(const uint8_t *bytes, uint32_t byte_offset, uint32_t byte_len,
+                             AZPoint **points, uint32_t *point_offset_ptr, uint32_t points_array_len, 
+                             AZPointParserError *error);
 
-@interface AZPointParser : NSObject
+/**
+ * Callback block that can be used to free the data structure returned by
+ * parse data
+ */
+Function1v parserFreePoints();
 
-+(NSArray *)parseData:(NSData *)data error:(NSError **)error;
+
+/**
+ * Wraps a pointer with a dealloc callback
+ */
+@interface AZPointerArrayWrapper : NSObject {
+    void ** pointer;
+    Function1v deallocCallback;
+    NSUInteger length;
+}
+
+@property (nonatomic,readonly) void** pointer;
+@property (nonatomic,readonly) NSUInteger length;
+
+-(id)initWithPointer:(void **)p length:(NSUInteger)length deallocCallback:(Function1v)cb;
++(AZPointerArrayWrapper *)wrapperWithPointer:(void **)p length:(NSUInteger)length deallocCallback:(Function1v)cb;
 
 @end

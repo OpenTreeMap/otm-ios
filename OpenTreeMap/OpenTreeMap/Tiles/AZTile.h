@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AZPointParser.h"
 
 #define kAZNorth @"kNorth"
 #define kAZNorthEast @"kNorthEast"
@@ -28,14 +29,14 @@ typedef NSString * AZDirection;
 @interface AZTile : NSObject
 
 /**
- * NSArray<*AZPoint>
+ * AZPointerArrayWrapper<**AZPoint>
  * List of all points in this tile. Do not modify this array or the points
  * within it.
  */
-@property (nonatomic, strong, readonly) NSArray *points;
+@property (nonatomic, strong, readonly) AZPointerArrayWrapper *points;
 
 /**
- * NSDictionary<AZDirection,NSArray>
+ * NSDictionary<AZDirection,AZPointerArrayWrapper<**AZPoint>>
  * Contains bordering tile points indexed by kAZNorth, etc
  */
 @property (nonatomic, strong, readonly) NSDictionary *borderTiles;
@@ -58,7 +59,7 @@ typedef NSString * AZDirection;
 /**
  * Create a new AZTile
  */
--(id)initWithPoints:(NSArray *)points 
+-(id)initWithPoints:(AZPointerArrayWrapper *)points 
         borderTiles:(NSDictionary *)borderTiles
             mapRect:(MKMapRect)mapRect
           zoomScale:(MKZoomScale)zoomScale;
