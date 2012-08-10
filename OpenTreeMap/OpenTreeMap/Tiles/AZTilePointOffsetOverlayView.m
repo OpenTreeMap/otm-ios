@@ -71,14 +71,16 @@
  */
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context 
 {   
-    UIGraphicsPushContext(context); 
-    
     UIImage *imageData = [tiler getImageForMapRect:mapRect zoomScale:zoomScale];
 
-    CGRect drawRect = [self rectForMapRect:mapRect];
-    CGContextDrawImage(context, drawRect, imageData.CGImage);
-    
-    UIGraphicsPopContext();
+    if (imageData) {
+        UIGraphicsPushContext(context); 
+
+        CGRect drawRect = [self rectForMapRect:mapRect];
+        CGContextDrawImage(context, drawRect, imageData.CGImage);
+
+        UIGraphicsPopContext();
+    }
     
 }
 

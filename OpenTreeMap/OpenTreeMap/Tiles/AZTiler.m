@@ -287,9 +287,6 @@
             }
     };
 
-    NSLog(@"Enqueue: Sorting %d objects (render)",[waitingForRenderQueue count]);
-    NSLog(@"Enqueue: Sorting %d objects (download)",[waitingForDownloadQueue count]);
-
     @synchronized(waitingForRenderQueue) {
         [waitingForRenderQueue sortUsingComparator:cmp];
     }
@@ -407,6 +404,10 @@
     @synchronized(queue) {
         [queue addObject:obj];
         [opQueue addOperation:[NSBlockOperation blockOperationWithBlock:^{
+                    if ([NSThread isMainThread]) {
+                        [NSException raise:@"main thread exception" format:@""];
+                    }
+
                     @synchronized (queue) {
                         id ar = nil;
                         if ([queue count] > 0) {
