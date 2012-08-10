@@ -22,7 +22,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, filters, pendingActive, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters;
 
 + (id)sharedEnvironment
 {
@@ -68,6 +68,7 @@
     
     self.apiKey = [implementation valueForKey:@"APIKey"];
     
+    fieldSections = [implementation objectForKey:@"fieldSections"];
     fields = [implementation objectForKey:@"fields"];
     filts = [implementation objectForKey:@"filters"];
 

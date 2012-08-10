@@ -538,8 +538,19 @@
     return [[curFields objectAtIndex:section] count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return nil;
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *title = nil;
+
+    NSDictionary *fieldSectionDict = [[[OTMEnvironment sharedEnvironment] fieldSections] objectAtIndex:section];
+    if (fieldSectionDict) {
+        if ([fieldSectionDict objectForKey:@"label"]) {
+            if (![(NSString *)[fieldSectionDict objectForKey:@"label"] isEqualToString:@""]) {
+                title = [fieldSectionDict objectForKey:@"label"];
+            }
+        }
+    }
+    return title;
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
