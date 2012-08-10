@@ -76,7 +76,7 @@
     UIImage *imageData = [tiler getImageForMapRect:mapRect zoomScale:zoomScale];
 
     CGRect drawRect = [self rectForMapRect:mapRect];
-    [imageData drawInRect:drawRect blendMode:kCGBlendModeNormal alpha:1.0];
+    CGContextDrawImage(context, drawRect, imageData.CGImage);
     
     UIGraphicsPopContext();
     

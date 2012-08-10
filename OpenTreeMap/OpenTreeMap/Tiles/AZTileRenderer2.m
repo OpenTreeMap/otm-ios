@@ -85,18 +85,37 @@
          yOffset:(CGFloat)yoffset
          context:(CGContextRef)context {
 
-    BOOL plot = (xoffset != 0.0 || yoffset != 0.0);
+    NSArray *stampArray = [self stamps];
+
+    int baseScale = 18 + log2f(zoomScale); // OSM 18 level scale
+    baseScale = MIN(MAX(baseScale, kAZTileRendererStampFirstLevel), 18);
+    NSUInteger regularTreeIdx = baseScale - kAZTileRendererStampFirstLevel;
+    NSUInteger plotIdx = baseScale - kAZTileRendererStampFirstLevel + kAZTileRendererStampOffsetPlot;
+
+    CGImageRef plotStamp = [[stampArray objectAtIndex:plotIdx] CGImage];
+    CGImageRef treeStamp = [[stampArray objectAtIndex:regularTreeIdx] CGImage];
+
+    size_t h = 0;
+    size_t w = 0;
+
+    CGImageRef stamp;
 
     for(AZPoint *p in points) {        
-        UIImage *stamp = [self stampForZoom:zoomScale plot:plot];
+        if ((p.style & 0x1) == 0x1) {
+            stamp = treeStamp;
+        } else {
+            stamp = plotStamp;
+        }
 
-        CGRect baseRect = CGRectMake(-stamp.size.width / 2.0f,
-                                     -stamp.size.height / 2.0f,
-                                     stamp.size.width, stamp.size.height);
+        w = CGImageGetWidth(stamp);
+        h = CGImageGetHeight(stamp);
+        CGRect baseRect = CGRectMake(-((CGFloat)w) / 2.0f,
+                                     -((CGFloat)h) / 2.0f,
+                                     w, h);
     
         CGRect rect = CGRectOffset(baseRect, p.xoffset + xoffset, 255 - p.yoffset + yoffset);
 
-        CGContextDrawImage(context, rect, stamp.CGImage);
+        CGContextDrawImage(context, rect, stamp);
     }
 }
 
@@ -167,13 +186,4 @@
     return stamps;
 }
     
-
-
-+(UIImage *)stampForZoom:(MKZoomScale)zoom plot:(BOOL)plot {
-    int baseScale = 18 + log2f(zoom); // OSM 18 level scale
-    baseScale = MAX(baseScale, kAZTileRendererStampFirstLevel);
-    return [[self stamps] objectAtIndex:
-            (baseScale - kAZTileRendererStampFirstLevel + (plot? kAZTileRendererStampOffsetPlot : 0))];
-}
-
 @end
