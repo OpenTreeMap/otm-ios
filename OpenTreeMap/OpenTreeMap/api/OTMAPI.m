@@ -23,16 +23,9 @@
 #import "OTMAPI.h"
 #import "ASIHTTPRequest.h"
 #import "OTMReverseGeocodeOperation.h"
-#import "AZPointCollection.h"
-#import "AZTileQueue.h"
 #import "OTMEnvironment.h"
 
 @interface OTMAPI()
-+(int)parseSection:(NSData*)data 
-            offset:(uint32_t)offset 
-            points:(CFMutableArrayRef)points
-             error:(NSError**)error;
-
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
 +(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 
@@ -40,7 +33,7 @@
 
 @implementation OTMAPI
 
-@synthesize request, tileRequest, tileQueue, renderQueue;
+@synthesize request, tileRequest;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
     if (callback == nil) { return [^(id obj, id error) {} copy]; }
@@ -81,31 +74,8 @@
 
 -(id)init {
     if ((self = [super init])) {
-        tileQueue = [[AZTileQueue alloc] init];
-        tileQueue.api = self;
-        tileQueue.opQueue = [[NSOperationQueue alloc] init];
-        tileQueue.opQueue.maxConcurrentOperationCount = 3;
-
-        renderQueue = [[AZTileQueue alloc] init];
-        renderQueue.opQueue = [[NSOperationQueue alloc] init];
-        renderQueue.opQueue.maxConcurrentOperationCount = 2;
     }
     return self;
-}
-
--(void)setVisibleMapRect:(MKMapRect)r{
-    [renderQueue setVisibleMapRect:r];
-    [tileQueue setVisibleMapRect:r];
-}
-
--(void)setZoomScale:(MKZoomScale)z {
-    [renderQueue setZoomScale:z];
-    [tileQueue setZoomScale:z];
-}
-
--(void)setVisibleMapRect:(MKMapRect)r zoomScale:(MKZoomScale)z {
-    [renderQueue setVisibleMapRect:r zoomScale:z];
-    [tileQueue setVisibleMapRect:r zoomScale:z];
 }
 
 -(void)getSpeciesListWithCallback:(AZJSONCallback)callback {
@@ -191,143 +161,6 @@
                         }
                     }
                 }]];
-}
-
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region 
-                     filters:(OTMFilters *)filters
-                     mapRect:(MKMapRect)mapRect
-                   zoomScale:(MKZoomScale)zoomScale 
-                    callback:(AZPointDataCallback)callback {
-
-    [tileQueue queueRequest:[[AZTileRequest alloc] initWithRegion:region
-                                                      mapRect:mapRect
-                                                    zoomScale:zoomScale
-                                                      filters:filters
-                                                     callback:callback
-                                                    operation:^(AZTileRequest *r) {
-                    [self performGetPointOffsetsInTile:r.region
-                                               filters:r.filters
-                                               mapRect:r.mapRect
-                                             zoomScale:r.zoomScale
-                                              callback:r.callback];
-            }]];
-                                        
-}
-
--(void)performGetPointOffsetsInTile:(MKCoordinateRegion)region 
-                            filters:(OTMFilters *)filters
-                            mapRect:(MKMapRect)mapRect
-                          zoomScale:(MKZoomScale)zoomScale 
-                           callback:(AZPointDataCallback)callback {
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                         [NSString stringWithFormat:@"%f,%f,%f,%f", 
-                                                                   region.center.longitude - region.span.longitudeDelta / 2.0,
-                                                                   region.center.latitude - region.span.latitudeDelta / 2.0,
-                                                                   region.center.longitude + region.span.longitudeDelta / 2.0,
-                                                                   region.center.latitude + region.span.latitudeDelta / 2.0, 
-                                                                   nil], @"bbox", nil];
-
-    [params addEntriesFromDictionary:[filters filtersDict]];
-
-    [self.tileRequest getRaw:@"tiles"
-                  params:params
-                    mime:@"otm/trees"
-                callback:[OTMAPI liftResponse:^(id data, NSError* error) {
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    if (error != nil) { callback(nil, error); return; }
-                    uint32_t magic = 0;
-                    
-                    if ([data length] < 8) {
-                        // Signal error? Invalid datastream (too small)
-                        NSError* myError = [[NSError alloc] initWithDomain:@"otm.parse" 
-                                                                      code:0  
-                                                                  userInfo:[NSDictionary dictionaryWithObject:@"Header too short" forKey:@"error"]];
-                        
-                        callback(nil, myError);
-                        return;
-                    }
-                    
-                    [data getBytes:&magic length:4];
-                    
-                    uint32_t length = 0;
-                    uint32_t offset = 4;
-                    
-                    CFMutableArrayRef points = CFArrayCreateMutable(NULL, length, NULL);
-                    
-                    [data getBytes:&length range:NSMakeRange(offset, 4)];
-                    offset += 4;
-                    
-                    if (magic != 0xA3A5EA00) {
-                        NSError* myError = [[NSError alloc] initWithDomain:@"otm.parse" 
-                                                                      code:0  
-                                                                  userInfo:[NSDictionary dictionaryWithObject:@"Bad magic number (not 0xA3A5EA00)" forKey:@"error"]];
-                        
-                        callback(nil, myError);
-                        return;
-                    }
-                    
-                    NSError* sectionError = NULL;
-                    
-                    while(offset < [data length] && CFArrayGetCount(points) < length) {
-                        offset = [OTMAPI parseSection:data offset:offset points:points error:&sectionError];
-                        
-                        if (sectionError != NULL) {
-                            
-                            callback(nil, sectionError);
-                            return;
-                        }
-                    }
-            
-                    AZPointCollection *pcol = [[AZPointCollection alloc] initWithMapRect:mapRect
-                                                                               zoomScale:zoomScale
-                                                                                  points:points];
-            
-                    callback(pcol, nil);
-                    
-                    CFRelease(points);
-                    points = NULL;
-        });
-                }]];        
-}
-
-+(int)parseSection:(NSData*)data    
-            offset:(uint32_t)offset 
-            points:(CFMutableArrayRef)points
-             error:(NSError**)error {
-    
-    // Each section contains a simple header:
-    // [1 byte type][2 byte length           ][1 byte pad]
-    uint32_t sectionLength = 0;
-    uint32_t sectionType = 0;
-    
-    [data getBytes:&sectionType range:NSMakeRange(offset, 1)];
-    offset += 1;
-    
-    [data getBytes:&sectionLength range:NSMakeRange(offset, 2)];
-    offset += 2;
-    offset += 1; // Skip padding
-    
-    for(int i=0;i<sectionLength;i++) {
-        OTMPoint* const p = malloc(sizeof(OTMPoint));
-        p->xoffset = 0;
-        p->yoffset = 0;
-        p->style = sectionType;
-        
-        [data getBytes:&(p->xoffset) range:NSMakeRange(offset, 1)];
-        offset += 1;
-        
-        [data getBytes:&(p->yoffset) range:NSMakeRange(offset, 1)];
-        offset += 1;
-        
-        p->style = sectionType;
-        
-        CFArrayAppendValue(points, p);
-    }
-    
-    
-    return offset;   
 }
 
 -(void)savePlot:(NSDictionary *)plot withUser:(OTMUser *)user callback:(AZJSONCallback)callback {

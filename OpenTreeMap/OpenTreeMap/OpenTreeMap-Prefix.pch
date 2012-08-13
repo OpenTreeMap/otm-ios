@@ -39,7 +39,7 @@ typedef void (^Function3v)(id a, id b, id c);
 
 #ifdef DEBUG
 //#define NSLogD NSLog
-#define NSLogD
+#define NSLogD(args...)
 #else
-#define NSLogD
+#define NSLogD(args...)
 #endif

@@ -25,7 +25,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "OTMFilterListViewController.h"
 #import "AZHttpRequest.h"
-#import "AZPointCollection.h"
 #import "OTMUser.h"
 
 typedef enum {
@@ -39,12 +38,6 @@ typedef void(^AZGenericCallback)(id obj, NSError* error);
 typedef void(^AZJSONCallback)(id json, NSError* error);
 typedef void(^AZImageCallback)(UIImage* image, NSError* error);
 typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
-
-typedef struct { uint32_t xoffset; uint32_t yoffset; uint32_t style; } OTMPoint;
-
-typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
-
-@class AZTileQueue;
 
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
@@ -63,13 +56,6 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  */
 @property (nonatomic,strong) AZHttpRequest* tileRequest;
 @property (nonatomic,strong) AZHttpRequest* request;
-@property (nonatomic,readonly,strong) AZTileQueue *tileQueue;
-@property (nonatomic,readonly,strong) AZTileQueue *renderQueue;
-
-
--(void)setVisibleMapRect:(MKMapRect)r;
--(void)setZoomScale:(MKZoomScale)z;
--(void)setVisibleMapRect:(MKMapRect)r zoomScale:(MKZoomScale)z;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
 
@@ -107,31 +93,6 @@ typedef void(^AZPointDataCallback)(AZPointCollection* pcol, NSError* error);
  * @param imageid the image's id
  */
 -(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
-
-/**
- * Get point offsets for a given tile
- * To keep this method performant it uses a custom callback
- * Also note that this method uses a custom tile request queue
- * to order tile requests.
- *
- * @param region WSG84 Region, mapRect and zoomScale
- * @param callback the callback we get when we are done
- * @param error error pointer
- */
--(void)getPointOffsetsInTile:(MKCoordinateRegion)region 
-                     filters:(OTMFilters *)filters
-                     mapRect:(MKMapRect)mapRect
-                   zoomScale:(MKZoomScale)zoomScale 
-                    callback:(AZPointDataCallback)callback;
-
-
-// Perform a request right away
-// this request is perform on the tileRequest object
--(void)performGetPointOffsetsInTile:(MKCoordinateRegion)region 
-                            filters:(OTMFilters *)filters
-                            mapRect:(MKMapRect)mapRect
-                          zoomScale:(MKZoomScale)zoomScale 
-                           callback:(AZPointDataCallback)callback;
 
 /**
  * Attempt to log the given user in. If successful user.loggedIn will return

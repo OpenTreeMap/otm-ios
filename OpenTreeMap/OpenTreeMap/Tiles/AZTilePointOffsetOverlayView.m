@@ -17,9 +17,7 @@
 */
 #import "AZTilePointOffsetOverlayView.h"
 #import "AZPointOffsetOverlay.h"
-#import "AZTileRenderer.h"
 #import "AZTileCacheKey.h"
-#import "AZTileQueue.h"
 
 @implementation AZTilePointOffsetOverlayView
 

@@ -25,7 +25,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDetailViewController.h"
-#import "AZPointOffsetOverlayView.h"
 #import "AZTilePointOffsetOverlayView.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"

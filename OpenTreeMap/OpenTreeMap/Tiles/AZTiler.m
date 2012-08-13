@@ -590,7 +590,10 @@
                             [queue removeObjectAtIndex:[queue count] - 1];
                         }
                         if (ar) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
                             [self performSelector:selector withObject:ar];
+#pragma clang diagnostic pop
                         }
                     }
                 }]];

@@ -23,7 +23,6 @@
 #import "OTMMapViewController.h"
 #import "OTMFilterListViewController.h"
 #import "AZPointOffsetOverlay.h"
-#import "AZPointOffsetOverlayView.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
 #import "OTMTreeDetailViewController.h"
@@ -31,7 +30,6 @@
 #import "OTMDetailCellRenderer.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDictionaryHelper.h"
-#import "AZTileQueue.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -647,7 +645,6 @@
     
     MKZoomScale currentZoomScale = mView.bounds.size.width / mView.visibleMapRect.size.width;
 
-    [[[OTMEnvironment sharedEnvironment] api] setVisibleMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
     [tilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
     [filterTilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
 
