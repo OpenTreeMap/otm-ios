@@ -10,7 +10,7 @@
 
 Function1v parserFreePoints() {
     return ^(AZPointerArrayWrapper *par) {
-        AZPoint **p = par.pointer;
+        AZPoint **p = (AZPoint **)par.pointer;
         NSUInteger length = par.length;
         for(int i=0;i<length;i++) {
             void *ptr = p[i];
@@ -170,14 +170,27 @@ static uint32_t parseSection(const uint8_t *bytes, uint32_t byte_offset, uint32_
     return self;
 }
 
+-(void **)pointer {
+    if (pointer == NULL) {
+        [NSException raise:@"Invalid pointer access" format:@""];
+    }
+    return pointer;
+}
+
 +(AZPointerArrayWrapper *)wrapperWithPointer:(void **)p length:(NSUInteger)l deallocCallback:(Function1v)cb {
     return [[AZPointerArrayWrapper alloc] initWithPointer:p length:l deallocCallback:cb];
 }
 
--(void)dealloc {
+-(void)invalidate {
     if (deallocCallback) {
         deallocCallback(self);
     }
+    length = 0;
+    pointer = NULL;
+}
+
+-(void)dealloc {
+    [self invalidate];
 }
 
 @end

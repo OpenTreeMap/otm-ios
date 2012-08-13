@@ -25,13 +25,16 @@ typedef NSUInteger AZPointStyle;
 
 @interface AZTileRenderer2 : NSObject
 
-+(AZRenderedTile *)drawTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters;
++(AZRenderedTile *)createTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters;
 
 +(UIImage *)stampForZoom:(MKZoomScale)zoom plot:(BOOL)plot;
 
-+(void)drawImage:(NSArray *)points
+
++(void)drawImage:(AZPointerArrayWrapper *)points
        zoomScale:(MKZoomScale)zoomScale
          xOffset:(CGFloat)xoffset
-         yOffset:(CGFloat)yoffset;
+         yOffset:(CGFloat)yoffset
+         context:(CGContextRef)context
+         filters:(OTMFilters *)filters;
 
 @end

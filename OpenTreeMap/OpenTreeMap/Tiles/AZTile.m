@@ -45,6 +45,16 @@
                                 zoomScale:zoomScale];
 }
 
+-(AZTile *)createTileWithoutNeighborTileAtDirection:(AZDirection)d {
+    NSMutableDictionary *newborder = [NSMutableDictionary dictionaryWithDictionary:borderTiles];
+    [newborder removeObjectForKey:d];
+
+    return [[AZTile alloc] initWithPoints:points
+                              borderTiles:newborder
+                                  mapRect:mapRect
+                                zoomScale:zoomScale];
+}
+
 -(NSString *)description {
     return [NSString stringWithFormat:@"AZTile(npoints=%d,borderTiles=%@,mapRect=%@)",
                      points.length,
@@ -59,6 +69,5 @@
 +(NSString *)tileKey:(AZTile *)t {
     return t.cacheKey;
 }
-
 
 @end

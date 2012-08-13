@@ -13,12 +13,11 @@
 
 @implementation AZTileRenderer2
 
-+(AZRenderedTile *)drawTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters {
++(AZRenderedTile *)createTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters {
     if (rendered == nil) {
         rendered = [[AZRenderedTile alloc] init];
     }
 
-    CGSize frameSize = CGSizeMake(256, 256);
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = CGBitmapContextCreate(NULL, // Empty data pointer
                                                  256, // 256x256
@@ -38,7 +37,7 @@
                 context:context
                 filters:filters];
     } else { // Otherwise, draw the image
-        CGContextDrawImage(context, CGRectMake(0,0,256,256), rendered.image.CGImage);
+        CGContextDrawImage(context, CGRectMake(0,0,256,256), rendered.image);
     }
 
     for(AZDirection dir in [[tile borderTiles] allKeys]) {
@@ -73,11 +72,12 @@
     // CGContextStrokeRect(UIGraphicsGetCurrentContext(), CGRectMake(0,0,256,256));
 
     CGImageRef cimage = CGBitmapContextCreateImage(context);
-    UIImage* image = [UIImage imageWithCGImage:cimage];
 
     CGContextRelease(context);
 
-    rendered.image = image;
+    rendered.image = cimage;
+
+    CGImageRelease(cimage);
     return rendered;
 }
 
@@ -90,17 +90,15 @@
 
     NSArray *stampArray = [self stamps];
 
-    CGRect frameRect = CGRectMake(0,0,25,256);
-
     int baseScale = 18 + log2f(zoomScale); // OSM 18 level scale
     baseScale = MIN(MAX(baseScale, kAZTileRendererStampFirstLevel), 18);
     NSUInteger regularTreeIdx = baseScale - kAZTileRendererStampFirstLevel;
     NSUInteger plotIdx = baseScale - kAZTileRendererStampFirstLevel + kAZTileRendererStampOffsetPlot;
     NSUInteger searchIdx = baseScale - kAZTileRendererStampFirstLevel + kAZTileRendererStampOffsetHighlight;
 
-    CGImageRef plotStamp = [[stampArray objectAtIndex:plotIdx] CGImage];
-    CGImageRef treeStamp = [[stampArray objectAtIndex:regularTreeIdx] CGImage];
-    CGImageRef searchStamp = [[stampArray objectAtIndex:searchIdx] CGImage];
+    CGImageRef plotStamp = (__bridge CGImageRef)[stampArray objectAtIndex:plotIdx];
+    CGImageRef treeStamp = (__bridge CGImageRef)[stampArray objectAtIndex:regularTreeIdx];
+    CGImageRef searchStamp = (__bridge CGImageRef)[stampArray objectAtIndex:searchIdx];
 
     BOOL filtersActive = filters != nil;
     BOOL bitFiltersActive = [filters standardFiltersActive];
@@ -120,7 +118,7 @@
                 // Invert from present to missing and
                 // mask by '111' since we only care about
                 // those three bits
-                if ((((~p->style) & 0x6) & filterBits) > 0) { 
+                if ((((~p->style) & 0x7) & filterBits) > 0) { 
                     stamp = searchStamp;
                 } else {
                     stamp = NULL;
@@ -150,7 +148,7 @@
     }
 }
 
-+(UIImage *)mangleStamp:(UIImage *)image {
++(CGImageRef)createMangledStamp:(UIImage *)image {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGSize size = image.size;
     CGContextRef context = CGBitmapContextCreate(NULL, // Empty data pointer
@@ -165,11 +163,10 @@
     CGContextDrawImage(context, CGRectMake(0,0,size.width,size.height), image.CGImage);
 
     CGImageRef cimage = CGBitmapContextCreateImage(context);
-    image = [UIImage imageWithCGImage:cimage];
 
     CGContextRelease(context);
 
-    return image;
+    return cimage;
 }
 
 +(NSArray *)stamps {
@@ -179,37 +176,37 @@
 
         // Stamp objects start at Zoom Level 10
         // Regular trees
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1"]]]; // Level 10
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1"]]]; // Level 11
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3"]]]; // Level 12
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3"]]]; // Level 13
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5"]]]; // Level 14
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5"]]]; // Level 15
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom6"]]]; // Level 16
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 17
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 18
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom1"]]]; // Level 10
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom1"]]]; // Level 11
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom3"]]]; // Level 12
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom3"]]]; // Level 13
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom5"]]]; // Level 14
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom5"]]]; // Level 15
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom6"]]]; // Level 16
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 17
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 18
 
         // Plots
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1_plot"]]]; // Level 10
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom1_plot"]]]; // Level 11
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3_plot"]]]; // Level 12
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom3_plot"]]]; // Level 13
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5_plot"]]]; // Level 14
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom5_plot"]]]; // Level 15
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom6_plot"]]]; // Level 16
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 17
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 18
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom1_plot"]]]; // Level 10
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom1_plot"]]]; // Level 11
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom3_plot"]]]; // Level 12
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom3_plot"]]]; // Level 13
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom5_plot"]]]; // Level 14
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom5_plot"]]]; // Level 15
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom6_plot"]]]; // Level 16
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 17
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 18
 
         // Highlight (same for all levels)
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 10
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 11
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 12
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 13
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 14
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 15
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 16
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 17
-        [stamps addObject:[self mangleStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 18
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 10
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 11
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 12
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 13
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 14
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 15
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 16
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 17
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 18
 
 
     }

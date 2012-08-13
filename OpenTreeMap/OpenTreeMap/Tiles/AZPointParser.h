@@ -56,4 +56,9 @@ Function1v parserFreePoints();
 -(id)initWithPointer:(void **)p length:(NSUInteger)length deallocCallback:(Function1v)cb;
 +(AZPointerArrayWrapper *)wrapperWithPointer:(void **)p length:(NSUInteger)length deallocCallback:(Function1v)cb;
 
+/**
+ * Free the pointer and set the length to zero
+ */
+-(void)invalidate;
+
 @end

@@ -29,9 +29,16 @@
     if (self = [super initWithOverlay:overlay]) {
         __block AZTilePointOffsetOverlayView *blockSelf = self;
         tiler = [[AZTiler alloc] init];
-        tiler.renderCallback = ^(UIImage *image, BOOL done, MKMapRect r, MKZoomScale z) {
+        tiler.renderCallback = ^(CGImageRef image, BOOL done, MKMapRect r, MKZoomScale z) {
             [blockSelf setNeedsDisplayInMapRect:r zoomScale:z];
         };
+
+        // Don't keep chugging on cache clearing code
+        tiler.cacheClearPercent = .80;        
+        tiler.maxNumberOfTiles = 100;
+
+        // Estimate around 7 bytes per point
+        tiler.maxNumberOfPoints = 300000; // Should max out around 2 MB
     }
     
     return self;
@@ -52,29 +59,21 @@
  */
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale 
 {
-    //    if (1.0/zoomScale > 10) return;
-    //    if (!MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.94809,-75.16366))) &&
-    //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.95120,-75.16229))) &&
-    //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.94932,-75.16101))) &&
-    //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.95114,-75.16324))) &&
-    //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.95038,-75.16339))) &&
-    //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.94936,-75.16351))) &&
-    //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.95100,-75.16090))) &&
-    //     !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.94971,-75.16255))) &&
-    //       !MKMapRectContainsPoint(mapRect, MKMapPointForCoordinate(CLLocationCoordinate2DMake(39.94904,-75.16368)))) return;
-
-    // Just abort with a yes if filter only is set but filters are not
-    if (filterOnlyLayer && ([self filters] == nil || ![[self filters] active])) { return YES; }
-    
-    UIImage *image = [tiler getImageForMapRect:mapRect zoomScale:zoomScale];
-        
-    if (!image) {
-        [tiler sendTileRequestWithMapRect:mapRect
-                                zoomScale:zoomScale
-                                   region:MKCoordinateRegionForMapRect(mapRect)];
+    if (filterOnlyLayer && ([self filters] == nil || ![[self filters] active])) { 
+        return YES; 
     }
 
-    return image != nil;
+    __block BOOL imageFound = YES;
+    [tiler withImageForMapRect:mapRect zoomScale:zoomScale callback:^(CGImageRef image) {        
+            if (image == NULL) {
+                imageFound = NO;
+                [tiler sendTileRequestWithMapRect:mapRect
+                                        zoomScale:zoomScale
+                                           region:MKCoordinateRegionForMapRect(mapRect)];
+            }
+        }];
+
+    return imageFound;
 }
 
 /**
@@ -83,18 +82,20 @@
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context 
 {   
     // Don't draw anything if we are a filter-only layer but no filters are set or active
-    if (filterOnlyLayer && ([self filters] == nil || ![[self filters] active])) { return; }
-
-    UIImage *imageData = [tiler getImageForMapRect:mapRect zoomScale:zoomScale];
-
-    if (imageData) {
-        UIGraphicsPushContext(context); 
-
-        CGRect drawRect = [self rectForMapRect:mapRect];
-        CGContextDrawImage(context, drawRect, imageData.CGImage);
-
-        UIGraphicsPopContext();
+    if (filterOnlyLayer && ([self filters] == nil || ![[self filters] active])) {
+        return; 
     }
+
+    [tiler withImageForMapRect:mapRect zoomScale:zoomScale callback:^(CGImageRef imageData) {
+            if (imageData) {
+                UIGraphicsPushContext(context); 
+
+                CGRect drawRect = [self rectForMapRect:mapRect];
+                CGContextDrawImage(context, drawRect, imageData);
+
+                UIGraphicsPopContext();
+            }
+        }];
     
 }
 

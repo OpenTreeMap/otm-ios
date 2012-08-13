@@ -20,12 +20,24 @@
 -(id)init {
     self = [super init];
     if (self) {
-        self.image = nil;
+        self.image = NULL;
         self.pendingEdges = [NSMutableSet setWithObjects:
                                               kAZNorth,kAZNorthEast,kAZEast,kAZSouthEast,
                                           kAZSouth,kAZSouthWest,kAZWest,kAZNorthWest,nil];
     }
     return self;
+}
+
+-(void)setImage:(CGImageRef)iref {
+    if (iref != NULL) { CGImageRetain(iref); }
+    if (image != NULL) { CGImageRelease(image); }
+    image = iref;
+}
+
+-(void)dealloc {
+    if (image != NULL) {
+        CGImageRelease(image);
+    }
 }
 
 @end
@@ -101,7 +113,7 @@
 
 @implementation AZTiler
 
-@synthesize renderCallback, filters;
+@synthesize renderCallback, filters, maxNumberOfTiles, maxNumberOfPoints, cacheClearPercent;
 
 -(id)init {
     self = [super init];
@@ -112,6 +124,9 @@
         waitingForRenderQueue = [NSMutableOrderedSet orderedSet];
         waitingForDownloadOpQueue = [[NSOperationQueue alloc] init];
         waitingForDownloadQueue = [NSMutableOrderedSet orderedSet];
+        keyList = [NSMutableOrderedSet orderedSet];
+        cacheSizeInPoints = 0;
+        cacheClearPercent = 1.0;
 
         waitingForRenderOpQueue.maxConcurrentOperationCount = 1;
     }
@@ -140,18 +155,46 @@
     }   
 }
 
--(UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
-    return [[renderedTiles objectForKey:[AZTile tileKeyWithMapRect:mapRect
-                                                       zoomScale:zoomScale]] image];
+/**
+ * Check to see if an image has been loaded. This method does not wait for the
+ * lock on 
+ */
+-(BOOL)imageLoadedForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
+    return [renderedTiles objectForKey:[AZTile tileKeyWithMapRect:mapRect zoomScale:zoomScale]] != nil;
+}
+
+-(void)withImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale callback:(AZTileImageCallback)cb {
+    CGImageRef image = NULL;
+    @synchronized (renderedTiles) {
+        AZRenderedTile *rendered = [renderedTiles objectForKey:[AZTile tileKeyWithMapRect:mapRect
+                                                                                zoomScale:zoomScale]];
+        image = [rendered image];
+        if (image != NULL) {            
+            CGImageRetain(image);
+        }
+    }
+
+    if (cb) {
+        cb(image);
+        if (image != NULL) {
+            CGImageRelease(image);
+        }
+    }
+        
 }
 
 -(void)setFilters:(OTMFilters *)f {
     filters = f;
 
+    @synchronized (renderedTiles) {
+        [renderedTiles removeAllObjects];
+    }
+
     // Clear all tiles
     @synchronized (tiles) {
         [tiles removeAllObjects];
-        [renderedTiles removeAllObjects];
+        [keyList removeAllObjects];
+        cacheSizeInPoints = 0;
     }
 }
 
@@ -161,8 +204,7 @@
         for(NSString *key in [tiles allKeys]) {
             if ([key hasSuffix:[NSString stringWithFormat:@"%f", zoomScale]]) {
                 count++;
-                if (points) { [tiles removeObjectForKey:key]; }
-                [renderedTiles removeObjectForKey:key];
+                [self removeCachedTileImageWithKey:key andPointData:points];
             }
         }
     }
@@ -175,12 +217,45 @@
         for(NSString *key in [tiles allKeys]) {
             if (![key hasSuffix:[NSString stringWithFormat:@"%f", zoomScale]]) {
                 count++;
-                if (points) { [tiles removeObjectForKey:key]; }
-                [renderedTiles removeObjectForKey:key];
+                [self removeCachedTileImageWithKey:key andPointData:points];
             }
         }
     }
     NSLog(@"[AZTiler] Purged %d tiles",count);
+}
+
+-(void)removeCachedTileImage:(AZTile *)tile andPointData:(BOOL)andPointData {
+    NSString *key = [AZTile tileKey:tile];
+    [self removeCachedTileImageWithKey:key andPointData:andPointData];
+}
+
+-(void)removeCachedTileImageWithKey:(NSString *)key andPointData:(BOOL)andPointData {
+    @synchronized (renderedTiles) {
+        [renderedTiles removeObjectForKey:key];
+    }
+
+    @synchronized (tiles) {
+        if (andPointData) {
+            AZTile *tile = [tiles objectForKey:key];
+            if (tile && [tile points]) {
+                cacheSizeInPoints -= [[tile points] length];
+            }
+
+            NSDictionary *matchingTiles = [self tilesSurroundingMapRect:tile.mapRect
+                                                              zoomScale:tile.zoomScale];
+
+
+            for(AZTile *atile in [matchingTiles allValues]) {
+                AZTile *newTile = [atile createTileWithoutNeighborTileAtDirection:
+                                                              [self directionFrom:atile to:tile]];
+            
+                [tiles setObject:newTile forKey:[AZTile tileKey:newTile]];
+            }
+        
+            [tiles removeObjectForKey:key];
+            [keyList removeObject:key];
+        }
+    }
 }
 
 -(void)clearTilesContainingPoint:(MKMapPoint)mapPoint andPoints:(BOOL)points {
@@ -190,12 +265,10 @@
                 NSArray *matchingTiles = [[self tilesSurroundingMapRect:tile.mapRect
                                                               zoomScale:tile.zoomScale] allValues];
 
-                [renderedTiles removeObjectForKey:[AZTile tileKey:tile]];
-                if (points) { [tiles removeObjectForKey:[AZTile tileKey:tile]]; }
+                [self removeCachedTileImage:tile andPointData:points];
 
                 for(AZTile *atile in matchingTiles) {
-                    [renderedTiles removeObjectForKey:[AZTile tileKey:atile]];
-                    if (points) { [tiles removeObjectForKey:[AZTile tileKey:atile]]; }
+                    [self removeCachedTileImage:atile andPointData:points];
                 }
             }
         }
@@ -214,6 +287,8 @@
         [NSException raise:@"main thread exception" format:@""];
     }
 
+    __block AZTiler *blockSelf = self;
+    
     MKCoordinateRegion region = dlreq.region;
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -247,7 +322,7 @@
                        NSLog(@"errororororor");
                    } else {
                        // Wrap the points in an NSValue
-                       AZPointerArrayWrapper *points = [AZPointerArrayWrapper wrapperWithPointer:pointsRaw 
+                       AZPointerArrayWrapper *points = [AZPointerArrayWrapper wrapperWithPointer:(void **)pointsRaw 
                                                                                           length:nPoints
                                                                                  deallocCallback:parserFreePoints()];
 
@@ -272,8 +347,11 @@
                                                                  mapRect:dlreq.mapRect
                                                                zoomScale:dlreq.zoomScale];
 
-                           // Insert tile into cache
+                           // Insert tile into cache, and note the position
                            [tiles setObject:tile forKey:[AZTile tileKey:tile]];
+                           [keyList removeObject:[AZTile tileKey:tile]];
+                           [keyList addObject:[AZTile tileKey:tile]];
+                           cacheSizeInPoints += nPoints;
 
                            // Update the surrounding tiles
                            NSMutableArray *newTiles = [NSMutableArray array];
@@ -294,10 +372,32 @@
                                             withOp:waitingForRenderOpQueue
                                         onComplete:@selector(renderTile:)];
                            }
+                           
+                           [blockSelf purgeIfNeeded];
                        }
                    }
                });
        }]];
+}
+
+-(void)purgeIfNeeded {
+    if ([tiles count] <= maxNumberOfTiles && cacheSizeInPoints <= maxNumberOfPoints) {
+        return; // No need to do anything
+    }
+
+    @synchronized (tiles) {
+        NSUInteger count = 0;
+        while([tiles count] > 0 && [keyList count] > 0 &&
+              ([tiles count] > maxNumberOfTiles*cacheClearPercent || 
+               cacheSizeInPoints > maxNumberOfPoints*cacheClearPercent)) {
+            [self removeCachedTileImageWithKey:[keyList objectAtIndex:0] andPointData:YES];
+            count++;
+        }
+
+        if (count > 0) {
+            NSLog(@"[AZTiler] Forced purge of %d tiles and points", count);
+        }
+    }
 }
 
 -(AZDirection)inverse:(AZDirection)d {
@@ -317,17 +417,30 @@
         [NSException raise:@"main thread exception" format:@""];
     }
 
-    // It's possible a fresher version of the tile exists...
+    // Refetch the tile... if the tile is null
+    // it has been unloaded from the point array and we should NOT
+    // render it.
     AZTile *fresh = [tiles objectForKey:[AZTile tileKey:tile]];
     
     if (fresh) {
         tile = fresh;
+    } else {
+        NSLog(@"[AZTiler] Discarded stale tile data");
     }
-    
-    AZRenderedTile *rtile = [renderedTiles objectForKey:[AZTile tileKey:tile]];
-    rtile = [AZTileRenderer2 drawTile:tile renderedTile:rtile filters:filters];
 
-    [renderedTiles setObject:rtile forKey:[AZTile tileKey:tile]];
+    AZRenderedTile *rtile;
+    @synchronized (renderedTiles) {
+        rtile = [renderedTiles objectForKey:[AZTile tileKey:tile]];
+        if (rtile == nil) {
+            rtile = [[AZRenderedTile alloc] init];
+            [renderedTiles setObject:rtile forKey:[AZTile tileKey:tile]];
+        }
+    }
+
+    @synchronized (rtile) {
+        // This mutates rtile with the new image
+        rtile = [AZTileRenderer2 createTile:tile renderedTile:rtile filters:filters];
+    }
     
     if (renderCallback) {
         dispatch_async(dispatch_get_main_queue(), ^{

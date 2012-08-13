@@ -11,11 +11,12 @@
 #import "AZTile.h"
 #import "OTMFilterListViewController.h"
 
-typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect rect, MKZoomScale zs);
+typedef void (^AZTilerTileLoadedCallback)(CGImageRef image, BOOL done, MKMapRect rect, MKZoomScale zs);
+typedef void (^AZTileImageCallback)(CGImageRef image);
 
 @interface AZRenderedTile : NSObject
 
-@property (nonatomic,strong) UIImage *image;
+@property (nonatomic,assign) CGImageRef image;
 @property (nonatomic,strong) NSMutableSet *pendingEdges;
 
 -(id)init;
@@ -38,6 +39,17 @@ typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect r
      * NSDict<str(MKMapRect, MKZoomLevel),AZTile>
      */
     NSMutableDictionary *tiles;
+
+    /**
+     * The keyset for items in tiles, in the order
+     * they were inserted into the array
+     */
+    NSMutableOrderedSet *keyList;
+
+    /**
+     * Current size of the cache in number of points
+     */
+    NSUInteger cacheSizeInPoints;
 
     /**
      * NSDict<str(MKMapRect, MKZoomLevel),AZRenderedTile>
@@ -82,6 +94,22 @@ typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect r
 @property (nonatomic, copy) AZTilerTileLoadedCallback renderCallback;
 @property (nonatomic, strong) OTMFilters *filters;
 
+/**
+ * Cache control properties
+ */
+@property (nonatomic, assign) NSUInteger maxNumberOfPoints;
+@property (nonatomic, assign) NSUInteger maxNumberOfTiles;
+
+/**
+ * If a cache assertion is violated (max # of points/tiles)
+ * clear enough cached data such that:
+ * # of tiles < (max # of tiles)*cacheClearPercent
+ * # of point < (max # of points)*cacheClearPercent
+ *
+ * @default 1.0
+ */
+@property (nonatomic, assign) float cacheClearPercent;
+
 -(id)init;
 
 /**
@@ -93,9 +121,9 @@ typedef void (^AZTilerTileLoadedCallback)(UIImage *image, BOOL done, MKMapRect r
 
 /**
  * Get the image for the given maprect and zoom scale. If the image has not
- * been loaded, this method will return nil
+ * been loaded, the callback will be called with NULL
  */
--(UIImage *)getImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale;
+-(void)withImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale callback:(AZTileImageCallback)cb;
 
 /**
  * Sort the current queues by distance from the current visible map rect with

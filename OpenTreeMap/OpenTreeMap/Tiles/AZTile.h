@@ -78,6 +78,8 @@ typedef NSString * AZDirection;
 -(AZTile *)createTileWithNeighborTile:(AZTile *)tile
                           atDirection:(AZDirection)d;
 
+-(AZTile *)createTileWithoutNeighborTileAtDirection:(AZDirection)d;
+
 +(NSString *)tileKeyWithMapRect:(MKMapRect)m zoomScale:(MKZoomScale)zs;
 +(NSString *)tileKey:(AZTile *)t;
 
