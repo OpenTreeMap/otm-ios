@@ -540,17 +540,22 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *title = nil;
-
-    NSDictionary *fieldSectionDict = [[[OTMEnvironment sharedEnvironment] fieldSections] objectAtIndex:section];
-    if (fieldSectionDict) {
-        if ([fieldSectionDict objectForKey:@"label"]) {
-            if (![(NSString *)[fieldSectionDict objectForKey:@"label"] isEqualToString:@""]) {
-                title = [fieldSectionDict objectForKey:@"label"];
+    if (editMode) {
+        // The view controller rearranges all the sections in the table view
+        // when it is in edit mode, so the section labels no longer apply.
+        return nil;
+    } else {
+        NSString *title = nil;
+        NSDictionary *fieldSectionDict = [[[OTMEnvironment sharedEnvironment] fieldSections] objectAtIndex:section];
+        if (fieldSectionDict) {
+            if ([fieldSectionDict objectForKey:@"label"]) {
+                if (![(NSString *)[fieldSectionDict objectForKey:@"label"] isEqualToString:@""]) {
+                    title = [fieldSectionDict objectForKey:@"label"];
+                }
             }
         }
+        return title;
     }
-    return title;
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
