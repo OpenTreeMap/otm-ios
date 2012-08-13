@@ -145,9 +145,7 @@
    
             CGRect rect = CGRectOffset(baseRect, p->xoffset + xoffset, 255 - p->yoffset + yoffset);
 
-            if (CGRectIntersectsRect(rect, frameRect)) {
-                CGContextDrawImage(context, rect, stamp);
-            }
+            CGContextDrawImage(context, rect, stamp);
         }
     }
 }
