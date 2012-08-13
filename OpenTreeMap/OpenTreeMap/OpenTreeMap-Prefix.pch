@@ -36,3 +36,10 @@ typedef void (^Function3v)(id a, id b, id c);
 #define ABSTRACT_METHOD_BODY @throw([NSException exceptionWithName:@"Abstract Method Error" reason:@"Abstract Method" userInfo:nil]);
 
 #define SharedAppDelegate ((OTMAppDelegate *)[[UIApplication sharedApplication] delegate])
+
+#ifdef DEBUG
+//#define NSLogD NSLog
+#define NSLogD
+#else
+#define NSLogD
+#endif

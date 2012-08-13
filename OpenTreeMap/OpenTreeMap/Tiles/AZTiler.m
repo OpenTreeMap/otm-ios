@@ -208,7 +208,7 @@
             }
         }
     }
-    NSLog(@"[AZTiler] Purged %d tiles",count);
+    NSLogD(@"[AZTiler] Purged %d tiles",count);
 }
 
 -(void)clearTilesNotAtZoomScale:(MKZoomScale)zoomScale andPoints:(BOOL)points {
@@ -221,7 +221,7 @@
             }
         }
     }
-    NSLog(@"[AZTiler] Purged %d tiles",count);
+    NSLogD(@"[AZTiler] Purged %d tiles",count);
 }
 
 -(void)removeCachedTileImage:(AZTile *)tile andPointData:(BOOL)andPointData {
@@ -319,7 +319,7 @@
                    AZPoint **pointsRaw = parseData([data bytes], [data length], &nPoints, &parseError);
 
                    if (parseError != 0) {
-                       NSLog(@"errororororor");
+                       NSLogD(@"errororororor");
                    } else {
                        // Wrap the points in an NSValue
                        AZPointerArrayWrapper *points = [AZPointerArrayWrapper wrapperWithPointer:(void **)pointsRaw 
@@ -363,7 +363,7 @@
                                [newTiles addObject:newTile];
                            }
 
-                           NSLog(@"Tile load turned into %d renders", [newTiles count]);
+                           NSLogD(@"Tile load turned into %d renders", [newTiles count]);
                            [newTiles addObject:tile];
                    
                            for(AZTile *atile in newTiles) {
@@ -395,7 +395,7 @@
         }
 
         if (count > 0) {
-            NSLog(@"[AZTiler] Forced purge of %d tiles and points", count);
+            NSLogD(@"[AZTiler] Forced purge of %d tiles and points", count);
         }
     }
 }
@@ -425,7 +425,7 @@
     if (fresh) {
         tile = fresh;
     } else {
-        NSLog(@"[AZTiler] Discarded stale tile data");
+        NSLogD(@"[AZTiler] Discarded stale tile data");
     }
 
     AZRenderedTile *rtile;
@@ -476,7 +476,7 @@
         [waitingForDownloadQueue sortUsingComparator:cmp];
     }
 
-    NSLog(@"Sorted tile request queues");
+    NSLogD(@"Sorted tile request queues");
 }
 
 

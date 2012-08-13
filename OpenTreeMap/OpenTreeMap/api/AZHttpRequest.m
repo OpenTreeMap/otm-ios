@@ -271,9 +271,9 @@
         } else {
             postBodyAsString = @"<body larger than 1024 bytes>";
         }
-        NSLog(@"%@ %@\n%@", [request requestMethod], [request url], postBodyAsString);
+        NSLogD(@"%@ %@\n%@", [request requestMethod], [request url], postBodyAsString);
     } else {
-        NSLog(@"%@ %@", [request requestMethod], [request url]);
+        NSLogD(@"%@ %@", [request requestMethod], [request url]);
     }
 }
 
