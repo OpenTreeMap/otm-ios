@@ -162,6 +162,8 @@
 		D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
 		D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59B41550311800D37425 /* LoginRequiredView.xib */; };
+		D7D23DD915D9A04E0019D9D6 /* AZTileRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */; };
+		D7D23DDA15D9A05B0019D9D6 /* AZTileRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */; };
 		D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86A415BDA4C30063D0B6 /* version.plist */; };
 		D7DE86AC15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */; };
 		D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */; };
@@ -170,7 +172,6 @@
 		D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86C215D14E060063D0B6 /* AZPointParser.m */; };
 		D7EF4A3E15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
 		D7EF4A4015D2E5E10014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
-		D7EF4A4315D2ECF80014A685 /* AZTileRenderer2.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A4215D2ECF80014A685 /* AZTileRenderer2.m */; };
 		D7F352BE156BEFAF00E54060 /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */; };
 		D7F352BF156BEFAF00E54060 /* tree_zoom3_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */; };
 		D7F352C0156BEFAF00E54060 /* tree_zoom5_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */; };
@@ -411,6 +412,8 @@
 		D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
 		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
 		D7CF59B41550311800D37425 /* LoginRequiredView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRequiredView.xib; sourceTree = "<group>"; };
+		D7D23DD715D9A04E0019D9D6 /* AZTileRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileRenderer.h; sourceTree = "<group>"; };
+		D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileRenderer.m; sourceTree = "<group>"; };
 		D7DE86A415BDA4C30063D0B6 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
 		D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMBenefitsTableViewCell.xib; sourceTree = "<group>"; };
 		D7DE86AE15C965FF0063D0B6 /* OTMBenefitsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBenefitsTableViewCell.h; sourceTree = "<group>"; };
@@ -423,8 +426,6 @@
 		D7DE86C215D14E060063D0B6 /* AZPointParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointParser.m; sourceTree = "<group>"; };
 		D7EF4A3C15D2E53E0014A685 /* AZTilePointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTilePointOffsetOverlayView.h; sourceTree = "<group>"; };
 		D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTilePointOffsetOverlayView.m; sourceTree = "<group>"; };
-		D7EF4A4115D2ECF80014A685 /* AZTileRenderer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileRenderer2.h; sourceTree = "<group>"; };
-		D7EF4A4215D2ECF80014A685 /* AZTileRenderer2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileRenderer2.m; sourceTree = "<group>"; };
 		D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom1_plot.png; path = map_icons/tree_zoom1_plot.png; sourceTree = "<group>"; };
 		D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom3_plot.png; path = map_icons/tree_zoom3_plot.png; sourceTree = "<group>"; };
 		D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom5_plot.png; path = map_icons/tree_zoom5_plot.png; sourceTree = "<group>"; };
@@ -758,6 +759,8 @@
 		D7DE86B915D14DAA0063D0B6 /* Tiles */ = {
 			isa = PBXGroup;
 			children = (
+				D7D23DD715D9A04E0019D9D6 /* AZTileRenderer.h */,
+				D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */,
 				D7EF4A3C15D2E53E0014A685 /* AZTilePointOffsetOverlayView.h */,
 				D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */,
 				D7DE86BB15D14DD60063D0B6 /* AZTile.h */,
@@ -766,8 +769,6 @@
 				D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */,
 				D7DE86C115D14E060063D0B6 /* AZPointParser.h */,
 				D7DE86C215D14E060063D0B6 /* AZPointParser.m */,
-				D7EF4A4115D2ECF80014A685 /* AZTileRenderer2.h */,
-				D7EF4A4215D2ECF80014A685 /* AZTileRenderer2.m */,
 			);
 			path = Tiles;
 			sourceTree = "<group>";
@@ -1116,6 +1117,7 @@
 				D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */,
 				D7829CAB15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m in Sources */,
 				645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */,
+				D7D23DDA15D9A05B0019D9D6 /* AZTileRenderer.m in Sources */,
 				645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */,
 				649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */,
 				D70F8596155187E800D108D5 /* OTMView.m in Sources */,
@@ -1146,7 +1148,6 @@
 				D7EF4A4015D2E5E10014A685 /* AZTilePointOffsetOverlayView.m in Sources */,
 				D7DE86C015D14DEF0063D0B6 /* AZTiler.m in Sources */,
 				D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */,
-				D7EF4A4315D2ECF80014A685 /* AZTileRenderer2.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1167,6 +1168,7 @@
 				D72BF66A151785B300AB6664 /* OTMUser.m in Sources */,
 				D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */,
 				D7EF4A3E15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m in Sources */,
+				D7D23DD915D9A04E0019D9D6 /* AZTileRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,7 +23,7 @@
 
 typedef NSUInteger AZPointStyle;
 
-@interface AZTileRenderer2 : NSObject
+@interface AZTileRenderer : NSObject
 
 +(AZRenderedTile *)createTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters;
 

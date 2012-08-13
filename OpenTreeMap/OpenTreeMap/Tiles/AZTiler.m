@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AZTileRenderer2.h"
+#import "AZTileRenderer.h"
 #import "AZTiler.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -439,7 +439,7 @@
 
     @synchronized (rtile) {
         // This mutates rtile with the new image
-        rtile = [AZTileRenderer2 createTile:tile renderedTile:rtile filters:filters];
+        rtile = [AZTileRenderer createTile:tile renderedTile:rtile filters:filters];
     }
     
     if (renderCallback) {

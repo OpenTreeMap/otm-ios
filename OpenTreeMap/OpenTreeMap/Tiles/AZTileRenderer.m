@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AZTileRenderer2.h"
+#import "AZTileRenderer.h"
 #import "AZPointParser.h"
 #import "AZTile.h"
 #import "AZTiler.h"
 
-@implementation AZTileRenderer2
+@implementation AZTileRenderer
 
 +(AZRenderedTile *)createTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters {
     if (rendered == nil) {
