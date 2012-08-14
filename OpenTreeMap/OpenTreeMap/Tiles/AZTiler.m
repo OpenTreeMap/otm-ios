@@ -165,12 +165,21 @@
 
 -(void)withImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale callback:(AZTileImageCallback)cb {
     CGImageRef image = NULL;
+    AZRenderedTile *rendered = nil;
     @synchronized (renderedTiles) {
-        AZRenderedTile *rendered = [renderedTiles objectForKey:[AZTile tileKeyWithMapRect:mapRect
-                                                                                zoomScale:zoomScale]];
-        image = [rendered image];
-        if (image != NULL) {            
+        rendered = [renderedTiles objectForKey:[AZTile tileKeyWithMapRect:mapRect
+                                                                zoomScale:zoomScale]];
+    }
+
+    if (rendered == nil) {
+        if (cb) { cb(NULL); }
+    } else {
+        // Need to get a handle on this tile.        
+        @synchronized (rendered) {
+            image = [rendered image];
+            if (image != NULL) {            
             CGImageRetain(image);
+            }
         }
     }
 
