@@ -45,6 +45,33 @@
 	<string>OTMRangeFilter</string>
       </dict>
     </array>
+    <key>fieldSections</key>
+	<array>
+		<dict>
+			<key>label</key>
+			<string></string>
+			<key>name</key>
+			<string>Map Detail</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string></string>
+			<key>name</key>
+			<string>Tree Measurements</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string></string>
+			<key>name</key>
+			<string>Plot Details</string>
+		</dict>
+		<dict>
+			<key>label</key>
+			<string>Eco Benefits</string>
+			<key>name</key>
+			<string>Eco Benefits</string>
+		</dict>
+	</array>
     <key>fields</key>
     <array>
       <array>
