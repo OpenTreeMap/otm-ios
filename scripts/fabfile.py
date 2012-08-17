@@ -93,5 +93,5 @@ def install_skin(skin, user=None, version=None, clone_dir=None):
               '"%s/%s"' % (user, skin, clone_dir, skin))
 
     with lcd('OpenTreeMap/OpenTreeMap'):
-        local('rm skin')
+        local('rm -f skin')
         local('ln -s "../../%s/ios" skin' % git_clone_path)
