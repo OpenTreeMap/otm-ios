@@ -93,10 +93,6 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
 
     if not os.path.exists('%s/ios' % git_clone_path):
         clone_skin_repo(skin, clone_dir, version, user)
-        local('git clone '
-              '"ssh://%s@git.internal.azavea.com/'
-              'git/Azavea_OpenTreeMap/%s.git" '
-              '"%s/%s"' % (user, skin, clone_dir, skin))
 
     with lcd('OpenTreeMap/OpenTreeMap'):
         local('rm -f skin')
