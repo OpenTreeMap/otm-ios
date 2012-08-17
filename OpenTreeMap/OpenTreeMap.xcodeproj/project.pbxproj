@@ -132,7 +132,7 @@
 		D75AA82F15DE9F6400E880E4 /* tree_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7ED15DE9F6400E880E4 /* tree_icon.png */; };
 		D75AA83015DE9F6400E880E4 /* tree_map.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EE15DE9F6400E880E4 /* tree_map.png */; };
 		D75AA83115DE9F6400E880E4 /* tree_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EF15DE9F6400E880E4 /* tree_map@2x.png */; };
-		D75AA83215DE9F6400E880E4 /* Implementation.plist.base in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7F015DE9F6400E880E4 /* Implementation.plist.base */; };
+		D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83315DEB2FE00E880E4 /* Implementation.plist */; };
 		D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */; };
 		D76BD8FB15226446003C664F /* OTMPictureTaker.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD8FA15226446003C664F /* OTMPictureTaker.m */; };
 		D76BD9071523B8EB003C664F /* AZUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD9061523B8EB003C664F /* AZUser.m */; };
@@ -355,7 +355,7 @@
 		D75AA7ED15DE9F6400E880E4 /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
 		D75AA7EE15DE9F6400E880E4 /* tree_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_map.png; sourceTree = "<group>"; };
 		D75AA7EF15DE9F6400E880E4 /* tree_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tree_map@2x.png"; sourceTree = "<group>"; };
-		D75AA7F015DE9F6400E880E4 /* Implementation.plist.base */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Implementation.plist.base; sourceTree = "<group>"; };
+		D75AA83315DEB2FE00E880E4 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Implementation.plist; path = Implementation.plist; sourceTree = "<group>"; };
 		D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
 		D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
 		D76BD8F915226446003C664F /* OTMPictureTaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPictureTaker.h; sourceTree = "<group>"; };
@@ -480,8 +480,8 @@
 		D75AA7AC15DE9F6400E880E4 /* skin */ = {
 			isa = PBXGroup;
 			children = (
+				D75AA83315DEB2FE00E880E4 /* Implementation.plist */,
 				D75AA7AD15DE9F6400E880E4 /* images */,
-				D75AA7F015DE9F6400E880E4 /* Implementation.plist.base */,
 			);
 			path = skin;
 			sourceTree = "<group>";
@@ -991,7 +991,7 @@
 				D75AA82F15DE9F6400E880E4 /* tree_icon.png in Resources */,
 				D75AA83015DE9F6400E880E4 /* tree_map.png in Resources */,
 				D75AA83115DE9F6400E880E4 /* tree_map@2x.png in Resources */,
-				D75AA83215DE9F6400E880E4 /* Implementation.plist.base in Resources */,
+				D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
