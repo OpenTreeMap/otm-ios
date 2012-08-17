@@ -68,7 +68,8 @@ def clone_skin_repo(skin, clone_dir=None, version=None, user=None):
           (version, git_remote_path, git_local_path))
 
 
-def install_skin(skin, user=None, version=None, clone_dir=None):
+def install_skin(skin, user=None, version=None, clone_dir=None, 
+                 force_delete=None):
     """ Install the given skin
 
     Optionally specify clone_dir to control where the repository
@@ -79,11 +80,16 @@ def install_skin(skin, user=None, version=None, clone_dir=None):
     run this command with the 'skin' argument.
 
     For details about the other arguments checkout `clone_skin_repo`
+
+    Set 'force_delete' to True to delete any previous repos
     """
     if not clone_dir:
         clone_dir = '../'
 
     git_clone_path = '%s/%s' % (clone_dir, skin)
+
+    if force_delete:
+        local('rm -rf "%s"' % git_clone_path)
 
     if not os.path.exists('%s/ios' % git_clone_path):
         clone_skin_repo(skin, clone_dir, version, user)
@@ -95,3 +101,4 @@ def install_skin(skin, user=None, version=None, clone_dir=None):
     with lcd('OpenTreeMap/OpenTreeMap'):
         local('rm -f skin')
         local('ln -s "../../%s/ios" skin' % git_clone_path)
+        
