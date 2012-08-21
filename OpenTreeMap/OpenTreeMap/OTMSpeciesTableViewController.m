@@ -46,7 +46,7 @@
              species = json;
 
              for(NSString *displayValue in [species allKeys]) {
-                 if (displayValue != (id)[NSNull null]) {
+                 if (displayValue != (id)[NSNull null] && [displayValue length] > 0) {
                      NSString *key = [[displayValue substringToIndex:1] uppercaseString];
                      NSMutableArray *vals = [sectionDict objectForKey:key];
                      if (vals == nil) {
