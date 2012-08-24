@@ -97,4 +97,16 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
     with lcd('OpenTreeMap/OpenTreeMap'):
         local('rm -f skin')
         local('ln -s "../../%s/ios" skin' % git_clone_path)
+
+    with lcd('OpenTreeMap'):
+        local('rm -f "Default.png" "Default@2x.png" '\
+              '"iphone_app-icon.png" "iphone_app-icon@2x.png"')
+        local('cp "../%s/ios/images/splash_screen.png" '\
+              'Default.png' % git_clone_path)
+        local('cp "../%s/ios/images/splash_screen@2x.png" '\
+              '"Default@2x.png"' % git_clone_path)
+        local('cp "../%s/ios/icons/iphone_app-icon.png" '\
+              'iphone_app-icon.png' % git_clone_path)
+        local('cp "../%s/ios/icons/iphone_app-icon@2x.png" '\
+              '"iphone_app-icon@2x.png"' % git_clone_path)
         
