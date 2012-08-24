@@ -133,6 +133,10 @@
 		D75AA83015DE9F6400E880E4 /* tree_map.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EE15DE9F6400E880E4 /* tree_map.png */; };
 		D75AA83115DE9F6400E880E4 /* tree_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EF15DE9F6400E880E4 /* tree_map@2x.png */; };
 		D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83315DEB2FE00E880E4 /* Implementation.plist */; };
+		D75AA83A15E7C57400E880E4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83915E7C57400E880E4 /* Default.png */; };
+		D75AA83D15E7C58000E880E4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83C15E7C58000E880E4 /* Default@2x.png */; };
+		D75AA83F15E7C5E600E880E4 /* iphone_app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83E15E7C5E600E880E4 /* iphone_app-icon.png */; };
+		D75AA84115E7C5EB00E880E4 /* iphone_app-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA84015E7C5EB00E880E4 /* iphone_app-icon@2x.png */; };
 		D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */; };
 		D76BD8FB15226446003C664F /* OTMPictureTaker.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD8FA15226446003C664F /* OTMPictureTaker.m */; };
 		D76BD9071523B8EB003C664F /* AZUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD9061523B8EB003C664F /* AZUser.m */; };
@@ -355,7 +359,11 @@
 		D75AA7ED15DE9F6400E880E4 /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
 		D75AA7EE15DE9F6400E880E4 /* tree_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_map.png; sourceTree = "<group>"; };
 		D75AA7EF15DE9F6400E880E4 /* tree_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tree_map@2x.png"; sourceTree = "<group>"; };
-		D75AA83315DEB2FE00E880E4 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Implementation.plist; path = Implementation.plist; sourceTree = "<group>"; };
+		D75AA83315DEB2FE00E880E4 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
+		D75AA83915E7C57400E880E4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		D75AA83C15E7C58000E880E4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		D75AA83E15E7C5E600E880E4 /* iphone_app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone_app-icon.png"; sourceTree = "<group>"; };
+		D75AA84015E7C5EB00E880E4 /* iphone_app-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone_app-icon@2x.png"; sourceTree = "<group>"; };
 		D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
 		D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
 		D76BD8F915226446003C664F /* OTMPictureTaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPictureTaker.h; sourceTree = "<group>"; };
@@ -733,6 +741,10 @@
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
+				D75AA84015E7C5EB00E880E4 /* iphone_app-icon@2x.png */,
+				D75AA83E15E7C5E600E880E4 /* iphone_app-icon.png */,
+				D75AA83C15E7C58000E880E4 /* Default@2x.png */,
+				D75AA83915E7C57400E880E4 /* Default.png */,
 				64318CD11551E22E001C827F /* libASI.a */,
 				E943971C14F447EB007CD0D1 /* OpenTreeMap */,
 				E943974814F447EB007CD0D1 /* OpenTreeMapTests */,
@@ -992,6 +1004,10 @@
 				D75AA83015DE9F6400E880E4 /* tree_map.png in Resources */,
 				D75AA83115DE9F6400E880E4 /* tree_map@2x.png in Resources */,
 				D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */,
+				D75AA83A15E7C57400E880E4 /* Default.png in Resources */,
+				D75AA83D15E7C58000E880E4 /* Default@2x.png in Resources */,
+				D75AA83F15E7C5E600E880E4 /* iphone_app-icon.png in Resources */,
+				D75AA84115E7C5EB00E880E4 /* iphone_app-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
