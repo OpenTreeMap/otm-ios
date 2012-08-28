@@ -176,14 +176,6 @@
     }   
 }
 
-/**
- * Check to see if an image has been loaded. This method does not wait for the
- * lock on 
- */
--(BOOL)imageLoadedForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
-    return [renderedTiles objectForKey:[AZTile tileKeyWithMapRect:mapRect zoomScale:zoomScale]] != nil;
-}
-
 -(void)withImageForMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale callback:(AZTileImageCallback)cb {
     CGImageRef image = NULL;
     AZRenderedTile *rendered = nil;
@@ -309,7 +301,7 @@
 
 /**
  * Send a request to the server to download tiles
- * for a given tile request. Once the tiles have finished downloaded
+ * for a given tile request. Once the tiles have finished downloading
  * they are automatically put into the render queue
  */
 -(void)doAsyncTileDownload:(AZTileDownloadRequest *)dlreq {
@@ -349,7 +341,7 @@
                    AZPoint **pointsRaw = parseData([data bytes], [data length], &nPoints, &parseError);
 
                    if (parseError != 0) {
-                       NSLogD(@"errororororor");
+                       NSLogD(@"Error parsing tiles: %d", parseError);
                    } else {
                        // Wrap the points in an NSValue
                        AZPointerArrayWrapper *points = [AZPointerArrayWrapper wrapperWithPointer:(void **)pointsRaw 
