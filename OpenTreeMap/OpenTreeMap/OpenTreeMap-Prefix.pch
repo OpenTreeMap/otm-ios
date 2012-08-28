@@ -38,8 +38,7 @@ typedef void (^Function3v)(id a, id b, id c);
 #define SharedAppDelegate ((OTMAppDelegate *)[[UIApplication sharedApplication] delegate])
 
 #ifdef DEBUG
-//#define NSLogD NSLog
-#define NSLogD(args...)
+#define NSLogD(args...) NSLog(args)
 #else
 #define NSLogD(args...)
 #endif
