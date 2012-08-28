@@ -169,6 +169,12 @@
     }
 }
 
+/**
+ * To make drawing as super-fast as possible we force the image to load into
+ * memory (uncompressed) with premultiplied alpha
+ *
+ * This makes blending later very fast
+ */
 +(CGImageRef)createMangledStamp:(UIImage *)image {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGSize size = image.size;
