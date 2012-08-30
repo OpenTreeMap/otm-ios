@@ -81,7 +81,7 @@
 }
 
 -(void)getPictureInViewController:(UIViewController *)vc callback:(OTMPickerTakerCallback)cb {
-    callback = cb;
+    callback = [cb copy];
     targetViewController = vc;
     
     [self showProfilePicturePicker];
