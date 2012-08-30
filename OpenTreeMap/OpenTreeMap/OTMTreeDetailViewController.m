@@ -146,7 +146,7 @@
          self.imageView.image = image;
 
          NSMutableDictionary *tree = [[self data] objectForKey:@"tree"];
-         if (!tree || tree == [NSNull null]) {
+         if (!tree || tree == (id)[NSNull null]) {
              tree = [NSMutableDictionary dictionary];
              [(id)[self data] setObject:tree forKey:@"tree"];
          }
@@ -167,6 +167,7 @@
 }
 
 - (void)setKeys:(NSArray *)k {
+    allKeys = k;
     NSMutableArray *txToEditRm = [NSMutableArray array];
     NSMutableArray *txToEditRel = [NSMutableArray array];
     allFields = [k mutableCopy];
@@ -240,9 +241,13 @@
 - (IBAction)startOrCommitEditing:(id)sender
 {
     OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+    OTMUser *prevUser = loginManager.loggedInUser;
 
     [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
+            if (prevUser == nil) {
+                [self setKeys:allKeys];
+            }
             loginManager.loggedInUser = aUser;
             [self toggleEditMode:YES];
         }

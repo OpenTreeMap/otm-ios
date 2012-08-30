@@ -51,6 +51,7 @@
     NSMutableArray *allFields;
     
     NSArray *curFields;
+    NSArray *allKeys;
 
     NSString *deleteType;
 }
