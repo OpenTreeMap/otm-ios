@@ -6,4 +6,5 @@ Implementation.plist
 version.plist
 *.pyc
 *~
+OpenTreeMap/OpenTreeMap/skin
 

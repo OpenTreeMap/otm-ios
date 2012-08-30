@@ -46,13 +46,15 @@
              species = json;
 
              for(NSString *displayValue in [species allKeys]) {
-                 NSString *key = [[displayValue substringToIndex:1] uppercaseString];
-                 NSMutableArray *vals = [sectionDict objectForKey:key];
-                 if (vals == nil) {
-                     vals = [NSMutableArray array];
-                     [sectionDict setObject:vals forKey:key];
+                 if (displayValue != (id)[NSNull null] && [displayValue length] > 0) {
+                     NSString *key = [[displayValue substringToIndex:1] uppercaseString];
+                     NSMutableArray *vals = [sectionDict objectForKey:key];
+                     if (vals == nil) {
+                         vals = [NSMutableArray array];
+                         [sectionDict setObject:vals forKey:key];
+                     }
+                     [vals addObject:displayValue];
                  }
-                 [vals addObject:displayValue];
              }
              for(NSString *s in sections) {
                  NSArray *vals = [sectionDict objectForKey:s];

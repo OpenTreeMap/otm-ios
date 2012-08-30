@@ -70,6 +70,15 @@ typedef enum {
 
 @end
 
+@interface OTMFilterSpacer : OTMFilter
+
+@property (nonatomic,readonly) CGFloat space;
+
+- (id)initWithSpace:(CGFloat)s;
+
+@end
+
+
 @interface OTMRangeFilter : OTMFilter
 
 @property (nonatomic,readonly) UILabel *nameLbl;

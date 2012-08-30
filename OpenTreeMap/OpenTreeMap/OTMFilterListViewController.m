@@ -138,6 +138,50 @@
 
 @end
 
+@implementation OTMFilterSpacer
+
+@synthesize space;
+
++ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
+    return [[OTMFilterSpacer alloc] initWithSpace:
+                               [[dict valueForKey:@"OTMFilterSpaceHeight"] floatValue]];
+}
+
+- (id)initWithSpace:(CGFloat)s {
+    if ((self = [super init])) {
+        space = s;
+    }
+    return self;
+}
+
+- (UIView *)view {
+    if (![self viewSet]) {
+        [self setView:[self createView]];
+    }
+    return [super view];
+}
+
+- (UIView *)createView {
+    CGRect r = CGRectMake(0,0,320,space);
+    [self setView:[[UIView alloc] initWithFrame:r]];
+
+    return self.view;
+}
+
+- (BOOL)active {
+    return NO;
+}
+
+- (void)clear {
+}
+
+- (NSString *)queryParams {
+    return [NSDictionary dictionary];
+}
+
+
+@end
+
 @implementation OTMBoolFilter
 
 @synthesize toggle, nameLbl;
@@ -230,7 +274,7 @@
 }
 
 - (UIView *)createView {
-    CGRect r = CGRectMake(0,0,320,75);
+    CGRect r = CGRectMake(0,0,320,55);
     [self setView:[[UIView alloc] initWithFrame:r]];
 
     CGFloat padding = 10.0f;
