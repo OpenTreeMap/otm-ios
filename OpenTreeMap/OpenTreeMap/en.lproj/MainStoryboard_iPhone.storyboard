@@ -321,12 +321,12 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </switch>
                                     <view contentMode="scaleToFill" id="ba0-Rh-Fwi">
-                                        <rect key="frame" x="0.0" y="-2" width="320" height="73"/>
+                                        <rect key="frame" x="0.0" y="46" width="320" height="73"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1Jc-w3-d6h" customClass="OTMButton">
-                                        <rect key="frame" x="20" y="60" width="280" height="37"/>
+                                        <rect key="frame" x="20" y="15" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Species">
