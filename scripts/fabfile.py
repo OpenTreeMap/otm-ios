@@ -125,7 +125,7 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
         local('cp "../%s/ios/icons/ipad_app-icon.png" '\
               'Icon-72.png' % git_clone_path)
         local('cp "../%s/ios/icons/ipad_app-icon@2x.png" '\
-              'Icon-72@2xIcon.png' % git_clone_path)
+              'Icon-72@2x.png' % git_clone_path)
 
 
         
