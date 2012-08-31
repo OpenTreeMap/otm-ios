@@ -1,8 +1,21 @@
 """ Fabric script to handle common iOS building tasks """
-from fabric.api import local, lcd, abort
+from fabric.api import local, lcd, abort, cd, run
 
 import os
 
+def resign_for_distribution(cwd, ipa, tgtprofile='/Users/hudson/PhillyTreeMap.mobileprovision'):
+    with lcd(cwd):
+        local('unzip "%s.ipa"' % ipa)
+        app_name = os.listdir('%s/Payload' % cwd)[0]
+        local('rm -rf "Payload/%s/_CodeSignature" '\
+              '"Payload/%s/CodeResources"' % (app_name, app_name))
+
+        local('cp "%s" "Payload/%s/embedded.mobileprovision"' % (tgtprofile, app_name))
+        local('/usr/bin/codesign -f -s "iPhone Distribution: Azavea Inc." '
+              '--resource-rules "Payload/%s/ResourceRules.plist" '
+              '"Payload/%s"' % (app_name, app_name))
+        local('zip -qr "%s.dist.ipa" Payload' % ipa)
+        local('rm -rf Payload')
 
 def stamp_version(version, jenkins=None):
     """ Write out a version number and jenkins build
@@ -100,13 +113,19 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
 
     with lcd('OpenTreeMap'):
         local('rm -f "Default.png" "Default@2x.png" '\
-              '"iphone_app-icon.png" "iphone_app-icon@2x.png"')
+              '"Icon.png" "Icon@2x.png" "Icon-72.png" "Icon-72@2x.png"')
         local('cp "../%s/ios/images/splash_screen.png" '\
               'Default.png' % git_clone_path)
         local('cp "../%s/ios/images/splash_screen@2x.png" '\
               '"Default@2x.png"' % git_clone_path)
         local('cp "../%s/ios/icons/iphone_app-icon.png" '\
-              'iphone_app-icon.png' % git_clone_path)
+              'Icon.png' % git_clone_path)
         local('cp "../%s/ios/icons/iphone_app-icon@2x.png" '\
-              '"iphone_app-icon@2x.png"' % git_clone_path)
+              '"Icon@2x.png"' % git_clone_path)
+        local('cp "../%s/ios/icons/ipad_app-icon.png" '\
+              'Icon-72.png' % git_clone_path)
+        local('cp "../%s/ios/icons/ipad_app-icon@2x.png" '\
+              'Icon-72@2xIcon.png' % git_clone_path)
+
+
         

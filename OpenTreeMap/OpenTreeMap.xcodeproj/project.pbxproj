@@ -134,8 +134,6 @@
 		D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83315DEB2FE00E880E4 /* Implementation.plist */; };
 		D75AA83A15E7C57400E880E4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83915E7C57400E880E4 /* Default.png */; };
 		D75AA83D15E7C58000E880E4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83C15E7C58000E880E4 /* Default@2x.png */; };
-		D75AA83F15E7C5E600E880E4 /* iphone_app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83E15E7C5E600E880E4 /* iphone_app-icon.png */; };
-		D75AA84115E7C5EB00E880E4 /* iphone_app-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA84015E7C5EB00E880E4 /* iphone_app-icon@2x.png */; };
 		D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */; };
 		D76BD8FB15226446003C664F /* OTMPictureTaker.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD8FA15226446003C664F /* OTMPictureTaker.m */; };
 		D76BD9071523B8EB003C664F /* AZUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD9061523B8EB003C664F /* AZUser.m */; };
@@ -151,6 +149,10 @@
 		D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */; };
 		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
 		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
+		D7AC3D8D15F0F7D9002443B0 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D8715F0F7D8002443B0 /* Icon-72.png */; };
+		D7AC3D8E15F0F7D9002443B0 /* Icon-72@2xIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D8815F0F7D8002443B0 /* Icon-72@2xIcon.png */; };
+		D7AC3D8F15F0F7D9002443B0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D8915F0F7D8002443B0 /* Icon.png */; };
+		D7AC3D9015F0F7D9002443B0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D8A15F0F7D9002443B0 /* Icon@2x.png */; };
 		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
 		D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
 		D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
@@ -176,12 +178,6 @@
 		D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86C215D14E060063D0B6 /* AZPointParser.m */; };
 		D7EF4A3E15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
 		D7EF4A4015D2E5E10014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
-		D7F352BE156BEFAF00E54060 /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */; };
-		D7F352BF156BEFAF00E54060 /* tree_zoom3_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */; };
-		D7F352C0156BEFAF00E54060 /* tree_zoom5_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */; };
-		D7F352C1156BEFAF00E54060 /* tree_zoom6_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BC156BEFAF00E54060 /* tree_zoom6_plot.png */; };
-		D7F352C2156BEFAF00E54060 /* tree_zoom7_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F352BD156BEFAF00E54060 /* tree_zoom7_plot.png */; };
-		D7EF1954158240DE0099B973 /* AZTileQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF1953158240DE0099B973 /* AZTileQueue.m */; };
 		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
 		E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
 		E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
@@ -369,8 +365,6 @@
 		D75AA83315DEB2FE00E880E4 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
 		D75AA83915E7C57400E880E4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D75AA83C15E7C58000E880E4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		D75AA83E15E7C5E600E880E4 /* iphone_app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone_app-icon.png"; sourceTree = "<group>"; };
-		D75AA84015E7C5EB00E880E4 /* iphone_app-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone_app-icon@2x.png"; sourceTree = "<group>"; };
 		D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
 		D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
 		D76BD8F915226446003C664F /* OTMPictureTaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPictureTaker.h; sourceTree = "<group>"; };
@@ -400,6 +394,10 @@
 		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
 		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
 		D791171E15113F70004BE79C /* OTMFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFormatters.m; sourceTree = "<group>"; };
+		D7AC3D8715F0F7D8002443B0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		D7AC3D8815F0F7D8002443B0 /* Icon-72@2xIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2xIcon.png"; sourceTree = "<group>"; };
+		D7AC3D8915F0F7D8002443B0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		D7AC3D8A15F0F7D9002443B0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
 		D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZHttpRequest.m; sourceTree = "<group>"; };
 		D7BEA4AE14FD3587006CC456 /* OTMAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAPI.h; sourceTree = "<group>"; };
@@ -430,13 +428,6 @@
 		D7DE86C215D14E060063D0B6 /* AZPointParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointParser.m; sourceTree = "<group>"; };
 		D7EF4A3C15D2E53E0014A685 /* AZTilePointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTilePointOffsetOverlayView.h; sourceTree = "<group>"; };
 		D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTilePointOffsetOverlayView.m; sourceTree = "<group>"; };
-		D7F352B9156BEFAF00E54060 /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom1_plot.png; path = map_icons/tree_zoom1_plot.png; sourceTree = "<group>"; };
-		D7F352BA156BEFAF00E54060 /* tree_zoom3_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom3_plot.png; path = map_icons/tree_zoom3_plot.png; sourceTree = "<group>"; };
-		D7F352BB156BEFAF00E54060 /* tree_zoom5_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom5_plot.png; path = map_icons/tree_zoom5_plot.png; sourceTree = "<group>"; };
-		D7F352BC156BEFAF00E54060 /* tree_zoom6_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom6_plot.png; path = map_icons/tree_zoom6_plot.png; sourceTree = "<group>"; };
-		D7F352BD156BEFAF00E54060 /* tree_zoom7_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tree_zoom7_plot.png; path = map_icons/tree_zoom7_plot.png; sourceTree = "<group>"; };
-		D7EF1952158240DE0099B973 /* AZTileQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileQueue.h; sourceTree = "<group>"; };
-		D7EF1953158240DE0099B973 /* AZTileQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileQueue.m; sourceTree = "<group>"; };
 		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943971614F447EB007CD0D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E943971814F447EB007CD0D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -770,9 +761,11 @@
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
-				D75AA84015E7C5EB00E880E4 /* iphone_app-icon@2x.png */,
-				D75AA83E15E7C5E600E880E4 /* iphone_app-icon.png */,
 				D75AA83C15E7C58000E880E4 /* Default@2x.png */,
+				D7AC3D8715F0F7D8002443B0 /* Icon-72.png */,
+				D7AC3D8815F0F7D8002443B0 /* Icon-72@2xIcon.png */,
+				D7AC3D8915F0F7D8002443B0 /* Icon.png */,
+				D7AC3D8A15F0F7D9002443B0 /* Icon@2x.png */,
 				D75AA83915E7C57400E880E4 /* Default.png */,
 				64318CD11551E22E001C827F /* libASI.a */,
 				E943971C14F447EB007CD0D1 /* OpenTreeMap */,
@@ -1036,8 +1029,10 @@
 				D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */,
 				D75AA83A15E7C57400E880E4 /* Default.png in Resources */,
 				D75AA83D15E7C58000E880E4 /* Default@2x.png in Resources */,
-				D75AA83F15E7C5E600E880E4 /* iphone_app-icon.png in Resources */,
-				D75AA84115E7C5EB00E880E4 /* iphone_app-icon@2x.png in Resources */,
+				D7AC3D8D15F0F7D9002443B0 /* Icon-72.png in Resources */,
+				D7AC3D8E15F0F7D9002443B0 /* Icon-72@2xIcon.png in Resources */,
+				D7AC3D8F15F0F7D9002443B0 /* Icon.png in Resources */,
+				D7AC3D9015F0F7D9002443B0 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
