@@ -32,6 +32,44 @@ def stamp_version(version, jenkins=None):
     template_file.write(content)
     template_file.flush()
 
+def convert_choices(choices_py,choices_plist):
+    globs = {}
+    execfile(choices_py, globs)
+    choices = globs['CHOICES']
+
+    hippie_xml = """
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>"""
+
+    for (ch, vals) in choices.iteritems():
+        hippie_xml += """
+        <key>action</key>
+	<array>\n"""
+
+        for (value, txt) in vals:
+            hippie_xml += """
+		<dict>
+			<key>key</key>
+			<string>%s</string>
+			<key>type</key>
+			<string>int</string>
+			<key>value</key>
+			<string>%s</string>
+		</dict>\n""" % (value,txt)
+
+        hippie_xml += "        </array>\n"
+
+    hippie_xml += "</dict>\n"
+    hippie_xml += "</plist>"
+
+    f = open(choices_plist, 'w')
+    f.write(hippie_xml)
+    f.flush()
+    f.close()
+
+
 
 def clone_skin_repo(skin, clone_dir=None, version=None, user=None):
     """ Clone a skin repo
@@ -127,5 +165,5 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
         local('cp "../%s/ios/icons/ipad_app-icon@2x.png" '\
               'Icon-72@2x.png' % git_clone_path)
 
-
+    convert_choices("%s/choices.py" % git_clone_path, "OpenTreeMap/OpenTreeMap/Choices.plist")
         
