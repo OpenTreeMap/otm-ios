@@ -37,16 +37,15 @@ def convert_choices(choices_py,choices_plist):
     execfile(choices_py, globs)
     choices = globs['CHOICES']
 
-    hippie_xml = """
-<?xml version="1.0" encoding="UTF-8"?>
+    hippie_xml = """<?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
     <plist version="1.0">
     <dict>"""
 
     for (ch, vals) in choices.iteritems():
         hippie_xml += """
-        <key>action</key>
-	<array>\n"""
+        <key>%s</key>
+	<array>\n""" % ch
 
         for (value, txt) in vals:
             hippie_xml += """
