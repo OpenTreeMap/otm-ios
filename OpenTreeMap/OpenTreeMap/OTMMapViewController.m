@@ -798,7 +798,16 @@
     [self stopFindingLocation:self];
     if ([self mostAccurateLocationResponse] != nil) {
         MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-        [mapView setRegion:MKCoordinateRegionMake([[self mostAccurateLocationResponse] coordinate], span) animated:NO];
+        CLLocation *loc = [self mostAccurateLocationResponse];
+        CLLocationCoordinate2D coord = [loc coordinate];
+
+        OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
+        CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
+        CLLocationDistance dist = [loc distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
+        
+        if (dist < [env searchRegionRadiusInMeters]) {
+            [mapView setRegion:MKCoordinateRegionMake(coord, span) animated:NO];
+        }
     }
     [self setMostAccurateLocationResponse:nil];
 }
@@ -828,8 +837,15 @@
                   newLocation.coordinate.latitude,
                   newLocation.coordinate.longitude);
 
-            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-            [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
+            OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
+            MKCoordinateSpan span = [env mapViewSearchZoomCoordinateSpan];
+            CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
+            
+            CLLocationDistance dist = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
+            
+            if (dist < [env searchRegionRadiusInMeters]) {
+                [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
+            }
         }
     }
 }
