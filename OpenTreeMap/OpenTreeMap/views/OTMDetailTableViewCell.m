@@ -40,7 +40,9 @@
                                        CGRectGetMidX(frame) - 25,
                                        frame.size.height);
         
-        CGRect inputFrame = CGRectInset(rightFrame, 0, 10);
+        CGRect inputFrame = CGRectMake(195, 6,
+                                       98,
+                                       31);       
         
         self.fieldLabel = [self labelWithFrame:leftFrame];
         self.fieldValue = [self labelWithFrame:rightFrame];
@@ -48,6 +50,8 @@
         self.editFieldValue = [[UITextField alloc] initWithFrame:inputFrame];
         self.editFieldValue.textAlignment = UITextAlignmentRight;
         self.editFieldValue.delegate = self;
+        self.editFieldValue.borderStyle = UITextBorderStyleRoundedRect;
+
         
         [self.fieldLabel setTextColor:[UIColor grayColor]];
         
