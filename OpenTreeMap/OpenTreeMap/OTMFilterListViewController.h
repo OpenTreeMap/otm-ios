@@ -97,6 +97,7 @@ typedef enum {
 
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic,strong) IBOutlet UIView *otherFiltersView;
+@property (nonatomic,strong) IBOutlet UILabel *missingTreeLabel;
 @property (nonatomic,strong) IBOutlet UISwitch *missingTree;
 @property (nonatomic,strong) IBOutlet UISwitch *missingDBH;
 @property (nonatomic,strong) IBOutlet UISwitch *missingSpecies;

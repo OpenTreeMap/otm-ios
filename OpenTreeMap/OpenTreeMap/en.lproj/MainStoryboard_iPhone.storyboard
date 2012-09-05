@@ -288,14 +288,14 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Tree" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1kE-tt-9Ou">
-                                        <rect key="frame" x="20" y="290" width="134" height="21"/>
+                                        <rect key="frame" x="20" y="373" width="134" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="gX2-Pn-cAz">
-                                        <rect key="frame" x="221" y="287" width="79" height="27"/>
+                                        <rect key="frame" x="221" y="370" width="79" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </switch>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Species" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="98j-ZP-iyX">
@@ -310,14 +310,14 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </switch>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Missing Diameter" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="VyY-xp-7Za">
-                                        <rect key="frame" x="20" y="373" width="134" height="21"/>
+                                        <rect key="frame" x="20" y="290" width="134" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="gDx-iv-vQh">
-                                        <rect key="frame" x="221" y="370" width="79" height="27"/>
+                                        <rect key="frame" x="221" y="287" width="79" height="27"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </switch>
                                     <view contentMode="scaleToFill" id="ba0-Rh-Fwi">
@@ -361,6 +361,7 @@
                         <outlet property="missingDBH" destination="gDx-iv-vQh" id="5uj-dz-zan"/>
                         <outlet property="missingSpecies" destination="FMK-3X-97D" id="Fs4-Je-hpV"/>
                         <outlet property="missingTree" destination="gX2-Pn-cAz" id="WG3-m6-TLf"/>
+                        <outlet property="missingTreeLabel" destination="1kE-tt-9Ou" id="NSX-FO-Aq2"/>
                         <outlet property="otherFiltersView" destination="ba0-Rh-Fwi" id="gC1-Ym-7xN"/>
                         <outlet property="scrollView" destination="ePV-bU-uUu" id="sl1-dn-15l"/>
                         <outlet property="speciesButton" destination="1Jc-w3-d6h" id="uen-cY-WIQ"/>
@@ -857,6 +858,7 @@
                 <relationship kind="outlet" name="missingDBH" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="missingSpecies" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="missingTree" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="missingTreeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="otherFiltersView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="speciesButton" candidateClass="UIButton"/>

@@ -351,7 +351,7 @@
 
 @implementation OTMFilterListViewController
 
-@synthesize callback, missingTree, missingDBH, missingSpecies, scrollView, filters, otherFiltersView, speciesButton, speciesName, speciesId;
+@synthesize callback, missingTree, missingDBH, missingSpecies, scrollView, filters, otherFiltersView, speciesButton, speciesName, speciesId, missingTreeLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -366,6 +366,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if ([[OTMEnvironment sharedEnvironment] hideTreesFilter]) {
+        missingTreeLabel.hidden = YES;
+        missingTree.hidden = YES;
+    }
 }
 
 - (void)viewDidUnload

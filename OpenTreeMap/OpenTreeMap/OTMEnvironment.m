@@ -22,7 +22,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter;
 
 + (id)sharedEnvironment
 {
@@ -67,6 +67,12 @@
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
     
     self.apiKey = [implementation valueForKey:@"APIKey"];
+    
+    if ([implementation objectForKey:@"hideTreesFilter"]) {
+        self.hideTreesFilter = [[implementation valueForKey:@"hideTreesFilter"] boolValue];
+    } else {
+        self.hideTreesFilter = false;
+    }
     
     if ([implementation objectForKey:@"splashDelayInSeconds"]) {
         self.splashDelayInSeconds = [[implementation valueForKey:@"splashDelayInSeconds"] floatValue];
