@@ -225,15 +225,15 @@
         [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7_plot"]]]; // Level 18
 
         // Highlight (same for all levels)
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 10
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 11
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 12
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 13
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 14
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 15
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 16
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 17
-        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_zoom7"]]]; // Level 18
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 10
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 11
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 12
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 13
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 14
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 15
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 16
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 17
+        [stamps addObject:(__bridge id)[self createMangledStamp:[UIImage imageNamed:@"tree_search_zoom7"]]]; // Level 18
 
 
     }
