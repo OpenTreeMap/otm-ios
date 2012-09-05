@@ -107,6 +107,7 @@
 @property (nonatomic, strong) NSArray* filts;
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
+@property (nonatomic, assign) float splashDelayInSeconds;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 

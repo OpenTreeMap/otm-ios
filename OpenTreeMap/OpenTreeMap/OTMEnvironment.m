@@ -22,7 +22,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds;
 
 + (id)sharedEnvironment
 {
@@ -67,6 +67,12 @@
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
     
     self.apiKey = [implementation valueForKey:@"APIKey"];
+    
+    if ([implementation objectForKey:@"splashDelayInSeconds"]) {
+        self.splashDelayInSeconds = [[implementation valueForKey:@"splashDelayInSeconds"] floatValue];
+    } else {
+        self.splashDelayInSeconds = 0;
+    }
     
     fieldSections = [implementation objectForKey:@"fieldSections"];
     fields = [implementation objectForKey:@"fields"];
