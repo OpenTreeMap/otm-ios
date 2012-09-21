@@ -77,7 +77,7 @@ def convert_choices(choices_py,choices_plist):
 
 
 
-def clone_skin_repo(skin, clone_dir=None, version=None, user=None):
+def clone_skin_repo(skin=None, clone_dir=None, version=None, user=None):
     """ Clone a skin repo
 
     Require arguments:
@@ -94,38 +94,39 @@ def clone_skin_repo(skin, clone_dir=None, version=None, user=None):
            public git
 
     """
-    if "@" in skin:
+    if skin and "@" in skin:
         if version:
             abort("Specify version via @ or version but not both")
 
         (skin, version) = skin.split("@")
 
-    if not skin:
-        abort("You must specify a valid skin")
-
     if not version:
         print "[Warn] Version not specified. Using 'master'"
         version = 'master'
 
-    if user:
+    if user:  # If user is specified we are cloning an Azavea internal repository
         git_remote_path = 'ssh://%s@git.internal.azavea.com'\
                           '/git/Azavea_OpenTreeMap/%s.git'\
                           % (user, skin)
-    else:
+    elif skin:  # If skin is specified we are cloning an Azavea internal repository
         git_remote_path = 'git://git.internal.azavea.com/'\
                           'git/Azavea_OpenTreeMap/%s.git'\
                           % skin
-
-    if clone_dir:
-        git_local_path = '%s/%s' % (clone_dir, skin)
     else:
-        git_local_path = ''
+        git_remote_path = 'https://github.com/azavea/OpenTreeMap-iOS-skin.git'
+
+    if clone_dir and skin:
+        git_local_path = '%s/%s' % (clone_dir, skin)
+    elif clone_dir:
+        git_local_path = '%s/%s' % (clone_dir, 'MobileSkin')
+    else:
+        git_local_path = 'MobileSkin'
 
     local('git clone -b %s "%s" "%s"' %
           (version, git_remote_path, git_local_path))
 
 
-def install_skin(skin, user=None, version=None, clone_dir=None, 
+def install_skin(skin=None, user=None, version=None, clone_dir=None, 
                  force_delete=None):
     """ Install the given skin
 
@@ -143,7 +144,10 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
     if not clone_dir:
         clone_dir = '..'
 
-    git_clone_path = '%s/%s' % (clone_dir, skin)
+    if skin:
+        git_clone_path = '%s/%s' % (clone_dir, skin)
+    else:
+        git_clone_path = '%s/MobileSkin' % clone_dir
 
     if force_delete:
         local('rm -rf "%s"' % git_clone_path)
