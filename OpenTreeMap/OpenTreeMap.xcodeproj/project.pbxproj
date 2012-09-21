@@ -7,192 +7,99 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		64318CD21551E22E001C827F /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 64318CD11551E22E001C827F /* libASI.a */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
-		643ED26415C3196000BD4461 /* OTMFilterStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 643ED26315C3196000BD4461 /* OTMFilterStatusView.m */; };
-		644357AC15C092A60064BD80 /* OTMHelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 644357AB15C092A60064BD80 /* OTMHelpView.m */; };
-		644C190715532FE80055CDE8 /* AZMemoryObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 644C190615532FE80055CDE8 /* AZMemoryObjectCache.m */; };
-		644C190D155338E00055CDE8 /* AZTileCacheKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 644C190C155338E00055CDE8 /* AZTileCacheKey.m */; };
-		644C1910155339A30055CDE8 /* AZObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 644C190F155339A30055CDE8 /* AZObjectCache.m */; };
-		644C1922155431740055CDE8 /* AZCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 644C1921155431740055CDE8 /* AZCachedObject.m */; };
-		645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */; };
-		645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */; };
-		648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */; };
-		648550A81551C8BC006C9FF7 /* AZGeoCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550A71551C8BC006C9FF7 /* AZGeoCache.m */; };
-		648550AB1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */; };
-		6490025D15A3648D00DC492B /* AZMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6490025C15A3648D00DC492B /* AZMapHelper.m */; };
-		649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F8D23155041DA007B196D /* AZWaitingOverlayController.m */; };
-		64A7157C1562B46F003430E8 /* OTMTreeDictionaryHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 64A7157B1562B46F003430E8 /* OTMTreeDictionaryHelper.m */; };
-		64C76EB01561ACB10037805F /* OTMChangeLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */; };
-		64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */; };
-		64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D34563156169420073C62D /* OTMMapTableViewCell.m */; };
-		64DD10941598DDE70053AC57 /* OTMFieldDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */; };
-		64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */; };
+		64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64608646160CFB0A00A1458B /* InfoPlist.strings */; };
+		6460864B160CFB2800A1458B /* OpenTreeMap-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64608649160CFB2800A1458B /* OpenTreeMap-Info.plist */; };
+		6460864C160CFB2800A1458B /* OpenTreeMap.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6460864A160CFB2800A1458B /* OpenTreeMap.entitlements */; };
+		64608653160CFB4600A1458B /* LoginRequiredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6460864E160CFB4600A1458B /* LoginRequiredView.xib */; };
+		64608654160CFB4600A1458B /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6460864F160CFB4600A1458B /* LoginStoryboard.storyboard */; };
+		64608655160CFB4600A1458B /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64608650160CFB4600A1458B /* MainStoryboard_iPhone.storyboard */; };
+		64608656160CFB4600A1458B /* OTMBenefitsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64608651160CFB4600A1458B /* OTMBenefitsTableViewCell.xib */; };
+		64608657160CFB4600A1458B /* OTMDBHTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 64608652160CFB4600A1458B /* OTMDBHTableViewCell.xib */; };
+		646086EC160CFB6700A1458B /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460865B160CFB6700A1458B /* AZHttpRequest.m */; };
+		646086ED160CFB6700A1458B /* AZKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460865D160CFB6700A1458B /* AZKeychainItemWrapper.m */; };
+		646086EE160CFB6700A1458B /* AZUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460865F160CFB6700A1458B /* AZUser.m */; };
+		646086EF160CFB6700A1458B /* AZCachedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608662160CFB6700A1458B /* AZCachedObject.m */; };
+		646086F0160CFB6700A1458B /* AZGeoCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608664160CFB6700A1458B /* AZGeoCache.m */; };
+		646086F1160CFB6700A1458B /* AZMemoryObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608666160CFB6700A1458B /* AZMemoryObjectCache.m */; };
+		646086F2160CFB6700A1458B /* AZObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608668160CFB6700A1458B /* AZObjectCache.m */; };
+		646086F3160CFB6700A1458B /* AZTileCacheKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460866A160CFB6700A1458B /* AZTileCacheKey.m */; };
+		646086F4160CFB6700A1458B /* AZMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460866D160CFB6700A1458B /* AZMapHelper.m */; };
+		646086F5160CFB6700A1458B /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608670160CFB6700A1458B /* AZPointOffsetOverlay.m */; };
+		646086F6160CFB6700A1458B /* AZPointParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608672160CFB6700A1458B /* AZPointParser.m */; };
+		646086F7160CFB6700A1458B /* AZTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608674160CFB6700A1458B /* AZTile.m */; };
+		646086F8160CFB6700A1458B /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608676160CFB6700A1458B /* AZTilePointOffsetOverlayView.m */; };
+		646086F9160CFB6700A1458B /* AZTiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608678160CFB6700A1458B /* AZTiler.m */; };
+		646086FA160CFB6700A1458B /* AZTileRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460867A160CFB6700A1458B /* AZTileRenderer.m */; };
+		646086FB160CFB6700A1458B /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460867D160CFB6700A1458B /* AZWaitingOverlayController.m */; };
+		646086FC160CFB6700A1458B /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608680160CFB6700A1458B /* AZWMSOverlay.m */; };
+		646086FD160CFB6700A1458B /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608682160CFB6700A1458B /* AZWMSOverlayView.m */; };
+		646086FE160CFB6700A1458B /* NSArray+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608685160CFB6700A1458B /* NSArray+MutableDeepCopy.m */; };
+		646086FF160CFB6700A1458B /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608687160CFB6700A1458B /* NSDictionary+DecodeKey.m */; };
+		64608700160CFB6700A1458B /* NSDictionary+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608689160CFB6700A1458B /* NSDictionary+MutableDeepCopy.m */; };
+		64608701160CFB6700A1458B /* NSMutableOrderedSet+Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460868B160CFB6700A1458B /* NSMutableOrderedSet+Queue.m */; };
+		64608702160CFB6700A1458B /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460868D160CFB6700A1458B /* UIAlertView+Blocks.m */; };
+		64608703160CFB6700A1458B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460868E160CFB6700A1458B /* main.m */; };
+		64608704160CFB6700A1458B /* OTMBenefitsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608693160CFB6700A1458B /* OTMBenefitsTableViewCell.m */; };
+		64608705160CFB6700A1458B /* OTMChoicesDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608695160CFB6700A1458B /* OTMChoicesDetailCellRenderer.m */; };
+		64608706160CFB6700A1458B /* OTMDBHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608697160CFB6700A1458B /* OTMDBHTableViewCell.m */; };
+		64608707160CFB6700A1458B /* OTMDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608699160CFB6700A1458B /* OTMDetailCellRenderer.m */; };
+		64608708160CFB6700A1458B /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460869B160CFB6700A1458B /* OTMDetailTableViewCell.m */; };
+		64608709160CFB6700A1458B /* OTMDistanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460869D160CFB6700A1458B /* OTMDistanceTableViewCell.m */; };
+		6460870A160CFB6700A1458B /* OTMMapDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460869F160CFB6700A1458B /* OTMMapDetailCellRenderer.m */; };
+		6460870B160CFB6700A1458B /* OTMMapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086A1160CFB6700A1458B /* OTMMapTableViewCell.m */; };
+		6460870C160CFB6700A1458B /* OTMChangeLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086A4160CFB6700A1458B /* OTMChangeLocationViewController.m */; };
+		6460870D160CFB6700A1458B /* OTMFieldDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086A6160CFB6700A1458B /* OTMFieldDetailViewController.m */; };
+		6460870E160CFB6700A1458B /* OTMFilterListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086A8160CFB6700A1458B /* OTMFilterListViewController.m */; };
+		6460870F160CFB6700A1458B /* OTMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086AA160CFB6700A1458B /* OTMLoginViewController.m */; };
+		64608710160CFB6700A1458B /* OTMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086AC160CFB6700A1458B /* OTMMapViewController.m */; };
+		64608711160CFB6700A1458B /* OTMNearbyTreesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086AE160CFB6700A1458B /* OTMNearbyTreesViewController.m */; };
+		64608712160CFB6700A1458B /* OTMPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086B0160CFB6700A1458B /* OTMPasswordChangeViewController.m */; };
+		64608713160CFB6700A1458B /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086B2160CFB6700A1458B /* OTMPasswordResetViewController.m */; };
+		64608714160CFB6700A1458B /* OTMProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086B4160CFB6700A1458B /* OTMProfileViewController.m */; };
+		64608715160CFB6700A1458B /* OTMRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086B6160CFB6700A1458B /* OTMRegistrationViewController.m */; };
+		64608716160CFB6700A1458B /* OTMScrollAwareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086B8160CFB6700A1458B /* OTMScrollAwareViewController.m */; };
+		64608717160CFB6700A1458B /* OTMSpeciesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086BA160CFB6700A1458B /* OTMSpeciesTableViewController.m */; };
+		64608718160CFB6700A1458B /* OTMSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086BC160CFB6700A1458B /* OTMSplashViewController.m */; };
+		64608719160CFB6700A1458B /* OTMTreeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086BE160CFB6700A1458B /* OTMTreeDetailViewController.m */; };
+		6460871A160CFB6700A1458B /* OTMAddTreeAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086C0160CFB6700A1458B /* OTMAddTreeAnnotationView.m */; };
+		6460871B160CFB6700A1458B /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086C2160CFB6700A1458B /* OTMAPI.m */; };
+		6460871C160CFB6700A1458B /* OTMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086C4160CFB6700A1458B /* OTMAppDelegate.m */; };
+		6460871D160CFB6700A1458B /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086C6160CFB6700A1458B /* OTMEnvironment.m */; };
+		6460871E160CFB6700A1458B /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086C8160CFB6700A1458B /* OTMFormatters.m */; };
+		6460871F160CFB6700A1458B /* OTMLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086CA160CFB6700A1458B /* OTMLoginManager.m */; };
+		64608720160CFB6700A1458B /* OTMPictureTaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086CC160CFB6700A1458B /* OTMPictureTaker.m */; };
+		64608721160CFB6700A1458B /* OTMReverseGeocodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086CE160CFB6700A1458B /* OTMReverseGeocodeOperation.m */; };
+		64608722160CFB6700A1458B /* OTMSwapSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086D0160CFB6700A1458B /* OTMSwapSegue.m */; };
+		64608723160CFB6700A1458B /* OTMTreeDictionaryHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086D2160CFB6700A1458B /* OTMTreeDictionaryHelper.m */; };
+		64608724160CFB6700A1458B /* OTMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086D4160CFB6700A1458B /* OTMUser.m */; };
+		64608725160CFB6700A1458B /* OTMValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086D6160CFB6700A1458B /* OTMValidator.m */; };
+		64608726160CFB6700A1458B /* OTMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086D9160CFB6700A1458B /* OTMButton.m */; };
+		64608727160CFB6700A1458B /* OTMDetailBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086DB160CFB6700A1458B /* OTMDetailBoxView.m */; };
+		64608728160CFB6700A1458B /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086DD160CFB6700A1458B /* OTMDetailSliderview.m */; };
+		64608729160CFB6700A1458B /* OTMFilterStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086DF160CFB6700A1458B /* OTMFilterStatusView.m */; };
+		6460872A160CFB6700A1458B /* OTMHelpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086E1160CFB6700A1458B /* OTMHelpView.m */; };
+		6460872B160CFB6700A1458B /* OTMNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086E3160CFB6700A1458B /* OTMNavigationBar.m */; };
+		6460872C160CFB6700A1458B /* OTMSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086E5160CFB6700A1458B /* OTMSearchBar.m */; };
+		6460872D160CFB6700A1458B /* OTMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086E7160CFB6700A1458B /* OTMSegmentedControl.m */; };
+		6460872E160CFB6700A1458B /* OTMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086E9160CFB6700A1458B /* OTMTableView.m */; };
+		6460872F160CFB6700A1458B /* OTMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086EB160CFB6700A1458B /* OTMView.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
-		64DDCDB914F53102004FA0CF /* Debug.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDB814F53102004FA0CF /* Debug.plist */; };
-		64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */; };
-		64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64DDCDC414F53D8F004FA0CF /* Release.plist */; };
-		64E2AB9D155052B600EFA775 /* Philadelphia.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 64E2AB9C155052B600EFA775 /* Philadelphia.gpx */; };
-		64E2ABA01550535600EFA775 /* Azavea.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 64E2AB9F1550535600EFA775 /* Azavea.gpx */; };
-		D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */; };
-		D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */; };
-		D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */; };
-		D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
-		D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D70B881C1510E63D000C280C /* OTMBase64Test.m */; };
-		D70F8596155187E800D108D5 /* OTMView.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F8595155187E800D108D5 /* OTMView.m */; };
-		D70F859915518D7300D108D5 /* OTMNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F859815518D7300D108D5 /* OTMNavigationBar.m */; };
-		D70F859C1551920C00D108D5 /* OTMSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F859B1551920C00D108D5 /* OTMSearchBar.m */; };
-		D70F859F1551927500D108D5 /* OTMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F859E1551927500D108D5 /* OTMSegmentedControl.m */; };
-		D70F85A2155192E200D108D5 /* OTMButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F85A1155192E200D108D5 /* OTMButton.m */; };
-		D70F85DE155AB4E900D108D5 /* OTMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F85DD155AB4E900D108D5 /* OTMTableView.m */; };
-		D70F85E2155AB5A300D108D5 /* OTMDetailBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */; };
-		D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
-		D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */; };
-		D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF64715122DE800AB6664 /* DictionaryDecode.m */; };
-		D72BF65C15177AAA00AB6664 /* OTMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */; };
-		D72BF65D15177AAA00AB6664 /* OTMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */; };
-		D72BF66315177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */; };
-		D72BF66415177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */; };
 		D72BF6661517830A00AB6664 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72BF6651517830A00AB6664 /* Security.framework */; };
-		D72BF669151785B300AB6664 /* OTMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF668151785B300AB6664 /* OTMUser.m */; };
-		D72BF66A151785B300AB6664 /* OTMUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF668151785B300AB6664 /* OTMUser.m */; };
-		D72BF66D1517899700AB6664 /* OTMLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66C1517899700AB6664 /* OTMLoginManager.m */; };
-		D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D72BF66C1517899700AB6664 /* OTMLoginManager.m */; };
-		D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
-		D72BF67115178AF700AB6664 /* LoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */; };
-		D73B3AE0151BA13C00FF2125 /* OTMScrollAwareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */; };
-		D73B3AF4151BB2A500FF2125 /* OTMRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3AF3151BB2A500FF2125 /* OTMRegistrationViewController.m */; };
-		D73B3AF8151CB90300FF2125 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */; };
-		D75AA7F115DE9F6400E880E4 /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7AE15DE9F6400E880E4 /* about.png */; };
-		D75AA7F215DE9F6400E880E4 /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7AF15DE9F6400E880E4 /* about@2x.png */; };
-		D75AA7F315DE9F6400E880E4 /* about_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B015DE9F6400E880E4 /* about_bg.png */; };
-		D75AA7F415DE9F6400E880E4 /* about_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B115DE9F6400E880E4 /* about_bg@2x.png */; };
-		D75AA7F515DE9F6400E880E4 /* add_help_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B215DE9F6400E880E4 /* add_help_bg.png */; };
-		D75AA7F615DE9F6400E880E4 /* add_help_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B315DE9F6400E880E4 /* add_help_bg@2x.png */; };
-		D75AA7F715DE9F6400E880E4 /* add_new.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B415DE9F6400E880E4 /* add_new.png */; };
-		D75AA7F815DE9F6400E880E4 /* add_new@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B515DE9F6400E880E4 /* add_new@2x.png */; };
-		D75AA7F915DE9F6400E880E4 /* btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B615DE9F6400E880E4 /* btn_bg.png */; };
-		D75AA7FA15DE9F6400E880E4 /* btn_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B715DE9F6400E880E4 /* btn_bg@2x.png */; };
-		D75AA7FB15DE9F6400E880E4 /* button_glass_red.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B815DE9F6400E880E4 /* button_glass_red.png */; };
-		D75AA7FC15DE9F6400E880E4 /* button_glass_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7B915DE9F6400E880E4 /* button_glass_red@2x.png */; };
-		D75AA7FD15DE9F6400E880E4 /* detail.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7BA15DE9F6400E880E4 /* detail.png */; };
-		D75AA7FE15DE9F6400E880E4 /* filter_status_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7BB15DE9F6400E880E4 /* filter_status_bg.png */; };
-		D75AA7FF15DE9F6400E880E4 /* filter_status_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7BC15DE9F6400E880E4 /* filter_status_bg@2x.png */; };
-		D75AA80015DE9F6400E880E4 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7BD15DE9F6400E880E4 /* gps_icon.png */; };
-		D75AA80115DE9F6400E880E4 /* gps_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7BE15DE9F6400E880E4 /* gps_icon@2x.png */; };
-		D75AA80215DE9F6400E880E4 /* gps_icon_14.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7BF15DE9F6400E880E4 /* gps_icon_14.png */; };
-		D75AA80315DE9F6400E880E4 /* gps_icon_14@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C015DE9F6400E880E4 /* gps_icon_14@2x.png */; };
-		D75AA80415DE9F6400E880E4 /* handle_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C115DE9F6400E880E4 /* handle_icon.png */; };
-		D75AA80515DE9F6400E880E4 /* handle_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C215DE9F6400E880E4 /* handle_icon@2x.png */; };
-		D75AA80615DE9F6400E880E4 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C315DE9F6400E880E4 /* logo.png */; };
-		D75AA80715DE9F6400E880E4 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C415DE9F6400E880E4 /* logo@2x.png */; };
-		D75AA80815DE9F6400E880E4 /* tree_search.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C615DE9F6400E880E4 /* tree_search.png */; };
-		D75AA80915DE9F6400E880E4 /* tree_search_zoom1.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C715DE9F6400E880E4 /* tree_search_zoom1.png */; };
-		D75AA80A15DE9F6400E880E4 /* tree_search_zoom3.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C815DE9F6400E880E4 /* tree_search_zoom3.png */; };
-		D75AA80B15DE9F6400E880E4 /* tree_search_zoom5.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7C915DE9F6400E880E4 /* tree_search_zoom5.png */; };
-		D75AA80C15DE9F6400E880E4 /* tree_search_zoom6.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7CA15DE9F6400E880E4 /* tree_search_zoom6.png */; };
-		D75AA80D15DE9F6400E880E4 /* tree_search_zoom7.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7CB15DE9F6400E880E4 /* tree_search_zoom7.png */; };
-		D75AA80E15DE9F6400E880E4 /* tree_zoom1.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7CC15DE9F6400E880E4 /* tree_zoom1.png */; };
-		D75AA80F15DE9F6400E880E4 /* tree_zoom1_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7CD15DE9F6400E880E4 /* tree_zoom1_highlight.png */; };
-		D75AA81015DE9F6400E880E4 /* tree_zoom1_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7CE15DE9F6400E880E4 /* tree_zoom1_plot.png */; };
-		D75AA81115DE9F6400E880E4 /* tree_zoom3.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7CF15DE9F6400E880E4 /* tree_zoom3.png */; };
-		D75AA81215DE9F6400E880E4 /* tree_zoom3_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D015DE9F6400E880E4 /* tree_zoom3_highlight.png */; };
-		D75AA81315DE9F6400E880E4 /* tree_zoom3_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D115DE9F6400E880E4 /* tree_zoom3_plot.png */; };
-		D75AA81415DE9F6400E880E4 /* tree_zoom5.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D215DE9F6400E880E4 /* tree_zoom5.png */; };
-		D75AA81515DE9F6400E880E4 /* tree_zoom5_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D315DE9F6400E880E4 /* tree_zoom5_highlight.png */; };
-		D75AA81615DE9F6400E880E4 /* tree_zoom5_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D415DE9F6400E880E4 /* tree_zoom5_plot.png */; };
-		D75AA81715DE9F6400E880E4 /* tree_zoom6.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D515DE9F6400E880E4 /* tree_zoom6.png */; };
-		D75AA81815DE9F6400E880E4 /* tree_zoom6_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D615DE9F6400E880E4 /* tree_zoom6_highlight.png */; };
-		D75AA81915DE9F6400E880E4 /* tree_zoom6_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D715DE9F6400E880E4 /* tree_zoom6_plot.png */; };
-		D75AA81A15DE9F6400E880E4 /* tree_zoom7.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D815DE9F6400E880E4 /* tree_zoom7.png */; };
-		D75AA81B15DE9F6400E880E4 /* tree_zoom7_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7D915DE9F6400E880E4 /* tree_zoom7_highlight.png */; };
-		D75AA81C15DE9F6400E880E4 /* tree_zoom7_plot.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7DA15DE9F6400E880E4 /* tree_zoom7_plot.png */; };
-		D75AA81D15DE9F6400E880E4 /* marker-selected-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7DB15DE9F6400E880E4 /* marker-selected-sm.png */; };
-		D75AA81E15DE9F6400E880E4 /* pend.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7DC15DE9F6400E880E4 /* pend.png */; };
-		D75AA81F15DE9F6400E880E4 /* pend@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7DD15DE9F6400E880E4 /* pend@2x.png */; };
-		D75AA82015DE9F6400E880E4 /* pending-approved.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7DE15DE9F6400E880E4 /* pending-approved.png */; };
-		D75AA82115DE9F6400E880E4 /* pending-approved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7DF15DE9F6400E880E4 /* pending-approved@2x.png */; };
-		D75AA82215DE9F6400E880E4 /* pending-unapproved.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E015DE9F6400E880E4 /* pending-unapproved.png */; };
-		D75AA82315DE9F6400E880E4 /* pending-unapproved@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E115DE9F6400E880E4 /* pending-unapproved@2x.png */; };
-		D75AA82415DE9F6400E880E4 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E215DE9F6400E880E4 /* profile.png */; };
-		D75AA82515DE9F6400E880E4 /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E315DE9F6400E880E4 /* profile@2x.png */; };
-		D75AA82615DE9F6400E880E4 /* recent_trees.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E415DE9F6400E880E4 /* recent_trees.png */; };
-		D75AA82715DE9F6400E880E4 /* recent_trees@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E515DE9F6400E880E4 /* recent_trees@2x.png */; };
-		D75AA82815DE9F6400E880E4 /* selected_marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E615DE9F6400E880E4 /* selected_marker.png */; };
-		D75AA82915DE9F6400E880E4 /* selected_marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E715DE9F6400E880E4 /* selected_marker@2x.png */; };
-		D75AA82A15DE9F6400E880E4 /* selected_marker_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E815DE9F6400E880E4 /* selected_marker_small.png */; };
-		D75AA82B15DE9F6400E880E4 /* selected_marker_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7E915DE9F6400E880E4 /* selected_marker_small@2x.png */; };
-		D75AA82C15DE9F6400E880E4 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EA15DE9F6400E880E4 /* splash_screen.png */; };
-		D75AA82D15DE9F6400E880E4 /* splash_screen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EB15DE9F6400E880E4 /* splash_screen@2x.png */; };
-		D75AA82E15DE9F6400E880E4 /* transparent_14.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EC15DE9F6400E880E4 /* transparent_14.png */; };
-		D75AA82F15DE9F6400E880E4 /* tree_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7ED15DE9F6400E880E4 /* tree_icon.png */; };
-		D75AA83015DE9F6400E880E4 /* tree_map.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EE15DE9F6400E880E4 /* tree_map.png */; };
-		D75AA83115DE9F6400E880E4 /* tree_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA7EF15DE9F6400E880E4 /* tree_map@2x.png */; };
-		D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83315DEB2FE00E880E4 /* Implementation.plist */; };
-		D75AA83A15E7C57400E880E4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83915E7C57400E880E4 /* Default.png */; };
-		D75AA83D15E7C58000E880E4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75AA83C15E7C58000E880E4 /* Default@2x.png */; };
-		D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */; };
-		D764148A15F66011005FA0C8 /* OTMSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D764148915F66011005FA0C8 /* OTMSplashViewController.m */; };
-		D764148E15F66182005FA0C8 /* OTMSwapSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = D764148D15F66182005FA0C8 /* OTMSwapSegue.m */; };
-		D76BD8FB15226446003C664F /* OTMPictureTaker.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD8FA15226446003C664F /* OTMPictureTaker.m */; };
-		D76BD9071523B8EB003C664F /* AZUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D76BD9061523B8EB003C664F /* AZUser.m */; };
-		D7775FC91520E864008301E4 /* OTMValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FC81520E864008301E4 /* OTMValidator.m */; };
-		D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FCB15210492008301E4 /* OTMProfileViewController.m */; };
-		D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */; };
-		D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */; };
-		D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */; };
-		D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */; };
-		D7829CA71547275700DBFE7C /* Choices.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7829CA61547275700DBFE7C /* Choices.plist */; };
-		D7829CAB15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */; };
-		D78CCCD7152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */; };
-		D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */; };
-		D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */; };
-		D791171F15113F70004BE79C /* OTMFormatters.m in Sources */ = {isa = PBXBuildFile; fileRef = D791171E15113F70004BE79C /* OTMFormatters.m */; };
-		D7AC3D8D15F0F7D9002443B0 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D8715F0F7D8002443B0 /* Icon-72.png */; };
-		D7AC3D8F15F0F7D9002443B0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D8915F0F7D8002443B0 /* Icon.png */; };
-		D7AC3D9015F0F7D9002443B0 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D8A15F0F7D9002443B0 /* Icon@2x.png */; };
-		D7AC3D9D15F0F9FB002443B0 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC3D9C15F0F9FB002443B0 /* Icon-72@2x.png */; };
-		D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
-		D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */; };
-		D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
-		D7BEA4B114FD3587006CC456 /* OTMAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BEA4AF14FD3587006CC456 /* OTMAPI.m */; };
-		D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
-		D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */ = {isa = PBXBuildFile; fileRef = D7C252CF14FE84780028519E /* OTMDetailSliderview.m */; };
 		D7C990201518C8670094770C /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C9901F1518C8670094770C /* libASI.a */; };
 		D7C990231518C87E0094770C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		D7C990251518C8890094770C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990241518C8890094770C /* SystemConfiguration.framework */; };
 		D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990261518C88F0094770C /* MobileCoreServices.framework */; };
 		D7C990291518C89F0094770C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990281518C89F0094770C /* libz.dylib */; };
-		D7CBD06A1577C871009D08FF /* OTMFilterListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CBD0691577C871009D08FF /* OTMFilterListViewController.m */; };
-		D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
-		D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */; };
-		D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7CF59B41550311800D37425 /* LoginRequiredView.xib */; };
-		D7D23DD915D9A04E0019D9D6 /* AZTileRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */; };
-		D7D23DDA15D9A05B0019D9D6 /* AZTileRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */; };
-		D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86A415BDA4C30063D0B6 /* version.plist */; };
-		D7DE86AC15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */; };
-		D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */; };
-		D7DE86BD15D14DD60063D0B6 /* AZTile.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86BC15D14DD60063D0B6 /* AZTile.m */; };
-		D7DE86C015D14DEF0063D0B6 /* AZTiler.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */; };
-		D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DE86C215D14E060063D0B6 /* AZPointParser.m */; };
-		D7EF4A3E15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
-		D7EF4A4015D2E5E10014A685 /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */; };
 		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
 		E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
 		E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
-		E943972114F447EB007CD0D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E943971F14F447EB007CD0D1 /* InfoPlist.strings */; };
-		E943972314F447EB007CD0D1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972214F447EB007CD0D1 /* main.m */; };
-		E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972614F447EB007CD0D1 /* OTMAppDelegate.m */; };
-		E943972A14F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */; };
-		E943973014F447EB007CD0D1 /* OTMMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E943972F14F447EB007CD0D1 /* OTMMapViewController.m */; };
 		E943974314F447EB007CD0D1 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943974214F447EB007CD0D1 /* SenTestingKit.framework */; };
 		E943974414F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
 		E943974514F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
-		E943974D14F447EB007CD0D1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E943974B14F447EB007CD0D1 /* InfoPlist.strings */; };
-		E943975014F447EB007CD0D1 /* OpenTreeMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E943974F14F447EB007CD0D1 /* OpenTreeMapTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,253 +113,165 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		64318CD11551E22E001C827F /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../DerivedData/opentreemap/Build/Products/Debug-iphoneos/libASI.a"; sourceTree = "<group>"; };
-		643ED26215C3196000BD4461 /* OTMFilterStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFilterStatusView.h; sourceTree = "<group>"; };
-		643ED26315C3196000BD4461 /* OTMFilterStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFilterStatusView.m; sourceTree = "<group>"; };
-		644357AA15C092A60064BD80 /* OTMHelpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMHelpView.h; sourceTree = "<group>"; };
-		644357AB15C092A60064BD80 /* OTMHelpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMHelpView.m; sourceTree = "<group>"; };
-		644C190515532FE80055CDE8 /* AZMemoryObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMemoryObjectCache.h; sourceTree = "<group>"; };
-		644C190615532FE80055CDE8 /* AZMemoryObjectCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMemoryObjectCache.m; sourceTree = "<group>"; };
-		644C190B155338E00055CDE8 /* AZTileCacheKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileCacheKey.h; sourceTree = "<group>"; };
-		644C190C155338E00055CDE8 /* AZTileCacheKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileCacheKey.m; sourceTree = "<group>"; };
-		644C190E155339A30055CDE8 /* AZObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZObjectCache.h; sourceTree = "<group>"; };
-		644C190F155339A30055CDE8 /* AZObjectCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZObjectCache.m; sourceTree = "<group>"; };
-		644C1920155431740055CDE8 /* AZCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZCachedObject.h; sourceTree = "<group>"; };
-		644C1921155431740055CDE8 /* AZCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZCachedObject.m; sourceTree = "<group>"; };
-		645497F91542191900C7F423 /* OTMAddTreeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAddTreeAnnotationView.h; sourceTree = "<group>"; };
-		645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAddTreeAnnotationView.m; sourceTree = "<group>"; };
-		645497FC1545A1E600C7F423 /* OTMReverseGeocodeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMReverseGeocodeOperation.h; sourceTree = "<group>"; };
-		645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMReverseGeocodeOperation.m; sourceTree = "<group>"; };
-		648550A01551B4D3006C9FF7 /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
-		648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
-		648550A61551C8BC006C9FF7 /* AZGeoCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZGeoCache.h; sourceTree = "<group>"; };
-		648550A71551C8BC006C9FF7 /* AZGeoCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZGeoCache.m; sourceTree = "<group>"; };
-		648550A91551CEDD006C9FF7 /* NSMutableOrderedSet+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableOrderedSet+Queue.h"; sourceTree = "<group>"; };
-		648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableOrderedSet+Queue.m"; sourceTree = "<group>"; };
-		6490025B15A3648D00DC492B /* AZMapHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMapHelper.h; sourceTree = "<group>"; };
-		6490025C15A3648D00DC492B /* AZMapHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMapHelper.m; sourceTree = "<group>"; };
-		649F8D22155041DA007B196D /* AZWaitingOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWaitingOverlayController.h; sourceTree = "<group>"; };
-		649F8D23155041DA007B196D /* AZWaitingOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWaitingOverlayController.m; sourceTree = "<group>"; };
-		64A7157A1562B46F003430E8 /* OTMTreeDictionaryHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDictionaryHelper.h; sourceTree = "<group>"; };
-		64A7157B1562B46F003430E8 /* OTMTreeDictionaryHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDictionaryHelper.m; sourceTree = "<group>"; };
-		64C76EAE1561ACB10037805F /* OTMChangeLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMChangeLocationViewController.h; sourceTree = "<group>"; };
-		64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMChangeLocationViewController.m; sourceTree = "<group>"; };
-		64D3455E156161DE0073C62D /* OTMMapDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapDetailCellRenderer.h; sourceTree = "<group>"; };
-		64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapDetailCellRenderer.m; sourceTree = "<group>"; };
-		64D34562156169420073C62D /* OTMMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapTableViewCell.h; sourceTree = "<group>"; };
-		64D34563156169420073C62D /* OTMMapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapTableViewCell.m; sourceTree = "<group>"; };
-		64DD10921598DDE70053AC57 /* OTMFieldDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFieldDetailViewController.h; sourceTree = "<group>"; };
-		64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFieldDetailViewController.m; sourceTree = "<group>"; };
-		64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
-		64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
+		64608647160CFB0A00A1458B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		64608649160CFB2800A1458B /* OpenTreeMap-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OpenTreeMap-Info.plist"; sourceTree = "<group>"; };
+		6460864A160CFB2800A1458B /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
+		6460864E160CFB4600A1458B /* LoginRequiredView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRequiredView.xib; sourceTree = "<group>"; };
+		6460864F160CFB4600A1458B /* LoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginStoryboard.storyboard; sourceTree = "<group>"; };
+		64608650160CFB4600A1458B /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		64608651160CFB4600A1458B /* OTMBenefitsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMBenefitsTableViewCell.xib; sourceTree = "<group>"; };
+		64608652160CFB4600A1458B /* OTMDBHTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMDBHTableViewCell.xib; sourceTree = "<group>"; };
+		6460865A160CFB6700A1458B /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
+		6460865B160CFB6700A1458B /* AZHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZHttpRequest.m; sourceTree = "<group>"; };
+		6460865C160CFB6700A1458B /* AZKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZKeychainItemWrapper.h; sourceTree = "<group>"; };
+		6460865D160CFB6700A1458B /* AZKeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZKeychainItemWrapper.m; sourceTree = "<group>"; };
+		6460865E160CFB6700A1458B /* AZUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZUser.h; sourceTree = "<group>"; };
+		6460865F160CFB6700A1458B /* AZUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZUser.m; sourceTree = "<group>"; };
+		64608661160CFB6700A1458B /* AZCachedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZCachedObject.h; sourceTree = "<group>"; };
+		64608662160CFB6700A1458B /* AZCachedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZCachedObject.m; sourceTree = "<group>"; };
+		64608663160CFB6700A1458B /* AZGeoCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZGeoCache.h; sourceTree = "<group>"; };
+		64608664160CFB6700A1458B /* AZGeoCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZGeoCache.m; sourceTree = "<group>"; };
+		64608665160CFB6700A1458B /* AZMemoryObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMemoryObjectCache.h; sourceTree = "<group>"; };
+		64608666160CFB6700A1458B /* AZMemoryObjectCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMemoryObjectCache.m; sourceTree = "<group>"; };
+		64608667160CFB6700A1458B /* AZObjectCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZObjectCache.h; sourceTree = "<group>"; };
+		64608668160CFB6700A1458B /* AZObjectCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZObjectCache.m; sourceTree = "<group>"; };
+		64608669160CFB6700A1458B /* AZTileCacheKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileCacheKey.h; sourceTree = "<group>"; };
+		6460866A160CFB6700A1458B /* AZTileCacheKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileCacheKey.m; sourceTree = "<group>"; };
+		6460866C160CFB6700A1458B /* AZMapHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMapHelper.h; sourceTree = "<group>"; };
+		6460866D160CFB6700A1458B /* AZMapHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMapHelper.m; sourceTree = "<group>"; };
+		6460866E160CFB6700A1458B /* AZPointCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointCollection.h; sourceTree = "<group>"; };
+		6460866F160CFB6700A1458B /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
+		64608670160CFB6700A1458B /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
+		64608671160CFB6700A1458B /* AZPointParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointParser.h; sourceTree = "<group>"; };
+		64608672160CFB6700A1458B /* AZPointParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointParser.m; sourceTree = "<group>"; };
+		64608673160CFB6700A1458B /* AZTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTile.h; sourceTree = "<group>"; };
+		64608674160CFB6700A1458B /* AZTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTile.m; sourceTree = "<group>"; };
+		64608675160CFB6700A1458B /* AZTilePointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTilePointOffsetOverlayView.h; sourceTree = "<group>"; };
+		64608676160CFB6700A1458B /* AZTilePointOffsetOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTilePointOffsetOverlayView.m; sourceTree = "<group>"; };
+		64608677160CFB6700A1458B /* AZTiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTiler.h; sourceTree = "<group>"; };
+		64608678160CFB6700A1458B /* AZTiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTiler.m; sourceTree = "<group>"; };
+		64608679160CFB6700A1458B /* AZTileRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileRenderer.h; sourceTree = "<group>"; };
+		6460867A160CFB6700A1458B /* AZTileRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileRenderer.m; sourceTree = "<group>"; };
+		6460867C160CFB6700A1458B /* AZWaitingOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWaitingOverlayController.h; sourceTree = "<group>"; };
+		6460867D160CFB6700A1458B /* AZWaitingOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWaitingOverlayController.m; sourceTree = "<group>"; };
+		6460867F160CFB6700A1458B /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
+		64608680160CFB6700A1458B /* AZWMSOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlay.m; sourceTree = "<group>"; };
+		64608681160CFB6700A1458B /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
+		64608682160CFB6700A1458B /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
+		64608684160CFB6700A1458B /* NSArray+MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MutableDeepCopy.h"; sourceTree = "<group>"; };
+		64608685160CFB6700A1458B /* NSArray+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MutableDeepCopy.m"; sourceTree = "<group>"; };
+		64608686160CFB6700A1458B /* NSDictionary+DecodeKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DecodeKey.h"; sourceTree = "<group>"; };
+		64608687160CFB6700A1458B /* NSDictionary+DecodeKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DecodeKey.m"; sourceTree = "<group>"; };
+		64608688160CFB6700A1458B /* NSDictionary+MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MutableDeepCopy.h"; sourceTree = "<group>"; };
+		64608689160CFB6700A1458B /* NSDictionary+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MutableDeepCopy.m"; sourceTree = "<group>"; };
+		6460868A160CFB6700A1458B /* NSMutableOrderedSet+Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableOrderedSet+Queue.h"; sourceTree = "<group>"; };
+		6460868B160CFB6700A1458B /* NSMutableOrderedSet+Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableOrderedSet+Queue.m"; sourceTree = "<group>"; };
+		6460868C160CFB6700A1458B /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		6460868D160CFB6700A1458B /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
+		6460868E160CFB6700A1458B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6460868F160CFB6700A1458B /* OpenTreeMap-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenTreeMap-Prefix.pch"; sourceTree = "<group>"; };
+		64608692160CFB6700A1458B /* OTMBenefitsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBenefitsTableViewCell.h; sourceTree = "<group>"; };
+		64608693160CFB6700A1458B /* OTMBenefitsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBenefitsTableViewCell.m; sourceTree = "<group>"; };
+		64608694160CFB6700A1458B /* OTMChoicesDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMChoicesDetailCellRenderer.h; sourceTree = "<group>"; };
+		64608695160CFB6700A1458B /* OTMChoicesDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMChoicesDetailCellRenderer.m; sourceTree = "<group>"; };
+		64608696160CFB6700A1458B /* OTMDBHTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDBHTableViewCell.h; sourceTree = "<group>"; };
+		64608697160CFB6700A1458B /* OTMDBHTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDBHTableViewCell.m; sourceTree = "<group>"; };
+		64608698160CFB6700A1458B /* OTMDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailCellRenderer.h; sourceTree = "<group>"; };
+		64608699160CFB6700A1458B /* OTMDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailCellRenderer.m; sourceTree = "<group>"; };
+		6460869A160CFB6700A1458B /* OTMDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailTableViewCell.h; sourceTree = "<group>"; };
+		6460869B160CFB6700A1458B /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
+		6460869C160CFB6700A1458B /* OTMDistanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDistanceTableViewCell.h; sourceTree = "<group>"; };
+		6460869D160CFB6700A1458B /* OTMDistanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDistanceTableViewCell.m; sourceTree = "<group>"; };
+		6460869E160CFB6700A1458B /* OTMMapDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapDetailCellRenderer.h; sourceTree = "<group>"; };
+		6460869F160CFB6700A1458B /* OTMMapDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapDetailCellRenderer.m; sourceTree = "<group>"; };
+		646086A0160CFB6700A1458B /* OTMMapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapTableViewCell.h; sourceTree = "<group>"; };
+		646086A1160CFB6700A1458B /* OTMMapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapTableViewCell.m; sourceTree = "<group>"; };
+		646086A3160CFB6700A1458B /* OTMChangeLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMChangeLocationViewController.h; sourceTree = "<group>"; };
+		646086A4160CFB6700A1458B /* OTMChangeLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMChangeLocationViewController.m; sourceTree = "<group>"; };
+		646086A5160CFB6700A1458B /* OTMFieldDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFieldDetailViewController.h; sourceTree = "<group>"; };
+		646086A6160CFB6700A1458B /* OTMFieldDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFieldDetailViewController.m; sourceTree = "<group>"; };
+		646086A7160CFB6700A1458B /* OTMFilterListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFilterListViewController.h; sourceTree = "<group>"; };
+		646086A8160CFB6700A1458B /* OTMFilterListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFilterListViewController.m; sourceTree = "<group>"; };
+		646086A9160CFB6700A1458B /* OTMLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginViewController.h; sourceTree = "<group>"; };
+		646086AA160CFB6700A1458B /* OTMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginViewController.m; sourceTree = "<group>"; };
+		646086AB160CFB6700A1458B /* OTMMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMMapViewController.h; sourceTree = "<group>"; };
+		646086AC160CFB6700A1458B /* OTMMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMMapViewController.m; sourceTree = "<group>"; };
+		646086AD160CFB6700A1458B /* OTMNearbyTreesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNearbyTreesViewController.h; sourceTree = "<group>"; };
+		646086AE160CFB6700A1458B /* OTMNearbyTreesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMNearbyTreesViewController.m; sourceTree = "<group>"; };
+		646086AF160CFB6700A1458B /* OTMPasswordChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordChangeViewController.h; sourceTree = "<group>"; };
+		646086B0160CFB6700A1458B /* OTMPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordChangeViewController.m; sourceTree = "<group>"; };
+		646086B1160CFB6700A1458B /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
+		646086B2160CFB6700A1458B /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
+		646086B3160CFB6700A1458B /* OTMProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMProfileViewController.h; sourceTree = "<group>"; };
+		646086B4160CFB6700A1458B /* OTMProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMProfileViewController.m; sourceTree = "<group>"; };
+		646086B5160CFB6700A1458B /* OTMRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMRegistrationViewController.h; sourceTree = "<group>"; };
+		646086B6160CFB6700A1458B /* OTMRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMRegistrationViewController.m; sourceTree = "<group>"; };
+		646086B7160CFB6700A1458B /* OTMScrollAwareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMScrollAwareViewController.h; sourceTree = "<group>"; };
+		646086B8160CFB6700A1458B /* OTMScrollAwareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMScrollAwareViewController.m; sourceTree = "<group>"; };
+		646086B9160CFB6700A1458B /* OTMSpeciesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSpeciesTableViewController.h; sourceTree = "<group>"; };
+		646086BA160CFB6700A1458B /* OTMSpeciesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSpeciesTableViewController.m; sourceTree = "<group>"; };
+		646086BB160CFB6700A1458B /* OTMSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSplashViewController.h; sourceTree = "<group>"; };
+		646086BC160CFB6700A1458B /* OTMSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSplashViewController.m; sourceTree = "<group>"; };
+		646086BD160CFB6700A1458B /* OTMTreeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDetailViewController.h; sourceTree = "<group>"; };
+		646086BE160CFB6700A1458B /* OTMTreeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDetailViewController.m; sourceTree = "<group>"; };
+		646086BF160CFB6700A1458B /* OTMAddTreeAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAddTreeAnnotationView.h; sourceTree = "<group>"; };
+		646086C0160CFB6700A1458B /* OTMAddTreeAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAddTreeAnnotationView.m; sourceTree = "<group>"; };
+		646086C1160CFB6700A1458B /* OTMAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAPI.h; sourceTree = "<group>"; };
+		646086C2160CFB6700A1458B /* OTMAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAPI.m; sourceTree = "<group>"; };
+		646086C3160CFB6700A1458B /* OTMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAppDelegate.h; sourceTree = "<group>"; };
+		646086C4160CFB6700A1458B /* OTMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAppDelegate.m; sourceTree = "<group>"; };
+		646086C5160CFB6700A1458B /* OTMEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMEnvironment.h; sourceTree = "<group>"; };
+		646086C6160CFB6700A1458B /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
+		646086C7160CFB6700A1458B /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
+		646086C8160CFB6700A1458B /* OTMFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFormatters.m; sourceTree = "<group>"; };
+		646086C9160CFB6700A1458B /* OTMLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginManager.h; sourceTree = "<group>"; };
+		646086CA160CFB6700A1458B /* OTMLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginManager.m; sourceTree = "<group>"; };
+		646086CB160CFB6700A1458B /* OTMPictureTaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPictureTaker.h; sourceTree = "<group>"; };
+		646086CC160CFB6700A1458B /* OTMPictureTaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPictureTaker.m; sourceTree = "<group>"; };
+		646086CD160CFB6700A1458B /* OTMReverseGeocodeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMReverseGeocodeOperation.h; sourceTree = "<group>"; };
+		646086CE160CFB6700A1458B /* OTMReverseGeocodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMReverseGeocodeOperation.m; sourceTree = "<group>"; };
+		646086CF160CFB6700A1458B /* OTMSwapSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSwapSegue.h; sourceTree = "<group>"; };
+		646086D0160CFB6700A1458B /* OTMSwapSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSwapSegue.m; sourceTree = "<group>"; };
+		646086D1160CFB6700A1458B /* OTMTreeDictionaryHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDictionaryHelper.h; sourceTree = "<group>"; };
+		646086D2160CFB6700A1458B /* OTMTreeDictionaryHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDictionaryHelper.m; sourceTree = "<group>"; };
+		646086D3160CFB6700A1458B /* OTMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMUser.h; sourceTree = "<group>"; };
+		646086D4160CFB6700A1458B /* OTMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMUser.m; sourceTree = "<group>"; };
+		646086D5160CFB6700A1458B /* OTMValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMValidator.h; sourceTree = "<group>"; };
+		646086D6160CFB6700A1458B /* OTMValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMValidator.m; sourceTree = "<group>"; };
+		646086D8160CFB6700A1458B /* OTMButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMButton.h; sourceTree = "<group>"; };
+		646086D9160CFB6700A1458B /* OTMButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMButton.m; sourceTree = "<group>"; };
+		646086DA160CFB6700A1458B /* OTMDetailBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailBoxView.h; sourceTree = "<group>"; };
+		646086DB160CFB6700A1458B /* OTMDetailBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailBoxView.m; sourceTree = "<group>"; };
+		646086DC160CFB6700A1458B /* OTMDetailSliderview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailSliderview.h; sourceTree = "<group>"; };
+		646086DD160CFB6700A1458B /* OTMDetailSliderview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailSliderview.m; sourceTree = "<group>"; };
+		646086DE160CFB6700A1458B /* OTMFilterStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFilterStatusView.h; sourceTree = "<group>"; };
+		646086DF160CFB6700A1458B /* OTMFilterStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFilterStatusView.m; sourceTree = "<group>"; };
+		646086E0160CFB6700A1458B /* OTMHelpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMHelpView.h; sourceTree = "<group>"; };
+		646086E1160CFB6700A1458B /* OTMHelpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMHelpView.m; sourceTree = "<group>"; };
+		646086E2160CFB6700A1458B /* OTMNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNavigationBar.h; sourceTree = "<group>"; };
+		646086E3160CFB6700A1458B /* OTMNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMNavigationBar.m; sourceTree = "<group>"; };
+		646086E4160CFB6700A1458B /* OTMSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSearchBar.h; sourceTree = "<group>"; };
+		646086E5160CFB6700A1458B /* OTMSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSearchBar.m; sourceTree = "<group>"; };
+		646086E6160CFB6700A1458B /* OTMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSegmentedControl.h; sourceTree = "<group>"; };
+		646086E7160CFB6700A1458B /* OTMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSegmentedControl.m; sourceTree = "<group>"; };
+		646086E8160CFB6700A1458B /* OTMTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTableView.h; sourceTree = "<group>"; };
+		646086E9160CFB6700A1458B /* OTMTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTableView.m; sourceTree = "<group>"; };
+		646086EA160CFB6700A1458B /* OTMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMView.h; sourceTree = "<group>"; };
+		646086EB160CFB6700A1458B /* OTMView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMView.m; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		64DDCDB814F53102004FA0CF /* Debug.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Debug.plist; sourceTree = "<group>"; };
-		64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMEnvironment.h; sourceTree = "<group>"; };
-		64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMEnvironment.m; sourceTree = "<group>"; };
-		64DDCDC414F53D8F004FA0CF /* Release.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Release.plist; sourceTree = "<group>"; };
-		64E2AB9C155052B600EFA775 /* Philadelphia.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Philadelphia.gpx; sourceTree = "<group>"; };
-		64E2AB9F1550535600EFA775 /* Azavea.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Azavea.gpx; sourceTree = "<group>"; };
-		7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
-		D702FAB7153369E900A406A1 /* NSDictionary+MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MutableDeepCopy.h"; sourceTree = "<group>"; };
-		D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MutableDeepCopy.m"; sourceTree = "<group>"; };
-		D702FABB15336AE400A406A1 /* NSArray+MutableDeepCopy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MutableDeepCopy.h"; sourceTree = "<group>"; };
-		D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MutableDeepCopy.m"; sourceTree = "<group>"; };
-		D702FABE1533903600A406A1 /* OTMSpeciesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSpeciesTableViewController.h; sourceTree = "<group>"; };
-		D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSpeciesTableViewController.m; sourceTree = "<group>"; };
-		D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTreeDetailViewController.h; sourceTree = "<group>"; };
-		D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTreeDetailViewController.m; sourceTree = "<group>"; };
-		D70B881B1510E63D000C280C /* OTMBase64Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBase64Test.h; sourceTree = "<group>"; };
-		D70B881C1510E63D000C280C /* OTMBase64Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBase64Test.m; sourceTree = "<group>"; };
-		D70F8594155187E800D108D5 /* OTMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMView.h; sourceTree = "<group>"; };
-		D70F8595155187E800D108D5 /* OTMView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMView.m; sourceTree = "<group>"; };
-		D70F859715518D7300D108D5 /* OTMNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNavigationBar.h; sourceTree = "<group>"; };
-		D70F859815518D7300D108D5 /* OTMNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMNavigationBar.m; sourceTree = "<group>"; };
-		D70F859A1551920C00D108D5 /* OTMSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSearchBar.h; sourceTree = "<group>"; };
-		D70F859B1551920C00D108D5 /* OTMSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSearchBar.m; sourceTree = "<group>"; };
-		D70F859D1551927500D108D5 /* OTMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSegmentedControl.h; sourceTree = "<group>"; };
-		D70F859E1551927500D108D5 /* OTMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSegmentedControl.m; sourceTree = "<group>"; };
-		D70F85A0155192E200D108D5 /* OTMButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMButton.h; sourceTree = "<group>"; };
-		D70F85A1155192E200D108D5 /* OTMButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMButton.m; sourceTree = "<group>"; };
-		D70F85DC155AB4E900D108D5 /* OTMTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMTableView.h; sourceTree = "<group>"; };
-		D70F85DD155AB4E900D108D5 /* OTMTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTableView.m; sourceTree = "<group>"; };
-		D70F85E0155AB5A300D108D5 /* OTMDetailBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailBoxView.h; sourceTree = "<group>"; };
-		D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailBoxView.m; sourceTree = "<group>"; };
-		D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = WashingtonDC.gpx; sourceTree = "<group>"; };
-		D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+DecodeKey.h"; sourceTree = "<group>"; };
-		D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+DecodeKey.m"; sourceTree = "<group>"; };
-		D72BF64615122DE800AB6664 /* DictionaryDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryDecode.h; sourceTree = "<group>"; };
-		D72BF64715122DE800AB6664 /* DictionaryDecode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictionaryDecode.m; sourceTree = "<group>"; };
-		D72BF65915177AA900AB6664 /* OTMLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginViewController.h; sourceTree = "<group>"; };
-		D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginViewController.m; sourceTree = "<group>"; };
-		D72BF66115177E0300AB6664 /* AZKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZKeychainItemWrapper.h; sourceTree = "<group>"; };
-		D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZKeychainItemWrapper.m; sourceTree = "<group>"; };
 		D72BF6651517830A00AB6664 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		D72BF667151785B300AB6664 /* OTMUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMUser.h; sourceTree = "<group>"; };
-		D72BF668151785B300AB6664 /* OTMUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMUser.m; sourceTree = "<group>"; };
-		D72BF66B1517899700AB6664 /* OTMLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoginManager.h; sourceTree = "<group>"; };
-		D72BF66C1517899700AB6664 /* OTMLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoginManager.m; sourceTree = "<group>"; };
-		D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LoginStoryboard.storyboard; path = ../LoginStoryboard.storyboard; sourceTree = "<group>"; };
-		D73B3ADE151BA13C00FF2125 /* OTMScrollAwareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMScrollAwareViewController.h; sourceTree = "<group>"; };
-		D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMScrollAwareViewController.m; sourceTree = "<group>"; };
-		D73B3AF2151BB2A500FF2125 /* OTMRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMRegistrationViewController.h; sourceTree = "<group>"; };
-		D73B3AF3151BB2A500FF2125 /* OTMRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMRegistrationViewController.m; sourceTree = "<group>"; };
-		D73B3AF6151CB90300FF2125 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
-		D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
-		D75AA7AE15DE9F6400E880E4 /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
-		D75AA7AF15DE9F6400E880E4 /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
-		D75AA7B015DE9F6400E880E4 /* about_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about_bg.png; sourceTree = "<group>"; };
-		D75AA7B115DE9F6400E880E4 /* about_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about_bg@2x.png"; sourceTree = "<group>"; };
-		D75AA7B215DE9F6400E880E4 /* add_help_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_help_bg.png; sourceTree = "<group>"; };
-		D75AA7B315DE9F6400E880E4 /* add_help_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_help_bg@2x.png"; sourceTree = "<group>"; };
-		D75AA7B415DE9F6400E880E4 /* add_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_new.png; sourceTree = "<group>"; };
-		D75AA7B515DE9F6400E880E4 /* add_new@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_new@2x.png"; sourceTree = "<group>"; };
-		D75AA7B615DE9F6400E880E4 /* btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_bg.png; sourceTree = "<group>"; };
-		D75AA7B715DE9F6400E880E4 /* btn_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_bg@2x.png"; sourceTree = "<group>"; };
-		D75AA7B815DE9F6400E880E4 /* button_glass_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_glass_red.png; sourceTree = "<group>"; };
-		D75AA7B915DE9F6400E880E4 /* button_glass_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_glass_red@2x.png"; sourceTree = "<group>"; };
-		D75AA7BA15DE9F6400E880E4 /* detail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail.png; sourceTree = "<group>"; };
-		D75AA7BB15DE9F6400E880E4 /* filter_status_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_status_bg.png; sourceTree = "<group>"; };
-		D75AA7BC15DE9F6400E880E4 /* filter_status_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_status_bg@2x.png"; sourceTree = "<group>"; };
-		D75AA7BD15DE9F6400E880E4 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon.png; sourceTree = "<group>"; };
-		D75AA7BE15DE9F6400E880E4 /* gps_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon@2x.png"; sourceTree = "<group>"; };
-		D75AA7BF15DE9F6400E880E4 /* gps_icon_14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gps_icon_14.png; sourceTree = "<group>"; };
-		D75AA7C015DE9F6400E880E4 /* gps_icon_14@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_icon_14@2x.png"; sourceTree = "<group>"; };
-		D75AA7C115DE9F6400E880E4 /* handle_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = handle_icon.png; sourceTree = "<group>"; };
-		D75AA7C215DE9F6400E880E4 /* handle_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handle_icon@2x.png"; sourceTree = "<group>"; };
-		D75AA7C315DE9F6400E880E4 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		D75AA7C415DE9F6400E880E4 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
-		D75AA7C615DE9F6400E880E4 /* tree_search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search.png; sourceTree = "<group>"; };
-		D75AA7C715DE9F6400E880E4 /* tree_search_zoom1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search_zoom1.png; sourceTree = "<group>"; };
-		D75AA7C815DE9F6400E880E4 /* tree_search_zoom3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search_zoom3.png; sourceTree = "<group>"; };
-		D75AA7C915DE9F6400E880E4 /* tree_search_zoom5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search_zoom5.png; sourceTree = "<group>"; };
-		D75AA7CA15DE9F6400E880E4 /* tree_search_zoom6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search_zoom6.png; sourceTree = "<group>"; };
-		D75AA7CB15DE9F6400E880E4 /* tree_search_zoom7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_search_zoom7.png; sourceTree = "<group>"; };
-		D75AA7CC15DE9F6400E880E4 /* tree_zoom1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom1.png; sourceTree = "<group>"; };
-		D75AA7CD15DE9F6400E880E4 /* tree_zoom1_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom1_highlight.png; sourceTree = "<group>"; };
-		D75AA7CE15DE9F6400E880E4 /* tree_zoom1_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom1_plot.png; sourceTree = "<group>"; };
-		D75AA7CF15DE9F6400E880E4 /* tree_zoom3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom3.png; sourceTree = "<group>"; };
-		D75AA7D015DE9F6400E880E4 /* tree_zoom3_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom3_highlight.png; sourceTree = "<group>"; };
-		D75AA7D115DE9F6400E880E4 /* tree_zoom3_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom3_plot.png; sourceTree = "<group>"; };
-		D75AA7D215DE9F6400E880E4 /* tree_zoom5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom5.png; sourceTree = "<group>"; };
-		D75AA7D315DE9F6400E880E4 /* tree_zoom5_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom5_highlight.png; sourceTree = "<group>"; };
-		D75AA7D415DE9F6400E880E4 /* tree_zoom5_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom5_plot.png; sourceTree = "<group>"; };
-		D75AA7D515DE9F6400E880E4 /* tree_zoom6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom6.png; sourceTree = "<group>"; };
-		D75AA7D615DE9F6400E880E4 /* tree_zoom6_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom6_highlight.png; sourceTree = "<group>"; };
-		D75AA7D715DE9F6400E880E4 /* tree_zoom6_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom6_plot.png; sourceTree = "<group>"; };
-		D75AA7D815DE9F6400E880E4 /* tree_zoom7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom7.png; sourceTree = "<group>"; };
-		D75AA7D915DE9F6400E880E4 /* tree_zoom7_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom7_highlight.png; sourceTree = "<group>"; };
-		D75AA7DA15DE9F6400E880E4 /* tree_zoom7_plot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_zoom7_plot.png; sourceTree = "<group>"; };
-		D75AA7DB15DE9F6400E880E4 /* marker-selected-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "marker-selected-sm.png"; sourceTree = "<group>"; };
-		D75AA7DC15DE9F6400E880E4 /* pend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pend.png; sourceTree = "<group>"; };
-		D75AA7DD15DE9F6400E880E4 /* pend@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pend@2x.png"; sourceTree = "<group>"; };
-		D75AA7DE15DE9F6400E880E4 /* pending-approved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-approved.png"; sourceTree = "<group>"; };
-		D75AA7DF15DE9F6400E880E4 /* pending-approved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-approved@2x.png"; sourceTree = "<group>"; };
-		D75AA7E015DE9F6400E880E4 /* pending-unapproved.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-unapproved.png"; sourceTree = "<group>"; };
-		D75AA7E115DE9F6400E880E4 /* pending-unapproved@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-unapproved@2x.png"; sourceTree = "<group>"; };
-		D75AA7E215DE9F6400E880E4 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
-		D75AA7E315DE9F6400E880E4 /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
-		D75AA7E415DE9F6400E880E4 /* recent_trees.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = recent_trees.png; sourceTree = "<group>"; };
-		D75AA7E515DE9F6400E880E4 /* recent_trees@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "recent_trees@2x.png"; sourceTree = "<group>"; };
-		D75AA7E615DE9F6400E880E4 /* selected_marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_marker.png; sourceTree = "<group>"; };
-		D75AA7E715DE9F6400E880E4 /* selected_marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_marker@2x.png"; sourceTree = "<group>"; };
-		D75AA7E815DE9F6400E880E4 /* selected_marker_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selected_marker_small.png; sourceTree = "<group>"; };
-		D75AA7E915DE9F6400E880E4 /* selected_marker_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selected_marker_small@2x.png"; sourceTree = "<group>"; };
-		D75AA7EA15DE9F6400E880E4 /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_screen.png; sourceTree = "<group>"; };
-		D75AA7EB15DE9F6400E880E4 /* splash_screen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_screen@2x.png"; sourceTree = "<group>"; };
-		D75AA7EC15DE9F6400E880E4 /* transparent_14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transparent_14.png; sourceTree = "<group>"; };
-		D75AA7ED15DE9F6400E880E4 /* tree_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_icon.png; sourceTree = "<group>"; };
-		D75AA7EE15DE9F6400E880E4 /* tree_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_map.png; sourceTree = "<group>"; };
-		D75AA7EF15DE9F6400E880E4 /* tree_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tree_map@2x.png"; sourceTree = "<group>"; };
-		D75AA83315DEB2FE00E880E4 /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
-		D75AA83915E7C57400E880E4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		D75AA83C15E7C58000E880E4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordResetViewController.h; sourceTree = "<group>"; };
-		D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordResetViewController.m; sourceTree = "<group>"; };
-		D764148815F66011005FA0C8 /* OTMSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSplashViewController.h; sourceTree = "<group>"; };
-		D764148915F66011005FA0C8 /* OTMSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSplashViewController.m; sourceTree = "<group>"; };
-		D764148C15F66182005FA0C8 /* OTMSwapSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSwapSegue.h; sourceTree = "<group>"; };
-		D764148D15F66182005FA0C8 /* OTMSwapSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSwapSegue.m; sourceTree = "<group>"; };
-		D76BD8F915226446003C664F /* OTMPictureTaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPictureTaker.h; sourceTree = "<group>"; };
-		D76BD8FA15226446003C664F /* OTMPictureTaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPictureTaker.m; sourceTree = "<group>"; };
-		D76BD9051523B8EB003C664F /* AZUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZUser.h; sourceTree = "<group>"; };
-		D76BD9061523B8EB003C664F /* AZUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZUser.m; sourceTree = "<group>"; };
-		D7775FC71520E864008301E4 /* OTMValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMValidator.h; sourceTree = "<group>"; };
-		D7775FC81520E864008301E4 /* OTMValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMValidator.m; sourceTree = "<group>"; };
-		D7775FCA15210492008301E4 /* OTMProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMProfileViewController.h; sourceTree = "<group>"; };
-		D7775FCB15210492008301E4 /* OTMProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMProfileViewController.m; sourceTree = "<group>"; };
-		D7775FD01521123A008301E4 /* OTMPasswordChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPasswordChangeViewController.h; sourceTree = "<group>"; };
-		D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPasswordChangeViewController.m; sourceTree = "<group>"; };
-		D7829C82153F3AE200DBFE7C /* OTMDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailCellRenderer.h; sourceTree = "<group>"; };
-		D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailCellRenderer.m; sourceTree = "<group>"; };
-		D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMDBHTableViewCell.xib; sourceTree = "<group>"; };
-		D7829C8715409EF300DBFE7C /* OTMDBHTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDBHTableViewCell.h; sourceTree = "<group>"; };
-		D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDBHTableViewCell.m; sourceTree = "<group>"; };
-		D7829CA61547275700DBFE7C /* Choices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Choices.plist; sourceTree = "<group>"; };
-		D7829CA915472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMChoicesDetailCellRenderer.h; sourceTree = "<group>"; };
-		D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMChoicesDetailCellRenderer.m; sourceTree = "<group>"; };
-		D7837B92156BE23B007C9D52 /* AZPointCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointCollection.h; sourceTree = "<group>"; };
-		D78CCCD5152CC34C00A6E9B7 /* OTMDistanceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDistanceTableViewCell.h; sourceTree = "<group>"; };
-		D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDistanceTableViewCell.m; sourceTree = "<group>"; };
-		D7910C51152B419E00758F66 /* OTMNearbyTreesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMNearbyTreesViewController.h; sourceTree = "<group>"; };
-		D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMNearbyTreesViewController.m; sourceTree = "<group>"; };
-		D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailTableViewCell.h; sourceTree = "<group>"; };
-		D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailTableViewCell.m; sourceTree = "<group>"; };
-		D791171D15113F70004BE79C /* OTMFormatters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFormatters.h; sourceTree = "<group>"; };
-		D791171E15113F70004BE79C /* OTMFormatters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFormatters.m; sourceTree = "<group>"; };
-		D7AC3D8715F0F7D8002443B0 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
-		D7AC3D8915F0F7D8002443B0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		D7AC3D8A15F0F7D9002443B0 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		D7AC3D9C15F0F9FB002443B0 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
-		D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZHttpRequest.h; sourceTree = "<group>"; };
-		D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZHttpRequest.m; sourceTree = "<group>"; };
-		D7BEA4AE14FD3587006CC456 /* OTMAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAPI.h; sourceTree = "<group>"; };
-		D7BEA4AF14FD3587006CC456 /* OTMAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAPI.m; sourceTree = "<group>"; };
-		D7C252CE14FE84780028519E /* OTMDetailSliderview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMDetailSliderview.h; sourceTree = "<group>"; };
-		D7C252CF14FE84780028519E /* OTMDetailSliderview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMDetailSliderview.m; sourceTree = "<group>"; };
 		D7C9901F1518C8670094770C /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../lib/ASI/build/Release-iphoneos/libASI.a"; sourceTree = "<group>"; };
 		D7C990221518C87E0094770C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D7C990241518C8890094770C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D7C990261518C88F0094770C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D7C990281518C89F0094770C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		D7CBD0681577C871009D08FF /* OTMFilterListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMFilterListViewController.h; sourceTree = "<group>"; };
-		D7CBD0691577C871009D08FF /* OTMFilterListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMFilterListViewController.m; sourceTree = "<group>"; };
-		D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlayView.h; sourceTree = "<group>"; };
-		D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWMSOverlayView.m; sourceTree = "<group>"; };
-		D7CF59B41550311800D37425 /* LoginRequiredView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginRequiredView.xib; sourceTree = "<group>"; };
-		D7D23DD715D9A04E0019D9D6 /* AZTileRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileRenderer.h; sourceTree = "<group>"; };
-		D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileRenderer.m; sourceTree = "<group>"; };
-		D7DE86A415BDA4C30063D0B6 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = version.plist; sourceTree = "<group>"; };
-		D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OTMBenefitsTableViewCell.xib; sourceTree = "<group>"; };
-		D7DE86AE15C965FF0063D0B6 /* OTMBenefitsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMBenefitsTableViewCell.h; sourceTree = "<group>"; };
-		D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMBenefitsTableViewCell.m; sourceTree = "<group>"; };
-		D7DE86BB15D14DD60063D0B6 /* AZTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTile.h; sourceTree = "<group>"; };
-		D7DE86BC15D14DD60063D0B6 /* AZTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTile.m; sourceTree = "<group>"; };
-		D7DE86BE15D14DEF0063D0B6 /* AZTiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTiler.h; sourceTree = "<group>"; };
-		D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTiler.m; sourceTree = "<group>"; };
-		D7DE86C115D14E060063D0B6 /* AZPointParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointParser.h; sourceTree = "<group>"; };
-		D7DE86C215D14E060063D0B6 /* AZPointParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointParser.m; sourceTree = "<group>"; };
-		D7EF4A3C15D2E53E0014A685 /* AZTilePointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTilePointOffsetOverlayView.h; sourceTree = "<group>"; };
-		D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTilePointOffsetOverlayView.m; sourceTree = "<group>"; };
 		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943971614F447EB007CD0D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E943971814F447EB007CD0D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E943971A14F447EB007CD0D1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		E943971E14F447EB007CD0D1 /* OpenTreeMap-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenTreeMap-Info.plist"; sourceTree = "<group>"; };
-		E943972014F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E943972214F447EB007CD0D1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E943972414F447EB007CD0D1 /* OpenTreeMap-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenTreeMap-Prefix.pch"; sourceTree = "<group>"; };
-		E943972514F447EB007CD0D1 /* OTMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMAppDelegate.h; sourceTree = "<group>"; };
-		E943972614F447EB007CD0D1 /* OTMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMAppDelegate.m; sourceTree = "<group>"; };
-		E943972914F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		E943972E14F447EB007CD0D1 /* OTMMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OTMMapViewController.h; sourceTree = "<group>"; };
-		E943972F14F447EB007CD0D1 /* OTMMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OTMMapViewController.m; sourceTree = "<group>"; };
 		E943974114F447EB007CD0D1 /* OpenTreeMapTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenTreeMapTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943974214F447EB007CD0D1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		E943974A14F447EB007CD0D1 /* OpenTreeMapTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenTreeMapTests-Info.plist"; sourceTree = "<group>"; };
-		E943974C14F447EB007CD0D1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E943974E14F447EB007CD0D1 /* OpenTreeMapTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenTreeMapTests.h; sourceTree = "<group>"; };
-		E943974F14F447EB007CD0D1 /* OpenTreeMapTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenTreeMapTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -479,7 +298,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */,
-				64318CD21551E22E001C827F /* libASI.a in Frameworks */,
 				D70B881A1510E620000C280C /* MapKit.framework in Frameworks */,
 				D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */,
 				E943974314F447EB007CD0D1 /* SenTestingKit.framework in Frameworks */,
@@ -491,293 +309,254 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		64DDCDBA14F53177004FA0CF /* Environments */ = {
+		6460864D160CFB4600A1458B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D7829CA61547275700DBFE7C /* Choices.plist */,
-				64DDCDB814F53102004FA0CF /* Debug.plist */,
-				64DDCDC414F53D8F004FA0CF /* Release.plist */,
+				6460864E160CFB4600A1458B /* LoginRequiredView.xib */,
+				6460864F160CFB4600A1458B /* LoginStoryboard.storyboard */,
+				64608650160CFB4600A1458B /* MainStoryboard_iPhone.storyboard */,
+				64608651160CFB4600A1458B /* OTMBenefitsTableViewCell.xib */,
+				64608652160CFB4600A1458B /* OTMDBHTableViewCell.xib */,
 			);
-			name = Environments;
+			name = Resources;
+			path = resources;
 			sourceTree = "<group>";
 		};
-		D75AA7AC15DE9F6400E880E4 /* skin */ = {
+		64608658160CFB6700A1458B /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				D75AA83315DEB2FE00E880E4 /* Implementation.plist */,
-				D75AA7AD15DE9F6400E880E4 /* images */,
+				64608659160CFB6700A1458B /* AZ */,
+				64608683160CFB6700A1458B /* Categories */,
+				6460868E160CFB6700A1458B /* main.m */,
+				6460868F160CFB6700A1458B /* OpenTreeMap-Prefix.pch */,
+				64608690160CFB6700A1458B /* OTM */,
 			);
-			path = skin;
+			name = Source;
+			path = src;
 			sourceTree = "<group>";
 		};
-		D75AA7AD15DE9F6400E880E4 /* images */ = {
+		64608659160CFB6700A1458B /* AZ */ = {
 			isa = PBXGroup;
 			children = (
-				D75AA7AE15DE9F6400E880E4 /* about.png */,
-				D75AA7AF15DE9F6400E880E4 /* about@2x.png */,
-				D75AA7B015DE9F6400E880E4 /* about_bg.png */,
-				D75AA7B115DE9F6400E880E4 /* about_bg@2x.png */,
-				D75AA7B215DE9F6400E880E4 /* add_help_bg.png */,
-				D75AA7B315DE9F6400E880E4 /* add_help_bg@2x.png */,
-				D75AA7B415DE9F6400E880E4 /* add_new.png */,
-				D75AA7B515DE9F6400E880E4 /* add_new@2x.png */,
-				D75AA7B615DE9F6400E880E4 /* btn_bg.png */,
-				D75AA7B715DE9F6400E880E4 /* btn_bg@2x.png */,
-				D75AA7B815DE9F6400E880E4 /* button_glass_red.png */,
-				D75AA7B915DE9F6400E880E4 /* button_glass_red@2x.png */,
-				D75AA7BA15DE9F6400E880E4 /* detail.png */,
-				D75AA7BB15DE9F6400E880E4 /* filter_status_bg.png */,
-				D75AA7BC15DE9F6400E880E4 /* filter_status_bg@2x.png */,
-				D75AA7BD15DE9F6400E880E4 /* gps_icon.png */,
-				D75AA7BE15DE9F6400E880E4 /* gps_icon@2x.png */,
-				D75AA7BF15DE9F6400E880E4 /* gps_icon_14.png */,
-				D75AA7C015DE9F6400E880E4 /* gps_icon_14@2x.png */,
-				D75AA7C115DE9F6400E880E4 /* handle_icon.png */,
-				D75AA7C215DE9F6400E880E4 /* handle_icon@2x.png */,
-				D75AA7C315DE9F6400E880E4 /* logo.png */,
-				D75AA7C415DE9F6400E880E4 /* logo@2x.png */,
-				D75AA7C515DE9F6400E880E4 /* map_icons */,
-				D75AA7DB15DE9F6400E880E4 /* marker-selected-sm.png */,
-				D75AA7DC15DE9F6400E880E4 /* pend.png */,
-				D75AA7DD15DE9F6400E880E4 /* pend@2x.png */,
-				D75AA7DE15DE9F6400E880E4 /* pending-approved.png */,
-				D75AA7DF15DE9F6400E880E4 /* pending-approved@2x.png */,
-				D75AA7E015DE9F6400E880E4 /* pending-unapproved.png */,
-				D75AA7E115DE9F6400E880E4 /* pending-unapproved@2x.png */,
-				D75AA7E215DE9F6400E880E4 /* profile.png */,
-				D75AA7E315DE9F6400E880E4 /* profile@2x.png */,
-				D75AA7E415DE9F6400E880E4 /* recent_trees.png */,
-				D75AA7E515DE9F6400E880E4 /* recent_trees@2x.png */,
-				D75AA7E615DE9F6400E880E4 /* selected_marker.png */,
-				D75AA7E715DE9F6400E880E4 /* selected_marker@2x.png */,
-				D75AA7E815DE9F6400E880E4 /* selected_marker_small.png */,
-				D75AA7E915DE9F6400E880E4 /* selected_marker_small@2x.png */,
-				D75AA7EA15DE9F6400E880E4 /* splash_screen.png */,
-				D75AA7EB15DE9F6400E880E4 /* splash_screen@2x.png */,
-				D75AA7EC15DE9F6400E880E4 /* transparent_14.png */,
-				D75AA7ED15DE9F6400E880E4 /* tree_icon.png */,
-				D75AA7EE15DE9F6400E880E4 /* tree_map.png */,
-				D75AA7EF15DE9F6400E880E4 /* tree_map@2x.png */,
+				6460865A160CFB6700A1458B /* AZHttpRequest.h */,
+				6460865B160CFB6700A1458B /* AZHttpRequest.m */,
+				6460865C160CFB6700A1458B /* AZKeychainItemWrapper.h */,
+				6460865D160CFB6700A1458B /* AZKeychainItemWrapper.m */,
+				6460865E160CFB6700A1458B /* AZUser.h */,
+				6460865F160CFB6700A1458B /* AZUser.m */,
+				64608660160CFB6700A1458B /* Cache */,
+				6460866B160CFB6700A1458B /* MapTile */,
+				6460867B160CFB6700A1458B /* UI */,
+				6460867E160CFB6700A1458B /* WMS */,
 			);
-			path = images;
+			path = AZ;
 			sourceTree = "<group>";
 		};
-		D75AA7C515DE9F6400E880E4 /* map_icons */ = {
+		64608660160CFB6700A1458B /* Cache */ = {
 			isa = PBXGroup;
 			children = (
-				D75AA7C615DE9F6400E880E4 /* tree_search.png */,
-				D75AA7C715DE9F6400E880E4 /* tree_search_zoom1.png */,
-				D75AA7C815DE9F6400E880E4 /* tree_search_zoom3.png */,
-				D75AA7C915DE9F6400E880E4 /* tree_search_zoom5.png */,
-				D75AA7CA15DE9F6400E880E4 /* tree_search_zoom6.png */,
-				D75AA7CB15DE9F6400E880E4 /* tree_search_zoom7.png */,
-				D75AA7CC15DE9F6400E880E4 /* tree_zoom1.png */,
-				D75AA7CD15DE9F6400E880E4 /* tree_zoom1_highlight.png */,
-				D75AA7CE15DE9F6400E880E4 /* tree_zoom1_plot.png */,
-				D75AA7CF15DE9F6400E880E4 /* tree_zoom3.png */,
-				D75AA7D015DE9F6400E880E4 /* tree_zoom3_highlight.png */,
-				D75AA7D115DE9F6400E880E4 /* tree_zoom3_plot.png */,
-				D75AA7D215DE9F6400E880E4 /* tree_zoom5.png */,
-				D75AA7D315DE9F6400E880E4 /* tree_zoom5_highlight.png */,
-				D75AA7D415DE9F6400E880E4 /* tree_zoom5_plot.png */,
-				D75AA7D515DE9F6400E880E4 /* tree_zoom6.png */,
-				D75AA7D615DE9F6400E880E4 /* tree_zoom6_highlight.png */,
-				D75AA7D715DE9F6400E880E4 /* tree_zoom6_plot.png */,
-				D75AA7D815DE9F6400E880E4 /* tree_zoom7.png */,
-				D75AA7D915DE9F6400E880E4 /* tree_zoom7_highlight.png */,
-				D75AA7DA15DE9F6400E880E4 /* tree_zoom7_plot.png */,
+				64608661160CFB6700A1458B /* AZCachedObject.h */,
+				64608662160CFB6700A1458B /* AZCachedObject.m */,
+				64608663160CFB6700A1458B /* AZGeoCache.h */,
+				64608664160CFB6700A1458B /* AZGeoCache.m */,
+				64608665160CFB6700A1458B /* AZMemoryObjectCache.h */,
+				64608666160CFB6700A1458B /* AZMemoryObjectCache.m */,
+				64608667160CFB6700A1458B /* AZObjectCache.h */,
+				64608668160CFB6700A1458B /* AZObjectCache.m */,
+				64608669160CFB6700A1458B /* AZTileCacheKey.h */,
+				6460866A160CFB6700A1458B /* AZTileCacheKey.m */,
 			);
-			path = map_icons;
+			path = Cache;
 			sourceTree = "<group>";
 		};
-		D76319A9151B697F00332BEA /* Login and Register */ = {
+		6460866B160CFB6700A1458B /* MapTile */ = {
 			isa = PBXGroup;
 			children = (
-				D72BF66F15178AF700AB6664 /* LoginStoryboard.storyboard */,
-				D76319A5151B697400332BEA /* OTMPasswordResetViewController.h */,
-				D76319A6151B697400332BEA /* OTMPasswordResetViewController.m */,
-				D72BF65915177AA900AB6664 /* OTMLoginViewController.h */,
-				D72BF65A15177AA900AB6664 /* OTMLoginViewController.m */,
-				D72BF66115177E0300AB6664 /* AZKeychainItemWrapper.h */,
-				D72BF66215177E0300AB6664 /* AZKeychainItemWrapper.m */,
-				D72BF667151785B300AB6664 /* OTMUser.h */,
-				D72BF668151785B300AB6664 /* OTMUser.m */,
-				D72BF66B1517899700AB6664 /* OTMLoginManager.h */,
-				D72BF66C1517899700AB6664 /* OTMLoginManager.m */,
-				D73B3AF2151BB2A500FF2125 /* OTMRegistrationViewController.h */,
-				D73B3AF3151BB2A500FF2125 /* OTMRegistrationViewController.m */,
-				D76BD9051523B8EB003C664F /* AZUser.h */,
-				D76BD9061523B8EB003C664F /* AZUser.m */,
+				6460866C160CFB6700A1458B /* AZMapHelper.h */,
+				6460866D160CFB6700A1458B /* AZMapHelper.m */,
+				6460866E160CFB6700A1458B /* AZPointCollection.h */,
+				6460866F160CFB6700A1458B /* AZPointOffsetOverlay.h */,
+				64608670160CFB6700A1458B /* AZPointOffsetOverlay.m */,
+				64608671160CFB6700A1458B /* AZPointParser.h */,
+				64608672160CFB6700A1458B /* AZPointParser.m */,
+				64608673160CFB6700A1458B /* AZTile.h */,
+				64608674160CFB6700A1458B /* AZTile.m */,
+				64608675160CFB6700A1458B /* AZTilePointOffsetOverlayView.h */,
+				64608676160CFB6700A1458B /* AZTilePointOffsetOverlayView.m */,
+				64608677160CFB6700A1458B /* AZTiler.h */,
+				64608678160CFB6700A1458B /* AZTiler.m */,
+				64608679160CFB6700A1458B /* AZTileRenderer.h */,
+				6460867A160CFB6700A1458B /* AZTileRenderer.m */,
 			);
-			name = "Login and Register";
+			path = MapTile;
 			sourceTree = "<group>";
 		};
-		D7829C80153F3A3D00DBFE7C /* Edit Details */ = {
+		6460867B160CFB6700A1458B /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D70B8807150FEB5A000C280C /* OTMTreeDetailViewController.h */,
-				D70B8808150FEB5A000C280C /* OTMTreeDetailViewController.m */,
-				D702FABE1533903600A406A1 /* OTMSpeciesTableViewController.h */,
-				D702FABF1533903600A406A1 /* OTMSpeciesTableViewController.m */,
-				D7829C82153F3AE200DBFE7C /* OTMDetailCellRenderer.h */,
-				D7829C83153F3AE200DBFE7C /* OTMDetailCellRenderer.m */,
-				D7829CA915472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.h */,
-				D7829CAA15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m */,
-				64D3455E156161DE0073C62D /* OTMMapDetailCellRenderer.h */,
-				64D3455F156161DE0073C62D /* OTMMapDetailCellRenderer.m */,
-				64C76EAE1561ACB10037805F /* OTMChangeLocationViewController.h */,
-				64C76EAF1561ACB10037805F /* OTMChangeLocationViewController.m */,
-				64DD10921598DDE70053AC57 /* OTMFieldDetailViewController.h */,
-				64DD10931598DDE70053AC57 /* OTMFieldDetailViewController.m */,
+				6460867C160CFB6700A1458B /* AZWaitingOverlayController.h */,
+				6460867D160CFB6700A1458B /* AZWaitingOverlayController.m */,
 			);
-			name = "Edit Details";
+			path = UI;
 			sourceTree = "<group>";
 		};
-		D7910C4E152B3EC900758F66 /* AZ */ = {
+		6460867E160CFB6700A1458B /* WMS */ = {
 			isa = PBXGroup;
 			children = (
-				64DDCDA914F51A2C004FA0CF /* AZWMSOverlay.h */,
-				64DDCDAA14F51A2C004FA0CF /* AZWMSOverlay.m */,
-				D7CC15291507F91B00277C7C /* AZWMSOverlayView.h */,
-				D7CC152A1507F91B00277C7C /* AZWMSOverlayView.m */,
-				648550A01551B4D3006C9FF7 /* AZPointOffsetOverlay.h */,
-				648550A11551B4D3006C9FF7 /* AZPointOffsetOverlay.m */,
-				649F8D22155041DA007B196D /* AZWaitingOverlayController.h */,
-				649F8D23155041DA007B196D /* AZWaitingOverlayController.m */,
-				644C1920155431740055CDE8 /* AZCachedObject.h */,
-				644C1921155431740055CDE8 /* AZCachedObject.m */,
-				644C190E155339A30055CDE8 /* AZObjectCache.h */,
-				644C190F155339A30055CDE8 /* AZObjectCache.m */,
-				644C190515532FE80055CDE8 /* AZMemoryObjectCache.h */,
-				644C190615532FE80055CDE8 /* AZMemoryObjectCache.m */,
-				648550A61551C8BC006C9FF7 /* AZGeoCache.h */,
-				648550A71551C8BC006C9FF7 /* AZGeoCache.m */,
-				644C190B155338E00055CDE8 /* AZTileCacheKey.h */,
-				644C190C155338E00055CDE8 /* AZTileCacheKey.m */,
-				D702FAB7153369E900A406A1 /* NSDictionary+MutableDeepCopy.h */,
-				D702FAB8153369E900A406A1 /* NSDictionary+MutableDeepCopy.m */,
-				D702FABB15336AE400A406A1 /* NSArray+MutableDeepCopy.h */,
-				D702FABC15336AE400A406A1 /* NSArray+MutableDeepCopy.m */,
-				648550A91551CEDD006C9FF7 /* NSMutableOrderedSet+Queue.h */,
-				648550AA1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m */,
-				D7837B92156BE23B007C9D52 /* AZPointCollection.h */,
-				6490025B15A3648D00DC492B /* AZMapHelper.h */,
-				6490025C15A3648D00DC492B /* AZMapHelper.m */,
+				6460867F160CFB6700A1458B /* AZWMSOverlay.h */,
+				64608680160CFB6700A1458B /* AZWMSOverlay.m */,
+				64608681160CFB6700A1458B /* AZWMSOverlayView.h */,
+				64608682160CFB6700A1458B /* AZWMSOverlayView.m */,
 			);
-			name = AZ;
+			path = WMS;
 			sourceTree = "<group>";
 		};
-		D7910C50152B3FB800758F66 /* OTMLib */ = {
+		64608683160CFB6700A1458B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				D73B3ADE151BA13C00FF2125 /* OTMScrollAwareViewController.h */,
-				D73B3ADF151BA13C00FF2125 /* OTMScrollAwareViewController.m */,
-				D791171D15113F70004BE79C /* OTMFormatters.h */,
-				D791171E15113F70004BE79C /* OTMFormatters.m */,
-				D72BF64115122AF100AB6664 /* NSDictionary+DecodeKey.h */,
-				D72BF64215122AF100AB6664 /* NSDictionary+DecodeKey.m */,
-				D73B3AF6151CB90300FF2125 /* UIAlertView+Blocks.h */,
-				D73B3AF7151CB90300FF2125 /* UIAlertView+Blocks.m */,
-				D7775FC71520E864008301E4 /* OTMValidator.h */,
-				D7775FC81520E864008301E4 /* OTMValidator.m */,
-				D76BD8F915226446003C664F /* OTMPictureTaker.h */,
-				D76BD8FA15226446003C664F /* OTMPictureTaker.m */,
-				64A7157A1562B46F003430E8 /* OTMTreeDictionaryHelper.h */,
-				64A7157B1562B46F003430E8 /* OTMTreeDictionaryHelper.m */,
+				64608684160CFB6700A1458B /* NSArray+MutableDeepCopy.h */,
+				64608685160CFB6700A1458B /* NSArray+MutableDeepCopy.m */,
+				64608686160CFB6700A1458B /* NSDictionary+DecodeKey.h */,
+				64608687160CFB6700A1458B /* NSDictionary+DecodeKey.m */,
+				64608688160CFB6700A1458B /* NSDictionary+MutableDeepCopy.h */,
+				64608689160CFB6700A1458B /* NSDictionary+MutableDeepCopy.m */,
+				6460868A160CFB6700A1458B /* NSMutableOrderedSet+Queue.h */,
+				6460868B160CFB6700A1458B /* NSMutableOrderedSet+Queue.m */,
+				6460868C160CFB6700A1458B /* UIAlertView+Blocks.h */,
+				6460868D160CFB6700A1458B /* UIAlertView+Blocks.m */,
 			);
-			name = "\U0010OTMLib";
+			path = Categories;
 			sourceTree = "<group>";
 		};
-		D7BEA4A414FC213F006CC456 /* api */ = {
+		64608690160CFB6700A1458B /* OTM */ = {
 			isa = PBXGroup;
 			children = (
-				D7BEA4A614FC2168006CC456 /* AZHttpRequest.h */,
-				D7BEA4A714FC2168006CC456 /* AZHttpRequest.m */,
-				D7BEA4AE14FD3587006CC456 /* OTMAPI.h */,
-				D7BEA4AF14FD3587006CC456 /* OTMAPI.m */,
+				64608691160CFB6700A1458B /* Cells */,
+				646086A2160CFB6700A1458B /* Controllers */,
+				646086BF160CFB6700A1458B /* OTMAddTreeAnnotationView.h */,
+				646086C0160CFB6700A1458B /* OTMAddTreeAnnotationView.m */,
+				646086C1160CFB6700A1458B /* OTMAPI.h */,
+				646086C2160CFB6700A1458B /* OTMAPI.m */,
+				646086C3160CFB6700A1458B /* OTMAppDelegate.h */,
+				646086C4160CFB6700A1458B /* OTMAppDelegate.m */,
+				646086C5160CFB6700A1458B /* OTMEnvironment.h */,
+				646086C6160CFB6700A1458B /* OTMEnvironment.m */,
+				646086C7160CFB6700A1458B /* OTMFormatters.h */,
+				646086C8160CFB6700A1458B /* OTMFormatters.m */,
+				646086C9160CFB6700A1458B /* OTMLoginManager.h */,
+				646086CA160CFB6700A1458B /* OTMLoginManager.m */,
+				646086CB160CFB6700A1458B /* OTMPictureTaker.h */,
+				646086CC160CFB6700A1458B /* OTMPictureTaker.m */,
+				646086CD160CFB6700A1458B /* OTMReverseGeocodeOperation.h */,
+				646086CE160CFB6700A1458B /* OTMReverseGeocodeOperation.m */,
+				646086CF160CFB6700A1458B /* OTMSwapSegue.h */,
+				646086D0160CFB6700A1458B /* OTMSwapSegue.m */,
+				646086D1160CFB6700A1458B /* OTMTreeDictionaryHelper.h */,
+				646086D2160CFB6700A1458B /* OTMTreeDictionaryHelper.m */,
+				646086D3160CFB6700A1458B /* OTMUser.h */,
+				646086D4160CFB6700A1458B /* OTMUser.m */,
+				646086D5160CFB6700A1458B /* OTMValidator.h */,
+				646086D6160CFB6700A1458B /* OTMValidator.m */,
+				646086D7160CFB6700A1458B /* Theme */,
 			);
-			path = api;
+			path = OTM;
 			sourceTree = "<group>";
 		};
-		D7C252CD14FE84680028519E /* views */ = {
+		64608691160CFB6700A1458B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				D7C252CE14FE84780028519E /* OTMDetailSliderview.h */,
-				D7C252CF14FE84780028519E /* OTMDetailSliderview.m */,
-				D7911719151128FD004BE79C /* OTMDetailTableViewCell.h */,
-				D791171A151128FD004BE79C /* OTMDetailTableViewCell.m */,
-				D78CCCD5152CC34C00A6E9B7 /* OTMDistanceTableViewCell.h */,
-				D78CCCD6152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m */,
-				D7DE86AB15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib */,
-				D7829C8515409DC200DBFE7C /* OTMDBHTableViewCell.xib */,
-				D7829C8715409EF300DBFE7C /* OTMDBHTableViewCell.h */,
-				D7829C8815409EF300DBFE7C /* OTMDBHTableViewCell.m */,
-				D70F8594155187E800D108D5 /* OTMView.h */,
-				D70F8595155187E800D108D5 /* OTMView.m */,
-				D70F859715518D7300D108D5 /* OTMNavigationBar.h */,
-				D70F859815518D7300D108D5 /* OTMNavigationBar.m */,
-				D70F859A1551920C00D108D5 /* OTMSearchBar.h */,
-				D70F859B1551920C00D108D5 /* OTMSearchBar.m */,
-				D70F859D1551927500D108D5 /* OTMSegmentedControl.h */,
-				D70F859E1551927500D108D5 /* OTMSegmentedControl.m */,
-				D70F85A0155192E200D108D5 /* OTMButton.h */,
-				D70F85A1155192E200D108D5 /* OTMButton.m */,
-				D70F85DC155AB4E900D108D5 /* OTMTableView.h */,
-				D70F85DD155AB4E900D108D5 /* OTMTableView.m */,
-				D70F85E0155AB5A300D108D5 /* OTMDetailBoxView.h */,
-				D70F85E1155AB5A300D108D5 /* OTMDetailBoxView.m */,
-				64D34562156169420073C62D /* OTMMapTableViewCell.h */,
-				64D34563156169420073C62D /* OTMMapTableViewCell.m */,
-				644357AA15C092A60064BD80 /* OTMHelpView.h */,
-				644357AB15C092A60064BD80 /* OTMHelpView.m */,
-				643ED26215C3196000BD4461 /* OTMFilterStatusView.h */,
-				643ED26315C3196000BD4461 /* OTMFilterStatusView.m */,
-				D7DE86AE15C965FF0063D0B6 /* OTMBenefitsTableViewCell.h */,
-				D7DE86AF15C965FF0063D0B6 /* OTMBenefitsTableViewCell.m */,
+				64608692160CFB6700A1458B /* OTMBenefitsTableViewCell.h */,
+				64608693160CFB6700A1458B /* OTMBenefitsTableViewCell.m */,
+				64608694160CFB6700A1458B /* OTMChoicesDetailCellRenderer.h */,
+				64608695160CFB6700A1458B /* OTMChoicesDetailCellRenderer.m */,
+				64608696160CFB6700A1458B /* OTMDBHTableViewCell.h */,
+				64608697160CFB6700A1458B /* OTMDBHTableViewCell.m */,
+				64608698160CFB6700A1458B /* OTMDetailCellRenderer.h */,
+				64608699160CFB6700A1458B /* OTMDetailCellRenderer.m */,
+				6460869A160CFB6700A1458B /* OTMDetailTableViewCell.h */,
+				6460869B160CFB6700A1458B /* OTMDetailTableViewCell.m */,
+				6460869C160CFB6700A1458B /* OTMDistanceTableViewCell.h */,
+				6460869D160CFB6700A1458B /* OTMDistanceTableViewCell.m */,
+				6460869E160CFB6700A1458B /* OTMMapDetailCellRenderer.h */,
+				6460869F160CFB6700A1458B /* OTMMapDetailCellRenderer.m */,
+				646086A0160CFB6700A1458B /* OTMMapTableViewCell.h */,
+				646086A1160CFB6700A1458B /* OTMMapTableViewCell.m */,
 			);
-			path = views;
+			path = Cells;
 			sourceTree = "<group>";
 		};
-		D7CBD0661577C825009D08FF /* Filters */ = {
+		646086A2160CFB6700A1458B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D7CBD0681577C871009D08FF /* OTMFilterListViewController.h */,
-				D7CBD0691577C871009D08FF /* OTMFilterListViewController.m */,
+				646086A3160CFB6700A1458B /* OTMChangeLocationViewController.h */,
+				646086A4160CFB6700A1458B /* OTMChangeLocationViewController.m */,
+				646086A5160CFB6700A1458B /* OTMFieldDetailViewController.h */,
+				646086A6160CFB6700A1458B /* OTMFieldDetailViewController.m */,
+				646086A7160CFB6700A1458B /* OTMFilterListViewController.h */,
+				646086A8160CFB6700A1458B /* OTMFilterListViewController.m */,
+				646086A9160CFB6700A1458B /* OTMLoginViewController.h */,
+				646086AA160CFB6700A1458B /* OTMLoginViewController.m */,
+				646086AB160CFB6700A1458B /* OTMMapViewController.h */,
+				646086AC160CFB6700A1458B /* OTMMapViewController.m */,
+				646086AD160CFB6700A1458B /* OTMNearbyTreesViewController.h */,
+				646086AE160CFB6700A1458B /* OTMNearbyTreesViewController.m */,
+				646086AF160CFB6700A1458B /* OTMPasswordChangeViewController.h */,
+				646086B0160CFB6700A1458B /* OTMPasswordChangeViewController.m */,
+				646086B1160CFB6700A1458B /* OTMPasswordResetViewController.h */,
+				646086B2160CFB6700A1458B /* OTMPasswordResetViewController.m */,
+				646086B3160CFB6700A1458B /* OTMProfileViewController.h */,
+				646086B4160CFB6700A1458B /* OTMProfileViewController.m */,
+				646086B5160CFB6700A1458B /* OTMRegistrationViewController.h */,
+				646086B6160CFB6700A1458B /* OTMRegistrationViewController.m */,
+				646086B7160CFB6700A1458B /* OTMScrollAwareViewController.h */,
+				646086B8160CFB6700A1458B /* OTMScrollAwareViewController.m */,
+				646086B9160CFB6700A1458B /* OTMSpeciesTableViewController.h */,
+				646086BA160CFB6700A1458B /* OTMSpeciesTableViewController.m */,
+				646086BB160CFB6700A1458B /* OTMSplashViewController.h */,
+				646086BC160CFB6700A1458B /* OTMSplashViewController.m */,
+				646086BD160CFB6700A1458B /* OTMTreeDetailViewController.h */,
+				646086BE160CFB6700A1458B /* OTMTreeDetailViewController.m */,
 			);
-			name = Filters;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
-		D7DE86B915D14DAA0063D0B6 /* Tiles */ = {
+		646086D7160CFB6700A1458B /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				D7D23DD715D9A04E0019D9D6 /* AZTileRenderer.h */,
-				D7D23DD815D9A04E0019D9D6 /* AZTileRenderer.m */,
-				D7EF4A3C15D2E53E0014A685 /* AZTilePointOffsetOverlayView.h */,
-				D7EF4A3D15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m */,
-				D7DE86BB15D14DD60063D0B6 /* AZTile.h */,
-				D7DE86BC15D14DD60063D0B6 /* AZTile.m */,
-				D7DE86BE15D14DEF0063D0B6 /* AZTiler.h */,
-				D7DE86BF15D14DEF0063D0B6 /* AZTiler.m */,
-				D7DE86C115D14E060063D0B6 /* AZPointParser.h */,
-				D7DE86C215D14E060063D0B6 /* AZPointParser.m */,
+				646086D8160CFB6700A1458B /* OTMButton.h */,
+				646086D9160CFB6700A1458B /* OTMButton.m */,
+				646086DA160CFB6700A1458B /* OTMDetailBoxView.h */,
+				646086DB160CFB6700A1458B /* OTMDetailBoxView.m */,
+				646086DC160CFB6700A1458B /* OTMDetailSliderview.h */,
+				646086DD160CFB6700A1458B /* OTMDetailSliderview.m */,
+				646086DE160CFB6700A1458B /* OTMFilterStatusView.h */,
+				646086DF160CFB6700A1458B /* OTMFilterStatusView.m */,
+				646086E0160CFB6700A1458B /* OTMHelpView.h */,
+				646086E1160CFB6700A1458B /* OTMHelpView.m */,
+				646086E2160CFB6700A1458B /* OTMNavigationBar.h */,
+				646086E3160CFB6700A1458B /* OTMNavigationBar.m */,
+				646086E4160CFB6700A1458B /* OTMSearchBar.h */,
+				646086E5160CFB6700A1458B /* OTMSearchBar.m */,
+				646086E6160CFB6700A1458B /* OTMSegmentedControl.h */,
+				646086E7160CFB6700A1458B /* OTMSegmentedControl.m */,
+				646086E8160CFB6700A1458B /* OTMTableView.h */,
+				646086E9160CFB6700A1458B /* OTMTableView.m */,
+				646086EA160CFB6700A1458B /* OTMView.h */,
+				646086EB160CFB6700A1458B /* OTMView.m */,
 			);
-			path = Tiles;
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
-				D75AA83C15E7C58000E880E4 /* Default@2x.png */,
-				D7AC3D8715F0F7D8002443B0 /* Icon-72.png */,
-				D7AC3D8915F0F7D8002443B0 /* Icon.png */,
-				D7AC3D8A15F0F7D9002443B0 /* Icon@2x.png */,
-				D75AA83915E7C57400E880E4 /* Default.png */,
-				D7AC3D9C15F0F9FB002443B0 /* Icon-72@2x.png */,
-				64318CD11551E22E001C827F /* libASI.a */,
-				E943971C14F447EB007CD0D1 /* OpenTreeMap */,
-				E943974814F447EB007CD0D1 /* OpenTreeMapTests */,
+				64608646160CFB0A00A1458B /* InfoPlist.strings */,
+				64608649160CFB2800A1458B /* OpenTreeMap-Info.plist */,
+				6460864A160CFB2800A1458B /* OpenTreeMap.entitlements */,
 				E943971514F447EB007CD0D1 /* Frameworks */,
 				E943971314F447EB007CD0D1 /* Products */,
+				6460864D160CFB4600A1458B /* Resources */,
+				64608658160CFB6700A1458B /* Source */,
 			);
 			sourceTree = "<group>";
 		};
@@ -807,85 +586,6 @@
 				E943974214F447EB007CD0D1 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E943971C14F447EB007CD0D1 /* OpenTreeMap */ = {
-			isa = PBXGroup;
-			children = (
-				D75AA7AC15DE9F6400E880E4 /* skin */,
-				D7829C80153F3A3D00DBFE7C /* Edit Details */,
-				D7910C50152B3FB800758F66 /* OTMLib */,
-				D7910C4E152B3EC900758F66 /* AZ */,
-				D7C252CD14FE84680028519E /* views */,
-				D7BEA4A414FC213F006CC456 /* api */,
-				D76319A9151B697F00332BEA /* Login and Register */,
-				D7CBD0661577C825009D08FF /* Filters */,
-				E943971D14F447EB007CD0D1 /* Supporting Files */,
-				7A6464AA14F5871600B77910 /* OpenTreeMap.entitlements */,
-				D7CF59B41550311800D37425 /* LoginRequiredView.xib */,
-				E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */,
-				64DDCDBF14F531EA004FA0CF /* OTMEnvironment.h */,
-				64DDCDC014F531EA004FA0CF /* OTMEnvironment.m */,
-				E943972514F447EB007CD0D1 /* OTMAppDelegate.h */,
-				E943972614F447EB007CD0D1 /* OTMAppDelegate.m */,
-				E943972E14F447EB007CD0D1 /* OTMMapViewController.h */,
-				E943972F14F447EB007CD0D1 /* OTMMapViewController.m */,
-				D7775FCA15210492008301E4 /* OTMProfileViewController.h */,
-				D7775FCB15210492008301E4 /* OTMProfileViewController.m */,
-				D7775FD01521123A008301E4 /* OTMPasswordChangeViewController.h */,
-				D7775FD11521123A008301E4 /* OTMPasswordChangeViewController.m */,
-				D7910C51152B419E00758F66 /* OTMNearbyTreesViewController.h */,
-				D7910C52152B419E00758F66 /* OTMNearbyTreesViewController.m */,
-				D723B3E3152B9C7100E207CB /* WashingtonDC.gpx */,
-				645497F91542191900C7F423 /* OTMAddTreeAnnotationView.h */,
-				645497FA1542191900C7F423 /* OTMAddTreeAnnotationView.m */,
-				645497FC1545A1E600C7F423 /* OTMReverseGeocodeOperation.h */,
-				645497FD1545A1E600C7F423 /* OTMReverseGeocodeOperation.m */,
-				D7DE86B915D14DAA0063D0B6 /* Tiles */,
-				64E2AB9C155052B600EFA775 /* Philadelphia.gpx */,
-				64E2AB9F1550535600EFA775 /* Azavea.gpx */,
-				D764148815F66011005FA0C8 /* OTMSplashViewController.h */,
-				D764148915F66011005FA0C8 /* OTMSplashViewController.m */,
-				D764148C15F66182005FA0C8 /* OTMSwapSegue.h */,
-				D764148D15F66182005FA0C8 /* OTMSwapSegue.m */,
-			);
-			path = OpenTreeMap;
-			sourceTree = "<group>";
-		};
-		E943971D14F447EB007CD0D1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				64DDCDBA14F53177004FA0CF /* Environments */,
-				E943971E14F447EB007CD0D1 /* OpenTreeMap-Info.plist */,
-				E943971F14F447EB007CD0D1 /* InfoPlist.strings */,
-				E943972214F447EB007CD0D1 /* main.m */,
-				E943972414F447EB007CD0D1 /* OpenTreeMap-Prefix.pch */,
-				D7DE86A415BDA4C30063D0B6 /* version.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		E943974814F447EB007CD0D1 /* OpenTreeMapTests */ = {
-			isa = PBXGroup;
-			children = (
-				E943974E14F447EB007CD0D1 /* OpenTreeMapTests.h */,
-				E943974F14F447EB007CD0D1 /* OpenTreeMapTests.m */,
-				E943974914F447EB007CD0D1 /* Supporting Files */,
-				D70B881B1510E63D000C280C /* OTMBase64Test.h */,
-				D70B881C1510E63D000C280C /* OTMBase64Test.m */,
-				D72BF64615122DE800AB6664 /* DictionaryDecode.h */,
-				D72BF64715122DE800AB6664 /* DictionaryDecode.m */,
-			);
-			path = OpenTreeMapTests;
-			sourceTree = "<group>";
-		};
-		E943974914F447EB007CD0D1 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				E943974A14F447EB007CD0D1 /* OpenTreeMapTests-Info.plist */,
-				E943974B14F447EB007CD0D1 /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -959,90 +659,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E943972114F447EB007CD0D1 /* InfoPlist.strings in Resources */,
-				E943972A14F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard in Resources */,
-				64DDCDB914F53102004FA0CF /* Debug.plist in Resources */,
-				64DDCDC514F53D8F004FA0CF /* Release.plist in Resources */,
-				D72BF67015178AF700AB6664 /* LoginStoryboard.storyboard in Resources */,
-				D7829C8615409DC200DBFE7C /* OTMDBHTableViewCell.xib in Resources */,
-				D7829CA71547275700DBFE7C /* Choices.plist in Resources */,
-				64E2AB9D155052B600EFA775 /* Philadelphia.gpx in Resources */,
-				64E2ABA01550535600EFA775 /* Azavea.gpx in Resources */,
-				D7CF59B51550311800D37425 /* LoginRequiredView.xib in Resources */,
-				D7DE86A515BDA4C30063D0B6 /* version.plist in Resources */,
-				D7DE86AC15C964CE0063D0B6 /* OTMBenefitsTableViewCell.xib in Resources */,
-				D75AA7F115DE9F6400E880E4 /* about.png in Resources */,
-				D75AA7F215DE9F6400E880E4 /* about@2x.png in Resources */,
-				D75AA7F315DE9F6400E880E4 /* about_bg.png in Resources */,
-				D75AA7F415DE9F6400E880E4 /* about_bg@2x.png in Resources */,
-				D75AA7F515DE9F6400E880E4 /* add_help_bg.png in Resources */,
-				D75AA7F615DE9F6400E880E4 /* add_help_bg@2x.png in Resources */,
-				D75AA7F715DE9F6400E880E4 /* add_new.png in Resources */,
-				D75AA7F815DE9F6400E880E4 /* add_new@2x.png in Resources */,
-				D75AA7F915DE9F6400E880E4 /* btn_bg.png in Resources */,
-				D75AA7FA15DE9F6400E880E4 /* btn_bg@2x.png in Resources */,
-				D75AA7FB15DE9F6400E880E4 /* button_glass_red.png in Resources */,
-				D75AA7FC15DE9F6400E880E4 /* button_glass_red@2x.png in Resources */,
-				D75AA7FD15DE9F6400E880E4 /* detail.png in Resources */,
-				D75AA7FE15DE9F6400E880E4 /* filter_status_bg.png in Resources */,
-				D75AA7FF15DE9F6400E880E4 /* filter_status_bg@2x.png in Resources */,
-				D75AA80015DE9F6400E880E4 /* gps_icon.png in Resources */,
-				D75AA80115DE9F6400E880E4 /* gps_icon@2x.png in Resources */,
-				D75AA80215DE9F6400E880E4 /* gps_icon_14.png in Resources */,
-				D75AA80315DE9F6400E880E4 /* gps_icon_14@2x.png in Resources */,
-				D75AA80415DE9F6400E880E4 /* handle_icon.png in Resources */,
-				D75AA80515DE9F6400E880E4 /* handle_icon@2x.png in Resources */,
-				D75AA80615DE9F6400E880E4 /* logo.png in Resources */,
-				D75AA80715DE9F6400E880E4 /* logo@2x.png in Resources */,
-				D75AA80815DE9F6400E880E4 /* tree_search.png in Resources */,
-				D75AA80915DE9F6400E880E4 /* tree_search_zoom1.png in Resources */,
-				D75AA80A15DE9F6400E880E4 /* tree_search_zoom3.png in Resources */,
-				D75AA80B15DE9F6400E880E4 /* tree_search_zoom5.png in Resources */,
-				D75AA80C15DE9F6400E880E4 /* tree_search_zoom6.png in Resources */,
-				D75AA80D15DE9F6400E880E4 /* tree_search_zoom7.png in Resources */,
-				D75AA80E15DE9F6400E880E4 /* tree_zoom1.png in Resources */,
-				D75AA80F15DE9F6400E880E4 /* tree_zoom1_highlight.png in Resources */,
-				D75AA81015DE9F6400E880E4 /* tree_zoom1_plot.png in Resources */,
-				D75AA81115DE9F6400E880E4 /* tree_zoom3.png in Resources */,
-				D75AA81215DE9F6400E880E4 /* tree_zoom3_highlight.png in Resources */,
-				D75AA81315DE9F6400E880E4 /* tree_zoom3_plot.png in Resources */,
-				D75AA81415DE9F6400E880E4 /* tree_zoom5.png in Resources */,
-				D75AA81515DE9F6400E880E4 /* tree_zoom5_highlight.png in Resources */,
-				D75AA81615DE9F6400E880E4 /* tree_zoom5_plot.png in Resources */,
-				D75AA81715DE9F6400E880E4 /* tree_zoom6.png in Resources */,
-				D75AA81815DE9F6400E880E4 /* tree_zoom6_highlight.png in Resources */,
-				D75AA81915DE9F6400E880E4 /* tree_zoom6_plot.png in Resources */,
-				D75AA81A15DE9F6400E880E4 /* tree_zoom7.png in Resources */,
-				D75AA81B15DE9F6400E880E4 /* tree_zoom7_highlight.png in Resources */,
-				D75AA81C15DE9F6400E880E4 /* tree_zoom7_plot.png in Resources */,
-				D75AA81D15DE9F6400E880E4 /* marker-selected-sm.png in Resources */,
-				D75AA81E15DE9F6400E880E4 /* pend.png in Resources */,
-				D75AA81F15DE9F6400E880E4 /* pend@2x.png in Resources */,
-				D75AA82015DE9F6400E880E4 /* pending-approved.png in Resources */,
-				D75AA82115DE9F6400E880E4 /* pending-approved@2x.png in Resources */,
-				D75AA82215DE9F6400E880E4 /* pending-unapproved.png in Resources */,
-				D75AA82315DE9F6400E880E4 /* pending-unapproved@2x.png in Resources */,
-				D75AA82415DE9F6400E880E4 /* profile.png in Resources */,
-				D75AA82515DE9F6400E880E4 /* profile@2x.png in Resources */,
-				D75AA82615DE9F6400E880E4 /* recent_trees.png in Resources */,
-				D75AA82715DE9F6400E880E4 /* recent_trees@2x.png in Resources */,
-				D75AA82815DE9F6400E880E4 /* selected_marker.png in Resources */,
-				D75AA82915DE9F6400E880E4 /* selected_marker@2x.png in Resources */,
-				D75AA82A15DE9F6400E880E4 /* selected_marker_small.png in Resources */,
-				D75AA82B15DE9F6400E880E4 /* selected_marker_small@2x.png in Resources */,
-				D75AA82C15DE9F6400E880E4 /* splash_screen.png in Resources */,
-				D75AA82D15DE9F6400E880E4 /* splash_screen@2x.png in Resources */,
-				D75AA82E15DE9F6400E880E4 /* transparent_14.png in Resources */,
-				D75AA82F15DE9F6400E880E4 /* tree_icon.png in Resources */,
-				D75AA83015DE9F6400E880E4 /* tree_map.png in Resources */,
-				D75AA83115DE9F6400E880E4 /* tree_map@2x.png in Resources */,
-				D75AA83415DEB2FE00E880E4 /* Implementation.plist in Resources */,
-				D75AA83A15E7C57400E880E4 /* Default.png in Resources */,
-				D75AA83D15E7C58000E880E4 /* Default@2x.png in Resources */,
-				D7AC3D8D15F0F7D9002443B0 /* Icon-72.png in Resources */,
-				D7AC3D8F15F0F7D9002443B0 /* Icon.png in Resources */,
-				D7AC3D9015F0F7D9002443B0 /* Icon@2x.png in Resources */,
-				D7AC3D9D15F0F9FB002443B0 /* Icon-72@2x.png in Resources */,
+				64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */,
+				6460864B160CFB2800A1458B /* OpenTreeMap-Info.plist in Resources */,
+				6460864C160CFB2800A1458B /* OpenTreeMap.entitlements in Resources */,
+				64608653160CFB4600A1458B /* LoginRequiredView.xib in Resources */,
+				64608654160CFB4600A1458B /* LoginStoryboard.storyboard in Resources */,
+				64608655160CFB4600A1458B /* MainStoryboard_iPhone.storyboard in Resources */,
+				64608656160CFB4600A1458B /* OTMBenefitsTableViewCell.xib in Resources */,
+				64608657160CFB4600A1458B /* OTMDBHTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,8 +674,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E943974D14F447EB007CD0D1 /* InfoPlist.strings in Resources */,
-				D72BF67115178AF700AB6664 /* LoginStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1078,74 +700,74 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E943972314F447EB007CD0D1 /* main.m in Sources */,
-				E943972714F447EB007CD0D1 /* OTMAppDelegate.m in Sources */,
-				E943973014F447EB007CD0D1 /* OTMMapViewController.m in Sources */,
-				64DDCDAD14F51A2C004FA0CF /* AZWMSOverlay.m in Sources */,
-				64DDCDC114F531EA004FA0CF /* OTMEnvironment.m in Sources */,
-				D7BEA4A814FC2168006CC456 /* AZHttpRequest.m in Sources */,
-				D7BEA4B014FD3587006CC456 /* OTMAPI.m in Sources */,
-				D7C252D014FE84780028519E /* OTMDetailSliderview.m in Sources */,
-				D7CC152B1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
-				D70B880A150FEB5A000C280C /* OTMTreeDetailViewController.m in Sources */,
-				D791171B151128FD004BE79C /* OTMDetailTableViewCell.m in Sources */,
-				D791171F15113F70004BE79C /* OTMFormatters.m in Sources */,
-				D72BF64315122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */,
-				D72BF65C15177AAA00AB6664 /* OTMLoginViewController.m in Sources */,
-				D72BF66315177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */,
-				D72BF669151785B300AB6664 /* OTMUser.m in Sources */,
-				D72BF66D1517899700AB6664 /* OTMLoginManager.m in Sources */,
-				D76319A7151B697400332BEA /* OTMPasswordResetViewController.m in Sources */,
-				D73B3AE0151BA13C00FF2125 /* OTMScrollAwareViewController.m in Sources */,
-				D73B3AF4151BB2A500FF2125 /* OTMRegistrationViewController.m in Sources */,
-				D73B3AF8151CB90300FF2125 /* UIAlertView+Blocks.m in Sources */,
-				D7775FC91520E864008301E4 /* OTMValidator.m in Sources */,
-				D7775FCC15210492008301E4 /* OTMProfileViewController.m in Sources */,
-				D7775FD21521123B008301E4 /* OTMPasswordChangeViewController.m in Sources */,
-				D76BD8FB15226446003C664F /* OTMPictureTaker.m in Sources */,
-				D76BD9071523B8EB003C664F /* AZUser.m in Sources */,
-				D7910C53152B419E00758F66 /* OTMNearbyTreesViewController.m in Sources */,
-				D78CCCD7152CC34C00A6E9B7 /* OTMDistanceTableViewCell.m in Sources */,
-				D702FAB9153369E900A406A1 /* NSDictionary+MutableDeepCopy.m in Sources */,
-				D702FABD15336AE400A406A1 /* NSArray+MutableDeepCopy.m in Sources */,
-				D702FAC01533903600A406A1 /* OTMSpeciesTableViewController.m in Sources */,
-				D7829C84153F3AE200DBFE7C /* OTMDetailCellRenderer.m in Sources */,
-				D7829C8915409EF300DBFE7C /* OTMDBHTableViewCell.m in Sources */,
-				D7829CAB15472C6E00DBFE7C /* OTMChoicesDetailCellRenderer.m in Sources */,
-				645497FB1542191900C7F423 /* OTMAddTreeAnnotationView.m in Sources */,
-				D7D23DDA15D9A05B0019D9D6 /* AZTileRenderer.m in Sources */,
-				645497FE1545A1E600C7F423 /* OTMReverseGeocodeOperation.m in Sources */,
-				649F8D24155041DA007B196D /* AZWaitingOverlayController.m in Sources */,
-				D70F8596155187E800D108D5 /* OTMView.m in Sources */,
-				D70F859915518D7300D108D5 /* OTMNavigationBar.m in Sources */,
-				D70F859C1551920C00D108D5 /* OTMSearchBar.m in Sources */,
-				D70F859F1551927500D108D5 /* OTMSegmentedControl.m in Sources */,
-				D70F85A2155192E200D108D5 /* OTMButton.m in Sources */,
-				648550A21551B4D3006C9FF7 /* AZPointOffsetOverlay.m in Sources */,
-				648550A81551C8BC006C9FF7 /* AZGeoCache.m in Sources */,
-				648550AB1551CEDE006C9FF7 /* NSMutableOrderedSet+Queue.m in Sources */,
-				644C190715532FE80055CDE8 /* AZMemoryObjectCache.m in Sources */,
-				644C190D155338E00055CDE8 /* AZTileCacheKey.m in Sources */,
-				644C1910155339A30055CDE8 /* AZObjectCache.m in Sources */,
-				644C1922155431740055CDE8 /* AZCachedObject.m in Sources */,
-				D70F85DE155AB4E900D108D5 /* OTMTableView.m in Sources */,
-				D70F85E2155AB5A300D108D5 /* OTMDetailBoxView.m in Sources */,
-				64D34560156161DE0073C62D /* OTMMapDetailCellRenderer.m in Sources */,
-				64D34564156169420073C62D /* OTMMapTableViewCell.m in Sources */,
-				64C76EB01561ACB10037805F /* OTMChangeLocationViewController.m in Sources */,
-				64A7157C1562B46F003430E8 /* OTMTreeDictionaryHelper.m in Sources */,
-				D7CBD06A1577C871009D08FF /* OTMFilterListViewController.m in Sources */,
-				64DD10941598DDE70053AC57 /* OTMFieldDetailViewController.m in Sources */,
-				6490025D15A3648D00DC492B /* AZMapHelper.m in Sources */,
-				644357AC15C092A60064BD80 /* OTMHelpView.m in Sources */,
-				643ED26415C3196000BD4461 /* OTMFilterStatusView.m in Sources */,
-				D7DE86B015C965FF0063D0B6 /* OTMBenefitsTableViewCell.m in Sources */,
-				D7DE86BD15D14DD60063D0B6 /* AZTile.m in Sources */,
-				D7EF4A4015D2E5E10014A685 /* AZTilePointOffsetOverlayView.m in Sources */,
-				D7DE86C015D14DEF0063D0B6 /* AZTiler.m in Sources */,
-				D7DE86C315D14E060063D0B6 /* AZPointParser.m in Sources */,
-				D764148A15F66011005FA0C8 /* OTMSplashViewController.m in Sources */,
-				D764148E15F66182005FA0C8 /* OTMSwapSegue.m in Sources */,
+				646086EC160CFB6700A1458B /* AZHttpRequest.m in Sources */,
+				646086ED160CFB6700A1458B /* AZKeychainItemWrapper.m in Sources */,
+				646086EE160CFB6700A1458B /* AZUser.m in Sources */,
+				646086EF160CFB6700A1458B /* AZCachedObject.m in Sources */,
+				646086F0160CFB6700A1458B /* AZGeoCache.m in Sources */,
+				646086F1160CFB6700A1458B /* AZMemoryObjectCache.m in Sources */,
+				646086F2160CFB6700A1458B /* AZObjectCache.m in Sources */,
+				646086F3160CFB6700A1458B /* AZTileCacheKey.m in Sources */,
+				646086F4160CFB6700A1458B /* AZMapHelper.m in Sources */,
+				646086F5160CFB6700A1458B /* AZPointOffsetOverlay.m in Sources */,
+				646086F6160CFB6700A1458B /* AZPointParser.m in Sources */,
+				646086F7160CFB6700A1458B /* AZTile.m in Sources */,
+				646086F8160CFB6700A1458B /* AZTilePointOffsetOverlayView.m in Sources */,
+				646086F9160CFB6700A1458B /* AZTiler.m in Sources */,
+				646086FA160CFB6700A1458B /* AZTileRenderer.m in Sources */,
+				646086FB160CFB6700A1458B /* AZWaitingOverlayController.m in Sources */,
+				646086FC160CFB6700A1458B /* AZWMSOverlay.m in Sources */,
+				646086FD160CFB6700A1458B /* AZWMSOverlayView.m in Sources */,
+				646086FE160CFB6700A1458B /* NSArray+MutableDeepCopy.m in Sources */,
+				646086FF160CFB6700A1458B /* NSDictionary+DecodeKey.m in Sources */,
+				64608700160CFB6700A1458B /* NSDictionary+MutableDeepCopy.m in Sources */,
+				64608701160CFB6700A1458B /* NSMutableOrderedSet+Queue.m in Sources */,
+				64608702160CFB6700A1458B /* UIAlertView+Blocks.m in Sources */,
+				64608703160CFB6700A1458B /* main.m in Sources */,
+				64608704160CFB6700A1458B /* OTMBenefitsTableViewCell.m in Sources */,
+				64608705160CFB6700A1458B /* OTMChoicesDetailCellRenderer.m in Sources */,
+				64608706160CFB6700A1458B /* OTMDBHTableViewCell.m in Sources */,
+				64608707160CFB6700A1458B /* OTMDetailCellRenderer.m in Sources */,
+				64608708160CFB6700A1458B /* OTMDetailTableViewCell.m in Sources */,
+				64608709160CFB6700A1458B /* OTMDistanceTableViewCell.m in Sources */,
+				6460870A160CFB6700A1458B /* OTMMapDetailCellRenderer.m in Sources */,
+				6460870B160CFB6700A1458B /* OTMMapTableViewCell.m in Sources */,
+				6460870C160CFB6700A1458B /* OTMChangeLocationViewController.m in Sources */,
+				6460870D160CFB6700A1458B /* OTMFieldDetailViewController.m in Sources */,
+				6460870E160CFB6700A1458B /* OTMFilterListViewController.m in Sources */,
+				6460870F160CFB6700A1458B /* OTMLoginViewController.m in Sources */,
+				64608710160CFB6700A1458B /* OTMMapViewController.m in Sources */,
+				64608711160CFB6700A1458B /* OTMNearbyTreesViewController.m in Sources */,
+				64608712160CFB6700A1458B /* OTMPasswordChangeViewController.m in Sources */,
+				64608713160CFB6700A1458B /* OTMPasswordResetViewController.m in Sources */,
+				64608714160CFB6700A1458B /* OTMProfileViewController.m in Sources */,
+				64608715160CFB6700A1458B /* OTMRegistrationViewController.m in Sources */,
+				64608716160CFB6700A1458B /* OTMScrollAwareViewController.m in Sources */,
+				64608717160CFB6700A1458B /* OTMSpeciesTableViewController.m in Sources */,
+				64608718160CFB6700A1458B /* OTMSplashViewController.m in Sources */,
+				64608719160CFB6700A1458B /* OTMTreeDetailViewController.m in Sources */,
+				6460871A160CFB6700A1458B /* OTMAddTreeAnnotationView.m in Sources */,
+				6460871B160CFB6700A1458B /* OTMAPI.m in Sources */,
+				6460871C160CFB6700A1458B /* OTMAppDelegate.m in Sources */,
+				6460871D160CFB6700A1458B /* OTMEnvironment.m in Sources */,
+				6460871E160CFB6700A1458B /* OTMFormatters.m in Sources */,
+				6460871F160CFB6700A1458B /* OTMLoginManager.m in Sources */,
+				64608720160CFB6700A1458B /* OTMPictureTaker.m in Sources */,
+				64608721160CFB6700A1458B /* OTMReverseGeocodeOperation.m in Sources */,
+				64608722160CFB6700A1458B /* OTMSwapSegue.m in Sources */,
+				64608723160CFB6700A1458B /* OTMTreeDictionaryHelper.m in Sources */,
+				64608724160CFB6700A1458B /* OTMUser.m in Sources */,
+				64608725160CFB6700A1458B /* OTMValidator.m in Sources */,
+				64608726160CFB6700A1458B /* OTMButton.m in Sources */,
+				64608727160CFB6700A1458B /* OTMDetailBoxView.m in Sources */,
+				64608728160CFB6700A1458B /* OTMDetailSliderview.m in Sources */,
+				64608729160CFB6700A1458B /* OTMFilterStatusView.m in Sources */,
+				6460872A160CFB6700A1458B /* OTMHelpView.m in Sources */,
+				6460872B160CFB6700A1458B /* OTMNavigationBar.m in Sources */,
+				6460872C160CFB6700A1458B /* OTMSearchBar.m in Sources */,
+				6460872D160CFB6700A1458B /* OTMSegmentedControl.m in Sources */,
+				6460872E160CFB6700A1458B /* OTMTableView.m in Sources */,
+				6460872F160CFB6700A1458B /* OTMView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1153,20 +775,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E943975014F447EB007CD0D1 /* OpenTreeMapTests.m in Sources */,
-				D7BEA4A914FC2168006CC456 /* AZHttpRequest.m in Sources */,
-				D7BEA4B114FD3587006CC456 /* OTMAPI.m in Sources */,
-				D7C252D114FE84780028519E /* OTMDetailSliderview.m in Sources */,
-				D7CC152C1507F91C00277C7C /* AZWMSOverlayView.m in Sources */,
-				D70B881D1510E63D000C280C /* OTMBase64Test.m in Sources */,
-				D72BF64415122AF100AB6664 /* NSDictionary+DecodeKey.m in Sources */,
-				D72BF64915122DE800AB6664 /* DictionaryDecode.m in Sources */,
-				D72BF65D15177AAA00AB6664 /* OTMLoginViewController.m in Sources */,
-				D72BF66415177E0300AB6664 /* AZKeychainItemWrapper.m in Sources */,
-				D72BF66A151785B300AB6664 /* OTMUser.m in Sources */,
-				D72BF66E1517899700AB6664 /* OTMLoginManager.m in Sources */,
-				D7EF4A3E15D2E53E0014A685 /* AZTilePointOffsetOverlayView.m in Sources */,
-				D7D23DD915D9A04E0019D9D6 /* AZTileRenderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,26 +789,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E943971F14F447EB007CD0D1 /* InfoPlist.strings */ = {
+		64608646160CFB0A00A1458B /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E943972014F447EB007CD0D1 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		E943972814F447EB007CD0D1 /* MainStoryboard_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E943972914F447EB007CD0D1 /* en */,
-			);
-			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		E943974B14F447EB007CD0D1 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E943974C14F447EB007CD0D1 /* en */,
+				64608647160CFB0A00A1458B /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1239,10 +831,10 @@
 		7A6464AD14F5879F00B77910 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
-				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
+				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
@@ -1312,12 +904,12 @@
 		D7D23DDC15D9A0F60019D9D6 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
-				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
+				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
@@ -1420,11 +1012,11 @@
 		E943975414F447EB007CD0D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
-				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
+				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
@@ -1443,12 +1035,12 @@
 		E943975514F447EB007CD0D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = OpenTreeMap/OpenTreeMap.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "OpenTreeMap/OpenTreeMap-Prefix.pch";
-				INFOPLIST_FILE = "OpenTreeMap/OpenTreeMap-Info.plist";
+				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
+				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
