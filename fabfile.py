@@ -24,9 +24,16 @@ def stamp_version(version, jenkins=None):
         the app """
     t_vars = {'version': version, 'build': jenkins}
 
-    template_file = open('./scripts/assets/version.template', 'r')
-    content = template_file.read() % t_vars
-    template_file.close()
+    content = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>version</key>
+        <string>%(version)s</string>
+    <key>build</key>
+        <string>%(build)s</string>
+</dict>
+</plist>""" % t_vars
 
     template_file = open('./OpenTreeMap/OpenTreeMap/version.plist', 'w')
     template_file.write(content)
