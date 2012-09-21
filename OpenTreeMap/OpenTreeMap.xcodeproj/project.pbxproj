@@ -84,12 +84,6 @@
 		6460872D160CFB6700A1458B /* OTMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086E7160CFB6700A1458B /* OTMSegmentedControl.m */; };
 		6460872E160CFB6700A1458B /* OTMTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086E9160CFB6700A1458B /* OTMTableView.m */; };
 		6460872F160CFB6700A1458B /* OTMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 646086EB160CFB6700A1458B /* OTMView.m */; };
-		6460877C160D01A700A1458B /* appstore_app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608732160D01A700A1458B /* appstore_app-icon.png */; };
-		6460877D160D01A700A1458B /* appstore_app-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608733160D01A700A1458B /* appstore_app-icon@2x.png */; };
-		6460877E160D01A700A1458B /* ipad_app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608734160D01A700A1458B /* ipad_app-icon.png */; };
-		6460877F160D01A700A1458B /* ipad_app-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608735160D01A700A1458B /* ipad_app-icon@2x.png */; };
-		64608780160D01A700A1458B /* iphone_app-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608736160D01A700A1458B /* iphone_app-icon.png */; };
-		64608781160D01A700A1458B /* iphone_app-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608737160D01A700A1458B /* iphone_app-icon@2x.png */; };
 		64608782160D01A700A1458B /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608739160D01A700A1458B /* about.png */; };
 		64608783160D01A700A1458B /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6460873A160D01A700A1458B /* about@2x.png */; };
 		64608784160D01A700A1458B /* about_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 6460873B160D01A700A1458B /* about_bg.png */; };
@@ -337,12 +331,6 @@
 		646086E9160CFB6700A1458B /* OTMTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMTableView.m; sourceTree = "<group>"; };
 		646086EA160CFB6700A1458B /* OTMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMView.h; sourceTree = "<group>"; };
 		646086EB160CFB6700A1458B /* OTMView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMView.m; sourceTree = "<group>"; };
-		64608732160D01A700A1458B /* appstore_app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appstore_app-icon.png"; sourceTree = "<group>"; };
-		64608733160D01A700A1458B /* appstore_app-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appstore_app-icon@2x.png"; sourceTree = "<group>"; };
-		64608734160D01A700A1458B /* ipad_app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ipad_app-icon.png"; sourceTree = "<group>"; };
-		64608735160D01A700A1458B /* ipad_app-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ipad_app-icon@2x.png"; sourceTree = "<group>"; };
-		64608736160D01A700A1458B /* iphone_app-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone_app-icon.png"; sourceTree = "<group>"; };
-		64608737160D01A700A1458B /* iphone_app-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone_app-icon@2x.png"; sourceTree = "<group>"; };
 		64608739160D01A700A1458B /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
 		6460873A160D01A700A1458B /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
 		6460873B160D01A700A1458B /* about_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about_bg.png; sourceTree = "<group>"; };
@@ -708,25 +696,11 @@
 		64608730160D01A700A1458B /* Skin */ = {
 			isa = PBXGroup;
 			children = (
-				64608731160D01A700A1458B /* icons */,
 				64608738160D01A700A1458B /* images */,
 				6460877B160D01A700A1458B /* Implementation.plist */,
 			);
 			name = Skin;
 			path = skin;
-			sourceTree = "<group>";
-		};
-		64608731160D01A700A1458B /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				64608732160D01A700A1458B /* appstore_app-icon.png */,
-				64608733160D01A700A1458B /* appstore_app-icon@2x.png */,
-				64608734160D01A700A1458B /* ipad_app-icon.png */,
-				64608735160D01A700A1458B /* ipad_app-icon@2x.png */,
-				64608736160D01A700A1458B /* iphone_app-icon.png */,
-				64608737160D01A700A1458B /* iphone_app-icon@2x.png */,
-			);
-			path = icons;
 			sourceTree = "<group>";
 		};
 		64608738160D01A700A1458B /* images */ = {
@@ -937,12 +911,6 @@
 				64608655160CFB4600A1458B /* MainStoryboard_iPhone.storyboard in Resources */,
 				64608656160CFB4600A1458B /* OTMBenefitsTableViewCell.xib in Resources */,
 				64608657160CFB4600A1458B /* OTMDBHTableViewCell.xib in Resources */,
-				6460877C160D01A700A1458B /* appstore_app-icon.png in Resources */,
-				6460877D160D01A700A1458B /* appstore_app-icon@2x.png in Resources */,
-				6460877E160D01A700A1458B /* ipad_app-icon.png in Resources */,
-				6460877F160D01A700A1458B /* ipad_app-icon@2x.png in Resources */,
-				64608780160D01A700A1458B /* iphone_app-icon.png in Resources */,
-				64608781160D01A700A1458B /* iphone_app-icon@2x.png in Resources */,
 				64608782160D01A700A1458B /* about.png in Resources */,
 				64608783160D01A700A1458B /* about@2x.png in Resources */,
 				64608784160D01A700A1458B /* about_bg.png in Resources */,
