@@ -35,7 +35,7 @@ def stamp_version(version, jenkins=None):
 </dict>
 </plist>""" % t_vars
 
-    template_file = open('./OpenTreeMap/OpenTreeMap/version.plist', 'w')
+    template_file = open('./OpenTreeMap/version.plist', 'w')
     template_file.write(content)
     template_file.flush()
 
@@ -141,7 +141,7 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
     Set 'force_delete' to True to delete any previous repos
     """
     if not clone_dir:
-        clone_dir = '../'
+        clone_dir = '..'
 
     git_clone_path = '%s/%s' % (clone_dir, skin)
 
@@ -151,9 +151,9 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
     if not os.path.exists('%s/ios' % git_clone_path):
         clone_skin_repo(skin, clone_dir, version, user)
 
-    with lcd('OpenTreeMap/OpenTreeMap'):
+    with lcd('OpenTreeMap'):
         local('rm -f skin')
-        local('ln -s "../../%s/ios" skin' % git_clone_path)
+        local('ln -s "../%s/ios" skin' % git_clone_path)
 
     with lcd('OpenTreeMap'):
         local('rm -f "Default.png" "Default@2x.png" '\
@@ -171,5 +171,5 @@ def install_skin(skin, user=None, version=None, clone_dir=None,
         local('cp "../%s/ios/icons/ipad_app-icon@2x.png" '\
               'Icon-72@2x.png' % git_clone_path)
 
-    convert_choices("%s/choices.py" % git_clone_path, "OpenTreeMap/OpenTreeMap/Choices.plist")
+    convert_choices("%s/choices.py" % git_clone_path, "OpenTreeMap/Choices.plist")
         
