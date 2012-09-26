@@ -11,9 +11,10 @@ def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name):
         local('rm -rf "Payload/%s/_CodeSignature" '\
               '"Payload/%s/CodeResources"' % (app_name, app_name))
         local('cp "%s" "Payload/%s/embedded.mobileprovision"' % (p, app_name))
-        local('/usr/bin/codesign -f -s "%s" '
+        local('/usr/bin/codesign -f -vvv -s "%s" '
               '--resource-rules "Payload/%s/ResourceRules.plist" '
-              '"Payload/%s"' % (sign_name, app_name, app_name))
+              '-i "Payload/%s/embedded.mobileprovision" '
+              '"Payload/%s"' % (sign_name, app_name, app_name, app_name))
         local('zip -qr "%s.%s.ipa" Payload' % (ipa,n))
 
     sign_with_profile(dist_profile, 'dist')
