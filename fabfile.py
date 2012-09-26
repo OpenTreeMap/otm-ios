@@ -39,6 +39,15 @@ def stamp_version(version, jenkins=None):
     template_file.write(content)
     template_file.flush()
 
+def create_info_plist(app_name, app_id):
+    infoplist = open('OpenTreeMap/OpenTreeMap-Info.plist.template').read()
+    infoplist = infoplist % { "app_name": app_name, "app_id": app_id }
+    
+    f = open('OpenTreeMap/OpenTreeMap-Info.plist', 'w')
+    f.write(infoplist)
+    f.flush()
+    f.close()
+
 def convert_choices(choices_py,choices_plist):
     globs = {}
     execfile(choices_py, globs)
