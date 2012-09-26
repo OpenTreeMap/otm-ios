@@ -7,7 +7,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>%(app_name)s</string>
 	<key>CFBundleExecutable</key>
-	<string>OpenTreeMap.app</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
 	<dict>
 		<key>CFBundlePrimaryIcon</key>
