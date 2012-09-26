@@ -3,19 +3,23 @@ from fabric.api import local, lcd, abort, cd, run
 
 import os
 
-def resign_for_distribution(cwd, ipa, tgtprofile='/Users/hudson/PhillyTreeMap.mobileprovision'):
-    with lcd(cwd):
-        local('unzip "%s.ipa"' % ipa)
-        app_name = os.listdir('%s/Payload' % cwd)[0]
+def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name):
+    local('unzip "%s.ipa"' % ipa)
+    app_name = os.listdir('Payload')[0]
+
+    def sign_with_profile(p, n):
         local('rm -rf "Payload/%s/_CodeSignature" '\
               '"Payload/%s/CodeResources"' % (app_name, app_name))
-
-        local('cp "%s" "Payload/%s/embedded.mobileprovision"' % (tgtprofile, app_name))
-        local('/usr/bin/codesign -f -s "iPhone Distribution: Azavea Inc." '
+        local('cp "%s" "Payload/%s/embedded.mobileprovision"' % (p, app_name))
+        local('/usr/bin/codesign -f -s "%s" '
               '--resource-rules "Payload/%s/ResourceRules.plist" '
-              '"Payload/%s"' % (app_name, app_name))
-        local('zip -qr "%s.dist.ipa" Payload' % ipa)
-        local('rm -rf Payload')
+              '"Payload/%s"' % (sign_name, app_name, app_name))
+        local('zip -qr "%s.%s.ipa" Payload' % (ipa,n))
+
+    sign_with_profile(dist_profile, 'dist')
+    sign_with_profile(adhoc_profile, 'adhoc')
+
+    local('rm -rf Payload')
 
 def stamp_version(version, jenkins=None):
     """ Write out a version number and jenkins build
