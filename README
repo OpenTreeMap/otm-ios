@@ -16,6 +16,10 @@ A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) scr
 
     $ fab install_skin
 
+The default skin may also be found on github
+
+https://github.com/azavea/OpenTreeMap-iOS-skin
+
 License
 ---------------
 
