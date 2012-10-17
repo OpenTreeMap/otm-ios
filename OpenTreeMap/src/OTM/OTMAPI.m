@@ -261,7 +261,13 @@
     {
         if (callback != nil) {
             if (error != nil) {
-               callback(user, kOTMAPILoginResponseError);
+                NSDictionary *info = [error userInfo];
+                NSNumber *statusCode = [info objectForKey:@"statusCode"];
+                if (statusCode && [statusCode intValue] == 409) {
+                    callback(user, kOTMAPILoginDuplicateUsername);
+                } else {
+                    callback(user, kOTMAPILoginResponseError);
+                }
             } else {
                 if ([[json objectForKey:@"status"] isEqualToString:@"success"]) {
                     user.userId = [[json valueForKey:@"id"] intValue];
