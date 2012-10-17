@@ -1,8 +1,7 @@
-OpenTreeMap for iOS
-===================
+# OpenTreeMap for iOS
 
-Getting Started
----------------
+## Getting Started
+
 OpenTreeMap for iOS has 2 major dependencies:
 
   - An OpenTreeMap web application installation
@@ -10,7 +9,7 @@ OpenTreeMap for iOS has 2 major dependencies:
 
 The source for the OpenTreeMap web application is available on github
 
-https://github.com/azavea/OpenTreeMap
+[https://github.com/azavea/OpenTreeMap]()
 
 A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) script included with the OpenTreeMap for iOS source.
 
@@ -18,7 +17,7 @@ A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) scr
 
 The default skin may also be found on github
 
-https://github.com/azavea/OpenTreeMap-iOS-skin
+[https://github.com/azavea/OpenTreeMap-iOS-skin]()
 
 License
 ---------------
