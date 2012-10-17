@@ -110,9 +110,18 @@
                 } else {
                     [self registrationSuccess:user];
                 }
+            } else if (status == kOTMAPILoginDuplicateUsername) {
+                [self.username becomeFirstResponder];
+                [self.username selectAll:self];
+                NSString *message = [NSString stringWithFormat:@"The username %@ is already reistered. Tap 'Login' and enter your password for this username or choose a different username.", self.username.text];
+                [[[UIAlertView alloc] initWithTitle:@"Already Registered"
+                                            message:message
+                                           delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil] show];
             } else {
-                [[[UIAlertView alloc] initWithTitle:@"Server Error"
-                                           message:@"There was a server error"
+                [[[UIAlertView alloc] initWithTitle:@"Registration Failed"
+                                           message:@"A server problem prevented your registration from completing. Please try again later."
                                           delegate:nil
                                  cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil] show];
