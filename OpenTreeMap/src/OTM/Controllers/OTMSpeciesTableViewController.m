@@ -21,7 +21,7 @@
 
 @implementation OTMSpeciesTableViewController
 
-@synthesize tableView, callback;
+@synthesize tableView, callback, searchBar;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -38,7 +38,6 @@
 
     sections =  [NSArray arrayWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",
                     @"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
-    sectionDict = [NSMutableDictionary dictionary];
 
     [[[OTMEnvironment sharedEnvironment] api] getSpeciesListWithCallback:^(id json, NSError *err) 
      {
@@ -51,28 +50,45 @@
              [self.navigationController popViewControllerAnimated:YES];
          } else {
              species = json;
-
-             for(NSString *displayValue in [species allKeys]) {
-                 if (displayValue != (id)[NSNull null] && [displayValue length] > 0) {
-                     NSString *key = [[displayValue substringToIndex:1] uppercaseString];
-                     NSMutableArray *vals = [sectionDict objectForKey:key];
-                     if (vals == nil) {
-                         vals = [NSMutableArray array];
-                         [sectionDict setObject:vals forKey:key];
-                     }
-                     [vals addObject:displayValue];
-                 }
-             }
-             for(NSString *s in sections) {
-                 NSArray *vals = [sectionDict objectForKey:s];
-                 if (vals) {
-                     [sectionDict setObject:[vals sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]
-                                     forKey:s];
-                 }
-             }
+             [self loadSectionDictWithSearchText:nil];
              [self.tableView reloadData];
          }
      }];
+}
+
+- (BOOL)speciesWithCommonName:(NSString *)name matchesSearchText:(NSString *)searchText {
+    NSString *lowerSearchText = [searchText lowercaseString];
+    if (!lowerSearchText || lowerSearchText.length == 0) {
+        return YES; // nil empty search text matches anything
+    } else if ([[name lowercaseString] rangeOfString:lowerSearchText].location != NSNotFound) {
+        return YES; // if the search text is a substring of the common name it is a match
+    } else {
+        NSString *lowerSciName = [[[species objectForKey:name] objectForKey:@"scientific_name"] lowercaseString];
+        // if the search text is a substring of the scientific name it is a match
+        return ([lowerSciName rangeOfString:lowerSearchText].location != NSNotFound);
+    }
+}
+
+- (void)loadSectionDictWithSearchText:(NSString *)searchText {
+    sectionDict = [NSMutableDictionary dictionary];
+    for(NSString *displayValue in [species allKeys]) {
+        if (displayValue != (id)[NSNull null] && [displayValue length] > 0 && [self speciesWithCommonName:displayValue matchesSearchText:searchText]) {
+            NSString *key = [[displayValue substringToIndex:1] uppercaseString];
+            NSMutableArray *vals = [sectionDict objectForKey:key];
+            if (vals == nil) {
+                vals = [NSMutableArray array];
+                [sectionDict setObject:vals forKey:key];
+            }
+            [vals addObject:displayValue];
+        }
+    }
+    for(NSString *s in sections) {
+        NSArray *vals = [sectionDict objectForKey:s];
+        if (vals) {
+            [sectionDict setObject:[vals sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]
+                            forKey:s];
+        }
+    }
 }
 
 - (void)viewDidUnload
@@ -178,6 +194,13 @@
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - UISearchBar delegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self loadSectionDictWithSearchText:searchText];
+    [self.tableView reloadData];
 }
 
 @end
