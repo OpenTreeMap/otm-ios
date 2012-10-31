@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
+		64582DAE164165C200CF5DB9 /* OTMAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */; };
 		64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64608646160CFB0A00A1458B /* InfoPlist.strings */; };
 		6460864B160CFB2800A1458B /* OpenTreeMap-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64608649160CFB2800A1458B /* OpenTreeMap-Info.plist */; };
 		6460864C160CFB2800A1458B /* OpenTreeMap.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6460864A160CFB2800A1458B /* OpenTreeMap.entitlements */; };
@@ -155,6 +156,9 @@
 		646087CF160D01D900A1458B /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 646087C8160D01D900A1458B /* Icon-72@2x.png */; };
 		646087D0160D01D900A1458B /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 646087C9160D01D900A1458B /* Icon.png */; };
 		646087D1160D01D900A1458B /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 646087CA160D01D900A1458B /* Icon@2x.png */; };
+		647E44531641796B000CF872 /* about_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 647E44521641796B000CF872 /* about_header@2x.png */; };
+		647E445516417979000CF872 /* about_footer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 647E445416417979000CF872 /* about_footer@2x.png */; };
+		647E445716417BDF000CF872 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 647E445616417BDF000CF872 /* about.html */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
@@ -184,6 +188,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		64582DAC164165C200CF5DB9 /* OTMAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAboutViewController.h; sourceTree = "<group>"; };
+		64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAboutViewController.m; sourceTree = "<group>"; };
 		64608647160CFB0A00A1458B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		64608649160CFB2800A1458B /* OpenTreeMap-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OpenTreeMap-Info.plist"; sourceTree = "<group>"; };
 		6460864A160CFB2800A1458B /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
@@ -400,6 +406,9 @@
 		646087C8160D01D900A1458B /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		646087C9160D01D900A1458B /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		646087CA160D01D900A1458B /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		647E44521641796B000CF872 /* about_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about_header@2x.png"; sourceTree = "<group>"; };
+		647E445416417979000CF872 /* about_footer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about_footer@2x.png"; sourceTree = "<group>"; };
+		647E445616417BDF000CF872 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = about.html; path = about.html; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D72BF6651517830A00AB6664 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -630,6 +639,8 @@
 		646086A2160CFB6700A1458B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				64582DAC164165C200CF5DB9 /* OTMAboutViewController.h */,
+				64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */,
 				646086A3160CFB6700A1458B /* OTMChangeLocationViewController.h */,
 				646086A4160CFB6700A1458B /* OTMChangeLocationViewController.m */,
 				646086A5160CFB6700A1458B /* OTMFieldDetailViewController.h */,
@@ -692,6 +703,7 @@
 		64608730160D01A700A1458B /* Skin */ = {
 			isa = PBXGroup;
 			children = (
+				647E445616417BDF000CF872 /* about.html */,
 				64608738160D01A700A1458B /* images */,
 				6460877B160D01A700A1458B /* Implementation.plist */,
 			);
@@ -706,6 +718,8 @@
 				6460873A160D01A700A1458B /* about@2x.png */,
 				6460873B160D01A700A1458B /* about_bg.png */,
 				6460873C160D01A700A1458B /* about_bg@2x.png */,
+				647E44521641796B000CF872 /* about_header@2x.png */,
+				647E445416417979000CF872 /* about_footer@2x.png */,
 				6460873D160D01A700A1458B /* add_help_bg.png */,
 				6460873E160D01A700A1458B /* add_help_bg@2x.png */,
 				6460873F160D01A700A1458B /* add_new.png */,
@@ -976,6 +990,9 @@
 				646087CF160D01D900A1458B /* Icon-72@2x.png in Resources */,
 				646087D0160D01D900A1458B /* Icon.png in Resources */,
 				646087D1160D01D900A1458B /* Icon@2x.png in Resources */,
+				647E44531641796B000CF872 /* about_header@2x.png in Resources */,
+				647E445516417979000CF872 /* about_footer@2x.png in Resources */,
+				647E445716417BDF000CF872 /* about.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,6 +1094,7 @@
 				6460872D160CFB6700A1458B /* OTMSegmentedControl.m in Sources */,
 				6460872E160CFB6700A1458B /* OTMTableView.m in Sources */,
 				6460872F160CFB6700A1458B /* OTMView.m in Sources */,
+				64582DAE164165C200CF5DB9 /* OTMAboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
