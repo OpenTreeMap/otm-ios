@@ -77,6 +77,7 @@
 #pragma mark UIWebView Delegate methods
 
 -(BOOL) webView:(UIWebView *)inWeb shouldStartLoadWithRequest:(NSURLRequest *)inRequest navigationType:(UIWebViewNavigationType)inType {
+    // Open links in Mobile Safari
     if ( inType == UIWebViewNavigationTypeLinkClicked ) {
         [[UIApplication sharedApplication] openURL:[inRequest URL]];
         return NO;
