@@ -113,7 +113,7 @@
             } else if (status == kOTMAPILoginDuplicateUsername) {
                 [self.username becomeFirstResponder];
                 [self.username selectAll:self];
-                NSString *message = [NSString stringWithFormat:@"The username %@ is already reistered. Tap 'Login' and enter your password for this username or choose a different username.", self.username.text];
+                NSString *message = [NSString stringWithFormat:@"The username %@ is already registered. Tap 'Login' and enter your password for this username or choose a different username.", self.username.text];
                 [[[UIAlertView alloc] initWithTitle:@"Already Registered"
                                             message:message
                                            delegate:nil
