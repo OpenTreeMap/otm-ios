@@ -3,18 +3,31 @@ from fabric.api import local, lcd, abort, cd, run
 
 import os
 
-def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name):
+def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_prefix):
     local('unzip "%s.ipa"' % ipa)
     app_name = os.listdir('Payload')[0]
 
     def sign_with_profile(p, n):
+        entfile = "Payload/%s/OpenTreeMap.entitlements" % app_name
+        entsh = open(entfile)
+        ents = entsh.read()
+        entsh.close()
+
+        ents = ents.replace("$(AppIdentifierPrefix)",appid_prefix + ".")
+
+        entsh = open(entfile,'w')
+        entsh.write(ents)        
+        entsh.close()
+
         local('rm -rf "Payload/%s/_CodeSignature" '\
               '"Payload/%s/CodeResources"' % (app_name, app_name))
         local('cp "%s" "Payload/%s/embedded.mobileprovision"' % (p, app_name))
         local('/usr/bin/codesign -f -vvv -s "%s" '
+              '--entitlements "Payload/%s/OpenTreeMap.entitlements" '
               '--resource-rules "Payload/%s/ResourceRules.plist" '
               '-i "Payload/%s/embedded.mobileprovision" '
-              '"Payload/%s"' % (sign_name, app_name, app_name, app_name))
+              '"Payload/%s"' % (sign_name, app_name, 
+                                app_name, app_name, app_name))
         local('zip -qr "%s.%s.ipa" Payload' % (ipa,n))
 
     sign_with_profile(dist_profile, 'dist')
