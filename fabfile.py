@@ -3,7 +3,7 @@ from fabric.api import local, lcd, abort, cd, run
 
 import os
 
-def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_prefix):
+def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_prefix, appid_suffix):
     local('unzip "%s.ipa"' % ipa)
     app_name = os.listdir('Payload')[0]
 
@@ -14,6 +14,7 @@ def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_p
         entsh.close()
 
         ents = ents.replace("$(AppIdentifierPrefix)",appid_prefix + ".")
+        ents = ents.replace("$(AppIdentifierSuffix)", "." + appid_suffix)
 
         entsh = open(entfile,'w')
         entsh.write(ents)        

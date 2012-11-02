@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.azavea.OpenTreeMap</string>
+		<string>$(AppIdentifierPrefix)com.azavea.otm$(AppSuffix)</string>
 	</array>
 </dict>
 </plist>
