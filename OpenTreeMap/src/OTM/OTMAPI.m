@@ -248,8 +248,8 @@
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pId]
                                               forKey:@"plot_id"]
-             data:UIImagePNGRepresentation(image) 
-      contentType:@"image/png"
+             data:UIImageJPEGRepresentation(image, 0.2) // JPEG compression level is 0.0 to 1.0 with 1.0 being no compression, so 0.2 is 80% compression.
+      contentType:@"image/jpeg"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:cb]]];    
 }
 
