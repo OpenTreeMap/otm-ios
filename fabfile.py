@@ -58,10 +58,10 @@ def stamp_version(version, jenkins=None):
     template_file.write(content)
     template_file.flush()
 
-def create_info_plist(app_name, app_id):
+def create_info_plist(app_name, app_id, version='1.0'):
     infoplist = open('OpenTreeMap/OpenTreeMap-Info.plist.template').read()
-    infoplist = infoplist % { "app_name": app_name, "app_id": app_id }
-    
+    infoplist = infoplist % { "app_name": app_name, "app_id": app_id, "version": version}
+
     f = open('OpenTreeMap/OpenTreeMap-Info.plist', 'w')
     f.write(infoplist)
     f.flush()
