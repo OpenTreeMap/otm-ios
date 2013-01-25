@@ -254,6 +254,140 @@
 
 @end
 
+@implementation OTMChoiceFilter
+
+@synthesize button, tvc, selectedChoice, allChoices;
+
++ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
+    return [[OTMChoiceFilter alloc] initWithName:[dict objectForKey:OTMFilterKeyName]
+                                             key:[dict objectForKey:OTMFilterKeyKey]
+                                       choiceKey:[dict objectForKey:OTMChoiceFilterChoiceKey]];
+}
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k choiceKey:(NSString *)choiceKey {
+    self = [super init];
+    if (self) {
+        [self setName:nm];
+        [self setKey:k];
+
+        tvc = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+        tvc.tableView.delegate = (id<UITableViewDelegate>)self;
+        tvc.tableView.dataSource = (id<UITableViewDataSource>)self;
+        
+        tvc.navigationItem.rightBarButtonItem =
+            [[UIBarButtonItem alloc] initWithTitle:@"Clear"
+                                             style:UITableViewStylePlain
+                                            target:self
+                                            action:@selector(clear)];
+        
+        allChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:choiceKey];
+        selectedChoice = nil;
+
+        button = [[OTMButton alloc] init];
+        [button addTarget:self
+                   action:@selector(pushTableViewController)
+         forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    return self;
+}
+
+- (void)pushTableViewController {
+    UINavigationController * nav = (UINavigationController *)[self.delegate parentViewController];
+    [nav pushViewController:tvc animated:YES];
+}
+
+- (UIView *)view {
+    if (![self viewSet]) {
+        [self setView:[self createView]];
+    }
+
+    return [super view];
+}
+
+- (UIView *)createView {
+    CGRect r = CGRectMake(0,0,320,40);
+    [self setView:[[UIView alloc] initWithFrame:r]];
+
+    button.frame = CGRectInset(r, 20, 2);
+    [self updateButtonText];
+    [self.view addSubview:button];
+
+    return self.view;
+}
+
+- (BOOL)active {
+    return selectedChoice != nil;
+}
+
+- (NSString *)selectedValue { return [selectedChoice objectForKey:@"value"]; }
+- (NSString *)selectedKey { return [selectedChoice objectForKey:@"key"]; }
+
+- (void)updateButtonText {
+    if ([self active]) {
+        [button setTitle:[NSString stringWithFormat:@"Pests: %@",[self selectedValue]]
+                forState:UIControlStateNormal];
+    } else {
+        [button setTitle:@"Pests"
+                forState:UIControlStateNormal];
+    }
+}
+
+- (void)clear {
+    selectedChoice = nil;
+    [self updateButtonText];
+    [tvc.tableView reloadData];
+}
+
+- (NSString *)queryParams {
+    if ([self active]) {
+        return [NSDictionary dictionaryWithObjectsAndKeys:[self selectedKey],
+                             self.key, nil];
+    } else {
+        return [NSDictionary dictionary];
+    }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [allChoices count];
+}
+
+- (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    selectedChoice = [allChoices objectAtIndex:[indexPath row]];
+    
+    [self updateButtonText];
+    [tblView reloadData];
+}
+
+#define kOTMEditChoicesDetailCellRendererCellId @"kOTMEditChoicesDetailCellRendererCellId"
+
+- (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *selectedDict = [allChoices objectAtIndex:[indexPath row]];
+    
+    UITableViewCell *aCell = [tblView dequeueReusableCellWithIdentifier:kOTMEditChoicesDetailCellRendererCellId];
+    
+    if (aCell == nil) {
+        aCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:kOTMEditChoicesDetailCellRendererCellId];
+    }
+    
+    aCell.textLabel.text = [selectedDict objectForKey:@"value"];
+    aCell.accessoryType = UITableViewCellAccessoryNone;
+    
+    if ([[selectedDict objectForKey:@"value"] isEqualToString:[self selectedValue]]) {
+        aCell.accessoryType = UITableViewCellAccessoryCheckmark;            
+    }
+    
+    return aCell;
+}
+
+@end
+
+
 @implementation OTMRangeFilter
 
 @synthesize nameLbl, maxValue, minValue;
