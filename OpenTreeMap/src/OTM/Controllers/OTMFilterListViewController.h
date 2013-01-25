@@ -15,6 +15,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMScrollAwareViewController.h"
+#import "OTMButton.h"
 
 typedef enum {
     kOTMFiltersShowAll = 0,
@@ -48,6 +49,7 @@ typedef enum {
 #define OTMFilterKeyType @"OTMFilterKeyType"
 #define OTMFilterKeyName @"OTMFilterKeyName"
 #define OTMFilterKeyKey  @"OTMFilterKeyKey"
+#define OTMChoiceFilterChoiceKey @"OTMChoiceFilterChoice"
 
 @interface OTMFilter : NSObject
 
@@ -95,6 +97,18 @@ typedef enum {
 - (id)initWithName:(NSString *)nm key:(NSString *)k;
 
 @end
+
+@interface OTMChoiceFilter : OTMFilter
+
+@property (nonatomic,readonly) OTMButton *button;
+@property (nonatomic,readonly) UITableViewController *tvc;
+@property (nonatomic,readonly) NSDictionary *selectedChoice;
+@property (nonatomic,readonly) NSArray *allChoices;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k choiceKey:(NSString *)ck;
+
+@end
+
 
 
 @interface OTMFilterListViewController : OTMScrollAwareViewController
