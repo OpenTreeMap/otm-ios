@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit;
 
 + (id)sharedEnvironment
 {
@@ -65,6 +65,11 @@
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
     
     self.apiKey = [implementation valueForKey:@"APIKey"];
+    
+    self.detailUnit = [implementation objectForKey:@"OTMDetailDBHUnit"];
+    if (self.detailUnit == nil) {
+        self.detailUnit = @" in.";
+    }
     
     if ([implementation objectForKey:@"hideTreesFilter"]) {
         self.hideTreesFilter = [[implementation valueForKey:@"hideTreesFilter"] boolValue];
