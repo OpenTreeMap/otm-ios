@@ -99,6 +99,7 @@
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
 @property (nonatomic, assign) float splashDelayInSeconds;
 @property (nonatomic, assign) BOOL hideTreesFilter;
+@property (nonatomic, strong) NSString *detailUnit;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 

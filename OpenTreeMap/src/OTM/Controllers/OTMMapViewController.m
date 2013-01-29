@@ -246,8 +246,10 @@
             dbhValue = [tree objectForKey:@"dbh"];
         }
         
+        NSString *unit = [[OTMEnvironment sharedEnvironment] detailUnit];
+        
         if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
-            tdbh =  [NSString stringWithFormat:@"%@ in. Diameter", dbhValue];
+            tdbh =  [NSString stringWithFormat:@"%2.0f%@ Diameter", [dbhValue doubleValue], unit];
         }
         
         NSDictionary *latestSpeciesEdit = [[[pendingEdits objectForKey:@"tree.species"] objectForKey:@"pending_edits"] objectAtIndex:0];
