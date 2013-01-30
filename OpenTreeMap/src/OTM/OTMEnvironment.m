@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, currencyUnit;
 
 + (id)sharedEnvironment
 {
@@ -70,6 +70,12 @@
     if (self.detailUnit == nil) {
         self.detailUnit = @" in.";
     }
+ 
+    self.currencyUnit = [implementation objectForKey:@"OTMCurrencyDBHUnit"];
+    if (self.currencyUnit == nil) {
+        self.currencyUnit = @"$";
+    }
+
     
     if ([implementation objectForKey:@"hideTreesFilter"]) {
         self.hideTreesFilter = [[implementation valueForKey:@"hideTreesFilter"] boolValue];
