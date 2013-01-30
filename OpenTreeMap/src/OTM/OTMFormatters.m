@@ -44,7 +44,9 @@
 
 +(NSString*)fmtDollarsDict:(NSDictionary*)d
 {
-    return [NSString stringWithFormat:@"$%0.2f", [[d valueForKey:@"dollars"] floatValue]];
+    return [NSString stringWithFormat:@"%@%0.2f",
+                      [[OTMEnvironment sharedEnvironment] currencyUnit],
+                      [[d valueForKey:@"dollars"] floatValue]];
 }
 
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString
