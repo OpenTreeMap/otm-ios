@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, dateFormat;
 
 + (id)sharedEnvironment
 {
@@ -50,7 +50,7 @@
     NSDictionary* environment = [[NSDictionary alloc] initWithContentsOfFile:environmentPListPath];
 
     choices = [[NSDictionary alloc] initWithContentsOfFile:choicesPListPath];
-    
+
     // Environment - URLCache
 
     NSDictionary *urlCache = [environment valueForKey:@"URLCache"];
@@ -63,26 +63,31 @@
 
     NSString* implementationPListPath = [bundle pathForResource:@"Implementation" ofType:@"plist"];
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
-    
+
     self.apiKey = [implementation valueForKey:@"APIKey"];
-    
+
     self.detailUnit = [implementation objectForKey:@"OTMDetailDBHUnit"];
     if (self.detailUnit == nil) {
         self.detailUnit = @" in.";
     }
-    
+
+    self.dateFormat = [implementation objectForKey:@"OTMDateFormat"];
+    if (self.dateFormat == nil) {
+        self.dateFormat = @"MMMM d, yyyy h:mm a";
+    }
+
     if ([implementation objectForKey:@"hideTreesFilter"]) {
         self.hideTreesFilter = [[implementation valueForKey:@"hideTreesFilter"] boolValue];
     } else {
         self.hideTreesFilter = false;
     }
-    
+
     if ([implementation objectForKey:@"splashDelayInSeconds"]) {
         self.splashDelayInSeconds = [[implementation valueForKey:@"splashDelayInSeconds"] floatValue];
     } else {
         self.splashDelayInSeconds = 0;
     }
-    
+
     fieldSections = [implementation objectForKey:@"fieldSections"];
     fields = [implementation objectForKey:@"fields"];
     filts = [implementation objectForKey:@"filters"];
@@ -90,15 +95,15 @@
     pendingActive = [[implementation valueForKey:@"pending"] boolValue];
 
     viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
-    
-    navBarTintColor = [self colorFromArray:[implementation objectForKey:@"tintColor"] defaultColor:nil];    
-    
+
+    navBarTintColor = [self colorFromArray:[implementation objectForKey:@"tintColor"] defaultColor:nil];
+
     buttonTextColor = [self colorFromArray:[implementation objectForKey:@"buttonFontColor"] defaultColor:[UIColor whiteColor]];
-    
-    buttonImage = [UIImage imageNamed:@"btn_bg"];    
+
+    buttonImage = [UIImage imageNamed:@"btn_bg"];
 
     NSDictionary* url = [implementation valueForKey:@"APIURL"];
-    
+
     [self setBaseURL:[NSString stringWithFormat:@"%@/%@/",
                       [url valueForKey:@"base"],
                       [url valueForKey:@"version"]]];
@@ -134,7 +139,7 @@
     [self setMapViewTitle:[mapView valueForKey:@"MapViewTitle"]];
 
     OTMAPI* otmApi = [[OTMAPI alloc] init];
-    
+
     NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];
     NSDictionary* version = [[NSDictionary alloc] initWithContentsOfFile:versionPlistPath];
     NSString *ver = [NSString stringWithFormat:@"ios-%@-b%@",
@@ -143,7 +148,7 @@
 
     // Note: treq is used for tile requests, this prevents the main
     // operation queue from overloading with tiles
-    NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key", 
+    NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key",
                                           ver, @"ApplicationVersion",
                                           nil];
 
@@ -156,13 +161,13 @@
     req.queue.maxConcurrentOperationCount = 3;
     treq.queue.maxConcurrentOperationCount = 1; // Limit this... having this too high
                                                 // prevents google tiles from loading!
-    
+
     otmApi.request = req;
     otmApi.tileRequest = treq;
 
-    self.tileRequest = treq;    
+    self.tileRequest = treq;
     self.api = otmApi;
-    
+
     return self;
 }
 

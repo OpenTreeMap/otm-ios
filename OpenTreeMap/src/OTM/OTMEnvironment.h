@@ -100,6 +100,7 @@
 @property (nonatomic, assign) float splashDelayInSeconds;
 @property (nonatomic, assign) BOOL hideTreesFilter;
 @property (nonatomic, strong) NSString *detailUnit;
+@property (nonatomic, strong) NSString *dateFormat;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 
