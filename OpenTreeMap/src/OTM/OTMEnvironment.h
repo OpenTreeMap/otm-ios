@@ -101,6 +101,7 @@
 @property (nonatomic, assign) BOOL hideTreesFilter;
 @property (nonatomic, strong) NSString *detailUnit;
 @property (nonatomic, strong) NSString *dateFormat;
+@property (nonatomic, strong) NSString *currencyUnit;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 

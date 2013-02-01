@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, dateFormat;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, currencyUnit, dateFormat;
 
 + (id)sharedEnvironment
 {
@@ -74,6 +74,11 @@
     self.dateFormat = [implementation objectForKey:@"OTMDateFormat"];
     if (self.dateFormat == nil) {
         self.dateFormat = @"MMMM d, yyyy h:mm a";
+    }
+
+    self.currencyUnit = [implementation objectForKey:@"OTMCurrencyDBHUnit"];
+    if (self.currencyUnit == nil) {
+        self.currencyUnit = @"$";
     }
 
     if ([implementation objectForKey:@"hideTreesFilter"]) {

@@ -221,6 +221,8 @@
     editFields = editableFields;
 
     curFields = allFields;
+
+    self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
 }
 
 - (IBAction)startOrCommitEditing:(id)sender
@@ -232,11 +234,29 @@
         if (success) {
             if (prevUser == nil) {
                 [self setKeys:allKeys];
+                [[[OTMEnvironment sharedEnvironment] api] getPlotInfo:[[self.data objectForKey:@"id"] intValue]
+            user:aUser
+            callback:^(id newData, NSError *error) {
+                self.data = newData;
+                [self enterEditModeIfAllowed];
+            }];
+            } else {
+                loginManager.loggedInUser = aUser;
+                [self enterEditModeIfAllowed];
             }
-            loginManager.loggedInUser = aUser;
-            [self toggleEditMode:YES];
         }
     }];
+}
+
+- (void)enterEditModeIfAllowed {
+    if ([self canEditBothPlotAndTree]) {
+        [self toggleEditMode:YES];
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"Can't edit this tree"
+                                   message:@"You don't have permission to edit this tree"
+                                  delegate:nil
+                          cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }
 }
 
 - (IBAction)cancelEditing:(id)sender
@@ -589,6 +609,20 @@
 - (BOOL)canDeleteTree
 {
     return [[[[data objectForKey:@"perm"] objectForKey:@"tree"] objectForKey:@"can_delete"] intValue] == 1;
+}
+
+- (BOOL)canEditThing:(NSString *)thing {
+    return [[[[data objectForKey:@"perm"] objectForKey:thing] objectForKey:@"can_delete"] intValue] == 1;
+}
+
+- (BOOL)canEditEitherPlotOrTree {
+    return [self canEditThing:@"plot"] ||
+        [self canEditThing:@"tree"];
+}
+
+- (BOOL)canEditBothPlotAndTree {
+    return [self canEditThing:@"plot"] ||
+        [self canEditThing:@"tree"];
 }
 
 - (BOOL)cannotDeletePlotOrTree
