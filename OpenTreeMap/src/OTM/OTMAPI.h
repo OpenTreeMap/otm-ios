@@ -11,7 +11,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.   
+// along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
@@ -78,7 +78,7 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user callback:(AZJSONCallback)callback;
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback;
- 
+
 /**
  * Request an image for a given tree/plot
  *
@@ -217,6 +217,14 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
  * @param callback block to be executed when the request is complete or an error occurs
  */
 -(void)deleteTreeFromPlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
+/**
+ * Get updated edit info based on user login info
+ * @param plotId the ID of a plot to get info about
+ * @param user the authenticated user who wants this info
+ * @param callback block to be executed when the request is complete or an error occurs
+ */
+-(void)getPlotInfo:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback;
 
 /**
  * Delete a plot
