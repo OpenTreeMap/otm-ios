@@ -11,7 +11,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.   
+// along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "OTMAPI.h"
 #import "ASIHTTPRequest.h"
@@ -56,10 +56,10 @@
                 callback(nil, error);
             } else {
                 NSError* error = nil;
-            
+
                 id json = [NSJSONSerialization JSONObjectWithData:data
                                                           options:0
-                                                            error:&error];    
+                                                            error:&error];
                 callback(json, error);
             }
     } copy];
@@ -85,7 +85,7 @@
                          if (callback) { callback(nil, err); }
                      } else {
                          NSMutableDictionary *s = [NSMutableDictionary dictionary];
-                         
+
                          [json enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                              [s setObject:[NSDictionary dictionaryWithObjectsAndKeys:
                                               [obj objectForKey:@"id"], @"id",
@@ -96,7 +96,7 @@
                          if (callback) { callback(species, nil); }
                      }
                  }]]];
-                           
+
     }
 }
 
@@ -126,7 +126,7 @@
     if (filters != nil) {
         [params addEntriesFromDictionary:[filters filtersDict]];
     }
-    
+
     if (distance > 0) {
         [params setObject:[NSString stringWithFormat:@"%f", distance]
                    forKey:@"distance"];
@@ -140,14 +140,14 @@
 }
 
 -(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback {
-    [self.request getRaw:@"plots/:plot/tree/photo/:photo" 
+    [self.request getRaw:@"plots/:plot/tree/photo/:photo"
                   params:[NSDictionary dictionaryWithObjectsAndKeys:
                           [NSString stringWithFormat:@"%d", plotid], @"plot",
                           [NSString stringWithFormat:@"%d", photoid], @"photo", nil]
                     mime:@"image/jpeg"
-                callback:[OTMAPI liftResponse:^(id data, NSError* error) { 
+                callback:[OTMAPI liftResponse:^(id data, NSError* error) {
                     if (callback) {
-                        if (error != nil) { 
+                        if (error != nil) {
                             callback(nil, error);
                         } else {
                             callback([UIImage imageWithData:data], nil);
@@ -158,19 +158,19 @@
 
 -(void)savePlot:(NSDictionary *)plot withUser:(OTMUser *)user callback:(AZJSONCallback)callback {
     id pId = [plot objectForKey:@"id"];
-    
+
     // Update (PUT)
     if (pId != nil) {
-        
+
     } else {
         // POST
     }
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [request get:@"login" 
-        withUser:user 
-          params:nil 
+    [request get:@"login"
+        withUser:user
+          params:nil
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
         if (error) {
             [user setLoggedIn:NO];
@@ -193,7 +193,7 @@
             callback(user, kOTMAPILoginResponseOK);
         }
     }]]];
-    
+
 }
 
 -(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
@@ -208,7 +208,7 @@
            params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
              data:nil
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
-        
+
 }
 
 -(NSData *)encodeUser:(OTMUser *)user {
@@ -219,7 +219,7 @@
     [userDict setObject:user.email forKey:@"email"];
     [userDict setObject:user.password forKey:@"password"];
     [userDict setObject:user.zipcode forKey:@"zipcode"];
-    
+
     return [self jsonEncode:userDict];
 }
 
@@ -229,7 +229,7 @@
     if (error != NULL) {
         NSLog(@"[ERROR] Could not encode \"%@\" as json (error: %@)",obj,error);
     }
-    
+
     return jsonData;
 }
 
@@ -238,7 +238,7 @@
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                               forKey:@"user_id"]
-             data:UIImagePNGRepresentation(user.photo) 
+             data:UIImagePNGRepresentation(user.photo)
       contentType:@"image/png"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
@@ -250,14 +250,14 @@
                                               forKey:@"plot_id"]
              data:UIImageJPEGRepresentation(image, 0.2) // JPEG compression level is 0.0 to 1.0 with 1.0 being no compression, so 0.2 is 80% compression.
       contentType:@"image/jpeg"
-         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:cb]]];    
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:cb]]];
 }
 
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {
     [request post:@"user/"
            params:nil
              data:[self encodeUser:user]
-         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error) 
+         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
     {
         if (callback != nil) {
             if (error != nil) {
@@ -286,8 +286,8 @@
           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                              forKey:@"user_id"]
             data:[self jsonEncode:[NSDictionary dictionaryWithObject:newPass forKey:@"password"]]
-        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error) 
-        {        
+        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
+        {
             if (callback != nil) {
                 if (error != nil) {
                     callback(user, kOTMAPILoginResponseError);
@@ -301,7 +301,7 @@
                 }
             }
         }]]];
-        
+
 }
 
 -(void)getRecentActionsForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
@@ -319,7 +319,7 @@
                   dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:user.userId],
                                                 @"user_id",
                                                 [NSNumber numberWithInt:offset],
-                                                @"offset", 
+                                                @"offset",
                                                 [NSNumber numberWithInt:length],
                                                 @"length", nil]
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
@@ -457,5 +457,13 @@
              params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
            callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
+
+-(void)getPlotInfo:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback {
+  [request get:@"plots/:id"
+      withUser:user
+        params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
+      callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+}
+
 
 @end
