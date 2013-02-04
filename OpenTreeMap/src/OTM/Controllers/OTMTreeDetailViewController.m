@@ -621,7 +621,7 @@
 }
 
 - (BOOL)canEditBothPlotAndTree {
-    return [self canEditThing:@"plot"] ||
+    return [self canEditThing:@"plot"] &&
         [self canEditThing:@"tree"];
 }
 
