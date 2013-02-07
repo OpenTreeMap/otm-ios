@@ -612,7 +612,12 @@
 }
 
 - (BOOL)canEditThing:(NSString *)thing {
-    return [[[[data objectForKey:@"perm"] objectForKey:thing] objectForKey:@"can_delete"] intValue] == 1;
+    NSDictionary *perms = [data objectForKey:@"perm"];
+    if (perms) {
+        return [[[perms objectForKey:thing] objectForKey:@"can_edit"] intValue] == 1;
+    } else { // If there aren't specific permissions, allow it
+        return YES;
+    }
 }
 
 - (BOOL)canEditEitherPlotOrTree {
