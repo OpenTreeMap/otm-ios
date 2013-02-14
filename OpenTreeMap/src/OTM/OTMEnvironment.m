@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, currencyUnit, dateFormat;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, currencyUnit, dateFormat, detailLatSpan;
 
 + (id)sharedEnvironment
 {
@@ -75,6 +75,13 @@
     if (self.dateFormat == nil) {
         self.dateFormat = @"MMMM d, yyyy h:mm a";
     }
+
+    if ([implementation objectForKey:@"OTMDetailLatSpan"]) {
+        self.detailLatSpan = [[implementation valueForKey:@"OTMDetailLatSpan"] doubleValue];
+    } else {
+        self.detailLatSpan = 0.0007;
+    }
+
 
     self.currencyUnit = [implementation objectForKey:@"OTMCurrencyDBHUnit"];
     if (self.currencyUnit == nil) {
