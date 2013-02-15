@@ -17,7 +17,9 @@
 
 #define kOTMDistaneTableViewCellRedrawDistance @"kOTMDistanceTableViewCellRedrawDistance"
 
-@interface OTMDistanceTableViewCell : UITableViewCell
+@interface OTMDistanceTableViewCell : UITableViewCell {
+    NSNumberFormatter *formatter;
+}
 
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 

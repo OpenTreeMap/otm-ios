@@ -101,6 +101,10 @@
 @property (nonatomic, assign) BOOL hideTreesFilter;
 @property (nonatomic, strong) NSString *dbhFormat;
 @property (nonatomic, strong) NSString *dbhUnit;
+@property (nonatomic, strong) NSString *distanceUnit;
+@property (nonatomic) double distanceBiggerUnitFactor;
+@property (nonatomic) double distanceFromMetersFactor;
+@property (nonatomic, strong) NSString *distanceBiggerUnit;
 @property (nonatomic, strong) NSString *dateFormat;
 @property (nonatomic, strong) NSString *currencyUnit;
 @property (nonatomic) double detailLatSpan;
