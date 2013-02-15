@@ -23,41 +23,41 @@
 
 +(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user {
     NSString *clazz = [dict objectForKey:@"class"];
-           
+
     OTMDetailCellRenderer *renderer;
     if (clazz == nil) {
         renderer = [[kOTMDefaultDetailRenderer alloc] initWithDict:dict user:user];
     } else {
         renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
     }
-    
+
     return renderer;
 }
 
 -(id)init {
     self = [super init];
-    
+
     if (self) {
         self.cellHeight = 44;
     }
-    
+
     return self;
 }
 
 -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [self init];
-    
+
     if (self) {
         dataKey = [dict objectForKey:@"key"];
         ownerDataKey = [dict objectForKey:@"owner"];
-        
+
         id editLevel = [dict valueForKey:@"minimumToEdit"];
-        
+
         if (editLevel != nil && user != nil && user.level >= [editLevel intValue]) {
             self.editCellRenderer = [OTMLabelEditDetailCellRenderer editCellRendererFromDict:dict user:user];
-        }        
+        }
     }
-    
+
     return self;
 }
 
@@ -75,25 +75,25 @@
 
 -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [super initWithDict:dict user:user];
-    
+
     if (self) {
         label = [dict objectForKey:@"label"];
         formatStr = [dict objectForKey:@"format"];
     }
-    
+
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailCellRendererCellId];
-    
+
     if (detailcell == nil) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMLabelDetailCellRendererCellId];
-    } 
-    
+    }
+
     id value = [data decodeKey:self.dataKey];
-    
+
     NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
     if (pendingEditDict) {
         if ([pendingEditDict objectForKey:self.dataKey] || [pendingEditDict objectForKey:self.ownerDataKey]) {
@@ -111,7 +111,7 @@
 
     detailcell.fieldLabel.text = self.label;
     detailcell.fieldValue.text = [OTMFormatters fmtObject:value withKey:self.formatStr];
-    
+
     return detailcell;
 }
 
@@ -123,13 +123,13 @@
 
  -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [super initWithDict:dict user:user];
-    
+
     if (self) {
         cell = [OTMBenefitsTableViewCell loadFromNib];
         self.cellHeight = cell.frame.size.height;
         self.cell.benefitName.text = [dict objectForKey:@"label"];
     }
-    
+
     return self;
 }
 
@@ -147,12 +147,12 @@
 
 -(id)initWithDict:(NSDictionary *)dict  user:(OTMUser*)user {
     self = [super init];
-    
+
     if (self) {
         self.dataKey = [dict objectForKey:@"key"];
     }
 
-    return self; 
+    return self;
 }
 
 -(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
@@ -169,14 +169,14 @@
 
 +(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user{
     NSString *clazz = [dict objectForKey:@"editClass"];
-    
+
     OTMEditDetailCellRenderer *renderer;
     if (clazz == nil) {
         renderer = [[kOTMDefaultEditDetailRenderer alloc] initWithDict:dict user:user];
     } else {
         renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
     }
-    
+
     return renderer;
 }
 
@@ -188,12 +188,12 @@
 
 -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [super initWithDict:dict user:user];
-    
+
     if (self) {
         keyboard = [self decodeKeyboard:[dict objectForKey:@"keyboard"]];
         label = [dict objectForKey:@"label"];
     }
-    
+
     return self;
 }
 
@@ -210,7 +210,7 @@
         [dict setObject:updatedString forEncodedKey:self.dataKey];
         updatedString = nil;
     }
-    
+
     return dict;
 }
 
@@ -218,22 +218,22 @@
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailEditCellRendererCellId];
-    
+
     if (detailcell == nil) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMLabelDetailEditCellRendererCellId];
-    } 
-    
+    }
+
     detailcell.delegate = self;
     detailcell.editFieldValue.hidden = NO;
     detailcell.fieldValue.hidden = YES;
     detailcell.keyboardType = keyboard;
-    
+
     id value = [data decodeKey:self.dataKey];
-    
+
     detailcell.editFieldValue.text = [OTMFormatters fmtObject:value withKey:@""];
     detailcell.fieldLabel.text = self.label;
-    
+
     return detailcell;
 }
 
@@ -245,28 +245,28 @@
 
  -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
     self = [super initWithDict:dict user:user];
-    
+
     if (self) {
         cell = [OTMDBHTableViewCell loadFromNib];
         cell.delegate = self;
         self.cellHeight = cell.frame.size.height;
     }
-    
+
     return self;
 }
 
 -(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
-    
+
     if (field == self.cell.circumferenceTextField) {
         CGFloat circ = [v floatValue];
         NSString *diam = [NSString stringWithFormat:@"%0.2f",circ / M_PI];
-        
+
         self.cell.diameterTextField.text = diam;
     } else {
         CGFloat diam = [v floatValue];
         NSString *circ = [NSString stringWithFormat:@"%0.2f",diam * M_PI];
-        
-        self.cell.circumferenceTextField.text = circ;        
+
+        self.cell.circumferenceTextField.text = circ;
     }
 }
 
@@ -276,7 +276,7 @@
         [dict setObject:self.cell.diameterTextField.text
           forEncodedKey:self.dataKey];
     }
-    
+
     return dict;
 }
 
@@ -287,7 +287,7 @@
     [self tableViewCell:nil
               textField:self.cell.diameterTextField
          updatedToValue:self.cell.diameterTextField.text];
-    
+
     return cell;
 }
 
@@ -305,44 +305,44 @@
 
 -(id)initWithName:(NSString *)aName key:(NSString *)key clickCallback:(Function1v)aCallback {
     self = [super init];
-    
+
     if (self) {
         self.dataKey = key;
         data = nil;
         name = aName;
-        
+
         self.clickCallback = aCallback;
     }
-    
+
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView {
     UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
-    
+
     if (detailcell == nil) {
         detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                             reuseIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
-    } 
-    
+    }
+
     if (name == nil) {
         NSString *val = [renderData decodeKey:self.dataKey];
-        
+
         if (val == nil || [val length] == 0) {
             val = self.defaultName;
         }
-        
+
         detailcell.textLabel.text = val;
         // If the detailDataKey is nil or it is not present in the data, setting the
         // label text to nil is the correct behavior
         detailcell.detailTextLabel.text = [renderData decodeKey:self.detailDataKey];
     } else {
-        detailcell.textLabel.text = name;        
+        detailcell.textLabel.text = name;
         detailcell.detailTextLabel.text = nil;
     }
-    
+
     detailcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
+
     return detailcell;
 }
 

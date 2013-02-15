@@ -19,6 +19,7 @@
 @interface OTMChoicesDetailCellRenderer : OTMDetailCellRenderer
 
 @property (nonatomic,strong) NSString *label;
+@property (nonatomic,strong) NSString *clickURL;
 @property (nonatomic,strong) NSString *fieldName;
 @property (nonatomic,strong) NSArray *fieldChoices;
 
@@ -37,5 +38,3 @@
 @property (nonatomic,strong,readonly) OTMDetailTableViewCell *cell;
 
 @end
-
-
