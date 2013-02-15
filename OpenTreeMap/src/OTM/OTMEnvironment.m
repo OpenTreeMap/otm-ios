@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, currencyUnit, dateFormat;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit;
 
 + (id)sharedEnvironment
 {
@@ -66,15 +66,27 @@
 
     self.apiKey = [implementation valueForKey:@"APIKey"];
 
-    self.detailUnit = [implementation objectForKey:@"OTMDetailDBHUnit"];
-    if (self.detailUnit == nil) {
-        self.detailUnit = @" in.";
+    self.dbhFormat = [implementation objectForKey:@"OTMDetailDBHFormat"];
+    if (self.dbhFormat == nil) {
+        self.dbhFormat = @"%2.0f in. Diameter";
+    }
+
+    self.dbhUnit = [implementation objectForKey:@"OTMDBHUnit"];
+    if (self.dbhUnit == nil) {
+        self.dbhUnit = @"in";
     }
 
     self.dateFormat = [implementation objectForKey:@"OTMDateFormat"];
     if (self.dateFormat == nil) {
         self.dateFormat = @"MMMM d, yyyy h:mm a";
     }
+
+    if ([implementation objectForKey:@"OTMDetailLatSpan"]) {
+        self.detailLatSpan = [[implementation valueForKey:@"OTMDetailLatSpan"] doubleValue];
+    } else {
+        self.detailLatSpan = 0.0007;
+    }
+
 
     self.currencyUnit = [implementation objectForKey:@"OTMCurrencyDBHUnit"];
     if (self.currencyUnit == nil) {

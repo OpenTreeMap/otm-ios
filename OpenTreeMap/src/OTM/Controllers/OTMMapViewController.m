@@ -60,7 +60,7 @@
 
     filters = [[OTMFilters alloc] init];
     filters.filters = [[OTMEnvironment sharedEnvironment] filters];
-    
+
     // This sets the label at the top of the view, which can be different
     // from the tab bar item label
     self.navigationItem.title = [[OTMEnvironment sharedEnvironment] mapViewTitle];
@@ -71,8 +71,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updatedImage:)
                                                  name:kOTMMapViewControllerImageUpdate
-                                               object:nil];    
-    
+                                               object:nil];
+
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(changeMapMode:)
@@ -91,7 +91,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
+
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:kOTMMapViewControllerImageUpdate
                                                   object:nil];
@@ -141,7 +141,7 @@
     if (addTreePlacemark) {
         [addTreeDict setObject:addTreePlacemark.name forKey:@"geocode_address"];
         [addTreeDict setObject:addTreePlacemark.name forKey:@"edit_address_street"];
-        [addTreeDict setObject:addTreePlacemark.name forKey:@"address_street"]; 
+        [addTreeDict setObject:addTreePlacemark.name forKey:@"address_street"];
         if ([addTreePlacemark postalCode]) {
             [addTreeDict setObject:[addTreePlacemark postalCode] forKey:@"address_zip"];
         }
@@ -161,7 +161,7 @@
     return addTreeDict;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Details"]) {
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tree Map"style:UIBarButtonItemStyleBordered target:nil action:nil];
@@ -232,7 +232,7 @@
     NSString* tdbh = nil;
     NSString* tspecies = nil;
     NSString* taddress = nil;
-    
+
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
         NSDictionary *pendingEdits = [plot objectForKey:@"pending_edits"];
@@ -245,13 +245,13 @@
         } else {
             dbhValue = [tree objectForKey:@"dbh"];
         }
-        
-        NSString *unit = [[OTMEnvironment sharedEnvironment] detailUnit];
-        
+
+        NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
+
         if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
-            tdbh =  [NSString stringWithFormat:@"%2.0f%@ Diameter", [dbhValue doubleValue], unit];
+            tdbh =  [NSString stringWithFormat:fmt, [dbhValue doubleValue]];
         }
-        
+
         NSDictionary *latestSpeciesEdit = [[[pendingEdits objectForKey:@"tree.species"] objectForKey:@"pending_edits"] objectAtIndex:0];
         if (latestSpeciesEdit) {
             tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
@@ -259,13 +259,13 @@
             tspecies = [[tree objectForKey:@"species_name"] description];
         }
     }
-    
+
     taddress = [plot objectForKey:@"address"];
-    
+
     if (tdbh == nil || tdbh == @"<null>") { tdbh = @"Missing Diameter"; }
     if (tspecies == nil || tspecies == @"<null>") { tspecies = @"Missing Species"; }
     if (taddress == nil || taddress == @"<null>" || [taddress isEqualToString:@""]) { taddress = @"No Address"; }
-    
+
     [self.dbh setText:tdbh];
     [self.species setText:tspecies];
     [self.address setText:taddress];
@@ -278,13 +278,13 @@
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:0.2];
     }
-    
+
     [view setFrame:
      CGRectMake(0,
                 self.view.bounds.size.height - view.frame.size.height,
                 self.view.bounds.size.width,
                 view.frame.size.height)];
-    
+
     if (anim) {
         [UIView commitAnimations];
     }
@@ -304,14 +304,14 @@
         [UIView beginAnimations:[NSString stringWithFormat:@"slidedown%@", view] context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:0.2];
-    }    
-    
+    }
+
     [view setFrame:
      CGRectMake(0,
                 self.view.bounds.size.height,
-                self.view.bounds.size.width, 
+                self.view.bounds.size.width,
                 view.frame.size.height)];
-    
+
     if (anim) {
         [UIView commitAnimations];
     }
@@ -637,7 +637,7 @@
 
 - (void)mapView:(MKMapView*)mView regionDidChangeAnimated:(BOOL)animated {
     MKCoordinateRegion region = [mView region];
-    
+
     MKZoomScale currentZoomScale = mView.bounds.size.width / mView.visibleMapRect.size.width;
 
     [tilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
@@ -649,10 +649,10 @@
     double lngMax = region.center.longitude + region.span.longitudeDelta / 2.0;
     double latMin = region.center.latitude - region.span.latitudeDelta / 2.0;
     double latMax = region.center.latitude + region.span.latitudeDelta / 2.0;
-    
+
     if (self.lastClickedTree) {
         CLLocationCoordinate2D center = self.lastClickedTree.coordinate;
-        
+
         BOOL shouldBeShown = center.longitude >= lngMin && center.longitude <= lngMax &&
                              center.latitude >= latMin && center.latitude <= latMax;
 
@@ -799,7 +799,7 @@
         OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
         CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
         CLLocationDistance dist = [loc distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
-        
+
         if (dist < [env searchRegionRadiusInMeters]) {
             [mapView setRegion:MKCoordinateRegionMake(coord, span) animated:NO];
         }
@@ -835,9 +835,9 @@
             OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
             MKCoordinateSpan span = [env mapViewSearchZoomCoordinateSpan];
             CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
-            
+
             CLLocationDistance dist = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
-            
+
             if (dist < [env searchRegionRadiusInMeters]) {
                 [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
             }
@@ -865,7 +865,7 @@
 {
     [self changeMode:Select];
     CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
-    
+
     [self disruptCoordinate:coordinate];
 
     [self selectPlot:details];
