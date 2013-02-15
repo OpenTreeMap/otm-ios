@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, detailUnit, currencyUnit, dateFormat, detailLatSpan;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit;
 
 + (id)sharedEnvironment
 {
@@ -66,9 +66,14 @@
 
     self.apiKey = [implementation valueForKey:@"APIKey"];
 
-    self.detailUnit = [implementation objectForKey:@"OTMDetailDBHUnit"];
-    if (self.detailUnit == nil) {
-        self.detailUnit = @" in.";
+    self.dbhFormat = [implementation objectForKey:@"OTMDetailDBHFormat"];
+    if (self.dbhFormat == nil) {
+        self.dbhFormat = @"%2.0f in. Diameter";
+    }
+
+    self.dbhUnit = [implementation objectForKey:@"OTMDBHUnit"];
+    if (self.dbhUnit == nil) {
+        self.dbhUnit = @"in";
     }
 
     self.dateFormat = [implementation objectForKey:@"OTMDateFormat"];

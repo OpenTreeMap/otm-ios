@@ -15,16 +15,19 @@
 
 #import "OTMDBHTableViewCell.h"
 
-@interface OTMDummyDelegate : NSObject 
+@interface OTMDummyDelegate : NSObject
 @property (nonatomic,strong) UITableViewCell *acell;
 @end
+
 @implementation OTMDummyDelegate
 @synthesize acell;
 @end
 
 @implementation OTMDBHTableViewCell
 
-@synthesize circumferenceTextField, diameterTextField, tfDelegate, delegate;
+@synthesize circumferenceTextField, diameterTextField,
+    circumferenceLabel, diameterLabel,
+    tfDelegate, delegate;
 
 +(OTMDBHTableViewCell *)loadFromNib {
     OTMDummyDelegate *dummy = [[OTMDummyDelegate alloc] init];
@@ -36,21 +39,29 @@
     cell.circumferenceTextField.keyboardType = UIKeyboardTypeDecimalPad;
     cell.diameterTextField.keyboardType = UIKeyboardTypeDecimalPad;
 
+    NSString *unit = [[OTMEnvironment sharedEnvironment] dbhUnit];
+
+    cell.diameterLabel.text =
+        [NSString stringWithFormat:@"Tree Diameter (%@)",unit];
+
+    cell.circumferenceLabel.text =
+        [NSString stringWithFormat:@"Tree Circumference (%@)",unit];
+
     return cell;
 }
 
 #pragma mark Text Field Delegates
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
+
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range
                                                                 withString:string];
-    
+
     if ([[newText componentsSeparatedByString:@"."] count] > 2) {
         return NO;
     } else {
         [delegate tableViewCell:self textField:textField updatedToValue:newText];
-        
+
         return YES;
     }
 }
