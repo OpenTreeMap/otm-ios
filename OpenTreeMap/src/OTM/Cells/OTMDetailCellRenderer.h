@@ -28,7 +28,7 @@
  * Generic interface for rendering cells
  * Note that the OTMEditDetailCellRender is responsible
  * for handling edit mode
- */ 
+ */
 @interface OTMDetailCellRenderer : NSObject
 
 /**
@@ -39,7 +39,7 @@
 /**
  * Key to access data for this cell
  *
- * Examples: 
+ * Examples:
  *  tree.dbh (tree diameter)
  *  id       (plot id)
  */
@@ -162,4 +162,3 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) id data;
 
 @end
-
