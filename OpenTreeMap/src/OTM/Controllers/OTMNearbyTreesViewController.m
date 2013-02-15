@@ -42,7 +42,7 @@
 
 -(IBAction)updateList:(UISegmentedControl *)control {
     self.filters.listFilterType = (OTMListFilterType)control.selectedSegmentIndex;
-    
+
     if (self.filters.listFilterType == kOTMFiltersShowAll) {
         self.nearbyTrees = nearby;
     } else if (self.filters.listFilterType == kOTMFiltersShowRecent) {
@@ -62,7 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     BOOL pends = [[OTMEnvironment sharedEnvironment] pendingActive];
 
     if (!pends && [segControl numberOfSegments]) {
@@ -73,23 +73,23 @@
     nearby = [NSMutableArray array];
     pending = [NSMutableArray array];
     recent = [NSMutableArray array];
-    
+
     if (self.locationManager == nil) {
         CLLocationManager *manager = [[CLLocationManager alloc] init];
         manager.delegate = self;
         manager.distanceFilter = kOTMNearbyTreesViewControllerMinimumEventDistance;
-        
+
         self.locationManager = manager;
     }
-    
-	// Do any additional setup after loading the view.
+
+        // Do any additional setup after loading the view.
 }
 - (void)viewWillAppear:(BOOL)animated {
     [pending removeAllObjects];
     [recent removeAllObjects];
 
     [self updateList:segControl];
-    
+
     [self.locationManager startUpdatingLocation];
     [self reloadBackground];
 }
@@ -123,22 +123,22 @@
 #pragma mark Table Delegate and Datasource Methods
 
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     OTMDistanceTableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier];
-    
+
     if (cell == nil) {
         cell = [[OTMDistanceTableViewCell alloc] initWithReuseIdentifier:kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier];
-    
+
     }
-    
+
     NSDictionary *plot = [self.nearbyTrees objectAtIndex:[indexPath row]];
     NSDictionary *geom = [plot objectForKey:@"geometry"];
     CLLocation *treeLoc = [[CLLocation alloc] initWithLatitude:[[geom valueForKey:@"lat"] doubleValue]
                                                      longitude:[[geom valueForKey:@"lng"] doubleValue]];
-    
+
     // tree variable may end up containing an NSDictionary or NSNull
     id tree = [plot objectForKey:@"tree"];
-    
+
     if (tree == nil || tree == [NSNull null]) {
         cell.textLabel.text = @"Unassigned Plot";
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Plot #%@",[plot objectForKey:@"id"]];
@@ -148,35 +148,36 @@
             cell.textLabel.text = @"(No Species)";
         }
         if ([tree valueForKey:@"dbh"] && [tree valueForKey:@"dbh"] != @"<null>") {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ in. Diameter",
-                                         [tree valueForKey:@"dbh"]];
+            NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
+            cell.detailTextLabel.text = [NSString stringWithFormat:fmt,
+                                                 [[tree valueForKey:@"dbh"] doubleValue]];
         } else {
             cell.detailTextLabel.text = @"Diameter Missing";
         }
-                    
+
     }
     cell.thisLoc = treeLoc;
     cell.curLoc = self.lastLocation;
-    
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)path {
     NSDictionary *plot = [self.nearbyTrees objectAtIndex:[path row]];
-        
+
     [self performSegueWithIdentifier:@"pushDetails" sender:plot];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"pushDetails"]) {
         OTMTreeDetailViewController *dest = segue.destinationViewController;
         [dest view]; // Force it load its view
-        
+
         NSDictionary *plot = sender;
-        
+
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
-        
+
         dest.data = [plot mutableDeepCopy];
         dest.keys = keys;
         //dest.imageView.image = self.treeImage.image;
@@ -209,7 +210,7 @@
              [self.nearbyTrees addObjectsFromArray:[json mutableCopy]];
              [self.tableView reloadData];
          }
-     }];    
+     }];
 }
 
 #pragma mark -
