@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit, distanceUnit, distanceBiggerUnit, distanceBiggerUnitFactor, distanceFromMetersFactor;
 
 + (id)sharedEnvironment
 {
@@ -75,6 +75,27 @@
     if (self.dbhUnit == nil) {
         self.dbhUnit = @"in";
     }
+
+    self.distanceUnit = [implementation objectForKey:@"OTMDistanceUnit"];
+    if (self.distanceUnit == nil) {
+        self.distanceUnit = @"ft";
+    }
+
+    self.distanceBiggerUnit = [implementation objectForKey:@"OTMBiggerDistanceUnit"];
+
+    if ([implementation objectForKey:@"OTMBiggerDistanceFactor"]) {
+        self.distanceBiggerUnitFactor = [[implementation valueForKey:@"OTMBiggerDistanceFactor"] doubleValue];
+    } else {
+        self.distanceBiggerUnitFactor = -1.0;
+    }
+
+    if ([implementation objectForKey:@"OTMMetersToBaseDistanceUnitFactor"]) {
+        self.distanceFromMetersFactor = [[implementation valueForKey:@"OTMMetersToBaseDistanceUnitFactor"] doubleValue];
+    } else {
+        // Convert to miles
+        self.distanceFromMetersFactor = 0.000621371;
+    }
+
 
     self.dateFormat = [implementation objectForKey:@"OTMDateFormat"];
     if (self.dateFormat == nil) {
