@@ -86,7 +86,8 @@
     [mapView removeAnnotation:annotation];
     
     // Set a small latitude delta to zoom the map in close to the point
-    [mapView setRegion:MKCoordinateRegionMake(center, MKCoordinateSpanMake(0.0007, 0.00)) animated:NO];
+    MKCoordinateSpan span = MKCoordinateSpanMake([[OTMEnvironment sharedEnvironment] detailLatSpan], 0.00);
+    [mapView setRegion:MKCoordinateRegionMake(center, span) animated:NO];
     
     annotation.coordinate = center;
     [mapView addAnnotation:annotation];
