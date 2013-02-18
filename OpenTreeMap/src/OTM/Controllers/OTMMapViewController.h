@@ -68,6 +68,7 @@ typedef enum {
 
 -(void)setDetailViewData:(NSDictionary*)plot;
 
+-(IBAction) showTreePhotoFullscreen:(id)sender;
 -(IBAction) startFindingLocation:(id)sender;
 -(IBAction) stopFindingLocation:(id)sender;
 

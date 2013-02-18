@@ -23,6 +23,7 @@
 #import "OTMDetailCellRenderer.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDictionaryHelper.h"
+#import "OTMImageViewController.h"
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -205,6 +206,9 @@
             self.filters = f;
             [self showFilters:f];
         };
+    } else if ([segue.identifier isEqualToString:@"showImage"]) {
+        OTMImageViewController *controller = segue.destinationViewController;
+        [controller loadImage:sender];
     }
 }
 
@@ -219,6 +223,15 @@
 
 - (IBAction)setMapMode:(UISegmentedControl *)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMChangeMapModeNotification object:[NSNumber numberWithInt:sender.selectedSegmentIndex]];
+}
+
+- (IBAction)showTreePhotoFullscreen:(id)sender {
+    NSArray *images = [[self.selectedPlot objectForKey:@"tree"] objectForKey:@"images"];
+    NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
+    
+    if (imageURL) {
+        [self performSegueWithIdentifier:@"showImage" sender:imageURL];
+    }
 }
 
 -(void)changeMapMode:(NSNotification *)note {
