@@ -26,8 +26,6 @@
 
 @implementation OTMAPI
 
-@synthesize request, tileRequest;
-
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback {
     if (callback == nil) { return [^(id obj, id error) {} copy]; }
     return [^(ASIHTTPRequest* req) {
@@ -168,7 +166,7 @@
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [request get:@"login"
+    [_request get:@"login"
         withUser:user
           params:nil
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
@@ -197,14 +195,14 @@
 }
 
 -(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
-    [request get:@"login"
+    [_request get:@"login"
         withUser:user
           params:nil
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
-    [request post:@"login/reset_password"
+    [_request post:@"login/reset_password"
            params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
              data:nil
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
@@ -234,7 +232,7 @@
 }
 
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback {
-    [request post:@"user/:user_id/photo/profile"
+    [_request post:@"user/:user_id/photo/profile"
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                               forKey:@"user_id"]
@@ -244,7 +242,7 @@
 }
 
 -(void)setPhoto:(UIImage *)image onPlotWithID:(NSUInteger)pId withUser:(OTMUser *)user callback:(AZJSONCallback)cb {
-    [request post:@"plots/:plot_id/tree/photo"
+    [_request post:@"plots/:plot_id/tree/photo"
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pId]
                                               forKey:@"plot_id"]
@@ -254,7 +252,7 @@
 }
 
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {
-    [request post:@"user/"
+    [_request post:@"user/"
            params:nil
              data:[self encodeUser:user]
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
@@ -281,7 +279,7 @@
 }
 
 -(void)changePasswordForUser:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback {
-    [request put:@"user/:user_id/password"
+    [_request put:@"user/:user_id/password"
         withUser:user
           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                              forKey:@"user_id"]
@@ -313,7 +311,7 @@
 }
 
 -(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset length:(NSUInteger)length callback:(AZJSONCallback)callback {
-    [request get:@"user/:user_id/edits"
+    [_request get:@"user/:user_id/edits"
         withUser:user
           params:[NSDictionary
                   dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:user.userId],
@@ -338,7 +336,7 @@
 -(void)geocodeWithOtmGeocoder:(NSString *)address callback:(AZJSONCallback)callback
 {
      NSString *urlEncodedSearchText = [address stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-     [request get:@"addresses/:address"
+     [_request get:@"addresses/:address"
      params:[NSDictionary dictionaryWithObject:urlEncodedSearchText forKey:@"address"]
      callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
@@ -400,7 +398,7 @@
 
 -(void)addPlotWithOptionalTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback
 {
-    [request post:@"plots"
+    [_request post:@"plots"
          withUser:user
            params:nil
              data:[self jsonEncode:details]
@@ -415,7 +413,7 @@
             callback(nil, [NSError errorWithDomain:@"No id specified in details dictionary" code:0 userInfo:details]);
         }
     }
-    [request put:@"plots/:id"
+    [_request put:@"plots/:id"
         withUser:user
           params:[NSDictionary dictionaryWithObject:[details objectForKey:@"id"] forKey:@"id"]
             data:[self jsonEncode:details]
@@ -424,7 +422,7 @@
 
 -(void)approvePendingEdit:(NSInteger)pendingEditId user:(OTMUser *)user callback:(AZJSONCallback)callback
 {
-    [request post:@"pending-edits/:id/approve/"
+    [_request post:@"pending-edits/:id/approve/"
         withUser:user
           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pendingEditId] forKey:@"id"]
             data:nil
@@ -434,7 +432,7 @@
 
 -(void)rejectPendingEdit:(NSInteger)pendingEditId user:(OTMUser *)user callback:(AZJSONCallback)callback
 {
-    [request post:@"pending-edits/:id/reject/"
+    [_request post:@"pending-edits/:id/reject/"
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:pendingEditId] forKey:@"id"]
              data:nil
@@ -444,7 +442,7 @@
 
 -(void)deleteTreeFromPlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback
 {
-    [request delete:@"plots/:id/tree"
+    [_request delete:@"plots/:id/tree"
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
@@ -452,18 +450,32 @@
 
 -(void)deletePlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback
 {
-    [request delete:@"plots/:id"
+    [_request delete:@"plots/:id"
            withUser:user
              params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
            callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)getPlotInfo:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback {
-  [request get:@"plots/:id"
+  [_request get:@"plots/:id"
       withUser:user
         params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:plotId] forKey:@"id"]
       callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
+-(void)getTreeImage:(NSString*)url callback:(AZImageCallback)callback {
+    [_noPrefixRequest getRaw:url
+                  params:nil
+                    mime:@"image/jpeg"
+                callback:[OTMAPI liftResponse:^(id data, NSError* error) {
+                if (callback) {
+                    if (error != nil) {
+                        callback(nil, error);
+                    } else {
+                        callback([UIImage imageWithData:data], nil);
+                    }
+                }
+            }]];
+}
 
 @end

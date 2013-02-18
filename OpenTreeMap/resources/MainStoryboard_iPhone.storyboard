@@ -91,6 +91,21 @@
                                             <segue destination="Z5j-QU-uNU" kind="push" identifier="Details" id="ROJ-aE-inW"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="39d-EP-Yt2">
+                                        <rect key="frame" x="12" y="27" width="71" height="60"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showTreePhotoFullscreen:" destination="2" eventType="touchUpInside" id="FyD-ab-iwy"/>
+                                        </connections>
+                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="TopLeft" image="detail.png" id="IBN-1f-vqA">
                                         <rect key="frame" x="301" y="50" width="16" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -179,6 +194,7 @@
                         <outlet property="species" destination="F3b-37-QZN" id="O6W-yo-o7a"/>
                         <outlet property="treeImage" destination="yCz-ce-iHJ" id="3qj-zu-mbR"/>
                         <outlet property="view" destination="16" id="vLX-hG-hPZ"/>
+                        <segue destination="u1i-qA-0UN" kind="push" identifier="showImage" id="vdU-No-GUA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
@@ -242,6 +258,21 @@
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GuM-ES-H5W">
+                                        <rect key="frame" x="9" y="10" width="73" height="66"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showTreePhotoFullscreen:" destination="Z5j-QU-uNU" eventType="touchUpInside" id="ffU-ci-5nq"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.94083921370967749" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -269,11 +300,12 @@
                         <segue destination="v8c-v7-6H5" kind="push" identifier="changeSpecies" id="Lek-fL-nUD"/>
                         <segue destination="XIE-5U-YPU" kind="push" identifier="changeLocation" id="DyZ-zz-mYa"/>
                         <segue destination="qxZ-Vn-7jv" kind="push" identifier="fieldDetail" id="go3-Bj-Rpl"/>
+                        <segue destination="u1i-qA-0UN" kind="push" identifier="showImage" id="gQW-vu-Tty"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8hd-Es-WvR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764" y="-158"/>
+            <point key="canvasLocation" x="2580" y="-174"/>
         </scene>
         <!--Filter List View Controller - Filter-->
         <scene sceneID="zp8-W1-VWl">
@@ -375,7 +407,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
             </objects>
-            <point key="canvasLocation" x="2262" y="-761"/>
+            <point key="canvasLocation" x="3078" y="-777"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="U6E-AK-C7a">
@@ -391,14 +423,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uue-lv-1fO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764" y="-761"/>
+            <point key="canvasLocation" x="2580" y="-777"/>
         </scene>
         <!--Species Table View Controller - Species-->
         <scene sceneID="UYx-NC-Q9u">
             <objects>
                 <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="Xap-fy-aIY">
@@ -464,7 +496,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kOL-lh-UMg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2816" y="-524"/>
+            <point key="canvasLocation" x="3632" y="-540"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="Bnb-dg-gfO">
@@ -574,7 +606,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AKV-CG-crl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1770" y="455"/>
+            <point key="canvasLocation" x="2586" y="439"/>
         </scene>
         <!--Field Detail View Controller - Field Detail-->
         <scene sceneID="gGM-RX-8a7">
@@ -647,7 +679,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gds-r1-YAx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2239" y="711"/>
+            <point key="canvasLocation" x="3195" y="1335"/>
         </scene>
         <!--Change Location View Controller-->
         <scene sceneID="cLA-X3-gPH">
@@ -687,7 +719,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Etn-hM-jbV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2248" y="133"/>
+            <point key="canvasLocation" x="3187" y="733"/>
+        </scene>
+        <!--Image View Controller - Tree Photo-->
+        <scene sceneID="S37-kM-CBV">
+            <objects>
+                <viewController id="u1i-qA-0UN" customClass="OTMImageViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fZo-Zk-WWS">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="gGa-rZ-8ES">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Tree Photo" id="K2B-qi-ivl">
+                        <barButtonItem key="backBarButtonItem" title="Details" id="ZMB-jF-JOT"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="imageView" destination="gGa-rZ-8ES" id="yt2-TL-OQb"/>
+                        <outlet property="view" destination="fZo-Zk-WWS" id="EJh-59-zE5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PsY-cg-vtS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1915" y="1006"/>
         </scene>
         <!--Profile View Controller - Profile-->
         <scene sceneID="5wF-2u-wWk">
@@ -878,7 +937,6 @@
         <class className="OTMChangeLocationViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMChangeLocationViewController.h"/>
             <relationships>
-                <relationship kind="action" name="setMapMode:" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapModeSegmentedControl" candidateClass="UISegmentedControl"/>
                 <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
             </relationships>
@@ -912,6 +970,12 @@
         <class className="OTMHelpView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMHelpView.h"/>
         </class>
+        <class className="OTMImageViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMImageViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
         <class className="OTMMapTableViewCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapTableViewCell.h"/>
             <relationships>
@@ -921,7 +985,7 @@
         <class className="OTMMapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMMapViewController.h"/>
             <relationships>
-                <relationship kind="action" name="setMapMode:" candidateClass="UISegmentedControl"/>
+                <relationship kind="action" name="showTreePhotoFullscreen:"/>
                 <relationship kind="action" name="startFindingLocation:"/>
                 <relationship kind="action" name="stopFindingLocation:"/>
                 <relationship kind="outlet" name="addTreeHelpLabel" candidateClass="UILabel"/>
@@ -955,8 +1019,6 @@
         <class className="OTMPasswordChangeViewController" superclassName="OTMScrollAwareViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordChangeViewController.h"/>
             <relationships>
-                <relationship kind="action" name="changePassword:"/>
-                <relationship kind="action" name="completedForm:"/>
                 <relationship kind="outlet" name="aNewPassword" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="aNewPasswordVerify" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="oldPassword" candidateClass="UITextField"/>
@@ -968,7 +1030,6 @@
         <class className="OTMProfileViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMProfileViewController.h"/>
             <relationships>
-                <relationship kind="action" name="doLogin:"/>
                 <relationship kind="outlet" name="loadingView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="pwReqView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
@@ -978,7 +1039,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMScrollAwareViewController.h"/>
             <relationships>
                 <relationship kind="action" name="completedForm:"/>
-                <relationship kind="action" name="hideKeyboard:"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
         </class>
@@ -1005,6 +1065,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMTreeDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="cancelEditing:"/>
+                <relationship kind="action" name="showTreePhotoFullscreen:"/>
                 <relationship kind="action" name="startOrCommitEditing:"/>
                 <relationship kind="outlet" name="acell" candidateClass="UITableViewCell"/>
                 <relationship kind="outlet" name="address" candidateClass="UILabel"/>
@@ -1028,6 +1089,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="l7d-z8-dsy"/>
-        <segue reference="Lek-fL-nUD"/>
+        <segue reference="vdU-No-GUA"/>
+        <segue reference="145-jK-ChU"/>
     </inferredMetricsTieBreakers>
 </document>

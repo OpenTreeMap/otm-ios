@@ -81,6 +81,7 @@
  */
 @property (nonatomic, strong) NSArray* keys;
 
+- (IBAction)showTreePhotoFullscreen:(id)sender;
 - (IBAction)startOrCommitEditing:(id)sender;
 - (IBAction)cancelEditing:(id)sender;
 

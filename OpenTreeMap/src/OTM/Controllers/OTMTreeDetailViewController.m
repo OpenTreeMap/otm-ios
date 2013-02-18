@@ -23,6 +23,7 @@
 #import "OTMChangeLocationViewController.h"
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMFieldDetailViewController.h"
+#import "OTMImageViewController.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -223,6 +224,15 @@
     curFields = allFields;
 
     self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
+}
+
+- (IBAction)showTreePhotoFullscreen:(id)sender {
+    NSArray *images = [[self.data objectForKey:@"tree"] objectForKey:@"images"];
+    NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
+
+    if (imageURL) {
+        [self performSegueWithIdentifier:@"showImage" sender:imageURL];
+    }
 }
 
 - (IBAction)startOrCommitEditing:(id)sender
@@ -526,6 +536,9 @@
             [delegate viewController:self editedTree:self.data withOriginalLocation:originalLocation originalData:originalData]
             ;
         };
+    } else if ([segue.identifier isEqualToString:@"showImage"]) {
+        OTMImageViewController *controller = segue.destinationViewController;
+        [controller loadImage:sender];
     }
 }
 
