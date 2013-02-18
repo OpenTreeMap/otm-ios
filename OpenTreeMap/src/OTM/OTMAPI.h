@@ -49,6 +49,7 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
  */
 @property (nonatomic,strong) AZHttpRequest* tileRequest;
 @property (nonatomic,strong) AZHttpRequest* request;
+@property (nonatomic,strong) AZHttpRequest* noPrefixRequest;
 
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
 
@@ -233,5 +234,10 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
  * @param callback block to be executed when the request is complete or an error occurs
  */
 -(void)deletePlot:(NSInteger)plotId user:(OTMUser *)user callback:(AZJSONCallback)callback;
+
+/**
+ * Get a tree image from a media url
+ */
+-(void)getTreeImage:(NSString*)url callback:(AZImageCallback)callback;
 
 @end

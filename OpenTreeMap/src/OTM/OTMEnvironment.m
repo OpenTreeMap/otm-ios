@@ -190,11 +190,17 @@
                                           ver, @"ApplicationVersion",
                                           nil];
 
+    NSURL *aurl = [NSURL URLWithString:[self baseURL]];
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
     req.headers = headers;
     AZHttpRequest* treq = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
     treq.headers = headers;
     treq.synchronous = YES;
+    NSString *strippedHost = [NSString stringWithFormat:@"%@://%@:%@",
+                                       [aurl scheme],[aurl host],[aurl port]];
+
+    AZHttpRequest* reqraw = [[AZHttpRequest alloc] initWithURL:strippedHost];
+    req.headers = headers;
 
     req.queue.maxConcurrentOperationCount = 3;
     treq.queue.maxConcurrentOperationCount = 1; // Limit this... having this too high
@@ -202,6 +208,7 @@
 
     otmApi.request = req;
     otmApi.tileRequest = treq;
+    otmApi.noPrefixRequest = reqraw;
 
     self.tileRequest = treq;
     self.api = otmApi;
