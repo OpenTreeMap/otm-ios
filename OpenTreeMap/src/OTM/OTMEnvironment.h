@@ -108,6 +108,7 @@
 @property (nonatomic, strong) NSString *dateFormat;
 @property (nonatomic, strong) NSString *currencyUnit;
 @property (nonatomic) double detailLatSpan;
+@property (nonatomic, strong) NSString *localizedZipCodeName;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 

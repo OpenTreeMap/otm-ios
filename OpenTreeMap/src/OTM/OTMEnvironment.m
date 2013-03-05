@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit, distanceUnit, distanceBiggerUnit, distanceBiggerUnitFactor, distanceFromMetersFactor;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit, distanceUnit, distanceBiggerUnit, distanceBiggerUnitFactor, distanceFromMetersFactor, localizedZipCodeName;
 
 + (id)sharedEnvironment
 {
@@ -74,6 +74,11 @@
     self.dbhUnit = [implementation objectForKey:@"OTMDBHUnit"];
     if (self.dbhUnit == nil) {
         self.dbhUnit = @"in";
+    }
+
+    self.localizedZipCodeName = [implementation objectForKey:@"OTMZipCodeLabel"];
+    if (self.localizedZipCodeName == nil) {
+        self.localizedZipCodeName = @"Zip Code";
     }
 
     self.distanceUnit = [implementation objectForKey:@"OTMDistanceUnit"];

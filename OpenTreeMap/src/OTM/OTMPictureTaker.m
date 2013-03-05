@@ -24,8 +24,9 @@
                                                         cancelButtonTitle:@"Cancel"
                                                    destructiveButtonTitle:@"Photo Album"
                                                         otherButtonTitles:@"Camera",nil];
-        
-        [actionSheet showInView:targetViewController.view];
+
+        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
+        [actionSheet showInView:mainWindow];
     } else {
         [self showAlbumPicker];
     }
@@ -40,43 +41,43 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+
     UIImage *selectedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     if (selectedImage == nil) {
         selectedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     if (callback != nil) {
         callback(selectedImage);
-    }    
+    }
     [targetViewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void)showAlbumPicker {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    
+
     picker.delegate = self;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
+
     [targetViewController presentViewController:picker
                                        animated:YES
-                                     completion:^{}];   
+                                     completion:^{}];
 }
 
 - (void)showCameraPicker {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    
+
     picker.delegate = self;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
+
     [targetViewController presentViewController:picker
                                        animated:YES
-                                     completion:^{}];   
+                                     completion:^{}];
 }
 
 -(void)getPictureInViewController:(UIViewController *)vc callback:(OTMPickerTakerCallback)cb {
     callback = [cb copy];
     targetViewController = vc;
-    
+
     [self showProfilePicturePicker];
 }
 
