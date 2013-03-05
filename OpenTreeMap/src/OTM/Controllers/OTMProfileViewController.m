@@ -194,7 +194,13 @@
                                                      delegate:nil
                                             cancelButtonTitle:@"OK"
                                             otherButtonTitles:nil] show];
-                          }
+                      } else {
+                          [[[UIAlertView alloc] initWithTitle:@"Saved"
+                                                      message:@"Saved your new profile photo"
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil] show];
+                      }
                   }];
              }
          }];
