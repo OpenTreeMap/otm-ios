@@ -56,13 +56,13 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                           reuseIdentifier:kOTMProfileViewControllerSectionChangePasswordCellIdentifier];
         }
-        
+
         if ([indexPath row] == 0) {
             cell.textLabel.text = @"Change Password";
         } else {
             cell.textLabel.text = @"Logout";
         }
-        
+
         return cell;
     } else if ([indexPath section] == kOTMProfileViewControllerSectionChangeProfilePicture) {
         UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kOTMProfileViewControllerSectionChangeProfilePictureCellIdentifier];
@@ -70,16 +70,16 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                           reuseIdentifier:kOTMProfileViewControllerSectionChangeProfilePictureCellIdentifier];
         }
-        cell.textLabel.text = @"Change Profile Picture";    
-        
+        cell.textLabel.text = @"Change Profile Picture";
+
         return cell;
     } else {
         UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kOTMProfileViewControllerSectionRecentEditsCellIdentifier];
-        
+
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                           reuseIdentifier:kOTMProfileViewControllerSectionRecentEditsCellIdentifier];
-            
+
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(240,7,60,30)];
             label.backgroundColor = [UIColor colorWithRed:226/255.0 green:226/255.0 blue:226/255.0 alpha:1.0];
             label.textAlignment = UITextAlignmentCenter;
@@ -89,11 +89,11 @@
             label.layer.cornerRadius = 15;
             label.layer.borderColor = [[UIColor colorWithRed:155/255.0 green:155/255.0 blue:155/255.0 alpha:1.0] CGColor];
             label.layer.borderWidth = 1;
-                
-            
+
+
             [cell addSubview:label];
         }
-        
+
         UILabel *rep = (UILabel *)[cell viewWithTag:2012];
         NSDictionary *action = [self.recentActivity objectAtIndex:[indexPath row]];
 
@@ -114,16 +114,16 @@
         cell.textLabel.text = [[action objectForKey:@"name"] capitalizedString];
         cell.detailTextLabel.text = fdate;
         rep.text = [NSString stringWithFormat:@"+%@",[action valueForKey:@"value"]];
-        
+
         return cell;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tblView infoCellForRow:(NSInteger)row {
-   
+
     NSString *itemTitle = nil;
     NSString *itemValue = nil;
-    
+
     switch (row) {
         case 0:
             itemTitle = @"Username";
@@ -141,7 +141,7 @@
             break;
 
         case 3:
-            itemTitle = @"Zip Code";
+            itemTitle = [[OTMEnvironment sharedEnvironment] localizedZipCodeName];
             itemValue = self.user.zipcode;
             break;
 
@@ -153,20 +153,20 @@
         default:
             break;
     }
-    
+
     UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kOTMProfileViewControllerSectionInfoCellIdentifier];
-    
+
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:kOTMProfileViewControllerSectionInfoCellIdentifier];
-    }    
-    
+    }
+
     cell.textLabel.text = itemTitle;
     cell.detailTextLabel.text = itemValue;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+
     return cell;
 }
-        
+
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)path {
     if ([path section] == kOTMProfileViewControllerSectionChangePassword) {
         if ([path row] == 0) {
@@ -180,13 +180,13 @@
         }
     } else if ([path section] == kOTMProfileViewControllerSectionChangeProfilePicture) {
         [pictureTaker getPictureInViewController:self
-                                        callback:^(UIImage *image) 
+                                        callback:^(UIImage *image)
          {
              if (image) {
                  self.user.photo = image;
-                 
+
                  [[[OTMEnvironment sharedEnvironment] api] setProfilePhoto:user
-                                                                  callback:^(id json, NSError *error) 
+                                                                  callback:^(id json, NSError *error)
                   {
                       if (error != nil) {
                           [[[UIAlertView alloc] initWithTitle:@"Error"
@@ -222,7 +222,7 @@
         case kOTMProfileViewControllerSectionRecentEdits:
             return [self.recentActivity count];
     }
-    
+
     return 0;
 }
 
@@ -238,7 +238,7 @@
 
     [self.loadingView removeFromSuperview];
     [self.tableView addSubview:self.loadingView];
-    
+
     self.loadingView.hidden = YES;
 
     if (pictureTaker == nil) {
@@ -269,20 +269,20 @@
                                       owner:self
                                     options:nil];
     }
-    
+
     [self.view addSubview:self.pwReqView];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"pushDetails"]) {
         OTMTreeDetailViewController *dest = segue.destinationViewController;
         [dest view]; // Force it load its view
-        
+
         NSDictionary *plot = sender;
-        
+
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
-        
+
         dest.data = [plot mutableDeepCopy];
         dest.keys = keys;
         //dest.imageView.image = self.treeImage.image;
@@ -291,26 +291,26 @@
 
 - (IBAction)doLogin:(id)sender {
     OTMLoginManager* mgr = [SharedAppDelegate loginManager];
-    
+
     [mgr presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
         if (success) {
             if (self.pwReqView) {
                 [self.pwReqView removeFromSuperview];
                 self.title = @"Profile";
-            }                
-            
+            }
+
             self.user = aUser;
 
             [self loadData];
             [self.tableView reloadData];
-            
+
             if ([self.recentActivity count] == 0) {
                 [self loadRecentEdits];
             }
         } else {
             [self showLoginReqView];
         }
-    }];    
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -319,9 +319,9 @@
     if (!self.didShowLogin) {
         self.didShowLogin = YES;
         OTMLoginManager* mgr = [SharedAppDelegate loginManager];
-        
+
         @synchronized(mgr) {
-            if (mgr.runningLogin) {        
+            if (mgr.runningLogin) {
                 [mgr installAutoLoginFailedCallback:^{
                     [self doLogin:nil];
                 }];
@@ -356,7 +356,7 @@
         self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width,
                                                 self.tableView.contentSize.height +
                                                 heightOffset);
-        
+
         self.loadingView.frame = CGRectMake(0,
                                             self.tableView.contentSize.height - heightOffset,
                                             320,
@@ -372,7 +372,7 @@
     if (loading == YES) {
         return;
     }
-    
+
     loading = YES;
     startedTime = CFAbsoluteTimeGetCurrent();
     [[[OTMEnvironment sharedEnvironment] api] getRecentActionsForUser:self.user
@@ -391,20 +391,20 @@
              }] == NSNotFound) {
                  [self.recentActivity addObject:event];
              }
-                     
+
          }
 
          int rowsAdded = [self.recentActivity count] - rowsBefore;
-         
+
          dispatch_time_t delay = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * MAX(0,startedTime + delayTime - CFAbsoluteTimeGetCurrent()));
-         dispatch_after(delay, dispatch_get_main_queue(), ^{             
+         dispatch_after(delay, dispatch_get_main_queue(), ^{
                  [UIView animateWithDuration:.4
                                   animations:
                              ^{
                          self.tableView.contentSize = CGSizeMake(self.tableView.contentSize.width,
                                                                  self.tableView.contentSize.height - heightOffset);
                      }
-                 completion:^(BOOL finished) 
+                 completion:^(BOOL finished)
                          {
                              NSMutableArray *addedRows = [NSMutableArray array];
                              for(int i=0;i<rowsAdded;i++) {
@@ -413,9 +413,9 @@
 
                              // [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:kOTMProfileViewControllerSectionRecentEdits]
                              // withRowAnimation:UITableViewRowAnimationNone
-                             //               ];             
+                             //               ];
                              [self.tableView insertRowsAtIndexPaths:addedRows withRowAnimation:UITableViewRowAnimationNone];
-             
+
                              self.loadingView.hidden = YES;
                          }];
                  loading = NO;
