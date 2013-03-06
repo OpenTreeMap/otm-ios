@@ -2,6 +2,7 @@
 from fabric.api import local, lcd, abort, cd, run
 
 import os
+import tempfile
 
 def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_prefix, appid_suffix):
     local('unzip "%s.ipa"' % ipa)
@@ -17,7 +18,7 @@ def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_p
         ents = ents.replace("$(AppIdentifierSuffix)", "." + appid_suffix)
 
         entsh = open(entfile,'w')
-        entsh.write(ents)        
+        entsh.write(ents)
         entsh.close()
 
         local('rm -rf "Payload/%s/_CodeSignature" '\
@@ -27,7 +28,7 @@ def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_p
               '--entitlements "Payload/%s/OpenTreeMap.entitlements" '
               '--resource-rules "Payload/%s/ResourceRules.plist" '
               '-i "Payload/%s/embedded.mobileprovision" '
-              '"Payload/%s"' % (sign_name, app_name, 
+              '"Payload/%s"' % (sign_name, app_name,
                                 app_name, app_name, app_name))
         local('zip -qr "%s.%s.ipa" Payload' % (ipa,n))
 
@@ -58,11 +59,13 @@ def stamp_version(version, jenkins=None):
     template_file.write(content)
     template_file.flush()
 
-def create_info_plist(app_name, app_id, version='1.0'):
-    infoplist = open('OpenTreeMap/OpenTreeMap-Info.plist.template').read()
+def create_info_plist(app_name, app_id, version='1.0',path=''):
+    template_path = os.path.join(path, 'OpenTreeMap/OpenTreeMap-Info.plist.template')
+    output_path = os.path.join(path, 'OpenTreeMap/OpenTreeMap-Info.plist')
+    infoplist = open(template_path).read()
     infoplist = infoplist % { "app_name": app_name, "app_id": app_id, "version": version}
 
-    f = open('OpenTreeMap/OpenTreeMap-Info.plist', 'w')
+    f = open(output_path, 'w')
     f.write(infoplist)
     f.flush()
     f.close()
@@ -80,18 +83,18 @@ def convert_choices(choices_py,choices_plist):
     for (ch, vals) in choices.iteritems():
         hippie_xml += """
         <key>%s</key>
-	<array>\n""" % ch
+        <array>\n""" % ch
 
         for (value, txt) in vals:
             hippie_xml += """
-		<dict>
-			<key>key</key>
-			<string>%s</string>
-			<key>type</key>
-			<string>int</string>
-			<key>value</key>
-			<string>%s</string>
-		</dict>\n""" % (value,txt)
+                <dict>
+                        <key>key</key>
+                        <string>%s</string>
+                        <key>type</key>
+                        <string>int</string>
+                        <key>value</key>
+                        <string>%s</string>
+                </dict>\n""" % (value,txt)
 
         hippie_xml += "        </array>\n"
 
@@ -154,9 +157,46 @@ def clone_skin_repo(skin=None, clone_dir=None, version=None, user=None):
           (version, git_remote_path, git_local_path))
 
 
-def install_skin(skin=None, user=None, version=None, clone_dir=None, 
-                 force_delete=None):
-    """ Install the given skin
+def package(skin=None, user=None, version=None,
+            app_name="git-snapshot", app_ver="git-snapshot", app_id="com.company.otm"):
+    """
+    Package a skinned up implementation for deployment based on
+    the current commit in this directory.
+
+    This method creates a fresh clone, installs the skin, and
+    generates a tarball. In particular, it *ignores* any extra
+    files in the directory (such as private keys or config files)
+    """
+    temp_dir = tempfile.mkdtemp(prefix='fios_tmp')
+    clone_dir = os.path.join(temp_dir, 'otmios')
+    skin_clone_dir = os.path.join(temp_dir, 'skins')
+
+    git_path = os.path.dirname(__file__)
+
+    git_rev = local('git rev-parse HEAD', capture=True)
+
+    with lcd(temp_dir):
+        local('git clone "%s" "%s"' % (git_path, clone_dir))
+
+    with lcd(clone_dir):
+        local('git reset --hard %s' % git_rev)
+        install_skin(skin, user, version, skin_clone_dir,
+                     otm_dir=os.path.join(clone_dir,"OpenTreeMap"),
+                     copy_instead_of_link=True)
+
+    create_info_plist(app_name, app_id, app_ver,path=clone_dir)
+
+    with lcd(temp_dir):
+        local('tar -czf otmios.tar.gz otmios')
+
+    local('mv "%s" "%s"' % (os.path.join(temp_dir,'otmios.tar.gz'), git_path))
+    local('rm -rf "%s"' % temp_dir)
+
+
+def install_skin(skin=None, user=None, version=None, clone_dir=None,
+                 force_delete=None, copy_instead_of_link=False, otm_dir=None):
+    """
+    Install the given skin
 
     Optionally specify clone_dir to control where the repository
     will be cloned to. Default is one level above this one
@@ -172,10 +212,18 @@ def install_skin(skin=None, user=None, version=None, clone_dir=None,
     if not clone_dir:
         clone_dir = '..'
 
+    if not otm_dir:
+        otm_dir = 'OpenTreeMap'
+
     if skin:
         git_clone_path = '%s/%s' % (clone_dir, skin)
     else:
         git_clone_path = '%s/MobileSkin' % clone_dir
+
+    if os.path.isabs(git_clone_path):
+        ios_dir_path = os.path.join(git_clone_path, "ios")
+    else:
+        ios_dir_path = os.path.join("..", git_clone_path, "ios")
 
     if force_delete:
         local('rm -rf "%s"' % git_clone_path)
@@ -183,25 +231,27 @@ def install_skin(skin=None, user=None, version=None, clone_dir=None,
     if not os.path.exists('%s/ios' % git_clone_path):
         clone_skin_repo(skin, clone_dir, version, user)
 
-    with lcd('OpenTreeMap'):
+    with lcd(otm_dir):
         local('rm -f skin')
-        local('ln -s "../%s/ios" skin' % git_clone_path)
+        if copy_instead_of_link:
+            local('cp -r "%s" skin' % ios_dir_path)
+        else:
+            local('ln -s "%s" skin' % ios_dir_path)
 
-    with lcd('OpenTreeMap'):
+    with lcd(otm_dir):
         local('rm -f "Default.png" "Default@2x.png" '\
               '"Icon.png" "Icon@2x.png" "Icon-72.png" "Icon-72@2x.png"')
-        local('cp "../%s/ios/images/splash_screen.png" '\
-              'Default.png' % git_clone_path)
-        local('cp "../%s/ios/images/splash_screen@2x.png" '\
-              '"Default@2x.png"' % git_clone_path)
-        local('cp "../%s/ios/icons/iphone_app-icon.png" '\
-              'Icon.png' % git_clone_path)
-        local('cp "../%s/ios/icons/iphone_app-icon@2x.png" '\
-              '"Icon@2x.png"' % git_clone_path)
-        local('cp "../%s/ios/icons/ipad_app-icon.png" '\
-              'Icon-72.png' % git_clone_path)
-        local('cp "../%s/ios/icons/ipad_app-icon@2x.png" '\
-              'Icon-72@2x.png' % git_clone_path)
+        local('cp "%s/images/splash_screen.png" '\
+              'Default.png' % ios_dir_path)
+        local('cp "%s/images/splash_screen@2x.png" '\
+              '"Default@2x.png"' % ios_dir_path)
+        local('cp "%s/icons/iphone_app-icon.png" '\
+              'Icon.png' % ios_dir_path)
+        local('cp "%s/icons/iphone_app-icon@2x.png" '\
+              '"Icon@2x.png"' % ios_dir_path)
+        local('cp "%s/icons/ipad_app-icon.png" '\
+              'Icon-72.png' % ios_dir_path)
+        local('cp "%s/icons/ipad_app-icon@2x.png" '\
+              'Icon-72@2x.png' % ios_dir_path)
 
-    convert_choices("%s/choices.py" % git_clone_path, "OpenTreeMap/Choices.plist")
-        
+    convert_choices("%s/../choices.py" % ios_dir_path, os.path.join(otm_dir, "Choices.plist"))
