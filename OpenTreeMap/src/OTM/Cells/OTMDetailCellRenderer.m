@@ -214,6 +214,14 @@
     return dict;
 }
 
+-(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
+    if ([ktype isEqualToString:@"UIKeyboardTypeDecimalPad"]) {
+        return UIKeyboardTypeDecimalPad;
+    } else {
+        return UIKeyboardTypeDefault;
+    }
+}
+
 #define kOTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {

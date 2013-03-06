@@ -172,7 +172,7 @@
         dest.delegate = self;
         if (self.mode == Select) {
             dest.navigationItem.title = @"Tree Detail";
-        } else if (self.mode = Add) {
+        } else if (self.mode == Add) {
             dest.navigationItem.title = @"New Tree";
         }
 
@@ -228,7 +228,7 @@
 - (IBAction)showTreePhotoFullscreen:(id)sender {
     NSArray *images = [[self.selectedPlot objectForKey:@"tree"] objectForKey:@"images"];
     NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
-    
+
     if (imageURL) {
         [self performSegueWithIdentifier:@"showImage" sender:imageURL];
     }
@@ -275,9 +275,9 @@
 
     taddress = [plot objectForKey:@"address"];
 
-    if (tdbh == nil || tdbh == @"<null>") { tdbh = @"Missing Diameter"; }
-    if (tspecies == nil || tspecies == @"<null>") { tspecies = @"Missing Species"; }
-    if (taddress == nil || taddress == @"<null>" || [taddress isEqualToString:@""]) { taddress = @"No Address"; }
+    if (tdbh == nil || [tdbh isEqual:@"<null>"]) { tdbh = @"Missing Diameter"; }
+    if (tspecies == nil || [tspecies isEqual:@"<null>"]) { tspecies = @"Missing Species"; }
+    if (taddress == nil || [taddress isEqual:@"<null>"] || [taddress isEqualToString:@""]) { taddress = @"No Address"; }
 
     [self.dbh setText:tdbh];
     [self.species setText:tspecies];

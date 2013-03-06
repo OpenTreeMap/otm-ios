@@ -731,10 +731,10 @@
 {
     NSString *title;
     NSString *destructiveButtonTitle;
-    if (deleteType == @"tree") {
+    if ([deleteType isEqual:@"tree"]) {
         title = @"Remove the tree from this planting site?";
         destructiveButtonTitle = @"Remove Tree";
-    } else if (deleteType == @"plot") {
+    } else if ([deleteType isEqual:@"plot"]) {
         title = @"Remove this planting site?";
         destructiveButtonTitle = @"Remove Planting Site";
     }
@@ -786,9 +786,9 @@
     if (buttonIndex == 0) { // The destructive button is always at index 0
         NSInteger plotId = [[data objectForKey:@"id"] intValue];
         OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
-        if (deleteType == @"tree") {
+        if ([deleteType isEqual:@"tree"]) {
             [self deleteTreeFromPlot:plotId user:user];
-        } else if (deleteType == @"plot") {
+        } else if ([deleteType isEqual:@"plot"]) {
             [self deletePlot:plotId user:user];
         }
     }
