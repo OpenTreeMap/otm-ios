@@ -421,7 +421,7 @@
     CGFloat padding = 10.0f;
 
     CGRect nameFrame = CGRectMake(21,0,320,50);
-    CGRect leftFrame = CGRectMake(106,10,79,31);
+    CGRect leftFrame = CGRectMake(135,10,65,31);
     CGRect toFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding, 0);
     CGRect rightFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding + 25, 0);
 
