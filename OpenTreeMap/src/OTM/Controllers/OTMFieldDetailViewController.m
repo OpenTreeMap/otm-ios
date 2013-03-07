@@ -214,7 +214,7 @@
             } else {
                 valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
             }
-            if (valueString && valueString != @"") {
+            if (valueString && ![valueString isEqual:@""]) {
                 cell.textLabel.text = valueString;
             } else {
                 cell.textLabel.text = @"No Value";
