@@ -44,6 +44,8 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.clickURL]];
 }
 
+#define OTMChoicesDetailCellRenndererShowUrlLinkButtonView 19191
+
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMChoicesDetailCellRendererTableCellId];
 
@@ -75,12 +77,15 @@
     detailcell.fieldLabel.text = self.label;
     detailcell.fieldValue.text = output;
 
-    UIButton *link = [UIButton buttonWithType:UIButtonTypeInfoDark];
-    [link addTarget:self action:@selector(showLink:) forControlEvents:UIControlEventTouchUpInside];
-    CGSize titleSize = [self.label sizeWithFont:detailcell.fieldLabel.font];
-    link.frame = CGRectOffset(link.frame, 38 + titleSize.width, 13);
-
+    [[detailcell viewWithTag:OTMChoicesDetailCellRenndererShowUrlLinkButtonView] removeFromSuperview];
+    
     if (self.clickURL) {
+        UIButton *link = [UIButton buttonWithType:UIButtonTypeInfoDark];
+        link.tag = OTMChoicesDetailCellRenndererShowUrlLinkButtonView;
+        [link addTarget:self action:@selector(showLink:) forControlEvents:UIControlEventTouchUpInside];
+        CGSize titleSize = [self.label sizeWithFont:detailcell.fieldLabel.font];
+        link.frame = CGRectOffset(link.frame, 38 + titleSize.width, 13);
+        
         [detailcell addSubview:link];
     }
 
