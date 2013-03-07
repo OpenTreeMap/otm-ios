@@ -147,7 +147,7 @@
         if (cell.textLabel.text == nil) {
             cell.textLabel.text = @"(No Species)";
         }
-        if ([tree valueForKey:@"dbh"] && [tree valueForKey:@"dbh"] != @"<null>") {
+        if ([tree valueForKey:@"dbh"] && ![[tree valueForKey:@"dbh"] isEqual:@"<null>"]) {
             NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
             cell.detailTextLabel.text = [NSString stringWithFormat:fmt,
                                                  [[tree valueForKey:@"dbh"] doubleValue]];

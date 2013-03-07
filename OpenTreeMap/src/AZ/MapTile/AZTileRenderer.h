@@ -34,9 +34,6 @@ typedef NSUInteger AZPointStyle;
 
 +(AZRenderedTile *)createTile:(AZTile *)tile renderedTile:(AZRenderedTile *)rendered filters:(OTMFilters *)filters;
 
-+(UIImage *)stampForZoom:(MKZoomScale)zoom plot:(BOOL)plot;
-
-
 +(void)drawImage:(AZPointerArrayWrapper *)points
        zoomScale:(MKZoomScale)zoomScale
          xOffset:(CGFloat)xoffset

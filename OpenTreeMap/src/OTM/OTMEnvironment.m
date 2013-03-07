@@ -242,7 +242,7 @@
 }
 
 -(NSArray *)fieldKeys {
-    return fields;
+    return (NSArray* )fields;
 }
 
 
