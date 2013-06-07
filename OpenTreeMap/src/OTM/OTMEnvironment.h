@@ -109,6 +109,7 @@
 @property (nonatomic, strong) NSString *currencyUnit;
 @property (nonatomic) double detailLatSpan;
 @property (nonatomic, strong) NSString *localizedZipCodeName;
+@property (nonatomic) UIKeyboardType zipcodeKeyboard;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 
