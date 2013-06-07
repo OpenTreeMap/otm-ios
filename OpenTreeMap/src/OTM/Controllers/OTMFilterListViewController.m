@@ -105,9 +105,9 @@
     }
 }
 
-@end 
+@end
 
-@interface OTMFilter () 
+@interface OTMFilter ()
 - (void)setName:(NSString *)s;
 - (void)setKey:(NSString *)k;
 - (void)setView:(UIView *)k;
@@ -222,7 +222,7 @@
     nameLbl.backgroundColor = [UIColor clearColor];
     nameLbl.textAlignment = UITextAlignmentLeft;
     nameLbl.text = self.name;
-  
+
     CGRect switchRect = CGRectMake(0,0,79,27); // this isthe default (and only?) size for an iOS toggle switch
     CGFloat rightPad = 20.0;
     CGFloat ox = r.size.width - (rightPad + switchRect.size.width);
@@ -273,13 +273,13 @@
         tvc = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
         tvc.tableView.delegate = (id<UITableViewDelegate>)self;
         tvc.tableView.dataSource = (id<UITableViewDataSource>)self;
-        
+
         tvc.navigationItem.rightBarButtonItem =
             [[UIBarButtonItem alloc] initWithTitle:@"Clear"
                                              style:UITableViewStylePlain
                                             target:self
                                             action:@selector(clear)];
-        
+
         allChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:choiceKey];
         selectedChoice = nil;
 
@@ -288,7 +288,7 @@
                    action:@selector(pushTableViewController)
          forControlEvents:UIControlEventTouchUpInside];
     }
-    
+
     return self;
 }
 
@@ -358,7 +358,7 @@
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     selectedChoice = [allChoices objectAtIndex:[indexPath row]];
-    
+
     [self updateButtonText];
     [tblView reloadData];
 }
@@ -367,21 +367,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *selectedDict = [allChoices objectAtIndex:[indexPath row]];
-    
+
     UITableViewCell *aCell = [tblView dequeueReusableCellWithIdentifier:kOTMEditChoicesDetailCellRendererCellId];
-    
+
     if (aCell == nil) {
         aCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:kOTMEditChoicesDetailCellRendererCellId];
     }
-    
+
     aCell.textLabel.text = [selectedDict objectForKey:@"value"];
     aCell.accessoryType = UITableViewCellAccessoryNone;
-    
+
     if ([[selectedDict objectForKey:@"value"] isEqualToString:[self selectedValue]]) {
-        aCell.accessoryType = UITableViewCellAccessoryCheckmark;            
+        aCell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
-    
+
     return aCell;
 }
 
@@ -431,8 +431,8 @@
     minValue = [[UITextField alloc] initWithFrame:leftFrame];
     maxValue = [[UITextField alloc] initWithFrame:rightFrame];
 
-    minValue.keyboardType = UIKeyboardTypeNumberPad;
-    maxValue.keyboardType = UIKeyboardTypeNumberPad;
+    minValue.keyboardType = UIKeyboardTypeDecimalPad;
+    maxValue.keyboardType = UIKeyboardTypeDecimalPad;
 
     [minValue setDelegate:[self delegate]];
     [maxValue setDelegate:[self delegate]];
@@ -456,7 +456,7 @@
     [super setDelegate:d];
     [minValue setDelegate:d];
     [maxValue setDelegate:d];
-}   
+}
 
 - (BOOL)active {
     //TODO- How to handle this?
@@ -524,7 +524,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)setAllFilters:(OTMFilters *)f 
+- (void)setAllFilters:(OTMFilters *)f
 {
     self.missingTree.on = f.missingTree;
     self.missingDBH.on = f.missingDBH;
@@ -584,7 +584,7 @@
                                         otherFiltersView.frame.origin.y + 18,
                                         otherFiltersView.frame.size.width,
                                         0.0);
-  
+
     for(OTMFilter *filter in filters) {
         filter.delegate = self;
         UIView *v = [filter view];
@@ -595,11 +595,11 @@
                                             otherFiltersView.frame.origin.y,
                                             otherFiltersView.frame.size.width,
                                             otherFiltersView.frame.size.height + v.frame.size.height + pad);
-    }    
+    }
 
     scrollView.contentSize = CGSizeMake(otherFiltersView.frame.size.width,
                                         otherFiltersView.frame.origin.y + otherFiltersView.frame.size.height + pad);
-  
+
 }
 
 - (void)setSpeciesName:(NSString *)name {
@@ -613,7 +613,7 @@
 }
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"pushSpecies"]) {
         OTMSpeciesTableViewController *vc = (OTMSpeciesTableViewController *)segue.destinationViewController;
