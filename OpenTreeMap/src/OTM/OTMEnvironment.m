@@ -20,7 +20,7 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit, distanceUnit, distanceBiggerUnit, distanceBiggerUnitFactor, distanceFromMetersFactor, localizedZipCodeName;
+@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit, distanceUnit, distanceBiggerUnit, distanceBiggerUnitFactor, distanceFromMetersFactor, localizedZipCodeName, zipcodeKeyboard;
 
 + (id)sharedEnvironment
 {
@@ -79,6 +79,12 @@
     self.localizedZipCodeName = [implementation objectForKey:@"OTMZipCodeLabel"];
     if (self.localizedZipCodeName == nil) {
         self.localizedZipCodeName = @"Zip Code";
+    }
+
+    if ([[implementation objectForKey:@"OTMZipCodeKeyboard"] isEqualToString:@"uk"]) {
+      self.zipcodeKeyboard = UIKeyboardTypeDefault;
+    } else {
+      self.zipcodeKeyboard = UIKeyboardTypeNumberPad;
     }
 
     self.distanceUnit = [implementation objectForKey:@"OTMDistanceUnit"];
