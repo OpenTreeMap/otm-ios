@@ -58,7 +58,16 @@
                                                                                       display:@""]
                                                       display:@"Your zip code must be 5 digits or empty"];
 
-    return [NSArray arrayWithObjects:verifyPW, verifyEmail, pwMinLength, usernameNotBlank, zipcode, nil];
+
+
+    NSArray *validations = [NSArray arrayWithObjects:verifyPW, verifyEmail, pwMinLength, usernameNotBlank, nil];
+
+    if ([[OTMEnvironment sharedEnvironment]
+          zipcodeKeyboard] == UIKeyboardTypeNumberPad) {
+      validations = [validations arrayByAddingObject:zipcode];
+    }
+
+    return validations;
 }
 
 
