@@ -414,6 +414,14 @@
     return [super view];
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
+    NSString *newText = [textField.text stringByReplacingCharactersInRange:range
+                                                                withString:string];
+
+    return [[newText componentsSeparatedByString:@"."] count] <= 2;
+}
+
 - (UIView *)createView {
     CGRect r = CGRectMake(0,0,320,55);
     [self setView:[[UIView alloc] initWithFrame:r]];
@@ -434,8 +442,8 @@
     minValue.keyboardType = UIKeyboardTypeDecimalPad;
     maxValue.keyboardType = UIKeyboardTypeDecimalPad;
 
-    [minValue setDelegate:[self delegate]];
-    [maxValue setDelegate:[self delegate]];
+    [minValue setDelegate:self];
+    [maxValue setDelegate:self];
 
     minValue.borderStyle = UITextBorderStyleRoundedRect;
     maxValue.borderStyle = UITextBorderStyleRoundedRect;
@@ -454,13 +462,10 @@
 
 - (void)setDelegate:(id)d {
     [super setDelegate:d];
-    [minValue setDelegate:d];
-    [maxValue setDelegate:d];
 }
 
 - (BOOL)active {
-    //TODO- How to handle this?
-    return ([minValue.text intValue] != 0 || [maxValue.text intValue] != 0);
+    return ([minValue.text floatValue] != 0 || [maxValue.text floatValue] != 0);
 }
 
 - (void)clear {
