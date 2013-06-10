@@ -192,6 +192,8 @@
     self.zipCode.keyboardType = [[OTMEnvironment sharedEnvironment]
                                   zipcodeKeyboard];
 
+    zipCode.placeholder = [[OTMEnvironment sharedEnvironment] localizedZipCodeName];
+
     self.scrollView.contentSize = CGSizeMake(320, 460);
 }
 
