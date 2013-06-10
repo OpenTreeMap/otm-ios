@@ -50,7 +50,8 @@
 -(void)syncTopData {
     if (self.data) {
         self.address.text = [self.data objectForKey:@"address"];
-        if (!self.address.text || [self.address.text isEqualToString:@""]) {
+        if (!self.address.text || self.address.text == [NSNull null] ||
+            [self.address.text isEqualToString:@""]) {
             self.address.text = @"No Address";
         }
 
