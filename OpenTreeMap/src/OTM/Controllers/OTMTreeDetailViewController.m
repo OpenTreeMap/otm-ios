@@ -629,7 +629,7 @@
 
 - (BOOL)canEditThing:(NSString *)thing {
     NSDictionary *perms = [data objectForKey:@"perm"];
-    if (perms) {
+    if (perms && [perms objectForKey:thing]) {
         return [[[perms objectForKey:thing] objectForKey:@"can_edit"] intValue] == 1;
     } else { // If there aren't specific permissions, allow it
         return YES;
