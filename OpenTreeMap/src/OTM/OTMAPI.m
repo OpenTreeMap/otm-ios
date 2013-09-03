@@ -232,12 +232,13 @@
 }
 
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback {
-    [_request post:@"user/:user_id/photo/profile"
+     [_request post:@"user/:user_id/photo/profile"
          withUser:user
            params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                               forKey:@"user_id"]
-             data:UIImagePNGRepresentation(user.photo)
-      contentType:@"image/png"
+              // JPEG compression level is 0.0 to 1.0 with 1.0 being no compression, so 0.2 is 80% compression.
+              data:UIImageJPEGRepresentation(user.photo, 0.2)
+      contentType:@"image/jpeg"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 

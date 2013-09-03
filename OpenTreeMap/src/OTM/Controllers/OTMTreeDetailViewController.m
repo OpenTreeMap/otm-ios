@@ -49,9 +49,12 @@
 
 -(void)syncTopData {
     if (self.data) {
-        self.address.text = [self.data objectForKey:@"address"];
-        if (!self.address.text || [self.address.text isEqualToString:@""]) {
+        NSString *addr = [self.data objectForKey:@"address"];
+        if (!addr || (id)addr == [NSNull null] ||
+            [addr isEqualToString:@""]) {
             self.address.text = @"No Address";
+        } else {
+            self.address.text = addr;
         }
 
         NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species"];
@@ -626,7 +629,7 @@
 
 - (BOOL)canEditThing:(NSString *)thing {
     NSDictionary *perms = [data objectForKey:@"perm"];
-    if (perms) {
+    if (perms && [perms objectForKey:thing]) {
         return [[[perms objectForKey:thing] objectForKey:@"can_edit"] intValue] == 1;
     } else { // If there aren't specific permissions, allow it
         return YES;

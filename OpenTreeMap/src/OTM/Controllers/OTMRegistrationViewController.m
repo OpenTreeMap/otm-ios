@@ -29,12 +29,9 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-    }
     return self;
-}                                                    
-              
+}
+
 +(NSArray *)validations {
     OTMValidatorValidation verifyPW = [^(OTMRegistrationViewController* vc) {
         if (![vc.password.text isEqualToString:vc.verifyPassword.text]) {
@@ -43,25 +40,34 @@
             return (NSString *)nil;
         }
     } copy];
-    
+
     OTMValidatorValidation verifyEmail = [OTMTextFieldValidator emailValidation:@"email"
                                                                display:@"Email"];
-    
+
     OTMValidatorValidation pwMinLength = [OTMTextFieldValidator minLengthValidation:@"password"
                                                                    display:@"Password"
                                                                  minLength:6];
-    
+
     OTMValidatorValidation usernameNotBlank = [OTMTextFieldValidator notBlankValidation:@"username"
                                                                        display:@"Username"];
-    
+
     OTMValidatorValidation zipcode = [OTMValidator validation:[OTMTextFieldValidator lengthValidation:@"zipCode"
                                                                                      display:@"Your zip code"
                                                                                       length:5]
                                                            or:[OTMTextFieldValidator isBlankValidation:@"zipCode"
                                                                                       display:@""]
                                                       display:@"Your zip code must be 5 digits or empty"];
-    
-    return [NSArray arrayWithObjects:verifyPW, verifyEmail, pwMinLength, usernameNotBlank, zipcode, nil];
+
+
+
+    NSArray *validations = [NSArray arrayWithObjects:verifyPW, verifyEmail, pwMinLength, usernameNotBlank, nil];
+
+    if ([[OTMEnvironment sharedEnvironment]
+          zipcodeKeyboard] == UIKeyboardTypeNumberPad) {
+      validations = [validations arrayByAddingObject:zipcode];
+    }
+
+    return validations;
 }
 
 
@@ -70,12 +76,12 @@
 
 -(void)registrationSuccess:(OTMUser *)user {
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowUserRegistered
-                                                        object:user];    
+                                                        object:user];
 }
 
 -(void)savePhoto:(OTMUser *)user {
     [[[OTMEnvironment sharedEnvironment] api] setProfilePhoto:user
-                                                     callback:^(id json, NSError *error) 
+                                                     callback:^(id json, NSError *error)
      {
          if (error != nil) {
              [[[UIAlertView alloc] initWithTitle:@"Server Error"
@@ -100,9 +106,9 @@
         user.email = self.email.text;
         user.zipcode = self.zipCode.text;
         user.photo = self.profileImage.image;
-        
+
         [[[OTMEnvironment sharedEnvironment] api] createUser:user
-                                                   callback:^(OTMUser *user, OTMAPILoginResponse status) 
+                                                   callback:^(OTMUser *user, OTMAPILoginResponse status)
         {
             if (status == kOTMAPILoginResponseOK) {
                 if (user.photo != nil) {
@@ -137,7 +143,7 @@
                                 message:@"Would you like to select a profile picture?"
                       cancelButtonTitle:@"No"
                        otherButtonTitle:@"Yes"
-                               callback:^(UIAlertView* alertview, int btnIdx) 
+                               callback:^(UIAlertView* alertview, int btnIdx)
         {
             // This gets around a weird bug where showing the picker while
             // the alert view is already up yields a weird state where
@@ -147,13 +153,13 @@
                     [self createNewUser:nil];
                 } else {
                     [pictureTaker getPictureInViewController:self
-                                                    callback:^(UIImage *image) 
+                                                    callback:^(UIImage *image)
                      {
                          if (image) {
                              self.profileImage.image = image;
-                             
+
                              [self.changeProfilePic setTitle:@"Update Profile Picture"
-                                                    forState:UIControlStateNormal];                                                  
+                                                    forState:UIControlStateNormal];
                          }
                      }];
                 }
@@ -164,25 +170,30 @@
 
 -(IBAction)getPicture:(id)sender {
     [pictureTaker getPictureInViewController:self
-                                    callback:^(UIImage *image) 
+                                    callback:^(UIImage *image)
      {
          if (image) {
-             self.profileImage.image = image;                                                 
+             self.profileImage.image = image;
          }
-     }];    
+     }];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     if (validator == nil) {
         validator = [[OTMValidator alloc] initWithValidations:[OTMRegistrationViewController validations]];
     }
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
-    
+
+    self.zipCode.keyboardType = [[OTMEnvironment sharedEnvironment]
+                                  zipcodeKeyboard];
+
+    zipCode.placeholder = [[OTMEnvironment sharedEnvironment] localizedZipCodeName];
+
     self.scrollView.contentSize = CGSizeMake(320, 460);
 }
 

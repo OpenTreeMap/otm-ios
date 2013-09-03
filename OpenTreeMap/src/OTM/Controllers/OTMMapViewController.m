@@ -277,7 +277,9 @@
 
     if (tdbh == nil || [tdbh isEqual:@"<null>"]) { tdbh = @"Missing Diameter"; }
     if (tspecies == nil || [tspecies isEqual:@"<null>"]) { tspecies = @"Missing Species"; }
-    if (taddress == nil || [taddress isEqual:@"<null>"] || [taddress isEqualToString:@""]) { taddress = @"No Address"; }
+    if (taddress == nil || [taddress isEqual:@"<null>"] ||
+            taddress == [NSNull null] ||
+            [taddress isEqualToString:@""]) { taddress = @"No Address"; }
 
     [self.dbh setText:tdbh];
     [self.species setText:tspecies];
