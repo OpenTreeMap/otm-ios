@@ -14,12 +14,11 @@ def resign_for_distribution(ipa, dist_profile, adhoc_profile, sign_name, appid_p
         ents = entsh.read()
         entsh.close()
 
-        if switch_to_org:
-            ents = ents.replace("$(AppIdentifierPrefix).com.",
-                                "$(AppIdentifierPrefix).org.")
-
         ents = ents.replace("$(AppIdentifierPrefix)",appid_prefix + ".")
         ents = ents.replace("$(AppIdentifierSuffix)", "." + appid_suffix)
+
+        if switch_to_org:
+            ents = ents.replace(".com.",".org.")
 
         entsh = open(entfile,'w')
         entsh.write(ents)
