@@ -51,6 +51,7 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
 @property (nonatomic,strong) AZHttpRequest* request;
 @property (nonatomic,strong) AZHttpRequest* noPrefixRequest;
 
++(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
 
 /**

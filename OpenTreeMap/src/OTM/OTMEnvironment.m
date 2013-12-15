@@ -187,7 +187,7 @@
 
     [self setMapViewTitle:[mapView valueForKey:@"MapViewTitle"]];
 
-    OTMAPI* otmApi = [[OTMAPI alloc] init];
+    OTMAPI* otmApi = [[OTM2API alloc] init];
 
     NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];
     NSDictionary* version = [[NSDictionary alloc] initWithContentsOfFile:versionPlistPath];
@@ -223,6 +223,7 @@
 
     self.tileRequest = treq;
     self.api = otmApi;
+    self.api2 = otmApi;
 
     return self;
 }
