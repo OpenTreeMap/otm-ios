@@ -48,37 +48,15 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+
     NSString *instance = @"e";
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
     [api loadInstanceInfo:instance
              withCallback:^(id json, NSError *error) {
-            OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
-
-            env.instance = instance;
-            env.instanceId = [json objectForKey:@"instanceId"];
-            env.geoRev = [json objectForKey:@"geoRev"];
-
-            NSDictionary* center = [json objectForKey:@"center"];
-
-            CGFloat lat = [[center objectForKey:@"lat"] floatValue];
-            CGFloat lng = [[center objectForKey:@"lng"] floatValue];
-
-            CLLocationCoordinate2D initialLatLon =
-                 CLLocationCoordinate2DMake(lat, lng);
-
-            MKCoordinateSpan initialCoordinateSpan =
-                 MKCoordinateSpanMake(1.0, 1.0);
-
-            [env setMapViewInitialCoordinateRegion:
-                    MKCoordinateRegionMake(initialLatLon,
-                                           initialCoordinateSpan)];
-
-            NSLog(@"Test %@", json);
-
-            [self initView];
-             }];
- }
+        [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+        [self initView];
+      }];
+}
 
 - (void)initView {
     firstAppearance = YES;
@@ -277,14 +255,14 @@
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
         NSDictionary *pendingEdits = [plot objectForKey:@"pending_edits"];
-        NSDictionary *latestDbhEdit = [[[pendingEdits objectForKey:@"tree.dbh"] objectForKey:@"pending_edits"] objectAtIndex:0];
+        NSDictionary *latestDbhEdit = [[[pendingEdits objectForKey:@"tree.diameter"] objectForKey:@"pending_edits"] objectAtIndex:0];
 
         NSString* dbhValue;
 
         if (latestDbhEdit) {
             dbhValue = [latestDbhEdit objectForKey:@"value"];
         } else {
-            dbhValue = [tree objectForKey:@"dbh"];
+            dbhValue = [tree objectForKey:@"diameter"];
         }
 
         NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
@@ -297,7 +275,7 @@
         if (latestSpeciesEdit) {
             tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            tspecies = [[tree objectForKey:@"species_name"] description];
+            tspecies = [[tree objectForKey:@"species"] objectForKey:@"scientific_name"];
         }
     }
 
@@ -306,7 +284,7 @@
     if (tdbh == nil || [tdbh isEqual:@"<null>"]) { tdbh = @"Missing Diameter"; }
     if (tspecies == nil || [tspecies isEqual:@"<null>"]) { tspecies = @"Missing Species"; }
     if (taddress == nil || [taddress isEqual:@"<null>"] ||
-            taddress == [NSNull null] ||
+            [taddress isKindOfClass:[NSNull class]] ||
             [taddress isEqualToString:@""]) { taddress = @"No Address"; }
 
     [self.dbh setText:tdbh];
@@ -566,11 +544,12 @@
      }];
 }
 
-- (void)selectPlot:(NSDictionary *)plot
+- (void)selectPlot:(NSDictionary *)dict
 {
-    self.selectedPlot = [plot mutableDeepCopy];
+    self.selectedPlot = [dict mutableDeepCopy];
 
-    NSDictionary* tree = [plot objectForKey:@"tree"];
+    NSDictionary *plot = [dict objectForKey:@"plot"];
+    NSDictionary* tree = [dict objectForKey:@"tree"];
 
     self.treeImage.image = nil;
 
@@ -590,7 +569,7 @@
         }
     }
 
-    [self setDetailViewData:plot];
+    [self setDetailViewData:dict];
     [self slideDetailUpAnimated:YES];
 
     CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:plot];

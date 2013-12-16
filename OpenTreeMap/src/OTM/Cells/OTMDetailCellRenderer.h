@@ -18,11 +18,9 @@
 #import "OTMDBHTableViewCell.h"
 #import "OTMBenefitsTableViewCell.h"
 
-#define kOTMDefaultDetailRenderer OTMLabelDetailCellRenderer
 #define kOTMDefaultEditDetailRenderer OTMLabelEditDetailCellRenderer
 
 @class OTMEditDetailCellRenderer;
-@class OTMUser;
 
 /**
  * Generic interface for rendering cells
@@ -31,10 +29,6 @@
  */
 @interface OTMDetailCellRenderer : NSObject
 
-/**
- * Use the given dict as the bases for the cell renderer
- */
-+(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict user:(OTMUser *)user;
 
 /**
  * Key to access data for this cell
@@ -84,10 +78,8 @@
 @property (nonatomic,strong) Function1v clickCallback;
 @property (nonatomic,assign) CGFloat cellHeight;
 
-/**
- * Initialize with dictionary structure
- */
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user;
+-(id)initWithDataKey:(NSString *)dkey;
+-(id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit;
 
 /**
  * Given a tableView create a new cell (or reuse an old one), prepare
@@ -110,8 +102,6 @@ ABSTRACT_METHOD
  */
 @interface OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
-+(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict user:(OTMUser *)user;
-
 ABSTRACT_METHOD
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
 
@@ -125,6 +115,11 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) NSString *formatStr;
 
+-(id)initWithDataKey:(NSString *)dkey
+        editRenderer:(OTMEditDetailCellRenderer *)edit
+               label:(NSString *)labeltxt
+              format:(NSString*)format;
+
 @end
 
 @interface OTMLabelEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
@@ -133,7 +128,7 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) NSString *updatedString;
 
--(UIKeyboardType)decodeKeyboard:(NSString *)ktype;
+-(id)initWithDataKey:(NSString *)dkey label:(NSString *)label keyboard:(UIKeyboardType)keyboard;
 
 @end
 
