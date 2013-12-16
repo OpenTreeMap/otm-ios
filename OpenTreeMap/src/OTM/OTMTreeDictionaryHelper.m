@@ -34,17 +34,12 @@
 
 +(CLLocationCoordinate2D)getCoordinateFromDictionary:(NSDictionary *)dict
 {
-    NSDictionary *geometryDict = [dict objectForKey:@"geometry"];
+    NSDictionary *geometryDict = [dict objectForKey:@"geom"];
 
-    float lat = [[geometryDict objectForKey:@"lat"] floatValue];
-    float lon;
-    if ([geometryDict objectForKey:@"lon"]) {
-        lon = [[geometryDict objectForKey:@"lon"] floatValue];
-    } else {
-        lon = [[geometryDict objectForKey:@"lng"] floatValue];
-    }
+    float lat = [[geometryDict objectForKey:@"y"] floatValue];
+    float lng = [[geometryDict objectForKey:@"x"] floatValue];
 
-    return CLLocationCoordinate2DMake(lat, lon);
+    return CLLocationCoordinate2DMake(lat, lng);
 }
 
 
