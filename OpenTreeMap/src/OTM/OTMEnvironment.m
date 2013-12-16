@@ -228,6 +228,11 @@
     return self;
 }
 
+-(void)setInstance:(NSString *)instance {
+    _instance = instance;
+    _api2.request.baseURL = [self.baseURL stringByAppendingFormat:@"%@/",instance];
+}
+
 -(UIColor *)colorFromArray:(NSArray *)array defaultColor:(UIColor *)c {
     if (array == nil || [array count] != 4) {
         return c;
