@@ -45,6 +45,10 @@
 
 - (void)viewDidLoad
 {
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     NSString *instance = @"e";
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
     [api loadInstanceInfo:instance
