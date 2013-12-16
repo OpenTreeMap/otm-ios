@@ -37,7 +37,7 @@
                                                    reuseIdentifier:kOTMMapDetailCellRendererTableCellId];
     } 
     
-    CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data];
+    CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data[@"plot"]];
     
     [detailCell annotateCenter:center];
     
