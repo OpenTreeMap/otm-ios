@@ -108,7 +108,7 @@
         user.photo = self.profileImage.image;
 
         [[[OTMEnvironment sharedEnvironment] api] createUser:user
-                                                   callback:^(OTMUser *user, OTMAPILoginResponse status)
+                                                   callback:^(OTMUser *user, NSDictionary *instance, OTMAPILoginResponse status)
         {
             if (status == kOTMAPILoginResponseOK) {
                 if (user.photo != nil) {

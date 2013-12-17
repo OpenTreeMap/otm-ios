@@ -49,9 +49,8 @@
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
 
-    NSString *instance = @"e";
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
-    [api loadInstanceInfo:instance
+    [api loadInstanceInfo:[[OTMEnvironment sharedEnvironment] instance]
              withCallback:^(id json, NSError *error) {
         [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
         [self initView];
