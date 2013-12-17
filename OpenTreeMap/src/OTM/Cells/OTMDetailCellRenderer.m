@@ -21,19 +21,6 @@
 
 @synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey, ownerDataKey;
 
-+(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user {
-    NSString *clazz = [dict objectForKey:@"class"];
-
-    OTMDetailCellRenderer *renderer;
-    if (clazz == nil) {
-        renderer = [[kOTMDefaultDetailRenderer alloc] initWithDict:dict user:user];
-    } else {
-        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
-    }
-
-    return renderer;
-}
-
 -(id)init {
     self = [super init];
 
@@ -44,18 +31,16 @@
     return self;
 }
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+-(id)initWithDataKey:(NSString *)dkey  {
+    return [self initWithDataKey:dkey editRenderer:nil];
+}
+
+-(id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit {
     self = [self init];
 
     if (self) {
-        dataKey = [dict objectForKey:@"key"];
-        ownerDataKey = [dict objectForKey:@"owner"];
-
-        id editLevel = [dict valueForKey:@"minimumToEdit"];
-
-        if (editLevel != nil && user != nil && user.level >= [editLevel intValue]) {
-            self.editCellRenderer = [OTMLabelEditDetailCellRenderer editCellRendererFromDict:dict user:user];
-        }
+        self.dataKey = dkey;
+        self.editCellRenderer = edit;
     }
 
     return self;
@@ -73,12 +58,15 @@
 
 @synthesize label, formatStr;
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)dkey
+        editRenderer:(OTMEditDetailCellRenderer *)edit
+               label:(NSString *)labeltxt
+              format:(NSString*)format {
+    self = [super initWithDataKey:dkey editRenderer:edit];
 
     if (self) {
-        label = [dict objectForKey:@"label"];
-        formatStr = [dict objectForKey:@"format"];
+        label = labeltxt;
+        formatStr = format;
     }
 
     return self;
@@ -121,13 +109,13 @@
 
 @synthesize cell;
 
- -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)datakey label:(NSString *)label {
+    self = [super initWithDataKey:datakey];
 
     if (self) {
         cell = [OTMBenefitsTableViewCell loadFromNib];
         self.cellHeight = cell.frame.size.height;
-        self.cell.benefitName.text = [dict objectForKey:@"label"];
+        self.cell.benefitName.text = label;
     }
 
     return self;
@@ -145,39 +133,12 @@
 
 @implementation OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
--(id)initWithDict:(NSDictionary *)dict  user:(OTMUser*)user {
-    self = [super init];
-
-    if (self) {
-        self.dataKey = [dict objectForKey:@"key"];
-    }
-
-    return self;
-}
-
--(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
-    if ([ktype isEqualToString:@"UIKeyboardTypeDecimalPad"]) {
-        return UIKeyboardTypeDecimalPad;
-    } else {
-        return UIKeyboardTypeDefault;
-    }
+-(id)initWithDataKey:(NSString *)dkey  {
+    return [super initWithDataKey:dkey];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     ABSTRACT_METHOD_BODY
-}
-
-+(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user{
-    NSString *clazz = [dict objectForKey:@"editClass"];
-
-    OTMEditDetailCellRenderer *renderer;
-    if (clazz == nil) {
-        renderer = [[kOTMDefaultEditDetailRenderer alloc] initWithDict:dict user:user];
-    } else {
-        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
-    }
-
-    return renderer;
 }
 
 @end
@@ -186,12 +147,12 @@
 
 @synthesize label, updatedString, keyboard;
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)dkey label:(NSString *)displayLabel keyboard:(UIKeyboardType)kboard {
+    self = [super initWithDataKey:dkey];
 
     if (self) {
-        keyboard = [self decodeKeyboard:[dict objectForKey:@"keyboard"]];
-        label = [dict objectForKey:@"label"];
+        self.keyboard = kboard;
+        self.label = displayLabel;
     }
 
     return self;
@@ -214,13 +175,6 @@
     return dict;
 }
 
--(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
-    if ([ktype isEqualToString:@"UIKeyboardTypeDecimalPad"]) {
-        return UIKeyboardTypeDecimalPad;
-    } else {
-        return UIKeyboardTypeDefault;
-    }
-}
 
 #define kOTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
@@ -251,8 +205,8 @@
 
 @synthesize cell;
 
- -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)dkey  {
+    self = [super initWithDataKey:dkey];
 
     if (self) {
         cell = [OTMDBHTableViewCell loadFromNib];

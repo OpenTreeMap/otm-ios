@@ -17,6 +17,8 @@
 #import "AZHttpRequest.h"
 #import "OTMDetailCellRenderer.h"
 #import "OTMFilterListViewController.h"
+#import "OTMDetailCellRenderer.h"
+#import "OTMMapDetailCellRenderer.h"
 
 @implementation OTMEnvironment
 
@@ -187,7 +189,7 @@
 
     [self setMapViewTitle:[mapView valueForKey:@"MapViewTitle"]];
 
-    OTMAPI* otmApi = [[OTMAPI alloc] init];
+    OTMAPI* otmApi = [[OTM2API alloc] init];
 
     NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];
     NSDictionary* version = [[NSDictionary alloc] initWithContentsOfFile:versionPlistPath];
@@ -223,8 +225,14 @@
 
     self.tileRequest = treq;
     self.api = otmApi;
+    self.api2 = otmApi;
 
     return self;
+}
+
+-(void)setInstance:(NSString *)instance {
+    _instance = instance;
+    _api2.request.baseURL = [self.baseURL stringByAppendingFormat:@"%@/",instance];
 }
 
 -(UIColor *)colorFromArray:(NSArray *)array defaultColor:(UIColor *)c {
@@ -251,5 +259,88 @@
     return (NSArray* )fields;
 }
 
+- (void)updateEnvironmentWithDictionary:(NSDictionary *)dict {
+    self.instance = [dict objectForKey:@"url"];
+    self.instanceId = [dict objectForKey:@"id"];
+    self.geoRev = [dict objectForKey:@"geoRev"];
+    self.fields = [self fieldsFromDictArray:[dict objectForKey:@"fields"]];
+
+    NSDictionary* center = [dict objectForKey:@"center"];
+
+    CGFloat lat = [[center objectForKey:@"lat"] floatValue];
+    CGFloat lng = [[center objectForKey:@"lng"] floatValue];
+
+    CLLocationCoordinate2D initialLatLon =
+        CLLocationCoordinate2DMake(lat, lng);
+
+    MKCoordinateSpan initialCoordinateSpan =
+        MKCoordinateSpanMake(1.0, 1.0);
+
+    [self setMapViewInitialCoordinateRegion:
+              MKCoordinateRegionMake(initialLatLon,
+                                     initialCoordinateSpan)];
+}
+
+- (NSArray *)fieldsFromDictArray:(NSDictionary *)modelmap {
+    NSMutableArray *fieldArray = [NSMutableArray array];
+
+    // Add the minimap at the top
+    [fieldArray addObject:[NSArray arrayWithObject:[[OTMMapDetailCellRenderer alloc] initWithDataKey:@"geom"]]];
+
+    /**
+     * Species models come along for the ride but we don't really
+     * care for them here
+     */
+    NSArray *validModels = [NSArray arrayWithObjects:@"tree", @"plot", nil];
+
+    [modelmap enumerateKeysAndObjectsUsingBlock:^(NSString *model, NSArray* fieldlist, BOOL *stop) {
+        if ([validModels containsObject:model]) {
+            NSMutableArray *modelFields = [NSMutableArray array];
+
+            [fieldlist enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
+                NSString *field = [dict objectForKey:@"field_name"];
+                NSString *displayField = [dict objectForKey:@"display_name"];
+                NSString *key = [NSString stringWithFormat:@"%@.%@", model, field];
+
+                if ([field isEqualToString:@"geom"] || [field isEqualToString:@"readonly"]) {
+                  // skip
+                } else if ([field isEqualToString:@"species"]) {
+                  OTMDetailCellRenderer *commonNameRenderer =
+                    [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
+                                                           editRenderer:nil
+                                                                  label:@"Common Name"
+                                                                 format:nil];
+                  OTMDetailCellRenderer *sciNameRenderer =
+                    [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
+                                                           editRenderer:nil
+                                                                  label:@"Scientific Name"
+                                                                 format:nil];
+
+                  [modelFields addObject:sciNameRenderer];
+                  [modelFields addObject:commonNameRenderer];
+                } else if ([field isEqualToString:@"diameter"]) {
+                  OTMDBHEditDetailCellRenderer *dbhEditRenderer =
+                    [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key];
+
+                  [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
+                                           initWithDataKey:key
+                                              editRenderer:dbhEditRenderer
+                                                     label:displayField
+                                                    format:nil]];
+                } else {
+                  [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
+                                           initWithDataKey:key
+                                              editRenderer:nil
+                                                     label:displayField
+                                                    format:nil]];
+                }
+            }];
+
+            [fieldArray addObject:modelFields];
+        }
+    }];
+
+    return fieldArray;
+}
 
 @end

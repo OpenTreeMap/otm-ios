@@ -57,19 +57,20 @@
             self.address.text = addr;
         }
 
-        NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species"];
+        NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species.common_name"];
         if (pendingSpeciesEditDict) {
             NSDictionary *latestEdit = [[pendingSpeciesEditDict objectForKey:@"pending_edits"] objectAtIndex:0];
             self.species.text = [[latestEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            if ([self.data decodeKey:@"tree.species_name"]) {
-                self.species.text = [self.data decodeKey:@"tree.species_name"];
+            if ([self.data decodeKey:@"tree.species.common_name"]) {
+                self.species.text = [self.data decodeKey:@"tree.species.common_name"];
             } else {
                 self.species.text = @"Missing Species";
             }
         }
 
-        NSString *upd_on = [self reformatLastUpdateDate:[self.data objectForKey:@"last_updated"]];
+        NSString *upd_on = [self reformatLastUpdateDate:
+                                   [[self.data objectForKey:@"latest_update"] objectForKey:@"created"]];
 
         if (upd_on == nil) {
             upd_on = @"just now";
@@ -95,7 +96,7 @@
 
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateFormatter *readFormatter = [[NSDateFormatter alloc] init];
-    [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SZ"];
     [readFormatter setCalendar:cal];
     [readFormatter setLocale:[NSLocale currentLocale]];
     NSDate *date = [readFormatter dateFromString:dateString];
@@ -110,6 +111,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
@@ -195,16 +200,12 @@
     NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow,pictureRow,nil];
     [editableFields addObject:speciesAndPicSection];
 
-    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
-    OTMUser *user = loginManager.loggedInUser;
-
-
     for(int section=0;section < [allFields count];section++) {
         NSMutableArray *sectionArray = [[allFields objectAtIndex:section] mutableCopy];
         NSMutableArray *editSectionArray = [NSMutableArray array];
 
         for(int row=0;row < [sectionArray count]; row++) {
-            OTMDetailCellRenderer *renderer = [OTMDetailCellRenderer cellRendererFromDict:[sectionArray objectAtIndex:row] user:user];
+            OTMDetailCellRenderer *renderer = [sectionArray objectAtIndex:row];
 
             if (renderer.editCellRenderer != nil) {
                 [editSectionArray addObject:renderer.editCellRenderer];

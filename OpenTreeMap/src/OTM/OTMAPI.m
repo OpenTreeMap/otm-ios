@@ -19,8 +19,6 @@
 #import "OTMEnvironment.h"
 
 @interface OTMAPI()
-+(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
-+(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 
 @end
 

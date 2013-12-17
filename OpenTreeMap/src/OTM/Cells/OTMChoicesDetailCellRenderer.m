@@ -21,20 +21,20 @@
 
 @synthesize label, fieldName, fieldChoices, clickURL;
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)datakey
+               label:(NSString *)labelname
+            clickUrl:(NSString *)clickurl
+           fieldName:(NSString *)fieldname {
+
+    self = [super initWithDataKey:datakey];
 
     if (self) {
-        label = [dict objectForKey:@"label"];
-        clickURL = [dict objectForKey:@"clickURL"];
-        fieldName = [dict objectForKey:@"fname"];
-        fieldChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:fieldName];
+        self.label = labelname;
+        self.clickURL = clickurl;
+        self.fieldName = fieldname;
 
-        id editLevel = [dict valueForKey:@"minimumToEdit"];
-
-        if (editLevel != nil && user != nil && user.level >= [editLevel intValue]) {
-            self.editCellRenderer = [[OTMEditChoicesDetailCellRenderer alloc] initWithDetailRenderer:self];
-        }
+        self.fieldChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:fieldName];
+        self.editCellRenderer = [[OTMEditChoicesDetailCellRenderer alloc] initWithDetailRenderer:self];
     }
 
     return self;
@@ -78,14 +78,14 @@
     detailcell.fieldValue.text = output;
 
     [[detailcell viewWithTag:OTMChoicesDetailCellRenndererShowUrlLinkButtonView] removeFromSuperview];
-    
+
     if (self.clickURL) {
         UIButton *link = [UIButton buttonWithType:UIButtonTypeInfoDark];
         link.tag = OTMChoicesDetailCellRenndererShowUrlLinkButtonView;
         [link addTarget:self action:@selector(showLink:) forControlEvents:UIControlEventTouchUpInside];
         CGSize titleSize = [self.label sizeWithFont:detailcell.fieldLabel.font];
         link.frame = CGRectOffset(link.frame, 38 + titleSize.width, 13);
-        
+
         [detailcell addSubview:link];
     }
 

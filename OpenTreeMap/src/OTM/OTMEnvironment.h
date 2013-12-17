@@ -16,6 +16,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import "OTMAPI.h"
+#import "OTM2API.h"
 
 /**
  An interface to global application settings that may change for each build configuration (i.e. Debug, Release)
@@ -93,7 +94,7 @@
 @property (nonatomic, strong) UIColor *buttonTextColor;
 @property (nonatomic, assign) BOOL pendingActive;
 @property (nonatomic, strong) NSArray* fieldSections;
-@property (nonatomic, strong) NSDictionary* fields;
+@property (nonatomic, strong) NSArray* fields;
 @property (nonatomic, strong) NSArray* filts;
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
@@ -118,5 +119,14 @@
 
 // Derived Properties
 @property (nonatomic, strong) OTMAPI* api;
+@property (nonatomic, strong) OTM2API* api2;
+
+// OTM2 props
+@property (nonatomic, strong) NSString* instance;
+@property (nonatomic, strong) NSString* instanceId;
+@property (nonatomic, strong) NSString* geoRev;
+@property (nonatomic, strong) NSString* host;
+
+- (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
 
 @end
