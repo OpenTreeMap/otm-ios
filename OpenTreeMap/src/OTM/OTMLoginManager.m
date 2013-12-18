@@ -34,7 +34,7 @@
         
         if (user.username && user.password && [user.username length] > 0 && [user.password length] > 0) {
             self.runningLogin = YES;
-            [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser *u, OTMAPILoginResponse loginResp)
+            [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser *u, NSDictionary *instance, OTMAPILoginResponse loginResp)
              {
                  if (loginResp == kOTMAPILoginResponseOK) {
                      self.loggedInUser = u;

@@ -23,9 +23,14 @@
 @interface OTM2API : OTMAPI {
 }
 
+@property (nonatomic, strong) AZHttpRequest *nonInstanceRequest;
 @property (nonatomic,strong) NSString* currentGeoRev;
 
 -(void)loadInstanceInfo:(NSString*)instance
+           withCallback:(AZJSONCallback)callback;
+
+-(void)loadInstanceInfo:(NSString*)instance
+                forUser:(AZUser*)user
            withCallback:(AZJSONCallback)callback;
 
 -(NSString *)tileUrlTemplateForInstanceId:(NSString *)iid

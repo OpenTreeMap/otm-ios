@@ -189,7 +189,7 @@
 
     [self setMapViewTitle:[mapView valueForKey:@"MapViewTitle"]];
 
-    OTMAPI* otmApi = [[OTM2API alloc] init];
+    OTM2API* otmApi = [[OTM2API alloc] init];
 
     NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];
     NSDictionary* version = [[NSDictionary alloc] initWithContentsOfFile:versionPlistPath];
@@ -233,6 +233,7 @@
 -(void)setInstance:(NSString *)instance {
     _instance = instance;
     _api2.request.baseURL = [self.baseURL stringByAppendingFormat:@"%@/",instance];
+    _api2.nonInstanceRequest.baseURL = self.baseURL;
 }
 
 -(UIColor *)colorFromArray:(NSArray *)array defaultColor:(UIColor *)c {
@@ -298,43 +299,51 @@
             NSMutableArray *modelFields = [NSMutableArray array];
 
             [fieldlist enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-                NSString *field = [dict objectForKey:@"field_name"];
-                NSString *displayField = [dict objectForKey:@"display_name"];
-                NSString *key = [NSString stringWithFormat:@"%@.%@", model, field];
+                    NSString *field = [dict objectForKey:@"field_name"];
+                    NSString *displayField = [dict objectForKey:@"display_name"];
+                    NSString *key = [NSString stringWithFormat:@"%@.%@", model, field];
+                    BOOL writable = [[dict objectForKey:@"can_write"] boolValue];
 
-                if ([field isEqualToString:@"geom"] || [field isEqualToString:@"readonly"]) {
-                  // skip
-                } else if ([field isEqualToString:@"species"]) {
-                  OTMDetailCellRenderer *commonNameRenderer =
-                    [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
-                                                           editRenderer:nil
-                                                                  label:@"Common Name"
-                                                                 format:nil];
-                  OTMDetailCellRenderer *sciNameRenderer =
-                    [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
-                                                           editRenderer:nil
-                                                                  label:@"Scientific Name"
-                                                                 format:nil];
+                    if ([field isEqualToString:@"geom"] || [field isEqualToString:@"readonly"]) {
+                        // skip
+                    } else if ([field isEqualToString:@"species"]) {
+                        OTMDetailCellRenderer *commonNameRenderer =
+                            [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
+                                                                   editRenderer:nil
+                                                                          label:@"Common Name"
+                                                                         format:nil];
+                        OTMDetailCellRenderer *sciNameRenderer =
+                            [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
+                                                                   editRenderer:nil
+                                                                          label:@"Scientific Name"
+                                                                         format:nil];
 
-                  [modelFields addObject:sciNameRenderer];
-                  [modelFields addObject:commonNameRenderer];
-                } else if ([field isEqualToString:@"diameter"]) {
-                  OTMDBHEditDetailCellRenderer *dbhEditRenderer =
-                    [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key];
+                        [modelFields addObject:sciNameRenderer];
+                        [modelFields addObject:commonNameRenderer];
+                    } else if ([field isEqualToString:@"diameter"]) {
+                        OTMDBHEditDetailCellRenderer *dbhEditRenderer =
+                            [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key];
 
-                  [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
-                                           initWithDataKey:key
-                                              editRenderer:dbhEditRenderer
-                                                     label:displayField
-                                                    format:nil]];
-                } else {
-                  [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
-                                           initWithDataKey:key
-                                              editRenderer:nil
-                                                     label:displayField
-                                                    format:nil]];
-                }
-            }];
+                        [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
+                                                   initWithDataKey:key
+                                                      editRenderer:dbhEditRenderer
+                                                             label:displayField
+                                                            format:nil]];
+                    } else {
+                        OTMLabelEditDetailCellRenderer *editRenderer = nil;
+                        if (writable) {
+                            editRenderer = [[OTMLabelEditDetailCellRenderer alloc]
+                                               initWithDataKey:key
+                                                         label:displayField
+                                                      keyboard:UIKeyboardTypeDefault];
+                        }
+                        [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
+                                                       initWithDataKey:key
+                                                          editRenderer:editRenderer
+                                                                 label:displayField
+                                                                format:nil]];
+                    }
+                }];
 
             [fieldArray addObject:modelFields];
         }

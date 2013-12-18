@@ -248,11 +248,18 @@
         if (success) {
             if (prevUser == nil) {
                 [self setKeys:allKeys];
-                [[[OTMEnvironment sharedEnvironment] api] getPlotInfo:[[self.data objectForKey:@"id"] intValue]
+                [[[OTMEnvironment sharedEnvironment] api] getPlotInfo:[self.data[@"plot"][@"id"] intValue]
             user:aUser
             callback:^(id newData, NSError *error) {
-                self.data = newData;
-                [self enterEditModeIfAllowed];
+                        // need to reload all cells
+                        [self setKeys:[[OTMEnvironment sharedEnvironment] fieldKeys]];
+
+                        // On main thread?
+                        [self.tableView reloadData];
+
+                        self.data = newData;
+                        [self enterEditModeIfAllowed];
+
             }];
             } else {
                 loginManager.loggedInUser = aUser;
@@ -356,7 +363,7 @@
             OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
             OTMUser *user = loginManager.loggedInUser;
 
-            if ([self.data objectForKey:@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
+            if (self.data[@"plot"][@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
 
                 NSLog(@"Sending new tree data:\n%@", data);
 

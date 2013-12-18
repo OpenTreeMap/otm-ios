@@ -66,7 +66,7 @@
     user.username = self.username.text;
     user.password = self.password.text;
 
-    [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser* user, OTMAPILoginResponse resp) {
+    [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser* user, NSDictionary *instance, OTMAPILoginResponse resp) {
         self.view.userInteractionEnabled = YES;
         if (resp == kOTMAPILoginResponseInvalidUsernameOrPassword) {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Login Error"
