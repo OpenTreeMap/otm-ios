@@ -137,28 +137,25 @@
 - (NSMutableDictionary *)createAddTreeDictionaryFromAnnotation:(MKPointAnnotation *)annotation placemark:(CLPlacemark *)placemark
 {
     NSMutableDictionary *geometryDict = [[NSMutableDictionary alloc] init];
-    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"lat"];
-    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"lon"];
+    [geometryDict setObject:@"4326" forKey:@"srid"];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"y"];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"x"];
     [geometryDict setObject:[NSNumber numberWithInt:4326] forKey:@"srid"];
 
     NSMutableDictionary *addTreeDict = [[NSMutableDictionary alloc] init];
-    [addTreeDict setObject:geometryDict forKey:@"geometry"];
+    NSMutableDictionary *plotDict = [[NSMutableDictionary alloc] init];
+
+    [addTreeDict setObject:plotDict forKey:@"plot"];
+    [plotDict setObject:geometryDict forKey:@"geom"];
 
     if (addTreePlacemark) {
-        [addTreeDict setObject:addTreePlacemark.name forKey:@"geocode_address"];
-        [addTreeDict setObject:addTreePlacemark.name forKey:@"edit_address_street"];
-        [addTreeDict setObject:addTreePlacemark.name forKey:@"address_street"];
+        [plotDict setObject:addTreePlacemark.name forKey:@"address_street"];
         if ([addTreePlacemark postalCode]) {
-            [addTreeDict setObject:[addTreePlacemark postalCode] forKey:@"address_zip"];
+            [plotDict setObject:[addTreePlacemark postalCode] forKey:@"address_zip"];
         }
         if ([addTreePlacemark locality]) {
-            [addTreeDict setObject:[addTreePlacemark locality] forKey:@"address_city"];
+            [plotDict setObject:[addTreePlacemark locality] forKey:@"address_city"];
         }
-    } else {
-        // geocode_address and edit_street_address are required by the Django application
-        // but they are not srictly nessesary to have a functional app.
-        [addTreeDict setObject:@"No Address" forKey:@"geocode_address"];
-        [addTreeDict setObject:@"No Address" forKey:@"edit_address_street"];
     }
 
     // The edit view does not set values correctly if there isn't an empty tree property
@@ -274,7 +271,10 @@
         if (latestSpeciesEdit) {
             tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            tspecies = [[tree objectForKey:@"species"] objectForKey:@"scientific_name"];
+            NSDictionary *speciesDict = [tree objectForKey:@"species"];
+            if (![speciesDict isKindOfClass:[NSNull class]]) {
+                tspecies = [speciesDict objectForKey:@"scientific_name"];
+            }
         }
     }
 
