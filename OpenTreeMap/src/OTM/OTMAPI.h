@@ -30,7 +30,7 @@ typedef enum {
 typedef void(^AZGenericCallback)(id obj, NSError* error);
 typedef void(^AZJSONCallback)(id json, NSError* error);
 typedef void(^AZImageCallback)(UIImage* image, NSError* error);
-typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
+typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILoginResponse status);
 
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
@@ -51,6 +51,7 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
 @property (nonatomic,strong) AZHttpRequest* request;
 @property (nonatomic,strong) AZHttpRequest* noPrefixRequest;
 
++(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
 
 /**

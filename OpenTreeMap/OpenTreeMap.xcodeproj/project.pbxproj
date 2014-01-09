@@ -26,12 +26,6 @@
 		646086F2160CFB6700A1458B /* AZObjectCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608668160CFB6700A1458B /* AZObjectCache.m */; };
 		646086F3160CFB6700A1458B /* AZTileCacheKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460866A160CFB6700A1458B /* AZTileCacheKey.m */; };
 		646086F4160CFB6700A1458B /* AZMapHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460866D160CFB6700A1458B /* AZMapHelper.m */; };
-		646086F5160CFB6700A1458B /* AZPointOffsetOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608670160CFB6700A1458B /* AZPointOffsetOverlay.m */; };
-		646086F6160CFB6700A1458B /* AZPointParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608672160CFB6700A1458B /* AZPointParser.m */; };
-		646086F7160CFB6700A1458B /* AZTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608674160CFB6700A1458B /* AZTile.m */; };
-		646086F8160CFB6700A1458B /* AZTilePointOffsetOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608676160CFB6700A1458B /* AZTilePointOffsetOverlayView.m */; };
-		646086F9160CFB6700A1458B /* AZTiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608678160CFB6700A1458B /* AZTiler.m */; };
-		646086FA160CFB6700A1458B /* AZTileRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460867A160CFB6700A1458B /* AZTileRenderer.m */; };
 		646086FB160CFB6700A1458B /* AZWaitingOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6460867D160CFB6700A1458B /* AZWaitingOverlayController.m */; };
 		646086FC160CFB6700A1458B /* AZWMSOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608680160CFB6700A1458B /* AZWMSOverlay.m */; };
 		646086FD160CFB6700A1458B /* AZWMSOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 64608682160CFB6700A1458B /* AZWMSOverlayView.m */; };
@@ -170,6 +164,7 @@
 		D7C990251518C8890094770C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990241518C8890094770C /* SystemConfiguration.framework */; };
 		D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990261518C88F0094770C /* MobileCoreServices.framework */; };
 		D7C990291518C89F0094770C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990281518C89F0094770C /* libz.dylib */; };
+		D7D26C81185B69510034BF77 /* OTM2API.m in Sources */ = {isa = PBXBuildFile; fileRef = D7D26C80185B69510034BF77 /* OTM2API.m */; };
 		E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971614F447EB007CD0D1 /* UIKit.framework */; };
 		E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971814F447EB007CD0D1 /* Foundation.framework */; };
 		E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
@@ -217,19 +212,6 @@
 		6460866A160CFB6700A1458B /* AZTileCacheKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileCacheKey.m; sourceTree = "<group>"; };
 		6460866C160CFB6700A1458B /* AZMapHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZMapHelper.h; sourceTree = "<group>"; };
 		6460866D160CFB6700A1458B /* AZMapHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZMapHelper.m; sourceTree = "<group>"; };
-		6460866E160CFB6700A1458B /* AZPointCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointCollection.h; sourceTree = "<group>"; };
-		6460866F160CFB6700A1458B /* AZPointOffsetOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointOffsetOverlay.h; sourceTree = "<group>"; };
-		64608670160CFB6700A1458B /* AZPointOffsetOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointOffsetOverlay.m; sourceTree = "<group>"; };
-		64608671160CFB6700A1458B /* AZPointParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPointParser.h; sourceTree = "<group>"; };
-		64608672160CFB6700A1458B /* AZPointParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPointParser.m; sourceTree = "<group>"; };
-		64608673160CFB6700A1458B /* AZTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTile.h; sourceTree = "<group>"; };
-		64608674160CFB6700A1458B /* AZTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTile.m; sourceTree = "<group>"; };
-		64608675160CFB6700A1458B /* AZTilePointOffsetOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTilePointOffsetOverlayView.h; sourceTree = "<group>"; };
-		64608676160CFB6700A1458B /* AZTilePointOffsetOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTilePointOffsetOverlayView.m; sourceTree = "<group>"; };
-		64608677160CFB6700A1458B /* AZTiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTiler.h; sourceTree = "<group>"; };
-		64608678160CFB6700A1458B /* AZTiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTiler.m; sourceTree = "<group>"; };
-		64608679160CFB6700A1458B /* AZTileRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZTileRenderer.h; sourceTree = "<group>"; };
-		6460867A160CFB6700A1458B /* AZTileRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZTileRenderer.m; sourceTree = "<group>"; };
 		6460867C160CFB6700A1458B /* AZWaitingOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWaitingOverlayController.h; sourceTree = "<group>"; };
 		6460867D160CFB6700A1458B /* AZWaitingOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZWaitingOverlayController.m; sourceTree = "<group>"; };
 		6460867F160CFB6700A1458B /* AZWMSOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZWMSOverlay.h; sourceTree = "<group>"; };
@@ -420,6 +402,8 @@
 		D7C990241518C8890094770C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D7C990261518C88F0094770C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D7C990281518C89F0094770C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D7D26C7F185B69510034BF77 /* OTM2API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTM2API.h; sourceTree = "<group>"; };
+		D7D26C80185B69510034BF77 /* OTM2API.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTM2API.m; sourceTree = "<group>"; };
 		E943971214F447EB007CD0D1 /* OpenTreeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenTreeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943971614F447EB007CD0D1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E943971814F447EB007CD0D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -528,19 +512,6 @@
 			children = (
 				6460866C160CFB6700A1458B /* AZMapHelper.h */,
 				6460866D160CFB6700A1458B /* AZMapHelper.m */,
-				6460866E160CFB6700A1458B /* AZPointCollection.h */,
-				6460866F160CFB6700A1458B /* AZPointOffsetOverlay.h */,
-				64608670160CFB6700A1458B /* AZPointOffsetOverlay.m */,
-				64608671160CFB6700A1458B /* AZPointParser.h */,
-				64608672160CFB6700A1458B /* AZPointParser.m */,
-				64608673160CFB6700A1458B /* AZTile.h */,
-				64608674160CFB6700A1458B /* AZTile.m */,
-				64608675160CFB6700A1458B /* AZTilePointOffsetOverlayView.h */,
-				64608676160CFB6700A1458B /* AZTilePointOffsetOverlayView.m */,
-				64608677160CFB6700A1458B /* AZTiler.h */,
-				64608678160CFB6700A1458B /* AZTiler.m */,
-				64608679160CFB6700A1458B /* AZTileRenderer.h */,
-				6460867A160CFB6700A1458B /* AZTileRenderer.m */,
 			);
 			path = MapTile;
 			sourceTree = "<group>";
@@ -589,6 +560,8 @@
 				646086A2160CFB6700A1458B /* Controllers */,
 				646086BF160CFB6700A1458B /* OTMAddTreeAnnotationView.h */,
 				646086C0160CFB6700A1458B /* OTMAddTreeAnnotationView.m */,
+				D7D26C7F185B69510034BF77 /* OTM2API.h */,
+				D7D26C80185B69510034BF77 /* OTM2API.m */,
 				646086C1160CFB6700A1458B /* OTMAPI.h */,
 				646086C2160CFB6700A1458B /* OTMAPI.m */,
 				646086C3160CFB6700A1458B /* OTMAppDelegate.h */,
@@ -1040,12 +1013,6 @@
 				646086F2160CFB6700A1458B /* AZObjectCache.m in Sources */,
 				646086F3160CFB6700A1458B /* AZTileCacheKey.m in Sources */,
 				646086F4160CFB6700A1458B /* AZMapHelper.m in Sources */,
-				646086F5160CFB6700A1458B /* AZPointOffsetOverlay.m in Sources */,
-				646086F6160CFB6700A1458B /* AZPointParser.m in Sources */,
-				646086F7160CFB6700A1458B /* AZTile.m in Sources */,
-				646086F8160CFB6700A1458B /* AZTilePointOffsetOverlayView.m in Sources */,
-				646086F9160CFB6700A1458B /* AZTiler.m in Sources */,
-				646086FA160CFB6700A1458B /* AZTileRenderer.m in Sources */,
 				646086FB160CFB6700A1458B /* AZWaitingOverlayController.m in Sources */,
 				646086FC160CFB6700A1458B /* AZWMSOverlay.m in Sources */,
 				646086FD160CFB6700A1458B /* AZWMSOverlayView.m in Sources */,
@@ -1097,6 +1064,7 @@
 				6460872B160CFB6700A1458B /* OTMNavigationBar.m in Sources */,
 				6460872C160CFB6700A1458B /* OTMSearchBar.m in Sources */,
 				6460872D160CFB6700A1458B /* OTMSegmentedControl.m in Sources */,
+				D7D26C81185B69510034BF77 /* OTM2API.m in Sources */,
 				6460872E160CFB6700A1458B /* OTMTableView.m in Sources */,
 				6460872F160CFB6700A1458B /* OTMView.m in Sources */,
 				64582DAE164165C200CF5DB9 /* OTMAboutViewController.m in Sources */,

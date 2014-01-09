@@ -19,8 +19,6 @@
 #import "OTMEnvironment.h"
 
 @interface OTMAPI()
-+(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
-+(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 
 @end
 
@@ -173,9 +171,9 @@
         if (error) {
             [user setLoggedIn:NO];
             if (error.code == 401) {
-                callback(nil, kOTMAPILoginResponseInvalidUsernameOrPassword);
+                callback(nil, nil, kOTMAPILoginResponseInvalidUsernameOrPassword);
             } else {
-                callback(nil, kOTMAPILoginResponseError);
+                callback(nil, nil, kOTMAPILoginResponseError);
             }
         } else {
             user.email = [json objectForKey:@"email"];
@@ -188,7 +186,7 @@
             user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
             user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
             [user setLoggedIn:YES];
-            callback(user, kOTMAPILoginResponseOK);
+            callback(user, nil, kOTMAPILoginResponseOK);
         }
     }]]];
 
@@ -263,16 +261,16 @@
                 NSDictionary *info = [error userInfo];
                 NSNumber *statusCode = [info objectForKey:@"statusCode"];
                 if (statusCode && [statusCode intValue] == 409) {
-                    callback(user, kOTMAPILoginDuplicateUsername);
+                    callback(user, nil, kOTMAPILoginDuplicateUsername);
                 } else {
-                    callback(user, kOTMAPILoginResponseError);
+                    callback(user, nil, kOTMAPILoginResponseError);
                 }
             } else {
                 if ([[json objectForKey:@"status"] isEqualToString:@"success"]) {
                     user.userId = [[json valueForKey:@"id"] intValue];
-                    callback(user, kOTMAPILoginResponseOK);
+                    callback(user, nil, kOTMAPILoginResponseOK);
                 } else {
-                    callback(user, kOTMAPILoginResponseError);
+                    callback(user, nil, kOTMAPILoginResponseError);
                 }
             }
         }
@@ -289,13 +287,13 @@
         {
             if (callback != nil) {
                 if (error != nil) {
-                    callback(user, kOTMAPILoginResponseError);
+                    callback(user, nil, kOTMAPILoginResponseError);
                 } else {
                     if ([[json objectForKey:@"status"] isEqualToString:@"success"]) {
                         user.password = newPass;
-                        callback(user, kOTMAPILoginResponseOK);
+                        callback(user, nil, kOTMAPILoginResponseOK);
                     } else {
-                        callback(user, kOTMAPILoginResponseError);
+                        callback(user, nil, kOTMAPILoginResponseError);
                     }
                 }
             }
@@ -409,14 +407,15 @@
 
 -(void)updatePlotAndTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback
 {
-    if ([details objectForKey:@"id"] == nil) {
+    NSString *pk = details[@"plot"][@"id"];
+    if (pk == nil) {
         if (callback) {
             callback(nil, [NSError errorWithDomain:@"No id specified in details dictionary" code:0 userInfo:details]);
         }
     }
     [_request put:@"plots/:id"
         withUser:user
-          params:[NSDictionary dictionaryWithObject:[details objectForKey:@"id"] forKey:@"id"]
+          params:[NSDictionary dictionaryWithObject:pk forKey:@"id"]
             data:[self jsonEncode:details]
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
