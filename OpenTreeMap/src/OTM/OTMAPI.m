@@ -83,9 +83,7 @@
                          NSMutableDictionary *s = [NSMutableDictionary dictionary];
 
                          [json enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                             [s setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              [obj objectForKey:@"id"], @"id",
-                                              [obj objectForKey:@"scientific_name"],@"scientific_name", nil]
+                             [s setObject:obj
                                    forKey:[obj objectForKey:@"common_name"]];
                          }];
                          species = s;
