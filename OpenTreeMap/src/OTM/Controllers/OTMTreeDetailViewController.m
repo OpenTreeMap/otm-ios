@@ -495,10 +495,8 @@
     if ([segue.identifier isEqualToString:@"changeSpecies"]) {
         OTMSpeciesTableViewController *sVC = (OTMSpeciesTableViewController *)segue.destinationViewController;
 
-        sVC.callback = ^(NSNumber *sId, NSString *name, NSString *scientificName) {
-            [self.data setObject:sId forEncodedKey:@"tree.species"];
-            [self.data setObject:name forEncodedKey:@"tree.species_name"];
-            [self.data setObject:scientificName forEncodedKey:@"tree.sci_name"];
+        sVC.callback = ^(NSDictionary *sdict) {
+            [self.data setObject:sdict forEncodedKey:@"tree.species"];
             [self syncTopData];
 
             [self.tableView reloadRowsAtIndexPaths:[NSArray

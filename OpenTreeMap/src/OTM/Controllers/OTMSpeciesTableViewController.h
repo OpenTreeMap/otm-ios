@@ -21,7 +21,7 @@
     NSMutableDictionary *sectionDict;
 }
 
-@property (nonatomic,strong) Function3v callback;
+@property (nonatomic,strong) Function1v callback;
 @property (nonatomic,strong) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) IBOutlet UISearchBar *searchBar;
 
