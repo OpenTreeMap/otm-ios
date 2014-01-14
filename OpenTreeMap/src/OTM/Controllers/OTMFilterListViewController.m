@@ -51,15 +51,15 @@
     }
 
     if (missingTree) {
-        [m setObject:@"false" forKey:@"has_tree"];
+        m[@"tree.id"] = @{ @"IS": [NSNull null] };
     }
 
     if (missingDBH) {
-        [m setObject:@"false" forKey:@"has_dbh"];
+        m[@"tree.diameter"] = @{ @"IS": [NSNull null] };
     }
 
     if (missingSpecies) {
-        [m setObject:@"false" forKey:@"has_species"];
+        m[@"species.id"] = @{ @"IS": [NSNull null] };
     }
 
     return m;
@@ -68,7 +68,7 @@
 - (NSDictionary *)customFiltersDict {
     NSMutableDictionary *m = [NSMutableDictionary dictionary];
     if (speciesId != nil) {
-        [m setObject:speciesId forKey:@"filter_species"];
+        m[@"species.id"] = @{ @"IS": speciesId };
     }
 
     for(OTMFilter *f in filters) {
@@ -182,7 +182,9 @@
 - (void)clear {
 }
 
-- (NSString *)queryParams {
+- (NSDictionary *)queryParams {
+    // This is an 'fake' filter, so nothing to
+    // return here
     return [NSDictionary dictionary];
 }
 
@@ -244,7 +246,7 @@
     [toggle setOn:NO animated:YES];
 }
 
-- (NSString *)queryParams {
+- (NSDictionary *)queryParams {
     if ([self active]) {
         return [NSDictionary dictionaryWithObjectsAndKeys:toggle.on ? @"true" : @"false", self.key, nil];
     } else {
@@ -339,7 +341,7 @@
     [tvc.tableView reloadData];
 }
 
-- (NSString *)queryParams {
+- (NSDictionary *)queryParams {
     if ([self active]) {
         return [NSDictionary dictionaryWithObjectsAndKeys:[self selectedKey],
                              self.key, nil];
@@ -478,11 +480,9 @@
     [maxValue resignFirstResponder];
 }
 
-- (NSString *)queryParams {
+- (NSDictionary *)queryParams {
     if ([self active]) {
-        NSString *max = [NSString stringWithFormat:@"%@_max",self.key];
-        NSString *min = [NSString stringWithFormat:@"%@_min",self.key];
-        return [NSDictionary dictionaryWithObjectsAndKeys:maxValue.text, max, minValue.text, min, nil];
+        return @{self.key: @{ @"MIN": minValue.text, @"MAX": maxValue.text}};
     } else {
         return [NSDictionary dictionary];
     }
