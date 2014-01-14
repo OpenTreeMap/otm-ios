@@ -36,7 +36,8 @@
  */
 - (void)addGestureRecognizersToView:(UIView *)view;
 
-- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer;
+- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer
+                                 filter:(NSString *)filter;
 @end
 
 @implementation OTMMapViewController
@@ -348,7 +349,8 @@
 
 #pragma mark Map view setup
 
-- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer {
+- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer
+                                 filter:(NSString *)filter {
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
     NSString *iid = [env instanceId];
     NSString *grev = [env geoRev];
@@ -356,6 +358,18 @@
     NSString *urlSfx = [env.api2 tileUrlTemplateForInstanceId:iid
                                                        geoRev:grev
                                                         layer:layer];
+
+    if (filter != nil) {
+        filter =
+            (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                  (__bridge CFStringRef) filter,
+                                                                                  NULL,
+                                                                                  CFSTR("!*'();:@&=+$,/?%#[]\" "),
+                                                                                  kCFStringEncodingUTF8));
+
+      urlSfx = [urlSfx stringByAppendingFormat:@"&q=%@", filter];
+    }
+
     NSString *host = env.host;
     NSString *url = [host stringByAppendingString:urlSfx];
 
@@ -373,13 +387,26 @@
     [self addGestureRecognizersToView:mapView];
 
     MKTileOverlay *boundsOverlay =
-        [self buildOverlayForLayer:@"treemap_boundary"];
-    MKTileOverlay *plotsOverlay =
-        [self buildOverlayForLayer:@"treemap_plot"];
+        [self buildOverlayForLayer:@"treemap_boundary"
+                            filter:nil];
 
     [mapView addOverlay:boundsOverlay];
-    [mapView addOverlay:plotsOverlay];
 
+    // Add the plot layer, showing all plots
+    [self setMapFilter:nil];
+
+}
+
+- (void)setMapFilter:(NSString *)filter {
+    if (plotsOverlay != nil) {
+        [mapView removeOverlay:plotsOverlay];
+    }
+
+    plotsOverlay =
+      [self buildOverlayForLayer:@"treemap_plot"
+                          filter:filter];
+
+    [mapView addOverlay:plotsOverlay];
 }
 
 - (void)addGestureRecognizersToView:(UIView *)view
@@ -501,6 +528,17 @@
     } else {
         [self hideFilterStatus];
     }
+
+    OTMAPI *api = [[OTMEnvironment sharedEnvironment] api];
+    NSDictionary *filtersDict = [f filtersDict];
+    NSString *filter = nil;
+
+    if ([filtersDict count] > 0) {
+        filter = [[NSString alloc] initWithData:[api jsonEncode:filtersDict]
+                                       encoding:NSUTF8StringEncoding];
+    }
+
+    [self setMapFilter:filter];
     // TODO: hide the wizard label
 }
 
