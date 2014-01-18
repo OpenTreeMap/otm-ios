@@ -5,6 +5,6 @@
       location = "group:OpenTreeMap/OpenTreeMap.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:lib/ASI/ASI.xcodeproj">
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
