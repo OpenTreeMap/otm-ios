@@ -11,6 +11,10 @@ The source for the OpenTreeMap web application is available on github
 
 <a href="https://github.com/azavea/OpenTreeMap">https://github.com/azavea/OpenTreeMap</a>
 
+## Installation
+
+### Download Skin
+
 A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) script included with the OpenTreeMap for iOS source.
 
     $ fab install_skin
@@ -19,6 +23,14 @@ A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) scr
 The default skin may also be found on github
 
 <a href="https://github.com/azavea/OpenTreeMap-iOS-skin">https://github.com/azavea/OpenTreeMap-iOS-skin</a>
+
+### Install CocoaPods
+
+If you don't already have it on your machine, install
+[CocoaPods](http://cocoapods.org). Then execute `pod install` from a
+command prompt.
+
+    $ pod install
 
 USDA Grant
 ---------------
