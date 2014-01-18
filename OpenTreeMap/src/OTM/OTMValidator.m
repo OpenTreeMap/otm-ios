@@ -93,7 +93,7 @@
         if ([textField.text length] > 0) {
             return [NSString stringWithFormat:@"%@ must be blank", display];
         } else {
-            return (id)nil;
+            return (NSString *)nil;
         }   
     } copy];    
 }
@@ -109,7 +109,7 @@
         if ([textField.text length] != len) {
             return [NSString stringWithFormat:@"%@ must be at %d characters", display, len];
         } else {
-            return (id)nil;
+            return (NSString *)nil;
         }
     } copy];
 }
@@ -119,7 +119,7 @@
         UITextField *textField = (id)[vc performSelector:NSSelectorFromString(field)];
         
         if ([textField.text length] >= len) {
-            return (id)nil; // NSString * helps determine return type of block
+            return (NSString *)nil; // NSString * helps determine return type of block
         } else {
             if (len == 1) {
                 return [NSString stringWithFormat:@"%@ cannot be blank", display];
@@ -147,7 +147,7 @@
         if (!valid) {
             return [NSString stringWithFormat:@"%@ must be a valid email address", display];
         } else {
-            return (id)nil;
+            return (NSString *)nil;
         }
     } copy];
 }
