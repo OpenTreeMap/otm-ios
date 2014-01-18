@@ -7,18 +7,27 @@ OpenTreeMap for iOS has 2 major dependencies:
   - An OpenTreeMap web application installation
   - A "skin," which is a set of images and configurations files
 
-The source for the OpenTreeMap web application is available on github
+The [source](https://github.com/azavea/OpenTreeMap) for the OpenTreeMap web application can be found [here](https://github.com/azavea/OpenTreeMap).
 
-<a href="https://github.com/azavea/OpenTreeMap">https://github.com/azavea/OpenTreeMap</a>
+## Installation
 
-A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) script included with the OpenTreeMap for iOS source.
+### Download Skin
+
+A default skin can be downloaded using the [Fabric](http://docs.fabfile.org/) script included with the OpenTreeMap for iOS source.
 
     $ fab install_skin
     $ fab create_info_plist:app_name={app name},app_id={app id}
 
-The default skin may also be found on github
+The [default skin](https://github.com/azavea/OpenTreeMap-iOS-skin) is
+also available.
 
-<a href="https://github.com/azavea/OpenTreeMap-iOS-skin">https://github.com/azavea/OpenTreeMap-iOS-skin</a>
+### Install CocoaPods
+
+If you don't already have it on your machine, install
+[CocoaPods](http://cocoapods.org). Then execute `pod install` from a
+command prompt.
+
+    $ pod install
 
 USDA Grant
 ---------------

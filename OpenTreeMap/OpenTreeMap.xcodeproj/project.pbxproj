@@ -161,11 +161,11 @@
 		647E445716417BDF000CF872 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 647E445616417BDF000CF872 /* about.html */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
+		CF0C337CFE384DD28716822E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A5B1A0C205742C98820FC35 /* libPods.a */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		D70D98E916D28F7600795F84 /* OTMImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70D98E816D28F7600795F84 /* OTMImageViewController.m */; };
 		D72BF6661517830A00AB6664 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D72BF6651517830A00AB6664 /* Security.framework */; };
-		D7C990201518C8670094770C /* libASI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C9901F1518C8670094770C /* libASI.a */; };
 		D7C990231518C87E0094770C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		D7C990251518C8890094770C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990241518C8890094770C /* SystemConfiguration.framework */; };
 		D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990261518C88F0094770C /* MobileCoreServices.framework */; };
@@ -412,10 +412,11 @@
 		647E445616417BDF000CF872 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6DCFB67C42784BB790F6F992 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = ../Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9A5B1A0C205742C98820FC35 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D70D98E716D28F7500795F84 /* OTMImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMImageViewController.h; sourceTree = "<group>"; };
 		D70D98E816D28F7600795F84 /* OTMImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMImageViewController.m; sourceTree = "<group>"; };
 		D72BF6651517830A00AB6664 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		D7C9901F1518C8670094770C /* libASI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libASI.a; path = "../lib/ASI/build/Release-iphoneos/libASI.a"; sourceTree = "<group>"; };
 		D7C990221518C87E0094770C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D7C990241518C8890094770C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D7C990261518C88F0094770C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -438,12 +439,12 @@
 				D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */,
 				D7C990251518C8890094770C /* SystemConfiguration.framework in Frameworks */,
 				D7C990231518C87E0094770C /* CFNetwork.framework in Frameworks */,
-				D7C990201518C8670094770C /* libASI.a in Frameworks */,
 				D72BF6661517830A00AB6664 /* Security.framework in Frameworks */,
 				E943971714F447EB007CD0D1 /* UIKit.framework in Frameworks */,
 				E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */,
 				64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */,
 				64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */,
+				CF0C337CFE384DD28716822E /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +815,7 @@
 				6460864D160CFB4600A1458B /* Resources */,
 				64608730160D01A700A1458B /* Skin */,
 				64608658160CFB6700A1458B /* Source */,
+				6DCFB67C42784BB790F6F992 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -833,7 +835,6 @@
 				D7C990261518C88F0094770C /* MobileCoreServices.framework */,
 				D7C990241518C8890094770C /* SystemConfiguration.framework */,
 				D7C990221518C87E0094770C /* CFNetwork.framework */,
-				D7C9901F1518C8670094770C /* libASI.a */,
 				D72BF6651517830A00AB6664 /* Security.framework */,
 				64DDCDB614F51AF6004FA0CF /* MapKit.framework */,
 				64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */,
@@ -841,6 +842,7 @@
 				E943971814F447EB007CD0D1 /* Foundation.framework */,
 				E943971A14F447EB007CD0D1 /* CoreGraphics.framework */,
 				E943974214F447EB007CD0D1 /* SenTestingKit.framework */,
+				9A5B1A0C205742C98820FC35 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -852,9 +854,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E943975314F447EB007CD0D1 /* Build configuration list for PBXNativeTarget "OpenTreeMap" */;
 			buildPhases = (
+				21C3B4E1F98B4456AF982501 /* Check Pods Manifest.lock */,
 				E943970E14F447EB007CD0D1 /* Sources */,
 				E943970F14F447EB007CD0D1 /* Frameworks */,
 				E943971014F447EB007CD0D1 /* Resources */,
+				61027C3891DF4254A31C7946 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1011,6 +1015,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		21C3B4E1F98B4456AF982501 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		61027C3891DF4254A31C7946 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E943973F14F447EB007CD0D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1149,10 +1183,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
@@ -1163,6 +1194,7 @@
 		};
 		7A6464AD14F5879F00B77910 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DCFB67C42784BB790F6F992 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1227,10 +1259,7 @@
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-g3",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1240,6 +1269,7 @@
 		};
 		D7D23DDC15D9A0F60019D9D6 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DCFB67C42784BB790F6F992 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
@@ -1307,10 +1337,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1335,10 +1362,7 @@
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-g3",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1348,6 +1372,7 @@
 		};
 		E943975414F447EB007CD0D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DCFB67C42784BB790F6F992 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1371,6 +1396,7 @@
 		};
 		E943975514F447EB007CD0D1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DCFB67C42784BB790F6F992 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
