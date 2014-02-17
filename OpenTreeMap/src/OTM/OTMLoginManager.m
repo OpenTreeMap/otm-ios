@@ -28,10 +28,14 @@
         rootVC = [loginWorkflow instantiateInitialViewController];
         loginVC = [[rootVC viewControllers] objectAtIndex:0];
         loginVC.loginDelegate = self;
-        
+
         OTMUser *user = [[OTMUser alloc] init];
         user.keychain = [SharedAppDelegate keychain];
-        
+
+        // Just assume that this is correct for now. Prevents app
+        // loading race conditions
+        self.loggedInUser = user;
+
         if (user.username && user.password && [user.username length] > 0 && [user.password length] > 0) {
             self.runningLogin = YES;
             [[[OTMEnvironment sharedEnvironment] api] logUserIn:user callback:^(OTMUser *u, NSDictionary *instance, OTMAPILoginResponse loginResp)
