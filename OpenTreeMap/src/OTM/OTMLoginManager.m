@@ -44,17 +44,18 @@
                      self.loggedInUser = u;
                      self.runningLogin = NO;
                  } else {
+                     self.loggedInUser = nil;
                      [self setRunningLoginDoneWithFailure];
                  }
              }];
         }
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(logout:)
                                                      name:kOTMLoginWorkflowLogout
                                                    object:nil];
     }
-    
+
     return self;
 }
 
@@ -74,7 +75,7 @@
 -(Function0v)autoLoginFailed {
     @synchronized(self) {
         return autoLoginFailed;
-    }    
+    }
 }
 
 -(void)setRunningLogin:(BOOL)rl {
@@ -100,7 +101,7 @@
         runningLogin = NO;
         if (autoLoginFailed) {
             autoLoginFailed();
-            
+
             autoLoginFailed = nil;
         }
     }
@@ -116,21 +117,21 @@
 }
 
 -(void)presentModelLoginInViewController:(UIViewController*)viewController callback:(OTMLoginCallback)cb {
-    
+
     if (runningLogin) {
         [self performSelector:@selector(delayLoop:)
                    withObject:[NSArray arrayWithObjects:viewController,cb, nil]
                    afterDelay:300.0];
         return;
     }
-    
+
     if ([self.loggedInUser userId] > 0) {
         cb(YES, self.loggedInUser);
         return;
-        
+
     }
     callback = [cb copy];
-    
+
     [viewController presentModalViewController:rootVC animated:YES];
 }
 
@@ -140,12 +141,12 @@
 
 -(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user {
     self.loggedInUser = user;
-    
+
     [rootVC dismissModalViewControllerAnimated:YES];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedSuccess
                                                         object:user];
-    
+
     if (callback != nil) {
         callback(true, user);
     }
@@ -153,10 +154,10 @@
 
 -(void)loginControllerCanceledLogin:(OTMLoginViewController*)vc {
     [rootVC dismissModalViewControllerAnimated:YES];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedFailure
                                                         object:nil];
-    
+
     if (callback != nil) {
         callback(false, nil);
     }
@@ -164,7 +165,7 @@
 
 -(void)loginController:(OTMLoginViewController*)vc registeredUser:(OTMUser*)user {
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowUserRegistered
-                                                        object:user];    
+                                                        object:user];
 }
 
 -(void)dealloc {
