@@ -54,6 +54,8 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
 +(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
 
+-(NSData *)jsonEncode:(id)obj;
+
 /**
  * Get species list
  */

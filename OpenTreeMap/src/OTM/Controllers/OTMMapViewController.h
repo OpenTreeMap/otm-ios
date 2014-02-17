@@ -33,6 +33,8 @@ typedef enum {
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIBarButtonItem *findLocationButton;
     BOOL firstAppearance;
+
+    MKTileOverlay *plotsOverlay;
 }
 
 @property (nonatomic,strong) OTMFilters* filters;
