@@ -403,7 +403,7 @@
     }
 
     plotsOverlay =
-      [self buildOverlayForLayer:@"treemap_plot"
+      [self buildOverlayForLayer:@"treemap_mapfeature"
                           filter:filter];
 
     [mapView addOverlay:plotsOverlay];
