@@ -47,7 +47,6 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
 /**
  * Object used for doing our http requests
  */
-@property (nonatomic,strong) AZHttpRequest* tileRequest;
 @property (nonatomic,strong) AZHttpRequest* request;
 @property (nonatomic,strong) AZHttpRequest* noPrefixRequest;
 
