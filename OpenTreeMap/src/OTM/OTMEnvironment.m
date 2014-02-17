@@ -22,8 +22,6 @@
 
 @implementation OTMEnvironment
 
-@synthesize urlCacheName, urlCacheQueueMaxContentLength, urlCacheInvalidationAgeInSeconds, mapViewInitialCoordinateRegion, mapViewSearchZoomCoordinateSpan, searchSuffix, locationSearchTimeoutInSeconds, mapViewTitle, api, baseURL, apiKey, choices, fieldKeys, viewBackgroundColor, navBarTintColor, buttonImage, buttonTextColor, fieldSections, fields, filts, useOtmGeocoder, searchRegionRadiusInMeters, pendingActive, tileRequest, splashDelayInSeconds, hideTreesFilter, dbhFormat, currencyUnit, dateFormat, detailLatSpan, dbhUnit, distanceUnit, distanceBiggerUnit, distanceBiggerUnitFactor, distanceFromMetersFactor, localizedZipCodeName, zipcodeKeyboard;
-
 + (id)sharedEnvironment
 {
     static dispatch_once_t pred = 0;
@@ -51,7 +49,7 @@
     NSString *choicesPListPath = [bundle pathForResource:@"Choices" ofType:@"plist"];
     NSDictionary* environment = [[NSDictionary alloc] initWithContentsOfFile:environmentPListPath];
 
-    choices = [[NSDictionary alloc] initWithContentsOfFile:choicesPListPath];
+    self.choices = [[NSDictionary alloc] initWithContentsOfFile:choicesPListPath];
 
     // Environment - URLCache
 
@@ -66,92 +64,24 @@
     NSString* implementationPListPath = [bundle pathForResource:@"Implementation" ofType:@"plist"];
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
 
+    self.instance = [implementation objectForKey:@"instance"];
     self.apiKey = [implementation valueForKey:@"APIKey"];
 
-    self.dbhFormat = [implementation objectForKey:@"OTMDetailDBHFormat"];
-    if (self.dbhFormat == nil) {
-        self.dbhFormat = @"%2.0f in. Diameter";
-    }
-
-    self.dbhUnit = [implementation objectForKey:@"OTMDBHUnit"];
-    if (self.dbhUnit == nil) {
-        self.dbhUnit = @"in";
-    }
-
-    self.localizedZipCodeName = [implementation objectForKey:@"OTMZipCodeLabel"];
-    if (self.localizedZipCodeName == nil) {
-        self.localizedZipCodeName = @"Zip Code";
-    }
-
-    if ([[implementation objectForKey:@"OTMZipCodeKeyboard"] isEqualToString:@"uk"]) {
-      self.zipcodeKeyboard = UIKeyboardTypeDefault;
-    } else {
-      self.zipcodeKeyboard = UIKeyboardTypeNumberPad;
-    }
-
-    self.distanceUnit = [implementation objectForKey:@"OTMDistanceUnit"];
-    if (self.distanceUnit == nil) {
-        self.distanceUnit = @"ft";
-    }
-
-    self.distanceBiggerUnit = [implementation objectForKey:@"OTMBiggerDistanceUnit"];
-
-    if ([implementation objectForKey:@"OTMBiggerDistanceFactor"]) {
-        self.distanceBiggerUnitFactor = [[implementation valueForKey:@"OTMBiggerDistanceFactor"] doubleValue];
-    } else {
-        self.distanceBiggerUnitFactor = -1.0;
-    }
-
-    if ([implementation objectForKey:@"OTMMetersToBaseDistanceUnitFactor"]) {
-        self.distanceFromMetersFactor = [[implementation valueForKey:@"OTMMetersToBaseDistanceUnitFactor"] doubleValue];
-    } else {
-        // Convert to miles
-        self.distanceFromMetersFactor = 0.000621371;
-    }
-
-
-    self.dateFormat = [implementation objectForKey:@"OTMDateFormat"];
-    if (self.dateFormat == nil) {
-        self.dateFormat = @"MMMM d, yyyy h:mm a";
-    }
-
-    if ([implementation objectForKey:@"OTMDetailLatSpan"]) {
-        self.detailLatSpan = [[implementation valueForKey:@"OTMDetailLatSpan"] doubleValue];
-    } else {
-        self.detailLatSpan = 0.0007;
-    }
-
+    self.dateFormat = @"MMMM d, yyyy h:mm a";
+    self.detailLatSpan = 0.0007;
 
     self.currencyUnit = [implementation objectForKey:@"OTMCurrencyDBHUnit"];
     if (self.currencyUnit == nil) {
         self.currencyUnit = @"$";
     }
 
-    if ([implementation objectForKey:@"hideTreesFilter"]) {
-        self.hideTreesFilter = [[implementation valueForKey:@"hideTreesFilter"] boolValue];
-    } else {
-        self.hideTreesFilter = false;
-    }
-
-    if ([implementation objectForKey:@"splashDelayInSeconds"]) {
-        self.splashDelayInSeconds = [[implementation valueForKey:@"splashDelayInSeconds"] floatValue];
-    } else {
-        self.splashDelayInSeconds = 0;
-    }
-
-    fieldSections = [implementation objectForKey:@"fieldSections"];
-    fields = [implementation objectForKey:@"fields"];
-    filts = [implementation objectForKey:@"filters"];
-
-    pendingActive = [[implementation valueForKey:@"pending"] boolValue];
-
-    viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
-
-    navBarTintColor = [self colorFromArray:[implementation objectForKey:@"tintColor"] defaultColor:nil];
-
-    buttonTextColor = [self colorFromArray:[implementation objectForKey:@"buttonFontColor"] defaultColor:[UIColor whiteColor]];
-
-    buttonImage = [UIImage imageNamed:@"btn_bg"];
+    self.hideTreesFilter = NO;
+    self.splashDelayInSeconds = 0;
+    self.pendingActive = NO;
+    self.viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
+    self.navBarTintColor = [self colorFromArray:[implementation objectForKey:@"tintColor"] defaultColor:nil];
+    self.buttonTextColor = [self colorFromArray:[implementation objectForKey:@"buttonFontColor"] defaultColor:[UIColor whiteColor]];
+    self.buttonImage = [UIImage imageNamed:@"btn_bg"];
 
     NSDictionary* url = [implementation valueForKey:@"APIURL"];
 
@@ -160,22 +90,9 @@
                       [url valueForKey:@"version"]]];
 
     // Implementation - MapView
-
     NSDictionary *mapView = [implementation valueForKey:@"MapView"];
 
-    CLLocationCoordinate2D initialLatLon = CLLocationCoordinate2DMake(
-        [[mapView objectForKey:@"InitialLatitude"] floatValue],
-        [[mapView objectForKey:@"InitialLongitude"] floatValue]);
-
-    MKCoordinateSpan initialCoordinateSpan = MKCoordinateSpanMake(
-        [[mapView objectForKey:@"InitialLatitudeDelta"] floatValue],
-        [[mapView objectForKey:@"InitialLongitudeDelta"] floatValue]);
-
-    [self setMapViewInitialCoordinateRegion:MKCoordinateRegionMake(initialLatLon, initialCoordinateSpan)];
-
-    MKCoordinateSpan searchZoomCoordinateSpan = MKCoordinateSpanMake(
-        [[mapView objectForKey:@"SearchZoomLatitudeDelta"] floatValue],
-        [[mapView objectForKey:@"SearchZoomLongitudeDelta"] floatValue]);
+    MKCoordinateSpan searchZoomCoordinateSpan = MKCoordinateSpanMake(0.0026, 0.0034);
 
     [self setMapViewSearchZoomCoordinateSpan:searchZoomCoordinateSpan];
 
@@ -197,8 +114,6 @@
                          [version objectForKey:@"version"],
                          [version objectForKey:@"build"]];
 
-    // Note: treq is used for tile requests, this prevents the main
-    // operation queue from overloading with tiles
     NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key",
                                           ver, @"ApplicationVersion",
                                           nil];
@@ -206,24 +121,16 @@
     NSURL *aurl = [NSURL URLWithString:[self baseURL]];
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
     req.headers = headers;
-    AZHttpRequest* treq = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
-    treq.headers = headers;
-    treq.synchronous = YES;
-    NSString *strippedHost = [NSString stringWithFormat:@"%@://%@:%@",
-                                       [aurl scheme],[aurl host],[aurl port]];
+    self.host = [NSString stringWithFormat:@"%@://%@:%@",
+                          [aurl scheme],[aurl host],[aurl port]];
 
-    AZHttpRequest* reqraw = [[AZHttpRequest alloc] initWithURL:strippedHost];
+    AZHttpRequest* reqraw = [[AZHttpRequest alloc] initWithURL:self.baseURL];
     req.headers = headers;
-
     req.queue.maxConcurrentOperationCount = 3;
-    treq.queue.maxConcurrentOperationCount = 1; // Limit this... having this too high
-                                                // prevents google tiles from loading!
 
     otmApi.request = req;
-    otmApi.tileRequest = treq;
     otmApi.noPrefixRequest = reqraw;
 
-    self.tileRequest = treq;
     self.api = otmApi;
     self.api2 = otmApi;
 
@@ -233,7 +140,7 @@
 -(void)setInstance:(NSString *)instance {
     _instance = instance;
     _api2.request.baseURL = [self.baseURL stringByAppendingFormat:@"%@/",instance];
-    _api2.nonInstanceRequest.baseURL = self.baseURL;
+    _api2.noPrefixRequest.baseURL = self.baseURL;
 }
 
 -(UIColor *)colorFromArray:(NSArray *)array defaultColor:(UIColor *)c {
@@ -249,15 +156,11 @@
 
 -(NSArray *)filters {
     NSMutableArray* fs = [NSMutableArray array];
-    for(NSDictionary *f in filts) {
-        [fs addObject:[OTMFilter filterFromDictionary:f]];
-    }
-
     return fs;
 }
 
 -(NSArray *)fieldKeys {
-    return (NSArray* )fields;
+    return (NSArray* )self.fields;
 }
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict {

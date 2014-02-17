@@ -50,8 +50,11 @@
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
 
+    AZUser* user = [[SharedAppDelegate loginManager] loggedInUser];
+
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
     [api loadInstanceInfo:[[OTMEnvironment sharedEnvironment] instance]
+                  forUser:user
              withCallback:^(id json, NSError *error) {
         [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
         [self initView];
@@ -403,7 +406,7 @@
     }
 
     plotsOverlay =
-      [self buildOverlayForLayer:@"treemap_plot"
+      [self buildOverlayForLayer:@"treemap_mapfeature"
                           filter:filter];
 
     [mapView addOverlay:plotsOverlay];
