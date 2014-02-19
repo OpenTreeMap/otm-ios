@@ -218,7 +218,7 @@
 
 
 -(void)executeRequestWithURL:(NSString*)urlsfx callback:(ASIRequestCallback)callback config:(ASIRequestConfig)config {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",self.baseURL,urlsfx]];
+    NSURL *url = [NSURL URLWithString:[self.baseURL stringByAppendingString:urlsfx]];
     
     __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     __weak ASIHTTPRequest *blockRequest = request;
