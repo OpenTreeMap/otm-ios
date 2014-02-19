@@ -75,7 +75,6 @@
         self.currencyUnit = @"$";
     }
 
-    self.hideTreesFilter = NO;
     self.splashDelayInSeconds = 0;
     self.pendingActive = NO;
     self.viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];

@@ -25,9 +25,6 @@ typedef enum {
 
 @interface OTMFilters : NSObject
 
-@property (nonatomic,assign) BOOL missingTree;
-@property (nonatomic,assign) BOOL missingDBH;
-@property (nonatomic,assign) BOOL missingSpecies;
 @property (nonatomic,strong) NSString *speciesName;
 @property (nonatomic,strong) NSString *speciesId;
 
@@ -45,7 +42,7 @@ typedef enum {
 
 - (NSString *)description;
 
-@end 
+@end
 
 #define OTMFilterKeyType @"OTMFilterKeyType"
 #define OTMFilterKeyName @"OTMFilterKeyName"
@@ -53,8 +50,6 @@ typedef enum {
 #define OTMChoiceFilterChoiceKey @"OTMChoiceFilterChoice"
 
 @interface OTMFilter : NSObject
-
-+ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict;
 
 /**
  * This is the view that the property will show
@@ -75,8 +70,10 @@ typedef enum {
 
 @property (nonatomic,readonly) UILabel *nameLbl;
 @property (nonatomic,readonly) UISwitch *toggle;
+@property (nonatomic,readonly) BOOL existanceFilter;
 
 - (id)initWithName:(NSString *)nm key:(NSString *)k;
+- (id)initWithName:(NSString *)nm key:(NSString *)k existanceFilter:(BOOL)existanceFilter;
 
 @end
 
@@ -106,7 +103,7 @@ typedef enum {
 @property (nonatomic,readonly) NSDictionary *selectedChoice;
 @property (nonatomic,readonly) NSArray *allChoices;
 
-- (id)initWithName:(NSString *)nm key:(NSString *)k choiceKey:(NSString *)ck;
+- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices;
 
 @end
 
@@ -119,10 +116,6 @@ typedef enum {
 
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic,strong) IBOutlet UIView *otherFiltersView;
-@property (nonatomic,strong) IBOutlet UILabel *missingTreeLabel;
-@property (nonatomic,strong) IBOutlet UISwitch *missingTree;
-@property (nonatomic,strong) IBOutlet UISwitch *missingDBH;
-@property (nonatomic,strong) IBOutlet UISwitch *missingSpecies;
 @property (nonatomic,strong) IBOutlet UIButton *speciesButton;
 @property (nonatomic,strong) NSString *speciesName;
 @property (nonatomic,strong) NSString *speciesId;
