@@ -363,14 +363,8 @@
                                                         layer:layer];
 
     if (filter != nil) {
-        filter =
-            (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
-                                                                                  (__bridge CFStringRef) filter,
-                                                                                  NULL,
-                                                                                  CFSTR("!*'();:@&=+$,/?%#[]\" "),
-                                                                                  kCFStringEncodingUTF8));
-
-      urlSfx = [urlSfx stringByAppendingFormat:@"&q=%@", filter];
+        filter = [OTMAPI urlEncode:filter];
+        urlSfx = [urlSfx stringByAppendingFormat:@"&q=%@", filter];
     }
 
     NSString *host = env.host;
@@ -384,6 +378,8 @@
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
 
     MKCoordinateRegion region = [env mapViewInitialCoordinateRegion];
+    [SharedAppDelegate setMapRegion:region];
+
     [mapView setRegion:region animated:NO];
     [mapView regionThatFits:region];
     [mapView setDelegate:self];
@@ -533,13 +529,7 @@
     }
 
     OTMAPI *api = [[OTMEnvironment sharedEnvironment] api];
-    NSDictionary *filtersDict = [f filtersDict];
-    NSString *filter = nil;
-
-    if ([filtersDict count] > 0) {
-        filter = [[NSString alloc] initWithData:[api jsonEncode:filtersDict]
-                                       encoding:NSUTF8StringEncoding];
-    }
+    NSString *filter = [f filtersAsUrlParameter];
 
     [self setMapFilter:filter];
     // TODO: hide the wizard label

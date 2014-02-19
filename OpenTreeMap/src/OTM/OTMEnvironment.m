@@ -75,7 +75,6 @@
         self.currencyUnit = @"$";
     }
 
-    self.hideTreesFilter = NO;
     self.splashDelayInSeconds = 0;
     self.pendingActive = NO;
     self.viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
@@ -154,11 +153,6 @@
     }
 }
 
--(NSArray *)filters {
-    NSMutableArray* fs = [NSMutableArray array];
-    return fs;
-}
-
 -(NSArray *)fieldKeys {
     return (NSArray* )self.fields;
 }
@@ -168,6 +162,13 @@
     self.instanceId = [dict objectForKey:@"id"];
     self.geoRev = [dict objectForKey:@"geoRev"];
     self.fields = [self fieldsFromDictArray:[dict objectForKey:@"fields"]];
+
+    NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
+
+    NSArray *regFilters = [self filtersFromDictArray:missingAndStandardFilters[@"standard"]];
+    NSArray *missingFilters = [self missingFiltersFromDictArray:missingAndStandardFilters[@"missing"]];
+
+    self.filters = [regFilters arrayByAddingObjectsFromArray:missingFilters];
 
     NSDictionary* center = [dict objectForKey:@"center"];
 
@@ -183,6 +184,66 @@
     [self setMapViewInitialCoordinateRegion:
               MKCoordinateRegionMake(initialLatLon,
                                      initialCoordinateSpan)];
+}
+
+/**
+ * All missing filters are boolean filters with "existenceFilter"
+ * set to true.
+ */
+- (NSArray *)missingFiltersFromDictArray:(NSArray *)filterlist {
+    NSMutableArray *filterArray = [NSMutableArray array];
+
+    [filterlist enumerateObjectsUsingBlock:^(NSDictionary *filter, NSUInteger idx, BOOL *stop) {
+            NSString *fieldKey = filter[@"identifier"];
+            NSString *fieldName = filter[@"label"];
+
+            OTMFilter *afilter = [[OTMBoolFilter alloc] initWithName:fieldName
+                                                                 key:fieldKey
+                                                     existanceFilter:YES];
+            [filterArray addObject:afilter];
+        }];
+
+    return filterArray;
+}
+
+- (NSArray *)filtersFromDictArray:(NSArray *)filterlist {
+    NSMutableArray *filterArray = [NSMutableArray array];
+
+    [filterlist enumerateObjectsUsingBlock:^(NSDictionary *filter, NSUInteger idx, BOOL *stop) {
+            NSString *fieldKey = filter[@"identifier"];
+            NSString *fieldName = filter[@"label"];
+            NSString *filterType = filter[@"search_type"];
+
+            OTMFilter *afilter = nil;
+
+            if ([filterType isEqualToString:@"CHOICES"]) {
+                NSArray *filterChoices = filter[@"choices"];
+
+                afilter = [[OTMChoiceFilter alloc] initWithName:fieldName
+                                                           key:fieldKey
+                                                       choices:filterChoices];
+            }
+            else if ([filterType isEqualToString:@"BOOL"]) {
+                afilter = [[OTMBoolFilter alloc] initWithName:fieldName
+                                                         key:fieldKey];
+            }
+            else if ([filterType isEqualToString:@"RANGE"]) {
+                afilter = [[OTMRangeFilter alloc] initWithName:fieldName
+                                                          key:fieldKey];
+
+            }
+            else if ([filterType isEqualToString:@"SPACE"]) {
+                CGFloat space = [[filter valueForKey:@"space"] floatValue];
+
+                afilter = [[OTMFilterSpacer alloc] initWithSpace:space];
+            }
+
+            if (afilter != nil) {
+                [filterArray addObject:afilter];
+            }
+        }];
+
+    return filterArray;
 }
 
 - (NSArray *)fieldsFromDictArray:(NSDictionary *)modelmap {

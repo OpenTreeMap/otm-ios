@@ -18,20 +18,10 @@
 
 @implementation OTMFilters
 
-@synthesize missingTree, missingDBH, missingSpecies, filters, speciesName, speciesId, listFilterType;
-
 - (BOOL)active {
-    return [self standardFiltersActive] || [self customFiltersActive];
-}
+    if (_speciesId != nil) { return true; }
 
-- (BOOL)standardFiltersActive {
-    return missingTree || missingDBH || missingSpecies;
-}
-
-- (BOOL)customFiltersActive {
-    if (speciesId != nil) { return true; }
-
-    for(OTMFilter *f in filters) {
+    for(OTMFilter *f in _filters) {
         if ([f active]) {
             return true;
         }
@@ -50,28 +40,28 @@
         [m setObject:@"true" forKey:@"filter_pending"];
     }
 
-    if (missingTree) {
-        m[@"tree.id"] = @{ @"IS": [NSNull null] };
-    }
-
-    if (missingDBH) {
-        m[@"tree.diameter"] = @{ @"IS": [NSNull null] };
-    }
-
-    if (missingSpecies) {
-        m[@"species.id"] = @{ @"IS": [NSNull null] };
-    }
-
     return m;
+}
+
+- (NSString *)filtersAsUrlParameter {
+    NSDictionary *filtersDict = [self filtersDict];
+    NSString *filter = nil;
+
+    if ([filtersDict count] > 0) {
+        filter = [[NSString alloc] initWithData:[OTMAPI jsonEncode:filtersDict]
+                                       encoding:NSUTF8StringEncoding];
+    }
+
+    return filter;
 }
 
 - (NSDictionary *)customFiltersDict {
     NSMutableDictionary *m = [NSMutableDictionary dictionary];
-    if (speciesId != nil) {
-        m[@"species.id"] = @{ @"IS": speciesId };
+    if (_speciesId != nil) {
+        m[@"species.id"] = @{ @"IS": _speciesId };
     }
 
-    for(OTMFilter *f in filters) {
+    for(OTMFilter *f in _filters) {
         [m addEntriesFromDictionary:[f queryParams]];
     }
     return m;
@@ -80,23 +70,14 @@
 - (NSString *)description
 {
     NSMutableArray *descriptions = [[NSMutableArray alloc] init];
-    if (missingTree) {
-        [descriptions addObject:@"Missing Tree"];
-    }
-    if (missingSpecies) {
-        [descriptions addObject:@"Missing Species"];
-    }
-    if (missingDBH) {
-        [descriptions addObject:@"Missing Diameter"];
-    }
-    for(OTMFilter *f in filters) {
+    for(OTMFilter *f in _filters) {
         if ([f active]) {
             [descriptions addObject:[f name]];
         }
     }
-    if (speciesId != nil)
+    if (_speciesId != nil)
     {
-        [descriptions addObject:speciesName];
+        [descriptions addObject:_speciesName];
     }
     if ([descriptions count] > 1) {
         return [descriptions componentsJoinedByString:@", "];
@@ -118,10 +99,6 @@
 @implementation OTMFilter
 
 @synthesize view, name, key, delegate;
-
-+ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
-    return [NSClassFromString([dict objectForKey:OTMFilterKeyType]) filterFromDictionary:dict];
-}
 
 - (NSDictionary *)queryParams { ABSTRACT_METHOD_BODY }
 - (NSString *)queryString { ABSTRACT_METHOD_BODY }
@@ -148,11 +125,6 @@
 @implementation OTMFilterSpacer
 
 @synthesize space;
-
-+ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
-    return [[OTMFilterSpacer alloc] initWithSpace:
-                               [[dict valueForKey:@"OTMFilterSpaceHeight"] floatValue]];
-}
 
 - (id)initWithSpace:(CGFloat)s {
     if ((self = [super init])) {
@@ -193,17 +165,16 @@
 
 @implementation OTMBoolFilter
 
-@synthesize toggle, nameLbl;
-
-+ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
-    return [[OTMBoolFilter alloc] initWithName:[dict objectForKey:OTMFilterKeyName] key:[dict objectForKey:OTMFilterKeyKey]];
+- (id)initWithName:(NSString *)nm key:(NSString *)k {
+    return [self initWithName:nm key:k existanceFilter:NO];
 }
 
-- (id)initWithName:(NSString *)nm key:(NSString *)k {
+- (id)initWithName:(NSString *)nm key:(NSString *)k existanceFilter:(BOOL)existanceFilter {
     self = [super init];
     if (self) {
         [self setName:nm];
         [self setKey:k];
+        _existanceFilter = existanceFilter;
     }
 
     return self;
@@ -220,35 +191,39 @@
     CGRect r = CGRectMake(0,0,320,40);
     [self setView:[[UIView alloc] initWithFrame:r]];
 
-    nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
-    nameLbl.backgroundColor = [UIColor clearColor];
-    nameLbl.textAlignment = UITextAlignmentLeft;
-    nameLbl.text = self.name;
+    _nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
+    _nameLbl.backgroundColor = [UIColor clearColor];
+    _nameLbl.textAlignment = UITextAlignmentLeft;
+    _nameLbl.text = self.name;
 
     CGRect switchRect = CGRectMake(0,0,79,27); // this isthe default (and only?) size for an iOS toggle switch
     CGFloat rightPad = 20.0;
     CGFloat ox = r.size.width - (rightPad + switchRect.size.width);
     CGFloat oy = (int)((r.size.height - switchRect.size.height) / 2.0);
 
-    toggle = [[UISwitch alloc] initWithFrame:CGRectOffset(switchRect, ox, oy)];
+    _toggle = [[UISwitch alloc] initWithFrame:CGRectOffset(switchRect, ox, oy)];
 
-    [self.view addSubview:nameLbl];
-    [self.view addSubview:toggle];
+    [self.view addSubview:_nameLbl];
+    [self.view addSubview:_toggle];
 
     return self.view;
 }
 
 - (BOOL)active {
-    return toggle.on;
+    return _toggle.on;
 }
 
 - (void)clear {
-    [toggle setOn:NO animated:YES];
+    [_toggle setOn:NO animated:YES];
 }
 
 - (NSDictionary *)queryParams {
     if ([self active]) {
-        return [NSDictionary dictionaryWithObjectsAndKeys:toggle.on ? @"true" : @"false", self.key, nil];
+        if ([self existanceFilter]) {
+            return @{ self.key: @{ @"IS": [NSNull null] }};
+        } else {
+            return [NSDictionary dictionaryWithObjectsAndKeys:_toggle.on ? @"true" : @"false", self.key, nil];
+        }
     } else {
         return [NSDictionary dictionary];
     }
@@ -260,13 +235,7 @@
 
 @synthesize button, tvc, selectedChoice, allChoices;
 
-+ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
-    return [[OTMChoiceFilter alloc] initWithName:[dict objectForKey:OTMFilterKeyName]
-                                             key:[dict objectForKey:OTMFilterKeyKey]
-                                       choiceKey:[dict objectForKey:OTMChoiceFilterChoiceKey]];
-}
-
-- (id)initWithName:(NSString *)nm key:(NSString *)k choiceKey:(NSString *)choiceKey {
+- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices {
     self = [super init];
     if (self) {
         [self setName:nm];
@@ -282,7 +251,7 @@
                                             target:self
                                             action:@selector(clear)];
 
-        allChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:choiceKey];
+        allChoices = choices;
         selectedChoice = nil;
 
         button = [[OTMButton alloc] init];
@@ -394,10 +363,6 @@
 
 @synthesize nameLbl, maxValue, minValue;
 
-+ (OTMFilter *)filterFromDictionary:(NSDictionary *)dict {
-    return [[OTMRangeFilter alloc] initWithName:[dict objectForKey:OTMFilterKeyName] key:[dict objectForKey:OTMFilterKeyKey]];
-}
-
 - (id)initWithName:(NSString *)nm key:(NSString *)k {
     self = [super init];
     if (self) {
@@ -497,8 +462,6 @@
 
 @implementation OTMFilterListViewController
 
-@synthesize callback, missingTree, missingDBH, missingSpecies, scrollView, filters, otherFiltersView, speciesButton, speciesName, speciesId, missingTreeLabel;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -511,11 +474,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    if ([[OTMEnvironment sharedEnvironment] hideTreesFilter]) {
-        missingTreeLabel.hidden = YES;
-        missingTree.hidden = YES;
-    }
 }
 
 - (void)viewDidUnload
@@ -531,47 +489,38 @@
 
 - (void)setAllFilters:(OTMFilters *)f
 {
-    self.missingTree.on = f.missingTree;
-    self.missingDBH.on = f.missingDBH;
-    self.missingSpecies.on = f.missingSpecies;
     self.speciesName = f.speciesName;
     self.speciesId = f.speciesId;
 
-    filters = f.filters;
+    _filters = f.filters;
 
     [self buildFilters:f.filters];
 }
 
 - (IBAction)updateFilters:(id)sender {
-    if (callback) {
-        callback([self generateFilters]);
+    if (_callback) {
+        _callback([self generateFilters]);
     }
-    for (OTMFilter *filter in filters) {
+    for (OTMFilter *filter in _filters) {
         [filter resignFirstResponder];
     }
     [self dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction)clearFilters:(id)sender {
-    [self.missingTree setOn:NO animated:YES];
-    [self.missingDBH setOn:NO animated:YES];
-    [self.missingSpecies setOn:NO animated:YES];
     [self setSpeciesName:nil];
-    speciesId = nil;
-    for (OTMFilter *filter in filters) {
+    _speciesId = nil;
+    for (OTMFilter *filter in _filters) {
         [filter clear];
     }
 }
 
 - (OTMFilters *)generateFilters {
     OTMFilters *filtersobj = [[OTMFilters alloc] init];
-    filtersobj.missingTree = missingTree.on;
-    filtersobj.missingDBH = missingDBH.on;
-    filtersobj.missingSpecies = missingSpecies.on;
     filtersobj.speciesId = self.speciesId;
     filtersobj.speciesName = self.speciesName;
 
-    filtersobj.filters = filters;
+    filtersobj.filters = _filters;
 
     return filtersobj;
 }
@@ -583,38 +532,38 @@
     CGFloat pad = 0.0f;
 
     // Reset filters frame
-    for (UIView *v in otherFiltersView.subviews) { [v removeFromSuperview]; }
+    for (UIView *v in _otherFiltersView.subviews) { [v removeFromSuperview]; }
 
-    otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,
-                                        otherFiltersView.frame.origin.y + 18,
-                                        otherFiltersView.frame.size.width,
+    _otherFiltersView.frame = CGRectMake(_otherFiltersView.frame.origin.x,
+                                        _otherFiltersView.frame.origin.y + 18,
+                                        _otherFiltersView.frame.size.width,
                                         0.0);
 
-    for(OTMFilter *filter in filters) {
+    for(OTMFilter *filter in _filters) {
         filter.delegate = self;
         UIView *v = [filter view];
-        v.frame = CGRectMake(v.frame.origin.x, otherFiltersView.frame.size.height, v.frame.size.width, v.frame.size.height);
-        [otherFiltersView addSubview:v];
+        v.frame = CGRectMake(v.frame.origin.x, _otherFiltersView.frame.size.height, v.frame.size.width, v.frame.size.height);
+        [_otherFiltersView addSubview:v];
 
-        otherFiltersView.frame = CGRectMake(otherFiltersView.frame.origin.x,
-                                            otherFiltersView.frame.origin.y,
-                                            otherFiltersView.frame.size.width,
-                                            otherFiltersView.frame.size.height + v.frame.size.height + pad);
+        _otherFiltersView.frame = CGRectMake(_otherFiltersView.frame.origin.x,
+                                            _otherFiltersView.frame.origin.y,
+                                            _otherFiltersView.frame.size.width,
+                                            _otherFiltersView.frame.size.height + v.frame.size.height + pad);
     }
 
-    scrollView.contentSize = CGSizeMake(otherFiltersView.frame.size.width,
-                                        otherFiltersView.frame.origin.y + otherFiltersView.frame.size.height + pad);
+    self.scrollView.contentSize = CGSizeMake(_otherFiltersView.frame.size.width,
+                                        _otherFiltersView.frame.origin.y + _otherFiltersView.frame.size.height + pad);
 
 }
 
 - (void)setSpeciesName:(NSString *)name {
-    speciesName = name;
+    _speciesName = name;
 
     if (name == nil) {
         name = @"Not Filtered";
     }
 
-    [speciesButton setTitle:[NSString stringWithFormat:@"Species: %@",name] forState: UIControlStateNormal];
+    [_speciesButton setTitle:[NSString stringWithFormat:@"Species: %@",name] forState: UIControlStateNormal];
 }
 
 
