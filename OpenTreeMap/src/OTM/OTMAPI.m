@@ -214,10 +214,18 @@
     [userDict setObject:user.password forKey:@"password"];
     [userDict setObject:user.zipcode forKey:@"zipcode"];
 
-    return [self jsonEncode:userDict];
+    return [OTMAPI jsonEncode:userDict];
 }
 
--(NSData *)jsonEncode:(id)obj {
++(NSString *)urlEncode:(NSString *)string {
+    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                 (__bridge CFStringRef) string,
+                                                                                 NULL,
+                                                                                 CFSTR("!*'();:@&=+$,/?%#[]\" "),
+                                                                                 kCFStringEncodingUTF8));
+}
+
++(NSData *)jsonEncode:(id)obj {
     NSError *error = NULL;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
     if (error != NULL) {
@@ -280,7 +288,7 @@
         withUser:user
           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                              forKey:@"user_id"]
-            data:[self jsonEncode:[NSDictionary dictionaryWithObject:newPass forKey:@"password"]]
+            data:[OTMAPI jsonEncode:[NSDictionary dictionaryWithObject:newPass forKey:@"password"]]
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
         {
             if (callback != nil) {
@@ -398,7 +406,7 @@
     [_request post:@"plots"
          withUser:user
            params:nil
-             data:[self jsonEncode:details]
+             data:[OTMAPI jsonEncode:details]
       contentType:@"image/png"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
@@ -414,7 +422,7 @@
     [_request put:@"plots/:id"
         withUser:user
           params:[NSDictionary dictionaryWithObject:pk forKey:@"id"]
-            data:[self jsonEncode:details]
+            data:[OTMAPI jsonEncode:details]
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 

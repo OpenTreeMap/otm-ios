@@ -36,6 +36,7 @@ typedef enum {
 @property (nonatomic,strong) NSArray *filters;
 
 - (BOOL)active;
+- (NSString *)filtersAsUrlParameter;
 - (NSDictionary *)filtersDict;
 - (BOOL)standardFiltersActive;
 - (BOOL)customFiltersActive;

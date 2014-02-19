@@ -57,12 +57,16 @@
     if (missingDBH) {
         m[@"tree.diameter"] = @{ @"IS": [NSNull null] };
     }
+- (NSString *)filtersAsUrlParameter {
+    NSDictionary *filtersDict = [self filtersDict];
+    NSString *filter = nil;
 
-    if (missingSpecies) {
-        m[@"species.id"] = @{ @"IS": [NSNull null] };
+    if ([filtersDict count] > 0) {
+        filter = [[NSString alloc] initWithData:[OTMAPI jsonEncode:filtersDict]
+                                       encoding:NSUTF8StringEncoding];
     }
 
-    return m;
+    return filter;
 }
 
 - (NSDictionary *)customFiltersDict {
