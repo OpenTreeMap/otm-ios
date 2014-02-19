@@ -118,7 +118,9 @@
                                    [NSNumber numberWithInt:max], @"max_plots", nil];
 
     if (filters != nil) {
-        [params addEntriesFromDictionary:[filters filtersDict]];
+        NSString *filter = [filters filtersAsUrlParameter];
+        filter = [OTMAPI urlEncode:filter];
+        [params addEntriesFromDictionary:@{@"q": filter}];
     }
 
     if (distance > 0) {
