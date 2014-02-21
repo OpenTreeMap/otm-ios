@@ -16,7 +16,7 @@
 #import "OTMTreeDetailViewController.h"
 #import "OTMDetailTableViewCell.h"
 #import "OTMSpeciesTableViewController.h"
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 #import "OTMMapViewController.h"
 #import "OTMDetailCellRenderer.h"
 #import "AZWaitingOverlayController.h"
@@ -524,13 +524,7 @@
         OTMFieldDetailViewController *fieldDetailViewController = segue.destinationViewController;
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
-        if ([renderer respondsToSelector:@selector(label)]) {
-            fieldDetailViewController.fieldName = [renderer label];
-        }
         fieldDetailViewController.ownerFieldKey = [renderer ownerDataKey];
-        if ([renderer respondsToSelector:@selector(formatStr)]) {
-            fieldDetailViewController.fieldFormatString = [renderer formatStr];
-        }
         if ([renderer respondsToSelector:@selector(fieldName)] && [renderer respondsToSelector:@selector(fieldChoices)]) {
             fieldDetailViewController.choices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:[renderer fieldName]];
         } else {

@@ -268,6 +268,17 @@
                     NSString *key = [NSString stringWithFormat:@"%@.%@", model, field];
                     BOOL writable = [[dict objectForKey:@"can_write"] boolValue];
 
+                    NSString *unit = dict[@"units"];
+                    NSString *digitsV = dict[@"digits"];
+
+                    NSUInteger digits = digitsV != nil && digitsV != (id)[NSNull null]  ? [digitsV intValue] : 0;
+
+                    OTMFormatter *fmt = nil;
+                    if (unit != nil) {
+                        fmt = [[OTMFormatter alloc] initWithDigits:digits
+                                                             label:unit];
+                    }
+
                     if ([field isEqualToString:@"geom"] || [field isEqualToString:@"readonly"]) {
                         // skip
                     } else if ([field isEqualToString:@"species"]) {
@@ -275,37 +286,41 @@
                             [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
                                                                    editRenderer:nil
                                                                           label:@"Common Name"
-                                                                         format:nil];
+                                                                         formatter:nil];
                         OTMDetailCellRenderer *sciNameRenderer =
                             [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
                                                                    editRenderer:nil
                                                                           label:@"Scientific Name"
-                                                                         format:nil];
+                                                                         formatter:nil];
 
                         [modelFields addObject:sciNameRenderer];
                         [modelFields addObject:commonNameRenderer];
                     } else if ([field isEqualToString:@"diameter"]) {
+                        _dbhFormat = fmt;
                         OTMDBHEditDetailCellRenderer *dbhEditRenderer =
-                            [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key];
+                            [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key
+                                                                        formatter:fmt];
 
                         [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
                                                    initWithDataKey:key
                                                       editRenderer:dbhEditRenderer
                                                              label:displayField
-                                                            format:nil]];
+                                                            formatter:fmt]];
                     } else {
                         OTMLabelEditDetailCellRenderer *editRenderer = nil;
+
                         if (writable) {
                             editRenderer = [[OTMLabelEditDetailCellRenderer alloc]
                                                initWithDataKey:key
                                                          label:displayField
-                                                      keyboard:UIKeyboardTypeDefault];
+                                                      keyboard:UIKeyboardTypeDefault
+                                                     formatter:fmt];
                         }
                         [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
                                                        initWithDataKey:key
                                                           editRenderer:editRenderer
                                                                  label:displayField
-                                                                format:nil]];
+                                                             formatter:fmt]];
                     }
                 }];
 

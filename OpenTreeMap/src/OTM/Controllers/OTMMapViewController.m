@@ -17,6 +17,7 @@
 #import "OTMFilterListViewController.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
+#import "OTMFormatter.h"
 #import "OTMTreeDetailViewController.h"
 #import "OTMAppDelegate.h"
 #import "OTMDetailCellRenderer.h"
@@ -265,10 +266,10 @@
             dbhValue = [tree objectForKey:@"diameter"];
         }
 
-        NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
+        OTMFormatter *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
 
         if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
-            tdbh =  [NSString stringWithFormat:fmt, [dbhValue doubleValue]];
+            tdbh =  [fmt format:[dbhValue floatValue]];
         }
 
         NSDictionary *latestSpeciesEdit = [[[pendingEdits objectForKey:@"tree.species"] objectForKey:@"pending_edits"] objectAtIndex:0];
