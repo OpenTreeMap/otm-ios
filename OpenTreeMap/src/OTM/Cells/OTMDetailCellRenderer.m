@@ -128,11 +128,21 @@
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    NSDictionary* benefit = [[data objectForKey:@"benefits"] objectAtIndex:self.index];
-    NSString* value = [benefit objectForKey:@"value"];
-    NSString* unit = [benefit objectForKey:@"unit"];
-    self.cell.benefitValue.text = [NSString stringWithFormat:@"%@ %@", value, unit];
-    self.cell.benefitDollarAmt.text = [NSString stringWithFormat:@"%@ saved", [benefit objectForKey:@"currency_saved"]];
+    NSDictionary *benefit = [[data objectForKey:@"benefits"] objectAtIndex:self.index];
+
+    NSString *value = [benefit objectForKey:@"value"];
+    NSString *unit = [benefit objectForKey:@"unit"];
+    if (value) {
+        self.cell.benefitValue.text = [NSString stringWithFormat:@"%@ %@", value, unit];
+    } else {
+        self.cell.benefitValue.text = @"";
+    }
+
+    if ([benefit objectForKey:@"currency_saved"]) {
+        self.cell.benefitDollarAmt.text = [NSString stringWithFormat:@"%@ saved", [benefit objectForKey:@"currency_saved"]];
+    } else {
+        self.cell.benefitDollarAmt.text = @"";
+    }
     return _cell;
 }
 
