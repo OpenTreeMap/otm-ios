@@ -231,6 +231,19 @@
     self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
 }
 
+- (void)setEcoKeys:(NSArray *)ecoKeys {
+    NSUInteger startingIndex = [allFields count];
+    for (int section=0; section < [ecoKeys count]; section ++) {
+        NSMutableArray *ecoFieldRenderers = [[NSMutableArray alloc] init];
+        NSArray *ecoFields = [ecoKeys objectAtIndex:section];
+        for (int row=0; row < [ecoFields count]; row++) {
+            [ecoFieldRenderers addObject:[ecoFields objectAtIndex:row]];
+            [(NSMutableArray*)txToEditRemove addObject:[NSIndexPath indexPathForRow:row inSection:startingIndex + section]];
+        }
+        [(NSMutableArray*)allFields addObject:ecoFieldRenderers];
+    }
+}
+
 - (IBAction)showTreePhotoFullscreen:(id)sender {
     NSArray *images = [[self.data objectForKey:@"tree"] objectForKey:@"images"];
     NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
@@ -312,6 +325,9 @@
         [self.tableView deleteRowsAtIndexPaths:txToEditRemove
                               withRowAnimation:UITableViewRowAnimationFade];
 
+        // Remove the eco section, which is appended to the end and never editable
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:[allFields count]-1] withRowAnimation:UITableViewRowAnimationFade];
+
         // There are 2 fixed sections to be added when editing: the mini map section and the species/photo section
         [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];
@@ -343,6 +359,10 @@
 
         // There are 2 fixed sections to be removed after editing: the mini map section and the species/photo section
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
+                      withRowAnimation:UITableViewRowAnimationFade];
+
+        // Resore the eco section which was removed during editing. It is always the last section
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:[allFields count]-1]
                       withRowAnimation:UITableViewRowAnimationFade];
 
         [self.tableView insertRowsAtIndexPaths:txToEditRemove

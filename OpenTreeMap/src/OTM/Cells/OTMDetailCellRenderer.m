@@ -114,24 +114,25 @@
 @implementation OTMBenefitsDetailCellRenderer
 
 
--(id)initWithDataKey:(NSString *)datakey label:(NSString *)label {
-    self = [super initWithDataKey:datakey];
+-(id)initWithLabel:(NSString *)label index:(NSInteger)idx {
+    self = [super initWithDataKey:nil];
 
     if (self) {
         _cell = [OTMBenefitsTableViewCell loadFromNib];
         self.cellHeight = _cell.frame.size.height;
         self.cell.benefitName.text = label;
+        self.index = idx;
     }
 
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-
-    NSString *num = [data decodeKey:self.dataKey];
-    self.cell.benefitValue.text = num;
-    self.cell.benefitDollarAmt.text = num;
-
+    NSDictionary* benefit = [[data objectForKey:@"benefits"] objectAtIndex:self.index];
+    NSString* value = [benefit objectForKey:@"value"];
+    NSString* unit = [benefit objectForKey:@"unit"];
+    self.cell.benefitValue.text = [NSString stringWithFormat:@"%@ %@", value, unit];
+    self.cell.benefitDollarAmt.text = [NSString stringWithFormat:@"%@ saved", [benefit objectForKey:@"currency_saved"]];
     return _cell;
 }
 

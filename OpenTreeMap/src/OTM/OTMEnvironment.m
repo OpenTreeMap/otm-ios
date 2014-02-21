@@ -168,6 +168,7 @@
 
     self.filters = [regFilters arrayByAddingObjectsFromArray:missingFilters];
 
+    self.ecoFields = [self ecoFieldsFromDict:[dict objectForKey:@"eco"]];
     NSDictionary* center = [dict objectForKey:@"center"];
 
     CGFloat lat = [[center objectForKey:@"lat"] floatValue];
@@ -350,6 +351,24 @@
     }];
 
     return fieldArray;
+}
+
+- (NSArray*)ecoFieldsFromDict:(NSDictionary*)ecoDict {
+    if ([ecoDict objectForKey:@"supportsEcoBenefits"]) {
+        NSMutableArray *fieldArray = [NSMutableArray array];
+        NSArray *benefits = [ecoDict objectForKey:@"benefits"];
+        [benefits enumerateObjectsUsingBlock:^(NSDictionary *fieldDict, NSUInteger idx, BOOL *stop) {
+            // Currently, we create the same type of cell renderer without regard to
+            // any of the field details
+            [fieldArray addObject:[[OTMBenefitsDetailCellRenderer alloc] initWithLabel:[fieldDict objectForKey:@"label"] index:idx]];
+        }];
+        // To be consistant with the editable fields, the eco fields are wrapped in a containing
+        // array that represents the field group. This may be useful
+        // in the future when there may be multiple sets of eco benefits.
+        return [NSArray arrayWithObject:fieldArray];
+    } else {
+        return [[NSArray alloc] init];
+    }
 }
 
 @end

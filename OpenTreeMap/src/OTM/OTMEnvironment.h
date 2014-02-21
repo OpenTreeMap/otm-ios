@@ -96,6 +96,7 @@
 @property (nonatomic, assign) BOOL pendingActive;
 @property (nonatomic, strong) NSArray* fieldSections;
 @property (nonatomic, strong) NSArray* fields;
+@property (nonatomic, strong) NSArray* ecoFields;
 @property (nonatomic, strong) NSArray* filts;
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
