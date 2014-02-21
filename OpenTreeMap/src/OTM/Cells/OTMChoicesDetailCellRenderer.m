@@ -19,22 +19,25 @@
 
 @implementation OTMChoicesDetailCellRenderer
 
-@synthesize label, fieldName, fieldChoices, clickURL;
+@synthesize label, fieldChoices, clickURL;
 
 -(id)initWithDataKey:(NSString *)datakey
                label:(NSString *)labelname
             clickUrl:(NSString *)clickurl
-           fieldName:(NSString *)fieldname {
+             choices:(NSArray *)choices
+            writable:(BOOL)writable {
 
     self = [super initWithDataKey:datakey];
 
     if (self) {
         self.label = labelname;
         self.clickURL = clickurl;
-        self.fieldName = fieldname;
 
-        self.fieldChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:fieldName];
-        self.editCellRenderer = [[OTMEditChoicesDetailCellRenderer alloc] initWithDetailRenderer:self];
+        self.fieldChoices = choices;
+
+        if (writable) {
+            self.editCellRenderer = [[OTMEditChoicesDetailCellRenderer alloc] initWithDetailRenderer:self];
+        }
     }
 
     return self;
@@ -69,8 +72,8 @@
     }
 
     for(NSDictionary *choice in fieldChoices) {
-        if ([value isEqualToString:[[choice objectForKey:@"key"] description]]) {
-            output = [choice objectForKey:@"value"];
+        if ([value isEqualToString:[[choice objectForKey:@"value"] description]]) {
+            output = [choice objectForKey:@"display_value"];
         }
     }
 
@@ -144,8 +147,8 @@
         NSString *value = [[renderData decodeKey:renderer.dataKey] description];
 
         for(NSDictionary *choice in renderer.fieldChoices) {
-            if ([value isEqualToString:[[choice objectForKey:@"key"] description]]) {
-                txt = [choice objectForKey:@"value"];
+            if ([value isEqualToString:[[choice objectForKey:@"value"] description]]) {
+                txt = [choice objectForKey:@"display_value"];
             }
         }
 
@@ -159,7 +162,7 @@
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     if (selected) {
-        [dict setObject:[selected objectForKey:@"key"] forEncodedKey:renderer.dataKey];
+        [dict setObject:[selected objectForKey:@"value"] forEncodedKey:renderer.dataKey];
     }
 
     selected = nil;
@@ -181,7 +184,7 @@
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     selected = [renderer.fieldChoices objectAtIndex:[indexPath row]];
 
-    cell.fieldValue.text = [selected objectForKey:@"value"];
+    cell.fieldValue.text = [selected objectForKey:@"display_value"];
 
     [tblView reloadData];
 }
@@ -196,15 +199,15 @@
                                       reuseIdentifier:kOTMEditChoicesDetailCellRendererCellId];
     }
 
-    aCell.textLabel.text = [selectedDict objectForKey:@"value"];
+    aCell.textLabel.text = [selectedDict objectForKey:@"display_value"];
     aCell.accessoryType = UITableViewCellAccessoryNone;
 
     if (selected != nil) {
-        if ([[[selectedDict objectForKey:@"key"] description] isEqualToString:[[selected objectForKey:@"key"] description]]) {
+        if ([[[selectedDict objectForKey:@"value"] description] isEqualToString:[[selected objectForKey:@"key"] description]]) {
             aCell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
     } else {
-        if ([[selectedDict objectForKey:@"value"] isEqualToString:output]) {
+        if ([[selectedDict objectForKey:@"display_value"] isEqualToString:output]) {
             aCell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
     }

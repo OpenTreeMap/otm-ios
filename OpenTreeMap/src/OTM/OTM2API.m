@@ -24,6 +24,9 @@
 
 -(void)loadInstanceInfo:(NSString*)instance
            withCallback:(AZJSONCallback)callback {
+
+  self.species = nil; // Clear species cache
+
   [self loadInstanceInfo:instance
                  forUser:[[SharedAppDelegate loginManager] loggedInUser]
             withCallback:callback];

@@ -19,6 +19,7 @@
 #import "OTMFilterListViewController.h"
 #import "OTMDetailCellRenderer.h"
 #import "OTMMapDetailCellRenderer.h"
+#import "OTMChoicesDetailCellRenderer.h"
 
 @implementation OTMEnvironment
 
@@ -46,10 +47,7 @@
     NSString* configuration = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"Configuration"];
     NSBundle* bundle = [NSBundle mainBundle];
     NSString* environmentPListPath = [bundle pathForResource:configuration ofType:@"plist"];
-    NSString *choicesPListPath = [bundle pathForResource:@"Choices" ofType:@"plist"];
     NSDictionary* environment = [[NSDictionary alloc] initWithContentsOfFile:environmentPListPath];
-
-    self.choices = [[NSDictionary alloc] initWithContentsOfFile:choicesPListPath];
 
     // Environment - URLCache
 
@@ -246,6 +244,87 @@
     return filterArray;
 }
 
+- (void)addSpeciesFieldsToArray:(NSMutableArray *)modelFields key:(NSString *)key {
+    OTMDetailCellRenderer *commonNameRenderer =
+        [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
+                                               editRenderer:nil
+                                                      label:@"Common Name"
+                                                  formatter:nil];
+    OTMDetailCellRenderer *sciNameRenderer =
+        [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
+                                               editRenderer:nil
+                                                      label:@"Scientific Name"
+                                                  formatter:nil];
+
+    [modelFields addObject:sciNameRenderer];
+    [modelFields addObject:commonNameRenderer];
+}
+
+- (void)addFieldsToArray:(NSMutableArray *)modelFields fromDict:(NSDictionary *)dict {
+    NSString *field = [dict objectForKey:@"field_name"];
+    NSString *displayField = [dict objectForKey:@"display_name"];
+    NSString *key = [dict objectForKey:@"field_key"];
+    BOOL writable = [[dict objectForKey:@"can_write"] boolValue];
+    NSArray *choices = [dict objectForKey:@"choices"];
+
+    if ((id)[NSNull null] == choices) {
+        choices = nil;
+    }
+
+    NSString *unit = dict[@"units"];
+    NSString *digitsV = dict[@"digits"];
+
+    NSUInteger digits = digitsV != nil && digitsV != (id)[NSNull null]  ? [digitsV intValue] : 0;
+
+    OTMFormatter *fmt = nil;
+    if (unit != nil) {
+        fmt = [[OTMFormatter alloc] initWithDigits:digits
+                                             label:unit];
+    }
+
+    if ([field isEqualToString:@"geom"] ||
+        [field isEqualToString:@"readonly"]) {
+        // skip
+    } else if ([field isEqualToString:@"species"]) {
+        [self addSpeciesFieldsToArray:modelFields key:key];
+    } else if ([field isEqualToString:@"diameter"]) {
+        _dbhFormat = fmt;
+        OTMDBHEditDetailCellRenderer *dbhEditRenderer =
+            [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key
+                                                        formatter:fmt];
+
+        [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
+                                                   initWithDataKey:key
+                                                      editRenderer:dbhEditRenderer
+                                                             label:displayField
+                                                         formatter:fmt]];
+    } else if ([choices count] > 0) {
+        OTMChoicesDetailCellRenderer *renderer =
+            [[OTMChoicesDetailCellRenderer alloc] initWithDataKey:key
+                                                            label:displayField
+                                                         clickUrl:nil
+                                                          choices:choices
+                                                         writable:writable];
+
+        [modelFields addObject:renderer];
+    } else {
+        OTMLabelEditDetailCellRenderer *editRenderer = nil;
+
+        if (writable) {
+            editRenderer = [[OTMLabelEditDetailCellRenderer alloc]
+                                               initWithDataKey:key
+                                                         label:displayField
+                                                      keyboard:UIKeyboardTypeDefault
+                                                     formatter:fmt];
+        }
+        [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
+                                                       initWithDataKey:key
+                                                          editRenderer:editRenderer
+                                                                 label:displayField
+                                                             formatter:fmt]];
+    }
+}
+
 - (NSArray *)fieldsFromDictArray:(NSDictionary *)modelmap {
     NSMutableArray *fieldArray = [NSMutableArray array];
 
@@ -263,50 +342,7 @@
             NSMutableArray *modelFields = [NSMutableArray array];
 
             [fieldlist enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-                    NSString *field = [dict objectForKey:@"field_name"];
-                    NSString *displayField = [dict objectForKey:@"display_name"];
-                    NSString *key = [NSString stringWithFormat:@"%@.%@", model, field];
-                    BOOL writable = [[dict objectForKey:@"can_write"] boolValue];
-
-                    if ([field isEqualToString:@"geom"] || [field isEqualToString:@"readonly"]) {
-                        // skip
-                    } else if ([field isEqualToString:@"species"]) {
-                        OTMDetailCellRenderer *commonNameRenderer =
-                            [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
-                                                                   editRenderer:nil
-                                                                          label:@"Common Name"
-                                                                         format:nil];
-                        OTMDetailCellRenderer *sciNameRenderer =
-                            [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
-                                                                   editRenderer:nil
-                                                                          label:@"Scientific Name"
-                                                                         format:nil];
-
-                        [modelFields addObject:sciNameRenderer];
-                        [modelFields addObject:commonNameRenderer];
-                    } else if ([field isEqualToString:@"diameter"]) {
-                        OTMDBHEditDetailCellRenderer *dbhEditRenderer =
-                            [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key];
-
-                        [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
-                                                   initWithDataKey:key
-                                                      editRenderer:dbhEditRenderer
-                                                             label:displayField
-                                                            format:nil]];
-                    } else {
-                        OTMLabelEditDetailCellRenderer *editRenderer = nil;
-                        if (writable) {
-                            editRenderer = [[OTMLabelEditDetailCellRenderer alloc]
-                                               initWithDataKey:key
-                                                         label:displayField
-                                                      keyboard:UIKeyboardTypeDefault];
-                        }
-                        [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
-                                                       initWithDataKey:key
-                                                          editRenderer:editRenderer
-                                                                 label:displayField
-                                                                format:nil]];
-                    }
+                    [self addFieldsToArray:modelFields fromDict:dict];
                 }];
 
             [fieldArray addObject:modelFields];

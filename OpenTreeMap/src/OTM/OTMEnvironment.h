@@ -17,6 +17,7 @@
 #import <MapKit/MapKit.h>
 #import "OTMAPI.h"
 #import "OTM2API.h"
+#import "OTMFormatter.h"
 
 /**
  An interface to global application settings that may change for each build configuration (i.e. Debug, Release)
@@ -99,7 +100,6 @@
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
 @property (nonatomic, assign) float splashDelayInSeconds;
-@property (nonatomic, strong) NSString *dbhFormat;
 @property (nonatomic, strong) NSString *dbhUnit;
 @property (nonatomic, strong) NSString *distanceUnit;
 @property (nonatomic) double distanceBiggerUnitFactor;
@@ -113,9 +113,6 @@
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 
-// Choices values
-@property (nonatomic, retain) NSDictionary* choices;
-
 // Derived Properties
 @property (nonatomic, strong) OTMAPI* api;
 @property (nonatomic, strong) OTM2API* api2;
@@ -125,6 +122,8 @@
 @property (nonatomic, strong) NSString* instanceId;
 @property (nonatomic, strong) NSString* geoRev;
 @property (nonatomic, strong) NSString* host;
+@property (nonatomic, strong) OTMFormatter* dbhFormat;
+
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
 
