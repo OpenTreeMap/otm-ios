@@ -197,6 +197,7 @@
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
 
         dest.keys = keys;
+        dest.ecoKeys = [[OTMEnvironment sharedEnvironment] ecoFields];
         dest.imageView.image = self.treeImage.image;
         if (self.mode != Select) {
             // When adding a new tree the detail view is automatically in edit mode

@@ -81,6 +81,14 @@
  */
 @property (nonatomic, strong) NSArray* keys;
 
+/**
+ * Array[OTMDetailCellRenderer] ecoKeys to display in the main table
+ *
+ * Each element in the array is a field for displaying a single eco
+ * benefit in a table row
+ */
+@property (nonatomic, strong) NSArray* ecoKeys;
+
 - (IBAction)showTreePhotoFullscreen:(id)sender;
 - (IBAction)startOrCommitEditing:(id)sender;
 - (IBAction)cancelEditing:(id)sender;
