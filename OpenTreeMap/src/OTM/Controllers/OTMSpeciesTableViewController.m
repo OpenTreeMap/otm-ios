@@ -39,7 +39,9 @@
     sections =  [NSArray arrayWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",
                     @"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
 
-    [[[OTMEnvironment sharedEnvironment] api] getSpeciesListWithCallback:^(id json, NSError *err)
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+    [[[OTMEnvironment sharedEnvironment] api] getSpeciesListForUser:loginManager.loggedInUser
+                                                       withCallback:^(id json, NSError *err)
      {
          if (err) {
              [[[UIAlertView alloc] initWithTitle:@"Error"

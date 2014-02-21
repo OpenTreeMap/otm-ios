@@ -47,6 +47,7 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
 /**
  * Object used for doing our http requests
  */
+@property (nonatomic,strong) NSDictionary* species;
 @property (nonatomic,strong) AZHttpRequest* request;
 @property (nonatomic,strong) AZHttpRequest* noPrefixRequest;
 
@@ -59,7 +60,7 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
 /**
  * Get species list
  */
--(void)getSpeciesListWithCallback:(AZJSONCallback)callback;
+-(void)getSpeciesListForUser:(OTMUser *)user withCallback:(AZJSONCallback)callback;
 
 /**
  * Save the given plot

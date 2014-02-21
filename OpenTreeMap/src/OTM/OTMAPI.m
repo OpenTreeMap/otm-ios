@@ -67,13 +67,14 @@
     return self;
 }
 
--(void)getSpeciesListWithCallback:(AZJSONCallback)callback {
+-(void)getSpeciesListForUser:(OTMUser *)user withCallback:(AZJSONCallback)callback {
     if (species != nil) {
         if (callback) {
             callback(species, nil);
         }
     } else {
         [self.request get:@"species"
+                 withUser:user
                    params:nil
                  callback:[OTMAPI liftResponse:
                            [OTMAPI jsonCallback:^(id json, NSError *err) {
@@ -119,7 +120,7 @@
 
     if (filters != nil) {
         NSString *filter = [filters filtersAsUrlParameter];
-        
+
         if (filter) {
             filter = [OTMAPI urlEncode:filter];
             [params addEntriesFromDictionary:@{@"q": filter}];
