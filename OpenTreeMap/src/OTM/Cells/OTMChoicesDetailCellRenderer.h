@@ -26,7 +26,8 @@
 -(id)initWithDataKey:(NSString *)datakey
                label:(NSString *)label
             clickUrl:(NSString *)clickurl
-           fieldName:(NSString *)fieldName;
+             choices:(NSArray *)choices
+            writable:(BOOL)writable;
 
 @end
 

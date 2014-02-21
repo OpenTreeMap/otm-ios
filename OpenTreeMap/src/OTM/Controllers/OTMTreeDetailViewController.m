@@ -24,6 +24,7 @@
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMFieldDetailViewController.h"
 #import "OTMImageViewController.h"
+#import "OTMChoicesDetailCellRenderer.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -526,7 +527,7 @@
         fieldDetailViewController.fieldKey = [renderer dataKey];
         fieldDetailViewController.ownerFieldKey = [renderer ownerDataKey];
         if ([renderer respondsToSelector:@selector(fieldName)] && [renderer respondsToSelector:@selector(fieldChoices)]) {
-            fieldDetailViewController.choices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:[renderer fieldName]];
+            fieldDetailViewController.choices = [renderer fieldChoices];
         } else {
             // The view controller uses the presence of this property to determine how
             // to display the value, so it must be nil'd out if ot os not a choices field

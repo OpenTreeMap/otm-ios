@@ -113,10 +113,6 @@
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 
-
-// Choices values
-@property (nonatomic, retain) NSDictionary* choices;
-
 // Derived Properties
 @property (nonatomic, strong) OTMAPI* api;
 @property (nonatomic, strong) OTM2API* api2;
