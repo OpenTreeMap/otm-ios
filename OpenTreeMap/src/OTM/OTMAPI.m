@@ -119,8 +119,11 @@
 
     if (filters != nil) {
         NSString *filter = [filters filtersAsUrlParameter];
-        filter = [OTMAPI urlEncode:filter];
-        [params addEntriesFromDictionary:@{@"q": filter}];
+        
+        if (filter) {
+            filter = [OTMAPI urlEncode:filter];
+            [params addEntriesFromDictionary:@{@"q": filter}];
+        }
     }
 
     if (distance > 0) {
