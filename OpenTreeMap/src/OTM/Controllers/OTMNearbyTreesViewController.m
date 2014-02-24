@@ -202,7 +202,6 @@
                         user:[loginManager loggedInUser]
                   maxResults:15
                      filters:filters
-                    distance:1 // 1 decimal degree
                     callback:^(NSArray *json, NSError *error)
      {
          if (json) {
