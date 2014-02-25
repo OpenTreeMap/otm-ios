@@ -18,7 +18,10 @@
 
 @implementation OTMDistanceTableViewCell
 
-@synthesize thisLoc, distLabel, curLoc;
+@synthesize thisLoc, curLoc;
+// TODO: The unit used for displaying distance needs to be configured in the management
+//       of the web app and returned from the instance JSON endpoint
+// @synthesize distLabel
 
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -29,6 +32,8 @@
                                                  selector:@selector(distanceUpdated:)
                                                  name:kOTMDistaneTableViewCellRedrawDistance
                                                    object:nil];
+
+        /*
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(232,7,75,30)];
         label.backgroundColor = [UIColor colorWithRed:226/255.0 green:226/255.0 blue:226/255.0 alpha:1.0];
@@ -42,7 +47,7 @@
         self.distLabel = label;
 
         [self addSubview:label];
-
+*/
         formatter = [[NSNumberFormatter alloc] init];
         [formatter setMaximumFractionDigits:0];
         [formatter setUsesGroupingSeparator:YES];
@@ -66,6 +71,9 @@
 }
 
 -(void)updateDistance {
+    // TODO: The unit used for displaying distance needs to be configured in the management
+    //       of the web app and returned from the instance JSON endpoint
+    /*
     if (curLoc && thisLoc) {
         double dist = [curLoc distanceFromLocation:thisLoc];
         dist *= [[OTMEnvironment sharedEnvironment] distanceFromMetersFactor];
@@ -85,6 +93,7 @@
 
         self.distLabel.text = [NSString stringWithFormat:@"%@%@",text,unit];
     }
+    */
 }
 
 -(void)distanceUpdated:(NSNotification *)note {
