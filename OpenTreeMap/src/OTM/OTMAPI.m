@@ -184,11 +184,7 @@
             user.firstName = [json objectForKey:@"firstname"];
             user.lastName = [json objectForKey:@"lastname"];
             user.userId = [[json valueForKey:@"id"] intValue];
-            user.zipcode = [json objectForKey:@"zipcode"];
             user.reputation = [[json valueForKey:@"reputation"] intValue];
-            user.permissions = [json objectForKey:@"permissions"];
-            user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
-            user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
             [user setLoggedIn:YES];
             callback(user, nil, kOTMAPILoginResponseOK);
         }
@@ -218,7 +214,6 @@
     [userDict setObject:user.lastName forKey:@"lastname"];
     [userDict setObject:user.email forKey:@"email"];
     [userDict setObject:user.password forKey:@"password"];
-    [userDict setObject:user.zipcode forKey:@"zipcode"];
 
     return [OTMAPI jsonEncode:userDict];
 }

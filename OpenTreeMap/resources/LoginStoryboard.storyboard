@@ -194,15 +194,6 @@
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="r3n-2e-59O"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1207" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="zipcode" minimumFontSize="17" id="qxM-0I-LMq">
-                                        <rect key="frame" x="20" y="293" width="280" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="EHZ-o9-hUZ" id="sbW-n2-2Cy"/>
-                                        </connections>
-                                    </textField>
                                     <textField opaque="NO" clipsSubviews="YES" tag="1206" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="last name" minimumFontSize="17" id="CbR-tg-8o1">
                                         <rect key="frame" x="166" y="257" width="134" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -256,7 +247,6 @@
                         <outlet property="username" destination="83T-RB-vAP" id="N34-ht-Dzx"/>
                         <outlet property="verifyPassword" destination="e39-YE-7jE" id="9ag-3r-bnR"/>
                         <outlet property="view" destination="rdP-k2-Kth" id="K5d-Uj-3sW"/>
-                        <outlet property="zipCode" destination="qxM-0I-LMq" id="Ulf-Z2-ckt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lDl-L0-tWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
