@@ -51,14 +51,27 @@
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
 
-    AZUser* user = [[SharedAppDelegate loginManager] loggedInUser];
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+    AZUser* user = [loginManager loggedInUser];
 
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
-    [api loadInstanceInfo:[[OTMEnvironment sharedEnvironment] instance]
+    NSString *instance = [[OTMEnvironment sharedEnvironment] instance];
+    [api loadInstanceInfo:instance
                   forUser:user
              withCallback:^(id json, NSError *error) {
-        [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
-        [self initView];
+            if (error) {
+                if ([[[error userInfo] objectForKey:@"statusCode"] intValue] == 401) {
+                    [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
+                            if (success) {
+                                loginManager.loggedInUser = aUser;
+                                [self changeMode:Add];
+                            }
+                        }];
+                }
+            } else {
+                [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+                [self initView];
+            }
       }];
 }
 

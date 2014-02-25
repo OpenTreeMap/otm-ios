@@ -168,7 +168,7 @@
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [_request get:@"login"
+    [_request get:@"user"
         withUser:user
           params:nil
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
@@ -184,11 +184,7 @@
             user.firstName = [json objectForKey:@"firstname"];
             user.lastName = [json objectForKey:@"lastname"];
             user.userId = [[json valueForKey:@"id"] intValue];
-            user.zipcode = [json objectForKey:@"zipcode"];
             user.reputation = [[json valueForKey:@"reputation"] intValue];
-            user.permissions = [json objectForKey:@"permissions"];
-            user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
-            user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
             [user setLoggedIn:YES];
             callback(user, nil, kOTMAPILoginResponseOK);
         }
@@ -197,14 +193,14 @@
 }
 
 -(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
-    [_request get:@"login"
+    [_request get:@"user"
         withUser:user
           params:nil
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
-    [_request post:@"login/reset_password"
+    [_request post:@"user/reset_password"
            params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
              data:nil
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
@@ -218,7 +214,6 @@
     [userDict setObject:user.lastName forKey:@"lastname"];
     [userDict setObject:user.email forKey:@"email"];
     [userDict setObject:user.password forKey:@"password"];
-    [userDict setObject:user.zipcode forKey:@"zipcode"];
 
     return [OTMAPI jsonEncode:userDict];
 }
@@ -263,7 +258,7 @@
 }
 
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {
-    [_request post:@"user/"
+    [_request post:@"user"
            params:nil
              data:[self encodeUser:user]
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)

@@ -52,7 +52,7 @@
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [self.noPrefixRequest get:@"login"
+    [self.noPrefixRequest get:@"user"
                  withUser:user
                    params:nil
                  callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
@@ -68,17 +68,16 @@
               user.firstName = [json objectForKey:@"firstname"];
               user.lastName = [json objectForKey:@"lastname"];
               user.userId = [[json valueForKey:@"id"] intValue];
-              user.zipcode = [json objectForKey:@"zipcode"];
               user.reputation = [[json valueForKey:@"reputation"] intValue];
-              user.permissions = [json objectForKey:@"permissions"];
-              user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
-              user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
+
               [user setLoggedIn:YES];
 
               [self loadInstanceInfo:[[OTMEnvironment sharedEnvironment] instance]
                              forUser:user
                         withCallback:^(id json, NSError *error) {
-                  [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+                  if (!error) {
+                    [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+                  }
                   callback(user, json, kOTMAPILoginResponseOK);
                 }];
             }
