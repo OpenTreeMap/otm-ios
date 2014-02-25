@@ -168,7 +168,7 @@
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [_request get:@"login"
+    [_request get:@"user"
         withUser:user
           params:nil
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
@@ -193,14 +193,14 @@
 }
 
 -(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
-    [_request get:@"login"
+    [_request get:@"user"
         withUser:user
           params:nil
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
-    [_request post:@"login/reset_password"
+    [_request post:@"user/reset_password"
            params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
              data:nil
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
@@ -258,7 +258,7 @@
 }
 
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {
-    [_request post:@"user/"
+    [_request post:@"user"
            params:nil
              data:[self encodeUser:user]
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)

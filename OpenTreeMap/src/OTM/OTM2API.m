@@ -52,7 +52,7 @@
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [self.noPrefixRequest get:@"login"
+    [self.noPrefixRequest get:@"user"
                  withUser:user
                    params:nil
                  callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
