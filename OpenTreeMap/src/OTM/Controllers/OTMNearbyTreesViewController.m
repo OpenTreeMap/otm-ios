@@ -131,26 +131,28 @@
 
     }
 
-    NSDictionary *plot = [self.nearbyTrees objectAtIndex:[indexPath row]];
-    NSDictionary *geom = [plot objectForKey:@"geometry"];
-    CLLocation *treeLoc = [[CLLocation alloc] initWithLatitude:[[geom valueForKey:@"lat"] doubleValue]
-                                                     longitude:[[geom valueForKey:@"lng"] doubleValue]];
+    NSDictionary *item = [self.nearbyTrees objectAtIndex:[indexPath row]];
+    NSDictionary *plot = [item objectForKey:@"plot"];
+    NSDictionary *geom = [plot objectForKey:@"geom"];
+    CLLocation *treeLoc = [[CLLocation alloc] initWithLatitude:[[geom valueForKey:@"y"] doubleValue]
+                                                     longitude:[[geom valueForKey:@"x"] doubleValue]];
 
     // tree variable may end up containing an NSDictionary or NSNull
-    id tree = [plot objectForKey:@"tree"];
+    id tree = [item objectForKey:@"tree"];
 
     if (tree == nil || tree == [NSNull null]) {
         cell.textLabel.text = @"Unassigned Plot";
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Plot #%@",[plot objectForKey:@"id"]];
     } else {
-        cell.textLabel.text = [tree objectForKey:@"species_name"];
-        if (cell.textLabel.text == nil) {
+        NSDictionary *species = [tree objectForKey:@"species"];
+        if (species) {
+            cell.textLabel.text = [species objectForKey:@"common_name"];
+        } else {
             cell.textLabel.text = @"(No Species)";
         }
-        if ([tree valueForKey:@"dbh"] && ![[tree valueForKey:@"dbh"] isEqual:@"<null>"]) {
-            NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
-            cell.detailTextLabel.text = [NSString stringWithFormat:fmt,
-                                                 [[tree valueForKey:@"dbh"] doubleValue]];
+        if ([tree valueForKey:@"diameter"] && ![[tree valueForKey:@"diameter"] isEqual:@"<null>"]) {
+            OTMFormatter *formatter = [[OTMEnvironment sharedEnvironment] dbhFormat];
+            cell.detailTextLabel.text = [formatter format:[[tree valueForKey:@"diameter"] doubleValue]];
         } else {
             cell.detailTextLabel.text = @"Diameter Missing";
         }
