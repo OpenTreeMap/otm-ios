@@ -468,8 +468,10 @@
         OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
         OTMUser *user = loginManager.loggedInUser;
 
+        NSInteger plotid = [self.data[@"plot"][@"id"] intValue];
+
         [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
-                                              onPlotWithID:[[self.data objectForKey:@"id"] intValue]
+                                              onPlotWithID:plotid
                                                   withUser:user
                                                   callback:^(id json, NSError *err)
            {
