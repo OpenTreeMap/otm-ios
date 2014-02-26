@@ -146,7 +146,7 @@
              [(id)[self data] setObject:tree forKey:@"tree"];
          }
 
-         NSArray *photos = [tree objectForKey:@"images"];
+         NSArray *photos = [data objectForKey:@"images"];
          if (photos == nil) {
              photos = [NSArray array];
          }
@@ -155,7 +155,7 @@
                                                            @"OTM-Mobile Photo", @"title",
                                                            image, @"data", nil];
 
-         [tree setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
+         [data setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
 
      }];
 
@@ -245,7 +245,7 @@
 }
 
 - (IBAction)showTreePhotoFullscreen:(id)sender {
-    NSArray *images = [[self.data objectForKey:@"tree"] objectForKey:@"images"];
+    NSArray *images = [self.data objectForKey:@"images"];
     NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
 
     if (imageURL) {
@@ -453,7 +453,7 @@
     NSMutableArray *pending = [NSMutableArray array];
     NSArray *treePhotos;
     if ([data objectForKey:@"tree"] && [data objectForKey:@"tree"] != [NSNull null]) {
-        treePhotos = [[data objectForKey:@"tree"] objectForKey:@"images"];
+        treePhotos = [data objectForKey:@"images"];
     }
     NSMutableArray *savedTreePhotos = [NSMutableArray array];
     if (treePhotos) {
@@ -464,7 +464,7 @@
                 [savedTreePhotos addObject:treePhoto];
             }
         }
-        [[data objectForKey:@"tree"] setObject:savedTreePhotos forKey:@"images"];
+        [data setObject:savedTreePhotos forKey:@"images"];
     }
     return pending;
 }
@@ -488,8 +488,10 @@
         OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
         OTMUser *user = loginManager.loggedInUser;
 
+        NSInteger plotid = [self.data[@"plot"][@"id"] intValue];
+
         [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
-                                              onPlotWithID:[[self.data objectForKey:@"id"] intValue]
+                                              onPlotWithID:plotid
                                                   withUser:user
                                                   callback:^(id json, NSError *err)
            {

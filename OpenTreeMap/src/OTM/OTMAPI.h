@@ -85,14 +85,6 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback;
 
 /**
- * Request an image for a given tree/plot
- *
- * @param plotid the plot's id
- * @param imageid the image's id
- */
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
-
-/**
  * Attempt to log the given user in. If successful user.loggedIn will return
  * true
  *

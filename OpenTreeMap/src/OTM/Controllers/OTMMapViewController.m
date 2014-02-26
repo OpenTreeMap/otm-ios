@@ -599,18 +599,27 @@
     self.treeImage.image = nil;
 
     if (tree && [tree isKindOfClass:[NSDictionary class]]) {
-        NSArray* images = [tree objectForKey:@"images"];
+        NSArray* images = [dict objectForKey:@"photos"];
 
         if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-            int imageId = [[[images lastObject] objectForKey:@"id"] intValue];
-            int plotId = [[plot objectForKey:@"id"] intValue];
+            NSString *photoUrl = [[images lastObject] objectForKey:@"image"];
 
-            [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
-                                                              photoId:imageId
-                                                             callback:^(UIImage* image, NSError* error)
-             {
-                 self.treeImage.image = image;
-             }];
+            if (![photoUrl hasPrefix:@"http"]) {
+                NSString *baseUrl = [[OTMEnvironment sharedEnvironment] baseURL];
+                NSURL *url = [NSURL URLWithString:baseUrl];
+                NSString *host = [url host];
+                NSString *scheme = [url scheme];
+                NSString *port = [url port];
+                photoUrl = [NSString stringWithFormat:@"%@://%@:%@%@", scheme, host, port, photoUrl];
+            }
+
+            dispatch_async(dispatch_get_global_queue(0,0), ^{
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                            self.treeImage.image = [UIImage imageWithData: imageData];
+                        });
+                });
         }
     }
 
