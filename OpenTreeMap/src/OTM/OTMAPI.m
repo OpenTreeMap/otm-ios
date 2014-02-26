@@ -139,23 +139,6 @@
                        [OTMAPI jsonCallback:callback]]];
 }
 
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback {
-    [self.request getRaw:@"plots/:plot/tree/photo/:photo"
-                  params:[NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", plotid], @"plot",
-                          [NSString stringWithFormat:@"%d", photoid], @"photo", nil]
-                    mime:@"image/jpeg"
-                callback:[OTMAPI liftResponse:^(id data, NSError* error) {
-                    if (callback) {
-                        if (error != nil) {
-                            callback(nil, error);
-                        } else {
-                            callback([UIImage imageWithData:data], nil);
-                        }
-                    }
-                }]];
-}
-
 -(void)savePlot:(NSDictionary *)plot withUser:(OTMUser *)user callback:(AZJSONCallback)callback {
     id pId = [plot objectForKey:@"id"];
 
