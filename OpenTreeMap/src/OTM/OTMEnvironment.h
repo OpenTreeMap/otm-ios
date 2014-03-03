@@ -84,7 +84,6 @@
 @property (nonatomic, copy) NSString* mapViewTitle;
 
 @property (nonatomic, copy) NSString* baseURL;
-@property (nonatomic, copy) NSString* apiKey;
 
 @property (nonatomic, strong) NSArray *filters;
 
@@ -123,6 +122,10 @@
 @property (nonatomic, strong) NSString* geoRev;
 @property (nonatomic, strong) NSString* host;
 @property (nonatomic, strong) OTMFormatter* dbhFormat;
+
+// Security
+@property (nonatomic, strong) NSString *secretKey;
+@property (nonatomic, strong) NSString *accessKey;
 
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
