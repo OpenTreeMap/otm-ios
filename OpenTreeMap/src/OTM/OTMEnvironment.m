@@ -62,8 +62,10 @@
     NSString* implementationPListPath = [bundle pathForResource:@"Implementation" ofType:@"plist"];
     NSDictionary* implementation = [[NSDictionary alloc] initWithContentsOfFile:implementationPListPath];
 
+    self.accessKey = [implementation valueForKey:@"AccessKey"];
+    self.secretKey = [implementation valueForKey:@"SecretKey"];
+
     self.instance = [implementation objectForKey:@"instance"];
-    self.apiKey = [implementation valueForKey:@"APIKey"];
 
     self.dateFormat = @"MMMM d, yyyy h:mm a";
     self.detailLatSpan = 0.0007;
@@ -111,7 +113,7 @@
                          [version objectForKey:@"version"],
                          [version objectForKey:@"build"]];
 
-    NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:self.apiKey, @"X-API-Key",
+    NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:
                                           ver, @"ApplicationVersion",
                                           nil];
 
