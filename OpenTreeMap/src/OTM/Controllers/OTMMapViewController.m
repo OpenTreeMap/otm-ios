@@ -103,6 +103,11 @@
                                                  name:kOTMChangeMapModeNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeEnvironment:)
+                                                 name:kOTMEnvironmentChangeNotification
+                                               object:nil];
+
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
@@ -123,6 +128,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                  name:kOTMChangeMapModeNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kOTMEnvironmentChangeNotification
+                                                  object:nil];
 }
 
 -(void)updatedImage:(NSNotification *)note {
@@ -131,7 +140,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] navBarTintColor]];
+    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
 
     self.addTreeHelpLabel.textColor = [UIColor whiteColor];
     self.addTreeHelpLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -258,6 +267,11 @@
 -(void)changeMapMode:(NSNotification *)note {
     mapModeSegmentedControl.selectedSegmentIndex = [note.object intValue];
     self.mapView.mapType = (MKMapType)[note.object intValue];
+}
+
+-(void)changeEnvironment:(NSNotification *)note {
+    OTMEnvironment *env = note.object;
+    [self.tabBarController.tabBar setSelectedImageTintColor:[env primaryColor]];
 }
 
 #pragma mark Detail View

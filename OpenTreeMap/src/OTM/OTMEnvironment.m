@@ -77,8 +77,14 @@
 
     self.splashDelayInSeconds = 0;
     self.pendingActive = NO;
+
+    self.primaryColor = [self colorFromArray:[implementation objectForKey:@"primaryColor"]
+                                defaultColor:colorWithHexString(@"8BAA3D")];
+    self.secondaryColor = [self colorFromArray:[implementation objectForKey:@"secondaryColor"]
+                                  defaultColor:colorWithHexString(@"56ABB2")];
+    self.instanceLogoUrl = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]];
+
     self.viewBackgroundColor = [self colorFromArray:[implementation objectForKey:@"backgroundColor"] defaultColor:[UIColor whiteColor]];
-    self.navBarTintColor = [self colorFromArray:[implementation objectForKey:@"tintColor"] defaultColor:nil];
     self.buttonTextColor = [self colorFromArray:[implementation objectForKey:@"buttonFontColor"] defaultColor:[UIColor whiteColor]];
     self.buttonImage = [UIImage imageNamed:@"btn_bg"];
 
@@ -161,6 +167,7 @@
     self.instanceId = [dict objectForKey:@"id"];
     self.geoRev = [dict objectForKey:@"geoRev"];
     self.fields = [self fieldsFromDictArray:[dict objectForKey:@"fields"]];
+    self.config = [dict objectForKey:@"config"];
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
 
@@ -184,6 +191,23 @@
     [self setMapViewInitialCoordinateRegion:
               MKCoordinateRegionMake(initialLatLon,
                                      initialCoordinateSpan)];
+
+    NSString *primaryHexColor = [[self.config objectForKey:@"scss_variables"] objectForKey:@"primary-color"];
+    if (primaryHexColor) {
+        self.primaryColor = colorWithHexString(primaryHexColor);
+    }
+
+    NSString *secondayHexColor = [[self.config objectForKey:@"scss_variables"] objectForKey:@"secondary-color"];
+    if (secondayHexColor) {
+        self.secondaryColor = colorWithHexString(secondayHexColor);
+    }
+
+    NSString* logoUrl = [dict objectForKey:@"logoUrl"];
+    if (logoUrl) {
+        self.instanceLogoUrl = [NSURL URLWithString:logoUrl];
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMEnvironmentChangeNotification object:self];
 }
 
 /**
@@ -370,6 +394,38 @@
     } else {
         return [[NSArray alloc] init];
     }
+}
+
+//
+// Functions from DB5
+// https://github.com/quartermaster/DB5/blob/7e41cef54e7ae9d3e97c2f8f23fc5cf14df72114/Source/VSTheme.m
+//
+
+static BOOL stringIsEmpty(NSString *s) {
+	return s == nil || [s length] == 0;
+}
+
+static UIColor *colorWithHexString(NSString *hexString) {
+
+	/*Picky. Crashes by design.*/
+
+	if (stringIsEmpty(hexString))
+		return [UIColor blackColor];
+
+	NSMutableString *s = [hexString mutableCopy];
+	[s replaceOccurrencesOfString:@"#" withString:@"" options:0 range:NSMakeRange(0, [hexString length])];
+	CFStringTrimWhitespace((__bridge CFMutableStringRef)s);
+
+	NSString *redString = [s substringToIndex:2];
+	NSString *greenString = [s substringWithRange:NSMakeRange(2, 2)];
+	NSString *blueString = [s substringWithRange:NSMakeRange(4, 2)];
+
+	unsigned int red = 0, green = 0, blue = 0;
+	[[NSScanner scannerWithString:redString] scanHexInt:&red];
+	[[NSScanner scannerWithString:greenString] scanHexInt:&green];
+	[[NSScanner scannerWithString:blueString] scanHexInt:&blue];
+
+	return [UIColor colorWithRed:(CGFloat)red/255.0f green:(CGFloat)green/255.0f blue:(CGFloat)blue/255.0f alpha:1.0f];
 }
 
 @end
