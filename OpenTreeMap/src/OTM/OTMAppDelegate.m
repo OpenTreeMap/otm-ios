@@ -30,14 +30,17 @@
 {
     keychain = [[AZKeychainItemWrapper alloc] initWithIdentifier:@"org.otm.creds"
                                                      accessGroup:nil];
-    
+
     loginManager = [[OTMLoginManager alloc] init];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMapMode:) name:kOTMChangeMapModeNotification object:nil];
+
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeEnvironment:) name:kOTMEnvironmentChangeNotification object:nil];
 
     return YES;
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -46,7 +49,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
@@ -70,6 +73,11 @@
 
 -(void)changeMapMode:(NSNotification *)note {
     self.mapMode = [note.object intValue];
+}
+
+-(void)changeEnvironment:(NSNotification *)note {
+    OTMEnvironment *env = note.object;
+    self.window.tintColor = env.primaryColor;
 }
 
 @end

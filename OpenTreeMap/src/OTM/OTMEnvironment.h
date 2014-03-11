@@ -19,6 +19,8 @@
 #import "OTM2API.h"
 #import "OTMFormatter.h"
 
+#define kOTMEnvironmentChangeNotification @"kOTMEnvironmentChangeNotification"
+
 /**
  An interface to global application settings that may change for each build configuration (i.e. Debug, Release)
  */
@@ -88,8 +90,9 @@
 @property (nonatomic, strong) NSArray *filters;
 
 @property (nonatomic, strong) NSArray *fieldKeys;
+@property (nonatomic, strong) UIColor *primaryColor;
+@property (nonatomic, strong) UIColor *secondaryColor;
 @property (nonatomic, strong) UIColor *viewBackgroundColor;
-@property (nonatomic, strong) UIColor *navBarTintColor;
 @property (nonatomic, strong) UIImage *buttonImage;
 @property (nonatomic, strong) UIColor *buttonTextColor;
 @property (nonatomic, assign) BOOL pendingActive;
@@ -122,6 +125,8 @@
 @property (nonatomic, strong) NSString* geoRev;
 @property (nonatomic, strong) NSString* host;
 @property (nonatomic, strong) OTMFormatter* dbhFormat;
+@property (nonatomic, strong) NSDictionary* config;
+@property (nonatomic, strong) NSURL *instanceLogoUrl;
 
 // Security
 @property (nonatomic, strong) NSString *secretKey;
