@@ -36,7 +36,7 @@
                 forUser:(AZUser*)user
            withCallback:(AZJSONCallback)callback {
 
-  [self.noPrefixRequest get:@":instance"
+  [self.noPrefixRequest get:@"instance/:instance"
                withUser:user
                  params:@{@"instance" : instance}
                callback:[OTMAPI liftResponse:

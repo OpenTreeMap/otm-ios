@@ -144,7 +144,7 @@
 
 -(void)setInstance:(NSString *)instance {
     _instance = instance;
-    _api2.request.baseURL = [self.baseURL stringByAppendingFormat:@"%@/",instance];
+    _api2.request.baseURL = [self.baseURL stringByAppendingFormat:@"instance/%@/",instance];
 }
 
 -(UIColor *)colorFromArray:(NSArray *)array defaultColor:(UIColor *)c {
