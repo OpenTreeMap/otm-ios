@@ -100,7 +100,7 @@
         
         [[[OTMEnvironment sharedEnvironment] api] changePasswordForUser:user 
                                                               to:self.aNewPassword.text 
-                                                        callback:^(OTMUser *u, OTMAPILoginResponse r)
+                                                        callback:^(OTMUser *u, NSDictionary *instance, OTMAPILoginResponse r)
          {
              if (r == kOTMAPILoginResponseOK) {
                  [self.navigationController popViewControllerAnimated:YES];

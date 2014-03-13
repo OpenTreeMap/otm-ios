@@ -104,11 +104,10 @@
         user.firstName = self.firstName.text;
         user.lastName = self.lastName.text;
         user.email = self.email.text;
-        user.zipcode = self.zipCode.text;
         user.photo = self.profileImage.image;
 
         [[[OTMEnvironment sharedEnvironment] api] createUser:user
-                                                   callback:^(OTMUser *user, OTMAPILoginResponse status)
+                                                   callback:^(OTMUser *user, NSDictionary *instance, OTMAPILoginResponse status)
         {
             if (status == kOTMAPILoginResponseOK) {
                 if (user.photo != nil) {
@@ -188,11 +187,6 @@
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
-
-    self.zipCode.keyboardType = [[OTMEnvironment sharedEnvironment]
-                                  zipcodeKeyboard];
-
-    zipCode.placeholder = [[OTMEnvironment sharedEnvironment] localizedZipCodeName];
 
     self.scrollView.contentSize = CGSizeMake(320, 460);
 }

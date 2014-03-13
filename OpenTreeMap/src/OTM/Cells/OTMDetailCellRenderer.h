@@ -14,15 +14,14 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <Foundation/Foundation.h>
+#import "OTMFormatter.h"
 #import "OTMDetailTableViewCell.h"
 #import "OTMDBHTableViewCell.h"
 #import "OTMBenefitsTableViewCell.h"
 
-#define kOTMDefaultDetailRenderer OTMLabelDetailCellRenderer
 #define kOTMDefaultEditDetailRenderer OTMLabelEditDetailCellRenderer
 
 @class OTMEditDetailCellRenderer;
-@class OTMUser;
 
 /**
  * Generic interface for rendering cells
@@ -31,10 +30,6 @@
  */
 @interface OTMDetailCellRenderer : NSObject
 
-/**
- * Use the given dict as the bases for the cell renderer
- */
-+(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict user:(OTMUser *)user;
 
 /**
  * Key to access data for this cell
@@ -84,10 +79,8 @@
 @property (nonatomic,strong) Function1v clickCallback;
 @property (nonatomic,assign) CGFloat cellHeight;
 
-/**
- * Initialize with dictionary structure
- */
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user;
+-(id)initWithDataKey:(NSString *)dkey;
+-(id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit;
 
 /**
  * Given a tableView create a new cell (or reuse an old one), prepare
@@ -102,6 +95,9 @@ ABSTRACT_METHOD
 @interface OTMBenefitsDetailCellRenderer : OTMDetailCellRenderer
 
 @property (nonatomic,strong) OTMBenefitsTableViewCell *cell;
+@property (nonatomic,assign) NSInteger *index;
+
+-(id)initWithLabel:(NSString *)label index:(NSInteger) idx;
 
 @end
 
@@ -109,8 +105,6 @@ ABSTRACT_METHOD
  * Render cells for editing
  */
 @interface OTMEditDetailCellRenderer : OTMDetailCellRenderer
-
-+(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict user:(OTMUser *)user;
 
 ABSTRACT_METHOD
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
@@ -123,7 +117,12 @@ ABSTRACT_METHOD
 @interface OTMLabelDetailCellRenderer : OTMDetailCellRenderer
 
 @property (nonatomic,strong) NSString *label;
-@property (nonatomic,strong) NSString *formatStr;
+@property (nonatomic,strong) OTMFormatter *formatter;
+
+-(id)initWithDataKey:(NSString *)dkey
+        editRenderer:(OTMEditDetailCellRenderer *)edit
+               label:(NSString *)labeltxt
+           formatter:(OTMFormatter *)fmt;
 
 @end
 
@@ -132,14 +131,21 @@ ABSTRACT_METHOD
 @property (nonatomic,assign) UIKeyboardType keyboard;
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) NSString *updatedString;
+@property (nonatomic,strong) OTMFormatter *formatter;
 
--(UIKeyboardType)decodeKeyboard:(NSString *)ktype;
+-(id)initWithDataKey:(NSString *)dkey
+               label:(NSString *)label
+            keyboard:(UIKeyboardType)keyboard
+           formatter:(OTMFormatter *)formatter;
 
 @end
 
 @interface OTMDBHEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
 
 @property (nonatomic,strong) OTMDBHTableViewCell *cell;
+@property (nonatomic,strong) OTMFormatter *formatter;
+
+-(id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter;
 
 @end
 

@@ -19,8 +19,6 @@
 #import "OTMEnvironment.h"
 
 @interface OTMAPI()
-+(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
-+(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 
 @end
 
@@ -69,13 +67,14 @@
     return self;
 }
 
--(void)getSpeciesListWithCallback:(AZJSONCallback)callback {
+-(void)getSpeciesListForUser:(OTMUser *)user withCallback:(AZJSONCallback)callback {
     if (species != nil) {
         if (callback) {
             callback(species, nil);
         }
     } else {
         [self.request get:@"species"
+                 withUser:user
                    params:nil
                  callback:[OTMAPI liftResponse:
                            [OTMAPI jsonCallback:^(id json, NSError *err) {
@@ -85,9 +84,7 @@
                          NSMutableDictionary *s = [NSMutableDictionary dictionary];
 
                          [json enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                             [s setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                                              [obj objectForKey:@"id"], @"id",
-                                              [obj objectForKey:@"scientific_name"],@"scientific_name", nil]
+                             [s setObject:obj
                                    forKey:[obj objectForKey:@"common_name"]];
                          }];
                          species = s;
@@ -122,7 +119,12 @@
                                    [NSNumber numberWithInt:max], @"max_plots", nil];
 
     if (filters != nil) {
-        [params addEntriesFromDictionary:[filters filtersDict]];
+        NSString *filter = [filters filtersAsUrlParameter];
+
+        if (filter) {
+            filter = [OTMAPI urlEncode:filter];
+            [params addEntriesFromDictionary:@{@"q": filter}];
+        }
     }
 
     if (distance > 0) {
@@ -137,23 +139,6 @@
                        [OTMAPI jsonCallback:callback]]];
 }
 
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback {
-    [self.request getRaw:@"plots/:plot/tree/photo/:photo"
-                  params:[NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSString stringWithFormat:@"%d", plotid], @"plot",
-                          [NSString stringWithFormat:@"%d", photoid], @"photo", nil]
-                    mime:@"image/jpeg"
-                callback:[OTMAPI liftResponse:^(id data, NSError* error) {
-                    if (callback) {
-                        if (error != nil) {
-                            callback(nil, error);
-                        } else {
-                            callback([UIImage imageWithData:data], nil);
-                        }
-                    }
-                }]];
-}
-
 -(void)savePlot:(NSDictionary *)plot withUser:(OTMUser *)user callback:(AZJSONCallback)callback {
     id pId = [plot objectForKey:@"id"];
 
@@ -165,47 +150,18 @@
     }
 }
 
--(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [_request get:@"login"
-        withUser:user
-          params:nil
-        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
-        if (error) {
-            [user setLoggedIn:NO];
-            if (error.code == 401) {
-                callback(nil, kOTMAPILoginResponseInvalidUsernameOrPassword);
-            } else {
-                callback(nil, kOTMAPILoginResponseError);
-            }
-        } else {
-            user.email = [json objectForKey:@"email"];
-            user.firstName = [json objectForKey:@"firstname"];
-            user.lastName = [json objectForKey:@"lastname"];
-            user.userId = [[json valueForKey:@"id"] intValue];
-            user.zipcode = [json objectForKey:@"zipcode"];
-            user.reputation = [[json valueForKey:@"reputation"] intValue];
-            user.permissions = [json objectForKey:@"permissions"];
-            user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
-            user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
-            [user setLoggedIn:YES];
-            callback(user, kOTMAPILoginResponseOK);
-        }
-    }]]];
-
-}
-
 -(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
-    [_request get:@"login"
-        withUser:user
-          params:nil
-        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+    [_noPrefixRequest get:@"user"
+                 withUser:user
+                   params:nil
+                 callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
-    [_request post:@"login/reset_password"
-           params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
-             data:nil
-         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+    [_noPrefixRequest post:@"user/reset_password"
+                    params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
+                      data:nil
+                  callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 
 }
 
@@ -216,12 +172,19 @@
     [userDict setObject:user.lastName forKey:@"lastname"];
     [userDict setObject:user.email forKey:@"email"];
     [userDict setObject:user.password forKey:@"password"];
-    [userDict setObject:user.zipcode forKey:@"zipcode"];
 
-    return [self jsonEncode:userDict];
+    return [OTMAPI jsonEncode:userDict];
 }
 
--(NSData *)jsonEncode:(id)obj {
++(NSString *)urlEncode:(NSString *)string {
+    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                 (__bridge CFStringRef) string,
+                                                                                 NULL,
+                                                                                 CFSTR("!*'();:@&=+$,/?%#[]\" "),
+                                                                                 kCFStringEncodingUTF8));
+}
+
++(NSData *)jsonEncode:(id)obj {
     NSError *error = NULL;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:obj options:0 error:&error];
     if (error != NULL) {
@@ -232,14 +195,14 @@
 }
 
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback {
-     [_request post:@"user/:user_id/photo/profile"
-         withUser:user
-           params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
-                                              forKey:@"user_id"]
-              // JPEG compression level is 0.0 to 1.0 with 1.0 being no compression, so 0.2 is 80% compression.
-              data:UIImageJPEGRepresentation(user.photo, 0.2)
-      contentType:@"image/jpeg"
-         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+     [_noPrefixRequest post:@"user/:user_id/photo/profile"
+                   withUser:user
+                     params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
+                                                        forKey:@"user_id"]
+                       // JPEG compression level is 0.0 to 1.0 with 1.0 being no compression, so 0.2 is 80% compression.
+                       data:UIImageJPEGRepresentation(user.photo, 0.2)
+                contentType:@"image/jpeg"
+                   callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)setPhoto:(UIImage *)image onPlotWithID:(NSUInteger)pId withUser:(OTMUser *)user callback:(AZJSONCallback)cb {
@@ -253,26 +216,26 @@
 }
 
 -(void)createUser:(OTMUser *)user callback:(AZUserCallback)callback {
-    [_request post:@"user/"
-           params:nil
-             data:[self encodeUser:user]
-         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
+    [_noPrefixRequest post:@"user"
+                    params:nil
+                      data:[self encodeUser:user]
+                  callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
     {
         if (callback != nil) {
             if (error != nil) {
                 NSDictionary *info = [error userInfo];
                 NSNumber *statusCode = [info objectForKey:@"statusCode"];
                 if (statusCode && [statusCode intValue] == 409) {
-                    callback(user, kOTMAPILoginDuplicateUsername);
+                    callback(user, nil, kOTMAPILoginDuplicateUsername);
                 } else {
-                    callback(user, kOTMAPILoginResponseError);
+                    callback(user, nil, kOTMAPILoginResponseError);
                 }
             } else {
                 if ([[json objectForKey:@"status"] isEqualToString:@"success"]) {
                     user.userId = [[json valueForKey:@"id"] intValue];
-                    callback(user, kOTMAPILoginResponseOK);
+                    callback(user, nil, kOTMAPILoginResponseOK);
                 } else {
-                    callback(user, kOTMAPILoginResponseError);
+                    callback(user, nil, kOTMAPILoginResponseError);
                 }
             }
         }
@@ -280,23 +243,18 @@
 }
 
 -(void)changePasswordForUser:(OTMUser *)user to:(NSString *)newPass callback:(AZUserCallback)callback {
-    [_request put:@"user/:user_id/password"
-        withUser:user
-          params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
+    [_noPrefixRequest put:@"user/:user_id"
+                 withUser:user
+                   params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                              forKey:@"user_id"]
-            data:[self jsonEncode:[NSDictionary dictionaryWithObject:newPass forKey:@"password"]]
-        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
+                     data:[OTMAPI jsonEncode:[NSDictionary dictionaryWithObject:newPass forKey:@"password"]]
+                 callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(NSDictionary *json, NSError *error)
         {
             if (callback != nil) {
                 if (error != nil) {
-                    callback(user, kOTMAPILoginResponseError);
+                    callback(user, nil, kOTMAPILoginResponseError);
                 } else {
-                    if ([[json objectForKey:@"status"] isEqualToString:@"success"]) {
-                        user.password = newPass;
-                        callback(user, kOTMAPILoginResponseOK);
-                    } else {
-                        callback(user, kOTMAPILoginResponseError);
-                    }
+                    callback(user, nil, kOTMAPILoginResponseOK);
                 }
             }
         }]]];
@@ -312,16 +270,16 @@
 }
 
 -(void)getRecentActionsForUser:(OTMUser *)user offset:(NSUInteger)offset length:(NSUInteger)length callback:(AZJSONCallback)callback {
-    [_request get:@"user/:user_id/edits"
-        withUser:user
-          params:[NSDictionary
-                  dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:user.userId],
-                                                @"user_id",
-                                                [NSNumber numberWithInt:offset],
-                                                @"offset",
-                                                [NSNumber numberWithInt:length],
-                                                @"length", nil]
-        callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
+    [_noPrefixRequest get:@"user/:user_id/edits"
+                 withUser:user
+                   params:[NSDictionary
+                              dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:user.userId],
+                              @"user_id",
+                                   [NSNumber numberWithInt:offset],
+                              @"offset",
+                                   [NSNumber numberWithInt:length],
+                              @"length", nil]
+                 callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)geocodeAddress:(NSString *)address callback:(AZJSONCallback)callback
@@ -402,22 +360,23 @@
     [_request post:@"plots"
          withUser:user
            params:nil
-             data:[self jsonEncode:details]
+             data:[OTMAPI jsonEncode:details]
       contentType:@"image/png"
          callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 
 -(void)updatePlotAndTree:(NSDictionary *)details user:(OTMUser *)user callback:(AZJSONCallback)callback
 {
-    if ([details objectForKey:@"id"] == nil) {
+    NSString *pk = details[@"plot"][@"id"];
+    if (pk == nil) {
         if (callback) {
             callback(nil, [NSError errorWithDomain:@"No id specified in details dictionary" code:0 userInfo:details]);
         }
     }
     [_request put:@"plots/:id"
         withUser:user
-          params:[NSDictionary dictionaryWithObject:[details objectForKey:@"id"] forKey:@"id"]
-            data:[self jsonEncode:details]
+          params:[NSDictionary dictionaryWithObject:pk forKey:@"id"]
+            data:[OTMAPI jsonEncode:details]
         callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 }
 

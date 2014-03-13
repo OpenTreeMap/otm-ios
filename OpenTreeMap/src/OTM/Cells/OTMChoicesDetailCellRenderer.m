@@ -19,20 +19,23 @@
 
 @implementation OTMChoicesDetailCellRenderer
 
-@synthesize label, fieldName, fieldChoices, clickURL;
+@synthesize label, fieldChoices, clickURL;
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)datakey
+               label:(NSString *)labelname
+            clickUrl:(NSString *)clickurl
+             choices:(NSArray *)choices
+            writable:(BOOL)writable {
+
+    self = [super initWithDataKey:datakey];
 
     if (self) {
-        label = [dict objectForKey:@"label"];
-        clickURL = [dict objectForKey:@"clickURL"];
-        fieldName = [dict objectForKey:@"fname"];
-        fieldChoices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:fieldName];
+        self.label = labelname;
+        self.clickURL = clickurl;
 
-        id editLevel = [dict valueForKey:@"minimumToEdit"];
+        self.fieldChoices = choices;
 
-        if (editLevel != nil && user != nil && user.level >= [editLevel intValue]) {
+        if (writable) {
             self.editCellRenderer = [[OTMEditChoicesDetailCellRenderer alloc] initWithDetailRenderer:self];
         }
     }
@@ -69,8 +72,8 @@
     }
 
     for(NSDictionary *choice in fieldChoices) {
-        if ([value isEqualToString:[[choice objectForKey:@"key"] description]]) {
-            output = [choice objectForKey:@"value"];
+        if ([value isEqualToString:[[choice objectForKey:@"value"] description]]) {
+            output = [choice objectForKey:@"display_value"];
         }
     }
 
@@ -78,14 +81,14 @@
     detailcell.fieldValue.text = output;
 
     [[detailcell viewWithTag:OTMChoicesDetailCellRenndererShowUrlLinkButtonView] removeFromSuperview];
-    
+
     if (self.clickURL) {
         UIButton *link = [UIButton buttonWithType:UIButtonTypeInfoDark];
         link.tag = OTMChoicesDetailCellRenndererShowUrlLinkButtonView;
         [link addTarget:self action:@selector(showLink:) forControlEvents:UIControlEventTouchUpInside];
         CGSize titleSize = [self.label sizeWithFont:detailcell.fieldLabel.font];
         link.frame = CGRectOffset(link.frame, 38 + titleSize.width, 13);
-        
+
         [detailcell addSubview:link];
     }
 
@@ -144,8 +147,8 @@
         NSString *value = [[renderData decodeKey:renderer.dataKey] description];
 
         for(NSDictionary *choice in renderer.fieldChoices) {
-            if ([value isEqualToString:[[choice objectForKey:@"key"] description]]) {
-                txt = [choice objectForKey:@"value"];
+            if ([value isEqualToString:[[choice objectForKey:@"value"] description]]) {
+                txt = [choice objectForKey:@"display_value"];
             }
         }
 
@@ -159,7 +162,7 @@
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     if (selected) {
-        [dict setObject:[selected objectForKey:@"key"] forEncodedKey:renderer.dataKey];
+        [dict setObject:[selected objectForKey:@"value"] forEncodedKey:renderer.dataKey];
     }
 
     selected = nil;
@@ -181,7 +184,7 @@
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     selected = [renderer.fieldChoices objectAtIndex:[indexPath row]];
 
-    cell.fieldValue.text = [selected objectForKey:@"value"];
+    cell.fieldValue.text = [selected objectForKey:@"display_value"];
 
     [tblView reloadData];
 }
@@ -196,15 +199,15 @@
                                       reuseIdentifier:kOTMEditChoicesDetailCellRendererCellId];
     }
 
-    aCell.textLabel.text = [selectedDict objectForKey:@"value"];
+    aCell.textLabel.text = [selectedDict objectForKey:@"display_value"];
     aCell.accessoryType = UITableViewCellAccessoryNone;
 
     if (selected != nil) {
-        if ([[[selectedDict objectForKey:@"key"] description] isEqualToString:[[selected objectForKey:@"key"] description]]) {
+        if ([[[selectedDict objectForKey:@"value"] description] isEqualToString:[[selected objectForKey:@"key"] description]]) {
             aCell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
     } else {
-        if ([[selectedDict objectForKey:@"value"] isEqualToString:output]) {
+        if ([[selectedDict objectForKey:@"display_value"] isEqualToString:output]) {
             aCell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
     }

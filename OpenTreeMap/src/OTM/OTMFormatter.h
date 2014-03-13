@@ -15,12 +15,17 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AZPointCollection : NSObject
+@interface OTMFormatter : NSObject
 
--(id)initWithMapRect:(MKMapRect)mRect zoomScale:(MKZoomScale)zScale points:(CFArrayRef)pts;
+@property (nonatomic, readonly) NSUInteger digits;
+@property (nonatomic, readonly) NSString *label;
 
-@property (nonatomic,readonly) MKMapRect mapRect;
-@property (nonatomic,readonly) MKZoomScale zoomScale;
-@property (nonatomic,readonly) CFArrayRef points;
+// factor should be "display units per api (db) units"
+-(id)initWithDigits:(NSUInteger)digits
+              label:(NSString *)label;
+
+-(NSString*)format:(CGFloat)number;
+
++(NSString*)fmtOtmApiDateString:(NSString*)dateString;
 
 @end

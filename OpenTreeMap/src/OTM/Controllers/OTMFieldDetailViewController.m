@@ -15,7 +15,7 @@
 
 #import "OTMFieldDetailViewController.h"
 #import "OTMView.h"
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 #import "OTMEnvironment.h"
 #import "AZWaitingOverlayController.h"
 #import "AZMapHelper.h"
@@ -147,7 +147,10 @@
         if (thisFieldsValueIsControlledByAnotherField) {
             valueString = rawValueString;
         } else {
-            valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+            //TODO: we don't support pending anymore so revisit this
+            //when we do
+            //valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+            valueString = rawValueString;
         }
     }
     return valueString;
@@ -160,7 +163,7 @@
         editsDict = [[self.data objectForKey:@"pending_edits"] objectForKey:self.ownerFieldKey];
     }
     NSDictionary *editDict = [[editsDict objectForKey:@"pending_edits"] objectAtIndex:index];
-    NSString *dateString = [OTMFormatters fmtOtmApiDateString:[editDict objectForKey:@"submitted"]];
+    NSString *dateString = [OTMFormatter fmtOtmApiDateString:[editDict objectForKey:@"submitted"]];
     if (dateString) {
         return [NSString stringWithFormat:@"%@ on %@", [editDict objectForKey:@"username"], dateString];
     } else {
@@ -212,7 +215,10 @@
                     }
                 }
             } else {
-                valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+                //TODO: we don't support pending anymore so revisit this
+                //when we do
+                //valueString = [OTMFormatters fmtObject:rawValueString withKey:fieldFormatString];
+                valueString = rawValueString;
             }
             if (valueString && ![valueString isEqual:@""]) {
                 cell.textLabel.text = valueString;

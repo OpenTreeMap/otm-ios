@@ -30,7 +30,7 @@ typedef enum {
 typedef void(^AZGenericCallback)(id obj, NSError* error);
 typedef void(^AZJSONCallback)(id json, NSError* error);
 typedef void(^AZImageCallback)(UIImage* image, NSError* error);
-typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
+typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILoginResponse status);
 
 /**
  * OTM API Provides a functional wrapper around the OpenTreeMap API
@@ -47,16 +47,20 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
 /**
  * Object used for doing our http requests
  */
-@property (nonatomic,strong) AZHttpRequest* tileRequest;
+@property (nonatomic,strong) NSDictionary* species;
 @property (nonatomic,strong) AZHttpRequest* request;
 @property (nonatomic,strong) AZHttpRequest* noPrefixRequest;
 
++(AZGenericCallback)jsonCallback:(AZGenericCallback)callback;
 +(ASIRequestCallback)liftResponse:(AZGenericCallback)callback;
+
++(NSData *)jsonEncode:(id)obj;
++(NSString *)urlEncode:(NSString *)string;
 
 /**
  * Get species list
  */
--(void)getSpeciesListWithCallback:(AZJSONCallback)callback;
+-(void)getSpeciesListForUser:(OTMUser *)user withCallback:(AZJSONCallback)callback;
 
 /**
  * Save the given plot
@@ -79,14 +83,6 @@ typedef void(^AZUserCallback)(OTMUser* user, OTMAPILoginResponse status);
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user callback:(AZJSONCallback)callback;
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user filters:(OTMFilters *)filters callback:(AZJSONCallback)callback;
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max filters:(OTMFilters *)filters distance:(double)distance callback:(AZJSONCallback)callback;
-
-/**
- * Request an image for a given tree/plot
- *
- * @param plotid the plot's id
- * @param imageid the image's id
- */
--(void)getImageForTree:(int)plotid photoId:(int)photoid callback:(AZImageCallback)callback;
 
 /**
  * Attempt to log the given user in. If successful user.loggedIn will return
