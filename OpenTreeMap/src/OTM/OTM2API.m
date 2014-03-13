@@ -24,6 +24,9 @@
 
 -(void)loadInstanceInfo:(NSString*)instance
            withCallback:(AZJSONCallback)callback {
+
+  self.species = nil; // Clear species cache
+
   [self loadInstanceInfo:instance
                  forUser:[[SharedAppDelegate loginManager] loggedInUser]
             withCallback:callback];
@@ -33,11 +36,11 @@
                 forUser:(AZUser*)user
            withCallback:(AZJSONCallback)callback {
 
-  [_nonInstanceRequest get:@":instance"
-                  withUser:user
-                    params:@{@"instance" : instance}
-                  callback:[OTMAPI liftResponse:
-                                       [OTMAPI jsonCallback:callback]]];
+  [self.noPrefixRequest get:@":instance"
+               withUser:user
+                 params:@{@"instance" : instance}
+               callback:[OTMAPI liftResponse:
+                                  [OTMAPI jsonCallback:callback]]];
 
 }
 
@@ -49,36 +52,35 @@
 }
 
 -(void)logUserIn:(OTMUser*)user callback:(AZUserCallback)callback {
-    [_nonInstanceRequest get:@"login"
-                    withUser:user
-                      params:nil
-                    callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
-                    if (error) {
-                        [user setLoggedIn:NO];
-                        if (error.code == 401) {
-                            callback(nil, nil, kOTMAPILoginResponseInvalidUsernameOrPassword);
-                        } else {
-                            callback(nil, nil, kOTMAPILoginResponseError);
-                        }
-                    } else {
-                        user.email = [json objectForKey:@"email"];
-                        user.firstName = [json objectForKey:@"firstname"];
-                        user.lastName = [json objectForKey:@"lastname"];
-                        user.userId = [[json valueForKey:@"id"] intValue];
-                        user.zipcode = [json objectForKey:@"zipcode"];
-                        user.reputation = [[json valueForKey:@"reputation"] intValue];
-                        user.permissions = [json objectForKey:@"permissions"];
-                        user.level = [[[json objectForKey:@"user_type"] valueForKey:@"level"] intValue];
-                        user.userType = [[json objectForKey:@"user_type"] objectForKey:@"name"];
-                        [user setLoggedIn:YES];
+    [self.noPrefixRequest get:@"user"
+                 withUser:user
+                   params:nil
+                 callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError* error) {
+            if (error) {
+              [user setLoggedIn:NO];
+              if (error.code == 401) {
+                callback(nil, nil, kOTMAPILoginResponseInvalidUsernameOrPassword);
+              } else {
+                callback(nil, nil, kOTMAPILoginResponseError);
+              }
+            } else {
+              user.email = [json objectForKey:@"email"];
+              user.firstName = [json objectForKey:@"firstname"];
+              user.lastName = [json objectForKey:@"lastname"];
+              user.userId = [[json valueForKey:@"id"] intValue];
+              user.reputation = [[json valueForKey:@"reputation"] intValue];
 
-                        [self loadInstanceInfo:[[OTMEnvironment sharedEnvironment] instance]
-                                       forUser:user
-                                  withCallback:^(id json, NSError *error) {
-                            [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
-                            callback(user, json, kOTMAPILoginResponseOK);
-                            }];
-                    }
+              [user setLoggedIn:YES];
+
+              [self loadInstanceInfo:[[OTMEnvironment sharedEnvironment] instance]
+                             forUser:user
+                        withCallback:^(id json, NSError *error) {
+                  if (!error) {
+                    [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+                  }
+                  callback(user, json, kOTMAPILoginResponseOK);
+                }];
+            }
                 }]]];
 
 }

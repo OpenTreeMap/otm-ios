@@ -20,23 +20,35 @@
 -(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self loadTheme];
+        [self setup];
     }
-    
+
     return self;
 }
 
 -(id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self loadTheme];
+        [self setup];
     }
-    
+
+    return self;
+}
+
+-(id)setup {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeEnvironment:) name:kOTMEnvironmentChangeNotification object:nil];
+
+    [self loadTheme];
     return self;
 }
 
 -(void)loadTheme {
-    [self setTintColor:[[OTMEnvironment sharedEnvironment] navBarTintColor]];
+    [self setTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
+}
+
+
+-(void)changeEnvironment:(NSNotification *)note {
+    [self loadTheme];
 }
 
 @end

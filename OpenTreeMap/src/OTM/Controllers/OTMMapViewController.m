@@ -17,6 +17,7 @@
 #import "OTMFilterListViewController.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
+#import "OTMFormatter.h"
 #import "OTMTreeDetailViewController.h"
 #import "OTMAppDelegate.h"
 #import "OTMDetailCellRenderer.h"
@@ -36,7 +37,8 @@
  */
 - (void)addGestureRecognizersToView:(UIView *)view;
 
-- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer;
+- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer
+                                 filter:(NSString *)filter;
 @end
 
 @implementation OTMMapViewController
@@ -49,11 +51,27 @@
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
 
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+    AZUser* user = [loginManager loggedInUser];
+
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
-    [api loadInstanceInfo:[[OTMEnvironment sharedEnvironment] instance]
+    NSString *instance = [[OTMEnvironment sharedEnvironment] instance];
+    [api loadInstanceInfo:instance
+                  forUser:user
              withCallback:^(id json, NSError *error) {
-        [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
-        [self initView];
+            if (error) {
+                if ([[[error userInfo] objectForKey:@"statusCode"] intValue] == 401) {
+                    [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
+                            if (success) {
+                                loginManager.loggedInUser = aUser;
+                                [self changeMode:Add];
+                            }
+                        }];
+                }
+            } else {
+                [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+                [self initView];
+            }
       }];
 }
 
@@ -85,6 +103,11 @@
                                                  name:kOTMChangeMapModeNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeEnvironment:)
+                                                 name:kOTMEnvironmentChangeNotification
+                                               object:nil];
+
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
@@ -105,6 +128,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                  name:kOTMChangeMapModeNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kOTMEnvironmentChangeNotification
+                                                  object:nil];
 }
 
 -(void)updatedImage:(NSNotification *)note {
@@ -113,7 +140,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] navBarTintColor]];
+    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
 
     self.addTreeHelpLabel.textColor = [UIColor whiteColor];
     self.addTreeHelpLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -192,6 +219,7 @@
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
 
         dest.keys = keys;
+        dest.ecoKeys = [[OTMEnvironment sharedEnvironment] ecoFields];
         dest.imageView.image = self.treeImage.image;
         if (self.mode != Select) {
             // When adding a new tree the detail view is automatically in edit mode
@@ -241,6 +269,11 @@
     self.mapView.mapType = (MKMapType)[note.object intValue];
 }
 
+-(void)changeEnvironment:(NSNotification *)note {
+    OTMEnvironment *env = note.object;
+    [self.tabBarController.tabBar setSelectedImageTintColor:[env primaryColor]];
+}
+
 #pragma mark Detail View
 
 -(void)setDetailViewData:(NSDictionary*)plot {
@@ -261,10 +294,10 @@
             dbhValue = [tree objectForKey:@"diameter"];
         }
 
-        NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
+        OTMFormatter *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
 
         if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
-            tdbh =  [NSString stringWithFormat:fmt, [dbhValue doubleValue]];
+            tdbh =  [fmt format:[dbhValue floatValue]];
         }
 
         NSDictionary *latestSpeciesEdit = [[[pendingEdits objectForKey:@"tree.species"] objectForKey:@"pending_edits"] objectAtIndex:0];
@@ -348,7 +381,8 @@
 
 #pragma mark Map view setup
 
-- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer {
+- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer
+                                 filter:(NSString *)filter {
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
     NSString *iid = [env instanceId];
     NSString *grev = [env geoRev];
@@ -356,6 +390,12 @@
     NSString *urlSfx = [env.api2 tileUrlTemplateForInstanceId:iid
                                                        geoRev:grev
                                                         layer:layer];
+
+    if (filter != nil) {
+        filter = [OTMAPI urlEncode:filter];
+        urlSfx = [urlSfx stringByAppendingFormat:@"&q=%@", filter];
+    }
+
     NSString *host = env.host;
     NSString *url = [host stringByAppendingString:urlSfx];
 
@@ -367,19 +407,34 @@
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
 
     MKCoordinateRegion region = [env mapViewInitialCoordinateRegion];
+    [SharedAppDelegate setMapRegion:region];
+
     [mapView setRegion:region animated:NO];
     [mapView regionThatFits:region];
     [mapView setDelegate:self];
     [self addGestureRecognizersToView:mapView];
 
     MKTileOverlay *boundsOverlay =
-        [self buildOverlayForLayer:@"treemap_boundary"];
-    MKTileOverlay *plotsOverlay =
-        [self buildOverlayForLayer:@"treemap_plot"];
+        [self buildOverlayForLayer:@"treemap_boundary"
+                            filter:nil];
 
     [mapView addOverlay:boundsOverlay];
-    [mapView addOverlay:plotsOverlay];
 
+    // Add the plot layer, showing all plots
+    [self setMapFilter:nil];
+
+}
+
+- (void)setMapFilter:(NSString *)filter {
+    if (plotsOverlay != nil) {
+        [mapView removeOverlay:plotsOverlay];
+    }
+
+    plotsOverlay =
+      [self buildOverlayForLayer:@"treemap_mapfeature"
+                          filter:filter];
+
+    [mapView addOverlay:plotsOverlay];
 }
 
 - (void)addGestureRecognizersToView:(UIView *)view
@@ -501,6 +556,11 @@
     } else {
         [self hideFilterStatus];
     }
+
+    OTMAPI *api = [[OTMEnvironment sharedEnvironment] api];
+    NSString *filter = [f filtersAsUrlParameter];
+
+    [self setMapFilter:filter];
     // TODO: hide the wizard label
 }
 
@@ -553,18 +613,27 @@
     self.treeImage.image = nil;
 
     if (tree && [tree isKindOfClass:[NSDictionary class]]) {
-        NSArray* images = [tree objectForKey:@"images"];
+        NSArray* images = [dict objectForKey:@"photos"];
 
         if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-            int imageId = [[[images lastObject] objectForKey:@"id"] intValue];
-            int plotId = [[plot objectForKey:@"id"] intValue];
+            NSString *photoUrl = [[images lastObject] objectForKey:@"image"];
 
-            [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
-                                                              photoId:imageId
-                                                             callback:^(UIImage* image, NSError* error)
-             {
-                 self.treeImage.image = image;
-             }];
+            if (![photoUrl hasPrefix:@"http"]) {
+                NSString *baseUrl = [[OTMEnvironment sharedEnvironment] baseURL];
+                NSURL *url = [NSURL URLWithString:baseUrl];
+                NSString *host = [url host];
+                NSString *scheme = [url scheme];
+                NSString *port = [url port];
+                photoUrl = [NSString stringWithFormat:@"%@://%@:%@%@", scheme, host, port, photoUrl];
+            }
+
+            dispatch_async(dispatch_get_global_queue(0,0), ^{
+                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                            self.treeImage.image = [UIImage imageWithData: imageData];
+                        });
+                });
         }
     }
 

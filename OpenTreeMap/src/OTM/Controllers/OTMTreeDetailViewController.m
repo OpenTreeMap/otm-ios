@@ -16,7 +16,7 @@
 #import "OTMTreeDetailViewController.h"
 #import "OTMDetailTableViewCell.h"
 #import "OTMSpeciesTableViewController.h"
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 #import "OTMMapViewController.h"
 #import "OTMDetailCellRenderer.h"
 #import "AZWaitingOverlayController.h"
@@ -24,6 +24,7 @@
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMFieldDetailViewController.h"
 #import "OTMImageViewController.h"
+#import "OTMChoicesDetailCellRenderer.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -145,7 +146,7 @@
              [(id)[self data] setObject:tree forKey:@"tree"];
          }
 
-         NSArray *photos = [tree objectForKey:@"images"];
+         NSArray *photos = [data objectForKey:@"images"];
          if (photos == nil) {
              photos = [NSArray array];
          }
@@ -154,7 +155,7 @@
                                                            @"OTM-Mobile Photo", @"title",
                                                            image, @"data", nil];
 
-         [tree setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
+         [data setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
 
      }];
 
@@ -230,8 +231,21 @@
     self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
 }
 
+- (void)setEcoKeys:(NSArray *)ecoKeys {
+    NSUInteger startingIndex = [allFields count];
+    for (int section=0; section < [ecoKeys count]; section ++) {
+        NSMutableArray *ecoFieldRenderers = [[NSMutableArray alloc] init];
+        NSArray *ecoFields = [ecoKeys objectAtIndex:section];
+        for (int row=0; row < [ecoFields count]; row++) {
+            [ecoFieldRenderers addObject:[ecoFields objectAtIndex:row]];
+            [(NSMutableArray*)txToEditRemove addObject:[NSIndexPath indexPathForRow:row inSection:startingIndex + section]];
+        }
+        [(NSMutableArray*)allFields addObject:ecoFieldRenderers];
+    }
+}
+
 - (IBAction)showTreePhotoFullscreen:(id)sender {
-    NSArray *images = [[self.data objectForKey:@"tree"] objectForKey:@"images"];
+    NSArray *images = [self.data objectForKey:@"images"];
     NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
 
     if (imageURL) {
@@ -311,6 +325,9 @@
         [self.tableView deleteRowsAtIndexPaths:txToEditRemove
                               withRowAnimation:UITableViewRowAnimationFade];
 
+        // Remove the eco section, which is appended to the end and never editable
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:[allFields count]-1] withRowAnimation:UITableViewRowAnimationFade];
+
         // There are 2 fixed sections to be added when editing: the mini map section and the species/photo section
         [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];
@@ -342,6 +359,10 @@
 
         // There are 2 fixed sections to be removed after editing: the mini map section and the species/photo section
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
+                      withRowAnimation:UITableViewRowAnimationFade];
+
+        // Resore the eco section which was removed during editing. It is always the last section
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:[allFields count]-1]
                       withRowAnimation:UITableViewRowAnimationFade];
 
         [self.tableView insertRowsAtIndexPaths:txToEditRemove
@@ -432,7 +453,7 @@
     NSMutableArray *pending = [NSMutableArray array];
     NSArray *treePhotos;
     if ([data objectForKey:@"tree"] && [data objectForKey:@"tree"] != [NSNull null]) {
-        treePhotos = [[data objectForKey:@"tree"] objectForKey:@"images"];
+        treePhotos = [data objectForKey:@"images"];
     }
     NSMutableArray *savedTreePhotos = [NSMutableArray array];
     if (treePhotos) {
@@ -443,7 +464,7 @@
                 [savedTreePhotos addObject:treePhoto];
             }
         }
-        [[data objectForKey:@"tree"] setObject:savedTreePhotos forKey:@"images"];
+        [data setObject:savedTreePhotos forKey:@"images"];
     }
     return pending;
 }
@@ -467,8 +488,10 @@
         OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
         OTMUser *user = loginManager.loggedInUser;
 
+        NSInteger plotid = [self.data[@"plot"][@"id"] intValue];
+
         [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
-                                              onPlotWithID:[[self.data objectForKey:@"id"] intValue]
+                                              onPlotWithID:plotid
                                                   withUser:user
                                                   callback:^(id json, NSError *err)
            {
@@ -495,10 +518,8 @@
     if ([segue.identifier isEqualToString:@"changeSpecies"]) {
         OTMSpeciesTableViewController *sVC = (OTMSpeciesTableViewController *)segue.destinationViewController;
 
-        sVC.callback = ^(NSNumber *sId, NSString *name, NSString *scientificName) {
-            [self.data setObject:sId forEncodedKey:@"tree.species"];
-            [self.data setObject:name forEncodedKey:@"tree.species_name"];
-            [self.data setObject:scientificName forEncodedKey:@"tree.sci_name"];
+        sVC.callback = ^(NSDictionary *sdict) {
+            [self.data setObject:sdict forEncodedKey:@"tree.species"];
             [self syncTopData];
 
             [self.tableView reloadRowsAtIndexPaths:[NSArray
@@ -526,15 +547,9 @@
         OTMFieldDetailViewController *fieldDetailViewController = segue.destinationViewController;
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
-        if ([renderer respondsToSelector:@selector(label)]) {
-            fieldDetailViewController.fieldName = [renderer label];
-        }
         fieldDetailViewController.ownerFieldKey = [renderer ownerDataKey];
-        if ([renderer respondsToSelector:@selector(formatStr)]) {
-            fieldDetailViewController.fieldFormatString = [renderer formatStr];
-        }
         if ([renderer respondsToSelector:@selector(fieldName)] && [renderer respondsToSelector:@selector(fieldChoices)]) {
-            fieldDetailViewController.choices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:[renderer fieldName]];
+            fieldDetailViewController.choices = [renderer fieldChoices];
         } else {
             // The view controller uses the presence of this property to determine how
             // to display the value, so it must be nil'd out if ot os not a choices field

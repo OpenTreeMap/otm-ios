@@ -14,7 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "OTMDetailCellRenderer.h"
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 #import "OTMUser.h"
 
 @implementation OTMDetailCellRenderer
@@ -56,17 +56,15 @@
 
 @implementation OTMLabelDetailCellRenderer
 
-@synthesize label, formatStr;
-
 -(id)initWithDataKey:(NSString *)dkey
         editRenderer:(OTMEditDetailCellRenderer *)edit
                label:(NSString *)labeltxt
-              format:(NSString*)format {
+           formatter:(OTMFormatter *)fmt {
     self = [super initWithDataKey:dkey editRenderer:edit];
 
     if (self) {
-        label = labeltxt;
-        formatStr = format;
+        _label = labeltxt;
+        _formatter = fmt;
     }
 
     return self;
@@ -97,8 +95,16 @@
         }
     }
 
+    NSString *displayValue;
+
+    if (_formatter != nil) {
+        displayValue = [_formatter format:[value floatValue]];
+    } else {
+        displayValue = [value description];
+    }
+
     detailcell.fieldLabel.text = self.label;
-    detailcell.fieldValue.text = [OTMFormatters fmtObject:value withKey:self.formatStr];
+    detailcell.fieldValue.text = displayValue;
 
     return detailcell;
 }
@@ -107,25 +113,37 @@
 
 @implementation OTMBenefitsDetailCellRenderer
 
-@synthesize cell;
 
--(id)initWithDataKey:(NSString *)datakey label:(NSString *)label {
-    self = [super initWithDataKey:datakey];
+-(id)initWithLabel:(NSString *)label index:(NSInteger)idx {
+    self = [super initWithDataKey:nil];
 
     if (self) {
-        cell = [OTMBenefitsTableViewCell loadFromNib];
-        self.cellHeight = cell.frame.size.height;
+        _cell = [OTMBenefitsTableViewCell loadFromNib];
+        self.cellHeight = _cell.frame.size.height;
         self.cell.benefitName.text = label;
+        self.index = idx;
     }
 
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    self.cell.benefitValue.text = [OTMFormatters fmtUnitDict:(NSDictionary *)[data decodeKey:self.dataKey]];
-    self.cell.benefitDollarAmt.text = [OTMFormatters fmtDollarsDict:(NSDictionary *)[data decodeKey:self.dataKey]];
+    NSDictionary *benefit = [[data objectForKey:@"benefits"] objectAtIndex:self.index];
 
-    return cell;
+    NSString *value = [benefit objectForKey:@"value"];
+    NSString *unit = [benefit objectForKey:@"unit"];
+    if (value) {
+        self.cell.benefitValue.text = [NSString stringWithFormat:@"%@ %@", value, unit];
+    } else {
+        self.cell.benefitValue.text = @"";
+    }
+
+    if ([benefit objectForKey:@"currency_saved"]) {
+        self.cell.benefitDollarAmt.text = [NSString stringWithFormat:@"%@ saved", [benefit objectForKey:@"currency_saved"]];
+    } else {
+        self.cell.benefitDollarAmt.text = @"";
+    }
+    return _cell;
 }
 
 @end
@@ -147,10 +165,11 @@
 
 @synthesize label, updatedString, keyboard;
 
--(id)initWithDataKey:(NSString *)dkey label:(NSString *)displayLabel keyboard:(UIKeyboardType)kboard {
+-(id)initWithDataKey:(NSString *)dkey label:(NSString *)displayLabel keyboard:(UIKeyboardType)kboard formatter:(OTMFormatter *)formatter {
     self = [super initWithDataKey:dkey];
 
     if (self) {
+        self.formatter = formatter;
         self.keyboard = kboard;
         self.label = displayLabel;
     }
@@ -192,8 +211,12 @@
     detailcell.keyboardType = keyboard;
 
     id value = [data decodeKey:self.dataKey];
+    NSString *disp = @"";
 
-    detailcell.editFieldValue.text = [OTMFormatters fmtObject:value withKey:@""];
+    if (value != nil) {
+        disp = [_formatter format:[value floatValue]];
+    }
+    detailcell.editFieldValue.text = disp;
     detailcell.fieldLabel.text = self.label;
 
     return detailcell;
@@ -203,15 +226,14 @@
 
 @implementation OTMDBHEditDetailCellRenderer
 
-@synthesize cell;
-
--(id)initWithDataKey:(NSString *)dkey  {
+-(id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter {
     self = [super initWithDataKey:dkey];
 
     if (self) {
-        cell = [OTMDBHTableViewCell loadFromNib];
-        cell.delegate = self;
-        self.cellHeight = cell.frame.size.height;
+        _cell = [OTMDBHTableViewCell loadFromNib];
+        _cell.delegate = self;
+        self.cellHeight = _cell.frame.size.height;
+        _formatter = formatter;
     }
 
     return self;
@@ -219,14 +241,16 @@
 
 -(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
 
-    if (field == self.cell.circumferenceTextField) {
+    if (v == nil || [v length] == 0) {
+        self.cell.diameterTextField.text = self.cell.circumferenceTextField.text = @"";
+    } else if (field == self.cell.circumferenceTextField) {
         CGFloat circ = [v floatValue];
-        NSString *diam = [NSString stringWithFormat:@"%0.2f",circ / M_PI];
+        NSString *diam = [NSString stringWithFormat:@"%0.*f", _formatter.digits, circ / M_PI];
 
         self.cell.diameterTextField.text = diam;
     } else {
         CGFloat diam = [v floatValue];
-        NSString *circ = [NSString stringWithFormat:@"%0.2f",diam * M_PI];
+        NSString *circ = [NSString stringWithFormat:@"%0.*f", _formatter.digits, diam * M_PI];
 
         self.cell.circumferenceTextField.text = circ;
     }
@@ -235,7 +259,9 @@
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     NSString *newDBH = self.cell.diameterTextField.text;
     if (newDBH && [newDBH length] > 0) {
-        [dict setObject:self.cell.diameterTextField.text
+        CGFloat dispValue = [self.cell.diameterTextField.text floatValue];
+
+        [dict setObject:[NSNumber numberWithFloat:dispValue]
           forEncodedKey:self.dataKey];
     }
 
@@ -245,12 +271,20 @@
 #define OTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    self.cell.diameterTextField.text = [[data decodeKey:self.dataKey] description];
+    id elmt = [data decodeKey:self.dataKey];
+
+    NSString *disp = @"";
+    if (elmt != nil) {
+        CGFloat dispValue = [elmt floatValue];
+        disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
+    }
+
+    self.cell.diameterTextField.text = disp;
     [self tableViewCell:nil
               textField:self.cell.diameterTextField
          updatedToValue:self.cell.diameterTextField.text];
 
-    return cell;
+    return _cell;
 }
 
 @end

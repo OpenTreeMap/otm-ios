@@ -17,6 +17,9 @@
 #import <MapKit/MapKit.h>
 #import "OTMAPI.h"
 #import "OTM2API.h"
+#import "OTMFormatter.h"
+
+#define kOTMEnvironmentChangeNotification @"kOTMEnvironmentChangeNotification"
 
 /**
  An interface to global application settings that may change for each build configuration (i.e. Debug, Release)
@@ -83,24 +86,23 @@
 @property (nonatomic, copy) NSString* mapViewTitle;
 
 @property (nonatomic, copy) NSString* baseURL;
-@property (nonatomic, copy) NSString* apiKey;
 
 @property (nonatomic, strong) NSArray *filters;
 
 @property (nonatomic, strong) NSArray *fieldKeys;
+@property (nonatomic, strong) UIColor *primaryColor;
+@property (nonatomic, strong) UIColor *secondaryColor;
 @property (nonatomic, strong) UIColor *viewBackgroundColor;
-@property (nonatomic, strong) UIColor *navBarTintColor;
 @property (nonatomic, strong) UIImage *buttonImage;
 @property (nonatomic, strong) UIColor *buttonTextColor;
 @property (nonatomic, assign) BOOL pendingActive;
 @property (nonatomic, strong) NSArray* fieldSections;
 @property (nonatomic, strong) NSArray* fields;
+@property (nonatomic, strong) NSArray* ecoFields;
 @property (nonatomic, strong) NSArray* filts;
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
 @property (nonatomic, assign) float splashDelayInSeconds;
-@property (nonatomic, assign) BOOL hideTreesFilter;
-@property (nonatomic, strong) NSString *dbhFormat;
 @property (nonatomic, strong) NSString *dbhUnit;
 @property (nonatomic, strong) NSString *distanceUnit;
 @property (nonatomic) double distanceBiggerUnitFactor;
@@ -109,13 +111,9 @@
 @property (nonatomic, strong) NSString *dateFormat;
 @property (nonatomic, strong) NSString *currencyUnit;
 @property (nonatomic) double detailLatSpan;
-@property (nonatomic, strong) NSString *localizedZipCodeName;
 @property (nonatomic) UIKeyboardType zipcodeKeyboard;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
-
-// Choices values
-@property (nonatomic, retain) NSDictionary* choices;
 
 // Derived Properties
 @property (nonatomic, strong) OTMAPI* api;
@@ -126,6 +124,14 @@
 @property (nonatomic, strong) NSString* instanceId;
 @property (nonatomic, strong) NSString* geoRev;
 @property (nonatomic, strong) NSString* host;
+@property (nonatomic, strong) OTMFormatter* dbhFormat;
+@property (nonatomic, strong) NSDictionary* config;
+@property (nonatomic, strong) NSURL *instanceLogoUrl;
+
+// Security
+@property (nonatomic, strong) NSString *secretKey;
+@property (nonatomic, strong) NSString *accessKey;
+
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
 

@@ -15,18 +15,17 @@
 
 #import <Foundation/Foundation.h>
 
-/**
- * Formatting methods for table view cell data
- */
-@interface OTMFormatters : NSObject
+@interface OTMFormatter : NSObject
 
-+(NSString*)fmtIn:(NSNumber*)number;
-+(NSString*)fmtFt:(NSNumber*)number;
-+(NSString*)fmtM:(NSNumber*)number;
+@property (nonatomic, readonly) NSUInteger digits;
+@property (nonatomic, readonly) NSString *label;
+
+// factor should be "display units per api (db) units"
+-(id)initWithDigits:(NSUInteger)digits
+              label:(NSString *)label;
+
+-(NSString*)format:(CGFloat)number;
+
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString;
-+(NSString*)fmtUnitDict:(NSDictionary*)d;
-+(NSString*)fmtDollarsDict:(NSDictionary*)d;
-
-+(NSString*)fmtObject:(id)obj withKey:(NSString*)key;
 
 @end

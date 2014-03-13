@@ -14,6 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <Foundation/Foundation.h>
+#import "OTMFormatter.h"
 #import "OTMDetailTableViewCell.h"
 #import "OTMDBHTableViewCell.h"
 #import "OTMBenefitsTableViewCell.h"
@@ -94,6 +95,9 @@ ABSTRACT_METHOD
 @interface OTMBenefitsDetailCellRenderer : OTMDetailCellRenderer
 
 @property (nonatomic,strong) OTMBenefitsTableViewCell *cell;
+@property (nonatomic,assign) NSInteger *index;
+
+-(id)initWithLabel:(NSString *)label index:(NSInteger) idx;
 
 @end
 
@@ -113,12 +117,12 @@ ABSTRACT_METHOD
 @interface OTMLabelDetailCellRenderer : OTMDetailCellRenderer
 
 @property (nonatomic,strong) NSString *label;
-@property (nonatomic,strong) NSString *formatStr;
+@property (nonatomic,strong) OTMFormatter *formatter;
 
 -(id)initWithDataKey:(NSString *)dkey
         editRenderer:(OTMEditDetailCellRenderer *)edit
                label:(NSString *)labeltxt
-              format:(NSString*)format;
+           formatter:(OTMFormatter *)fmt;
 
 @end
 
@@ -127,14 +131,21 @@ ABSTRACT_METHOD
 @property (nonatomic,assign) UIKeyboardType keyboard;
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) NSString *updatedString;
+@property (nonatomic,strong) OTMFormatter *formatter;
 
--(id)initWithDataKey:(NSString *)dkey label:(NSString *)label keyboard:(UIKeyboardType)keyboard;
+-(id)initWithDataKey:(NSString *)dkey
+               label:(NSString *)label
+            keyboard:(UIKeyboardType)keyboard
+           formatter:(OTMFormatter *)formatter;
 
 @end
 
 @interface OTMDBHEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
 
 @property (nonatomic,strong) OTMDBHTableViewCell *cell;
+@property (nonatomic,strong) OTMFormatter *formatter;
+
+-(id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter;
 
 @end
 
