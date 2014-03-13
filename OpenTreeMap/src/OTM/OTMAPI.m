@@ -195,7 +195,7 @@
 }
 
 -(void)setProfilePhoto:(OTMUser *)user callback:(AZJSONCallback)callback {
-     [_noPrefixRequest post:@"user/:user_id/photo/profile"
+     [_noPrefixRequest post:@"user/:user_id/photo"
                    withUser:user
                      params:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:user.userId]
                                                         forKey:@"user_id"]
