@@ -139,17 +139,6 @@
                        [OTMAPI jsonCallback:callback]]];
 }
 
--(void)savePlot:(NSDictionary *)plot withUser:(OTMUser *)user callback:(AZJSONCallback)callback {
-    id pId = [plot objectForKey:@"id"];
-
-    // Update (PUT)
-    if (pId != nil) {
-
-    } else {
-        // POST
-    }
-}
-
 -(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
     [_noPrefixRequest get:@"user"
                  withUser:user
