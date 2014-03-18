@@ -25,6 +25,8 @@
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMImageViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 @interface OTMMapViewController ()
 - (void)setupMapView;
 
@@ -47,13 +49,9 @@
 
 - (void)viewDidLoad
 {
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.extendedLayoutIncludesOpaqueBars = NO;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-
+    [self setupView];
     OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
     AZUser* user = [loginManager loggedInUser];
-
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
     NSString *instance = [[OTMEnvironment sharedEnvironment] instance];
     [api loadInstanceInfo:instance
@@ -70,17 +68,52 @@
                 }
             } else {
                 [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
-                [self initView];
+                [self updateViewWithSharedEnvironment];
             }
       }];
+    [super viewDidLoad];
 }
 
-- (void)initView {
+// Handle all view setup that is not dependent on instance specific details
+- (void)setupView {
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
     firstAppearance = YES;
 
     self.detailsVisible = NO;
 
     [self changeMode:Select];
+
+    [self addTopBorderToView:self.detailView];
+    [self addTopBorderToView:self.addTreeHelpView];
+
+    [self slideDetailDownAnimated:NO];
+    [self slideAddTreeHelpDownAnimated:NO];
+
+    [self hideFilterStatus];
+
+    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatedImage:)
+                                                 name:kOTMMapViewControllerImageUpdate
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeMapMode:)
+                                                 name:kOTMChangeMapModeNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeEnvironment:)
+                                                 name:kOTMEnvironmentChangeNotification
+                                               object:nil];
+}
+
+// Update the view with instance specific details
+- (void)updateViewWithSharedEnvironment {
 
     filters = [[OTMFilters alloc] init];
     filters.filters = [[OTMEnvironment sharedEnvironment] filters];
@@ -92,29 +125,14 @@
         self.navigationItem.title = @"Tree Map";
     }
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updatedImage:)
-                                                 name:kOTMMapViewControllerImageUpdate
-                                               object:nil];
-
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(changeMapMode:)
-                                                 name:kOTMChangeMapModeNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(changeEnvironment:)
-                                                 name:kOTMEnvironmentChangeNotification
-                                               object:nil];
-
-    [super viewDidLoad];
-    [self slideDetailDownAnimated:NO];
-    [self slideAddTreeHelpDownAnimated:NO];
-
-    [self hideFilterStatus];
-
     [self setupMapView];
+}
+
+- (void)addTopBorderToView:(UIView *)theView {
+    CALayer *borderTop = [CALayer layer];
+    borderTop.frame = CGRectMake(0.0f, 0.0f, theView.frame.size.width, 0.5f);
+    borderTop.backgroundColor = [UIColor lightGrayColor].CGColor;
+    [theView.layer addSublayer:borderTop];
 }
 
 - (void)viewDidUnload
@@ -140,14 +158,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
-
-    self.addTreeHelpLabel.textColor = [UIColor whiteColor];
-    self.addTreeHelpLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    self.addTreeHelpLabel.shadowOffset = CGSizeMake(0, -1);
-
-    MKCoordinateRegion region = [SharedAppDelegate mapRegion];
-    [mapView setRegion:region];
     if (firstAppearance) {
         firstAppearance = NO;
         NSLog(@"Trying to find location on first load of the map view");
@@ -284,21 +294,6 @@
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
         NSDictionary *pendingEdits = [plot objectForKey:@"pending_edits"];
-        NSDictionary *latestDbhEdit = [[[pendingEdits objectForKey:@"tree.diameter"] objectForKey:@"pending_edits"] objectAtIndex:0];
-
-        NSString* dbhValue;
-
-        if (latestDbhEdit) {
-            dbhValue = [latestDbhEdit objectForKey:@"value"];
-        } else {
-            dbhValue = [tree objectForKey:@"diameter"];
-        }
-
-        OTMFormatter *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
-
-        if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
-            tdbh =  [fmt format:[dbhValue floatValue]];
-        }
 
         NSDictionary *latestSpeciesEdit = [[[pendingEdits objectForKey:@"tree.species"] objectForKey:@"pending_edits"] objectAtIndex:0];
         if (latestSpeciesEdit) {
@@ -306,7 +301,7 @@
         } else {
             NSDictionary *speciesDict = [tree objectForKey:@"species"];
             if (![speciesDict isKindOfClass:[NSNull class]]) {
-                tspecies = [speciesDict objectForKey:@"scientific_name"];
+                tspecies = [speciesDict objectForKey:@"common_name"];
             }
         }
     }
@@ -319,9 +314,8 @@
             [taddress isKindOfClass:[NSNull class]] ||
             [taddress isEqualToString:@""]) { taddress = @"No Address"; }
 
-    [self.dbh setText:tdbh];
     [self.species setText:tspecies];
-    [self.address setText:taddress];
+    [self.address setText:[taddress uppercaseString]];
 }
 
 
@@ -610,7 +604,7 @@
     NSDictionary *plot = [dict objectForKey:@"plot"];
     NSDictionary* tree = [dict objectForKey:@"tree"];
 
-    self.treeImage.image = nil;
+    self.treeImage.image = [UIImage imageNamed:@"Default_feature-image"];
 
     if (tree && [tree isKindOfClass:[NSDictionary class]]) {
         NSArray* images = [dict objectForKey:@"photos"];
@@ -842,7 +836,7 @@
         if (!locationActivityView) {
             locationActivityView = [[UIActivityIndicatorView alloc]
                                     initWithActivityIndicatorStyle:
-                                    UIActivityIndicatorViewStyleWhite];
+                                    UIActivityIndicatorViewStyleGray];
 
             [(UIActivityIndicatorView *)locationActivityView startAnimating];
             [locationActivityView setUserInteractionEnabled:NO];

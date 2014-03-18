@@ -36,52 +36,6 @@
     return self;
 }
 
--(void)loadTheme {
-    fadeAtBottom = NO;
-    self.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.layer.shadowOffset = CGSizeMake(0.0f, -1.0f);
-    self.layer.shadowOpacity = 0.3;
-}
-
-- (void)drawRect:(CGRect)rect
-{    
-    float pct = .90;   
-    float height = self.frame.size.height;
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-
-    /// Main Gradient
-    float color[] = { pct, pct, pct, 1.0 };
-    CGColorRef startColor = [[UIColor whiteColor] CGColor];
-    CGColorRef endColor = CGColorCreate(colorSpace, color);
-
-    float locations[] = {0.0, 1.0};
-    const void* colors[] = { startColor, endColor };
-    CFArrayRef colorArray = CFArrayCreate(NULL, colors, 2, NULL);
-    CGGradientRef gradient = CGGradientCreateWithColors(colorSpace,
-                                                        colorArray, 
-                                                        locations);
-        
-    CGFloat fadeOffset = fadeAtBottom ? 0 : 15;
-    CGRect gframe = CGRectMake(0, fadeOffset, self.frame.size.width, height - 15);
-    
-    CGContextSetFillColorWithColor(context, [[self backgroundColor] CGColor]);
-    CGContextFillRect(context, gframe);    
-    
-    CGContextSaveGState(context);
-    CGContextAddRect(context,
-                     gframe);
-    CGContextClip(context);
-    CGContextDrawLinearGradient(context, gradient, 
-                                CGPointMake(CGRectGetMidX(gframe), fadeOffset),
-                                CGPointMake(CGRectGetMidX(gframe), gframe.size.height + fadeOffset),
-                                0);
-    
-    CGContextRestoreGState(context);
-
-    CFRelease(colorArray);
-    CGColorSpaceRelease(colorSpace);
-}
+-(void)loadTheme {}
 
 @end

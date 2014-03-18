@@ -38,10 +38,7 @@
 
 - (void)loadTheme
 {
-    self.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.layer.shadowOffset = CGSizeMake(0.0f, -1.0f);
-    self.layer.shadowOpacity = 0.3;
-    self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"filter_status_bg"]];
+
 }
 
 @end

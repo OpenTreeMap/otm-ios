@@ -78,6 +78,7 @@
 -(void)changeEnvironment:(NSNotification *)note {
     OTMEnvironment *env = note.object;
     self.window.tintColor = env.primaryColor;
+    self.window.backgroundColor = [UIColor whiteColor];
 }
 
 @end
