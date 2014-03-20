@@ -20,6 +20,7 @@
 #import "OTMFormatter.h"
 
 #define kOTMEnvironmentChangeNotification @"kOTMEnvironmentChangeNotification"
+#define kOTMGeoRevChangeNotification @"kOTMGeoRevChangeNotification"
 
 /**
  An interface to global application settings that may change for each build configuration (i.e. Debug, Release)
