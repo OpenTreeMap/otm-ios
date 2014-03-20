@@ -108,6 +108,11 @@
                                                  name:kOTMEnvironmentChangeNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeGeoRev:)
+                                                 name:kOTMGeoRevChangeNotification
+                                               object:nil];
+
     [super viewDidLoad];
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
@@ -131,6 +136,10 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:kOTMEnvironmentChangeNotification
+                                                  object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kOTMGeoRevChangeNotification
                                                   object:nil];
 }
 
@@ -272,6 +281,10 @@
 -(void)changeEnvironment:(NSNotification *)note {
     OTMEnvironment *env = note.object;
     [self.tabBarController.tabBar setSelectedImageTintColor:[env primaryColor]];
+}
+
+-(void)changeGeoRev:(NSNotification *)note {
+    [self showFilters:self.filters];
 }
 
 #pragma mark Detail View
