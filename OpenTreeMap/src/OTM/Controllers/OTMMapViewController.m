@@ -89,6 +89,9 @@
     [self addTopBorderToView:self.detailView];
     [self addTopBorderToView:self.addTreeHelpView];
 
+    [self addTopBorderToView:filterStatusView];
+    [self addBottomBorderToView:filterStatusView];
+
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
 
@@ -135,11 +138,20 @@
 }
 
 - (void)addTopBorderToView:(UIView *)theView {
+    [self addLightGreyLineToView:theView y:0.0];
+}
+
+- (void)addBottomBorderToView:(UIView *)theView {
+    [self addLightGreyLineToView:theView y:theView.frame.size.height];
+}
+
+- (void)addLightGreyLineToView:(UIView *)theView y:(CGFloat)y {
     CALayer *borderTop = [CALayer layer];
-    borderTop.frame = CGRectMake(0.0f, 0.0f, theView.frame.size.width, 0.5f);
+    borderTop.frame = CGRectMake(0.0f, y, theView.frame.size.width, 0.5f);
     borderTop.backgroundColor = [UIColor lightGrayColor].CGColor;
     [theView.layer addSublayer:borderTop];
 }
+
 
 - (void)viewDidUnload
 {
@@ -292,6 +304,7 @@
 -(void)changeEnvironment:(NSNotification *)note {
     OTMEnvironment *env = note.object;
     [self.tabBarController.tabBar setSelectedImageTintColor:[env primaryColor]];
+    [self.filterStatusView setBackgroundColor:env.secondaryColor];
 }
 
 -(void)changeGeoRev:(NSNotification *)note {
