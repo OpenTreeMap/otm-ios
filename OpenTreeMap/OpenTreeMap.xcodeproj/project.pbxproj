@@ -122,6 +122,7 @@
 		6470BEE618DB8C0B00C56A8F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6470BEE218DB8C0B00C56A8F /* Icon.png */; };
 		6470BEE718DB8C0B00C56A8F /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6470BEE318DB8C0B00C56A8F /* Icon@2x.png */; };
 		6470BEED18E0A8C700C56A8F /* OTMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6470BEEC18E0A8C700C56A8F /* OTMViewController.m */; };
+		6470BEEA18DCAC5000C56A8F /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = 6470BEE918DCAC5000C56A8F /* UIView+Borders.m */; };
 		647E445716417BDF000CF872 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 647E445616417BDF000CF872 /* about.html */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
@@ -332,6 +333,8 @@
 		6470BEE318DB8C0B00C56A8F /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		6470BEEB18E0A8C700C56A8F /* OTMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMViewController.h; sourceTree = "<group>"; };
 		6470BEEC18E0A8C700C56A8F /* OTMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMViewController.m; sourceTree = "<group>"; };
+		6470BEE818DCAC5000C56A8F /* UIView+Borders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Borders.h"; sourceTree = "<group>"; };
+		6470BEE918DCAC5000C56A8F /* UIView+Borders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Borders.m"; sourceTree = "<group>"; };
 		647E445616417BDF000CF872 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -493,6 +496,8 @@
 				6460868B160CFB6700A1458B /* NSMutableOrderedSet+Queue.m */,
 				6460868C160CFB6700A1458B /* UIAlertView+Blocks.h */,
 				6460868D160CFB6700A1458B /* UIAlertView+Blocks.m */,
+				6470BEE818DCAC5000C56A8F /* UIView+Borders.h */,
+				6470BEE918DCAC5000C56A8F /* UIView+Borders.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -905,6 +910,7 @@
 				64608707160CFB6700A1458B /* OTMDetailCellRenderer.m in Sources */,
 				64608708160CFB6700A1458B /* OTMDetailTableViewCell.m in Sources */,
 				6470BEED18E0A8C700C56A8F /* OTMViewController.m in Sources */,
+				6470BEEA18DCAC5000C56A8F /* UIView+Borders.m in Sources */,
 				64608709160CFB6700A1458B /* OTMDistanceTableViewCell.m in Sources */,
 				6460870A160CFB6700A1458B /* OTMMapDetailCellRenderer.m in Sources */,
 				6460870B160CFB6700A1458B /* OTMMapTableViewCell.m in Sources */,

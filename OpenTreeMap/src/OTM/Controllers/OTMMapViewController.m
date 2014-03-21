@@ -24,6 +24,7 @@
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMImageViewController.h"
+#import "UIView+Borders.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -86,11 +87,11 @@
 
     [self changeMode:Select];
 
-    [self addTopBorderToView:self.detailView];
-    [self addTopBorderToView:self.addTreeHelpView];
+    [self.detailView addTopBorder];
+    [self.addTreeHelpView addTopBorder];
 
-    [self addTopBorderToView:filterStatusView];
-    [self addBottomBorderToView:filterStatusView];
+    [self.filterStatusView addTopBorder];
+    [self.filterStatusView addBottomBorder];
 
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
@@ -136,22 +137,6 @@
 
     [self setupMapView];
 }
-
-- (void)addTopBorderToView:(UIView *)theView {
-    [self addLightGreyLineToView:theView y:0.0];
-}
-
-- (void)addBottomBorderToView:(UIView *)theView {
-    [self addLightGreyLineToView:theView y:theView.frame.size.height];
-}
-
-- (void)addLightGreyLineToView:(UIView *)theView y:(CGFloat)y {
-    CALayer *borderTop = [CALayer layer];
-    borderTop.frame = CGRectMake(0.0f, y, theView.frame.size.width, 0.5f);
-    borderTop.backgroundColor = [UIColor lightGrayColor].CGColor;
-    [theView.layer addSublayer:borderTop];
-}
-
 
 - (void)viewDidUnload
 {
