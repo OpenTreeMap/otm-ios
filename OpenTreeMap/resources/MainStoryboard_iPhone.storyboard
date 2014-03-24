@@ -153,15 +153,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Showing: Missing Species" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="rh9-R0-UUJ">
-                                        <rect key="frame" x="8" y="0.0" width="280" height="21"/>
+                                        <rect key="frame" x="8" y="1" width="280" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.21507727581521741" green="0.21507727581521741" blue="0.21507727581521741" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
-                                        <color key="shadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="0.80794630629999997" blue="0.95198657659999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </view>
                         </subviews>
                     </view>
@@ -216,42 +215,28 @@
                                 </connections>
                             </tableView>
                             <view opaque="NO" contentMode="scaleToFill" id="SBG-lE-den" customClass="OTMDetailBoxView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Imi-kc-vP1">
-                                        <rect key="frame" x="92" y="9" width="216" height="16"/>
+                                        <rect key="frame" x="90" y="28" width="216" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="a81-a2-XX4">
-                                        <rect key="frame" x="92" y="23" width="216" height="21"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Species >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="a81-a2-XX4">
+                                        <rect key="frame" x="90" y="8" width="216" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="8OF-cT-Ox7">
-                                        <rect key="frame" x="92" y="43" width="216" height="16"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="h2p-MS-lx6">
-                                        <rect key="frame" x="10" y="10" width="72" height="66"/>
+                                        <rect key="frame" x="10" y="6" width="70" height="70"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="2GN-8f-yyH">
-                                        <rect key="frame" x="92" y="59" width="216" height="16"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GuM-ES-H5W">
                                         <rect key="frame" x="9" y="10" width="73" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -285,11 +270,9 @@
                         <outlet property="address" destination="Imi-kc-vP1" id="c3I-Oi-1Wi"/>
                         <outlet property="headerView" destination="SBG-lE-den" id="dbX-Fl-0CA"/>
                         <outlet property="imageView" destination="h2p-MS-lx6" id="fMH-90-obH"/>
-                        <outlet property="lastUpdateDate" destination="8OF-cT-Ox7" id="5gA-jJ-AAJ"/>
                         <outlet property="scrollView" destination="hqL-kc-WAV" id="qBJ-eZ-7lh"/>
                         <outlet property="species" destination="a81-a2-XX4" id="C29-eA-A2j"/>
                         <outlet property="tableView" destination="hqL-kc-WAV" id="Esh-w3-bJ8"/>
-                        <outlet property="updateUser" destination="2GN-8f-yyH" id="MBB-Pd-TIG"/>
                         <outlet property="view" destination="kdd-4U-sUB" id="yl3-yg-jqn"/>
                         <segue destination="v8c-v7-6H5" kind="push" identifier="changeSpecies" id="Lek-fL-nUD"/>
                         <segue destination="XIE-5U-YPU" kind="push" identifier="changeLocation" id="DyZ-zz-mYa"/>
@@ -319,7 +302,7 @@
                                         <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Jc-w3-d6h" customClass="OTMButton">
-                                        <rect key="frame" x="20" y="80" width="280" height="37"/>
+                                        <rect key="frame" x="20" y="20" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Species"/>
@@ -872,8 +855,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="145-jK-ChU"/>
         <segue reference="ROJ-aE-inW"/>
-        <segue reference="vdU-No-GUA"/>
+        <segue reference="Lek-fL-nUD"/>
+        <segue reference="gQW-vu-Tty"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -14,17 +14,15 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
-#import "OTMViewController.h"
 
-@interface OTMScrollAwareViewController : OTMViewController
+@interface UIView (Borders)
 
-@property (nonatomic,weak) UITextField* activeField;
-@property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
+- (void)addTopBorder;
+- (void)addTopBorderWithColor:(UIColor *)color;
 
-/**
- * Override this method to handle the end of the form
- * being reached
- */
--(IBAction)completedForm:(id)sender;
+- (void)addBottomBorder;
+- (void)addBottomBorderWithColor:(UIColor *)color;
+
+- (void)addHorizontalLineAtY:(CGFloat)y withColor:(UIColor*)color;
 
 @end

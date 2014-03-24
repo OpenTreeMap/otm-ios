@@ -25,6 +25,7 @@
 #import "OTMFieldDetailViewController.h"
 #import "OTMImageViewController.h"
 #import "OTMChoicesDetailCellRenderer.h"
+#import "UIView+Borders.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -50,13 +51,7 @@
 
 -(void)syncTopData {
     if (self.data) {
-        NSString *addr = [self.data objectForKey:@"address"];
-        if (!addr || (id)addr == [NSNull null] ||
-            [addr isEqualToString:@""]) {
-            self.address.text = @"No Address";
-        } else {
-            self.address.text = addr;
-        }
+        self.address.text = [[self buildAddressStringFromPlotDictionary:self.data] uppercaseString];
 
         NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species.common_name"];
         if (pendingSpeciesEditDict) {
@@ -68,23 +63,6 @@
             } else {
                 self.species.text = @"Missing Species";
             }
-        }
-
-        NSString *upd_on = [self reformatLastUpdateDate:
-                                   [[self.data objectForKey:@"latest_update"] objectForKey:@"created"]];
-
-        if (upd_on == nil) {
-            upd_on = @"just now";
-        }
-
-        self.lastUpdateDate.text = [NSString stringWithFormat:@"Updated %@", upd_on];
-
-        NSString *by = [self.data objectForKey:@"last_updated_by"];
-
-        if (by) {
-            self.updateUser.text = [NSString stringWithFormat:@"By %@", by];
-        } else {
-            self.updateUser.text = @"";
         }
     }
 }
@@ -112,6 +90,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [headerView addBottomBorder];
 
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = NO;

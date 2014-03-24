@@ -24,6 +24,7 @@
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMImageViewController.h"
+#import "UIView+Borders.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -86,8 +87,11 @@
 
     [self changeMode:Select];
 
-    [self addTopBorderToView:self.detailView];
-    [self addTopBorderToView:self.addTreeHelpView];
+    [self.detailView addTopBorder];
+    [self.addTreeHelpView addTopBorder];
+
+    [self.filterStatusView addTopBorder];
+    [self.filterStatusView addBottomBorder];
 
     [self slideDetailDownAnimated:NO];
     [self slideAddTreeHelpDownAnimated:NO];
@@ -132,13 +136,6 @@
     }
 
     [self setupMapView];
-}
-
-- (void)addTopBorderToView:(UIView *)theView {
-    CALayer *borderTop = [CALayer layer];
-    borderTop.frame = CGRectMake(0.0f, 0.0f, theView.frame.size.width, 0.5f);
-    borderTop.backgroundColor = [UIColor lightGrayColor].CGColor;
-    [theView.layer addSublayer:borderTop];
 }
 
 - (void)viewDidUnload
@@ -292,6 +289,7 @@
 -(void)changeEnvironment:(NSNotification *)note {
     OTMEnvironment *env = note.object;
     [self.tabBarController.tabBar setSelectedImageTintColor:[env primaryColor]];
+    [self.filterStatusView setBackgroundColor:env.secondaryColor];
 }
 
 -(void)changeGeoRev:(NSNotification *)note {
@@ -303,7 +301,7 @@
 -(void)setDetailViewData:(NSDictionary*)plot {
     NSString* tdbh = nil;
     NSString* tspecies = nil;
-    NSString* taddress = nil;
+    NSString* taddress = [self buildAddressStringFromPlotDictionary:plot];
 
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
@@ -320,13 +318,8 @@
         }
     }
 
-    taddress = [plot objectForKey:@"address"];
-
     if (tdbh == nil || [tdbh isEqual:@"<null>"]) { tdbh = @"Missing Diameter"; }
     if (tspecies == nil || [tspecies isEqual:@"<null>"]) { tspecies = @"Missing Species"; }
-    if (taddress == nil || [taddress isEqual:@"<null>"] ||
-            [taddress isKindOfClass:[NSNull class]] ||
-            [taddress isEqualToString:@""]) { taddress = @"No Address"; }
 
     [self.species setText:tspecies];
     [self.address setText:[taddress uppercaseString]];

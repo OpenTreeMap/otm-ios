@@ -14,17 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
-#import "OTMViewController.h"
 
-@interface OTMScrollAwareViewController : OTMViewController
+@interface OTMViewController : UIViewController
 
-@property (nonatomic,weak) UITextField* activeField;
-@property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
-
-/**
- * Override this method to handle the end of the form
- * being reached
- */
--(IBAction)completedForm:(id)sender;
+- (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)plot;
 
 @end
