@@ -303,7 +303,7 @@
 -(void)setDetailViewData:(NSDictionary*)plot {
     NSString* tdbh = nil;
     NSString* tspecies = nil;
-    NSString* taddress = nil;
+    NSString* taddress = [self buildAddressStringFromPlotDictionary:plot];
 
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
@@ -320,13 +320,8 @@
         }
     }
 
-    taddress = [plot objectForKey:@"address"];
-
     if (tdbh == nil || [tdbh isEqual:@"<null>"]) { tdbh = @"Missing Diameter"; }
     if (tspecies == nil || [tspecies isEqual:@"<null>"]) { tspecies = @"Missing Species"; }
-    if (taddress == nil || [taddress isEqual:@"<null>"] ||
-            [taddress isKindOfClass:[NSNull class]] ||
-            [taddress isEqualToString:@""]) { taddress = @"No Address"; }
 
     [self.species setText:tspecies];
     [self.address setText:[taddress uppercaseString]];

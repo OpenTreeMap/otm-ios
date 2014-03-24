@@ -16,6 +16,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "OTMViewController.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDetailViewController.h"
 
@@ -28,7 +29,7 @@ typedef enum {
     Move,
 } OTMMapViewControllerMapMode;
 
-@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
+@interface OTMMapViewController : OTMViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIBarButtonItem *findLocationButton;

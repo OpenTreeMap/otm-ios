@@ -50,13 +50,8 @@
 
 -(void)syncTopData {
     if (self.data) {
-        NSString *addr = [self.data objectForKey:@"address"];
-        if (!addr || (id)addr == [NSNull null] ||
-            [addr isEqualToString:@""]) {
-            self.address.text = @"No Address";
-        } else {
-            self.address.text = addr;
-        }
+
+        self.address.text = [[self buildAddressStringFromPlotDictionary:self.data] uppercaseString];
 
         NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species.common_name"];
         if (pendingSpeciesEditDict) {
