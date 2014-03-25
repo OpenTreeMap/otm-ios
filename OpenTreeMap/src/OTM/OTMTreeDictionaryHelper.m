@@ -19,15 +19,10 @@
 
 +(NSMutableDictionary *)setCoordinate:(CLLocationCoordinate2D)coordinate inDictionary:(NSMutableDictionary *)dict
 {
-    NSMutableDictionary *geometryDict = [dict objectForKey:@"geometry"];
+    NSMutableDictionary *geometryDict = [[dict objectForKey:@"plot"] objectForKey:@"geom"];
 
-    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.latitude] forKey:@"lat"];
-
-    if ([geometryDict objectForKey:@"lon"]) {
-        [geometryDict setValue:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"lon"];
-    } else {
-        [geometryDict setValue:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"lng"];
-    }
+    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.latitude] forKey:@"y"];
+    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"x"];
 
     return dict;
 }

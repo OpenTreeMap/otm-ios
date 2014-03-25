@@ -520,7 +520,7 @@
 
         changeLocationViewController.navigationItem.title = @"Move Tree";
 
-        CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data];
+        CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data[@"plot"]];
 
         [changeLocationViewController annotateCenter:center];
     } else if ([segue.identifier isEqualToString:@"fieldDetail"]) {
