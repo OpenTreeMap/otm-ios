@@ -26,19 +26,19 @@
     if (self) {
         CGRect frame = self.frame;
 
-        CGRect leftFrame = CGRectMake(25, 0,
-                                      CGRectGetMidX(frame),
-                                      frame.size.height);
-        CGRect rightFrame = CGRectMake(CGRectGetMidX(frame), 0,
-                                       CGRectGetMidX(frame) - 25,
-                                       frame.size.height);
+        CGRect nameFrame = CGRectMake(14, 0,
+                                      frame.size.width - 14,
+                                      frame.size.height / 2);
+        CGRect valueFrame = CGRectMake(14, frame.size.height/2 - 2,
+                                       frame.size.width - 14,
+                                       frame.size.height / 2);
 
         CGRect inputFrame = CGRectMake(195, 6,
                                        98,
                                        31);
 
-        self.fieldLabel = [self labelWithFrame:leftFrame];
-        self.fieldValue = [self labelWithFrame:rightFrame];
+        self.fieldLabel = [self labelWithFrame:nameFrame];
+        self.fieldValue = [self labelWithFrame:valueFrame];
 
         self.editFieldValue = [[UITextField alloc] initWithFrame:inputFrame];
         self.editFieldValue.textAlignment = UITextAlignmentRight;

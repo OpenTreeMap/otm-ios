@@ -128,7 +128,9 @@
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    NSDictionary *benefit = [[data objectForKey:@"benefits"] objectAtIndex:self.index];
+    NSDictionary *allBenefits = [data objectForKey:@"benefits"];
+    NSArray *plotBenefits = [allBenefits objectForKey:@"plot"];
+    NSDictionary *benefit = [plotBenefits objectAtIndex:self.index];
 
     NSString *value = [benefit objectForKey:@"value"];
     NSString *unit = [benefit objectForKey:@"unit"];
