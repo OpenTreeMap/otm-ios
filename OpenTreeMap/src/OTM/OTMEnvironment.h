@@ -104,7 +104,6 @@
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
 @property (nonatomic, assign) float splashDelayInSeconds;
-@property (nonatomic, strong) NSString *dbhUnit;
 @property (nonatomic, strong) NSString *distanceUnit;
 @property (nonatomic) double distanceBiggerUnitFactor;
 @property (nonatomic) double distanceFromMetersFactor;

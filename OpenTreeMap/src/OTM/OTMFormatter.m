@@ -34,13 +34,17 @@
 }
 
 -(NSString*)format:(CGFloat)number {
-    NSString *display = [NSString stringWithFormat:@"%.*f", _digits, number];
+    NSString *display = [self formatWithoutUnit:number];
 
     if (_label != nil) {
         display = [display stringByAppendingFormat:@" %@", _label];
     }
 
     return display;
+}
+
+-(NSString*)formatWithoutUnit:(CGFloat)number {
+    return [NSString stringWithFormat:@"%.*f", _digits, number];
 }
 
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString

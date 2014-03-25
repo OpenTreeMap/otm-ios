@@ -25,6 +25,7 @@
               label:(NSString *)label;
 
 -(NSString*)format:(CGFloat)number;
+-(NSString*)formatWithoutUnit:(CGFloat)number;
 
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString;
 

@@ -216,10 +216,11 @@
     NSString *disp = @"";
 
     if (value != nil) {
-        disp = [_formatter format:[value floatValue]];
+        disp = [_formatter formatWithoutUnit:[value floatValue]];
     }
     detailcell.editFieldValue.text = disp;
     detailcell.fieldLabel.text = self.label;
+    detailcell.unitLabel.text = _formatter.label;
 
     return detailcell;
 }

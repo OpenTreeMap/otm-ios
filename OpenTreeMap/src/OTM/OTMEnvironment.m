@@ -347,7 +347,7 @@
             editRenderer = [[OTMLabelEditDetailCellRenderer alloc]
                                                initWithDataKey:key
                                                          label:displayField
-                                                      keyboard:UIKeyboardTypeDefault
+                                                      keyboard:fmt ? UIKeyboardTypeDecimalPad : UIKeyboardTypeDefault
                                                      formatter:fmt];
         }
         [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]

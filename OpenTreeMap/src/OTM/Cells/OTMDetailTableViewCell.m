@@ -37,14 +37,19 @@
                                        98,
                                        31);
 
+        CGRect unitFrame = CGRectMake(297, 6,
+                                       21,
+                                       31);
+
         self.fieldLabel = [self labelWithFrame:nameFrame];
         self.fieldValue = [self labelWithFrame:valueFrame];
+        self.unitLabel = [self labelWithFrame:unitFrame];
+        [self.unitLabel setTextColor:[UIColor grayColor]];
 
         self.editFieldValue = [[UITextField alloc] initWithFrame:inputFrame];
         self.editFieldValue.textAlignment = UITextAlignmentRight;
         self.editFieldValue.delegate = self;
         self.editFieldValue.borderStyle = UITextBorderStyleRoundedRect;
-
 
         [self.fieldLabel setTextColor:[UIColor grayColor]];
 
@@ -55,6 +60,7 @@
         [self addSubview:self.fieldLabel];
         [self addSubview:self.editFieldValue];
         [self addSubview:self.pendImageView];
+        [self addSubview:self.unitLabel];
 
         pendImageView.hidden = YES;
         editFieldValue.hidden = YES;
