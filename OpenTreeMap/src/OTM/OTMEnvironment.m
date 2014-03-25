@@ -361,9 +361,6 @@
 - (NSArray *)fieldsFromDictArray:(NSDictionary *)modelmap {
     NSMutableArray *fieldArray = [NSMutableArray array];
 
-    // Add the minimap at the top
-    [fieldArray addObject:[NSArray arrayWithObject:[[OTMMapDetailCellRenderer alloc] initWithDataKey:@"geom"]]];
-
     /**
      * Species models come along for the ride but we don't really
      * care for them here

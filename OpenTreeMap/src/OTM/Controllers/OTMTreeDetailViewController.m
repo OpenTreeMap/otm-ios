@@ -160,6 +160,12 @@
     NSArray *mapSection = [NSArray arrayWithObjects:mapEditCellRenderer,nil];
     [editableFields addObject:mapSection];
 
+    // Create and add a read only map view to the top of the view mode
+    OTMMapDetailCellRenderer *readOnlyMapDetailCellRenderer = [[OTMMapDetailCellRenderer alloc] init];
+    readOnlyMapDetailCellRenderer.cellHeight = 120;
+    NSArray *readOnlyMapSection = [NSArray arrayWithObject:readOnlyMapDetailCellRenderer];
+    [allFields insertObject:readOnlyMapSection atIndex:0];
+
     OTMStaticClickCellRenderer *speciesRow =
     [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
                                       clickCallback:^(OTMDetailCellRenderer *renderer)
