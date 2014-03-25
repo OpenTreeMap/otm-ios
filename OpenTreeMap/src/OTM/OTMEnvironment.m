@@ -172,7 +172,7 @@
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict {
     self.instance = [dict objectForKey:@"url"];
     self.instanceId = [dict objectForKey:@"id"];
-    self.geoRev = [dict objectForKey:@"geoRev"];
+    self.geoRev = [dict objectForKey:@"geoRevHash"];
     self.fields = [self fieldsFromDictArray:[dict objectForKey:@"fields"]];
     self.config = [dict objectForKey:@"config"];
 

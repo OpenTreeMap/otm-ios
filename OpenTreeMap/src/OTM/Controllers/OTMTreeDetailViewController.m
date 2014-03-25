@@ -377,7 +377,7 @@
 
                     if (err == nil) {
                         data = [json mutableDeepCopy];
-                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"georev"]];
+                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"geoRevHash"]];
                         [self pushImageData:pendingImageData newTree:YES];
                     } else {
                         NSLog(@"Error adding tree: %@", err);
@@ -399,7 +399,7 @@
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
-                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"georev"]];
+                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"geoRevHash"]];
                         if (err == nil) {
                             [self pushImageData:pendingImageData newTree:NO];
                             self.data = [json mutableDeepCopy];
