@@ -419,7 +419,7 @@
     }
 
     // No 'id' parameter indicates that this view was shown to edit a new plot/tree
-    if ([self.data objectForKey:@"id"] == nil && !saveChanges) {
+    if ([[self.data objectForKey:@"plot"] objectForKey:@"id"] == nil && !saveChanges) {
         [delegate treeAddCanceledByViewController:self];
     }
 

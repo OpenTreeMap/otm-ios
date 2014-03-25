@@ -21,14 +21,14 @@
 
 @implementation OTMViewController
 
-- (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)plot {
-    NSDictionary *feature = [plot objectForKey:@"feature"];
+- (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)dict {
+    NSMutableDictionary *plotDict = [dict objectForKey:@"plot"];
     NSArray *keys = @[@"address_street", @"address_city", @"address_zip"];
 
     NSMutableArray *addressComponents = [[NSMutableArray alloc] initWithCapacity:[keys count]];
 
     for (NSString *key in keys) {
-        NSString *component = [feature objectForKey:key];
+        NSString *component = [plotDict objectForKey:key];
         if (component != nil && ![component isEqualToString: @""] && ![component  isEqualToString: @"<null>"]) {
             [addressComponents addObject:component];
         }

@@ -17,6 +17,6 @@
 
 @interface OTMViewController : UIViewController
 
-- (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)plot;
+- (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)dict;
 
 @end
