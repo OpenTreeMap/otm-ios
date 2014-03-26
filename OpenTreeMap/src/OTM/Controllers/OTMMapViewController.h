@@ -56,6 +56,7 @@ typedef enum {
 @property (nonatomic,strong) IBOutlet UINavigationBar* searchNavigationBar;
 @property (nonatomic,strong) IBOutlet UIView* locationActivityView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *mapModeSegmentedControl;
+@property (nonatomic, strong) IBOutlet UIView *mapModeSegmentedControlBackground;
 @property (nonatomic, strong) IBOutlet UIView *filterStatusView;
 @property (nonatomic, strong) IBOutlet UILabel *filterStatusLabel;
 
