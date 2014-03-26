@@ -405,12 +405,13 @@
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
+                        self.data = [json mutableDeepCopy];
+                        [self pushImageData:pendingImageData newTree:NO];
                         [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"geoRevHash"]];
-                        if (err == nil) {
-                            [self pushImageData:pendingImageData newTree:NO];
-                            self.data = [json mutableDeepCopy];
-                            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData];
-                        }
+                        [delegate viewController:self
+                                      editedTree:(NSDictionary *)data
+                            withOriginalLocation:originalLocation
+                                    originalData:originalData];
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
                         [[[UIAlertView alloc] initWithTitle:nil
