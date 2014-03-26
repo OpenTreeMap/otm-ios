@@ -400,6 +400,19 @@
     }
 }
 
+// Photo urls returned from the API may be relative to the application, or absolute S3 urls.
+- (NSString *)absolutePhotoUrlFromPhotoUrl:(NSString *)photoUrl {
+    if (![photoUrl hasPrefix:@"http"]) {
+        NSURL *url = [NSURL URLWithString:self.baseURL];
+        NSString *host = [url host];
+        NSString *scheme = [url scheme];
+        NSNumber *port = [url port];
+        return [NSString stringWithFormat:@"%@://%@:%@%@", scheme, host, port, photoUrl];
+    } else {
+        return photoUrl;
+    }
+}
+
 //
 // Functions from DB5
 // https://github.com/quartermaster/DB5/blob/7e41cef54e7ae9d3e97c2f8f23fc5cf14df72114/Source/VSTheme.m

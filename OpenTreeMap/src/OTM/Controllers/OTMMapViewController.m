@@ -25,7 +25,7 @@
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMImageViewController.h"
 #import "UIView+Borders.h"
-
+#import "OTMTreeDictionaryHelper.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface OTMMapViewController ()
@@ -273,11 +273,9 @@
 }
 
 - (IBAction)showTreePhotoFullscreen:(id)sender {
-    NSArray *images = [[self.selectedPlot objectForKey:@"tree"] objectForKey:@"images"];
-    NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
-
-    if (imageURL) {
-        [self performSegueWithIdentifier:@"showImage" sender:imageURL];
+    NSString* photoURL = [OTMTreeDictionaryHelper getLatestPhotoUrlInDictionary:self.selectedPlot];
+    if (photoURL) {
+        [self performSegueWithIdentifier:@"showImage" sender:photoURL];
     }
 }
 
@@ -604,38 +602,24 @@
      }];
 }
 
+
 - (void)selectPlot:(NSDictionary *)dict
 {
     self.selectedPlot = [dict mutableDeepCopy];
 
     NSDictionary *plot = [dict objectForKey:@"plot"];
-    NSDictionary* tree = [dict objectForKey:@"tree"];
 
     self.treeImage.image = [UIImage imageNamed:@"Default_feature-image"];
 
-    if (tree && [tree isKindOfClass:[NSDictionary class]]) {
-        NSArray* images = [dict objectForKey:@"photos"];
+    NSString *photoUrl = [OTMTreeDictionaryHelper getLatestPhotoUrlInDictionary:dict];
+    if (photoUrl) {
+        dispatch_async(dispatch_get_global_queue(0,0), ^{
+            NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
 
-        if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-            NSString *photoUrl = [[images lastObject] objectForKey:@"image"];
-
-            if (![photoUrl hasPrefix:@"http"]) {
-                NSString *baseUrl = [[OTMEnvironment sharedEnvironment] baseURL];
-                NSURL *url = [NSURL URLWithString:baseUrl];
-                NSString *host = [url host];
-                NSString *scheme = [url scheme];
-                NSString *port = [url port];
-                photoUrl = [NSString stringWithFormat:@"%@://%@:%@%@", scheme, host, port, photoUrl];
-            }
-
-            dispatch_async(dispatch_get_global_queue(0,0), ^{
-                    NSData * imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
-
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                            self.treeImage.image = [UIImage imageWithData: imageData];
-                        });
-                });
-        }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.treeImage.image = [UIImage imageWithData: imageData];
+            });
+        });
     }
 
     [self setDetailViewData:dict];

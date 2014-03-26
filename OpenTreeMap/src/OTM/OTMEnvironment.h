@@ -135,4 +135,7 @@
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
 
+
+- (NSString *)absolutePhotoUrlFromPhotoUrl:(NSString *)url;
+
 @end
