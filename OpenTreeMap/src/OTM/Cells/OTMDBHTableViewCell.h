@@ -23,8 +23,8 @@
 @property (nonatomic,strong) IBOutlet UITextField *circumferenceTextField;
 @property (nonatomic,strong) IBOutlet UITextField *diameterTextField;
 
-@property (nonatomic,strong) IBOutlet UILabel *circumferenceLabel;
-@property (nonatomic,strong) IBOutlet UILabel *diameterLabel;
+@property (nonatomic,strong) IBOutlet UILabel *circumferenceUnitLabel;
+@property (nonatomic,strong) IBOutlet UILabel *diameterUnitLabel;
 
 @property (nonatomic,weak) id<UITextFieldDelegate> tfDelegate;
 @property (nonatomic,weak) id<OTMDetailTableViewCellDelegate> delegate;

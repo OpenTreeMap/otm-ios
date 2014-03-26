@@ -43,7 +43,7 @@
         // will not work well nested inside a scrolling table view.
         [self.mapView setUserInteractionEnabled:NO];
 
-        UIImage *detailImage = [UIImage imageNamed:@"detail"];
+        UIImage *detailImage = [UIImage imageNamed:@"Chevron_right"];
         detailImageView = [[UIImageView alloc] initWithImage:detailImage];
 
         detailImageView.frame = CGRectMake(

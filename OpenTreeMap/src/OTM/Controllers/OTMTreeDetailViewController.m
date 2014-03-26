@@ -160,6 +160,12 @@
     NSArray *mapSection = [NSArray arrayWithObjects:mapEditCellRenderer,nil];
     [editableFields addObject:mapSection];
 
+    // Create and add a read only map view to the top of the view mode
+    OTMMapDetailCellRenderer *readOnlyMapDetailCellRenderer = [[OTMMapDetailCellRenderer alloc] init];
+    readOnlyMapDetailCellRenderer.cellHeight = 120;
+    NSArray *readOnlyMapSection = [NSArray arrayWithObject:readOnlyMapDetailCellRenderer];
+    [allFields insertObject:readOnlyMapSection atIndex:0];
+
     OTMStaticClickCellRenderer *speciesRow =
     [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
                                       clickCallback:^(OTMDetailCellRenderer *renderer)
@@ -377,7 +383,7 @@
 
                     if (err == nil) {
                         data = [json mutableDeepCopy];
-                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"georev"]];
+                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"geoRevHash"]];
                         [self pushImageData:pendingImageData newTree:YES];
                     } else {
                         NSLog(@"Error adding tree: %@", err);
@@ -399,7 +405,7 @@
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
                     if (err == nil) {
-                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"georev"]];
+                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"geoRevHash"]];
                         if (err == nil) {
                             [self pushImageData:pendingImageData newTree:NO];
                             self.data = [json mutableDeepCopy];
@@ -419,7 +425,7 @@
     }
 
     // No 'id' parameter indicates that this view was shown to edit a new plot/tree
-    if ([self.data objectForKey:@"id"] == nil && !saveChanges) {
+    if ([[self.data objectForKey:@"plot"] objectForKey:@"id"] == nil && !saveChanges) {
         [delegate treeAddCanceledByViewController:self];
     }
 
@@ -520,7 +526,7 @@
 
         changeLocationViewController.navigationItem.title = @"Move Tree";
 
-        CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data];
+        CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data[@"plot"]];
 
         [changeLocationViewController annotateCenter:center];
     } else if ([segue.identifier isEqualToString:@"fieldDetail"]) {

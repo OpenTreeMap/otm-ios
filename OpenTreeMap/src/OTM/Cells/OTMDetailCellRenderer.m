@@ -128,7 +128,9 @@
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    NSDictionary *benefit = [[data objectForKey:@"benefits"] objectAtIndex:self.index];
+    NSDictionary *allBenefits = [data objectForKey:@"benefits"];
+    NSArray *plotBenefits = [allBenefits objectForKey:@"plot"];
+    NSDictionary *benefit = [plotBenefits objectAtIndex:self.index];
 
     NSString *value = [benefit objectForKey:@"value"];
     NSString *unit = [benefit objectForKey:@"unit"];
@@ -214,10 +216,11 @@
     NSString *disp = @"";
 
     if (value != nil) {
-        disp = [_formatter format:[value floatValue]];
+        disp = [_formatter formatWithoutUnit:[value floatValue]];
     }
     detailcell.editFieldValue.text = disp;
     detailcell.fieldLabel.text = self.label;
+    detailcell.unitLabel.text = _formatter.label;
 
     return detailcell;
 }

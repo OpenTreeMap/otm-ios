@@ -172,7 +172,7 @@
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict {
     self.instance = [dict objectForKey:@"url"];
     self.instanceId = [dict objectForKey:@"id"];
-    self.geoRev = [dict objectForKey:@"geoRev"];
+    self.geoRev = [dict objectForKey:@"geoRevHash"];
     self.fields = [self fieldsFromDictArray:[dict objectForKey:@"fields"]];
     self.config = [dict objectForKey:@"config"];
 
@@ -347,7 +347,7 @@
             editRenderer = [[OTMLabelEditDetailCellRenderer alloc]
                                                initWithDataKey:key
                                                          label:displayField
-                                                      keyboard:UIKeyboardTypeDefault
+                                                      keyboard:fmt ? UIKeyboardTypeDecimalPad : UIKeyboardTypeDefault
                                                      formatter:fmt];
         }
         [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
@@ -360,9 +360,6 @@
 
 - (NSArray *)fieldsFromDictArray:(NSDictionary *)modelmap {
     NSMutableArray *fieldArray = [NSMutableArray array];
-
-    // Add the minimap at the top
-    [fieldArray addObject:[NSArray arrayWithObject:[[OTMMapDetailCellRenderer alloc] initWithDataKey:@"geom"]]];
 
     /**
      * Species models come along for the ride but we don't really

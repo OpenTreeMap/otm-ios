@@ -43,7 +43,7 @@
 }
 
 - (BOOL)isGeomField {
-    return [self.fieldKey isEqualToString:@"geometry"];
+    return [self.fieldKey isEqualToString:@"geom"];
 }
 
 - (void)viewDidLoad
