@@ -992,13 +992,13 @@
 - (void)hideFilterStatus
 {
     [self.filterStatusView setHidden:YES];
-    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 50, 185, 30)];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(5, 50, 185, 30)];
 }
 
 - (void)showFilterStatusWithMessage:(NSString *)message
 {
     [self.filterStatusLabel setText:message];
-    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 74, 185, 30)];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(5, 74, 185, 30)];
     [self.filterStatusView setHidden:NO];
 }
 
