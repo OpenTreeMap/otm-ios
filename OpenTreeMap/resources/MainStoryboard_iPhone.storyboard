@@ -29,21 +29,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Find Address or Location" id="FZp-qt-HYI">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="2" id="l2n-nY-Eg8"/>
+                                </connections>
+                            </searchBar>
                             <view contentMode="scaleToFill" id="HdG-pl-Slh" customClass="MKMapView">
                                 <rect key="frame" x="0.0" y="44" width="320" height="436"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <searchBar opaque="NO" contentMode="redraw" text="" placeholder="Search Address or Location" translucent="NO" id="tpv-GO-iyB" customClass="OTMSearchBar">
-                                        <rect key="frame" x="0.0" y="85" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="2" id="NLN-kZ-OGe"/>
-                                        </connections>
-                                    </searchBar>
-                                </subviews>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="w2g-B4-7BF" customClass="OTMSegmentedControl">
                                 <rect key="frame" x="130" y="74" width="185" height="30"/>
@@ -57,6 +54,14 @@
                                     <action selector="setMapMode:" destination="2" eventType="valueChanged" id="Nhx-DC-WMp"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6LD-YT-lgp">
+                                <rect key="frame" x="264" y="370" width="38" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                             <view opaque="NO" contentMode="scaleToFill" id="cSI-Ty-HIV" customClass="OTMDetailSliderview">
                                 <rect key="frame" x="0.0" y="250" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -117,23 +122,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <navigationBar contentMode="scaleToFill" id="Yxa-pc-A0G" customClass="OTMNavigationBar">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <items>
-                                    <navigationItem id="buS-y3-AQP">
-                                        <barButtonItem key="leftBarButtonItem" image="gps_icon_14.png" id="aEH-bQ-xwn">
-                                            <connections>
-                                                <action selector="startFindingLocation:" destination="2" id="xfq-cf-c8K"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <connections>
-                                            <outlet property="titleView" destination="tpv-GO-iyB" id="Q1f-Tx-KlK"/>
-                                        </connections>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <view contentMode="scaleToFill" id="YIP-Gg-DrZ" customClass="OTMHelpView">
                                 <rect key="frame" x="0.0" y="335" width="320" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -180,11 +168,10 @@
                         <outlet property="detailView" destination="cSI-Ty-HIV" id="psF-sh-2Xv"/>
                         <outlet property="filterStatusLabel" destination="rh9-R0-UUJ" id="jig-AY-HvF"/>
                         <outlet property="filterStatusView" destination="gMy-qL-BtE" id="88F-Am-EpQ"/>
-                        <outlet property="findLocationButton" destination="aEH-bQ-xwn" id="bpO-qt-PfZ"/>
+                        <outlet property="findLocationButton" destination="6LD-YT-lgp" id="Xg9-n6-XFh"/>
                         <outlet property="mapModeSegmentedControl" destination="w2g-B4-7BF" id="DFC-xS-z7c"/>
                         <outlet property="mapView" destination="HdG-pl-Slh" id="jdm-Cq-jrb"/>
-                        <outlet property="searchBar" destination="tpv-GO-iyB" id="IWn-if-GRP"/>
-                        <outlet property="searchNavigationBar" destination="Yxa-pc-A0G" id="gam-ig-llq"/>
+                        <outlet property="searchBar" destination="FZp-qt-HYI" id="tcu-VC-ytW"/>
                         <outlet property="species" destination="F3b-37-QZN" id="O6W-yo-o7a"/>
                         <outlet property="treeImage" destination="yCz-ce-iHJ" id="3qj-zu-mbR"/>
                         <outlet property="view" destination="16" id="vLX-hG-hPZ"/>
@@ -378,9 +365,10 @@
                                         <navigationItem id="aND-VR-PGQ"/>
                                     </items>
                                 </navigationBar>
-                                <searchBar contentMode="redraw" id="sTt-jf-JMA">
-                                    <rect key="frame" x="0.0" y="0.0" width="291" height="44"/>
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" id="sTt-jf-JMA">
+                                    <rect key="frame" x="0.0" y="0.0" width="313" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <outlet property="delegate" destination="v8c-v7-6H5" id="onS-zY-k03"/>
@@ -854,7 +842,6 @@
         <image name="TabBar_details.png" width="26" height="20"/>
         <image name="TabBar_profile.png" width="22" height="22"/>
         <image name="TabBar_treemap.png" width="18" height="26"/>
-        <image name="gps_icon_14.png" width="14" height="14"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

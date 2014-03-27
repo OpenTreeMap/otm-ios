@@ -123,6 +123,10 @@
 		6470BEEA18DCAC5000C56A8F /* UIView+Borders.m in Sources */ = {isa = PBXBuildFile; fileRef = 6470BEE918DCAC5000C56A8F /* UIView+Borders.m */; };
 		6470BEED18E0A8C700C56A8F /* OTMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6470BEEC18E0A8C700C56A8F /* OTMViewController.m */; };
 		647E445716417BDF000CF872 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 647E445616417BDF000CF872 /* about.html */; };
+		649BEFE018E466A90031A606 /* gps_icon_14.png in Resources */ = {isa = PBXBuildFile; fileRef = 649BEFDC18E466A90031A606 /* gps_icon_14.png */; };
+		649BEFE118E466A90031A606 /* gps_icon_14@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649BEFDD18E466A90031A606 /* gps_icon_14@2x.png */; };
+		649BEFE218E466A90031A606 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 649BEFDE18E466A90031A606 /* gps_icon.png */; };
+		649BEFE318E466A90031A606 /* gps_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649BEFDF18E466A90031A606 /* gps_icon@2x.png */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		64E5CCD418E0C2B6007E8173 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64E5CCD318E0C2B6007E8173 /* Default-568h@2x.png */; };
@@ -335,6 +339,10 @@
 		6470BEEB18E0A8C700C56A8F /* OTMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMViewController.h; sourceTree = "<group>"; };
 		6470BEEC18E0A8C700C56A8F /* OTMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMViewController.m; sourceTree = "<group>"; };
 		647E445616417BDF000CF872 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
+		649BEFDC18E466A90031A606 /* gps_icon_14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gps_icon_14.png; path = "../../../../otm-mobile-skins/la/ios/images/gps_icon_14.png"; sourceTree = "<group>"; };
+		649BEFDD18E466A90031A606 /* gps_icon_14@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gps_icon_14@2x.png"; path = "../../../../otm-mobile-skins/la/ios/images/gps_icon_14@2x.png"; sourceTree = "<group>"; };
+		649BEFDE18E466A90031A606 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gps_icon.png; path = "../../../../otm-mobile-skins/la/ios/images/gps_icon.png"; sourceTree = "<group>"; };
+		649BEFDF18E466A90031A606 /* gps_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gps_icon@2x.png"; path = "../../../../otm-mobile-skins/la/ios/images/gps_icon@2x.png"; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		64E5CCD318E0C2B6007E8173 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -643,6 +651,10 @@
 		64608738160D01A700A1458B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				649BEFDC18E466A90031A606 /* gps_icon_14.png */,
+				649BEFDD18E466A90031A606 /* gps_icon_14@2x.png */,
+				649BEFDE18E466A90031A606 /* gps_icon.png */,
+				649BEFDF18E466A90031A606 /* gps_icon@2x.png */,
 				6470BE9218DB7FF800C56A8F /* Chevron_left.png */,
 				6470BE9318DB7FF800C56A8F /* Chevron_left@2x.png */,
 				6470BE9418DB7FF800C56A8F /* Chevron_right.png */,
@@ -810,6 +822,8 @@
 				64608654160CFB4600A1458B /* LoginStoryboard.storyboard in Resources */,
 				64608655160CFB4600A1458B /* MainStoryboard_iPhone.storyboard in Resources */,
 				64608656160CFB4600A1458B /* OTMBenefitsTableViewCell.xib in Resources */,
+				649BEFE018E466A90031A606 /* gps_icon_14.png in Resources */,
+				649BEFE218E466A90031A606 /* gps_icon.png in Resources */,
 				64E5CCD418E0C2B6007E8173 /* Default-568h@2x.png in Resources */,
 				64608657160CFB4600A1458B /* OTMDBHTableViewCell.xib in Resources */,
 				6470BEE418DB8C0B00C56A8F /* Icon-72.png in Resources */,
@@ -838,11 +852,13 @@
 				6470BEB818DB7FF800C56A8F /* Default_feature-image.png in Resources */,
 				6470BEBF18DB7FF800C56A8F /* Profile_unfavorited@2x.png in Resources */,
 				6470BEB618DB7FF800C56A8F /* Chevron_right.png in Resources */,
+				649BEFE118E466A90031A606 /* gps_icon_14@2x.png in Resources */,
 				6470BECD18DB7FF800C56A8F /* TabBar_profile-active@2x.png in Resources */,
 				6470BECE18DB7FF800C56A8F /* TabBar_profile.png in Resources */,
 				6470BEC218DB7FF800C56A8F /* selected_marker.png in Resources */,
 				6470BECB18DB7FF800C56A8F /* TabBar_details@2x.png in Resources */,
 				6470BEC818DB7FF800C56A8F /* TabBar_details-active.png in Resources */,
+				649BEFE318E466A90031A606 /* gps_icon@2x.png in Resources */,
 				646087C3160D01A700A1458B /* Implementation.plist in Resources */,
 				646087CC160D01D900A1458B /* Default.png in Resources */,
 				646087CD160D01D900A1458B /* Default@2x.png in Resources */,

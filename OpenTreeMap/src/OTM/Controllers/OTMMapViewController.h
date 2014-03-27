@@ -32,7 +32,7 @@ typedef enum {
 @interface OTMMapViewController : OTMViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
-    IBOutlet UIBarButtonItem *findLocationButton;
+    IBOutlet UIButton *findLocationButton;
     BOOL firstAppearance;
 
     MKTileOverlay *plotsOverlay;
@@ -53,9 +53,9 @@ typedef enum {
 @property (nonatomic,strong) IBOutlet UILabel* address;
 @property (nonatomic,strong) IBOutlet UIView* addTreeHelpView;
 @property (nonatomic,strong) IBOutlet UILabel* addTreeHelpLabel;
-@property (nonatomic,strong) IBOutlet UINavigationBar* searchNavigationBar;
 @property (nonatomic,strong) IBOutlet UIView* locationActivityView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *mapModeSegmentedControl;
+@property (nonatomic, strong) IBOutlet UIView *mapModeSegmentedControlBackground;
 @property (nonatomic, strong) IBOutlet UIView *filterStatusView;
 @property (nonatomic, strong) IBOutlet UILabel *filterStatusLabel;
 

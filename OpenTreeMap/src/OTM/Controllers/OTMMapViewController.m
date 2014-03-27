@@ -46,7 +46,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
 
 - (void)viewDidLoad
 {
@@ -98,6 +98,14 @@
 
     [self hideFilterStatus];
 
+    self.mapModeSegmentedControlBackground = [self addBackgroundViewBelowSegmentedControl:self.mapModeSegmentedControl];
+
+    findLocationButton.opaque = NO;
+    findLocationButton.layer.opacity = 0.95f;
+    findLocationButton.frame = CGRectMake(261, mapView.frame.size.height - 17, findLocationButton.frame.size.width, findLocationButton.frame.size.height);
+    findLocationButton.layer.masksToBounds = YES;
+    findLocationButton.layer.cornerRadius = 5.0f;
+
     [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -120,6 +128,61 @@
                                                  name:kOTMGeoRevChangeNotification
                                                object:nil];
 
+}
+
+// Adapted from http://stackoverflow.com/questions/19138252/uisegmentedcontrol-bounds
+
+- (CGFloat)realWidthForSegmentedControl:(UISegmentedControl *)segmentedControl {
+    CGFloat autosizedWidth = CGRectGetWidth(segmentedControl.bounds);
+    autosizedWidth -= (segmentedControl.numberOfSegments - 1); // ignore the 1pt. borders between segments
+
+    NSInteger numberOfAutosizedSegmentes = 0;
+    NSMutableArray *segmentWidths = [NSMutableArray arrayWithCapacity:segmentedControl.numberOfSegments];
+    for (NSInteger i = 0; i < segmentedControl.numberOfSegments; i++) {
+        CGFloat width = [segmentedControl widthForSegmentAtIndex:i];
+        if (width == 0.0f) {
+            // auto sized
+            numberOfAutosizedSegmentes++;
+            [segmentWidths addObject:[NSNull null]];
+        }
+        else {
+            // manually sized
+            autosizedWidth -= width;
+            [segmentWidths addObject:@(width)];
+        }
+    }
+
+    CGFloat autoWidth = floorf(autosizedWidth/(float)numberOfAutosizedSegmentes);
+    CGFloat realWidth = (segmentedControl.numberOfSegments-1);      // add all the 1pt. borders between the segments
+    for (NSInteger i = 0; i < [segmentWidths count]; i++) {
+        id width = segmentWidths[i];
+        if (width == [NSNull null]) {
+            realWidth += autoWidth;
+        }
+        else {
+            realWidth += [width floatValue];
+        }
+    }
+    return realWidth;
+}
+
+- (UIView *)addBackgroundViewBelowSegmentedControl:(UISegmentedControl *)segmentedControl {
+    CGRect whiteViewFrame = segmentedControl.frame;
+    whiteViewFrame.size.width = [self realWidthForSegmentedControl:segmentedControl];
+
+    UIView *whiteView = [[UIView alloc] initWithFrame:whiteViewFrame];
+    whiteView.backgroundColor = [UIColor whiteColor];
+    whiteView.opaque = NO;
+    whiteView.layer.opacity = 0.8;
+    whiteView.layer.cornerRadius = 5.0f;
+    [self.view insertSubview:whiteView belowSubview:segmentedControl];
+    return whiteView;
+}
+
+- (void)updateBackgroundView:(UIView *)backgroundView forSegmentedControl:(UISegmentedControl *)segmentedControl {
+    CGRect backgroundFrame = segmentedControl.frame;
+    backgroundFrame.size.width = [self realWidthForSegmentedControl:segmentedControl];
+    backgroundView.frame = backgroundFrame;
 }
 
 // Update the view with instance specific details
@@ -331,6 +394,15 @@
         [UIView setAnimationDuration:0.2];
     }
 
+    bool viewIsChangingYPosition = view.frame.origin.y != self.view.bounds.size.height - view.frame.size.height;
+    if (viewIsChangingYPosition) {
+        CGRect bf = findLocationButton.frame;
+        [findLocationButton setFrame:CGRectMake(bf.origin.x,
+                                                bf.origin.y - view.frame.size.height,
+                                                bf.size.width,
+                                                bf.size.height)];
+    }
+
     [view setFrame:
      CGRectMake(0,
                 self.view.bounds.size.height - view.frame.size.height,
@@ -356,6 +428,15 @@
         [UIView beginAnimations:[NSString stringWithFormat:@"slidedown%@", view] context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:0.2];
+    }
+
+    bool viewIsChangingYPosition = view.frame.origin.y != self.view.bounds.size.height + view.frame.size.height;
+    if (viewIsChangingYPosition) {
+        CGRect bf = findLocationButton.frame;
+        [findLocationButton setFrame:CGRectMake(bf.origin.x,
+                                                bf.origin.y + view.frame.size.height,
+                                                bf.size.width,
+                                                bf.size.height)];
     }
 
     [view setFrame:
@@ -827,16 +908,21 @@
         if (!locationActivityView) {
             locationActivityView = [[UIActivityIndicatorView alloc]
                                     initWithActivityIndicatorStyle:
-                                    UIActivityIndicatorViewStyleGray];
+                                    UIActivityIndicatorViewStyleWhite];
 
             [(UIActivityIndicatorView *)locationActivityView startAnimating];
             [locationActivityView setUserInteractionEnabled:NO];
-            [locationActivityView setFrame:CGRectMake(12, 12, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
-        }
 
-        [searchNavigationBar addSubview:locationActivityView];
-        findLocationButton.image = [UIImage imageNamed:@"transparent_14"];
-        findLocationButton.action = @selector(stopFindingLocation:);
+            CGSize bs = findLocationButton.frame.size;
+            CGSize as = locationActivityView.frame.size;
+            CGFloat offsetx = (bs.width - as.width) / 2;
+            CGFloat offsety = (bs.height - as.height) / 2;
+            [locationActivityView setFrame:CGRectMake(offsetx, offsety, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
+        }
+        [findLocationButton addSubview:locationActivityView];
+        [findLocationButton setImage:nil forState:UIControlStateNormal];
+        [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+        [findLocationButton addTarget:self action:@selector(stopFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
 
         if (nil == [self locationManager]) {
             [self setLocationManager:[[CLLocationManager alloc] init]];
@@ -853,12 +939,13 @@
 }
 
 - (IBAction)stopFindingLocation:(id)sender {
-    findLocationButton.action = @selector(startFindingLocation:);
+    [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [findLocationButton addTarget:self action:@selector(startFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
     [[self locationManager] stopUpdatingLocation];
     // When using the debugger I found that extra events would arrive after calling stopUpdatingLocation.
     // Setting the delegate to nil ensures that those events are not ignored.
     [locationManager setDelegate:nil];
-    findLocationButton.image = [UIImage imageNamed:@"gps_icon_14"];
+    [findLocationButton setImage:[UIImage imageNamed:@"gps_icon"] forState:UIControlStateNormal];
     [locationActivityView removeFromSuperview];
 }
 
@@ -976,13 +1063,15 @@
 - (void)hideFilterStatus
 {
     [self.filterStatusView setHidden:YES];
-    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 50, 185, 30)];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(8, 55, 185, 30)];
+    [self updateBackgroundView:self.mapModeSegmentedControlBackground forSegmentedControl:self.mapModeSegmentedControl];
 }
 
 - (void)showFilterStatusWithMessage:(NSString *)message
 {
     [self.filterStatusLabel setText:message];
-    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 74, 185, 30)];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(8, 79, 185, 30)];
+    [self updateBackgroundView:self.mapModeSegmentedControlBackground forSegmentedControl:self.mapModeSegmentedControl];
     [self.filterStatusView setHidden:NO];
 }
 
