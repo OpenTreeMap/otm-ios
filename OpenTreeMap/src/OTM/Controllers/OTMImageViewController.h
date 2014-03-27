@@ -19,6 +19,7 @@
 @interface OTMImageViewController : UIViewController
 
 @property (nonatomic,strong) IBOutlet UIImageView *imageView;
+@property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
 
 - (void)loadImage:(NSString *)url;
 

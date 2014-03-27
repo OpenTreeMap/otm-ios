@@ -27,4 +27,6 @@
  */
 +(CLLocationCoordinate2D)getCoordinateFromDictionary:(NSDictionary *)dict;
 
++(NSString *)getLatestPhotoUrlInDictionary:(NSDictionary *)dict;
+
 @end

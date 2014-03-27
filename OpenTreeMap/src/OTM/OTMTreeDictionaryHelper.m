@@ -37,5 +37,14 @@
     return CLLocationCoordinate2DMake(lat, lng);
 }
 
++(NSString *)getLatestPhotoUrlInDictionary:(NSDictionary *)dict
+{
+    NSArray* photos = [dict objectForKey:@"photos"];
+    if (photos && [photos isKindOfClass:[NSArray class]] && [photos count] > 0) {
+        return [[OTMEnvironment sharedEnvironment] absolutePhotoUrlFromPhotoUrl:[[photos lastObject] objectForKey:@"image"]];
+    } else {
+        return nil;
+    }
+}
 
 @end
