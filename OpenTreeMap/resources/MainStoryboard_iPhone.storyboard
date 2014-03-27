@@ -365,9 +365,10 @@
                                         <navigationItem id="aND-VR-PGQ"/>
                                     </items>
                                 </navigationBar>
-                                <searchBar contentMode="redraw" id="sTt-jf-JMA">
-                                    <rect key="frame" x="0.0" y="0.0" width="291" height="44"/>
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" id="sTt-jf-JMA">
+                                    <rect key="frame" x="0.0" y="0.0" width="313" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
                                         <outlet property="delegate" destination="v8c-v7-6H5" id="onS-zY-k03"/>
