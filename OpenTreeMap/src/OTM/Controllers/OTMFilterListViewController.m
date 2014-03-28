@@ -574,7 +574,7 @@
         [vc view]; // Force the view to load
 
         vc.callback = ^(NSDictionary *sdict) {
-            self.speciesName = sdict[@"species"];
+            self.speciesName = sdict[@"common_name"];
             self.speciesId = sdict[@"id"];
         };
     }
