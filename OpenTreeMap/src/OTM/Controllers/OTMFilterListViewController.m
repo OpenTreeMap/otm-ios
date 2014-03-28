@@ -220,7 +220,7 @@
 - (NSDictionary *)queryParams {
     if ([self active]) {
         if ([self existanceFilter]) {
-            return @{ self.key: @{ @"IS": [NSNull null] }};
+            return @{ self.key: @{ @"ISNULL": @"true" }};
         } else {
             return [NSDictionary dictionaryWithObjectsAndKeys:_toggle.on ? @"true" : @"false", self.key, nil];
         }
