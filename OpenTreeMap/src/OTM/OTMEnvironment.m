@@ -173,7 +173,7 @@
     self.instance = [dict objectForKey:@"url"];
     self.instanceId = [dict objectForKey:@"id"];
     self.geoRev = [dict objectForKey:@"geoRevHash"];
-    self.fields = [self fieldsFromDictArray:[dict objectForKey:@"fields"]];
+    self.fields = [self fieldsFromDict:[dict objectForKey:@"fields"] orderedAndGroupedByDictArray:[dict objectForKey:@"field_key_groups"]];
     self.config = [dict objectForKey:@"config"];
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
@@ -358,25 +358,15 @@
     }
 }
 
-- (NSArray *)fieldsFromDictArray:(NSDictionary *)modelmap {
+- (NSArray *)fieldsFromDict:(NSDictionary *)fields orderedAndGroupedByDictArray:(NSArray *)fieldKeyGroups {
     NSMutableArray *fieldArray = [NSMutableArray array];
-
-    /**
-     * Species models come along for the ride but we don't really
-     * care for them here
-     */
-    NSArray *validModels = [NSArray arrayWithObjects:@"tree", @"plot", nil];
-
-    [modelmap enumerateKeysAndObjectsUsingBlock:^(NSString *model, NSArray* fieldlist, BOOL *stop) {
-        if ([validModels containsObject:model]) {
-            NSMutableArray *modelFields = [NSMutableArray array];
-
-            [fieldlist enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-                    [self addFieldsToArray:modelFields fromDict:dict];
-                }];
-
-            [fieldArray addObject:modelFields];
-        }
+    [fieldKeyGroups enumerateObjectsUsingBlock:^(id keyGroupDict, NSUInteger idx, BOOL *stop) {
+        NSArray *fieldKeys = [keyGroupDict objectForKey:@"field_keys"];
+        NSMutableArray *modelFields = [NSMutableArray array];
+        [fieldKeys enumerateObjectsUsingBlock:^(id fieldKey, NSUInteger idx, BOOL *stop) {
+            [self addFieldsToArray:modelFields fromDict:[fields objectForKey:fieldKey]];
+        }];
+        [fieldArray addObject:modelFields];
     }];
 
     return fieldArray;
