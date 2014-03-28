@@ -97,7 +97,7 @@
 @property (nonatomic, strong) UIImage *buttonImage;
 @property (nonatomic, strong) UIColor *buttonTextColor;
 @property (nonatomic, assign) BOOL pendingActive;
-@property (nonatomic, strong) NSArray* fieldSections;
+@property (nonatomic, strong) NSArray* sectionTitles;
 @property (nonatomic, strong) NSArray* fields;
 @property (nonatomic, strong) NSArray* ecoFields;
 @property (nonatomic, strong) NSArray* filts;

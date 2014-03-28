@@ -173,7 +173,8 @@
     self.instance = [dict objectForKey:@"url"];
     self.instanceId = [dict objectForKey:@"id"];
     self.geoRev = [dict objectForKey:@"geoRevHash"];
-    self.fields = [self fieldsFromDictArray:[dict objectForKey:@"fields"]];
+    self.fields = [self fieldsFromDict:[dict objectForKey:@"fields"] orderedAndGroupedByDictArray:[dict objectForKey:@"field_key_groups"]];
+    self.sectionTitles = [self sectionTitlesFromDictArray:[dict objectForKey:@"field_key_groups"]];
     self.config = [dict objectForKey:@"config"];
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
@@ -281,12 +282,12 @@
     OTMDetailCellRenderer *commonNameRenderer =
         [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
                                                editRenderer:nil
-                                                      label:@"Common Name"
+                                                      label:@"Species Common Name"
                                                   formatter:nil];
     OTMDetailCellRenderer *sciNameRenderer =
         [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
                                                editRenderer:nil
-                                                      label:@"Scientific Name"
+                                                      label:@"Species Scientific Name"
                                                   formatter:nil];
 
     [modelFields addObject:sciNameRenderer];
@@ -310,7 +311,7 @@
     NSUInteger digits = digitsV != nil && digitsV != (id)[NSNull null]  ? [digitsV intValue] : 0;
 
     OTMFormatter *fmt = nil;
-    if (unit != nil) {
+    if (unit != nil && ![unit isEqualToString:@""]) {
         fmt = [[OTMFormatter alloc] initWithDigits:digits
                                              label:unit];
     }
@@ -358,25 +359,36 @@
     }
 }
 
-- (NSArray *)fieldsFromDictArray:(NSDictionary *)modelmap {
-    NSMutableArray *fieldArray = [NSMutableArray array];
+- (NSArray *)sectionTitlesFromDictArray:(NSArray *)fieldKeyGroups {
+    NSMutableArray *sectionTitles = [NSMutableArray array];
 
-    /**
-     * Species models come along for the ride but we don't really
-     * care for them here
-     */
-    NSArray *validModels = [NSArray arrayWithObjects:@"tree", @"plot", nil];
+    // The first section is a mini map with no heading
+    [sectionTitles addObject:@""];
 
-    [modelmap enumerateKeysAndObjectsUsingBlock:^(NSString *model, NSArray* fieldlist, BOOL *stop) {
-        if ([validModels containsObject:model]) {
-            NSMutableArray *modelFields = [NSMutableArray array];
-
-            [fieldlist enumerateObjectsUsingBlock:^(NSDictionary *dict, NSUInteger idx, BOOL *stop) {
-                    [self addFieldsToArray:modelFields fromDict:dict];
-                }];
-
-            [fieldArray addObject:modelFields];
+    [fieldKeyGroups enumerateObjectsUsingBlock:^(id keyGroupDict, NSUInteger idx, BOOL *stop) {
+        NSString *header = [keyGroupDict objectForKey:@"header"];
+        if (header != nil) {
+            [sectionTitles addObject:header];
+        } else {
+            [sectionTitles addObject:@""];
         }
+    }];
+
+    // Eco is always shown at the bottom
+    [sectionTitles addObject:@"Yearly Ecosystem Services"];
+
+    return sectionTitles;
+}
+
+- (NSArray *)fieldsFromDict:(NSDictionary *)fields orderedAndGroupedByDictArray:(NSArray *)fieldKeyGroups {
+    NSMutableArray *fieldArray = [NSMutableArray array];
+    [fieldKeyGroups enumerateObjectsUsingBlock:^(id keyGroupDict, NSUInteger idx, BOOL *stop) {
+        NSArray *fieldKeys = [keyGroupDict objectForKey:@"field_keys"];
+        NSMutableArray *modelFields = [NSMutableArray array];
+        [fieldKeys enumerateObjectsUsingBlock:^(id fieldKey, NSUInteger idx, BOOL *stop) {
+            [self addFieldsToArray:modelFields fromDict:[fields objectForKey:fieldKey]];
+        }];
+        [fieldArray addObject:modelFields];
     }];
 
     return fieldArray;
