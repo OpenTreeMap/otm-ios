@@ -174,6 +174,7 @@
     self.instanceId = [dict objectForKey:@"id"];
     self.geoRev = [dict objectForKey:@"geoRevHash"];
     self.fields = [self fieldsFromDict:[dict objectForKey:@"fields"] orderedAndGroupedByDictArray:[dict objectForKey:@"field_key_groups"]];
+    self.sectionTitles = [self sectionTitlesFromDictArray:[dict objectForKey:@"field_key_groups"]];
     self.config = [dict objectForKey:@"config"];
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
@@ -356,6 +357,27 @@
                                                                  label:displayField
                                                              formatter:fmt]];
     }
+}
+
+- (NSArray *)sectionTitlesFromDictArray:(NSArray *)fieldKeyGroups {
+    NSMutableArray *sectionTitles = [NSMutableArray array];
+
+    // The first section is a mini map with no heading
+    [sectionTitles addObject:@""];
+
+    [fieldKeyGroups enumerateObjectsUsingBlock:^(id keyGroupDict, NSUInteger idx, BOOL *stop) {
+        NSString *header = [keyGroupDict objectForKey:@"header"];
+        if (header != nil) {
+            [sectionTitles addObject:header];
+        } else {
+            [sectionTitles addObject:@""];
+        }
+    }];
+
+    // Eco is always shown at the bottom
+    [sectionTitles addObject:@"Yearly Ecosystem Services"];
+
+    return sectionTitles;
 }
 
 - (NSArray *)fieldsFromDict:(NSDictionary *)fields orderedAndGroupedByDictArray:(NSArray *)fieldKeyGroups {

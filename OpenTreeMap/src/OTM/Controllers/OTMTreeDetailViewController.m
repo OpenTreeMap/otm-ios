@@ -583,16 +583,12 @@
         // when it is in edit mode, so the section labels no longer apply.
         return nil;
     } else {
-        NSString *title = nil;
-        NSDictionary *fieldSectionDict = [[[OTMEnvironment sharedEnvironment] fieldSections] objectAtIndex:section];
-        if (fieldSectionDict) {
-            if ([fieldSectionDict objectForKey:@"label"]) {
-                if (![(NSString *)[fieldSectionDict objectForKey:@"label"] isEqualToString:@""]) {
-                    title = [fieldSectionDict objectForKey:@"label"];
-                }
-            }
+        NSString *title = [[[OTMEnvironment sharedEnvironment] sectionTitles] objectAtIndex:section];
+        if (title != nil && ![title isEqualToString:@""]) {
+            return title;
+        } else {
+            return nil;
         }
-        return title;
     }
 }
 
