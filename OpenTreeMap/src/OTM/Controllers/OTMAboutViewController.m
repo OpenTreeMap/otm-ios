@@ -39,7 +39,7 @@
     backgroundImageView.image = [UIImage imageNamed:@"about_bg"];
 
     webView.opaque = YES;
-    
+
     NSString *aboutPagePath = [[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"];
     if (aboutPagePath) {
         NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:aboutPagePath error:nil];
@@ -49,9 +49,10 @@
         // it cannot be omitted, so skins that do not use about.html will just have an empty
         // file, or one with a short comment.
         if (fileSize > 64) {
+            CGRect f = self.view.frame;
+            webView.frame = CGRectMake(0, 20, f.size.width, f.size.height - 60);
             NSURL *url = [NSURL fileURLWithPath:aboutPagePath];
             NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-            
             [webView loadHTMLString:html baseURL:[url URLByDeletingLastPathComponent]];
         } else {
             NSLog(@"about.html was less than 64 bytes in size. Hiding the about UIWebView.");
@@ -82,7 +83,7 @@
         [[UIApplication sharedApplication] openURL:[inRequest URL]];
         return NO;
     }
-    
+
     return YES;
 }
 
