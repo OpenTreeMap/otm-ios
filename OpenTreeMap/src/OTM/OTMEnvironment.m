@@ -281,12 +281,12 @@
     OTMDetailCellRenderer *commonNameRenderer =
         [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
                                                editRenderer:nil
-                                                      label:@"Common Name"
+                                                      label:@"Species Common Name"
                                                   formatter:nil];
     OTMDetailCellRenderer *sciNameRenderer =
         [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
                                                editRenderer:nil
-                                                      label:@"Scientific Name"
+                                                      label:@"Species Scientific Name"
                                                   formatter:nil];
 
     [modelFields addObject:sciNameRenderer];
