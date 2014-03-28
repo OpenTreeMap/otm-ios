@@ -310,7 +310,7 @@
     NSUInteger digits = digitsV != nil && digitsV != (id)[NSNull null]  ? [digitsV intValue] : 0;
 
     OTMFormatter *fmt = nil;
-    if (unit != nil) {
+    if (unit != nil && ![unit isEqualToString:@""]) {
         fmt = [[OTMFormatter alloc] initWithDigits:digits
                                              label:unit];
     }
