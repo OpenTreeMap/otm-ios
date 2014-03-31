@@ -105,6 +105,16 @@
 
     [self setSearchRegionRadiusInMeters:[[mapView valueForKey:@"SearchRegionRadiusInMeters"] doubleValue]];
 
+    [self setNearbyTreeRadiusInMeters:[[implementation valueForKey:@"NearbyTreeRadiusInMeters"] doubleValue]];
+    if (self.nearbyTreeRadiusInMeters == 0.0) {
+        self.nearbyTreeRadiusInMeters = 300.0; // 300 meters is a guess at average city block size
+    }
+
+    [self setRecentEditsRadiusInMeters:[[implementation valueForKey:@"RecentEditsRadiusInMeters"] doubleValue]];
+    if (self.recentEditsRadiusInMeters == 0.0) {
+        self.recentEditsRadiusInMeters = 8000.0; // There are likely going to be edits within 5 miles of the user's location
+    }
+
     [self setSearchSuffix:[mapView valueForKey:@"SearchSuffix"]];
 
     [self setLocationSearchTimeoutInSeconds:[mapView valueForKey:@"LocationSearchTimeoutInSeconds"]];
