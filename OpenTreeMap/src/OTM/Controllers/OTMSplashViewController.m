@@ -39,13 +39,25 @@
     [api loadInstanceInfo:instance
                   forUser:user
              withCallback:^(id json, NSError *error) {
-        [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
-        NSTimeInterval seconds = self.triggerTime - [[NSDate date] timeIntervalSince1970];
 
-        dispatch_time_t tgt = dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC);
-        dispatch_after(tgt, dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"startApp" sender:self];
-          });
+        if (error != nil) {
+          [UIAlertView showAlertWithTitle:nil
+                                  message:@"There was a problem connecting to the server. Hit OK to try again."
+                        cancelButtonTitle:@"OK"
+                         otherButtonTitle:nil
+                                 callback:^(UIAlertView *alertView, int btnIdx)
+                       {
+                         [self loadInstance];
+                       }];
+        } else {
+          [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+          NSTimeInterval seconds = self.triggerTime - [[NSDate date] timeIntervalSince1970];
+
+          dispatch_time_t tgt = dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC);
+          dispatch_after(tgt, dispatch_get_main_queue(), ^{
+              [self performSegueWithIdentifier:@"startApp" sender:self];
+            });
+        }
       }];
 }
 
