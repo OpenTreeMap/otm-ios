@@ -404,6 +404,8 @@
 
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
+                    UIImage *latestPhoto = [pendingImageData count] > 0 ? [pendingImageData objectAtIndex:0] : nil;
+
                     if (err == nil) {
                         self.data = [json mutableDeepCopy];
                         [self pushImageData:pendingImageData newTree:NO];
@@ -411,7 +413,8 @@
                         [delegate viewController:self
                                       editedTree:(NSDictionary *)data
                             withOriginalLocation:originalLocation
-                                    originalData:originalData];
+                                    originalData:originalData
+                                       withPhoto:latestPhoto];
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
                         [[[UIAlertView alloc] initWithTitle:nil
@@ -459,12 +462,16 @@
 }
 
 - (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree {
+    [self pushImageData:images newTree:newTree latestImage:nil];
+}
+
+- (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree latestImage:(UIImage *)latestImage {
     if (images == nil || [images count] == 0) { // No images to push
         [[AZWaitingOverlayController sharedController] hideOverlay];
         if (newTree) {
-            [self.delegate viewController:self addedTree:data];
+            [self.delegate viewController:self addedTree:data withPhoto:latestImage];
         } else {
-            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData];
+            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData withPhoto:latestImage];
             [self syncTopData];
             [self.tableView reloadData];
         }
@@ -488,7 +495,7 @@
                    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMMapViewControllerImageUpdate
                                                                        object:image];
                    //TODO: Need to stick image back in here somehow
-                   [self pushImageData:rest newTree:newTree];
+                   [self pushImageData:rest newTree:newTree latestImage:image];
                } else {
                    [[AZWaitingOverlayController sharedController] hideOverlay];
                    NSLog(@"Error adding photo to tree: %@\n %@", err, data);
