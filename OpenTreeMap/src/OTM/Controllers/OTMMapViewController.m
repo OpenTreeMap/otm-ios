@@ -51,28 +51,8 @@
 - (void)viewDidLoad
 {
     [self setupView];
-    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
-    AZUser* user = [loginManager loggedInUser];
-    OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
-    NSString *instance = [[OTMEnvironment sharedEnvironment] instance];
-    [api loadInstanceInfo:instance
-                  forUser:user
-             withCallback:^(id json, NSError *error) {
-            if (error) {
-                if ([[[error userInfo] objectForKey:@"statusCode"] intValue] == 401) {
-                    [loginManager presentModelLoginInViewController:self.parentViewController callback:^(BOOL success, OTMUser *aUser) {
-                            if (success) {
-                                loginManager.loggedInUser = aUser;
-                                [self changeMode:Add];
-                            }
-                        }];
-                }
-            } else {
-                [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
-                [self updateViewWithSharedEnvironment];
-            }
-      }];
     [super viewDidLoad];
+    [self updateViewWithSharedEnvironment];
 }
 
 // Handle all view setup that is not dependent on instance specific details
