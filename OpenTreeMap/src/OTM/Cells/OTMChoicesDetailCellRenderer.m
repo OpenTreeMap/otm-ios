@@ -203,7 +203,7 @@
     aCell.accessoryType = UITableViewCellAccessoryNone;
 
     if (selected != nil) {
-        if ([[[selectedDict objectForKey:@"value"] description] isEqualToString:[[selected objectForKey:@"key"] description]]) {
+        if ([[[selectedDict objectForKey:@"value"] description] isEqualToString:[[selected objectForKey:@"value"] description]]) {
             aCell.accessoryType = UITableViewCellAccessoryCheckmark;
         }
     } else {
