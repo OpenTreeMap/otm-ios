@@ -24,8 +24,10 @@
 @protocol OTMTreeDetailViewDelegate <NSObject>
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details withPhoto:(UIImage *)photo;
 
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData;
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData withPhoto:(UIImage *)photo;
 
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
 

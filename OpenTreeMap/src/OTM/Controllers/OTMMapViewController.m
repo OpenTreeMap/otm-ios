@@ -683,24 +683,31 @@
      }];
 }
 
-
 - (void)selectPlot:(NSDictionary *)dict
+{
+    [self selectPlot:dict andShowPhoto:nil];
+}
+
+- (void)selectPlot:(NSDictionary *)dict andShowPhoto:(UIImage *)photo
 {
     self.selectedPlot = [dict mutableDeepCopy];
 
     NSDictionary *plot = [dict objectForKey:@"plot"];
 
-    self.treeImage.image = [UIImage imageNamed:@"Default_feature-image"];
+    if (photo) {
+        self.treeImage.image = photo;
+    } else {
+        self.treeImage.image = [UIImage imageNamed:@"Default_feature-image"];
+        NSString *photoUrl = [OTMTreeDictionaryHelper getLatestPhotoUrlInDictionary:dict];
+        if (photoUrl) {
+            dispatch_async(dispatch_get_global_queue(0,0), ^{
+                NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
 
-    NSString *photoUrl = [OTMTreeDictionaryHelper getLatestPhotoUrlInDictionary:dict];
-    if (photoUrl) {
-        dispatch_async(dispatch_get_global_queue(0,0), ^{
-            NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.treeImage.image = [UIImage imageWithData: imageData];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.treeImage.image = [UIImage imageWithData: imageData];
+                });
             });
-        });
+        }
     }
 
     [self setDetailViewData:dict];
@@ -1018,25 +1025,31 @@
 - (void)disruptCoordinate:(CLLocationCoordinate2D)coordinate {
 }
 
-- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details withPhoto:(UIImage *)photo
 {
     [self changeMode:Select];
     CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
 
     [self disruptCoordinate:coordinate];
 
-    [self selectPlot:details];
+    [self selectPlot:details andShowPhoto:photo];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData
+{
+    [self viewController:viewController editedTree:details withOriginalLocation:coordinate originalData:originalData withPhoto:nil];
+}
+
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData withPhoto:(UIImage *)photo
 {
     CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
 
     [self disruptCoordinate:coordinate];
     [self disruptCoordinate:newCoordinate];
 
-    [self selectPlot:details];
+    [self selectPlot:details andShowPhoto:photo];
 
     self.selectedPlot = [details mutableDeepCopy];
     [self setDetailViewData:details];
