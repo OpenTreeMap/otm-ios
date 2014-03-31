@@ -103,6 +103,7 @@
 @property (nonatomic, strong) NSArray* filts;
 @property (nonatomic, assign) BOOL useOtmGeocoder;
 @property (nonatomic, assign) double searchRegionRadiusInMeters;
+@property (nonatomic, strong) NSString *tileQueryStringAdditionalArguments;
 @property (nonatomic, assign) double nearbyTreeRadiusInMeters;
 @property (nonatomic, assign) double recentEditsRadiusInMeters;
 @property (nonatomic, assign) float splashDelayInSeconds;
