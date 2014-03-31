@@ -38,6 +38,8 @@
     self.mapModeSegmentedControl.selectedSegmentIndex = [SharedAppDelegate mapMode];
 
     self.mapView.mapType = (MKMapType)[SharedAppDelegate mapMode];
+
+    [self addBackgroundViewBelowSegmentedControl:self.mapModeSegmentedControl];
 }
 
 - (IBAction)setMapMode:(UISegmentedControl *)sender {
@@ -64,12 +66,12 @@
     if (!treeAnnotation) {
         treeAnnotation = [[MKPointAnnotation alloc] init];
     }
-    
+
     [mapView removeAnnotation:treeAnnotation];
-    
+
     // Set a small latitude delta to zoom the map in close to the point
     [mapView setRegion:MKCoordinateRegionMake(center, MKCoordinateSpanMake(0.001, 0.00)) animated:NO];
-    
+
     treeAnnotation.coordinate = center;
     [mapView addAnnotation:treeAnnotation];
 }

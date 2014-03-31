@@ -17,7 +17,7 @@
 #import "OTMTreeDetailViewController.h"
 #import "OTMAddTreeAnnotationView.h"
 
-@interface OTMChangeLocationViewController : UIViewController <MKMapViewDelegate, OTMAddTreeAnnotationViewDelegate> {
+@interface OTMChangeLocationViewController : OTMViewController <MKMapViewDelegate, OTMAddTreeAnnotationViewDelegate> {
     MKPointAnnotation *treeAnnotation;
     MKMapView *mapView;
 }

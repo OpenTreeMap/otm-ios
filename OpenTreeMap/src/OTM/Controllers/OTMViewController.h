@@ -19,4 +19,9 @@
 
 - (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)dict;
 
+#pragma mark UISegmentedControl background drawing methods
+
+- (UIView *)addBackgroundViewBelowSegmentedControl:(UISegmentedControl *)segmentedControl;
+- (void)updateBackgroundView:(UIView *)backgroundView forSegmentedControl:(UISegmentedControl *)segmentedControl;
+
 @end
