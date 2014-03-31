@@ -421,6 +421,11 @@
         urlSfx = [urlSfx stringByAppendingFormat:@"&q=%@", filter];
     }
 
+    if ([[OTMEnvironment sharedEnvironment] tileQueryStringAdditionalArguments]) {
+        urlSfx = [NSString stringWithFormat:@"%@&%@", urlSfx,
+                  [[OTMEnvironment sharedEnvironment] tileQueryStringAdditionalArguments]];
+    }
+
     NSString *host = env.host;
     NSString *url = [host stringByAppendingString:urlSfx];
 

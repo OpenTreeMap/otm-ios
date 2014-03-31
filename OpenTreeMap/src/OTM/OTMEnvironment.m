@@ -105,6 +105,8 @@
 
     [self setSearchRegionRadiusInMeters:[[mapView valueForKey:@"SearchRegionRadiusInMeters"] doubleValue]];
 
+    [self setTileQueryStringAdditionalArguments:[mapView valueForKey:@"TileQueryStringAdditionalArguments"]];
+
     [self setNearbyTreeRadiusInMeters:[[implementation valueForKey:@"NearbyTreeRadiusInMeters"] doubleValue]];
     if (self.nearbyTreeRadiusInMeters == 0.0) {
         self.nearbyTreeRadiusInMeters = 300.0; // 300 meters is a guess at average city block size
