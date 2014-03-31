@@ -75,7 +75,7 @@
         self.currencyUnit = @"$";
     }
 
-    self.splashDelayInSeconds = 0;
+    self.splashDelayInSeconds = [[implementation objectForKey:@"splashDelayInSeconds"] doubleValue];
     self.pendingActive = NO;
 
     self.primaryColor = [self colorFromArray:[implementation objectForKey:@"primaryColor"]
