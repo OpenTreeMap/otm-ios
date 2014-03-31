@@ -611,7 +611,7 @@
                                 </connections>
                             </mapView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="8qt-i8-0kO" customClass="OTMSegmentedControl">
-                                <rect key="frame" x="125" y="11" width="185" height="30"/>
+                                <rect key="frame" x="8" y="72" width="185" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Map"/>

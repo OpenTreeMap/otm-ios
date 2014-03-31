@@ -41,6 +41,65 @@
     }
 }
 
+#pragma mark UISegmentedControl background drawing methods
+
+// Adapted from http://stackoverflow.com/questions/19138252/uisegmentedcontrol-bounds
+
+- (CGFloat)realWidthForSegmentedControl:(UISegmentedControl *)segmentedControl {
+    CGFloat autosizedWidth = CGRectGetWidth(segmentedControl.bounds);
+    autosizedWidth -= (segmentedControl.numberOfSegments - 1); // ignore the 1pt. borders between segments
+
+    NSInteger numberOfAutosizedSegmentes = 0;
+    NSMutableArray *segmentWidths = [NSMutableArray arrayWithCapacity:segmentedControl.numberOfSegments];
+    for (NSInteger i = 0; i < segmentedControl.numberOfSegments; i++) {
+        CGFloat width = [segmentedControl widthForSegmentAtIndex:i];
+        if (width == 0.0f) {
+            // auto sized
+            numberOfAutosizedSegmentes++;
+            [segmentWidths addObject:[NSNull null]];
+        }
+        else {
+            // manually sized
+            autosizedWidth -= width;
+            [segmentWidths addObject:@(width)];
+        }
+    }
+
+    CGFloat autoWidth = floorf(autosizedWidth/(float)numberOfAutosizedSegmentes);
+    CGFloat realWidth = (segmentedControl.numberOfSegments-1);      // add all the 1pt. borders between the segments
+    for (NSInteger i = 0; i < [segmentWidths count]; i++) {
+        id width = segmentWidths[i];
+        if (width == [NSNull null]) {
+            realWidth += autoWidth;
+        }
+        else {
+            realWidth += [width floatValue];
+        }
+    }
+    return realWidth;
+}
+
+- (UIView *)addBackgroundViewBelowSegmentedControl:(UISegmentedControl *)segmentedControl {
+    CGRect whiteViewFrame = segmentedControl.frame;
+    whiteViewFrame.size.width = [self realWidthForSegmentedControl:segmentedControl];
+
+    UIView *whiteView = [[UIView alloc] initWithFrame:whiteViewFrame];
+    whiteView.backgroundColor = [UIColor whiteColor];
+    whiteView.opaque = NO;
+    whiteView.layer.opacity = 0.8;
+    whiteView.layer.cornerRadius = 5.0f;
+    [self.view insertSubview:whiteView belowSubview:segmentedControl];
+    return whiteView;
+}
+
+- (void)updateBackgroundView:(UIView *)backgroundView forSegmentedControl:(UISegmentedControl *)segmentedControl {
+    CGRect backgroundFrame = segmentedControl.frame;
+    backgroundFrame.size.width = [self realWidthForSegmentedControl:segmentedControl];
+    backgroundView.frame = backgroundFrame;
+}
+
+#pragma mark UIViewController methods
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
