@@ -138,8 +138,9 @@
     NSURL *aurl = [NSURL URLWithString:[self baseURL]];
     AZHttpRequest* req = [[AZHttpRequest alloc] initWithURL:[self baseURL]];
     req.headers = headers;
-    self.host = [NSString stringWithFormat:@"%@://%@:%@",
-                          [aurl scheme],[aurl host],[aurl port]];
+    NSString *portString = [aurl port] ? [NSString stringWithFormat:@":%@", [aurl port]] : @"";
+    self.host = [NSString stringWithFormat:@"%@://%@%@",
+                          [aurl scheme],[aurl host], portString];
 
     AZHttpRequest* reqraw = [[AZHttpRequest alloc] initWithURL:self.baseURL];
     req.headers = headers;
