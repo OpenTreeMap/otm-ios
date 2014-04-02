@@ -61,6 +61,8 @@
     self.extendedLayoutIncludesOpaqueBars = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
 
+    self.mapView.showsPointsOfInterest = NO;
+
     firstAppearance = YES;
 
     self.detailsVisible = NO;
