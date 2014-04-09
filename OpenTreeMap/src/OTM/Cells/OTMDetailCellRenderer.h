@@ -106,6 +106,8 @@ ABSTRACT_METHOD
  */
 @interface OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
+@property (nonatomic,assign) BOOL inited;
+
 ABSTRACT_METHOD
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
 
