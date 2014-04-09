@@ -414,7 +414,7 @@
         [benefits enumerateObjectsUsingBlock:^(NSDictionary *fieldDict, NSUInteger idx, BOOL *stop) {
             // Currently, we create the same type of cell renderer without regard to
             // any of the field details
-            [fieldArray addObject:[[OTMBenefitsDetailCellRenderer alloc] initWithLabel:[fieldDict objectForKey:@"label"] index:idx]];
+            [fieldArray addObject:[[OTMBenefitsDetailCellRenderer alloc] initWithIndex:idx]];
         }];
         // To be consistant with the editable fields, the eco fields are wrapped in a containing
         // array that represents the field group. This may be useful
