@@ -57,25 +57,30 @@
 
 @implementation OTMEditMapDetailCellRenderer
 
-@synthesize clickCallback;
-
 -(id)initWithDetailRenderer:(OTMMapDetailCellRenderer *)mapDetailCellRenderer
 {
     self = [super init];
     if (self) {
         renderer = mapDetailCellRenderer;
         self.cellHeight = kOTMMapTableViewCellHeight;
+        self.inited = NO;
     }
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+    OTMMapTableViewCell *detailCell;
 
-    OTMMapTableViewCell *detailCell = (OTMMapTableViewCell *)[super prepareCell:data inTable:tableView];
+    if (!self.inited) {
+        detailCell = (OTMMapTableViewCell *)[super prepareCell:data inTable:tableView];
 
-    // The edit cell is the same as the non-edit cell except for the presence of the
-    // detail "greater than" arrow.
-    [detailCell setDetailArrowHidden:NO];
+        // The edit cell is the same as the non-edit cell except for the presence of the
+        // detail "greater than" arrow.
+        [detailCell setDetailArrowHidden:NO];
+        self.inited = YES;
+    } else {
+        detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMMapDetailCellRendererTableCellId];
+    }
 
     return detailCell;
 }

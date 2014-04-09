@@ -15,8 +15,8 @@
 
 #import "OTMDetailCellRenderer.h"
 
-#define kOTMMapDetailCellRendererTableCellId @"kOTMMapDetailCellRendererTableCellId" 
-#define kOTMEditMapDetailCellRendererTableCellId @"kOTMEditMapDetailCellRendererTableCellId" 
+#define kOTMMapDetailCellRendererTableCellId @"kOTMMapDetailCellRendererTableCellId"
+#define kOTMEditMapDetailCellRendererTableCellId @"kOTMEditMapDetailCellRendererTableCellId"
 
 @interface OTMMapDetailCellRenderer : OTMDetailCellRenderer
 @end
@@ -26,6 +26,7 @@
 }
 
 @property (nonatomic,strong) Function1v clickCallback;
+@property (nonatomic,assign) BOOL inited;
 
 -(id)initWithDetailRenderer:(OTMMapDetailCellRenderer *)mapDetailCellRenderer;
 

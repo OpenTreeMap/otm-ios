@@ -175,6 +175,7 @@
         self.formatter = formatter;
         self.keyboard = kboard;
         self.label = displayLabel;
+        self.inited = NO;
     }
 
     return self;
@@ -208,20 +209,23 @@
                                                    reuseIdentifier:kOTMLabelDetailEditCellRendererCellId];
     }
 
-    detailcell.delegate = self;
-    detailcell.editFieldValue.hidden = NO;
-    detailcell.fieldValue.hidden = YES;
-    detailcell.keyboardType = keyboard;
+    if (!self.inited) {
+      detailcell.delegate = self;
+      detailcell.editFieldValue.hidden = NO;
+      detailcell.fieldValue.hidden = YES;
+      detailcell.keyboardType = keyboard;
 
-    id value = [data decodeKey:self.dataKey];
-    NSString *disp = @"";
+      id value = [data decodeKey:self.dataKey];
+      NSString *disp = @"";
 
-    if (value != nil) {
+      if (value != nil) {
         disp = [_formatter formatWithoutUnit:[value floatValue]];
+      }
+      detailcell.editFieldValue.text = disp;
+      detailcell.fieldLabel.text = self.label;
+      detailcell.unitLabel.text = _formatter.label;
+      self.inited = YES;
     }
-    detailcell.editFieldValue.text = disp;
-    detailcell.fieldLabel.text = self.label;
-    detailcell.unitLabel.text = _formatter.label;
 
     return detailcell;
 }
@@ -238,6 +242,7 @@
         _cell.delegate = self;
         self.cellHeight = _cell.frame.size.height;
         _formatter = formatter;
+        self.inited = NO;
     }
 
     return self;
@@ -275,18 +280,22 @@
 #define OTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    id elmt = [data decodeKey:self.dataKey];
+    if (!self.inited) {
+        id elmt = [data decodeKey:self.dataKey];
 
-    NSString *disp = @"";
-    if (elmt != nil) {
-        CGFloat dispValue = [elmt floatValue];
-        disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
+        NSString *disp = @"";
+        if (elmt != nil) {
+            CGFloat dispValue = [elmt floatValue];
+            disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
+        }
+
+        self.cell.diameterTextField.text = disp;
+        [self tableViewCell:nil
+                  textField:self.cell.diameterTextField
+             updatedToValue:self.cell.diameterTextField.text];
+
+        self.inited = YES;
     }
-
-    self.cell.diameterTextField.text = disp;
-    [self tableViewCell:nil
-              textField:self.cell.diameterTextField
-         updatedToValue:self.cell.diameterTextField.text];
 
     return _cell;
 }

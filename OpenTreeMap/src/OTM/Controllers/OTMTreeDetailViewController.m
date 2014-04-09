@@ -212,6 +212,12 @@
     txToEditRemove = txToEditRm;
     editFields = editableFields;
 
+    [editFields enumerateObjectsUsingBlock:^(NSArray *section, NSUInteger idx, BOOL *stop) {
+        [section enumerateObjectsUsingBlock:^(OTMEditDetailCellRenderer *obj, NSUInteger idx, BOOL *stop) {
+            obj.inited = NO;
+          }];
+      }];
+
     curFields = allFields;
 
     self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
