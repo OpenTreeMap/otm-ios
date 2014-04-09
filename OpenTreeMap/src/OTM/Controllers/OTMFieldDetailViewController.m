@@ -430,6 +430,7 @@
         } else {
             [[AZWaitingOverlayController sharedController] hideOverlay];
             NSLog(@"Error approving pending edit: %@", [error description]);
+
             [UIAlertView showAlertWithTitle:nil message:@"There was a problem approving the pending edit." cancelButtonTitle:@"OK"otherButtonTitle:nil callback:nil];
 
         }

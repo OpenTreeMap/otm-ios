@@ -97,7 +97,7 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) OTMBenefitsTableViewCell *cell;
 @property (nonatomic,assign) NSInteger *index;
 
--(id)initWithLabel:(NSString *)label index:(NSInteger) idx;
+-(id)initWithIndex:(NSInteger) idx;
 
 @end
 
