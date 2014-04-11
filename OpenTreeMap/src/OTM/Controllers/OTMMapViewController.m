@@ -46,7 +46,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, locationAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
 
 - (void)viewDidLoad
 {
@@ -540,13 +540,13 @@
     [UIView commitAnimations];
 }
 
-- (void)slideAddTreeAnnotationToCoordinate:(CLLocationCoordinate2D)coordinate
+- (void)slidePointAnnotation:(MKPointAnnotation *)annotation toCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    [UIView beginAnimations:[NSString stringWithFormat:@"slideannotation%@", self.addTreeAnnotation] context:nil];
+    [UIView beginAnimations:[NSString stringWithFormat:@"slideannotation%@", annotation] context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     [UIView setAnimationDuration:0.2];
 
-    self.addTreeAnnotation.coordinate = coordinate;
+    annotation.coordinate = coordinate;
 
     [UIView commitAnimations];
 }
@@ -690,10 +690,21 @@
         self.addTreeAnnotation.coordinate = coordinate;
         [self.mapView addAnnotation:self.addTreeAnnotation];
     } else {
-        [self slideAddTreeAnnotationToCoordinate:coordinate];
+        [self slidePointAnnotation:self.addTreeAnnotation toCoordinate:coordinate];
     }
     [self fetchAndSetAddTreePlacemarkForCoordinate:coordinate];
     [self changeMode:Move];
+}
+
+- (void)placeLocationAnnotation:(CLLocationCoordinate2D)coordinate
+{
+    if (!self.locationAnnotation) {
+        self.locationAnnotation = [[MKPointAnnotation alloc] init];
+        self.locationAnnotation.coordinate = coordinate;
+        [self.mapView addAnnotation:self.locationAnnotation];
+    } else {
+        [self slidePointAnnotation:self.locationAnnotation toCoordinate:coordinate];
+    }
 }
 
 #pragma mark UIGestureRecognizer handlers
@@ -771,20 +782,29 @@
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
+#define kOTMMapViewLocationAnnotationViewReuseIdentifier @"kOTMMapViewLocationAnnotationViewReuseIdentifier"
 
 #define kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier @"kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier"
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation
 {
     MKAnnotationView *annotationView;
-    if (annotation == self.addTreeAnnotation) {
+    if (annotation == self.locationAnnotation) {
+        annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewLocationAnnotationViewReuseIdentifier];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:kOTMMapViewLocationAnnotationViewReuseIdentifier];
+            annotationView.image = [UIImage imageNamed:@"location_marker"];
+        }
+    } else if (annotation == self.addTreeAnnotation) {
         annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
-            annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
+            annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation
+                                                                  reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
             ((OTMAddTreeAnnotationView *)annotationView).delegate = self;
             ((OTMAddTreeAnnotationView *)annotationView).mapView = mv;
         }
-    } else { // The only two annotation types on the map are add tree and selected tree
+    } else { // The only three annotation types on the map are location, add tree, and selected tree
         annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc]
@@ -940,6 +960,7 @@
 
             if (dist < [env searchRegionRadiusInMeters]) {
                 [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
+                [self placeLocationAnnotation:newLocation.coordinate];
             }
         }
     }

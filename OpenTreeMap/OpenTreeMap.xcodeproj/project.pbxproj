@@ -10,6 +10,8 @@
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		6452955218D89D3400362A0F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6452955118D89D3400362A0F /* QuartzCore.framework */; };
 		64582DAE164165C200CF5DB9 /* OTMAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */; };
+		645AA4B718F872FA00C00EC1 /* location_marker.png in Resources */ = {isa = PBXBuildFile; fileRef = 645AA4B518F872FA00C00EC1 /* location_marker.png */; };
+		645AA4B818F872FA00C00EC1 /* location_marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 645AA4B618F872FA00C00EC1 /* location_marker@2x.png */; };
 		64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64608646160CFB0A00A1458B /* InfoPlist.strings */; };
 		6460864B160CFB2800A1458B /* OpenTreeMap-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64608649160CFB2800A1458B /* OpenTreeMap-Info.plist */; };
 		6460864C160CFB2800A1458B /* OpenTreeMap.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 6460864A160CFB2800A1458B /* OpenTreeMap.entitlements */; };
@@ -163,6 +165,8 @@
 		6452955118D89D3400362A0F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		64582DAC164165C200CF5DB9 /* OTMAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAboutViewController.h; sourceTree = "<group>"; };
 		64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAboutViewController.m; sourceTree = "<group>"; };
+		645AA4B518F872FA00C00EC1 /* location_marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = location_marker.png; path = "../../../../otm-mobile-skins/la/ios/images/location_marker.png"; sourceTree = "<group>"; };
+		645AA4B618F872FA00C00EC1 /* location_marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "location_marker@2x.png"; path = "../../../../otm-mobile-skins/la/ios/images/location_marker@2x.png"; sourceTree = "<group>"; };
 		64608647160CFB0A00A1458B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		64608649160CFB2800A1458B /* OpenTreeMap-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OpenTreeMap-Info.plist"; sourceTree = "<group>"; };
 		6460864A160CFB2800A1458B /* OpenTreeMap.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = OpenTreeMap.entitlements; sourceTree = "<group>"; };
@@ -663,6 +667,8 @@
 				6470BE9718DB7FF800C56A8F /* Default_feature-image@2x.png */,
 				6470BE9818DB7FF800C56A8F /* handle_icon.png */,
 				6470BE9918DB7FF800C56A8F /* handle_icon@2x.png */,
+				645AA4B518F872FA00C00EC1 /* location_marker.png */,
+				645AA4B618F872FA00C00EC1 /* location_marker@2x.png */,
 				6470BE9A18DB7FF800C56A8F /* Profile_favorited.png */,
 				6470BE9B18DB7FF800C56A8F /* Profile_favorited@2x.png */,
 				6470BE9C18DB7FF800C56A8F /* Profile_unfavorited.png */,
@@ -814,6 +820,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				645AA4B818F872FA00C00EC1 /* location_marker@2x.png in Resources */,
 				6470BEE618DB8C0B00C56A8F /* Icon.png in Resources */,
 				64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */,
 				6460864B160CFB2800A1458B /* OpenTreeMap-Info.plist in Resources */,
@@ -830,6 +837,7 @@
 				6470BECA18DB7FF800C56A8F /* TabBar_details.png in Resources */,
 				6470BED318DB7FF800C56A8F /* TabBar_treemap@2x.png in Resources */,
 				6470BED018DB7FF800C56A8F /* TabBar_treemap-active.png in Resources */,
+				645AA4B718F872FA00C00EC1 /* location_marker.png in Resources */,
 				6470BEC418DB7FF800C56A8F /* TabBar_about-active.png in Resources */,
 				6470BECC18DB7FF800C56A8F /* TabBar_profile-active.png in Resources */,
 				6470BEB518DB7FF800C56A8F /* Chevron_left@2x.png in Resources */,
