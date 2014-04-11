@@ -64,6 +64,7 @@ typedef enum {
 @property (nonatomic) OTMMapViewControllerMapMode mode;
 
 @property (nonatomic,strong) MKPointAnnotation* addTreeAnnotation;
+@property (nonatomic,strong) MKPointAnnotation* locationAnnotation;
 @property (nonatomic,copy) CLPlacemark *addTreePlacemark;
 
 -(void)setDetailViewData:(NSDictionary*)plot;
