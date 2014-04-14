@@ -388,7 +388,7 @@
     }];
 
     // Eco is always shown at the bottom
-    [sectionTitles addObject:@"Yearly Ecosystem Services"];
+    [sectionTitles addObject:@"Ecosystem Benefits"];
 
     return sectionTitles;
 }
