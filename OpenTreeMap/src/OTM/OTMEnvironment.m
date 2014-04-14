@@ -411,10 +411,14 @@
     if ([ecoDict objectForKey:@"supportsEcoBenefits"]) {
         NSMutableArray *fieldArray = [NSMutableArray array];
         NSArray *benefits = [ecoDict objectForKey:@"benefits"];
-        [benefits enumerateObjectsUsingBlock:^(NSDictionary *fieldDict, NSUInteger idx, BOOL *stop) {
+        [benefits enumerateObjectsUsingBlock:^(NSDictionary *benefitsDict, NSUInteger idx, BOOL *stop) {
             // Currently, we create the same type of cell renderer without regard to
             // any of the field details
-            [fieldArray addObject:[[OTMBenefitsDetailCellRenderer alloc] initWithIndex:idx]];
+            NSString *model = [benefitsDict objectForKey:@"model"];
+            NSArray *keys = [benefitsDict objectForKey:@"keys"];
+            [keys enumerateObjectsUsingBlock:^(id key, NSUInteger idx, BOOL *stop) {
+                [fieldArray addObject:[[OTMBenefitsDetailCellRenderer alloc] initWithModel:model key:key]];
+            }];
         }];
         // To be consistant with the editable fields, the eco fields are wrapped in a containing
         // array that represents the field group. This may be useful
