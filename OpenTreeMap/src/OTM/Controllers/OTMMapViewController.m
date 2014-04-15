@@ -618,7 +618,7 @@
                     callback:^(NSArray* plots, NSError* error)
      {
          if ([plots count] == 0) { // No plots returned
-             [self slideDetailDownAnimated:YES];
+             [self clearSelectedTree];
          } else {
              NSDictionary* plot = [plots objectAtIndex:0];
              [self selectPlot:plot];
