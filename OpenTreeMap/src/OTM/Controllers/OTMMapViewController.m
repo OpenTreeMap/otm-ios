@@ -75,8 +75,10 @@
     [self.filterStatusView addTopBorder];
     [self.filterStatusView addBottomBorder];
 
-    [self slideDetailDownAnimated:NO];
-    [self slideAddTreeHelpDownAnimated:NO];
+    // These 2 views are visible in the storyboard for design purposes, but
+    // should start offscreen when the parent view first appears
+    [self moveViewOffscreen:detailView];
+    [self moveViewOffscreen:addTreeHelpView];
 
     [self hideFilterStatus];
 
@@ -110,6 +112,14 @@
                                                  name:kOTMGeoRevChangeNotification
                                                object:nil];
 
+}
+
+- (void)moveViewOffscreen:(UIView *)view {
+    [view setFrame:
+     CGRectMake(0,
+                self.view.bounds.size.height,
+                self.view.bounds.size.width,
+                view.frame.size.height)];
 }
 
 // Update the view with instance specific details
