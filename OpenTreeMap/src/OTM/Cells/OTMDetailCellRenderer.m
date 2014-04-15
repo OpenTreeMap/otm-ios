@@ -114,13 +114,14 @@
 @implementation OTMBenefitsDetailCellRenderer
 
 
--(id)initWithIndex:(NSInteger)idx {
+-(id)initWithModel:(NSString *)model key:(NSString *)key {
     self = [super initWithDataKey:nil];
 
     if (self) {
         _cell = [OTMBenefitsTableViewCell loadFromNib];
         self.cellHeight = _cell.frame.size.height;
-        self.index = idx;
+        self.model = model;
+        self.key = key;
     }
 
     return self;
@@ -128,8 +129,8 @@
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
     NSDictionary *allBenefits = [data objectForKey:@"benefits"];
-    NSArray *plotBenefits = [allBenefits objectForKey:@"plot"];
-    NSDictionary *benefit = [plotBenefits objectAtIndex:self.index];
+    NSDictionary *modelBenefits = [allBenefits objectForKey:self.model];
+    NSDictionary *benefit = [modelBenefits objectForKey:self.key];
 
     self.cell.benefitName.text = benefit[@"label"];
 

@@ -95,9 +95,10 @@ ABSTRACT_METHOD
 @interface OTMBenefitsDetailCellRenderer : OTMDetailCellRenderer
 
 @property (nonatomic,strong) OTMBenefitsTableViewCell *cell;
-@property (nonatomic,assign) NSInteger *index;
+@property (nonatomic,strong) NSString *model;
+@property (nonatomic,strong) NSString *key;
 
--(id)initWithIndex:(NSInteger) idx;
+-(id)initWithModel:(NSString *)model key:(NSString *)key;
 
 @end
 
