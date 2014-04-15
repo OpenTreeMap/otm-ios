@@ -388,8 +388,10 @@
 }
 
 -(void)slideDetailDownAnimated:(BOOL)anim {
-    [self slideDownBottomDockedView:self.detailView animated:anim];
-    self.detailsVisible = NO;
+    if (detailsVisible) {
+        [self slideDownBottomDockedView:self.detailView animated:anim];
+        self.detailsVisible = NO;
+    }
 }
 
 -(void)slideAddTreeHelpDownAnimated:(BOOL)anim {
