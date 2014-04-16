@@ -332,7 +332,7 @@
 
     #ifdef DEBUG
     [self logHttpRequest:request];
-    NSLog(@"Signature: %@", sig);
+    NSLog(@"Signed Url: %@&signature=%@", url, sig);
     #endif
 
     if (synchronous) {
