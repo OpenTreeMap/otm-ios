@@ -87,6 +87,7 @@
 @property (nonatomic, copy) NSString* mapViewTitle;
 
 @property (nonatomic, copy) NSString* baseURL;
+@property (nonatomic, copy) NSString* tilerUrl;
 
 @property (nonatomic, strong) NSArray *filters;
 

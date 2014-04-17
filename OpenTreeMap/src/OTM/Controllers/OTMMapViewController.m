@@ -420,7 +420,7 @@
                   [[OTMEnvironment sharedEnvironment] tileQueryStringAdditionalArguments]];
     }
 
-    NSString *host = env.host;
+    NSString *host = env.tilerUrl;
     NSString *url = [host stringByAppendingString:urlSfx];
 
     return [[MKTileOverlay alloc] initWithURLTemplate:url];

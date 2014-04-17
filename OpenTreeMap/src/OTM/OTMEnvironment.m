@@ -94,6 +94,8 @@
                       [url valueForKey:@"base"],
                       [url valueForKey:@"version"]]];
 
+    [self setTilerUrl:[implementation valueForKey:@"tilerurl"]];
+
     // Implementation - MapView
     NSDictionary *mapView = [implementation valueForKey:@"MapView"];
 
