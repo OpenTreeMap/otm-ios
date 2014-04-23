@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="yby-6X-duV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="yby-6X-duV">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Login View Controller - Login-->
@@ -212,7 +212,7 @@
                     <navigationItem key="navigationItem" title="Create Profile" id="6Uz-Gy-6Uu">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="Fma-Oh-J3E">
                             <connections>
-                                <action selector="createNewUser:" destination="EHZ-o9-hUZ" id="SaL-bt-Jpv"/>
+                                <action selector="validateAndShowEULA:" destination="EHZ-o9-hUZ" id="lEk-a6-Tkb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -228,11 +228,48 @@
                         <outlet property="username" destination="83T-RB-vAP" id="N34-ht-Dzx"/>
                         <outlet property="verifyPassword" destination="e39-YE-7jE" id="9ag-3r-bnR"/>
                         <outlet property="view" destination="rdP-k2-Kth" id="K5d-Uj-3sW"/>
+                        <segue destination="4vG-ZF-nSf" kind="push" identifier="eula" id="9Dp-cH-qo7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lDl-L0-tWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="788" y="-832"/>
+            <point key="canvasLocation" x="887" y="-866"/>
+        </scene>
+        <!--View Controller - Terms of Service-->
+        <scene sceneID="XYL-el-r2F">
+            <objects>
+                <viewController storyboardIdentifier="EULAController" id="4vG-ZF-nSf" customClass="OTMEULAViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I45-WE-C1e">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" keyboardDisplayRequiresUserAction="NO" id="tli-yx-sTv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Terms of Service" id="J7u-h7-v1c">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="irt-cG-1VM">
+                            <connections>
+                                <action selector="rejectEULA:" destination="4vG-ZF-nSf" id="hLU-f4-wTQ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Accept" id="ho5-GL-PfI">
+                            <connections>
+                                <action selector="acceptEULA:" destination="4vG-ZF-nSf" id="MwV-Ma-VJV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="webview" destination="tli-yx-sTv" id="n8Q-uN-zFk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MMi-Fc-5Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1323" y="-767"/>
         </scene>
         <!--Password Reset View Controller - Reset Password-->
         <scene sceneID="1ld-VF-WiR">
