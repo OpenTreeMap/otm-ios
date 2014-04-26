@@ -136,6 +136,9 @@
 @property (nonatomic, strong) NSString *secretKey;
 @property (nonatomic, strong) NSString *accessKey;
 
+// User generated content
+@property (nonatomic, strong) NSString *inappropriateReportEmail;
+
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
 

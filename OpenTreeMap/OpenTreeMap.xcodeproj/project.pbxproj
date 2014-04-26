@@ -133,6 +133,8 @@
 		649BEFE118E466A90031A606 /* gps_icon_14@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649BEFDD18E466A90031A606 /* gps_icon_14@2x.png */; };
 		649BEFE218E466A90031A606 /* gps_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 649BEFDE18E466A90031A606 /* gps_icon.png */; };
 		649BEFE318E466A90031A606 /* gps_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649BEFDF18E466A90031A606 /* gps_icon@2x.png */; };
+		649F92D5190AB7BC0098D3BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 649F92D4190AB7BC0098D3BB /* MessageUI.framework */; };
+		649F92D8190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F92D7190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m */; };
 		64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */; };
 		64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		64E5CCD418E0C2B6007E8173 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64E5CCD318E0C2B6007E8173 /* Default-568h@2x.png */; };
@@ -356,6 +358,9 @@
 		649BEFDD18E466A90031A606 /* gps_icon_14@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gps_icon_14@2x.png"; path = "../../../../otm-mobile-skins/la/ios/images/gps_icon_14@2x.png"; sourceTree = "<group>"; };
 		649BEFDE18E466A90031A606 /* gps_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gps_icon.png; path = "../../../../otm-mobile-skins/la/ios/images/gps_icon.png"; sourceTree = "<group>"; };
 		649BEFDF18E466A90031A606 /* gps_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "gps_icon@2x.png"; path = "../../../../otm-mobile-skins/la/ios/images/gps_icon@2x.png"; sourceTree = "<group>"; };
+		649F92D4190AB7BC0098D3BB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		649F92D6190AF5B40098D3BB /* OTMInappropriateContentMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMInappropriateContentMailViewController.h; sourceTree = "<group>"; };
+		649F92D7190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMInappropriateContentMailViewController.m; sourceTree = "<group>"; };
 		64DDCDB414F51ADF004FA0CF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		64DDCDB614F51AF6004FA0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		64E5CCD318E0C2B6007E8173 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -386,6 +391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				649F92D5190AB7BC0098D3BB /* MessageUI.framework in Frameworks */,
 				6452955218D89D3400362A0F /* QuartzCore.framework in Frameworks */,
 				D7C990291518C89F0094770C /* libz.dylib in Frameworks */,
 				E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */,
@@ -623,6 +629,8 @@
 				6470BEEC18E0A8C700C56A8F /* OTMViewController.m */,
 				D7B4E1CD1906FB280028E3B1 /* OTMEULAViewController.h */,
 				D7B4E1CE1906FB280028E3B1 /* OTMEULAViewController.m */,
+				649F92D6190AF5B40098D3BB /* OTMInappropriateContentMailViewController.h */,
+				649F92D7190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -749,6 +757,7 @@
 		E943971514F447EB007CD0D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				649F92D4190AB7BC0098D3BB /* MessageUI.framework */,
 				6452955118D89D3400362A0F /* QuartzCore.framework */,
 				D7C990281518C89F0094770C /* libz.dylib */,
 				D7C990261518C88F0094770C /* MobileCoreServices.framework */,
@@ -989,6 +998,7 @@
 				64608727160CFB6700A1458B /* OTMDetailBoxView.m in Sources */,
 				64608728160CFB6700A1458B /* OTMDetailSliderview.m in Sources */,
 				64608729160CFB6700A1458B /* OTMFilterStatusView.m in Sources */,
+				649F92D8190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m in Sources */,
 				6460872A160CFB6700A1458B /* OTMHelpView.m in Sources */,
 				6460872B160CFB6700A1458B /* OTMNavigationBar.m in Sources */,
 				6460872C160CFB6700A1458B /* OTMSearchBar.m in Sources */,

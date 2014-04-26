@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7zY-vH-TMB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7zY-vH-TMB">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -658,9 +658,15 @@
                     </view>
                     <navigationItem key="navigationItem" title="Tree Photo" id="K2B-qi-ivl">
                         <barButtonItem key="backBarButtonItem" title="Details" id="ZMB-jF-JOT"/>
+                        <barButtonItem key="rightBarButtonItem" title="Report" id="jOR-bj-EHV">
+                            <connections>
+                                <action selector="reportInappropriate:" destination="u1i-qA-0UN" id="hgN-zR-cLc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="gGa-rZ-8ES" id="yt2-TL-OQb"/>
+                        <outlet property="reportButtonItem" destination="jOR-bj-EHV" id="S4j-ba-UxG"/>
                         <outlet property="scrollView" destination="a2K-iz-UpQ" id="AMO-g2-Gvp"/>
                         <outlet property="view" destination="fZo-Zk-WWS" id="EJh-59-zE5"/>
                     </connections>
@@ -850,7 +856,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="ROJ-aE-inW"/>
-        <segue reference="vdU-No-GUA"/>
+        <segue reference="gQW-vu-Tty"/>
         <segue reference="Lek-fL-nUD"/>
     </inferredMetricsTieBreakers>
 </document>

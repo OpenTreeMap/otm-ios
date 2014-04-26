@@ -255,7 +255,7 @@
         };
     } else if ([segue.identifier isEqualToString:@"showImage"]) {
         OTMImageViewController *controller = segue.destinationViewController;
-        [controller loadImage:sender];
+        [controller loadImage:sender forPlot:self.selectedPlot];
     }
 }
 
