@@ -125,6 +125,11 @@
 
     [self setMapViewTitle:[mapView valueForKey:@"MapViewTitle"]];
 
+    self.inappropriateReportEmail = [implementation objectForKey:@"inappropriateReportEmail"];
+    if (self.inappropriateReportEmail == nil) {
+        self.inappropriateReportEmail = @"OpenTreeMap <info@opentreemap.org>";
+    }
+
     OTM2API* otmApi = [[OTM2API alloc] init];
 
     NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];
@@ -228,6 +233,11 @@
     NSString* logoUrl = [dict objectForKey:@"logoUrl"];
     if (logoUrl) {
         self.instanceLogoUrl = [NSURL URLWithString:logoUrl];
+    }
+
+    NSString* inappropriateReportEmail =[dict objectForKey:@"inappropriateReportEmail"];
+    if (inappropriateReportEmail) {
+        self.inappropriateReportEmail = inappropriateReportEmail;
     }
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMEnvironmentChangeNotification object:self];

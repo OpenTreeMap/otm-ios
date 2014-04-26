@@ -16,6 +16,8 @@
 
 #import "OTMImageViewController.h"
 #import "AZWaitingOverlayController.h"
+#import "OTMTreeDictionaryHelper.h"
+#import "OTMInappropriateContentMailViewController.h"
 
 @interface OTMImageViewController ()
 
@@ -23,8 +25,9 @@
 
 @implementation OTMImageViewController
 
-- (void)loadImage:(NSString *)url
+- (void)loadImage:(NSString *)url forPlot:(NSDictionary *)plot
 {
+    self.data = plot;
     self.imageView.image = nil;
     [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Downloading"];
 
@@ -78,6 +81,22 @@
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return [self imageView];
+}
+
+- (IBAction)reportInappropriate:(id)sender
+{
+    NSDictionary *photo = [OTMTreeDictionaryHelper getLatestPhotoInDictionary:self.data];
+    OTMInappropriateContentMailViewController *mailViewController =
+        [[OTMInappropriateContentMailViewController alloc] initWithPhotoDictionary:photo];
+    mailViewController.mailComposeDelegate = self;
+    [self presentModalViewController:mailViewController animated:YES];
+}
+
+# pragma mark MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

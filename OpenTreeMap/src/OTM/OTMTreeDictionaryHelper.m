@@ -37,11 +37,26 @@
     return CLLocationCoordinate2DMake(lat, lng);
 }
 
-+(NSString *)getLatestPhotoUrlInDictionary:(NSDictionary *)dict
++(NSArray *)getPhotosArrayInDictionary:(NSDictionary *)dict
 {
     NSArray* photos = [dict objectForKey:@"photos"];
     if (photos && [photos isKindOfClass:[NSArray class]] && [photos count] > 0) {
-        return [[OTMEnvironment sharedEnvironment] absolutePhotoUrlFromPhotoUrl:[[photos lastObject] objectForKey:@"image"]];
+        return photos;
+    } else {
+        return nil;
+    }
+}
+
++(NSDictionary *)getLatestPhotoInDictionary:(NSDictionary *)dict
+{
+    return [[self getPhotosArrayInDictionary:dict] lastObject];
+}
+
++(NSString *)getLatestPhotoUrlInDictionary:(NSDictionary *)dict
+{
+    NSDictionary* photo = [self getLatestPhotoInDictionary:dict];
+    if (photo) {
+        return [[OTMEnvironment sharedEnvironment] absolutePhotoUrlFromPhotoUrl:[photo objectForKey:@"image"]];
     } else {
         return nil;
     }
