@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		000F073B19262EFD00BC33A5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 000F073A19262EFD00BC33A5 /* libxml2.dylib */; };
+		000F0741192630DF00BC33A5 /* Choices.plist in Resources */ = {isa = PBXBuildFile; fileRef = 000F0740192630DF00BC33A5 /* Choices.plist */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		64582DAE164165C200CF5DB9 /* OTMAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */; };
 		64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64608646160CFB0A00A1458B /* InfoPlist.strings */; };
@@ -150,7 +151,6 @@
 		646087C1160D01A700A1458B /* tree_map.png in Resources */ = {isa = PBXBuildFile; fileRef = 64608779160D01A700A1458B /* tree_map.png */; };
 		646087C2160D01A700A1458B /* tree_map@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6460877A160D01A700A1458B /* tree_map@2x.png */; };
 		646087C3160D01A700A1458B /* Implementation.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6460877B160D01A700A1458B /* Implementation.plist */; };
-		646087CB160D01D900A1458B /* Choices.plist in Resources */ = {isa = PBXBuildFile; fileRef = 646087C4160D01D900A1458B /* Choices.plist */; };
 		646087CC160D01D900A1458B /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 646087C5160D01D900A1458B /* Default.png */; };
 		646087CD160D01D900A1458B /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 646087C6160D01D900A1458B /* Default@2x.png */; };
 		646087CE160D01D900A1458B /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 646087C7160D01D900A1458B /* Icon-72.png */; };
@@ -191,6 +191,7 @@
 
 /* Begin PBXFileReference section */
 		000F073A19262EFD00BC33A5 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		000F0740192630DF00BC33A5 /* Choices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Choices.plist; path = resources/Choices.plist; sourceTree = "<group>"; };
 		64582DAC164165C200CF5DB9 /* OTMAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAboutViewController.h; sourceTree = "<group>"; };
 		64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAboutViewController.m; sourceTree = "<group>"; };
 		64608647160CFB0A00A1458B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -402,7 +403,6 @@
 		64608779160D01A700A1458B /* tree_map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_map.png; sourceTree = "<group>"; };
 		6460877A160D01A700A1458B /* tree_map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tree_map@2x.png"; sourceTree = "<group>"; };
 		6460877B160D01A700A1458B /* Implementation.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Implementation.plist; sourceTree = "<group>"; };
-		646087C4160D01D900A1458B /* Choices.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Choices.plist; sourceTree = "<group>"; };
 		646087C5160D01D900A1458B /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		646087C6160D01D900A1458B /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		646087C7160D01D900A1458B /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
@@ -803,7 +803,7 @@
 		E943970714F447EB007CD0D1 = {
 			isa = PBXGroup;
 			children = (
-				646087C4160D01D900A1458B /* Choices.plist */,
+				000F0740192630DF00BC33A5 /* Choices.plist */,
 				646087C5160D01D900A1458B /* Default.png */,
 				646087C6160D01D900A1458B /* Default@2x.png */,
 				646087C9160D01D900A1458B /* Icon.png */,
@@ -951,6 +951,7 @@
 				64608792160D01A700A1458B /* gps_icon@2x.png in Resources */,
 				64608793160D01A700A1458B /* gps_icon_14.png in Resources */,
 				64608794160D01A700A1458B /* gps_icon_14@2x.png in Resources */,
+				000F0741192630DF00BC33A5 /* Choices.plist in Resources */,
 				64608795160D01A700A1458B /* handle_icon.png in Resources */,
 				64608796160D01A700A1458B /* handle_icon@2x.png in Resources */,
 				64608797160D01A700A1458B /* logo.png in Resources */,
@@ -996,7 +997,6 @@
 				646087C1160D01A700A1458B /* tree_map.png in Resources */,
 				646087C2160D01A700A1458B /* tree_map@2x.png in Resources */,
 				646087C3160D01A700A1458B /* Implementation.plist in Resources */,
-				646087CB160D01D900A1458B /* Choices.plist in Resources */,
 				646087CC160D01D900A1458B /* Default.png in Resources */,
 				646087CD160D01D900A1458B /* Default@2x.png in Resources */,
 				646087CE160D01D900A1458B /* Icon-72.png in Resources */,
