@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000F073B19262EFD00BC33A5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 000F073A19262EFD00BC33A5 /* libxml2.dylib */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
 		64582DAE164165C200CF5DB9 /* OTMAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */; };
 		64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64608646160CFB0A00A1458B /* InfoPlist.strings */; };
@@ -189,6 +190,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		000F073A19262EFD00BC33A5 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		64582DAC164165C200CF5DB9 /* OTMAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAboutViewController.h; sourceTree = "<group>"; };
 		64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAboutViewController.m; sourceTree = "<group>"; };
 		64608647160CFB0A00A1458B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				000F073B19262EFD00BC33A5 /* libxml2.dylib in Frameworks */,
 				D7C990291518C89F0094770C /* libz.dylib in Frameworks */,
 				E943971B14F447EB007CD0D1 /* CoreGraphics.framework in Frameworks */,
 				D7C990271518C88F0094770C /* MobileCoreServices.framework in Frameworks */,
@@ -831,6 +834,7 @@
 		E943971514F447EB007CD0D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				000F073A19262EFD00BC33A5 /* libxml2.dylib */,
 				D7C990281518C89F0094770C /* libz.dylib */,
 				D7C990261518C88F0094770C /* MobileCoreServices.framework */,
 				D7C990241518C8890094770C /* SystemConfiguration.framework */,
