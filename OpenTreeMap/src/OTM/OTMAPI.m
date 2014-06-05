@@ -139,6 +139,35 @@
                        [OTMAPI jsonCallback:callback]]];
 }
 
+-(void)getInstancesNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max distance:(double)distance callback:(AZJSONCallback)callback {
+
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   [NSString stringWithFormat:@"%f", lat], @"lat",
+                                   [NSString stringWithFormat:@"%f", lon], @"lon",
+                                   [NSNumber numberWithInt:max], @"max", nil];
+
+    NSString *url = @"locations/:lat,:lon/instances";
+
+    if (distance > 0) {
+        [params setObject:[NSString stringWithFormat:@"%f", distance]
+                   forKey:@"distance"];
+    }
+
+    if (user) {
+        [_noPrefixRequest get:url
+                     withUser:user
+                       params:params
+                     callback:[OTMAPI liftResponse:
+                               [OTMAPI jsonCallback:callback]]];
+    } else {
+        [_noPrefixRequest get:url
+                       params:params
+                     callback:[OTMAPI liftResponse:
+                               [OTMAPI jsonCallback:callback]]];
+
+    }
+}
+
 -(void)getProfileForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
     [_noPrefixRequest get:@"user"
                  withUser:user
