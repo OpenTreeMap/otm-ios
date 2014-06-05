@@ -632,6 +632,13 @@
     if (editMode) {
         // The view controller rearranges all the sections in the table view
         // when it is in edit mode, so the section labels no longer apply.
+        if ((section - 2) < [[[OTMEnvironment sharedEnvironment] sectionTitles] count]) {
+            NSString *title = [[[OTMEnvironment sharedEnvironment] sectionTitles] objectAtIndex:(section - 2)];
+
+            if (title != nil && ![title isEqualToString:@""]) {
+                return title;
+            }
+        }
         return nil;
     } else {
         NSString *title = [[[OTMEnvironment sharedEnvironment] sectionTitles] objectAtIndex:section];
