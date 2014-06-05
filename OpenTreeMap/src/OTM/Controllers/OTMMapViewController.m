@@ -46,7 +46,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, locationAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mapView, addTreeAnnotation, locationAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
 
 - (void)viewDidLoad
 {
@@ -870,112 +870,53 @@
        }];
 }
 
-#pragma mark CoreLocation handling
+#pragma mark Location handling
 
 - (IBAction)startFindingLocation:(id)sender
 {
-    if ([CLLocationManager locationServicesEnabled]) {
+    if (!locationActivityView) {
+        locationActivityView = [[UIActivityIndicatorView alloc]
+                                initWithActivityIndicatorStyle:
+                                UIActivityIndicatorViewStyleWhite];
 
-        if (!locationActivityView) {
-            locationActivityView = [[UIActivityIndicatorView alloc]
-                                    initWithActivityIndicatorStyle:
-                                    UIActivityIndicatorViewStyleWhite];
+        [(UIActivityIndicatorView *)locationActivityView startAnimating];
+        [locationActivityView setUserInteractionEnabled:NO];
 
-            [(UIActivityIndicatorView *)locationActivityView startAnimating];
-            [locationActivityView setUserInteractionEnabled:NO];
-
-            CGSize bs = findLocationButton.frame.size;
-            CGSize as = locationActivityView.frame.size;
-            CGFloat offsetx = (bs.width - as.width) / 2;
-            CGFloat offsety = (bs.height - as.height) / 2;
-            [locationActivityView setFrame:CGRectMake(offsetx, offsety, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
-        }
-        [findLocationButton addSubview:locationActivityView];
-        [findLocationButton setImage:nil forState:UIControlStateNormal];
-        [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
-        [findLocationButton addTarget:self action:@selector(stopFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
-
-        if (nil == [self locationManager]) {
-            [self setLocationManager:[[CLLocationManager alloc] init]];
-            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-        }
-        // The delegate is cleared in stopFindingLocation so it must be reset here.
-        [locationManager setDelegate:self];
-        [locationManager startUpdatingLocation];
-        NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
-        [self performSelector:@selector(stopFindingLocationAndSetMostAccurateLocation) withObject:nil afterDelay:timeout];
-    } else {
-        [UIAlertView showAlertWithTitle:nil message:@"Location services are not available." cancelButtonTitle:@"OK" otherButtonTitle:nil callback:nil];
+        CGSize bs = findLocationButton.frame.size;
+        CGSize as = locationActivityView.frame.size;
+        CGFloat offsetx = (bs.width - as.width) / 2;
+        CGFloat offsety = (bs.height - as.height) / 2;
+        [locationActivityView setFrame:CGRectMake(offsetx, offsety, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
     }
+    [findLocationButton addSubview:locationActivityView];
+    [findLocationButton setImage:nil forState:UIControlStateNormal];
+    [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [findLocationButton addTarget:self action:@selector(stopFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
+
+    if (!locationManager) {
+        locationManager = [[OTMLocationManager alloc] init];
+    }
+
+    [locationManager findLocation:^(CLLocation *location, NSError *error) {
+        if (!error) {
+            [self stopFindingLocation:self]; // Handles updating the UI now that the location has been found
+            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+            [mapView setRegion:MKCoordinateRegionMake(location.coordinate, span) animated:NO];
+            [self placeLocationAnnotation:location.coordinate];
+        } else {
+            NSLog(@"Failed to get location");
+        }
+    }];
 }
 
 - (IBAction)stopFindingLocation:(id)sender {
     [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     [findLocationButton addTarget:self action:@selector(startFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
-    [[self locationManager] stopUpdatingLocation];
-    // When using the debugger I found that extra events would arrive after calling stopUpdatingLocation.
-    // Setting the delegate to nil ensures that those events are not ignored.
-    [locationManager setDelegate:nil];
+    if (locationManager) {
+        [locationManager stopFindingLocation];
+    }
     [findLocationButton setImage:[UIImage imageNamed:@"gps_icon"] forState:UIControlStateNormal];
     [locationActivityView removeFromSuperview];
-}
-
-
-- (void)stopFindingLocationAndSetMostAccurateLocation {
-    [self stopFindingLocation:self];
-    if ([self mostAccurateLocationResponse] != nil) {
-        MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-        CLLocation *loc = [self mostAccurateLocationResponse];
-        CLLocationCoordinate2D coord = [loc coordinate];
-
-        OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
-        CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
-        CLLocationDistance dist = [loc distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
-
-        if (dist < [env searchRegionRadiusInMeters]) {
-            [mapView setRegion:MKCoordinateRegionMake(coord, span) animated:NO];
-        }
-    }
-    [self setMostAccurateLocationResponse:nil];
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-{
-    NSDate* eventDate = newLocation.timestamp;
-    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    // Avoid using any cached location results by making sure they are less than 15 seconds old
-    if (abs(howRecent) < 15.0)
-    {
-        NSLog(@"Location accuracy: horizontal %f, vertical %f", [newLocation horizontalAccuracy], [newLocation verticalAccuracy]);
-
-        if ([self mostAccurateLocationResponse] == nil || [[self mostAccurateLocationResponse] horizontalAccuracy] > [newLocation horizontalAccuracy]) {
-            [self setMostAccurateLocationResponse: newLocation];
-        }
-
-        if ([newLocation horizontalAccuracy] > 0 && [newLocation horizontalAccuracy] < [manager desiredAccuracy]) {
-            [self stopFindingLocation:self];
-            [self setMostAccurateLocationResponse:nil];
-            // Cancel the previous performSelector:withObject:afterDelay: - it's no longer necessary
-            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopFindingLocation:) object:nil];
-
-            NSLog(@"Found user's location: latitude %+.6f, longitude %+.6f\n",
-                  newLocation.coordinate.latitude,
-                  newLocation.coordinate.longitude);
-
-            OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
-            MKCoordinateSpan span = [env mapViewSearchZoomCoordinateSpan];
-            CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
-
-            CLLocationDistance dist = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
-
-            if (dist < [env searchRegionRadiusInMeters]) {
-                [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
-                [self placeLocationAnnotation:newLocation.coordinate];
-            }
-        }
-    }
 }
 
 #pragma mark OTMAddTreeAnnotationView delegate methods
