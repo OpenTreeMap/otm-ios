@@ -173,7 +173,21 @@
         [self performSegueWithIdentifier:@"changeSpecies"
                                   sender:self];
     }];
-    speciesRow.defaultName = @"Set Species";
+    NSString *spName;
+    @try {
+        // This key doesn't exist if the species is not set.
+        spName = [[[self.data objectForKey:@"tree"] objectForKey:@"species"] objectForKey:@"common_name"];
+    }
+    @catch (NSException *exception) {
+        spName = @"not set";
+    }
+    @finally {
+        // If the string came back empty we assume that the species is not set.
+        if (spName == nil || [spName isEqualToString:@""]) {
+            spName = @"not set";
+        }
+    }
+    speciesRow.defaultName = [@"Set Species" stringByAppendingFormat: @" (%@)", spName];
     speciesRow.detailDataKey = @"tree.sci_name";
 
     OTMDetailCellRenderer *pictureRow =
@@ -319,6 +333,7 @@
 
         // Remove the eco section, which is appended to the end and never editable
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:[allFields count]-1] withRowAnimation:UITableViewRowAnimationFade];
+
 
         // There are 2 fixed sections to be added when editing: the mini map section and the species/photo section
         [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
@@ -518,6 +533,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"changeSpecies"]) {
+        OTMSpeciesTableViewController *speciesTableViewController = segue.destinationViewController;
+        speciesTableViewController.delegate = self;
+
         OTMSpeciesTableViewController *sVC = (OTMSpeciesTableViewController *)segue.destinationViewController;
 
         sVC.callback = ^(NSDictionary *sdict) {
@@ -569,6 +587,26 @@
         [controller loadImage:sender forPlot:self.data];
     }
 }
+
+
+- (void)speciesDetailsViewControllerDidUpdate:(OTMSpeciesTableViewController *)controller
+                               withNewSpecies:(NSString *) newSpeciesName {
+
+    // The first cell is empty. The second one is the Species selector.
+    // Use the incoming newSpeciesName to create a new label for the cell.
+    // Then reset the label width and update its text.
+    NSArray *cells = [tableView visibleCells];
+    NSString *label = [@"Set Species" stringByAppendingFormat: @" (%@)", newSpeciesName];
+
+    [[cells[1] textLabel] setText: label];
+    CGRect rect = [[cells[1] textLabel] frame];
+    rect.size.width = 245;
+    [[cells[1] textLabel] setFrame:rect];
+    // As the delegate for behavior of the detail screen we are responsible for
+    // popping the other controller.
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark -
 #pragma mark UITableViewDelegate/DataSource methods

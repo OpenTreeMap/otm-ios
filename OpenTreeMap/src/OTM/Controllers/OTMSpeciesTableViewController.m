@@ -14,6 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "OTMSpeciesTableViewController.h"
+#import "OTMDetailTableViewCell.h"
 
 @interface OTMSpeciesTableViewController ()
 
@@ -194,8 +195,8 @@
         NSDictionary *speciesDetailDict = [species objectForKey:key];
         callback(speciesDetailDict);
     }
-
-    [self.navigationController popViewControllerAnimated:YES];
+    OTMDetailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [self.delegate speciesDetailsViewControllerDidUpdate:self withNewSpecies:cell.textLabel.text];
 }
 
 #pragma mark - UISearchBar delegate

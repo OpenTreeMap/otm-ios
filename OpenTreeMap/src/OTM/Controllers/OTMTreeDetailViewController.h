@@ -18,6 +18,7 @@
 #import "OTMDetailTableViewCell.h"
 #import "OTMPictureTaker.h"
 #import "OTMMapDetailCellRenderer.h"
+#import "OTMSpeciesTableViewController.h"
 
 @class OTMTreeDetailViewController; // declared early so the delegate can use the type in its declaration
 
@@ -34,7 +35,7 @@
 - (void)plotDeletedByViewController:(OTMTreeDetailViewController *)viewController;
 @end
 
-@interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate> {
+@interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate, OTMSpeciesDetailsViewControllerDelegate> {
     BOOL editMode;
     BOOL updated;
     NSMutableDictionary *data;
