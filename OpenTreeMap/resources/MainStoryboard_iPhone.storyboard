@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7zY-vH-TMB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7zY-vH-TMB">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -26,7 +26,7 @@
             <objects>
                 <viewController title="First" id="2" customClass="OTMMapViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="16" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Find Address or Location" id="FZp-qt-HYI">
@@ -39,7 +39,7 @@
                                 </connections>
                             </searchBar>
                             <view contentMode="scaleToFill" id="HdG-pl-Slh" customClass="MKMapView">
-                                <rect key="frame" x="0.0" y="44" width="320" height="436"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="w2g-B4-7BF" customClass="OTMSegmentedControl">
@@ -55,7 +55,7 @@
                                 </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6LD-YT-lgp">
-                                <rect key="frame" x="264" y="370" width="38" height="38"/>
+                                <rect key="frame" x="264" y="458" width="38" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal">
@@ -63,7 +63,7 @@
                                 </state>
                             </button>
                             <view opaque="NO" contentMode="scaleToFill" id="cSI-Ty-HIV" customClass="OTMDetailSliderview">
-                                <rect key="frame" x="0.0" y="250" width="320" height="70"/>
+                                <rect key="frame" x="0.0" y="338" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="39d-EP-Yt2">
@@ -187,11 +187,11 @@
             <objects>
                 <viewController id="Z5j-QU-uNU" customClass="OTMTreeDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kdd-4U-sUB" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hqL-kc-WAV" customClass="OTMTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <inset key="contentInset" minX="0.0" minY="90" maxX="0.0" maxY="0.0"/>
@@ -276,11 +276,11 @@
             <objects>
                 <viewController id="hZa-Zz-ezt" customClass="OTMFilterListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bgp-np-5MP" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ePV-bU-uUu">
-                                <rect key="frame" x="0.0" y="-1" width="320" height="481"/>
+                                <rect key="frame" x="0.0" y="-1" width="320" height="569"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="ba0-Rh-Fwi">
@@ -351,11 +351,11 @@
             <objects>
                 <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="Xap-fy-aIY">
-                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <navigationBar contentMode="scaleToFill" id="1j6-yq-i5D">
@@ -379,7 +379,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kSpeciesListCellReuseIdentifier" textLabel="ClZ-rU-Zpe" detailTextLabel="wh5-dt-oL0" style="IBUITableViewCellStyleSubtitle" id="oFt-5U-AiH">
-                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oFt-5U-AiH" id="ENY-aa-67r">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -424,11 +424,11 @@
             <objects>
                 <viewController id="7zY-vH-TMB" customClass="OTMSplashViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K5g-s6-br4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default.png" id="dh5-PK-ckz">
-                                <rect key="frame" x="0.0" y="-20" width="320" height="500"/>
+                                <rect key="frame" x="0.0" y="-20" width="320" height="588"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
@@ -436,17 +436,93 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="4" kind="custom" identifier="startApp" customClass="OTMSwapSegue" id="hNa-Ed-G3s"/>
+                        <segue destination="4" kind="custom" identifier="startWithInstance" customClass="OTMSwapSegue" id="hNa-Ed-G3s"/>
+                        <segue destination="TQJ-DT-hrV" kind="custom" identifier="selectInstance" customClass="OTMSwapSegue" id="2CQ-vY-uwt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MKb-h0-uZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-412" y="180"/>
+            <point key="canvasLocation" x="-1182" y="164"/>
+        </scene>
+        <!--Instance Select Table View Controller - OpenTreeMap-->
+        <scene sceneID="vem-LK-EH6">
+            <objects>
+                <tableViewController id="dsU-64-c8o" customClass="OTMInstanceSelectTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Xz7-oj-eRM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="RUu-gz-vXW">
+                            <rect key="frame" x="0.0" y="109" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iOs-S5-XJ6">
+                                    <rect key="frame" x="82" y="7" width="157" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Login to OpenTreeMap">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="logInOut:" destination="dsU-64-c8o" eventType="touchUpInside" id="yk8-xk-tdO"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OTMInstanceSelectTableViewCellIdentifier" textLabel="ird-SB-6HL" style="IBUITableViewCellStyleDefault" id="itm-pL-ajW">
+                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="itm-pL-ajW" id="HFa-Di-new">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ird-SB-6HL">
+                                            <rect key="frame" x="15" y="0.0" width="290" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="dsU-64-c8o" id="5sE-SP-MSc"/>
+                            <outlet property="delegate" destination="dsU-64-c8o" id="bCA-Se-XUP"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="OpenTreeMap" id="Wfx-lx-45V"/>
+                    <connections>
+                        <outlet property="logInOutButton" destination="iOs-S5-XJ6" id="75p-xx-QpH"/>
+                        <segue destination="4" kind="custom" identifier="showInstance" customClass="OTMSetRootViewControllerSegue" id="QeW-ew-cn9"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TGE-fu-mnn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-509" y="-258"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gb4-TT-oRQ">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="TQJ-DT-hrV" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EAZ-lM-QND">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="dsU-64-c8o" kind="relationship" relationship="rootViewController" id="CPK-oT-GQl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bjh-9x-Iw8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-509" y="-924"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
             <objects>
                 <tabBarController id="4" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="acw-le-bZF"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="431" width="320" height="49"/>
@@ -469,7 +545,7 @@
             <objects>
                 <viewController id="u8W-4J-SZB" customClass="OTMPasswordChangeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Tz-gP-g8A" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" tag="1200" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="old password" minimumFontSize="17" id="EAh-03-KBO">
@@ -530,7 +606,7 @@
             <objects>
                 <tableViewController id="qxZ-Vn-7jv" customClass="OTMFieldDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="rXg-6r-idt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -600,11 +676,11 @@
             <objects>
                 <viewController id="XIE-5U-YPU" customClass="OTMChangeLocationViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YoZ-YO-Il8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="K3J-BM-y6q">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="XIE-5U-YPU" id="ELd-NP-fUD"/>
@@ -640,11 +716,11 @@
             <objects>
                 <viewController id="u1i-qA-0UN" customClass="OTMImageViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fZo-Zk-WWS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.125" maximumZoomScale="4" id="a2K-iz-UpQ">
-                                <rect key="frame" x="0.0" y="0.0" width="326" height="480"/>
+                                <rect key="frame" x="0.0" y="88" width="326" height="480"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="TopLeft" id="gGa-rZ-8ES">
@@ -680,11 +756,11 @@
             <objects>
                 <viewController id="Duy-es-aav" customClass="OTMProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="npN-2P-HfN" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="wzi-4l-jz6">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
@@ -722,6 +798,7 @@
                         <outlet property="view" destination="npN-2P-HfN" id="aXq-tM-8gg"/>
                         <segue destination="u8W-4J-SZB" kind="push" identifier="ChangePassword" id="6t2-c4-alG"/>
                         <segue destination="Z5j-QU-uNU" kind="push" identifier="pushDetails" id="ezI-WE-lzv"/>
+                        <segue destination="TQJ-DT-hrV" kind="custom" identifier="switchTreeMap" customClass="OTMSetRootViewControllerSegue" id="XK6-IA-5KH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eoy-3f-Vmi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -749,11 +826,11 @@
             <objects>
                 <viewController id="XUR-HC-WbX" customClass="OTMNearbyTreesViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FfX-zR-YUX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="pMW-wp-VsW">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -811,11 +888,11 @@
             <objects>
                 <viewController id="eCd-qX-6ya" customClass="OTMAboutViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6bg-QM-6ly">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="LDK-Mi-JKH">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <webView opaque="NO" contentMode="scaleToFill" id="Wtz-GW-bdd">
@@ -852,11 +929,13 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ROJ-aE-inW"/>
-        <segue reference="gQW-vu-Tty"/>
+        <segue reference="QeW-ew-cn9"/>
+        <segue reference="XK6-IA-5KH"/>
+        <segue reference="ezI-WE-lzv"/>
         <segue reference="Lek-fL-nUD"/>
+        <segue reference="gQW-vu-Tty"/>
     </inferredMetricsTieBreakers>
 </document>
