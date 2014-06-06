@@ -994,4 +994,9 @@
     [self.filterStatusView setHidden:NO];
 }
 
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 @end
