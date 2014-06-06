@@ -18,10 +18,6 @@
 @implementation OTMSetRootViewControllerSegue
 
 -(void)perform {
-    // Without this explicit retain, the app would crash after repeated calls to
-    // this segue
-    CFRetain((__bridge CFTypeRef)[self destinationViewController]);
-
     [[[[self sourceViewController] view] window] setRootViewController:[self destinationViewController]];
 }
 
