@@ -196,6 +196,7 @@
     self.fields = [self fieldsFromDict:[dict objectForKey:@"fields"] orderedAndGroupedByDictArray:[dict objectForKey:@"field_key_groups"]];
     self.sectionTitles = [self sectionTitlesFromDictArray:[dict objectForKey:@"field_key_groups"]];
     self.config = [dict objectForKey:@"config"];
+    self.mapViewTitle = [dict objectForKey:@"name"];
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
 

@@ -256,6 +256,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *instanceDict = [self instanceDictFromInstancePath:indexPath];
     NSString *urlName = [instanceDict objectForKey:@"url"];
+
     if (urlName) {
         [[OTMPreferences sharedPreferences] setInstance:urlName];
         [self loadDetailAndSegueToMapViewForInstanceWithUrlName:urlName];
