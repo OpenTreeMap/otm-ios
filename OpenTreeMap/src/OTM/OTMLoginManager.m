@@ -132,7 +132,7 @@
     }
     callback = [cb copy];
 
-    [viewController presentModalViewController:rootVC animated:YES];
+    [viewController presentViewController:rootVC animated:YES completion:nil];
 }
 
 -(void)presentModelLoginInViewController:(UIViewController*)viewController {
@@ -142,7 +142,7 @@
 -(void)loginController:(OTMLoginViewController*)vc loggedInWithUser:(OTMUser*)user {
     self.loggedInUser = user;
 
-    [rootVC dismissModalViewControllerAnimated:YES];
+    [rootVC dismissViewControllerAnimated:YES completion:nil];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedSuccess
                                                         object:user];
@@ -153,7 +153,7 @@
 }
 
 -(void)loginControllerCanceledLogin:(OTMLoginViewController*)vc {
-    [rootVC dismissModalViewControllerAnimated:YES];
+    [rootVC dismissViewControllerAnimated:YES completion:nil];
 
     [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowCompletedFailure
                                                         object:nil];
