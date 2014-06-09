@@ -131,9 +131,9 @@
              photos = [NSArray array];
          }
 
-         NSMutableDictionary *newPhotoInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                           @"OTM-Mobile Photo", @"title",
-                                                           image, @"data", nil];
+         NSMutableDictionary *newPhotoInfo = [NSDictionary
+                                              dictionaryWithObjectsAndKeys:
+                                              @"OTM-Mobile Photo", @"title", image, @"data", nil];
 
          [data setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
 
@@ -331,11 +331,13 @@
         [self.tableView deleteRowsAtIndexPaths:txToEditRemove
                               withRowAnimation:UITableViewRowAnimationFade];
 
-        // Remove the eco section, which is appended to the end and never editable
+        // @MAGIC - Remove the eco section, which is appended to the end and
+        // never editable
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:[allFields count]-1] withRowAnimation:UITableViewRowAnimationFade];
 
 
-        // There are 2 fixed sections to be added when editing: the mini map section and the species/photo section
+        // @MAGIC - There are 2 fixed sections to be added when editing: the
+        // mini map section and the species/photo section
         [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];
 
@@ -364,11 +366,13 @@
 
         [self.tableView beginUpdates];
 
-        // There are 2 fixed sections to be removed after editing: the mini map section and the species/photo section
+        // @MAGIC - There are 2 fixed sections to be removed after editing: the
+        // mini map section and the species/photo section
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];
 
-        // Resore the eco section which was removed during editing. It is always the last section
+        // @MAGIC - Resore the eco section which was removed during editing. It
+        // is always the last section
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:[allFields count]-1]
                       withRowAnimation:UITableViewRowAnimationFade];
 
@@ -391,8 +395,8 @@
             OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
             OTMUser *user = loginManager.loggedInUser;
 
-            if (self.data[@"plot"][@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
-
+            if (self.data[@"plot"][@"id"] == nil) {
+                // No 'id' parameter indicates that this is a new plot/tree
                 NSLog(@"Sending new tree data:\n%@", data);
 
                 [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
@@ -449,12 +453,13 @@
         }
     }
 
-    // No 'id' parameter indicates that this view was shown to edit a new plot/tree
+    // No 'id' parameter indicates that this view was shown to edit a new
+    // plot/tree.
     if ([[self.data objectForKey:@"plot"] objectForKey:@"id"] == nil && !saveChanges) {
         [delegate treeAddCanceledByViewController:self];
     }
 
-    // Need to reload all of the cells after animation is done
+    // Need to reload all of the cells after animation is done.
     double delayInMSeconds = 250;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInMSeconds * NSEC_PER_MSEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
@@ -642,9 +647,17 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (editMode) {
-        // The view controller rearranges all the sections in the table view
-        // when it is in edit mode, so the section labels no longer apply.
-        if ((section - 2) < [[[OTMEnvironment sharedEnvironment] sectionTitles] count]) {
+        /**
+         * @MAGIC
+         * The view controller rearranges all the sections in the table view
+         * when it is in edit mode, so the section labels no longer apply.
+         * Specificially we add a section of fixed cells which act as the
+         * species and image editing buttons. There is also an empty section,
+         * the purpose of which remains unclear, it may just be a spacer, that
+         * must be accounted for. So our actual label information begins at the
+         * third section. Thus we must off two in our section labels.
+         */
+         if ((section - 2) < [[[OTMEnvironment sharedEnvironment] sectionTitles] count]) {
             NSString *title = [[[OTMEnvironment sharedEnvironment] sectionTitles] objectAtIndex:(section - 2)];
 
             if (title != nil && ![title isEqualToString:@""]) {
@@ -864,7 +877,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) { // The destructive button is always at index 0
+    if (buttonIndex == 0) { // @MAGIC The destructive button is always at index 0
         NSInteger plotId = [[data objectForKey:@"id"] intValue];
         OTMUser *user = [[SharedAppDelegate loginManager] loggedInUser];
         if ([deleteType isEqual:@"tree"]) {
