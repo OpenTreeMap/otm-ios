@@ -42,6 +42,11 @@
     return self;
 }
 
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 -(void)loadTheme {
     [self setTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
 }

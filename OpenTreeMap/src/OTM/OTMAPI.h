@@ -236,4 +236,10 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
  */
 -(void)getTreeImage:(NSString*)url callback:(AZImageCallback)callback;
 
+/**
+ * Get the details for instances that a user is associated with and the instances that are
+ * near the user
+ */
+-(void)getInstancesNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max distance:(double)distance callback:(AZJSONCallback)callback;
+
 @end

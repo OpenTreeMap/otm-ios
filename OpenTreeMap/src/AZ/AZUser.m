@@ -40,6 +40,7 @@
     // Keychain does not allow v_Data (the password) to be nil,
     // so we set it to the empty string, which is an invalid password
     [self setPassword:@""];
+    [self setLoggedIn:NO];
 }
 
 @end

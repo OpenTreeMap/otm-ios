@@ -19,6 +19,7 @@
 #import "OTMViewController.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDetailViewController.h"
+#import "OTMLocationManager.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
@@ -29,7 +30,7 @@ typedef enum {
     Move,
 } OTMMapViewControllerMapMode;
 
-@interface OTMMapViewController : OTMViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
+@interface OTMMapViewController : OTMViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIButton *findLocationButton;
@@ -42,8 +43,6 @@ typedef enum {
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
 @property (nonatomic,assign) BOOL detailsVisible;
-@property (nonatomic,strong) CLLocationManager *locationManager;
-@property (nonatomic,strong) CLLocation *mostAccurateLocationResponse;
 
 @property (nonatomic,strong) IBOutlet MKMapView *mapView;
 @property (nonatomic,strong) IBOutlet UIView* detailView;
@@ -58,6 +57,8 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet UIView *mapModeSegmentedControlBackground;
 @property (nonatomic, strong) IBOutlet UIView *filterStatusView;
 @property (nonatomic, strong) IBOutlet UILabel *filterStatusLabel;
+
+@property (nonatomic, strong) OTMLocationManager *locationManager;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
