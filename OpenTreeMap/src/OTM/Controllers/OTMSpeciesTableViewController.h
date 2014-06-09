@@ -15,14 +15,26 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol OTMSpeciesDetailsViewControllerDelegate;
+
+
 @interface OTMSpeciesTableViewController : UITableViewController <UISearchBarDelegate> {
     NSDictionary *species;
     NSArray *sections;
     NSMutableDictionary *sectionDict;
 }
 
+@property (nonatomic, weak) id<OTMSpeciesDetailsViewControllerDelegate> delegate;
 @property (nonatomic,strong) Function1v callback;
 @property (nonatomic,strong) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) IBOutlet UISearchBar *searchBar;
+
+@end
+
+@protocol OTMSpeciesDetailsViewControllerDelegate <NSObject>
+
+- (void)speciesDetailsViewControllerDidUpdate:(OTMSpeciesTableViewController *)controller
+                        withSpeciesCommonName:(NSString *) newCName
+                            andScientificName:(NSString *) newSName;
 
 @end
