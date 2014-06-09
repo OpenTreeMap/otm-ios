@@ -32,6 +32,9 @@
 @end
 
 @protocol OTMSpeciesDetailsViewControllerDelegate <NSObject>
+
 - (void)speciesDetailsViewControllerDidUpdate:(OTMSpeciesTableViewController *)controller
-                               withNewSpecies:(NSString *) newName;
+                        withSpeciesCommonName:(NSString *) newCName
+                            andScientificName:(NSString *) newSName;
+
 @end

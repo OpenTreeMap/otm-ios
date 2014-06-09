@@ -196,7 +196,9 @@
         callback(speciesDetailDict);
     }
     OTMDetailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self.delegate speciesDetailsViewControllerDidUpdate:self withNewSpecies:cell.textLabel.text];
+    [self.delegate speciesDetailsViewControllerDidUpdate:self
+                                   withSpeciesCommonName:cell.textLabel.text
+                                       andScientificName:cell.detailTextLabel.text];
 }
 
 #pragma mark - UISearchBar delegate

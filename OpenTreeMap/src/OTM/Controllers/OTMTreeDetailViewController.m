@@ -590,21 +590,33 @@
 
 
 - (void)speciesDetailsViewControllerDidUpdate:(OTMSpeciesTableViewController *)controller
-                               withNewSpecies:(NSString *) newSpeciesName {
+                        withSpeciesCommonName:(NSString *) newSpeciesCommonName
+                            andScientificName:(NSString *) newSpeciesScientificName
+{
+    // Update the edit cell label with the new name.
+    [self updateSpeciesEditCellWithString: newSpeciesCommonName];
 
-    // The first cell is empty. The second one is the Species selector.
-    // Use the incoming newSpeciesName to create a new label for the cell.
-    // Then reset the label width and update its text.
-    NSArray *cells = [tableView visibleCells];
-    NSString *label = [@"Set Species" stringByAppendingFormat: @" (%@)", newSpeciesName];
-
-    [[cells[1] textLabel] setText: label];
-    CGRect rect = [[cells[1] textLabel] frame];
-    rect.size.width = 245;
-    [[cells[1] textLabel] setFrame:rect];
     // As the delegate for behavior of the detail screen we are responsible for
     // popping the other controller.
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) updateSpeciesEditCellWithString:(NSString *) speciesString
+{
+    // @MAGIC
+    // The first cell is empty. The second one is the Species selector.
+    // Use the incoming string to create a new label for the cell.
+    // Then reset the label width and update its text.
+    NSArray *cells = [tableView visibleCells];
+    NSString *label = [@"Set Species" stringByAppendingFormat: @" (%@)", speciesString];
+    [[cells[1] textLabel] setText: label];
+
+    // Need to manually resize the label to fit because it doesn't know how big
+    // the cell is at this point. The number is appropriate for iPhone screens,
+    // but is @MAGIC.
+    CGRect rect = [[cells[1] textLabel] frame];
+    rect.size.width = 245;
+    [[cells[1] textLabel] setFrame:rect];
 }
 
 
