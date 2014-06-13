@@ -62,6 +62,8 @@
         } else if ([indexPath row] == 1) {
             cell.textLabel.text = @"Logout";
         } else {
+            // Other table deletegate methods assume that this cell is always
+            // the last row in this section. Beware @MAGIC
             cell.textLabel.text = @"Switch Tree Map";
         }
 
@@ -221,7 +223,12 @@
         case kOTMProfileViewControllerSectionInfo:
             return 4;
         case kOTMProfileViewControllerSectionChangePassword:
-            return 3;
+            if ([[OTMEnvironment sharedEnvironment] allowInstanceSwitch]) {
+                return 3;
+            }
+            else {
+                return 2;
+            }
         case kOTMProfileViewControllerSectionChangeProfilePicture:
             return 1;
         case kOTMProfileViewControllerSectionRecentEdits:
@@ -273,6 +280,10 @@
         [[NSBundle mainBundle] loadNibNamed:@"LoginRequiredView"
                                       owner:self
                                     options:nil];
+    }
+
+    if (![[OTMEnvironment sharedEnvironment] allowInstanceSwitch]) {
+        [[self switchInstanceButton] setHidden:YES];
     }
 
     [self.view addSubview:self.pwReqView];

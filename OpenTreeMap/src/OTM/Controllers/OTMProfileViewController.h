@@ -31,6 +31,7 @@
 @property (nonatomic,assign) BOOL didShowLogin;
 
 @property (nonatomic,strong) IBOutlet UIView *pwReqView;
+@property (nonatomic,strong) IBOutlet UIButton *switchInstanceButton;
 @property (nonatomic,strong) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) IBOutlet UIView *loadingView;
 

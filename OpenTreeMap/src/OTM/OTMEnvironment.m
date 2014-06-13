@@ -66,6 +66,10 @@
     self.secretKey = [implementation valueForKey:@"SecretKey"];
 
     self.instance = [implementation objectForKey:@"instance"];
+    self.allowInstanceSwitch = YES;
+    if (self.instance && ![self.instance isEqualToString:@""]) {
+        self.allowInstanceSwitch = NO;
+    }
 
     self.dateFormat = @"MMMM d, yyyy h:mm a";
     self.detailLatSpan = 0.0007;

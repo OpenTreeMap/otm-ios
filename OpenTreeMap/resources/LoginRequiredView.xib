@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OTMProfileViewController">
             <connections>
                 <outlet property="pwReqView" destination="1" id="7"/>
+                <outlet property="switchInstanceButton" destination="ak2-7g-8no" id="IIG-Hd-lUA"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -33,14 +34,13 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ak2-7g-8no">
-                    <rect key="frame" x="20" y="315" width="280" height="51"/>
+                    <rect key="frame" x="20" y="314" width="280" height="51"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <state key="normal" title="Switch Tree Map">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="doLogin:" destination="-1" eventType="touchUpInside" id="CJX-Rm-2Mf"/>
                         <action selector="switchTreeMap:" destination="-1" eventType="touchUpInside" id="e94-Ad-iM6"/>
                     </connections>
                 </button>
