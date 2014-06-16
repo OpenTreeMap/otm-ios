@@ -611,7 +611,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kFieldDetailCurrentValueCellIdentifier" textLabel="Ig8-6N-hGz" style="IBUITableViewCellStyleDefault" id="cP2-oS-a8r">
-                                <rect key="frame" x="0.0" y="119" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cP2-oS-a8r" id="WNk-Cf-bPq">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -628,7 +628,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kFieldDetailPendingEditCellIdentifier" textLabel="nNw-rv-dw3" detailTextLabel="y08-OM-1oN" style="IBUITableViewCellStyleSubtitle" id="wwu-AA-ZkQ">
-                                <rect key="frame" x="0.0" y="163" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="99" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wwu-AA-ZkQ" id="X6m-fP-hOI">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -652,7 +652,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kFieldDetailPendingLocationEditCellIdentifier" id="dUj-hV-tjR" customClass="OTMMapTableViewCell">
-                                <rect key="frame" x="0.0" y="207" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="143" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dUj-hV-tjR" id="3wA-Ko-c3f">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

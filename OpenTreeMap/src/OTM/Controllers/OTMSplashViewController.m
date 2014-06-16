@@ -76,9 +76,7 @@
 
     NSString *instance = [[OTMEnvironment sharedEnvironment] instance];
 
-    if (instance && ![instance isEqualToString:@""]) {
-        [self loadInstance];
-    } else {
+    if ([[OTMEnvironment sharedEnvironment] allowInstanceSwitch]) {
         instance = [[OTMPreferences sharedPreferences] instance];
         if (instance && ![instance isEqualToString:@""]) {
             [[OTMEnvironment sharedEnvironment] setInstance:instance];
@@ -86,6 +84,9 @@
         } else {
             [self afterSplashDelaySegueTo:@"selectInstance"];
         }
+
+    } else {
+       [self loadInstance];
     }
 
 }

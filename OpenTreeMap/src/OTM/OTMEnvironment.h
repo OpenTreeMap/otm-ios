@@ -125,6 +125,7 @@
 
 // OTM2 props
 @property (nonatomic, strong) NSString* instance;
+@property (nonatomic, assign) BOOL allowInstanceSwitch;
 @property (nonatomic, strong) NSString* instanceId;
 @property (nonatomic, strong) NSString* geoRev;
 @property (nonatomic, strong) NSString* host;
