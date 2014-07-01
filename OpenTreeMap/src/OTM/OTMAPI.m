@@ -95,6 +95,33 @@
     }
 }
 
+-(void)getAllPublicInstancesWithCallback:(AZJSONCallback)callback {
+    if (instances != nil) {
+        if (callback) {
+            callback(instances, nil);
+        }
+    } else {
+        [self.request get:@"instances"
+                 withUser:nil
+                   params:nil
+                 callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError *err) {
+                     if (err != nil) {
+                         if (callback) { callback(nil, err); }
+                     } else {
+                         NSMutableDictionary *inst = [NSMutableDictionary dictionary];
+
+                         [json enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                             [inst setObject:[obj objectForKey:@"url"]
+                                      forKey:[obj objectForKey:@"name"]];
+                         }];
+                         instances = inst;
+
+                         if (callback) { callback(instances, nil); }
+                     }
+                }]]];
+    }
+}
+
 -(void)getPlotsNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user callback:(AZJSONCallback)callback {
     [self getPlotsNearLatitude:lat longitude:lon user:user maxResults:1 callback:callback];
 }

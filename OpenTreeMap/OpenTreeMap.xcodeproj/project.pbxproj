@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		62192D031961B381000CBF0F /* OTMAllInstancesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */; };
 		641210A91935363400118A33 /* OTMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210A81935363400118A33 /* OTMLocationManager.m */; };
 		641210AC1938181E00118A33 /* OTMPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AB1938181E00118A33 /* OTMPreferences.m */; };
 		641210AF19382DF100118A33 /* OTMSetRootViewControllerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AE19382DF100118A33 /* OTMSetRootViewControllerSegue.m */; };
@@ -173,6 +174,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		62192D011961B381000CBF0F /* OTMAllInstancesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAllInstancesTableViewController.h; sourceTree = "<group>"; };
+		62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAllInstancesTableViewController.m; sourceTree = "<group>"; };
 		641210A71935363400118A33 /* OTMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLocationManager.h; sourceTree = "<group>"; };
 		641210A81935363400118A33 /* OTMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLocationManager.m; sourceTree = "<group>"; };
 		641210AA1938181E00118A33 /* OTMPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPreferences.h; sourceTree = "<group>"; };
@@ -651,6 +654,8 @@
 				649F92D7190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m */,
 				647D3E811934E75D00077ADE /* OTMInstanceSelectTableViewController.h */,
 				647D3E821934E75D00077ADE /* OTMInstanceSelectTableViewController.m */,
+				62192D011961B381000CBF0F /* OTMAllInstancesTableViewController.h */,
+				62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -1015,6 +1020,7 @@
 				64608721160CFB6700A1458B /* OTMReverseGeocodeOperation.m in Sources */,
 				64608722160CFB6700A1458B /* OTMSwapSegue.m in Sources */,
 				64608723160CFB6700A1458B /* OTMTreeDictionaryHelper.m in Sources */,
+				62192D031961B381000CBF0F /* OTMAllInstancesTableViewController.m in Sources */,
 				64608724160CFB6700A1458B /* OTMUser.m in Sources */,
 				64608725160CFB6700A1458B /* OTMValidator.m in Sources */,
 				64608726160CFB6700A1458B /* OTMButton.m in Sources */,

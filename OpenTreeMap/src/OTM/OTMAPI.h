@@ -40,6 +40,7 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
  */
 @interface OTMAPI : NSObject {
     NSDictionary *species;
+    NSDictionary *instances;
     NSOperationQueue *geocodeQueue;
     CLRegion *geocodeRegion;
     CLGeocoder *geocoder;
@@ -62,6 +63,11 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
  * Get species list
  */
 -(void)getSpeciesListForUser:(OTMUser *)user withCallback:(AZJSONCallback)callback;
+
+/**
+ * Public Instances.
+ */
+-(void)getAllPublicInstancesWithCallback:(AZJSONCallback)callback;
 
 /**
  * Save the given plot

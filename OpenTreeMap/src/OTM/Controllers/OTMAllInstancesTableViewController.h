@@ -14,16 +14,22 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
-#import "OTMLocationManager.h"
-#import "OTMAllInstancesTableViewController.h"
 
-@interface OTMInstanceSelectTableViewController : UITableViewController<OTMAllInstancesViewControllerDelegate>
+@protocol OTMAllInstancesViewControllerDelegate;
 
-@property (nonatomic, strong) OTMLocationManager *locationManager;
-@property (nonatomic, strong) NSDictionary *instances;
+@interface OTMAllInstancesTableViewController : UITableViewController <UISearchBarDelegate>
 
-@property (nonatomic, strong) IBOutlet UIButton *logInOutButton;
+@property (weak, nonatomic) IBOutlet UISearchBar *search;
+@property (nonatomic, weak) id<OTMAllInstancesViewControllerDelegate> delegate;
+@property NSArray *sections;
+@property NSDictionary *instances;
+@property NSMutableArray *filteredInstances;
+@property NSMutableDictionary *sectionDict;
 
-- (IBAction)logInOut:(id)sender;
+@end
 
+@protocol OTMAllInstancesViewControllerDelegate <NSObject>
+
+- (void)instanceDidUpdate:(OTMAllInstancesTableViewController *)controller
+          withInstanceUrl:(NSString *) instance;
 @end
