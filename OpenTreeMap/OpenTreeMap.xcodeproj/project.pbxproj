@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		62F06164196366B800F8B84D /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06162196366B800F8B84D /* profile.png */; };
+		62F06165196366B800F8B84D /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06163196366B800F8B84D /* profile@2x.png */; };
 		641210A91935363400118A33 /* OTMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210A81935363400118A33 /* OTMLocationManager.m */; };
 		641210AC1938181E00118A33 /* OTMPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AB1938181E00118A33 /* OTMPreferences.m */; };
 		641210AF19382DF100118A33 /* OTMSetRootViewControllerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AE19382DF100118A33 /* OTMSetRootViewControllerSegue.m */; };
@@ -173,6 +175,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		62F06162196366B800F8B84D /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile.png; path = profile.png; sourceTree = "<group>"; };
+		62F06163196366B800F8B84D /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "profile@2x.png"; path = "profile@2x.png"; sourceTree = "<group>"; };
 		641210A71935363400118A33 /* OTMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLocationManager.h; sourceTree = "<group>"; };
 		641210A81935363400118A33 /* OTMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLocationManager.m; sourceTree = "<group>"; };
 		641210AA1938181E00118A33 /* OTMPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPreferences.h; sourceTree = "<group>"; };
@@ -696,6 +700,8 @@
 		64608738160D01A700A1458B /* images */ = {
 			isa = PBXGroup;
 			children = (
+				62F06162196366B800F8B84D /* profile.png */,
+				62F06163196366B800F8B84D /* profile@2x.png */,
 				64D458CC190EF3BA005BAF47 /* Chevron_left.png */,
 				64D458CD190EF3BA005BAF47 /* Chevron_left@2x.png */,
 				64D458CE190EF3BA005BAF47 /* Chevron_right.png */,
@@ -909,6 +915,8 @@
 				64D4591B190EF3BA005BAF47 /* TabBar_treemap@2x.png in Resources */,
 				64D45917190EF3BA005BAF47 /* TabBar_profile@2x.png in Resources */,
 				646087CD160D01D900A1458B /* Default@2x.png in Resources */,
+				62F06164196366B800F8B84D /* profile.png in Resources */,
+				62F06165196366B800F8B84D /* profile@2x.png in Resources */,
 				64D4590B190EF3BA005BAF47 /* selected_marker@2x.png in Resources */,
 				64D4590A190EF3BA005BAF47 /* selected_marker.png in Resources */,
 				64D45904190EF3BA005BAF47 /* Profile_favorited.png in Resources */,
