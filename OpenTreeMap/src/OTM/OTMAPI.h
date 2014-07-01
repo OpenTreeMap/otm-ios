@@ -24,7 +24,8 @@ typedef enum {
     kOTMAPILoginResponseInvalidUsernameOrPassword,
     kOTMAPILoginResponseOK,
     kOTMAPILoginResponseError,
-    kOTMAPILoginDuplicateUsername
+    kOTMAPILoginDuplicateUsername,
+    kOTMAPILoginDuplicateEmailAddress
 } OTMAPILoginResponse;
 
 typedef void(^AZGenericCallback)(id obj, NSError* error);
