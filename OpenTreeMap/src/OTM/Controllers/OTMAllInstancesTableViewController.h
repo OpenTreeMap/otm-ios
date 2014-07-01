@@ -17,14 +17,15 @@
 
 @protocol OTMAllInstancesViewControllerDelegate;
 
-  @interface OTMAllInstancesTableViewController : UITableViewController <UISearchBarDelegate>
+@interface OTMAllInstancesTableViewController : UITableViewController <UISearchBarDelegate>
 
-  @property (weak, nonatomic) IBOutlet UISearchBar *search;
-  @property (nonatomic, weak) id<OTMAllInstancesViewControllerDelegate> delegate;
-  @property NSArray *sections;
-  @property NSDictionary *instances;
-  @property NSMutableArray *filteredInstances;
-  @property NSMutableDictionary *sectionDict;
+@property (weak, nonatomic) IBOutlet UISearchBar *search;
+@property (nonatomic, weak) id<OTMAllInstancesViewControllerDelegate> delegate;
+@property NSArray *sections;
+@property NSDictionary *instances;
+@property NSMutableArray *filteredInstances;
+@property NSMutableDictionary *sectionDict;
+
 @end
 
 @protocol OTMAllInstancesViewControllerDelegate <NSObject>

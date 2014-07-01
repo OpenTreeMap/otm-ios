@@ -15,8 +15,9 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMLocationManager.h"
+#import "OTMAllInstancesTableViewController.h"
 
-@interface OTMInstanceSelectTableViewController : UITableViewController
+@interface OTMInstanceSelectTableViewController : UITableViewController<OTMAllInstancesViewControllerDelegate>
 
 @property (nonatomic, strong) OTMLocationManager *locationManager;
 @property (nonatomic, strong) NSDictionary *instances;
