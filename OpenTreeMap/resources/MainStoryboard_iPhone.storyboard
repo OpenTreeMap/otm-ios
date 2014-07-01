@@ -19,7 +19,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4mF-Gi-CZB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="688" y="-158"/>
+            <point key="canvasLocation" x="1214" y="-158"/>
         </scene>
         <!--Map View Controller - First-->
         <scene sceneID="11">
@@ -180,7 +180,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1194" y="-158"/>
+            <point key="canvasLocation" x="1720" y="-158"/>
         </scene>
         <!--Tree Detail View Controller - Tree Detail-->
         <scene sceneID="Dv8-v2-A1v">
@@ -269,7 +269,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8hd-Es-WvR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2580" y="-174"/>
+            <point key="canvasLocation" x="3106" y="-174"/>
         </scene>
         <!--Filter List View Controller - Filter-->
         <scene sceneID="zp8-W1-VWl">
@@ -328,7 +328,7 @@
                     <textInputTraits key="textInputTraits"/>
                 </textField>
             </objects>
-            <point key="canvasLocation" x="3078" y="-777"/>
+            <point key="canvasLocation" x="3604" y="-777"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="U6E-AK-C7a">
@@ -344,18 +344,18 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uue-lv-1fO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2580" y="-777"/>
+            <point key="canvasLocation" x="3106" y="-777"/>
         </scene>
         <!--Species Table View Controller - Species-->
         <scene sceneID="UYx-NC-Q9u">
             <objects>
                 <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo" customClass="OTM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="Xap-fy-aIY">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <navigationBar contentMode="scaleToFill" id="1j6-yq-i5D">
@@ -379,7 +379,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="kSpeciesListCellReuseIdentifier" textLabel="ClZ-rU-Zpe" detailTextLabel="wh5-dt-oL0" style="IBUITableViewCellStyleSubtitle" id="oFt-5U-AiH">
-                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oFt-5U-AiH" id="ENY-aa-67r">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -417,7 +417,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kOL-lh-UMg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3632" y="-540"/>
+            <point key="canvasLocation" x="4158" y="-540"/>
         </scene>
         <!--Splash View Controller-->
         <scene sceneID="Bnb-dg-gfO">
@@ -442,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MKb-h0-uZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1182" y="164"/>
+            <point key="canvasLocation" x="-1926" y="180"/>
         </scene>
         <!--Instance Select Table View Controller - OpenTreeMap-->
         <scene sceneID="vem-LK-EH6">
@@ -453,7 +453,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="RUu-gz-vXW">
-                            <rect key="frame" x="0.0" y="109" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="173" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iOs-S5-XJ6">
@@ -470,15 +470,15 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OTMInstanceSelectTableViewCellIdentifier" textLabel="ird-SB-6HL" style="IBUITableViewCellStyleDefault" id="itm-pL-ajW">
-                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OTMInstanceSelectTableViewCellIdentifier" textLabel="ird-SB-6HL" style="IBUITableViewCellStyleDefault" id="itm-pL-ajW">
+                                <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="itm-pL-ajW" id="HFa-Di-new">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ird-SB-6HL">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="43"/>
+                                            <rect key="frame" x="15" y="0.0" width="270" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -497,11 +497,60 @@
                     <connections>
                         <outlet property="logInOutButton" destination="iOs-S5-XJ6" id="75p-xx-QpH"/>
                         <segue destination="4" kind="custom" identifier="showInstance" customClass="OTMSetRootViewControllerSegue" id="QeW-ew-cn9"/>
+                        <segue destination="rOQ-59-ETZ" kind="push" identifier="allInstances" id="ugv-OH-dzZ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TGE-fu-mnn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-509" y="-258"/>
+            <point key="canvasLocation" x="-569" y="-423"/>
+        </scene>
+        <!--All Instances Table View Controller - Select TreeMap-->
+        <scene sceneID="1E0-qg-o2g">
+            <objects>
+                <tableViewController id="rOQ-59-ETZ" customClass="OTMAllInstancesTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6K1-lR-OGJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="8JU-34-UdT">
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="rOQ-59-ETZ" id="pts-pN-YBd"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="instanceCell" id="qhH-Xx-V7c">
+                                <rect key="frame" x="0.0" y="130" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qhH-Xx-V7c" id="iMY-DD-Lcv">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T3r-dk-kCo">
+                                            <rect key="frame" x="20" y="11" width="280" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="rOQ-59-ETZ" id="zzw-RN-hDh"/>
+                            <outlet property="delegate" destination="rOQ-59-ETZ" id="nDI-rB-0GG"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Select TreeMap" id="H2U-wG-7Do"/>
+                    <connections>
+                        <outlet property="search" destination="8JU-34-UdT" id="RYU-YI-sgV"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wsk-yk-zBW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="59" y="-530"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gb4-TT-oRQ">
@@ -516,7 +565,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bjh-9x-Iw8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-509" y="-924"/>
+            <point key="canvasLocation" x="-1309" y="-436"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="15">
@@ -611,7 +660,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kFieldDetailCurrentValueCellIdentifier" textLabel="Ig8-6N-hGz" style="IBUITableViewCellStyleDefault" id="cP2-oS-a8r">
-                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cP2-oS-a8r" id="WNk-Cf-bPq">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -628,7 +677,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kFieldDetailPendingEditCellIdentifier" textLabel="nNw-rv-dw3" detailTextLabel="y08-OM-1oN" style="IBUITableViewCellStyleSubtitle" id="wwu-AA-ZkQ">
-                                <rect key="frame" x="0.0" y="99" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="163" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wwu-AA-ZkQ" id="X6m-fP-hOI">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -652,7 +701,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="kFieldDetailPendingLocationEditCellIdentifier" id="dUj-hV-tjR" customClass="OTMMapTableViewCell">
-                                <rect key="frame" x="0.0" y="143" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="207" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dUj-hV-tjR" id="3wA-Ko-c3f">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -819,7 +868,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3s4-ZD-HQt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="688" y="-761"/>
+            <point key="canvasLocation" x="1214" y="-761"/>
         </scene>
         <!--Nearby Trees View Controller-->
         <scene sceneID="QnH-LF-b5k">
@@ -865,7 +914,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Rt-9h-3U6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1194" y="-767"/>
+            <point key="canvasLocation" x="1720" y="-767"/>
         </scene>
         <!--Navigation Controller - Profile-->
         <scene sceneID="SRH-GT-8eT">
@@ -932,10 +981,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="QeW-ew-cn9"/>
+        <segue reference="hNa-Ed-G3s"/>
         <segue reference="XK6-IA-5KH"/>
         <segue reference="ezI-WE-lzv"/>
-        <segue reference="Lek-fL-nUD"/>
         <segue reference="gQW-vu-Tty"/>
+        <segue reference="Lek-fL-nUD"/>
     </inferredMetricsTieBreakers>
 </document>
