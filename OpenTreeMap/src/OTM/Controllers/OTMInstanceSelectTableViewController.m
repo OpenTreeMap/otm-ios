@@ -55,7 +55,6 @@
     // This is about 200 miles, which is greater than Seattle -> Portland,
     // Philly -> Washington DC. It seemed reasonable when we picked it, but
     // is arbitrary.
-
     [[OTMPreferences sharedPreferences] setInstance:@""];
 
     OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
@@ -192,19 +191,35 @@
     if ([self hasPersonalInstances]) {
         sectionCount += 1;
     }
+    // Add one for the "All maps section"
+    sectionCount += 1;
     return sectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        if ([self hasPersonalInstances]) {
+    if ([self hasPersonalInstances] && [self hasNearbyInstances]) {
+        if (section == 0) {
+            return [self personalInstanceCount];
+        } else if (section == 1) {
+            return [self nearbyInstanceCount];
+        } else {
+            return 1;
+        }
+    } else if ([self hasPersonalInstances]) {
+        if (section == 0) {
             return [self personalInstanceCount];
         } else {
-            return [self nearbyInstanceCount];
+            return 1;
         }
-    } else { //section == 1
-        return [self nearbyInstanceCount];
+    } else if ([self hasNearbyInstances]) {
+        if (section == 0) {
+            return [self nearbyInstanceCount];
+        } else {
+            return 1;
+        }
+    } else {
+        return 1;
     }
 }
 
@@ -242,6 +257,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
+    if ([indexPath section] == [tableView numberOfSections] - 1) {
+        static NSString *AllInstances = @"AllInstances";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:AllInstances];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AllInstances];
+        }
+        [cell.textLabel setText: @"Search All Treemaps"];
+        return cell;
+    }
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"OTMInstanceSelectTableViewCellIdentifier" forIndexPath:indexPath];
 
     if (!cell) {
@@ -254,27 +280,48 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *instanceDict = [self instanceDictFromInstancePath:indexPath];
-    NSString *urlName = [instanceDict objectForKey:@"url"];
-
-    if (urlName) {
-        [[OTMPreferences sharedPreferences] setInstance:urlName];
-        [self loadDetailAndSegueToMapViewForInstanceWithUrlName:urlName];
+    if ([indexPath section] == [tableView numberOfSections] - 1) {
+        [self performSegueWithIdentifier:@"allInstances" sender: self];
     } else {
-        NSLog(@"No url_name property in %@", instanceDict);
+        NSDictionary *instanceDict = [self instanceDictFromInstancePath:indexPath];
+        NSString *urlName = [instanceDict objectForKey:@"url"];
+
+        if (urlName) {
+            [[OTMPreferences sharedPreferences] setInstance:urlName];
+            [self loadDetailAndSegueToMapViewForInstanceWithUrlName:urlName];
+        } else {
+            NSLog(@"No url_name property in %@", instanceDict);
+        }
     }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if ([self hasPersonalInstances]) {
+    NSString *myMaps = @"My Tree Maps";
+    NSString *nearMaps = @"Nearby Tree Maps";
+    NSString *otherMaps = @"Other Treemaps";
+    if ([self hasPersonalInstances] && [self hasNearbyInstances]) {
         if (section == 0) {
-            return @"My Tree Maps";
+            return myMaps;
+        } else if (section == 1) {
+            return nearMaps;
         } else {
-            return @"Nearby Tree Maps";
+            return otherMaps;
+        }
+    } else if ([self hasPersonalInstances]) {
+        if (section == 0) {
+            return myMaps;
+        } else {
+            return otherMaps;
+        }
+    } else if ([self hasNearbyInstances]) {
+        if (section == 0) {
+            return nearMaps;
+        } else {
+            return otherMaps;
         }
     } else {
-        return @"Nearby Tree Maps";
+        return otherMaps;
     }
 }
 
