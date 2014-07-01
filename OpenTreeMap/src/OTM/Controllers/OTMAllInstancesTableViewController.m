@@ -46,7 +46,7 @@
                                cancelButtonTitle:@"OK"
                                otherButtonTitles:nil] show];
              [self.navigationController popViewControllerAnimated:YES];
-             NSLog(@"Failed to load data from instance endpoint.");
+             NSLog(@"Failed to load data from instance endpoint. %@", [err description]);
          } else {
              _instances = json;
              [self loadSectionDictWithSearchText:nil];

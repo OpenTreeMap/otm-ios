@@ -155,7 +155,7 @@
                                     otherButtonTitle:nil
                                             callback:^(UIAlertView *alertView, int btnIdx)
                       {
-                          [self loadDetailAndSegueToMapViewForInstanceWithUrlName:urlName];
+                          NSLog(@"Failed to load instance data for %@ -- error message follows: %@", urlName, [error description]) ;
                       }];
                  } else {
                      [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
