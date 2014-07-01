@@ -136,7 +136,18 @@
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil] show];
                 [self.navigationController popToViewController:self animated:YES];
-            } else {
+            } else if (status == kOTMAPILoginDuplicateEmailAddress) {
+                [self.username becomeFirstResponder];
+                [self.username selectAll:self];
+                NSString *message = [NSString stringWithFormat:@"The email address %@ is already registered. Tap 'Login' with your existing user or choose a different email address.", self.email.text];
+                [[[UIAlertView alloc] initWithTitle:@"Already Registered"
+                                            message:message
+                                           delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil] show];
+                [self.navigationController popToViewController:self animated:YES];
+            }
+            else {
                 [[[UIAlertView alloc] initWithTitle:@"Registration Failed"
                                            message:@"A server problem prevented your registration from completing. Please try again later."
                                           delegate:nil

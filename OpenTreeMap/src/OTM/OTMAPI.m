@@ -243,8 +243,13 @@
             if (error != nil) {
                 NSDictionary *info = [error userInfo];
                 NSNumber *statusCode = [info objectForKey:@"statusCode"];
+                NSString *message = [info objectForKey:@"body"];
                 if (statusCode && [statusCode intValue] == 409) {
-                    callback(user, nil, kOTMAPILoginDuplicateUsername);
+                    if ([message isEqualToString:@"Email is already in use"]) {
+                        callback(user, nil, kOTMAPILoginDuplicateEmailAddress);
+                    } else {
+                        callback(user, nil, kOTMAPILoginDuplicateUsername);
+                    }
                 } else {
                     callback(user, nil, kOTMAPILoginResponseError);
                 }
