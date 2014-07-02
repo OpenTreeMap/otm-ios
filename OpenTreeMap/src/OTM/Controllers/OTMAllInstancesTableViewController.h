@@ -32,4 +32,5 @@
 
 - (void)instanceDidUpdate:(OTMAllInstancesTableViewController *)controller
           withInstanceUrl:(NSString *) instance;
+
 @end

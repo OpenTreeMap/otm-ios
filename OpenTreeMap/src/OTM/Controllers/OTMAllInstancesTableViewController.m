@@ -33,20 +33,20 @@
     return self;
 }
 
-- (void)viewDidLoad
+-(void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-
+    [super viewDidAppear:animated];
     [[[OTMEnvironment sharedEnvironment] api] getAllPublicInstancesWithCallback:^(id json, NSError *err)
-    {
+     {
          if (err) {
-             [[[UIAlertView alloc] initWithTitle:@"Error"
-                                         message:@"Could not load map list"
-                                        delegate:nil
-                               cancelButtonTitle:@"OK"
-                               otherButtonTitles:nil] show];
-             [self.navigationController popViewControllerAnimated:YES];
              NSLog(@"Failed to load data from instance endpoint. %@", [err description]);
+
+             [[[UIAlertView alloc] initWithTitle:@"Error"
+              message:@"Could not load map list"
+              delegate:nil
+              cancelButtonTitle:@"OK"
+              otherButtonTitles:nil] show];
+             [self.navigationController popViewControllerAnimated:YES];
          } else {
              _instances = json;
              [self loadSectionDictWithSearchText:nil];
