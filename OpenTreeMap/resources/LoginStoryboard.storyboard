@@ -140,7 +140,7 @@
                                         <rect key="frame" x="24" y="14" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress"/>
                                         <connections>
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="GJZ-WG-bD6"/>
                                         </connections>
@@ -149,7 +149,7 @@
                                         <rect key="frame" x="24" y="50" width="280" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" secureTextEntry="YES"/>
                                         <connections>
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="d1a-FJ-qeb"/>
                                         </connections>
@@ -167,7 +167,7 @@
                                         <rect key="frame" x="24" y="85" width="280" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" secureTextEntry="YES"/>
                                         <connections>
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="F9P-vL-Nxg"/>
                                         </connections>

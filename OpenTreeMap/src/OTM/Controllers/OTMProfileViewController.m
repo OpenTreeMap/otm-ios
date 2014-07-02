@@ -335,11 +335,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [self refreshTotalReputation];
+    OTMLoginManager* mgr = [SharedAppDelegate loginManager];
+    if (self.user == nil && mgr.loggedInUser.loggedIn == YES) {
+        self.user = mgr.loggedInUser;
+        self.didShowLogin = NO;
+    }
 
     if (!self.didShowLogin) {
         self.didShowLogin = YES;
-        OTMLoginManager* mgr = [SharedAppDelegate loginManager];
-
         @synchronized(mgr) {
             if (mgr.runningLogin) {
                 [mgr installAutoLoginFailedCallback:^{
@@ -349,6 +352,11 @@
                 [self doLogin:nil];
             }
         }
+    }
+    // In some cases there is a user but they have not visited the profile page
+    // yet so we bypasss the login or register page for them.
+    if (mgr.loggedInUser.loggedIn == YES) {
+        [self.pwReqView removeFromSuperview];
     }
 }
 
