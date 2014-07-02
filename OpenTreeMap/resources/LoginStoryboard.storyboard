@@ -176,7 +176,7 @@
                                         <rect key="frame" x="24" y="157" width="134" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                         <connections>
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="r3n-2e-59O"/>
                                         </connections>
@@ -185,7 +185,7 @@
                                         <rect key="frame" x="170" y="157" width="134" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                         <connections>
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="7Eb-OG-SdF"/>
                                         </connections>
@@ -200,14 +200,18 @@
                                             <action selector="getPicture:" destination="EHZ-o9-hUZ" eventType="touchUpInside" id="JwO-ru-5sU"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9xO-3l-kZO">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile.png" id="Iym-1M-haE">
                                         <rect key="frame" x="24" y="235" width="67" height="69"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="9xO-3l-kZO">
+                                        <rect key="frame" x="24" y="235" width="67" height="69"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                             </scrollView>
                         </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Profile" id="6Uz-Gy-6Uu">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="Fma-Oh-J3E">
@@ -310,6 +314,9 @@
             <point key="canvasLocation" x="788" y="-245"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="profile.png" width="98" height="98"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
