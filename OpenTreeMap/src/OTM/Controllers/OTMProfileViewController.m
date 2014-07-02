@@ -336,7 +336,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [self refreshTotalReputation];
     OTMLoginManager* mgr = [SharedAppDelegate loginManager];
-    self.user = mgr.loggedInUser;
+    if (self.user == nil && mgr.loggedInUser.loggedIn == YES) {
+        self.user = mgr.loggedInUser;
+        self.didShowLogin = NO;
+    }
+
     if (!self.didShowLogin) {
         self.didShowLogin = YES;
         @synchronized(mgr) {
