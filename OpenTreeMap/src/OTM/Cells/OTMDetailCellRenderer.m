@@ -59,12 +59,15 @@
 -(id)initWithDataKey:(NSString *)dkey
         editRenderer:(OTMEditDetailCellRenderer *)edit
                label:(NSString *)labeltxt
-           formatter:(OTMFormatter *)fmt {
+           formatter:(OTMFormatter *)fmt
+              isDate:(BOOL)dType
+{
     self = [super initWithDataKey:dkey editRenderer:edit];
 
     if (self) {
         _label = labeltxt;
         _formatter = fmt;
+        _isDateField = dType;
     }
 
     return self;
@@ -99,6 +102,8 @@
 
     if (_formatter != nil) {
         displayValue = [_formatter format:[value floatValue]];
+    } else if (_isDateField) {
+        displayValue = [detailcell formatHumanReadableDateStringFromString:value];
     } else {
         displayValue = [value description];
     }
@@ -169,7 +174,7 @@
 
 @synthesize label, updatedString, keyboard;
 
--(id)initWithDataKey:(NSString *)dkey label:(NSString *)displayLabel keyboard:(UIKeyboardType)kboard formatter:(OTMFormatter *)formatter {
+-(id)initWithDataKey:(NSString *)dkey label:(NSString *)displayLabel keyboard:(UIKeyboardType)kboard formatter:(OTMFormatter *)formatter isDate:(BOOL)dType {
     self = [super initWithDataKey:dkey];
 
     if (self) {
@@ -177,6 +182,8 @@
         self.keyboard = kboard;
         self.label = displayLabel;
         self.inited = NO;
+        self.isDateField = dType;
+
     }
 
     return self;
@@ -202,7 +209,8 @@
 
 #define kOTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+-(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailEditCellRendererCellId];
 
     if (detailcell == nil) {
@@ -211,21 +219,31 @@
     }
 
     if (!self.inited) {
-      detailcell.delegate = self;
-      detailcell.editFieldValue.hidden = NO;
-      detailcell.fieldValue.hidden = YES;
-      detailcell.keyboardType = keyboard;
+        detailcell.delegate = self;
+        detailcell.editFieldValue.hidden = NO;
+        detailcell.fieldValue.hidden = YES;
+        detailcell.keyboardType = keyboard;
 
-      id value = [data decodeKey:self.dataKey];
-      NSString *disp = @"";
+        id value = [data decodeKey:self.dataKey];
+        NSString *disp = @"";
 
-      if (value != nil) {
-        disp = [_formatter formatWithoutUnit:[value floatValue]];
-      }
-      detailcell.editFieldValue.text = disp;
-      detailcell.fieldLabel.text = self.label;
-      detailcell.unitLabel.text = _formatter.label;
-      self.inited = YES;
+        if (value != nil) {
+            disp = [_formatter formatWithoutUnit:[value floatValue]];
+        }
+
+        if (self.isDateField) {
+            [detailcell setDatePickerInput];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+            NSDate *originalDate =[dateFormatter dateFromString:value];
+            disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];
+
+        }
+
+        detailcell.editFieldValue.text = disp;
+        detailcell.fieldLabel.text = self.label;
+        detailcell.unitLabel.text = _formatter.label;
+        self.inited = YES;
     }
 
     return detailcell;

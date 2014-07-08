@@ -313,12 +313,14 @@
         [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
                                                editRenderer:nil
                                                       label:@"Species Common Name"
-                                                  formatter:nil];
+                                                  formatter:nil
+                                                     isDate:NO];
     OTMDetailCellRenderer *sciNameRenderer =
         [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
                                                editRenderer:nil
                                                       label:@"Species Scientific Name"
-                                                  formatter:nil];
+                                                  formatter:nil
+                                                     isDate:NO];
 
     [modelFields addObject:sciNameRenderer];
     [modelFields addObject:commonNameRenderer];
@@ -326,6 +328,7 @@
 
 - (void)addFieldsToArray:(NSMutableArray *)modelFields fromDict:(NSDictionary *)dict {
     NSString *field = [dict objectForKey:@"field_name"];
+    NSString *dType = [dict objectForKey:@"data_type"];
     NSString *displayField = [dict objectForKey:@"display_name"];
     NSString *key = [dict objectForKey:@"field_key"];
     BOOL writable = [[dict objectForKey:@"can_write"] boolValue];
@@ -361,7 +364,8 @@
                                                    initWithDataKey:key
                                                       editRenderer:dbhEditRenderer
                                                              label:displayField
-                                                         formatter:fmt]];
+                                                         formatter:fmt
+                                                            isDate:NO]];
     } else if ([choices count] > 0) {
         OTMChoicesDetailCellRenderer *renderer =
             [[OTMChoicesDetailCellRenderer alloc] initWithDataKey:key
@@ -379,13 +383,15 @@
                                                initWithDataKey:key
                                                          label:displayField
                                                       keyboard:fmt ? UIKeyboardTypeDecimalPad : UIKeyboardTypeDefault
-                                                     formatter:fmt];
+                                                     formatter:fmt
+                                                        isDate:[dType isEqualToString:@"date"] ? YES : NO];
         }
         [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
                                                        initWithDataKey:key
                                                           editRenderer:editRenderer
                                                                  label:displayField
-                                                             formatter:fmt]];
+                                                             formatter:fmt
+                                                                isDate:[dType isEqualToString:@"date"] ? YES : NO]];
     }
 }
 

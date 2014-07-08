@@ -14,6 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "AZPastelessTextField.h"
 
 @protocol OTMDetailTableViewCellDelegate <NSObject>
 
@@ -26,13 +27,18 @@
 @property (nonatomic, strong) UILabel *fieldLabel;
 @property (nonatomic, strong) UILabel *fieldValue;
 @property (nonatomic, strong) UILabel *unitLabel;
-@property (nonatomic, strong) UITextField *editFieldValue;
+@property (nonatomic, strong) AZPastelessTextField *editFieldValue;
 @property (nonatomic, strong) UIImageView *pendImageView;
 @property (nonatomic, assign) BOOL allowsEditing;
 @property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, copy) NSString *formatKey;
+@property (nonatomic, strong) UIDatePicker *picker;
 
 @property (nonatomic, weak) id<UITextFieldDelegate> tfDelegate;
 @property (nonatomic, weak) id<OTMDetailTableViewCellDelegate> delegate;
+
+-(void)setDatePickerInput;
+-(NSString*)formatHumanReadableDateStringFromString:(NSString*)dateString;
+-(NSString*)formatHumanReadableDateStringFromDate:(NSDate*)date;
 
 @end
