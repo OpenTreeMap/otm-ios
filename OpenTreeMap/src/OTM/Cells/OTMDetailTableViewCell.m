@@ -76,6 +76,34 @@
     self.editFieldValue.keyboardType = t;
 }
 
+-(NSString*)formatHumanReadableDateStringFromString:(NSString *)dateString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+    NSDate *newDate=[dateFormatter dateFromString:dateString];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    return [dateFormatter stringFromDate:newDate];
+}
+
+-(NSString*)formatHumanReadableDateStringFromDate:(NSDate *)date
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    return [dateFormatter stringFromDate:date];
+}
+
+-(void)setDatePickerInput
+{
+    _picker = [[UIDatePicker alloc] init];
+    _picker.datePickerMode = UIDatePickerModeDate;
+    self.editFieldValue.inputView = _picker;
+    CGRect frame = CGRectMake(171, 6, 122, 31);
+    [self.editFieldValue setFrame:frame];
+    [_picker addTarget:self action:@selector(updateTextFieldWithDate:) forControlEvents:UIControlEventValueChanged];
+}
+
 - (UILabel*)labelWithFrame:(CGRect)rect {
     UILabel* label = [[UILabel alloc] initWithFrame:rect];
     label.textAlignment = UITextAlignmentLeft;
@@ -83,6 +111,13 @@
     label.font = [UIFont systemFontOfSize:15];
 
     return label;
+}
+-(void)updateTextFieldWithDate:(id)sender {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+    NSString *updateText = [dateFormatter stringFromDate:_picker.date];
+    self.editFieldValue.text = [self formatHumanReadableDateStringFromString:updateText];
+    [delegate tableViewCell:self textField:self.editFieldValue updatedToValue:updateText];
 }
 
 #pragma mark Text Field Delegates
@@ -103,7 +138,9 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [tfDelegate textFieldDidEndEditing:textField];
-    [delegate tableViewCell:self textField:textField updatedToValue:textField.text];
+    if (_picker == nil) {
+        [delegate tableViewCell:self textField:textField updatedToValue:textField.text];
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
