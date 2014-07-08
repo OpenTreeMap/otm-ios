@@ -14,6 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "AZPastelessTextField.h"
 
 @protocol OTMDetailTableViewCellDelegate <NSObject>
 
@@ -26,7 +27,7 @@
 @property (nonatomic, strong) UILabel *fieldLabel;
 @property (nonatomic, strong) UILabel *fieldValue;
 @property (nonatomic, strong) UILabel *unitLabel;
-@property (nonatomic, strong) UITextField *editFieldValue;
+@property (nonatomic, strong) AZPastelessTextField *editFieldValue;
 @property (nonatomic, strong) UIImageView *pendImageView;
 @property (nonatomic, assign) BOOL allowsEditing;
 @property (nonatomic, assign) UIKeyboardType keyboardType;

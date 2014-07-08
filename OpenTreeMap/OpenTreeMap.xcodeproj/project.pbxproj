@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		62192D031961B381000CBF0F /* OTMAllInstancesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */; };
+		623C91BE196C38E00019A448 /* AZPastelessTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 623C91BD196C38E00019A448 /* AZPastelessTextField.m */; };
 		62F06164196366B800F8B84D /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06162196366B800F8B84D /* profile.png */; };
 		62F06165196366B800F8B84D /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06163196366B800F8B84D /* profile@2x.png */; };
 		641210A91935363400118A33 /* OTMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210A81935363400118A33 /* OTMLocationManager.m */; };
@@ -178,8 +179,10 @@
 /* Begin PBXFileReference section */
 		62192D011961B381000CBF0F /* OTMAllInstancesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAllInstancesTableViewController.h; sourceTree = "<group>"; };
 		62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAllInstancesTableViewController.m; sourceTree = "<group>"; };
-		62F06162196366B800F8B84D /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = profile.png; path = profile.png; sourceTree = "<group>"; };
-		62F06163196366B800F8B84D /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "profile@2x.png"; path = "profile@2x.png"; sourceTree = "<group>"; };
+		623C91BC196C38E00019A448 /* AZPastelessTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPastelessTextField.h; sourceTree = "<group>"; };
+		623C91BD196C38E00019A448 /* AZPastelessTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPastelessTextField.m; sourceTree = "<group>"; };
+		62F06162196366B800F8B84D /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		62F06163196366B800F8B84D /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
 		641210A71935363400118A33 /* OTMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLocationManager.h; sourceTree = "<group>"; };
 		641210A81935363400118A33 /* OTMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLocationManager.m; sourceTree = "<group>"; };
 		641210AA1938181E00118A33 /* OTMPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPreferences.h; sourceTree = "<group>"; };
@@ -475,6 +478,8 @@
 				6460865B160CFB6700A1458B /* AZHttpRequest.m */,
 				6460865C160CFB6700A1458B /* AZKeychainItemWrapper.h */,
 				6460865D160CFB6700A1458B /* AZKeychainItemWrapper.m */,
+				623C91BC196C38E00019A448 /* AZPastelessTextField.h */,
+				623C91BD196C38E00019A448 /* AZPastelessTextField.m */,
 				6460865E160CFB6700A1458B /* AZUser.h */,
 				6460865F160CFB6700A1458B /* AZUser.m */,
 				64608660160CFB6700A1458B /* Cache */,
@@ -994,6 +999,7 @@
 				64608703160CFB6700A1458B /* main.m in Sources */,
 				64608704160CFB6700A1458B /* OTMBenefitsTableViewCell.m in Sources */,
 				64608705160CFB6700A1458B /* OTMChoicesDetailCellRenderer.m in Sources */,
+				623C91BE196C38E00019A448 /* AZPastelessTextField.m in Sources */,
 				64608706160CFB6700A1458B /* OTMDBHTableViewCell.m in Sources */,
 				64608707160CFB6700A1458B /* OTMDetailCellRenderer.m in Sources */,
 				64608708160CFB6700A1458B /* OTMDetailTableViewCell.m in Sources */,

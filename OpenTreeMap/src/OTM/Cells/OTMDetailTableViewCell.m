@@ -46,7 +46,7 @@
         self.unitLabel = [self labelWithFrame:unitFrame];
         [self.unitLabel setTextColor:[UIColor grayColor]];
 
-        self.editFieldValue = [[UITextField alloc] initWithFrame:inputFrame];
+        self.editFieldValue = [[AZPastelessTextField alloc] initWithFrame:inputFrame];
         self.editFieldValue.textAlignment = UITextAlignmentRight;
         self.editFieldValue.delegate = self;
         self.editFieldValue.borderStyle = UITextBorderStyleRoundedRect;
