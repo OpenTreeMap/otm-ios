@@ -95,6 +95,10 @@
     }
 }
 
+-(void)resetSpeciesList{
+    species = nil;
+}
+
 -(void)getAllPublicInstancesWithCallback:(AZJSONCallback)callback {
     if (instances != nil) {
         if (callback) {

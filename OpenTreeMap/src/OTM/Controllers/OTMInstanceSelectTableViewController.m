@@ -57,6 +57,7 @@
     // Philly -> Washington DC. It seemed reasonable when we picked it, but
     // is arbitrary.
     [[OTMPreferences sharedPreferences] setInstance:@""];
+    [[[OTMEnvironment sharedEnvironment] api] resetSpeciesList];
 
     OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
     if ([[loginManager loggedInUser] loggedIn]) {
