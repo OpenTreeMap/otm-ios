@@ -19,7 +19,8 @@
 
 // factor should be "display units per api (db) units"
 -(id)initWithDigits:(NSUInteger)digits
-              label:(NSString *)label {
+              label:(NSString *)label
+{
 
     if ((self = [super init])) {
         if (digits > 10) {

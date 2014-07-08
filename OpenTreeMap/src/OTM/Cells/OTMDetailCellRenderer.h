@@ -121,11 +121,14 @@ ABSTRACT_METHOD
 
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) OTMFormatter *formatter;
+@property BOOL isDateField;
+
 
 -(id)initWithDataKey:(NSString *)dkey
         editRenderer:(OTMEditDetailCellRenderer *)edit
                label:(NSString *)labeltxt
-           formatter:(OTMFormatter *)fmt;
+           formatter:(OTMFormatter *)fmt
+              isDate:(BOOL)dType;
 
 @end
 
@@ -135,11 +138,13 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) NSString *label;
 @property (nonatomic,strong) NSString *updatedString;
 @property (nonatomic,strong) OTMFormatter *formatter;
+@property BOOL isDateField;
 
 -(id)initWithDataKey:(NSString *)dkey
                label:(NSString *)label
             keyboard:(UIKeyboardType)keyboard
-           formatter:(OTMFormatter *)formatter;
+           formatter:(OTMFormatter *)formatter
+            isDate:(BOOL)dType;
 
 @end
 
