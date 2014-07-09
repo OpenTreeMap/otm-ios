@@ -132,6 +132,9 @@
 @property (nonatomic, strong) OTMFormatter* dbhFormat;
 @property (nonatomic, strong) NSDictionary* config;
 @property (nonatomic, strong) NSURL *instanceLogoUrl;
+@property BOOL speciesFieldWritable;
+@property BOOL photoFieldWritable;
+
 
 // Security
 @property (nonatomic, strong) NSString *secretKey;
@@ -145,5 +148,8 @@
 
 
 - (NSString *)absolutePhotoUrlFromPhotoUrl:(NSString *)url;
+
+- (BOOL) speciesFieldIsWritable;
+- (BOOL) photoFieldIsWritable;
 
 @end

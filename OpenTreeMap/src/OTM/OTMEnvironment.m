@@ -201,6 +201,7 @@
     self.sectionTitles = [self sectionTitlesFromDictArray:[dict objectForKey:@"field_key_groups"]];
     self.config = [dict objectForKey:@"config"];
     self.mapViewTitle = [dict objectForKey:@"name"];
+    self.photoFieldWritable = [[[[[dict objectForKey:@"fields"] objectForKey:@"treephoto.image"] objectForKey:@"can_write"] stringValue] isEqualToString:@"0"] ? NO : YES;
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
 
@@ -308,22 +309,34 @@
     return filterArray;
 }
 
-- (void)addSpeciesFieldsToArray:(NSMutableArray *)modelFields key:(NSString *)key {
+- (void)addSpeciesFieldsToArray:(NSMutableArray *)modelFields
+                            key:(NSString *)key
+                     isWritable:(BOOL)writable
+{
     OTMDetailCellRenderer *commonNameRenderer =
-        [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
-                                               editRenderer:nil
-                                                      label:@"Species Common Name"
-                                                  formatter:nil
-                                                     isDate:NO];
+        [[OTMLabelDetailCellRenderer alloc]
+            initWithDataKey:[NSString stringWithFormat:@"%@.common_name", key]
+               editRenderer:nil
+                      label:@"Species Common Name"
+                  formatter:nil
+                     isDate:NO];
+
     OTMDetailCellRenderer *sciNameRenderer =
-        [[OTMLabelDetailCellRenderer alloc] initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
-                                               editRenderer:nil
-                                                      label:@"Species Scientific Name"
-                                                  formatter:nil
-                                                     isDate:NO];
+        [[OTMLabelDetailCellRenderer alloc]
+            initWithDataKey:[NSString stringWithFormat:@"%@.scientific_name", key]
+               editRenderer:nil
+                      label:@"Species Scientific Name"
+                  formatter:nil
+                     isDate:NO];
 
     [modelFields addObject:sciNameRenderer];
     [modelFields addObject:commonNameRenderer];
+
+    if (writable) {
+        self.speciesFieldWritable = YES;
+    } else {
+        self.speciesFieldWritable = NO;
+    }
 }
 
 - (void)addFieldsToArray:(NSMutableArray *)modelFields fromDict:(NSDictionary *)dict {
@@ -353,12 +366,15 @@
         [field isEqualToString:@"readonly"]) {
         // skip
     } else if ([field isEqualToString:@"species"]) {
-        [self addSpeciesFieldsToArray:modelFields key:key];
+        [self addSpeciesFieldsToArray:modelFields key:key isWritable:writable];
     } else if ([field isEqualToString:@"diameter"]) {
         _dbhFormat = fmt;
-        OTMDBHEditDetailCellRenderer *dbhEditRenderer =
-            [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key
-                                                        formatter:fmt];
+        OTMDBHEditDetailCellRenderer *dbhEditRenderer = nil;
+        if (writable) {
+            dbhEditRenderer =
+                [[OTMDBHEditDetailCellRenderer alloc] initWithDataKey:key
+                                                            formatter:fmt];
+        }
 
         [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
                                                    initWithDataKey:key
@@ -380,18 +396,18 @@
 
         if (writable) {
             editRenderer = [[OTMLabelEditDetailCellRenderer alloc]
-                                               initWithDataKey:key
-                                                         label:displayField
-                                                      keyboard:fmt ? UIKeyboardTypeDecimalPad : UIKeyboardTypeDefault
-                                                     formatter:fmt
-                                                        isDate:[dType isEqualToString:@"date"] ? YES : NO];
+               initWithDataKey:key
+                         label:displayField
+                      keyboard:fmt ? UIKeyboardTypeDecimalPad : UIKeyboardTypeDefault
+                     formatter:fmt
+                        isDate:[dType isEqualToString:@"date"] ? YES : NO];
         }
         [modelFields addObject:[[OTMLabelDetailCellRenderer alloc]
-                                                       initWithDataKey:key
-                                                          editRenderer:editRenderer
-                                                                 label:displayField
-                                                             formatter:fmt
-                                                                isDate:[dType isEqualToString:@"date"] ? YES : NO]];
+                   initWithDataKey:key
+                      editRenderer:editRenderer
+                             label:displayField
+                         formatter:fmt
+                            isDate:[dType isEqualToString:@"date"] ? YES : NO]];
     }
 }
 
@@ -463,6 +479,14 @@
     } else {
         return photoUrl;
     }
+}
+
+- (BOOL) speciesFieldIsWritable {
+    return self.speciesFieldWritable;
+}
+
+- (BOOL) photoFieldIsWritable {
+    return self.photoFieldWritable;
 }
 
 //

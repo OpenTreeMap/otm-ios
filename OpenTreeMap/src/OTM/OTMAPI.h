@@ -65,6 +65,11 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
 -(void)getSpeciesListForUser:(OTMUser *)user withCallback:(AZJSONCallback)callback;
 
 /**
+ * Reset species list to nil.
+ */
+-(void)resetSpeciesList;
+
+/**
  * Public Instances.
  */
 -(void)getAllPublicInstancesWithCallback:(AZJSONCallback)callback;
