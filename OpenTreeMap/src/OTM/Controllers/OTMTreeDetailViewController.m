@@ -166,37 +166,53 @@
     NSArray *readOnlyMapSection = [NSArray arrayWithObject:readOnlyMapDetailCellRenderer];
     [allFields insertObject:readOnlyMapSection atIndex:0];
 
-    OTMStaticClickCellRenderer *speciesRow =
-    [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
-                                      clickCallback:^(OTMDetailCellRenderer *renderer)
-    {
-        [self performSegueWithIdentifier:@"changeSpecies"
-                                  sender:self];
-    }];
-    NSString *spName;
-    @try {
-        // This key doesn't exist if the species is not set.
-        spName = [[[self.data objectForKey:@"tree"] objectForKey:@"species"] objectForKey:@"common_name"];
-    }
-    @catch (NSException *exception) {
-        spName = @"not set";
-    }
-    @finally {
-        // If the string came back empty we assume that the species is not set.
-        if (spName == nil || [spName isEqualToString:@""]) {
+    OTMStaticClickCellRenderer *speciesRow = nil;
+    OTMDetailCellRenderer *pictureRow = nil;
+    if ([[OTMEnvironment sharedEnvironment] speciesFieldIsWritable]) {
+        speciesRow = [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
+                                                       clickCallback:^(OTMDetailCellRenderer *renderer)
+        {
+            [self performSegueWithIdentifier:@"changeSpecies"
+                                      sender:self];
+        }];
+        NSString *spName;
+        @try {
+            // This key doesn't exist if the species is not set.
+            spName = [[[self.data objectForKey:@"tree"] objectForKey:@"species"] objectForKey:@"common_name"];
+        }
+        @catch (NSException *exception) {
             spName = @"not set";
         }
-    }
-    speciesRow.defaultName = [@"Set Species" stringByAppendingFormat: @" (%@)", spName];
-    speciesRow.detailDataKey = @"tree.sci_name";
+        @finally {
+            // If the string came back empty we assume that the species is not set.
+            if (spName == nil || [spName isEqualToString:@""]) {
+                spName = @"not set";
+            }
+        }
+        speciesRow.defaultName = [@"Set Species" stringByAppendingFormat: @" (%@)", spName];
+        speciesRow.detailDataKey = @"tree.sci_name";
+    } else {
+        speciesRow = [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
+                                                       clickCallback:^(OTMDetailCellRenderer *renderer) {}];
 
-    OTMDetailCellRenderer *pictureRow =
-    [[OTMStaticClickCellRenderer alloc] initWithName:@"Change Tree Picture"
-                                                 key:@""
-                                       clickCallback:^(OTMDetailCellRenderer *renderer)
-    {
-        [self updatePicture];
-    }];
+        speciesRow.defaultName = @"Species cannot be changed";
+        speciesRow.detailDataKey = @"tree.sci_name";
+    }
+
+    if ([[OTMEnvironment sharedEnvironment] photoFieldIsWritable]) {
+        pictureRow = [[OTMStaticClickCellRenderer alloc]
+                      initWithName:@"Tree Picture"
+                               key:@""
+                     clickCallback:^(OTMDetailCellRenderer *renderer)
+        {
+            [self updatePicture];
+        }];
+    } else {
+        pictureRow = [[OTMStaticClickCellRenderer alloc]
+                      initWithName:@"Picture cannot be changed."
+                               key:@""
+                     clickCallback:^(OTMDetailCellRenderer *renderer) {}];
+    }
 
     NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow,pictureRow,nil];
     [editableFields addObject:speciesAndPicSection];
