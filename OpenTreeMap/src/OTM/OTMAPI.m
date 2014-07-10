@@ -105,7 +105,7 @@
             callback(instances, nil);
         }
     } else {
-        [self.request get:@"instances"
+        [self.noPrefixRequest get:@"instances"
                  withUser:nil
                    params:nil
                  callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:^(id json, NSError *err) {
