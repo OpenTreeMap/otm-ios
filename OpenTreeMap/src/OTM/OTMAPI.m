@@ -207,7 +207,7 @@
 }
 
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
-    [_noPrefixRequest post:@"user/reset_password"
+    [_noPrefixRequest post:@"send-password-reset-email"
                     params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
                       data:nil
                   callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
