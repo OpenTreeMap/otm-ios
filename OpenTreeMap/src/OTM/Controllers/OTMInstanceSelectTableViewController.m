@@ -266,7 +266,7 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AllInstances];
         }
-        [cell.textLabel setText: @"Search All Treemaps"];
+        [cell.textLabel setText: @"Search All Tree Maps"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }

@@ -209,7 +209,7 @@
         }];
     } else {
         pictureRow = [[OTMStaticClickCellRenderer alloc]
-                      initWithName:@"Picture cannot be changed."
+                      initWithName:@"Picture cannot be changed"
                                key:@""
                      clickCallback:^(OTMDetailCellRenderer *renderer) {}];
     }
