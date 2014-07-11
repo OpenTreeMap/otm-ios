@@ -207,8 +207,9 @@
 }
 
 -(void)resetPasswordForEmail:(NSString*)email callback:(AZJSONCallback)callback {
-    [_noPrefixRequest post:@"user/reset_password"
-                    params:[NSDictionary dictionaryWithObject:email forKey:@"email"]
+    // I was getting invalid signature errors unless I URL encoded the email address
+    [_noPrefixRequest post:@"send-password-reset-email"
+                    params:[NSDictionary dictionaryWithObject:[OTMAPI urlEncode:email] forKey:@"email"]
                       data:nil
                   callback:[OTMAPI liftResponse:[OTMAPI jsonCallback:callback]]];
 
