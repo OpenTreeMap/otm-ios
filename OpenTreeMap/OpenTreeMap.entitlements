@@ -2,13 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>application-identifier</key>
-	<string>$(AppIdentifierPrefix)com.azavea.otm$(AppIdentifierSuffix)</string>
-	<key>get-task-allow</key>
-	<false/>
-	<key>keychain-access-groups</key>
-	<array>
-		<string>$(AppIdentifierPrefix)com.azavea.otm$(AppIdentifierSuffix)</string>
-	</array>
+        <key>application-identifier</key>
+        <string>HX678UA6R2.org.azavea.otm2.dev.devcloud</string>
+        <key>get-task-allow</key>
+        <false/>
+        <key>keychain-access-groups</key>
+        <array>
+                <string>HX678UA6R2.org.azavea.otm2.dev.devcloud</string>
+        </array>
 </dict>
 </plist>

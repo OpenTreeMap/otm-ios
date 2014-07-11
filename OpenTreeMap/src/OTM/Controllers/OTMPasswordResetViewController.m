@@ -37,46 +37,63 @@
 -(BOOL)validEmail {
     //This regex was copied from the django regex in validators.py
     NSString *emailregex = @"(^[-!#$%&'*+/=?^_`{}|~0-9A-Z]+(\\.[-!#$%&'*+/=?^_`{}|~0-9A-Z]+)*|^\"([\001-\010\013\014\016-\037!#-\\[\\]-\177]|\\[\001-\011\013\014\016-\177])*\")@((?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\\.)+[A-Z]{2,6}\\.?$)|\\[(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\]$";
-    
+
     NSError *error;
     NSRegularExpression *regep = [NSRegularExpression regularExpressionWithPattern:emailregex options:NSRegularExpressionCaseInsensitive error:&error];
-    
+
     return [regep numberOfMatchesInString:self.email.text
                                   options:0
                                     range:NSMakeRange(0, [self.email.text length])] == 1;
 }
 
--(void)showInvalidEmailAlert {
-    [[[UIAlertView alloc] initWithTitle:@"Invalid Email"
-                                message:@"We couldn't find your email in our database. Please try again."
+-(void)showOkAlertWithTitle:(NSString *)title message:(NSString *)message {
+    [[[UIAlertView alloc] initWithTitle:title
+                                message:message
                                delegate:nil
                       cancelButtonTitle:@"OK"
                       otherButtonTitles:nil] show];
 }
 
+-(void)showEmailNotFoundAlert {
+    [self showOkAlertWithTitle:@"Email Not Found"
+                       message:@"We couldn't find an account attached to this email address."];
+}
+
+-(void)showInvalidEmailFormatAlert {
+    [self showOkAlertWithTitle:@"Invalid Email"
+                       message:@"The email address you entered is not in a valid format. Please try entering it again."];
+}
+
+-(void)showSuccessAlert {
+    [self showOkAlertWithTitle:@"Success"
+                       message:@"Check your inbox for an email with instructions on how to reset your password."];
+}
+
 -(IBAction)resetPassword:(id)sender {
     if (![self validEmail]) {
-        [self showInvalidEmailAlert];
+        [self showInvalidEmailFormatAlert];
         return;
     }
-    
+
     self.view.userInteractionEnabled = NO;
     [[[OTMEnvironment sharedEnvironment] api] resetPasswordForEmail:self.email.text
-                                                           callback:^(NSDictionary *json, NSError *error) 
+                                                           callback:^(NSDictionary *json, NSError *error)
      {
          self.view.userInteractionEnabled = YES;
          if (error == nil && [[json objectForKey:@"status"] isEqualToString:@"success"]) {
+             [self showSuccessAlert];
+             [[self navigationController] popViewControllerAnimated:NO];
              [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowPasswordReset
                                                                  object:self];
          } else {
              if (error == nil) { // Failure mode: invalid data
-                 [self showInvalidEmailAlert];
+                 [self showEmailNotFoundAlert];
              } else { // Failure mode: network
-                 [[[UIAlertView alloc] initWithTitle:@"Communication Error"
-                                             message:@"We couldn't communicate with the server. Please try again later."
+                 [[[UIAlertView alloc] initWithTitle:@"Error"
+                                             message:@"There was a problem looking up your emall address. Please try again later."
                                             delegate:nil
                                    cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil] show];                 
+                                   otherButtonTitles:nil] show];
              }
          }
      }];
