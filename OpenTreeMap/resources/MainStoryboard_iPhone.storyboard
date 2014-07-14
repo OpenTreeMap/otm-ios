@@ -191,18 +191,17 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hqL-kc-WAV" customClass="OTMTableView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="144" width="320" height="376"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <inset key="contentInset" minX="0.0" minY="90" maxX="0.0" maxY="0.0"/>
                                 <sections/>
                                 <connections>
                                     <outlet property="dataSource" destination="Z5j-QU-uNU" id="tZ5-Eg-BRa"/>
                                     <outlet property="delegate" destination="Z5j-QU-uNU" id="HOc-8s-7iO"/>
                                 </connections>
                             </tableView>
-                            <view opaque="NO" contentMode="scaleToFill" id="SBG-lE-den" customClass="OTMDetailBoxView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="82"/>
+                            <view contentMode="scaleToFill" id="SBG-lE-den" customClass="OTMDetailBoxView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Imi-kc-vP1">
@@ -213,7 +212,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Species >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="a81-a2-XX4">
-                                        <rect key="frame" x="90" y="8" width="216" height="21"/>
+                                        <rect key="frame" x="90" y="10" width="216" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -344,7 +343,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Uue-lv-1fO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3106" y="-777"/>
+            <point key="canvasLocation" x="3106" y="-846"/>
         </scene>
         <!--Species Table View Controller - Species-->
         <scene sceneID="UYx-NC-Q9u">
@@ -981,10 +980,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ezI-WE-lzv"/>
-        <segue reference="hNa-Ed-G3s"/>
-        <segue reference="145-jK-ChU"/>
         <segue reference="XK6-IA-5KH"/>
+        <segue reference="hNa-Ed-G3s"/>
+        <segue reference="ezI-WE-lzv"/>
+        <segue reference="Lek-fL-nUD"/>
         <segue reference="gQW-vu-Tty"/>
     </inferredMetricsTieBreakers>
 </document>
