@@ -38,18 +38,18 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated {
-    // Set some fields
+- (void)viewWillAppear:(BOOL)animated
+{
     [self syncTopData];
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
--(void)syncTopData {
+-(void)syncTopData
+{
     if (self.data) {
         self.address.text = [[self buildAddressStringFromPlotDictionary:self.data] uppercaseString];
 
@@ -90,18 +90,49 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     [headerView addBottomBorder];
-
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.extendedLayoutIncludesOpaqueBars = NO;
-    self.automaticallyAdjustsScrollViewInsets = NO;
 
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
 
-    [self.tableView setAllowsSelectionDuringEditing:YES];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    // Zero out the height of the first group so it sticks to the top of the
+    // view.
+    if (section == 0) {
+        return 0.01f;
+    }
+    return self.tableView.rowHeight;
+}
+
+- (void)resetHeaderPosition
+{
+    if (editMode) {
+        [UIView animateWithDuration:0.3 animations:^{
+            // Offset the header up by 3x its height so it moves totally off the
+            // screen. Otherwise it is visible behind the status bar at the top.
+            self.headerView.frame = CGRectOffset(self.headerView.frame, 0, -3 * self.headerView.frame.size.height);
+
+            // Make the table view bigger by the size of the header to fill the
+            // leftover space.
+            CGRect frame = self.tableView.frame;
+            frame.size.height = frame.size.height + self.headerView.frame.size.height;
+            self.tableView.frame = frame;
+            self.tableView.frame = CGRectOffset(frame, 0, -self.headerView.frame.size.height);
+         }];
+    } else {
+        [UIView animateWithDuration:0.3 animations:^{
+            // Reverse what we did above.
+            self.headerView.frame = CGRectOffset(self.headerView.frame, 0, 3 * self.headerView.frame.size.height);
+            CGRect frame = self.tableView.frame;
+            frame.size.height = frame.size.height - self.headerView.frame.size.height;
+            self.tableView.frame = frame;
+            self.tableView.frame = CGRectOffset(frame, 0, self.headerView.frame.size.height);
+         }];
+    }
 }
 
 - (void)viewDidUnload
@@ -131,41 +162,54 @@
              photos = [NSArray array];
          }
 
-         NSMutableDictionary *newPhotoInfo = [NSDictionary
+         NSDictionary *newPhotoInfo = [NSDictionary
                                               dictionaryWithObjectsAndKeys:
                                               @"OTM-Mobile Photo", @"title", image, @"data", nil];
 
          [data setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
 
      }];
-
 }
 
-- (void)setKeys:(NSArray *)k {
-    allKeys = k;
-    NSMutableArray *txToEditRm = [NSMutableArray array];
-    NSMutableArray *txToEditRel = [NSMutableArray array];
-    allFields = [k mutableCopy];
+- (void)setKeys:(NSArray *)k
+{
+    _fieldsWithSectionTitles = [[NSMutableArray alloc] init];
+    _editableFieldsWithSectionTitles = [[NSMutableArray alloc] init];
+    _dKeys = [NSArray arrayWithObjects: @"title", @"cells", nil];
+    NSArray *titles = [[OTMEnvironment sharedEnvironment] sectionTitles];
 
-    NSMutableArray *editableFields = [NSMutableArray array];
+    for (int i = 0; i < [k count]; i++) {
+        NSArray *dVals = [NSArray arrayWithObjects: [titles objectAtIndex:i], [k objectAtIndex:i], nil];
+        NSDictionary *cellsAndSection = [[NSDictionary alloc] initWithObjects:dVals forKeys:_dKeys];
+        [_fieldsWithSectionTitles addObject:cellsAndSection];
+    }
 
+    // Map cells.
     OTMMapDetailCellRenderer *mapDetailCellRenderer = [[OTMMapDetailCellRenderer alloc] init];
-
     OTMEditMapDetailCellRenderer *mapEditCellRenderer = [[OTMEditMapDetailCellRenderer alloc] initWithDetailRenderer:mapDetailCellRenderer];
 
     mapEditCellRenderer.clickCallback = ^(OTMDetailCellRenderer *renderer) {
         [self performSegueWithIdentifier:@"changeLocation" sender:self];
     };
 
+    // Add the editable map cell to the editable fields data structure.
     NSArray *mapSection = [NSArray arrayWithObjects:mapEditCellRenderer,nil];
-    [editableFields addObject:mapSection];
+    NSDictionary *mapSectionDict;
+    mapSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: @"", mapSection, nil] forKeys:_dKeys];
+    [_editableFieldsWithSectionTitles insertObject:mapSectionDict atIndex:0];
 
-    // Create and add a read only map view to the top of the view mode
+    // Create and add a read only map cell.
     OTMMapDetailCellRenderer *readOnlyMapDetailCellRenderer = [[OTMMapDetailCellRenderer alloc] init];
     readOnlyMapDetailCellRenderer.cellHeight = 120;
-    NSArray *readOnlyMapSection = [NSArray arrayWithObject:readOnlyMapDetailCellRenderer];
-    [allFields insertObject:readOnlyMapSection atIndex:0];
 
+    // Add the read only map cell to the standard fields data structure.
+    NSArray *readOnlyMapSection = [NSArray arrayWithObject:readOnlyMapDetailCellRenderer];
+    mapSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: @"", readOnlyMapSection, nil] forKeys:_dKeys];
+    [_fieldsWithSectionTitles insertObject:mapSectionDict atIndex:0];
+
+
+    // If the photo field is writable display a cell with a callback otherwise
+    // the callback does nothing. Same thing for the speices cell.
     OTMStaticClickCellRenderer *speciesRow = nil;
     OTMDetailCellRenderer *pictureRow = nil;
     if ([[OTMEnvironment sharedEnvironment] speciesFieldIsWritable]) {
@@ -214,55 +258,48 @@
                      clickCallback:^(OTMDetailCellRenderer *renderer) {}];
     }
 
-    NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow,pictureRow,nil];
-    [editableFields addObject:speciesAndPicSection];
+    // Species and photo cells get added to the structure for editable fields.
+    NSArray *speciesAndPicSection = [NSArray arrayWithObjects: speciesRow, pictureRow, nil];
+    NSDictionary *speciesAndPicsDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Tree Details", speciesAndPicSection, nil] forKeys:_dKeys];
+    [_editableFieldsWithSectionTitles addObject:speciesAndPicsDict];
 
-    for(int section=0;section < [allFields count];section++) {
-        NSMutableArray *sectionArray = [[allFields objectAtIndex:section] mutableCopy];
-        NSMutableArray *editSectionArray = [NSMutableArray array];
-
-        for(int row=0;row < [sectionArray count]; row++) {
-            OTMDetailCellRenderer *renderer = [sectionArray objectAtIndex:row];
-
-            if (renderer.editCellRenderer != nil) {
-                [editSectionArray addObject:renderer.editCellRenderer];
-                [txToEditRel addObject:[NSIndexPath indexPathForRow:row inSection:section]];
-            } else {
-                [txToEditRm addObject:[NSIndexPath indexPathForRow:row inSection:section]];
+    // Loop through cells and add editable cells to the editable fields structure.
+    for (NSDictionary *dict in _fieldsWithSectionTitles) {
+        NSMutableArray *eCells = [[NSMutableArray alloc] init];
+        for (OTMDetailCellRenderer *cell in [dict valueForKey:@"cells"]) {
+            if (cell.editCellRenderer != nil) {
+                [eCells addObject:cell.editCellRenderer];
             }
-
-            [sectionArray replaceObjectAtIndex:row withObject:renderer];
         }
-
-        [allFields replaceObjectAtIndex:section withObject:sectionArray];
-        [editableFields addObject:editSectionArray];
+        if ([eCells count] > 0) {
+            NSArray *editCells = [eCells copy];
+            NSString *title = [dict valueForKey:@"title"];
+            NSDictionary *editSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: title, editCells, nil] forKeys:_dKeys];
+            [_editableFieldsWithSectionTitles addObject:editSectionDict];
+        }
     }
 
-    txToEditReload = txToEditRel;
-    txToEditRemove = txToEditRm;
-    editFields = editableFields;
+    // Set the inited property on all the editable cells.
+    for (NSDictionary *dict in _editableFieldsWithSectionTitles) {
+        for (OTMEditDetailCellRenderer *cell in [dict valueForKey:@"cells"]) {
+            cell.inited = NO;
+        }
+    }
 
-    [editFields enumerateObjectsUsingBlock:^(NSArray *section, NSUInteger idx, BOOL *stop) {
-        [section enumerateObjectsUsingBlock:^(OTMEditDetailCellRenderer *obj, NSUInteger idx, BOOL *stop) {
-            obj.inited = NO;
-          }];
-      }];
-
-    curFields = allFields;
-
+    curFields = _fieldsWithSectionTitles;
     self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
 }
 
-- (void)setEcoKeys:(NSArray *)ecoKeys {
-    NSUInteger startingIndex = [allFields count];
-    for (int section=0; section < [ecoKeys count]; section ++) {
+- (void)setEcoKeys:(NSArray *)ecoKeys
+{
+    for (int i = 0; i < [ecoKeys count]; i++) {
         NSMutableArray *ecoFieldRenderers = [[NSMutableArray alloc] init];
-        NSArray *ecoFields = [ecoKeys objectAtIndex:section];
-        for (int row=0; row < [ecoFields count]; row++) {
-            [ecoFieldRenderers addObject:[ecoFields objectAtIndex:row]];
-            [(NSMutableArray*)txToEditRemove addObject:[NSIndexPath indexPathForRow:row inSection:startingIndex + section]];
+        NSArray *ecoFields = [ecoKeys objectAtIndex:i];
+        for (int j = 0; j < [ecoFields count]; j++) {
+            [ecoFieldRenderers addObject:[ecoFields objectAtIndex:j]];
         }
-        [(NSMutableArray*)allFields addObject:ecoFieldRenderers];
+        NSDictionary *ecoSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: @"Ecosystem benefits", ecoFieldRenderers, nil] forKeys:_dKeys];
+        [_fieldsWithSectionTitles addObject:ecoSectionDict];
     }
 }
 
@@ -303,6 +340,7 @@
             }
         }
     }];
+    [self.tableView reloadData];
 }
 
 - (void)enterEditModeIfAllowed {
@@ -329,83 +367,43 @@
     editMode = !editMode;
 
     if (editMode) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(startOrCommitEditing:)];
+        self.navigationItem.rightBarButtonItem =
+            [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                             style:UIBarButtonItemStyleDone
+                                            target:self
+                                            action:@selector(startOrCommitEditing:)];
 
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelEditing:)];
+        self.navigationItem.leftBarButtonItem =
+            [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                             style:UIBarButtonItemStyleBordered
+                                            target:self
+                                            action:@selector(cancelEditing:)];
 
     } else {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(startOrCommitEditing:)];
+        self.navigationItem.rightBarButtonItem =
+            [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+                                             style:UIBarButtonItemStyleBordered
+                                            target:self
+                                            action:@selector(startOrCommitEditing:)];
 
         self.navigationItem.leftBarButtonItem = nil;
     }
 
-    if (editMode) { // Tx to edit mode
-        curFields = editFields;
-
-        [self.tableView beginUpdates];
-
-        [self.tableView deleteRowsAtIndexPaths:txToEditRemove
-                              withRowAnimation:UITableViewRowAnimationFade];
-
-        // @MAGIC - Remove the eco section, which is appended to the end and
-        // never editable
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:[allFields count]-1] withRowAnimation:UITableViewRowAnimationFade];
-
-
-        // @MAGIC - There are 2 fixed sections to be added when editing: the
-        // mini map section and the species/photo section
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
-                      withRowAnimation:UITableViewRowAnimationFade];
-
-        [UIView animateWithDuration:0.3
-                         animations:^{
-                             self.headerView.frame =
-                                CGRectOffset(self.headerView.frame,
-                                             0, -self.headerView.frame.size.height);
-
-                             self.tableView.contentInset = UIEdgeInsetsZero;
-                         }];
-
-        [self.tableView endUpdates];
-    } else { // Tx from edit mdoe
+    if (editMode) {
+        curFields = _editableFieldsWithSectionTitles;
+        [self.tableView reloadData];
+    } else {
         if (saveChanges) {
-            for(NSArray *section in editFields) {
-                for(OTMEditDetailCellRenderer *editFld in section) {
+            for (NSArray *section in _editableFieldsWithSectionTitles) {
+                for(OTMEditDetailCellRenderer *editFld in [section valueForKey:@"cells"]) {
                     self.data = [editFld updateDictWithValueFromCell:data];
                 }
             }
         }
 
         [self syncTopData];
-
-        curFields = allFields;
-
-        [self.tableView beginUpdates];
-
-        // @MAGIC - There are 2 fixed sections to be removed after editing: the
-        // mini map section and the species/photo section
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
-                      withRowAnimation:UITableViewRowAnimationFade];
-
-        // @MAGIC - Resore the eco section which was removed during editing. It
-        // is always the last section
-        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:[allFields count]-1]
-                      withRowAnimation:UITableViewRowAnimationFade];
-
-        [self.tableView insertRowsAtIndexPaths:txToEditRemove
-                              withRowAnimation:UITableViewRowAnimationFade];
-
-        [UIView animateWithDuration:0.3
-                         animations:^{
-                             self.headerView.frame =
-                             CGRectOffset(self.headerView.frame,
-                                          0, self.headerView.frame.size.height);
-
-                             self.tableView.contentInset =
-                             UIEdgeInsetsMake(self.headerView.frame.size.height, 0, 0, 0);
-                         }];
-
-        [self.tableView endUpdates];
+        curFields = _fieldsWithSectionTitles;
+        [self.tableView reloadData];
 
         if (saveChanges) {
             OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
@@ -474,13 +472,8 @@
     if ([[self.data objectForKey:@"plot"] objectForKey:@"id"] == nil && !saveChanges) {
         [delegate treeAddCanceledByViewController:self];
     }
-
-    // Need to reload all of the cells after animation is done.
-    double delayInMSeconds = 250;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInMSeconds * NSEC_PER_MSEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self.tableView reloadData];
-    });
+    [self.tableView reloadData];
+    [self resetHeaderPosition];
 }
 
 - (NSArray *)stripPendingImageData {
@@ -583,8 +576,12 @@
 
         [changeLocationViewController annotateCenter:center];
     } else if ([segue.identifier isEqualToString:@"fieldDetail"]) {
+
+        // This feature is currently dormant. Code has been left as is because
+        // it is not causing issues and the feature will return. LL 2014-07-14.
+
         NSIndexPath *indexPath = (NSIndexPath *)sender;
-        id renderer = [[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        id renderer = [[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells" ] objectAtIndex:indexPath.row];
         OTMFieldDetailViewController *fieldDetailViewController = segue.destinationViewController;
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
@@ -657,43 +654,17 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[curFields objectAtIndex:section] count];
+    return [[[curFields objectAtIndex:section] valueForKey:@"cells"] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if (editMode) {
-        /**
-         * @MAGIC
-         * The view controller rearranges all the sections in the table view
-         * when it is in edit mode, so the section labels no longer apply.
-         * Specificially we add a section of fixed cells which act as the
-         * species and image editing buttons. There is also an empty section,
-         * the purpose of which remains unclear, it may just be a spacer, that
-         * must be accounted for. So our actual label information begins at the
-         * third section. Thus we must off two in our section labels.
-         */
-         if ((section - 2) < [[[OTMEnvironment sharedEnvironment] sectionTitles] count]) {
-            NSString *title = [[[OTMEnvironment sharedEnvironment] sectionTitles] objectAtIndex:(section - 2)];
-
-            if (title != nil && ![title isEqualToString:@""]) {
-                return title;
-            }
-        }
-        return nil;
-    } else {
-        NSString *title = [[[OTMEnvironment sharedEnvironment] sectionTitles] objectAtIndex:section];
-        if (title != nil && ![title isEqualToString:@""]) {
-            return title;
-        } else {
-            return nil;
-        }
-    }
+    return [[curFields objectAtIndex:section] valueForKey:@"title"];
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editMode) {
-        Function1v clicker = [[[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] clickCallback];
+        Function1v clicker = [[[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row] clickCallback];
 
         if (clicker) {
             clicker(self);
@@ -706,17 +677,15 @@
     [tblView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [[[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] cellHeight];
+ - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [[[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row] cellHeight];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OTMDetailCellRenderer *renderer = [[curFields objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-
+- (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    OTMDetailCellRenderer *renderer = [[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row];
     UITableViewCell *cell = [renderer prepareCell:self.data inTable:tblView];
-
-    // Text field delegates handle proper sizing...
-    // this may be a bit of a hack
     if ([cell respondsToSelector:@selector(setTfDelegate:)]) {
         [cell performSelector:@selector(setTfDelegate:) withObject:self];
     }

@@ -414,9 +414,6 @@
 - (NSArray *)sectionTitlesFromDictArray:(NSArray *)fieldKeyGroups {
     NSMutableArray *sectionTitles = [NSMutableArray array];
 
-    // The first section is a mini map with no heading
-    [sectionTitles addObject:@""];
-
     [fieldKeyGroups enumerateObjectsUsingBlock:^(id keyGroupDict, NSUInteger idx, BOOL *stop) {
         NSString *header = [keyGroupDict objectForKey:@"header"];
         if (header != nil) {

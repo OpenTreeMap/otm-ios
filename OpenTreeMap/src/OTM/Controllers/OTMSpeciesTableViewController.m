@@ -195,7 +195,7 @@
         NSDictionary *speciesDetailDict = [species objectForKey:key];
         callback(speciesDetailDict);
     }
-    OTMDetailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     [self.delegate speciesDetailsViewControllerDidUpdate:self
                                    withSpeciesCommonName:cell.textLabel.text
                                        andScientificName:cell.detailTextLabel.text];
