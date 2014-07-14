@@ -145,7 +145,8 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)updatePicture {
+- (void)updatePicture
+{
     [pictureTaker getPictureInViewController:self
                                     callback:^(UIImage *image)
      {
@@ -303,7 +304,8 @@
     }
 }
 
-- (IBAction)showTreePhotoFullscreen:(id)sender {
+- (IBAction)showTreePhotoFullscreen:(id)sender
+{
     NSArray *images = [self.data objectForKey:@"images"];
     NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
 
@@ -343,7 +345,8 @@
     [self.tableView reloadData];
 }
 
-- (void)enterEditModeIfAllowed {
+- (void)enterEditModeIfAllowed
+{
     if ([self canEditBothPlotAndTree]) {
         [self toggleEditMode:YES];
     } else {
@@ -476,7 +479,8 @@
     [self resetHeaderPosition];
 }
 
-- (NSArray *)stripPendingImageData {
+- (NSArray *)stripPendingImageData
+{
     NSMutableArray *pending = [NSMutableArray array];
     NSArray *treePhotos;
     if ([data objectForKey:@"tree"] && [data objectForKey:@"tree"] != [NSNull null]) {
@@ -496,11 +500,15 @@
     return pending;
 }
 
-- (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree {
+- (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree
+{
     [self pushImageData:images newTree:newTree latestImage:nil];
 }
 
-- (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree latestImage:(UIImage *)latestImage {
+- (void)pushImageData:(NSArray *)images
+              newTree:(BOOL)newTree
+          latestImage:(UIImage *)latestImage
+{
     if (images == nil || [images count] == 0) { // No images to push
         [[AZWaitingOverlayController sharedController] hideOverlay];
         if (newTree) {
@@ -645,7 +653,8 @@
     return NO;
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)path {
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)path
+{
     return UITableViewCellEditingStyleNone;
 }
 
@@ -662,7 +671,8 @@
     return [[curFields objectAtIndex:section] valueForKey:@"title"];
 }
 
-- (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (editMode) {
         Function1v clicker = [[[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row] clickCallback];
 
@@ -703,7 +713,8 @@
     return [[[[data objectForKey:@"perm"] objectForKey:@"tree"] objectForKey:@"can_delete"] intValue] == 1;
 }
 
-- (BOOL)canEditThing:(NSString *)thing {
+- (BOOL)canEditThing:(NSString *)thing
+{
     NSDictionary *perms = [data objectForKey:@"perm"];
     if (perms && [perms objectForKey:thing]) {
         return [[[perms objectForKey:thing] objectForKey:@"can_edit"] intValue] == 1;
@@ -712,12 +723,14 @@
     }
 }
 
-- (BOOL)canEditEitherPlotOrTree {
+- (BOOL)canEditEitherPlotOrTree
+{
     return [self canEditThing:@"plot"] ||
         [self canEditThing:@"tree"];
 }
 
-- (BOOL)canEditBothPlotAndTree {
+- (BOOL)canEditBothPlotAndTree
+{
     return [self canEditThing:@"plot"] &&
         [self canEditThing:@"tree"];
 }
