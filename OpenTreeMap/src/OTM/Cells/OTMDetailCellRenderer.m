@@ -242,8 +242,20 @@
 
         detailcell.editFieldValue.text = disp;
         detailcell.fieldLabel.text = self.label;
+
+        /**
+         * Edit cells don't have a fieldValue like the normal detail cell. We
+         * want nice alignment so offset the frame for the name to take up the
+         * place that the value was holding.
+         * To see where these numbers are coming from
+         * @see OTMDetailTableViewCell
+         * @see - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+         */
+        detailcell.fieldLabel.frame = CGRectOffset(detailcell.fieldLabel.frame, 0, self.cellHeight/4 - 1);
+
         detailcell.unitLabel.text = _formatter.label;
         self.inited = YES;
+
     }
 
     return detailcell;
