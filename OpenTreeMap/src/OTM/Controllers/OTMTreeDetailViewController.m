@@ -627,22 +627,46 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+/**
+ * Given a new species string, update the set species cell and re-render in in
+ * the table.
+ */
 - (void) updateSpeciesEditCellWithString:(NSString *) speciesString
 {
-    // @MAGIC
-    // The first cell is empty. The second one is the Species selector.
-    // Use the incoming string to create a new label for the cell.
-    // Then reset the label width and update its text.
-    NSArray *cells = [tableView visibleCells];
-    NSString *label = [@"Set Species" stringByAppendingFormat: @" (%@)", speciesString];
-    [[cells[1] textLabel] setText: label];
+    NSString *label = [@"Set Species" stringByAppendingFormat:@" (%@)", speciesString];
 
-    // Need to manually resize the label to fit because it doesn't know how big
-    // the cell is at this point. The number is appropriate for iPhone screens,
-    // but is @MAGIC.
-    CGRect rect = [[cells[1] textLabel] frame];
-    rect.size.width = 245;
-    [[cells[1] textLabel] setFrame:rect];
+    // Find the index of the set species cell.
+    NSIndexPath *indexPath = [self updateSpeciesEditCellLabelWithString:label];
+
+    if (indexPath != nil) {
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                              withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView endUpdates];
+    }
+}
+
+/**
+ * Update the set species edit cell rederer so that if the cell is re-rendered a
+ * new label will appear. If the cell is in the list of current fields return
+ * its index path.
+ *
+ * Return nil if the cell was not found.
+ */
+- (NSIndexPath *) updateSpeciesEditCellLabelWithString:(NSString *) newLabel
+{
+    // Loop through all the current cells until the species_name data key is
+    // found. If it is update the label and return the indexpath.
+    for (int i = 0; i < [curFields count]; i++) {
+        for (int j = 0; j < [[[curFields objectAtIndex:i] valueForKey:@"cells"] count]; j++) {
+            OTMStaticClickCellRenderer *cell = [[[curFields objectAtIndex:i] valueForKey:@"cells"] objectAtIndex:j];
+            if ([[cell dataKey] isEqualToString:@"tree.species_name"]) {
+                cell.defaultName = newLabel;
+                return [NSIndexPath indexPathForItem:j inSection:i];
+            }
+        }
+    }
+    return nil;
 }
 
 
