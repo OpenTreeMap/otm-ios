@@ -96,12 +96,21 @@
 
 -(void)setDatePickerInput
 {
+    setDatePickerInputWithInitialDate:nil;
+}
+
+-(void)setDatePickerInputWithInitialDate:(NSDate *)initDate
+{
     _picker = [[UIDatePicker alloc] init];
     _picker.datePickerMode = UIDatePickerModeDate;
+    if (initDate != nil) {
+        [_picker setDate:initDate];
+    }
     self.editFieldValue.inputView = _picker;
     CGRect frame = CGRectMake(171, 6, 122, 31);
     [self.editFieldValue setFrame:frame];
     [_picker addTarget:self action:@selector(updateTextFieldWithDate:) forControlEvents:UIControlEventValueChanged];
+
 }
 
 - (UILabel*)labelWithFrame:(CGRect)rect {

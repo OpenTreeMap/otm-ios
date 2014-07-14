@@ -232,10 +232,10 @@
         }
 
         if (self.isDateField) {
-            [detailcell setDatePickerInput];
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"YYYY-MM-dd"];
             NSDate *originalDate =[dateFormatter dateFromString:value];
+            [detailcell setDatePickerInputWithInitialDate:originalDate];
             disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];
 
         }

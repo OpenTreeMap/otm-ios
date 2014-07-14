@@ -38,6 +38,8 @@
 @property (nonatomic, weak) id<OTMDetailTableViewCellDelegate> delegate;
 
 -(void)setDatePickerInput;
+-(void)setDatePickerInputWithInitialDate:(NSDate *)initDate;
+
 -(NSString*)formatHumanReadableDateStringFromString:(NSString*)dateString;
 -(NSString*)formatHumanReadableDateStringFromDate:(NSDate*)date;
 
