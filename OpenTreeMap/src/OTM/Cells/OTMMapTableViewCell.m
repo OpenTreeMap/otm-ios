@@ -43,28 +43,9 @@
         // will not work well nested inside a scrolling table view.
         [self.mapView setUserInteractionEnabled:NO];
 
-        UIImage *detailImage = [UIImage imageNamed:@"Chevron_right"];
-        detailImageView = [[UIImageView alloc] initWithImage:detailImage];
-
-        detailImageView.frame = CGRectMake(
-            self.mapView.frame.size.width - 40,
-            (self.mapView.frame.size.height / 2) - (detailImage.size.height / 2),
-            detailImage.size.width,
-            detailImage.size.height
-        );
-
-        [detailImageView setHidden:YES];
-
-        [self.backgroundView addSubview:detailImageView];
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMapMode:) name:kOTMChangeMapModeNotification object:nil];
     }
     return self;
-}
-
-- (void)setDetailArrowHidden:(BOOL)hidden
-{
-    detailImageView.hidden = hidden;
 }
 
 - (void)setHighlighted: (BOOL)highlighted animated: (BOOL)animated

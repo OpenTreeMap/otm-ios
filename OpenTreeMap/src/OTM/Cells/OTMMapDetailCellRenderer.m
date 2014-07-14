@@ -41,15 +41,7 @@
     CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data[@"plot"]];
 
     [detailCell annotateCenter:center];
-
-    NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
-    if ([pendingEditDict objectForKey:self.dataKey]) {
-        detailCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [detailCell setDetailArrowHidden:NO];
-    } else {
-        detailCell.accessoryType = UITableViewCellAccessoryNone;
-    }
-
+    detailCell.accessoryType = UITableViewCellAccessoryNone;
     return detailCell;
 }
 @end
@@ -73,15 +65,11 @@
 
     if (!self.inited) {
         detailCell = (OTMMapTableViewCell *)[super prepareCell:data inTable:tableView];
-
-        // The edit cell is the same as the non-edit cell except for the presence of the
-        // detail "greater than" arrow.
-        [detailCell setDetailArrowHidden:NO];
         self.inited = YES;
     } else {
         detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMMapDetailCellRendererTableCellId];
     }
-
+    detailCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return detailCell;
 }
 
