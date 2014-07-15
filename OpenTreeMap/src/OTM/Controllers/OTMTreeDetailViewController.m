@@ -33,7 +33,9 @@
 
 @implementation OTMTreeDetailViewController
 
-@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser, imageView, pictureTaker, headerView, acell, delegate, originalLocation, originalData;
+@synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser,
+            imageView, pictureTaker, headerView, acell, delegate,
+            originalLocation, originalData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -101,7 +103,11 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     // Zero out the height of the first group so it sticks to the top of the
-    // view.
+    // view. For some reason 0.01f works but 0.00f did nothing. I suspect this
+    // has to do with the fact that this method must return a non-negative
+    // value. Might be that the docs are misleading and it actually must return
+    // a positive value. Either way this works as you would expect returning
+    // zero to work.
     if (section == 0) {
         return 0.01f;
     }
@@ -176,11 +182,11 @@
 {
     _fieldsWithSectionTitles = [[NSMutableArray alloc] init];
     _editableFieldsWithSectionTitles = [[NSMutableArray alloc] init];
-    _dKeys = [NSArray arrayWithObjects: @"title", @"cells", nil];
+    _dKeys = [NSArray arrayWithObjects:@"title", @"cells", nil];
     NSArray *titles = [[OTMEnvironment sharedEnvironment] sectionTitles];
 
     for (int i = 0; i < [k count]; i++) {
-        NSArray *dVals = [NSArray arrayWithObjects: [titles objectAtIndex:i], [k objectAtIndex:i], nil];
+        NSArray *dVals = [NSArray arrayWithObjects:[titles objectAtIndex:i], [k objectAtIndex:i], nil];
         NSDictionary *cellsAndSection = [[NSDictionary alloc] initWithObjects:dVals forKeys:_dKeys];
         [_fieldsWithSectionTitles addObject:cellsAndSection];
     }
@@ -196,7 +202,7 @@
     // Add the editable map cell to the editable fields data structure.
     NSArray *mapSection = [NSArray arrayWithObjects:mapEditCellRenderer,nil];
     NSDictionary *mapSectionDict;
-    mapSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: @"", mapSection, nil] forKeys:_dKeys];
+    mapSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:@"", mapSection, nil] forKeys:_dKeys];
     [_editableFieldsWithSectionTitles insertObject:mapSectionDict atIndex:0];
 
     // Create and add a read only map cell.
@@ -205,7 +211,7 @@
 
     // Add the read only map cell to the standard fields data structure.
     NSArray *readOnlyMapSection = [NSArray arrayWithObject:readOnlyMapDetailCellRenderer];
-    mapSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: @"", readOnlyMapSection, nil] forKeys:_dKeys];
+    mapSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:@"", readOnlyMapSection, nil] forKeys:_dKeys];
     [_fieldsWithSectionTitles insertObject:mapSectionDict atIndex:0];
 
 
@@ -234,7 +240,7 @@
                 spName = @"not set";
             }
         }
-        speciesRow.defaultName = [@"Set Species" stringByAppendingFormat: @" (%@)", spName];
+        speciesRow.defaultName = [@"Set Species" stringByAppendingFormat:@" (%@)", spName];
         speciesRow.detailDataKey = @"tree.sci_name";
     } else {
         speciesRow = [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
@@ -260,7 +266,7 @@
     }
 
     // Species and photo cells get added to the structure for editable fields.
-    NSArray *speciesAndPicSection = [NSArray arrayWithObjects: speciesRow, pictureRow, nil];
+    NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow, pictureRow, nil];
     NSDictionary *speciesAndPicsDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Tree Details", speciesAndPicSection, nil] forKeys:_dKeys];
     [_editableFieldsWithSectionTitles addObject:speciesAndPicsDict];
 
@@ -275,7 +281,7 @@
         if ([eCells count] > 0) {
             NSArray *editCells = [eCells copy];
             NSString *title = [dict valueForKey:@"title"];
-            NSDictionary *editSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: title, editCells, nil] forKeys:_dKeys];
+            NSDictionary *editSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:title, editCells, nil] forKeys:_dKeys];
             [_editableFieldsWithSectionTitles addObject:editSectionDict];
         }
     }
@@ -299,7 +305,7 @@
         for (int j = 0; j < [ecoFields count]; j++) {
             [ecoFieldRenderers addObject:[ecoFields objectAtIndex:j]];
         }
-        NSDictionary *ecoSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects: @"Ecosystem benefits", ecoFieldRenderers, nil] forKeys:_dKeys];
+        NSDictionary *ecoSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:@"Ecosystem benefits", ecoFieldRenderers, nil] forKeys:_dKeys];
         [_fieldsWithSectionTitles addObject:ecoSectionDict];
     }
 }
@@ -620,7 +626,7 @@
                             andScientificName:(NSString *) newSpeciesScientificName
 {
     // Update the edit cell label with the new name.
-    [self updateSpeciesEditCellWithString: newSpeciesCommonName];
+    [self updateSpeciesEditCellWithString:newSpeciesCommonName];
 
     // As the delegate for behavior of the detail screen we are responsible for
     // popping the other controller.
@@ -749,14 +755,12 @@
 
 - (BOOL)canEditEitherPlotOrTree
 {
-    return [self canEditThing:@"plot"] ||
-        [self canEditThing:@"tree"];
+    return [self canEditThing:@"plot"] || [self canEditThing:@"tree"];
 }
 
 - (BOOL)canEditBothPlotAndTree
 {
-    return [self canEditThing:@"plot"] &&
-        [self canEditThing:@"tree"];
+    return [self canEditThing:@"plot"] && [self canEditThing:@"tree"];
 }
 
 - (BOOL)cannotDeletePlotOrTree
@@ -764,7 +768,8 @@
     return !([self canDeletePlot] || [self canDeleteTree]);
 }
 
-- (BOOL)shouldNotShowDeleteButtonsInFooterForSection:(NSInteger)section ofTableView:(UITableView *)aTableView
+- (BOOL)shouldNotShowDeleteButtonsInFooterForSection:(NSInteger)section
+                                         ofTableView:(UITableView *)aTableView
 {
     return !(editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section);
 }
@@ -824,10 +829,12 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForFooterInSection:(NSInteger)section
 {
-    if (editMode && ([self numberOfSectionsInTableView:aTableView]- 1) == section) {
+    // @see theightForHeaderInSection for explanation for 0.01f.
+    if (editMode && ([self numberOfSectionsInTableView:aTableView] - 1) == section) {
         return [self footerHeight];
     } else {
-        return 0.0;
+        // @see theightForHeaderInSection for explanation for 0.01f.
+        return 0.01f;
     }
 }
 
