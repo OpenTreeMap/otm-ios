@@ -39,13 +39,10 @@
     BOOL editMode;
     BOOL updated;
     NSMutableDictionary *data;
-    
-    NSArray *txToEditRemove;
-    NSArray *txToEditReload;
-    
+
     NSArray *editFields;
     NSMutableArray *allFields;
-    
+
     NSArray *curFields;
     NSArray *allKeys;
 
@@ -83,6 +80,36 @@
  * be the empty string)
  */
 @property (nonatomic, strong) NSArray* keys;
+
+/**
+ * An Array of of Dictionaries with keys "title" and "cells" which represents
+ * the structure of the cells and sections. 
+ 
+ * This can be traversed to generate the titles for each section and the cells
+ * in that section. It can also be used to generate sections and cells for
+ * editable fields.
+ * 
+ * Sections can be easily added or removed.
+ */
+@property (nonatomic, strong) NSMutableArray *fieldsWithSectionTitles;
+
+/**
+ * An Array of of Dictionaries with keys "title" and "cells" which represents
+ * the structure of the cells and sections.
+ *
+ * This is built from data originally in fieldsWithSectionTitles. It can be
+ * traversed to build the edit screen with sections titles and cells.
+ *
+ * Sections can be easily added or removed.
+ */
+@property (nonatomic, strong) NSMutableArray *editableFieldsWithSectionTitles;
+
+/**
+ * Useful for building dictionaies since we do that often. Set to the dictionary
+ * keys "title", "cells" as a helper when building Dictionaries with
+ * ```initWithObjects: forKeys```
+ */
+@property (nonatomic, strong) NSArray *dKeys;
 
 /**
  * Array[OTMDetailCellRenderer] ecoKeys to display in the main table

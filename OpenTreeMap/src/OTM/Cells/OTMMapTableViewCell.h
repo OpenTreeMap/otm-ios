@@ -23,7 +23,6 @@
  */
 @interface OTMMapTableViewCell : UITableViewCell <MKMapViewDelegate> {
     MKPointAnnotation *annotation;
-    UIImageView *detailImageView;
 }
 
 /*
@@ -36,11 +35,5 @@
  map on the specified point.
  */
 - (void)annotateCenter:(CLLocationCoordinate2D)center;
-
-/*
- Show or hide the detail arrow indicating that a subview can
- be accessed by clicking the cell
- */
-- (void)setDetailArrowHidden:(BOOL)hidden;
 
 @end
