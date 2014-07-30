@@ -46,7 +46,28 @@
     return self;
 }
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
+    ABSTRACT_METHOD_BODY
+}
+
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView
+{
+    NSMutableArray *cells = [[NSMutableArray alloc] init];
+    id elmt = [data decodeKey:self.dataKey];
+    if ([elmt isKindOfClass:[NSArray class]]) {
+        for (id dataElement in elmt) {
+            OTMCellSorter *sorterCell = (OTMCellSorter *)[self prepareDiscreteCell:dataElement inTable:tableView];
+            [cells addObject:sorterCell];
+        }
+    } else {
+        [cells addObject:[self prepareCell:data inTable:tableView]];
+    }
+    return [cells copy];
+}
+
+- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     ABSTRACT_METHOD_BODY
 }
 
@@ -73,7 +94,8 @@
     return self;
 }
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailCellRendererCellId];
 
     if (detailcell == nil) {
@@ -111,7 +133,11 @@
     detailcell.fieldLabel.text = self.label;
     detailcell.fieldValue.text = displayValue;
 
-    return detailcell;
+
+    return [[OTMCellSorter alloc] initWithCell:detailcell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 
 @end
@@ -132,7 +158,8 @@
     return self;
 }
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     NSDictionary *allBenefits = [data objectForKey:@"benefits"];
     NSDictionary *modelBenefits = [allBenefits objectForKey:self.model];
     NSDictionary *benefit = [modelBenefits objectForKey:self.key];
@@ -152,7 +179,10 @@
     } else {
         self.cell.benefitDollarAmt.text = @"";
     }
-    return _cell;
+    return [[OTMCellSorter alloc] initWithCell:_cell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 
 @end
@@ -209,7 +239,7 @@
 
 #define kOTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
 {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailEditCellRendererCellId];
 
@@ -258,7 +288,10 @@
 
     }
 
-    return detailcell;
+    return [[OTMCellSorter alloc] initWithCell:detailcell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 
 @end
@@ -310,7 +343,8 @@
 
 #define OTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     if (!self.inited) {
         id elmt = [data decodeKey:self.dataKey];
 
@@ -328,7 +362,10 @@
         self.inited = YES;
     }
 
-    return _cell;
+    return [[OTMCellSorter alloc] initWithCell:_cell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 
 @end
@@ -357,7 +394,8 @@
     return self;
 }
 
--(UITableViewCell *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView
+{
     UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
 
     if (detailcell == nil) {
@@ -383,7 +421,10 @@
 
     detailcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return detailcell;
+    return [[OTMCellSorter alloc] initWithCell:detailcell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
@@ -398,7 +439,98 @@
  */
 @implementation OTMCollectionUDFCellRenderer
 
--(id)initWithDataKey:(NSString *)dkey TypeDict:(NSString *)dict SortField:(NSString *)sort
+- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data
+                                inTable:(UITableView *)tableView
+{
+    NSArray* keylist = [self.dataKey componentsSeparatedByString:@"."];
+    if ([keylist count] > 1) {
+        self.type = [[keylist objectAtIndex:0] capitalizedString];
+    }
+
+    NSMutableString *cellText = [[NSMutableString alloc] init];
+    NSString *sortFieldText;
+    NSString *sortData;
+    for (id key in data) {
+        NSString *type = [[[self typeDict] objectForKey:key] objectForKey:@"type"];
+        if (type) {
+            if (self.sortField && [self.sortField isEqualToString:key]) {
+                sortFieldText = [self stringifyData:[data objectForKey:key] ByType:type];
+                sortData = [data objectForKey:key];
+            } else {
+                NSString *text = [self stringifyData:[data objectForKey:key] ByType:type];
+                [cellText appendString:text];
+                [cellText appendString:@"\n"];
+            }
+        }
+    }
+
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UDFCell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UDFCell"];
+    }
+
+
+    UILabel *mainTextLabel = [[UILabel alloc] initWithFrame:
+                              CGRectMake(20, cell.contentView.frame.size.height - 10, cell.contentView.frame.size.width / 2, 22)];
+    [mainTextLabel setFont:[UIFont systemFontOfSize:15]];
+
+    UILabel *sortTextLabel = [[UILabel alloc] initWithFrame:
+                              CGRectMake(cell.contentView.frame.size.width / 2 - 20, 10, cell.contentView.frame.size.width / 2, 22)];
+    [sortTextLabel setFont:[UIFont systemFontOfSize:15]];
+    [sortTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
+    [sortTextLabel setTextAlignment:UITextAlignmentRight];
+
+    UILabel *typeTextLabel = [[UILabel alloc] initWithFrame:
+                              CGRectMake(20, 10, cell.contentView.frame.size.width / 2, 22)];
+    [typeTextLabel setFont:[UIFont systemFontOfSize:15]];
+    [typeTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
+
+
+    [typeTextLabel setText:self.type];
+    [sortTextLabel setText:sortFieldText];
+
+    CGSize textSize = {
+        cell.contentView.frame.size.width / 2,   // limit width
+        20000.0  // and height of text area
+    };
+
+    CGSize size = [cellText sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:textSize lineBreakMode:NSLineBreakByWordWrapping];
+    CGRect labelFrame = [mainTextLabel frame];
+    labelFrame.size.height = size.height;
+    [mainTextLabel setFrame:labelFrame];
+    [mainTextLabel setText:cellText];
+    mainTextLabel.numberOfLines = 0;
+    mainTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+
+    [cell.contentView addSubview:mainTextLabel];
+    [cell.contentView addSubview:typeTextLabel];
+    [cell.contentView addSubview:sortTextLabel];
+
+    CGFloat totalHeight = mainTextLabel.frame.size.height + typeTextLabel.frame.size.height + 20;
+
+    return [[OTMCellSorter alloc] initWithCell:cell sortKey:self.sortField sortData:sortData height:totalHeight];
+}
+
+- (NSString *)stringifyData:(id)data ByType:(NSString *)type
+{
+    NSString *result;
+    if ([type isEqualToString:@"date"]) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY'-'MM'-'dd' 'HH':'mm':'ss'"];
+        NSDate *date =[dateFormatter dateFromString:data];
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        return [dateFormatter stringFromDate:date];
+
+    } else if ([type isEqualToString:@"choice"]) {
+        result = data;
+    } else {
+        result = @"";
+    }
+    return result;
+}
+
+- (id)initWithDataKey:(NSString *)dkey TypeDict:(NSString *)dict SortField:(NSString *)sort
 {
     self = [super initWithDataKey:dkey editRenderer:nil];
     [self generateDictFromString:dict];
@@ -407,7 +539,7 @@
     return self;
 }
 
--(void)generateDictFromString:(NSString *)dictString
+- (void)generateDictFromString:(NSString *)dictString
 {
     NSArray *typesArray = [dictString copy];
 
@@ -420,7 +552,7 @@
     self.typeDict = [typesDict copy];
 }
 
--(void)setHeight
+- (void)setHeight
 {
     CGFloat height = self.cellHeight;
     // For each row of text add 13 to the cell height to accomodate the height
@@ -432,6 +564,22 @@
         height -= 13;
     }
     self.cellHeight = height;
+}
+
+@end
+
+@implementation OTMCellSorter
+
+- (id)initWithCell:(UITableViewCell *)cell sortKey:(NSString *)key sortData:(NSString *)data height:(CGFloat)h
+{
+    self = [super init];
+    if (self) {
+        self.cell = cell;
+        self.sortKey = key;
+        self.sortData = data;
+        self.cellHeight = h;
+    }
+    return self;
 }
 
 @end

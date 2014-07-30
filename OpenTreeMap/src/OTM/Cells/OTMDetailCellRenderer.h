@@ -89,6 +89,21 @@
 ABSTRACT_METHOD
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView;
 
+/**
+ * Return all cells of a given type for a particular table. In most cases this
+ * will return an array with one cell. Some fields have multiple cells
+ * (stewardship and alerts).
+ */
+-(NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView;
+
+/**
+ * Given a specific peice of data, return a cell. Needed so that a cell can be
+ * created from fields with multiple cells.
+ */
+ABSTRACT_METHOD
+-(UITableViewCell *)prepareDiscreteCell:(NSDictionary *)data
+                                inTable:(UITableView *)tableView;
+
 @end
 
 
@@ -192,3 +207,24 @@ ABSTRACT_METHOD
 
 @end
 
+/**
+ * A container to store rendered cells and to be able to sort them if need be.
+ * Groups of these can be sorted based on the having the same sort key and can
+ * be sorted by the sortdata contained in them. Additionally these retain
+ * cellheight since that is requested of each cell placed in the tree detail
+ * table.
+ */
+@interface OTMCellSorter : NSObject
+
+@property (nonatomic, strong) NSString *sortKey;
+@property (nonatomic, strong) NSString *sortData;
+@property (nonatomic, strong) UITableViewCell *cell;
+@property (nonatomic, assign) CGFloat cellHeight;
+
+
+- (id)initWithCell:(UITableViewCell *)cell
+           sortKey:(NSString *)key
+          sortData:(NSString *)data
+            height:(CGFloat)height;
+
+@end
