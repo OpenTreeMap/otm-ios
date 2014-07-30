@@ -510,7 +510,7 @@
     [typeTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
 
 
-    [typeTextLabel setText:self.type];
+    [typeTextLabel setText:[self typeLabelFromType:self.type]];
     [sortTextLabel setText:sortFieldText];
 
     CGSize textSize = {
@@ -552,6 +552,27 @@
         result = @"";
     }
     return result;
+}
+
+/**
+ * A wrapper around a dictionary to provide human readable names for types of
+ * stewardships and alerts.
+ *
+ * "Plot" -> "Planting Site"
+ */
+- (NSString *)typeLabelFromType:(NSString *)type
+{
+    NSArray *keys = [[NSArray alloc] initWithObjects:@"tree", @"plot", nil];
+    NSArray *labels = [[NSArray alloc] initWithObjects:@"Tree", @"Planting Site", nil];
+    NSDictionary *keyLabels = [[NSDictionary alloc] initWithObjects:labels forKeys:keys];
+
+    // Work against the case insensive string.
+    NSString *typeLabel = [keyLabels objectForKey:[type lowercaseString]];
+    // If no match return the original text.
+    if (!typeLabel) {
+        typeLabel = type;
+    }
+    return typeLabel;
 }
 
 - (id)initWithDataKey:(NSString *)dkey
