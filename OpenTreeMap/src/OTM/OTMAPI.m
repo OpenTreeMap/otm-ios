@@ -218,8 +218,8 @@
 -(NSData *)encodeUser:(OTMUser *)user {
     NSMutableDictionary *userDict = [NSMutableDictionary dictionary];
     [userDict setObject:user.username forKey:@"username"];
-    [userDict setObject:user.firstName forKey:@"firstname"];
-    [userDict setObject:user.lastName forKey:@"lastname"];
+    [userDict setObject:user.firstName forKey:@"first_name"];
+    [userDict setObject:user.lastName forKey:@"last_name"];
     [userDict setObject:user.email forKey:@"email"];
     [userDict setObject:user.password forKey:@"password"];
 
