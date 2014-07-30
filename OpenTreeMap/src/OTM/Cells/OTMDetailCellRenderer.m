@@ -55,13 +55,19 @@
 {
     NSMutableArray *cells = [[NSMutableArray alloc] init];
     id elmt = [data decodeKey:self.dataKey];
+    OTMCellSorter *sorterCell;
     if ([elmt isKindOfClass:[NSArray class]]) {
         for (id dataElement in elmt) {
-            OTMCellSorter *sorterCell = (OTMCellSorter *)[self prepareDiscreteCell:dataElement inTable:tableView];
+            sorterCell = (OTMCellSorter *)[self prepareDiscreteCell:dataElement inTable:tableView];
             [cells addObject:sorterCell];
         }
     } else {
-        [cells addObject:[self prepareCell:data inTable:tableView]];
+        sorterCell = (OTMCellSorter *)[self prepareCell:data inTable:tableView];
+        if (sorterCell) {
+            [cells addObject:sorterCell];
+        } else {
+            NSLog(@"No sorter cell found.");
+        }
     }
     return [cells copy];
 }
@@ -450,6 +456,12 @@
  * Handles creation and rendering of collections of UDFs
  */
 @implementation OTMCollectionUDFCellRenderer
+
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data
+                       inTable:(UITableView *)tableView
+{
+    return nil;
+}
 
 - (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data
                                 inTable:(UITableView *)tableView
