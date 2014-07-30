@@ -44,6 +44,8 @@
     NSMutableArray *allFields;
 
     NSArray *curFields;
+    NSArray *curCells;
+    NSArray *cellHeights;
     NSArray *allKeys;
 
     NSString *deleteType;

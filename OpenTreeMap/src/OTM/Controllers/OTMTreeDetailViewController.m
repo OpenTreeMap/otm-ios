@@ -26,6 +26,7 @@
 #import "OTMImageViewController.h"
 #import "OTMChoicesDetailCellRenderer.h"
 #import "UIView+Borders.h"
+#import "OTMLoadMoreCell.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -293,8 +294,139 @@
         }
     }
 
-    curFields = _fieldsWithSectionTitles;
     self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
+    curFields = _fieldsWithSectionTitles;
+
+    /**
+     * We have now set the fields that need to be rendered but we also need to
+     * create an array of cells that are set up with values. Each cell
+     * represents a type not an actual individual cell. The data may have
+     * multiple values for a field of a certain type. For example a tree may
+     * have "Tree Tender" -> "Alice", "Bob", "Carol"
+     * Each should be displayed in a cell.
+     */
+    [self updateCurrentCells];
+}
+
+-(void)updateCurrentCells {
+    NSMutableArray *cellsWithSectionTitles = [[NSMutableArray alloc] init];
+
+    for (id section in curFields) {
+        NSString  *sect = [section objectForKey:@"title"];
+        NSArray *fields = [section objectForKey:@"cells"];
+        NSMutableArray *sectionCells = [[NSMutableArray alloc] init];
+
+        for (OTMDetailCellRenderer *field in fields) {
+            NSArray *cells = [field prepareAllCells:self.data inTable:self.tableView];
+            [sectionCells addObjectsFromArray:cells];
+        }
+
+        // First remove all cells that have a sort key.
+        NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+        NSMutableArray *sortableCells = [[NSMutableArray alloc] init];
+        NSMutableSet *sortKeySet = [[NSMutableSet alloc] init];
+        for (int i = 0; i < [sectionCells count]; i++) {
+            if ([[sectionCells objectAtIndex:i] sortKey] != nil) {
+                [indexSet addIndex:i];
+                [sortKeySet addObject:[[sectionCells objectAtIndex:i] sortKey]];
+                [sortableCells addObject:[sectionCells objectAtIndex:i]];
+            }
+        }
+        if (indexSet) {
+            [sectionCells removeObjectsAtIndexes:indexSet];
+        }
+
+        // Now sort the cells that are sortable first by key and then by data so
+        // they are grouped together.
+        NSSortDescriptor *dataSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortData" ascending:NO];
+        NSSortDescriptor *keySortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortKey" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:keySortDescriptor, dataSortDescriptor, nil];
+
+        // Build an array of cells first with non-sortable and then append the
+        // sortable cells.
+        NSMutableArray *cellsToReturn = [[NSMutableArray alloc] init];
+        NSArray *sortedCells = [sortableCells sortedArrayUsingDescriptors:sortDescriptors];
+        [cellsToReturn addObjectsFromArray:[sectionCells copy]];
+
+        // Add the load more cell to sortable sections with more than three
+        // items. We are going to assume that all the sorted cells for a section
+        // will only have a single load more button.
+        if ([sortedCells count] > 3) {
+            OTMLoadMoreCell *loadMoreCell = [[OTMLoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[OTMLoadMoreCell reuseIdentifier]];
+            NSRange headRange = NSMakeRange(0, 3);
+            NSRange tailRange = NSMakeRange(3, [sortedCells count] - 3);
+
+            NSMutableArray *cellsToHide = [[sortedCells subarrayWithRange:tailRange] mutableCopy];
+
+            sortedCells = [sortedCells subarrayWithRange:headRange];
+
+            loadMoreCell.hiddenCells = cellsToHide;
+            UIButton *button = [[UIButton alloc] init];
+            [button addTarget:self action:@selector(loadMoreCells:) forControlEvents:UIControlEventTouchDown];
+            [button setTitle:@"Load More..." forState:UIControlStateNormal];
+            [button setTitleColor:[[OTMEnvironment sharedEnvironment] primaryColor] forState:UIControlStateNormal];
+            // Make the button fill the cell so you can't miss it.
+            button.frame = CGRectMake(0, 0, loadMoreCell.frame.size.width, loadMoreCell.frame.size.height);
+
+            [loadMoreCell addSubview:button];
+
+            OTMCellSorter *loadMore = [[OTMCellSorter alloc] initWithCell:loadMoreCell sortKey:nil sortData:@"" height:loadMoreCell.frame.size.height];
+
+            [cellsToReturn addObjectsFromArray:sortedCells];
+            [cellsToReturn addObject:loadMore];
+        }
+
+        NSDictionary *preparedCellsForSection =
+            [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:sect, cellsToReturn, nil]
+                                          forKeys:_dKeys];
+
+        [cellsWithSectionTitles addObject:preparedCellsForSection];
+    }
+    curCells = cellsWithSectionTitles;
+}
+
+- (void)loadMoreCells:(id)sender {
+    UIButton *senderButton = (UIButton *)sender;
+    UITableViewCell *buttonCell = (UITableViewCell *)[senderButton superview];
+    OTMLoadMoreCell *cell = (OTMLoadMoreCell *)[buttonCell superview];
+
+    NSInteger numberOfCellsToLoad = [cell.hiddenCells count] >= 3 ? 3 : [cell.hiddenCells count];
+
+    NSRange range = NSMakeRange(0, numberOfCellsToLoad);
+    NSArray *cellsToAdd = [cell.hiddenCells subarrayWithRange:range];
+    [cell.hiddenCells removeObjectsInRange:range];
+    NSIndexPath *path = [self.tableView indexPathForCell:cell];
+    NSInteger startRow = path.row;
+
+    NSMutableArray *paths = [[NSMutableArray alloc] init];
+    for (int i = 0; i < numberOfCellsToLoad; i++) {
+        [paths addObject:[NSIndexPath indexPathForRow:startRow + (NSInteger)i inSection:path.section]];
+    }
+    NSMutableDictionary *updateDict = [[curCells objectAtIndex:path.section] mutableCopy];
+    NSMutableArray *newCells = [[updateDict objectForKey:@"cells"] mutableCopy];
+    OTMCellSorter *loadMore = [newCells lastObject];
+    [newCells removeLastObject];
+    [newCells addObjectsFromArray:cellsToAdd];
+
+    // Remove load more button if there aren't more cells.
+    if ([cell.hiddenCells count] > 0) {
+        [newCells addObject:loadMore];
+    }
+
+    [updateDict setObject:newCells forKey:@"cells"];
+
+    NSMutableArray *mutableCurrentCells = [curCells mutableCopy];
+    [mutableCurrentCells removeObjectAtIndex:path.section];
+    [mutableCurrentCells insertObject:[updateDict copy] atIndex:path.section];
+    curCells = [mutableCurrentCells copy];
+
+    // Update the table with animation.
+    [tableView beginUpdates];
+    if ([cell.hiddenCells count] == 0) {
+        [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationBottom];
+    }
+    [[self tableView] insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+    [tableView endUpdates];
 }
 
 - (void)setEcoKeys:(NSArray *)ecoKeys
@@ -307,6 +439,8 @@
         }
         NSDictionary *ecoSectionDict = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:@"Ecosystem benefits", ecoFieldRenderers, nil] forKeys:_dKeys];
         [_fieldsWithSectionTitles addObject:ecoSectionDict];
+        curFields = _fieldsWithSectionTitles;
+        [self updateCurrentCells];
     }
 }
 
@@ -400,6 +534,7 @@
 
     if (editMode) {
         curFields = _editableFieldsWithSectionTitles;
+        [self updateCurrentCells];
         [self.tableView reloadData];
     } else {
         if (saveChanges) {
@@ -412,6 +547,7 @@
 
         [self syncTopData];
         curFields = _fieldsWithSectionTitles;
+        [self updateCurrentCells];
         [self.tableView reloadData];
 
         if (saveChanges) {
@@ -689,16 +825,17 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [curFields count];
+    return [curCells count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[[curFields objectAtIndex:section] valueForKey:@"cells"] count];
+    return [[[curCells objectAtIndex:section] valueForKey:@"cells"] count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return [[curFields objectAtIndex:section] valueForKey:@"title"];
+    return [[curCells objectAtIndex:section] valueForKey:@"title"];
+
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -717,19 +854,19 @@
     [tblView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
- - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [[[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row] cellHeight];
+    OTMCellSorter *holder = [[[curCells objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row];
+    return holder.cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    OTMDetailCellRenderer *renderer = [[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [renderer prepareCell:self.data inTable:tblView];
+    OTMCellSorter *holder = [[[curCells objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row];
+    UITableViewCell *cell = [holder cell];
     if ([cell respondsToSelector:@selector(setTfDelegate:)]) {
         [cell performSelector:@selector(setTfDelegate:) withObject:self];
     }
-
     return cell;
 }
 

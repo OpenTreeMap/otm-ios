@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		620BFA0C1986FB980014C06F /* OTMLoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 620BFA0A1986FB980014C06F /* OTMLoadMoreCell.m */; };
 		62192D031961B381000CBF0F /* OTMAllInstancesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */; };
 		623C91BE196C38E00019A448 /* AZPastelessTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 623C91BD196C38E00019A448 /* AZPastelessTextField.m */; };
 		62F06164196366B800F8B84D /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06162196366B800F8B84D /* profile.png */; };
@@ -177,6 +178,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		620BFA091986FB980014C06F /* OTMLoadMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoadMoreCell.h; sourceTree = "<group>"; };
+		620BFA0A1986FB980014C06F /* OTMLoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoadMoreCell.m; sourceTree = "<group>"; };
 		62192D011961B381000CBF0F /* OTMAllInstancesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAllInstancesTableViewController.h; sourceTree = "<group>"; };
 		62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAllInstancesTableViewController.m; sourceTree = "<group>"; };
 		623C91BC196C38E00019A448 /* AZPastelessTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPastelessTextField.h; sourceTree = "<group>"; };
@@ -612,6 +615,8 @@
 				6460869B160CFB6700A1458B /* OTMDetailTableViewCell.m */,
 				6460869C160CFB6700A1458B /* OTMDistanceTableViewCell.h */,
 				6460869D160CFB6700A1458B /* OTMDistanceTableViewCell.m */,
+				620BFA091986FB980014C06F /* OTMLoadMoreCell.h */,
+				620BFA0A1986FB980014C06F /* OTMLoadMoreCell.m */,
 				6460869E160CFB6700A1458B /* OTMMapDetailCellRenderer.h */,
 				6460869F160CFB6700A1458B /* OTMMapDetailCellRenderer.m */,
 				646086A0160CFB6700A1458B /* OTMMapTableViewCell.h */,
@@ -1025,6 +1030,7 @@
 				64608719160CFB6700A1458B /* OTMTreeDetailViewController.m in Sources */,
 				6460871A160CFB6700A1458B /* OTMAddTreeAnnotationView.m in Sources */,
 				6460871B160CFB6700A1458B /* OTMAPI.m in Sources */,
+				620BFA0C1986FB980014C06F /* OTMLoadMoreCell.m in Sources */,
 				D7B4E1CF1906FB280028E3B1 /* OTMEULAViewController.m in Sources */,
 				6460871C160CFB6700A1458B /* OTMAppDelegate.m in Sources */,
 				6460871D160CFB6700A1458B /* OTMEnvironment.m in Sources */,
