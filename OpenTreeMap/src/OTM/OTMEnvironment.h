@@ -100,6 +100,7 @@
 @property (nonatomic, assign) BOOL pendingActive;
 @property (nonatomic, strong) NSArray* sectionTitles;
 @property (nonatomic, strong) NSArray* fields;
+@property (nonatomic, strong) NSDictionary *sortKeys;
 @property (nonatomic, strong) NSArray* ecoFields;
 @property (nonatomic, strong) NSArray* filts;
 @property (nonatomic, assign) BOOL useOtmGeocoder;

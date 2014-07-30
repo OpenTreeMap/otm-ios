@@ -176,3 +176,19 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) id data;
 
 @end
+
+/**
+ * Shows cells for UDF collections. These can in some cases create multiple
+ * cells for a given field. These may need to be sorted together and ths we
+ * store a sort field in addition to other information.
+ */
+@interface OTMCollectionUDFCellRenderer : OTMDetailCellRenderer
+
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSDictionary *typeDict;
+@property (nonatomic, strong) NSString *sortField;
+
+-(id)initWithDataKey:(NSString *)dkey TypeDict:(NSString *)dict SortField:(NSString *)sort;
+
+@end
+

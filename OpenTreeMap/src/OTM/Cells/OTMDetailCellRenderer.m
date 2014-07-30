@@ -390,5 +390,48 @@
     return dict;
 }
 
+@end
+
+
+/**
+ * Handles creation and rendering of collections of UDFs
+ */
+@implementation OTMCollectionUDFCellRenderer
+
+-(id)initWithDataKey:(NSString *)dkey TypeDict:(NSString *)dict SortField:(NSString *)sort
+{
+    self = [super initWithDataKey:dkey editRenderer:nil];
+    [self generateDictFromString:dict];
+    [self setHeight];
+    self.sortField = sort;
+    return self;
+}
+
+-(void)generateDictFromString:(NSString *)dictString
+{
+    NSArray *typesArray = [dictString copy];
+
+    // Making the assumption that in a UDF there cannot be multiple fields with
+    // the same name.
+    NSMutableDictionary *typesDict = [[NSMutableDictionary alloc] init];
+    for (id type in typesArray) {
+        [typesDict setObject:type forKey:[type objectForKey:@"name"]];
+    }
+    self.typeDict = [typesDict copy];
+}
+
+-(void)setHeight
+{
+    CGFloat height = self.cellHeight;
+    // For each row of text add 13 to the cell height to accomodate the height
+    // of the line.
+    height += 13 * ([self.typeDict count] - 1);
+    // If we have a sort field (which is displayed on the right side of the cell
+    // Drop the size to accomodate a line having been removed.
+    if (self.sortField) {
+        height -= 13;
+    }
+    self.cellHeight = height;
+}
 
 @end
