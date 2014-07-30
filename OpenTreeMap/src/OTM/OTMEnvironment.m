@@ -395,7 +395,7 @@
     } else if (isCollection) {
 
         OTMCollectionUDFCellRenderer *collectionRenderer =
-        [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:key TypeDict:dType SortField:[self.sortKeys objectForKey:key]];
+        [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:key typeDict:dType sortField:[self.sortKeys objectForKey:key]];
         [modelFields addObject:collectionRenderer];
     }
     else {

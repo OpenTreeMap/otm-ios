@@ -21,7 +21,7 @@
 
 @synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey, ownerDataKey;
 
--(id)init {
+- (id)init {
     self = [super init];
 
     if (self) {
@@ -31,7 +31,7 @@
     return self;
 }
 
--(id)initWithDataKey:(NSString *)dkey  {
+- (id)initWithDataKey:(NSString *)dkey  {
     return [self initWithDataKey:dkey editRenderer:nil];
 }
 
@@ -145,7 +145,7 @@
 @implementation OTMBenefitsDetailCellRenderer
 
 
--(id)initWithModel:(NSString *)model key:(NSString *)key {
+- (id)initWithModel:(NSString *)model key:(NSString *)key {
     self = [super initWithDataKey:nil];
 
     if (self) {
@@ -190,11 +190,11 @@
 
 @implementation OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
--(id)initWithDataKey:(NSString *)dkey  {
+- (id)initWithDataKey:(NSString *)dkey  {
     return [super initWithDataKey:dkey];
 }
 
--(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     ABSTRACT_METHOD_BODY
 }
 
@@ -204,7 +204,11 @@
 
 @synthesize label, updatedString, keyboard;
 
--(id)initWithDataKey:(NSString *)dkey label:(NSString *)displayLabel keyboard:(UIKeyboardType)kboard formatter:(OTMFormatter *)formatter isDate:(BOOL)dType {
+- (id)initWithDataKey:(NSString *)dkey
+                label:(NSString *)displayLabel
+             keyboard:(UIKeyboardType)kboard
+            formatter:(OTMFormatter *)formatter isDate:(BOOL)dType
+{
     self = [super initWithDataKey:dkey];
 
     if (self) {
@@ -219,7 +223,10 @@
     return self;
 }
 
--(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
+- (void)tableViewCell:(UITableViewCell *)tblViewCell
+           textField:(UITextField *)field
+      updatedToValue:(NSString *)v
+{
     if ([v isEqualToString:@""]) {
         self.updatedString = nil;
     } else {
@@ -227,7 +234,7 @@
     }
 }
 
--(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     if (updatedString) {
         [dict setObject:updatedString forEncodedKey:self.dataKey];
         updatedString = nil;
@@ -239,7 +246,8 @@
 
 #define kOTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
-- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data
+                       inTable:(UITableView *)tableView
 {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailEditCellRendererCellId];
 
@@ -298,7 +306,7 @@
 
 @implementation OTMDBHEditDetailCellRenderer
 
--(id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter {
+- (id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter {
     self = [super initWithDataKey:dkey];
 
     if (self) {
@@ -312,7 +320,7 @@
     return self;
 }
 
--(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
+- (void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
 
     if (v == nil || [v length] == 0) {
         self.cell.diameterTextField.text = self.cell.circumferenceTextField.text = @"";
@@ -329,7 +337,7 @@
     }
 }
 
--(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     NSString *newDBH = self.cell.diameterTextField.text;
     if (newDBH && [newDBH length] > 0) {
         CGFloat dispValue = [self.cell.diameterTextField.text floatValue];
@@ -376,11 +384,14 @@
 
 @synthesize name, data, defaultName;
 
--(id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback {
+- (id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback {
     return [self initWithName:nil key:key clickCallback:aCallback];
 }
 
--(id)initWithName:(NSString *)aName key:(NSString *)key clickCallback:(Function1v)aCallback {
+- (id)initWithName:(NSString *)aName
+               key:(NSString *)key
+     clickCallback:(Function1v)aCallback
+{
     self = [super init];
 
     if (self) {
@@ -394,7 +405,8 @@
     return self;
 }
 
-- (OTMCellSorter *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView
+- (OTMCellSorter *)prepareCell:(NSDictionary *)renderData
+                       inTable:(UITableView *)tableView
 {
     UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
 
@@ -427,7 +439,7 @@
                                         height:self.cellHeight];
 }
 
--(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     return dict;
 }
 
@@ -454,10 +466,10 @@
         NSString *type = [[[self typeDict] objectForKey:key] objectForKey:@"type"];
         if (type) {
             if (self.sortField && [self.sortField isEqualToString:key]) {
-                sortFieldText = [self stringifyData:[data objectForKey:key] ByType:type];
+                sortFieldText = [self stringifyData:[data objectForKey:key] byType:type];
                 sortData = [data objectForKey:key];
             } else {
-                NSString *text = [self stringifyData:[data objectForKey:key] ByType:type];
+                NSString *text = [self stringifyData:[data objectForKey:key] byType:type];
                 [cellText appendString:text];
                 [cellText appendString:@"\n"];
             }
@@ -511,7 +523,7 @@
     return [[OTMCellSorter alloc] initWithCell:cell sortKey:self.sortField sortData:sortData height:totalHeight];
 }
 
-- (NSString *)stringifyData:(id)data ByType:(NSString *)type
+- (NSString *)stringifyData:(id)data byType:(NSString *)type
 {
     NSString *result;
     if ([type isEqualToString:@"date"]) {
@@ -530,7 +542,9 @@
     return result;
 }
 
-- (id)initWithDataKey:(NSString *)dkey TypeDict:(NSString *)dict SortField:(NSString *)sort
+- (id)initWithDataKey:(NSString *)dkey
+             typeDict:(NSString *)dict
+            sortField:(NSString *)sort
 {
     self = [super initWithDataKey:dkey editRenderer:nil];
     [self generateDictFromString:dict];
@@ -570,7 +584,10 @@
 
 @implementation OTMCellSorter
 
-- (id)initWithCell:(UITableViewCell *)cell sortKey:(NSString *)key sortData:(NSString *)data height:(CGFloat)h
+- (id)initWithCell:(UITableViewCell *)cell
+           sortKey:(NSString *)key
+          sortData:(NSString *)data
+            height:(CGFloat)h
 {
     self = [super init];
     if (self) {

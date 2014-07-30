@@ -51,7 +51,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
--(void)syncTopData
+- (void)syncTopData
 {
     if (self.data) {
         self.address.text = [[self buildAddressStringFromPlotDictionary:self.data] uppercaseString];
@@ -101,7 +101,7 @@
 
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     // Zero out the height of the first group so it sticks to the top of the
     // view. For some reason 0.01f works but 0.00f did nothing. I suspect this
@@ -308,7 +308,8 @@
     [self updateCurrentCells];
 }
 
--(void)updateCurrentCells {
+- (void)updateCurrentCells
+{
     NSMutableArray *cellsWithSectionTitles = [[NSMutableArray alloc] init];
 
     for (id section in curFields) {
@@ -385,7 +386,8 @@
     curCells = cellsWithSectionTitles;
 }
 
-- (void)loadMoreCells:(id)sender {
+- (void)loadMoreCells:(id)sender
+{
     UIButton *senderButton = (UIButton *)sender;
     UITableViewCell *buttonCell = (UITableViewCell *)[senderButton superview];
     OTMLoadMoreCell *cell = (OTMLoadMoreCell *)[buttonCell superview];
@@ -422,10 +424,17 @@
 
     // Update the table with animation.
     [tableView beginUpdates];
+
+    // If there are no more cells, remove the load more button from the table.
     if ([cell.hiddenCells count] == 0) {
-        [[self tableView] deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationBottom];
+        [[self tableView]
+            deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                  withRowAnimation:UITableViewRowAnimationBottom];
     }
-    [[self tableView] insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationTop];
+
+    [[self tableView]
+        insertRowsAtIndexPaths:paths
+              withRowAnimation:UITableViewRowAnimationTop];
     [tableView endUpdates];
 }
 
