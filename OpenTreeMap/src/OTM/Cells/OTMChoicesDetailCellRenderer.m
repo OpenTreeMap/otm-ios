@@ -49,7 +49,8 @@
 
 #define OTMChoicesDetailCellRenndererShowUrlLinkButtonView 19191
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMChoicesDetailCellRendererTableCellId];
 
     if (detailcell == nil) {
@@ -92,7 +93,10 @@
         [detailcell addSubview:link];
     }
 
-    return detailcell;
+    return [[OTMCellSorter alloc] initWithCell:detailcell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 @end
 
@@ -130,7 +134,8 @@
     [controller.navigationController popViewControllerAnimated:YES];
 }
 
--(UITableViewCell *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView
+{
 
     if (cell == nil) {
         cell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
@@ -157,7 +162,10 @@
 
     output = cell.fieldValue.text;
 
-    return cell;
+    return [[OTMCellSorter alloc] initWithCell:cell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {

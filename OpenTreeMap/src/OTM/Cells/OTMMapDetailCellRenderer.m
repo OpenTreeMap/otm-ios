@@ -30,7 +30,8 @@
     return self;
 }
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     OTMMapTableViewCell *detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMMapDetailCellRendererTableCellId];
 
     if (detailCell == nil) {
@@ -42,8 +43,12 @@
 
     [detailCell annotateCenter:center];
     detailCell.accessoryType = UITableViewCellAccessoryNone;
-    return detailCell;
+    return [[OTMCellSorter alloc] initWithCell:detailCell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
+
 @end
 
 
@@ -60,17 +65,22 @@
     return self;
 }
 
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
     OTMMapTableViewCell *detailCell;
 
     if (!self.inited) {
-        detailCell = (OTMMapTableViewCell *)[super prepareCell:data inTable:tableView];
+        OTMCellSorter *cellContainer = (OTMCellSorter *)[super prepareCell:data inTable:tableView];
+        detailCell = (OTMMapTableViewCell *) [cellContainer cell];
         self.inited = YES;
     } else {
         detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMMapDetailCellRendererTableCellId];
     }
     detailCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    return detailCell;
+    return [[OTMCellSorter alloc] initWithCell:detailCell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:self.cellHeight];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {

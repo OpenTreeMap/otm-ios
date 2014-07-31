@@ -346,6 +346,7 @@
     NSString *key = [dict objectForKey:@"field_key"];
     BOOL writable = [[dict objectForKey:@"can_write"] boolValue];
     NSArray *choices = [dict objectForKey:@"choices"];
+    BOOL isCollection = [[dict objectForKey:@"is_collection"] integerValue] == 1 ? YES : NO;
 
     if ((id)[NSNull null] == choices) {
         choices = nil;
@@ -391,7 +392,13 @@
                                                          writable:writable];
 
         [modelFields addObject:renderer];
-    } else {
+    } else if (isCollection) {
+
+        OTMCollectionUDFCellRenderer *collectionRenderer =
+        [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:key typeDict:dType sortField:[self.sortKeys objectForKey:key]];
+        [modelFields addObject:collectionRenderer];
+    }
+    else {
         OTMLabelEditDetailCellRenderer *editRenderer = nil;
 
         if (writable) {
@@ -431,14 +438,30 @@
 
 - (NSArray *)fieldsFromDict:(NSDictionary *)fields orderedAndGroupedByDictArray:(NSArray *)fieldKeyGroups {
     NSMutableArray *fieldArray = [NSMutableArray array];
-    [fieldKeyGroups enumerateObjectsUsingBlock:^(id keyGroupDict, NSUInteger idx, BOOL *stop) {
+    for (id keyGroupDict in fieldKeyGroups) {
+
+        // Both fieldKeys and udfGroupingKeys can't be set at once. So we can
+        // Set up both and loop over both without causing any issues.
         NSArray *fieldKeys = [keyGroupDict objectForKey:@"field_keys"];
+        NSArray *udfGroupingKeys = [keyGroupDict objectForKey:@"collection_udf_keys"];
+        NSString *sortKey = [keyGroupDict objectForKey:@"sort_key"];
+
+
         NSMutableArray *modelFields = [NSMutableArray array];
-        [fieldKeys enumerateObjectsUsingBlock:^(id fieldKey, NSUInteger idx, BOOL *stop) {
+
+        for (id fieldKey in fieldKeys) {
             [self addFieldsToArray:modelFields fromDict:[fields objectForKey:fieldKey]];
-        }];
+        }
+
+        for (id udf in udfGroupingKeys) {
+            NSMutableDictionary *tempSortKeys = self.sortKeys ? [self.sortKeys mutableCopy] : [[NSMutableDictionary alloc] init];
+            [tempSortKeys setObject:sortKey forKey:udf];
+            self.sortKeys = [tempSortKeys copy];
+            [self addFieldsToArray:modelFields fromDict:[fields objectForKey:udf]];
+        }
+
         [fieldArray addObject:modelFields];
-    }];
+    }
 
     return fieldArray;
 }

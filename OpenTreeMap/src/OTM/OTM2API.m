@@ -65,8 +65,8 @@
               }
             } else {
               user.email = [json objectForKey:@"email"];
-              user.firstName = [json objectForKey:@"firstname"];
-              user.lastName = [json objectForKey:@"lastname"];
+              user.firstName = [json objectForKey:@"first_name"];
+              user.lastName = [json objectForKey:@"last_name"];
               user.userId = [[json valueForKey:@"id"] intValue];
               user.reputation = [[json valueForKey:@"reputation"] intValue];
 

@@ -79,15 +79,30 @@
 @property (nonatomic,strong) Function1v clickCallback;
 @property (nonatomic,assign) CGFloat cellHeight;
 
--(id)initWithDataKey:(NSString *)dkey;
--(id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit;
+- (id)initWithDataKey:(NSString *)dkey;
+- (id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit;
 
 /**
  * Given a tableView create a new cell (or reuse an old one), prepare
  * it with the given data and this cells rending info and return it
  */
 ABSTRACT_METHOD
--(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView;
+- (UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView;
+
+/**
+ * Return all cells of a given type for a particular table. In most cases this
+ * will return an array with one cell. Some fields have multiple cells
+ * (stewardship and alerts).
+ */
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView;
+
+/**
+ * Given a specific peice of data, return a cell. Needed so that a cell can be
+ * created from fields with multiple cells.
+ */
+ABSTRACT_METHOD
+- (UITableViewCell *)prepareDiscreteCell:(NSDictionary *)data
+                                 inTable:(UITableView *)tableView;
 
 @end
 
@@ -98,7 +113,7 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) NSString *model;
 @property (nonatomic,strong) NSString *key;
 
--(id)initWithModel:(NSString *)model key:(NSString *)key;
+- (id)initWithModel:(NSString *)model key:(NSString *)key;
 
 @end
 
@@ -110,7 +125,7 @@ ABSTRACT_METHOD
 @property (nonatomic,assign) BOOL inited;
 
 ABSTRACT_METHOD
--(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
+- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
 
 @end
 
@@ -124,11 +139,11 @@ ABSTRACT_METHOD
 @property BOOL isDateField;
 
 
--(id)initWithDataKey:(NSString *)dkey
-        editRenderer:(OTMEditDetailCellRenderer *)edit
-               label:(NSString *)labeltxt
-           formatter:(OTMFormatter *)fmt
-              isDate:(BOOL)dType;
+- (id)initWithDataKey:(NSString *)dkey
+         editRenderer:(OTMEditDetailCellRenderer *)edit
+                label:(NSString *)labeltxt
+            formatter:(OTMFormatter *)fmt
+               isDate:(BOOL)dType;
 
 @end
 
@@ -140,11 +155,11 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) OTMFormatter *formatter;
 @property BOOL isDateField;
 
--(id)initWithDataKey:(NSString *)dkey
-               label:(NSString *)label
-            keyboard:(UIKeyboardType)keyboard
-           formatter:(OTMFormatter *)formatter
-            isDate:(BOOL)dType;
+- (id)initWithDataKey:(NSString *)dkey
+                label:(NSString *)label
+             keyboard:(UIKeyboardType)keyboard
+            formatter:(OTMFormatter *)formatter
+               isDate:(BOOL)dType;
 
 @end
 
@@ -167,12 +182,49 @@ ABSTRACT_METHOD
  */
 @interface OTMStaticClickCellRenderer : OTMEditDetailCellRenderer
 
--(id)initWithName:(NSString *)aName key:(NSString *)key clickCallback:(Function1v)aCallback;
+- (id)initWithName:(NSString *)aName key:(NSString *)key clickCallback:(Function1v)aCallback;
 
--(id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback;
+- (id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback;
 
 @property (nonatomic,strong) NSString *defaultName;
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) id data;
+
+@end
+
+/**
+ * Shows cells for UDF collections. These can in some cases create multiple
+ * cells for a given field. These may need to be sorted together and ths we
+ * store a sort field in addition to other information.
+ */
+@interface OTMCollectionUDFCellRenderer : OTMDetailCellRenderer
+
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSDictionary *typeDict;
+@property (nonatomic, strong) NSString *sortField;
+
+- (id)initWithDataKey:(NSString *)dkey typeDict:(NSString *)dict sortField:(NSString *)sort;
+
+@end
+
+/**
+ * A container to store rendered cells and to be able to sort them if need be.
+ * Groups of these can be sorted based on the having the same sort key and can
+ * be sorted by the sortdata contained in them. Additionally these retain
+ * cellheight since that is requested of each cell placed in the tree detail
+ * table.
+ */
+@interface OTMCellSorter : NSObject
+
+@property (nonatomic, strong) NSString *sortKey;
+@property (nonatomic, strong) NSString *sortData;
+@property (nonatomic, strong) UITableViewCell *cell;
+@property (nonatomic, assign) CGFloat cellHeight;
+
+
+- (id)initWithCell:(UITableViewCell *)cell
+           sortKey:(NSString *)key
+          sortData:(NSString *)data
+            height:(CGFloat)height;
 
 @end
