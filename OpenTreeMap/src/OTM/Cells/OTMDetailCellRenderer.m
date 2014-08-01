@@ -16,6 +16,7 @@
 #import "OTMDetailCellRenderer.h"
 #import "OTMFormatter.h"
 #import "OTMUser.h"
+#import "OTMTreeDetailViewController.h"
 
 @implementation OTMDetailCellRenderer
 
@@ -51,8 +52,9 @@
     ABSTRACT_METHOD_BODY
 }
 
-- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate
 {
+    self.originatingDelegate = delegate;
     NSMutableArray *cells = [[NSMutableArray alloc] init];
     id elmt = [data decodeKey:self.dataKey];
     OTMCellSorter *sorterCell;
@@ -384,6 +386,271 @@
 
 @end
 
+@implementation OTMUdfCollectionEditCellRenderer
+
+- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+    return dict;
+}
+
+@end
+
+@implementation OTMUdfAddMoreRenderer
+
+NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNotification";
+
+- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+    // Don't do anything here. We should have already added the data via a
+    // notification.
+    return dict;
+}
+
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
+{
+    self.tableView = tableView;
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    UIButton *button = [[UIButton alloc] init];
+    [button addTarget:self action:@selector(addMoreViewStackToTable:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Add New" forState:UIControlStateNormal];
+    [button setTitleColor:[[OTMEnvironment sharedEnvironment] primaryColor] forState:UIControlStateNormal];
+    // Make the button fill the cell so you can't miss it.
+    button.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height);
+    [cell addSubview:button];
+    //[cell.contentView addSubview:button];
+    return [[OTMCellSorter alloc] initWithCell:cell sortKey:nil sortData:nil height:cell.frame.size.height];
+}
+
+- (id)initWithDataStructure:(NSArray *)dataArray
+                      field:(NSString *)field
+                        key:(NSString *)key
+                displayName:(NSString *)displayName
+{
+    self = [super init];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receiveNotification:)
+                                                 name:UdfDataChangedForStepNotification
+                                               object:nil];
+    if (self) {
+        self.steps = dataArray;
+        self.currentSteps = self.steps;
+        self.displayName = displayName;
+        self.field = field;
+        self.key = key;
+        self.preparedNewUdf = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)receiveNotification:(NSNotification *)notification
+{
+    NSDictionary *notificationData = [notification object];
+    [self.preparedNewUdf setObject:[notificationData objectForKey:@"data"] forKey:[notificationData objectForKey:@"key"]];
+}
+
+- (void) addMoreViewStackToTable:(id)sender
+{
+
+    self.navController = [[UINavigationController alloc] init];
+    self.step = 0;
+    self.preparedNewUdf = [[NSMutableDictionary alloc] init];
+
+    UIViewController *firstViewController = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
+    [firstViewController setTitle:[[self.currentSteps objectAtIndex:self.step] objectForKey:@"name"]];
+    [self.navController pushViewController:firstViewController animated:NO];
+
+    [[firstViewController navigationItem]
+        setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                              style:UIBarButtonItemStyleBordered
+                                                             target:self
+                                                             action:@selector(cancelEditing:)]];
+    if (self.step == [self.currentSteps count] - 1) {
+        [[firstViewController navigationItem]
+         setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                style:UIBarButtonItemStyleBordered
+                                                               target:self
+                                                               action:@selector(done:)]];
+    } else {
+        [[firstViewController navigationItem]
+         setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Next"
+                                                                style:UIBarButtonItemStyleBordered
+                                                               target:self
+                                                               action:@selector(nextStep:)]];
+    }
+    [self.originatingDelegate presentModalViewController:self.navController animated:YES];
+}
+
+- (void)done:(id)sender
+{
+    NSArray *fieldData = [[self.preparedNewUdf objectForKey:@"Type"] componentsSeparatedByString:@"."];
+    [self.preparedNewUdf removeObjectForKey:@"Type"];
+
+    NSDictionary *notificationData;
+    // Just a precaution.
+    if ([fieldData count] >= 2) {
+        notificationData = @{
+                             @"key"   : fieldData[0],
+                             @"field" : fieldData[1],
+                             @"data"  : self.preparedNewUdf
+                             };
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:UdfNewDataCreatedNotification object:notificationData];
+    // Reset.
+    self.preparedNewUdf = [[NSMutableDictionary alloc] init];
+    [self.originatingDelegate dismissModalViewControllerAnimated:YES];
+}
+
+- (void) cancelEditing:(id)sender
+{
+    // Reset.
+    self.preparedNewUdf = [[NSMutableDictionary alloc] init];
+    [self.originatingDelegate dismissModalViewControllerAnimated:YES];
+}
+
+- (void) back:(id)sender
+{
+    self.step--;
+    if (self.step == 0) {
+        self.currentSteps = self.steps;
+    }
+    [self.navController popViewControllerAnimated:YES];
+}
+
+- (void) nextStep:(id)sender
+{
+    self.step++;
+    UIViewController *nextViewController = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
+    [nextViewController setTitle:[[self.currentSteps objectAtIndex:self.step] objectForKey:@"name"]];
+
+    [[nextViewController navigationItem]
+        setLeftBarButtonItem:[[UIBarButtonItem alloc]
+                           initWithTitle:@"Back"
+                           style:UIBarButtonItemStyleBordered
+                           target:self
+                           action:@selector(back:)]];
+
+    if (self.step == ([self.currentSteps count] - 1)) {
+        [[nextViewController navigationItem]
+            setRightBarButtonItem:[[UIBarButtonItem alloc]
+                                initWithTitle:@"Done"
+                                style:UIBarButtonItemStyleBordered
+                                target:self
+                                action:@selector(done:)]];
+    } else {
+        [[nextViewController navigationItem]
+         setRightBarButtonItem:[[UIBarButtonItem alloc]
+                                initWithTitle:@"Next"
+                                style:UIBarButtonItemStyleBordered
+                                target:self
+                                action:@selector(nextStep:)]];
+
+    }
+    [self.navController pushViewController:nextViewController animated:YES];
+}
+
+- (UIViewController *)generateViewControllerFromDict:(NSDictionary *)dict
+{
+    UIViewController *controller;
+    if ([[dict objectForKey:@"type"] isEqualToString:@"choice"]) {
+        OTMUdfChoiceTableViewController *viewController = [[OTMUdfChoiceTableViewController alloc] initWithKey:[dict objectForKey:@"name"]];
+        NSArray *choices = [[NSArray alloc] initWithArray:[dict objectForKey:@"choices"]];
+        [viewController setChoices:choices];
+        controller = (UIViewController *)viewController;
+
+    } else if ([[dict objectForKey:@"type"] isEqualToString:@"date"]) {
+        UIViewController *viewController = [[UIViewController alloc] init];
+        UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+        datePicker.datePickerMode = UIDatePickerModeDate;
+        [viewController.view addSubview:datePicker];
+        [datePicker addTarget:self action:@selector(setDateForKey:) forControlEvents:UIControlEventValueChanged];
+        controller = viewController;
+    } else if ([[dict objectForKey:@"type"] isEqualToString:@"udf_keyed_grouping"]) {
+        NSMutableArray *newSteps = [[[[self.steps objectAtIndex:self.step] objectForKey:@"choices"] objectForKey:[self.preparedNewUdf objectForKey:@"Type"]] mutableCopy];
+        NSDictionary *firstStep = [self.steps objectAtIndex:0];
+        [newSteps insertObject:firstStep atIndex:0];
+        self.currentSteps = [newSteps copy];
+        controller = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
+    }
+    return controller;
+}
+
+- (void)setDateForKey:(id)sender
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+    NSString *dateText = [dateFormatter stringFromDate:[(UIDatePicker *)sender date]];
+    NSString *key = [[self.currentSteps objectAtIndex:self.step] objectForKey:@"name"];
+    NSDictionary *notificationData = @{
+                                       @"key" : key,
+                                       @"data" : dateText
+                                       };
+    [[NSNotificationCenter defaultCenter] postNotificationName:UdfDataChangedForStepNotification object:notificationData];
+}
+
+@end
+
+@implementation OTMUdfChoiceTableViewController
+
+@synthesize choices, choice;
+
+- (id)initWithKey:(NSString *)key
+{
+    self = [super init];
+    if (self) {
+        self.key = key;
+    }
+    return self;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.choices count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UdfChoiceCell"];
+    cell.textLabel.text = [self.choices objectAtIndex:indexPath.row];
+    if ([[self.choices objectAtIndex:indexPath.row] isEqualToString:self.choice]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tblView cellForRowAtIndexPath:indexPath];
+    self.choice = cell.textLabel.text;
+    NSDictionary *notificationData = @{
+                           @"key" : self.key,
+                           @"data": self.choice
+                           };
+    [[NSNotificationCenter defaultCenter] postNotificationName:UdfDataChangedForStepNotification object:notificationData];
+    [self.tableView reloadData];
+}
+
+- (void)setChoices:(NSArray *)choicesArray
+{
+    choices = [[NSArray alloc] initWithArray:choicesArray];
+}
+
+- (NSString *)getChoice
+{
+    return choice;
+}
+
+@end
+
+// ADD UDF COLLECTION ADDER.
+
 @implementation OTMStaticClickCellRenderer
 
 #define kOTMDetailEditSpeciesCellRendererCellId @"kOTMDetailEditSpeciesCellRendererCellId"
@@ -542,6 +809,14 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"YYYY'-'MM'-'dd' 'HH':'mm':'ss'"];
         NSDate *date =[dateFormatter dateFromString:data];
+
+        // Newly set dates have a different format so we need to account for
+        // them.
+        if (!date) {
+            [dateFormatter setDateFormat:@"YYYY'-'MM'-'dd'"];
+            date =[dateFormatter dateFromString:data];
+        }
+
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
         return [dateFormatter stringFromDate:date];
@@ -578,11 +853,14 @@
 - (id)initWithDataKey:(NSString *)dkey
              typeDict:(NSString *)dict
             sortField:(NSString *)sort
+         editRenderer:(OTMEditDetailCellRenderer *)edit
+      addMoreRenderer:(OTMUdfAddMoreRenderer *)more
 {
     self = [super initWithDataKey:dkey editRenderer:nil];
     [self generateDictFromString:dict];
     [self setHeight];
     self.sortField = sort;
+    self.editCellRenderer = more;
     return self;
 }
 

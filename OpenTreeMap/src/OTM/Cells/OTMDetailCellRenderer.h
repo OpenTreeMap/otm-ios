@@ -79,6 +79,8 @@
 @property (nonatomic,strong) Function1v clickCallback;
 @property (nonatomic,assign) CGFloat cellHeight;
 
+@property (nonatomic, strong) UIViewController *originatingDelegate;
+
 - (id)initWithDataKey:(NSString *)dkey;
 - (id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit;
 
@@ -94,7 +96,7 @@ ABSTRACT_METHOD
  * will return an array with one cell. Some fields have multiple cells
  * (stewardship and alerts).
  */
-- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView;
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate;
 
 /**
  * Given a specific peice of data, return a cell. Needed so that a cell can be
@@ -172,6 +174,44 @@ ABSTRACT_METHOD
 
 @end
 
+@interface OTMUdfCollectionEditCellRenderer : OTMEditDetailCellRenderer
+
+@end
+
+@interface OTMUdfAddMoreRenderer : OTMEditDetailCellRenderer
+
+extern NSString * const UdfDataChangedForStepNotification;
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIViewController *originalController;
+@property (nonatomic, strong) UINavigationController *navController;
+@property int step;
+@property (nonatomic, strong) NSArray *steps;
+@property (nonatomic, strong) NSArray *currentSteps;
+@property (nonatomic, strong) NSString *field;
+@property (nonatomic, strong) NSString *key;
+@property (nonatomic, strong) NSString *displayName;
+@property (nonatomic, strong) NSMutableDictionary *preparedNewUdf;
+
+
+- (id)initWithDataStructure:(NSArray *)dataArray
+                      field:(NSString *)field
+                        key:(NSString *)key
+                displayName:(NSString *)displayName;
+
+@end
+
+@interface OTMUdfChoiceTableViewController : UITableViewController
+
+@property (nonatomic, strong) NSString *key;
+@property (nonatomic, strong) NSString *choice;
+@property (nonatomic, strong) NSArray *choices;
+- (id)initWithKey:(NSString *)key;
+- (void)setChoices:(NSArray *)choicesArray;
+- (NSString *)getChoice;
+
+@end
+
 /**
  * Shows a static cell that allows a click event
  * (Such as for selecting species)
@@ -182,7 +222,9 @@ ABSTRACT_METHOD
  */
 @interface OTMStaticClickCellRenderer : OTMEditDetailCellRenderer
 
-- (id)initWithName:(NSString *)aName key:(NSString *)key clickCallback:(Function1v)aCallback;
+- (id)initWithName:(NSString *)aName
+               key:(NSString *)key
+     clickCallback:(Function1v)aCallback;
 
 - (id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback;
 
@@ -203,7 +245,11 @@ ABSTRACT_METHOD
 @property (nonatomic, strong) NSDictionary *typeDict;
 @property (nonatomic, strong) NSString *sortField;
 
-- (id)initWithDataKey:(NSString *)dkey typeDict:(NSString *)dict sortField:(NSString *)sort;
+- (id)initWithDataKey:(NSString *)dkey
+             typeDict:(NSString *)dict
+            sortField:(NSString *)sort
+         editRenderer:(OTMEditDetailCellRenderer *)edit
+      addMoreRenderer:(OTMUdfAddMoreRenderer *)more;
 
 @end
 

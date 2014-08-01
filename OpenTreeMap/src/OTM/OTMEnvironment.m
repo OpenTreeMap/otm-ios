@@ -394,8 +394,29 @@
         [modelFields addObject:renderer];
     } else if (isCollection) {
 
+        /*
+        OTMEditDetailCellRenderer *udfEditRenderer = [[OTMEditDetailCellRenderer alloc] init];
+        OTMUdfAddMoreRenderer *addMore =
+            [[OTMUdfAddMoreRenderer alloc]
+                initWithDataStructure:(NSArray *)dType
+                                field:field
+                                  key:key
+                          displayName:displayField];
+         */
+        NSDictionary *addMoreDict = @{
+                                      @"key" : key,
+                                      @"field" : field,
+                                      @"displayField" : displayField,
+                                      @"data" : dType
+                                      };
+        [_udfAddRenderers addObject:addMoreDict];
+
         OTMCollectionUDFCellRenderer *collectionRenderer =
-        [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:key typeDict:dType sortField:[self.sortKeys objectForKey:key]];
+            [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:key
+                                                         typeDict:dType
+                                                        sortField:[self.sortKeys objectForKey:key]
+                                                     editRenderer:nil
+                                                  addMoreRenderer:nil];
         [modelFields addObject:collectionRenderer];
     }
     else {
@@ -438,6 +459,7 @@
 
 - (NSArray *)fieldsFromDict:(NSDictionary *)fields orderedAndGroupedByDictArray:(NSArray *)fieldKeyGroups {
     NSMutableArray *fieldArray = [NSMutableArray array];
+    _udfAddRenderers = [[NSMutableArray alloc] init];
     for (id keyGroupDict in fieldKeyGroups) {
 
         // Both fieldKeys and udfGroupingKeys can't be set at once. So we can
@@ -460,10 +482,72 @@
             [self addFieldsToArray:modelFields fromDict:[fields objectForKey:udf]];
         }
 
+        [self buildFieldsFromArray:[self combineUdfAddRenderers] attachToArray:modelFields];
         [fieldArray addObject:modelFields];
+
     }
 
     return fieldArray;
+}
+
+- (void)buildFieldsFromArray:(NSArray *)adders attachToArray:(NSMutableArray *)existingArray
+{
+    for (NSArray *adder in adders) {
+        OTMUdfAddMoreRenderer *addMore = [[OTMUdfAddMoreRenderer alloc]
+                                          initWithDataStructure:adder
+                                                          field:nil
+                                                            key:nil
+                                                    displayName:nil];
+
+        OTMCollectionUDFCellRenderer *collectionRenderer =
+        [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:nil
+                                                     typeDict:nil
+                                                    sortField:nil
+                                                 editRenderer:nil
+                                              addMoreRenderer:addMore];
+        [existingArray addObject:collectionRenderer];
+    }
+}
+
+- (NSArray *)combineUdfAddRenderers
+{
+    NSMutableArray *combinedRenderers = [[NSMutableArray alloc] init];
+    NSMutableSet *fieldSet = [[NSMutableSet alloc] init];
+    for (NSDictionary *rendererData in _udfAddRenderers) {
+        [fieldSet addObject:[rendererData objectForKey:@"field"]];
+    }
+
+    for (NSString *fieldString in fieldSet) {
+        NSPredicate *matchPredicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
+            return [[evaluatedObject objectForKey:@"field"] isEqualToString:fieldString];
+        }];
+        NSPredicate *unmatchedPredicate = [NSCompoundPredicate notPredicateWithSubpredicate: matchPredicate];
+        NSArray *filtered = [_udfAddRenderers filteredArrayUsingPredicate:matchPredicate];
+        NSMutableArray *choices = [[NSMutableArray alloc] init];
+        NSMutableDictionary *keyedChoices = [[NSMutableDictionary alloc] init];
+        for (NSDictionary *filteredRendererData in filtered) {
+            [choices addObject:[filteredRendererData objectForKey:@"key"]];
+            [keyedChoices setObject:[filteredRendererData objectForKey:@"data"] forKey:[filteredRendererData objectForKey:@"key"]];
+        }
+
+        NSDictionary *udfFieldTypeData = @{
+                                           @"type" : @"choice",
+                                           @"choices" : choices,
+                                           @"name" : @"Type"
+                                           };
+
+        NSDictionary *udfFieldTypeChoiceData = @{
+                                                 @"type" : @"udf_keyed_grouping",
+                                                 @"choices" : keyedChoices,
+                                                 @"name" : @""
+                                                 };
+
+
+        [combinedRenderers addObject:[[NSArray alloc] initWithObjects:udfFieldTypeData, udfFieldTypeChoiceData, nil]];
+        NSArray *remaining = [_udfAddRenderers filteredArrayUsingPredicate:unmatchedPredicate];
+        _udfAddRenderers = [remaining mutableCopy];
+    }
+    return [combinedRenderers copy];
 }
 
 - (NSArray*)ecoFieldsFromDict:(NSDictionary*)ecoDict {

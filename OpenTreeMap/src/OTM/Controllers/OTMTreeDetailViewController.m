@@ -38,10 +38,19 @@
             imageView, pictureTaker, headerView, acell, delegate,
             originalLocation, originalData;
 
+NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification";
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -49,6 +58,14 @@
     [self syncTopData];
     self.tableView.contentInset = UIEdgeInsetsZero;
     self.automaticallyAdjustsScrollViewInsets = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (self.startInEditMode) {
+        [self startOrCommitEditing:self];
+        self.startInEditMode = NO;
+    }
 }
 
 - (void)syncTopData
@@ -99,6 +116,10 @@
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(addNewUdfToTree:)
+                                                 name:UdfNewDataCreatedNotification
+                                               object:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -318,7 +339,7 @@
         NSMutableArray *sectionCells = [[NSMutableArray alloc] init];
 
         for (OTMDetailCellRenderer *field in fields) {
-            NSArray *cells = [field prepareAllCells:self.data inTable:self.tableView];
+            NSArray *cells = [field prepareAllCells:self.data inTable:self.tableView withOriginatingDelegate:self.navigationController];
             [sectionCells addObjectsFromArray:cells];
         }
 
@@ -628,6 +649,17 @@
     }
     [self.tableView reloadData];
     [self resetHeaderPosition];
+}
+
+- (void)addNewUdfToTree:(NSNotification *)notification
+{
+    NSDictionary *notificationData = (NSDictionary *)[notification object];
+    NSMutableArray *udf = [[self.data objectForKey:[notificationData objectForKey:@"key"]]
+        objectForKey:[notificationData objectForKey:@"field"]];
+    [udf addObject:[notificationData objectForKey:@"data"]];
+    //[self toggleEditMode:YES];
+    [self updateCurrentCells];
+    [self.tableView reloadData];
 }
 
 - (NSArray *)stripPendingImageData

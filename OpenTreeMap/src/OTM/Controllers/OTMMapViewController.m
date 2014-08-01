@@ -214,7 +214,7 @@
         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Tree Map"style:UIBarButtonItemStyleBordered target:nil action:nil];
 
         OTMTreeDetailViewController *dest = segue.destinationViewController;
-        [dest view]; // Force it load its view
+        [dest view]; // Force it to load its view
         dest.delegate = self;
         if (self.mode == Select) {
             dest.navigationItem.title = @"Tree Detail";
@@ -240,7 +240,7 @@
         dest.imageView.image = self.treeImage.image;
         if (self.mode != Select) {
             // When adding a new tree the detail view is automatically in edit mode
-            [dest startOrCommitEditing:self];
+            dest.startInEditMode = YES;
         }
     } else if ([segue.identifier isEqualToString:@"filtersList"]) {
         UINavigationController *nvc =segue.destinationViewController;
