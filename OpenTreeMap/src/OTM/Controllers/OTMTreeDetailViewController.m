@@ -375,6 +375,8 @@
 
             [cellsToReturn addObjectsFromArray:sortedCells];
             [cellsToReturn addObject:loadMore];
+        } else {
+            [cellsToReturn addObjectsFromArray:sortedCells];
         }
 
         NSDictionary *preparedCellsForSection =
