@@ -145,7 +145,8 @@
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 
 @end
@@ -190,7 +191,8 @@
     return [[OTMCellSorter alloc] initWithCell:_cell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 
 @end
@@ -307,7 +309,8 @@
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 
 @end
@@ -381,7 +384,8 @@
     return [[OTMCellSorter alloc] initWithCell:_cell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 
 @end
@@ -390,6 +394,158 @@
 
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     return dict;
+}
+
+- (id)initWithDataKey:(NSString *)dkey
+             typeDict:(NSString *)dict
+            sortField:(NSString *)sort
+{
+    self = [super initWithDataKey:dkey editRenderer:nil];
+    [self generateDictFromString:dict];
+    [self setHeight];
+    self.sortField = sort;
+    self.clickCallback = nil;
+    return self;
+}
+
+- (void)generateDictFromString:(NSString *)dictString
+{
+    NSArray *typesArray = [dictString copy];
+
+    // Making the assumption that in a UDF there cannot be multiple fields with
+    // the same name.
+    NSMutableDictionary *typesDict = [[NSMutableDictionary alloc] init];
+    for (id type in typesArray) {
+        [typesDict setObject:type forKey:[type objectForKey:@"name"]];
+    }
+    self.typeDict = [typesDict copy];
+}
+
+- (void)setHeight
+{
+    CGFloat height = self.cellHeight;
+    // For each row of text add 13 to the cell height to accomodate the height
+    // of the line.
+    height += 13 * ([self.typeDict count] - 1);
+    // If we have a sort field (which is displayed on the right side of the cell
+    // Drop the size to accomodate a line having been removed.
+    if (self.sortField) {
+        height -= 13;
+    }
+    self.cellHeight = height;
+}
+
+- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data
+                               inTable:(UITableView *)tableView
+{
+    NSArray* keylist = [self.dataKey componentsSeparatedByString:@"."];
+    if ([keylist count] > 1) {
+        self.type = [[keylist objectAtIndex:0] capitalizedString];
+    }
+
+    NSMutableString *cellText = [[NSMutableString alloc] init];
+    NSString *sortFieldText;
+    NSString *sortData;
+    for (id key in data) {
+        NSString *type = [[[self typeDict] objectForKey:key] objectForKey:@"type"];
+        if (type) {
+            if (self.sortField && [self.sortField isEqualToString:key]) {
+                sortFieldText = [self stringifyData:[data objectForKey:key] byType:type];
+                sortData = [data objectForKey:key];
+            } else {
+                NSString *text = [self stringifyData:[data objectForKey:key] byType:type];
+                [cellText appendString:text];
+                [cellText appendString:@"\n"];
+            }
+        }
+    }
+
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+
+    UILabel *mainTextLabel = [[UILabel alloc] initWithFrame:
+                              CGRectMake(20, cell.contentView.frame.size.height - 10, cell.contentView.frame.size.width / 2, 22)];
+    [mainTextLabel setFont:[UIFont systemFontOfSize:15]];
+
+    UILabel *sortTextLabel = [[UILabel alloc] initWithFrame:
+                              CGRectMake(cell.contentView.frame.size.width / 2 - 20, 10, cell.contentView.frame.size.width / 2, 22)];
+    [sortTextLabel setFont:[UIFont systemFontOfSize:15]];
+    [sortTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
+    [sortTextLabel setTextAlignment:UITextAlignmentRight];
+
+    UILabel *typeTextLabel = [[UILabel alloc] initWithFrame:
+                              CGRectMake(20, 10, cell.contentView.frame.size.width / 2, 22)];
+    [typeTextLabel setFont:[UIFont systemFontOfSize:15]];
+    [typeTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
+
+
+    [typeTextLabel setText:[self typeLabelFromType:self.type]];
+    [sortTextLabel setText:sortFieldText];
+
+    CGSize textSize = {
+        cell.contentView.frame.size.width / 2,   // limit width
+        20000.0  // and height of text area
+    };
+
+    CGSize size = [cellText sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:textSize lineBreakMode:NSLineBreakByWordWrapping];
+    CGRect labelFrame = [mainTextLabel frame];
+    labelFrame.size.height = size.height;
+    [mainTextLabel setFrame:labelFrame];
+    [mainTextLabel setText:cellText];
+    mainTextLabel.numberOfLines = 0;
+    mainTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
+
+    [cell.contentView addSubview:mainTextLabel];
+    [cell.contentView addSubview:typeTextLabel];
+    [cell.contentView addSubview:sortTextLabel];
+
+    CGFloat totalHeight = mainTextLabel.frame.size.height + typeTextLabel.frame.size.height + 20;
+
+    return [[OTMCellSorter alloc] initWithCell:cell
+                                       sortKey:self.sortField
+                                      sortData:sortData height:totalHeight
+                                 clickCallback:nil];
+}
+
+- (NSString *)typeLabelFromType:(NSString *)type
+{
+    NSArray *keys = [[NSArray alloc] initWithObjects:@"tree", @"plot", nil];
+    NSArray *labels = [[NSArray alloc] initWithObjects:@"Tree", @"Planting Site", nil];
+    NSDictionary *keyLabels = [[NSDictionary alloc] initWithObjects:labels forKeys:keys];
+
+    // Work against the case insensive string.
+    NSString *typeLabel = [keyLabels objectForKey:[type lowercaseString]];
+    // If no match return the original text.
+    if (!typeLabel) {
+        typeLabel = type;
+    }
+    return typeLabel;
+}
+
+- (NSString *)stringifyData:(id)data byType:(NSString *)type
+{
+    NSString *result;
+    if ([type isEqualToString:@"date"]) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY'-'MM'-'dd' 'HH':'mm':'ss'"];
+        NSDate *date =[dateFormatter dateFromString:data];
+
+        // Newly set dates have a different format so we need to account for
+        // them.
+        if (!date) {
+            [dateFormatter setDateFormat:@"YYYY'-'MM'-'dd'"];
+            date =[dateFormatter dateFromString:data];
+        }
+
+        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        return [dateFormatter stringFromDate:date];
+
+    } else if ([type isEqualToString:@"choice"]) {
+        result = data;
+    } else {
+        result = @"";
+    }
+    return result;
 }
 
 @end
@@ -416,7 +572,11 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     button.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height);
     [cell addSubview:button];
     //[cell.contentView addSubview:button];
-    return [[OTMCellSorter alloc] initWithCell:cell sortKey:nil sortData:nil height:cell.frame.size.height];
+    return [[OTMCellSorter alloc] initWithCell:cell
+                                       sortKey:nil
+                                      sortData:nil
+                                        height:cell.frame.size.height
+                                 clickCallback:nil];
 }
 
 - (id)initWithDataStructure:(NSArray *)dataArray
@@ -709,7 +869,8 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:self.clickCallback];
 }
 
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
@@ -755,11 +916,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
         }
     }
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UDFCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UDFCell"];
-    }
-
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
 
     UILabel *mainTextLabel = [[UILabel alloc] initWithFrame:
                               CGRectMake(20, cell.contentView.frame.size.height - 10, cell.contentView.frame.size.width / 2, 22)];
@@ -799,7 +956,11 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
     CGFloat totalHeight = mainTextLabel.frame.size.height + typeTextLabel.frame.size.height + 20;
 
-    return [[OTMCellSorter alloc] initWithCell:cell sortKey:self.sortField sortData:sortData height:totalHeight];
+    return [[OTMCellSorter alloc] initWithCell:cell
+                                       sortKey:self.sortField
+                                      sortData:sortData
+                                        height:totalHeight
+                                 clickCallback:nil];
 }
 
 - (NSString *)stringifyData:(id)data byType:(NSString *)type
@@ -860,7 +1021,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     [self generateDictFromString:dict];
     [self setHeight];
     self.sortField = sort;
-    self.editCellRenderer = more;
+    self.editCellRenderer = edit;
     return self;
 }
 
@@ -899,6 +1060,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
            sortKey:(NSString *)key
           sortData:(NSString *)data
             height:(CGFloat)h
+     clickCallback:(Function1v)callback;
 {
     self = [super init];
     if (self) {
@@ -906,6 +1068,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
         self.sortKey = key;
         self.sortData = data;
         self.cellHeight = h;
+        self.clickCallback = callback;
     }
     return self;
 }

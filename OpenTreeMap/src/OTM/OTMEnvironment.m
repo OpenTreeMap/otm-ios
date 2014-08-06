@@ -411,11 +411,16 @@
                                       };
         [_udfAddRenderers addObject:addMoreDict];
 
+        OTMUdfCollectionEditCellRenderer *collectionEditRenderer =
+            [[OTMUdfCollectionEditCellRenderer alloc] initWithDataKey:key
+                                                            typeDict:dType
+                                                           sortField:[self.sortKeys objectForKey:key]];
+
         OTMCollectionUDFCellRenderer *collectionRenderer =
             [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:key
                                                          typeDict:dType
                                                         sortField:[self.sortKeys objectForKey:key]
-                                                     editRenderer:nil
+                                                     editRenderer:collectionEditRenderer
                                                   addMoreRenderer:nil];
         [modelFields addObject:collectionRenderer];
     }
@@ -503,8 +508,8 @@
         [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:nil
                                                      typeDict:nil
                                                     sortField:nil
-                                                 editRenderer:nil
-                                              addMoreRenderer:addMore];
+                                                 editRenderer:addMore
+                                              addMoreRenderer:nil];
         [existingArray addObject:collectionRenderer];
     }
 }

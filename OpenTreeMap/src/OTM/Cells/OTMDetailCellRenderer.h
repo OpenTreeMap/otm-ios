@@ -176,6 +176,14 @@ ABSTRACT_METHOD
 
 @interface OTMUdfCollectionEditCellRenderer : OTMEditDetailCellRenderer
 
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, strong) NSDictionary *typeDict;
+@property (nonatomic, strong) NSString *sortField;
+
+- (id)initWithDataKey:(NSString *)dkey
+             typeDict:(NSString *)dict
+            sortField:(NSString *)sort;
+
 @end
 
 @interface OTMUdfAddMoreRenderer : OTMEditDetailCellRenderer
@@ -266,11 +274,12 @@ extern NSString * const UdfDataChangedForStepNotification;
 @property (nonatomic, strong) NSString *sortData;
 @property (nonatomic, strong) UITableViewCell *cell;
 @property (nonatomic, assign) CGFloat cellHeight;
-
+@property (nonatomic,strong) Function1v clickCallback;
 
 - (id)initWithCell:(UITableViewCell *)cell
            sortKey:(NSString *)key
           sortData:(NSString *)data
-            height:(CGFloat)height;
+            height:(CGFloat)height
+     clickCallback:(Function1v)callback;
 
 @end

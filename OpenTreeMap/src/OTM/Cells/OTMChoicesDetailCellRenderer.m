@@ -96,7 +96,8 @@
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 @end
 
@@ -165,7 +166,8 @@
     return [[OTMCellSorter alloc] initWithCell:cell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:self.clickCallback];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {

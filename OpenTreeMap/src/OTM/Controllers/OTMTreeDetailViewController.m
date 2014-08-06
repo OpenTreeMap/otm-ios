@@ -373,7 +373,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         // Add the load more cell to sortable sections with more than three
         // items. We are going to assume that all the sorted cells for a section
         // will only have a single load more button.
-        if ([sortedCells count] > 3) {
+        if ([sortedCells count] > 3 && !editMode) {
             OTMLoadMoreCell *loadMoreCell = [[OTMLoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[OTMLoadMoreCell reuseIdentifier]];
             NSRange headRange = NSMakeRange(0, 3);
             NSRange tailRange = NSMakeRange(3, [sortedCells count] - 3);
@@ -392,7 +392,11 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 
             [loadMoreCell addSubview:button];
 
-            OTMCellSorter *loadMore = [[OTMCellSorter alloc] initWithCell:loadMoreCell sortKey:nil sortData:@"" height:loadMoreCell.frame.size.height];
+            OTMCellSorter *loadMore = [[OTMCellSorter alloc] initWithCell:loadMoreCell
+                                                                  sortKey:nil
+                                                                 sortData:@""
+                                                                   height:loadMoreCell.frame.size.height
+                                                            clickCallback:nil];
 
             [cellsToReturn addObjectsFromArray:sortedCells];
             [cellsToReturn addObject:loadMore];
@@ -883,9 +887,9 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    OTMCellSorter *holder = [[[curCells objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row];
     if (editMode) {
-        Function1v clicker = [[[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row] clickCallback];
-
+        Function1v clicker = [holder clickCallback];
         if (clicker) {
             clicker(self);
         }
