@@ -601,6 +601,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
         self.field = field;
         self.key = key;
         self.preparedNewUdf = [[NSMutableDictionary alloc] init];
+        self.step = 0;
     }
     return self;
 }
@@ -612,6 +613,9 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
 - (void)receiveNotification:(NSNotification *)notification
 {
+    if (self.step == 0) {
+        self.preparedNewUdf = [[NSMutableDictionary alloc] init];
+    }
     NSDictionary *notificationData = [notification object];
     [self.preparedNewUdf setObject:[notificationData objectForKey:@"data"] forKey:[notificationData objectForKey:@"key"]];
 }
@@ -621,6 +625,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
     self.navController = [[UINavigationController alloc] init];
     self.step = 0;
+    self.currentSteps = self.steps;
     self.preparedNewUdf = [[NSMutableDictionary alloc] init];
 
     UIViewController *firstViewController = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
