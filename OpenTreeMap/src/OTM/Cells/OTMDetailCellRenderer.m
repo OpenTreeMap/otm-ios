@@ -392,6 +392,12 @@
 
 @implementation OTMUdfCollectionEditCellRenderer
 
+- (OTMCellSorter *)prepareCell:(NSDictionary *)data
+                       inTable:(UITableView *)tableView
+{
+    return nil;
+}
+
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     return dict;
 }

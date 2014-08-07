@@ -660,10 +660,34 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 - (void)addNewUdfToTree:(NSNotification *)notification
 {
     NSDictionary *notificationData = (NSDictionary *)[notification object];
-    NSMutableArray *udf = [[self.data objectForKey:[notificationData objectForKey:@"key"]]
-        objectForKey:[notificationData objectForKey:@"field"]];
+    NSString *key = [notificationData objectForKey:@"key"];
+    NSString *field = [notificationData objectForKey:@"field"];
+
+    NSMutableArray *udf = [[self.data objectForKey:key] objectForKey:field];
+    if (!udf) {
+        [[self.data objectForKey:key] setValue:[[NSMutableArray alloc] init] forKey:field];
+        udf = [[self.data objectForKey:key] objectForKey:field];
+    }
+
+    /**
+     * For this to be set as a new tree and not just an empty planting site, we
+     * need to set a null value on a tree field. Diameter works fine though is
+     * an arbitrary dicision. If there is not a diamter set for the tree, we set
+     * it to null. This will allow a new tree to be created for our new UDF data
+     * to be added to.
+     *
+     * @TODO - this is a but in the API and will eventually be fixed. We should
+     * fix it here when that happens.
+     */
+    if ([key isEqualToString:@"tree"]) {
+        id diameter = [[self.data objectForKey:key] objectForKey:@"diameter"];
+        if (!diameter) {
+            [[self.data objectForKey:key] setObject:[NSNull alloc] forKey:@"diameter"];
+        }
+    }
+
+    // Not add the new data to the tree data object and reload the view.
     [udf addObject:[notificationData objectForKey:@"data"]];
-    //[self toggleEditMode:YES];
     [self updateCurrentCells];
     [self.tableView reloadData];
 }
