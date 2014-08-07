@@ -571,7 +571,6 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     // Make the button fill the cell so you can't miss it.
     button.frame = CGRectMake(0, 0, cell.frame.size.width, cell.frame.size.height);
     [cell addSubview:button];
-    //[cell.contentView addSubview:button];
     return [[OTMCellSorter alloc] initWithCell:cell
                                        sortKey:nil
                                       sortData:nil
@@ -639,6 +638,8 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
                                                                 style:UIBarButtonItemStyleBordered
                                                                target:self
                                                                action:@selector(nextStep:)]];
+        [[[firstViewController navigationItem] rightBarButtonItem] setEnabled:NO];
+
     }
     [self.originatingDelegate presentModalViewController:self.navController animated:YES];
 }
@@ -685,41 +686,19 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     self.step++;
     UIViewController *nextViewController = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
     [nextViewController setTitle:[[self.currentSteps objectAtIndex:self.step] objectForKey:@"name"]];
-
-    [[nextViewController navigationItem]
-        setLeftBarButtonItem:[[UIBarButtonItem alloc]
-                           initWithTitle:@"Back"
-                           style:UIBarButtonItemStyleBordered
-                           target:self
-                           action:@selector(back:)]];
-
-    if (self.step == ([self.currentSteps count] - 1)) {
-        [[nextViewController navigationItem]
-            setRightBarButtonItem:[[UIBarButtonItem alloc]
-                                initWithTitle:@"Done"
-                                style:UIBarButtonItemStyleBordered
-                                target:self
-                                action:@selector(done:)]];
-    } else {
-        [[nextViewController navigationItem]
-         setRightBarButtonItem:[[UIBarButtonItem alloc]
-                                initWithTitle:@"Next"
-                                style:UIBarButtonItemStyleBordered
-                                target:self
-                                action:@selector(nextStep:)]];
-
-    }
-    [self.navController pushViewController:nextViewController animated:YES];
+    [self.navController pushViewController:nextViewController animated:NO];
 }
 
 - (UIViewController *)generateViewControllerFromDict:(NSDictionary *)dict
 {
     UIViewController *controller;
+
     if ([[dict objectForKey:@"type"] isEqualToString:@"choice"]) {
         OTMUdfChoiceTableViewController *viewController = [[OTMUdfChoiceTableViewController alloc] initWithKey:[dict objectForKey:@"name"]];
         NSArray *choices = [[NSArray alloc] initWithArray:[dict objectForKey:@"choices"]];
         [viewController setChoices:choices];
         controller = (UIViewController *)viewController;
+        [self setControllerButtons:controller withNextEnabled:NO];
 
     } else if ([[dict objectForKey:@"type"] isEqualToString:@"date"]) {
         UIViewController *viewController = [[UIViewController alloc] init];
@@ -728,6 +707,15 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
         [viewController.view addSubview:datePicker];
         [datePicker addTarget:self action:@selector(setDateForKey:) forControlEvents:UIControlEventValueChanged];
         controller = viewController;
+
+        // For dates we initialize the picked date at the current date so we
+        // need to enable the next button. Because of timing issues with the
+        // drawing of the view and the sending of the message we just set it as
+        // endabled when we dray it since we know that we're going to be setting
+        // it with a default.
+        [self setControllerButtons:controller withNextEnabled:YES];
+        [self setDateForKey:datePicker];
+
     } else if ([[dict objectForKey:@"type"] isEqualToString:@"udf_keyed_grouping"]) {
         NSMutableArray *newSteps = [[[[self.steps objectAtIndex:self.step] objectForKey:@"choices"] objectForKey:[self.preparedNewUdf objectForKey:@"Type"]] mutableCopy];
         NSDictionary *firstStep = [self.steps objectAtIndex:0];
@@ -735,7 +723,38 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
         self.currentSteps = [newSteps copy];
         controller = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
     }
+
     return controller;
+}
+
+- (void)setControllerButtons:(UIViewController *)controller withNextEnabled:(BOOL)enabled
+{
+    [[controller navigationItem]
+     setLeftBarButtonItem:[[UIBarButtonItem alloc]
+                           initWithTitle:@"Back"
+                           style:UIBarButtonItemStyleBordered
+                           target:self
+                           action:@selector(back:)]];
+
+    if (self.step == ([self.currentSteps count] - 1)) {
+        [[controller navigationItem]
+         setRightBarButtonItem:[[UIBarButtonItem alloc]
+                                initWithTitle:@"Done"
+                                style:UIBarButtonItemStyleBordered
+                                target:self
+                                action:@selector(done:)]];
+    } else {
+        [[controller navigationItem]
+         setRightBarButtonItem:[[UIBarButtonItem alloc]
+                                initWithTitle:@"Next"
+                                style:UIBarButtonItemStyleBordered
+                                target:self
+                                action:@selector(nextStep:)]];
+
+    }
+    if (!enabled) {
+        [[[controller navigationItem] rightBarButtonItem] setEnabled:NO];
+    }
 }
 
 - (void)setDateForKey:(id)sender
@@ -787,6 +806,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [[[self navigationItem] rightBarButtonItem] setEnabled:YES];
     UITableViewCell *cell = [tblView cellForRowAtIndexPath:indexPath];
     self.choice = cell.textLabel.text;
     NSDictionary *notificationData = @{
@@ -797,19 +817,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     [self.tableView reloadData];
 }
 
-- (void)setChoices:(NSArray *)choicesArray
-{
-    choices = [[NSArray alloc] initWithArray:choicesArray];
-}
-
-- (NSString *)getChoice
-{
-    return choice;
-}
-
 @end
-
-// ADD UDF COLLECTION ADDER.
 
 @implementation OTMStaticClickCellRenderer
 

@@ -216,7 +216,7 @@ extern NSString * const UdfDataChangedForStepNotification;
 @property (nonatomic, strong) NSArray *choices;
 - (id)initWithKey:(NSString *)key;
 - (void)setChoices:(NSArray *)choicesArray;
-- (NSString *)getChoice;
+//- (NSString *)getChoice;
 
 @end
 
