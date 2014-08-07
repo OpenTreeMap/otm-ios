@@ -79,7 +79,7 @@
 -(NSString*)formatHumanReadableDateStringFromString:(NSString *)dateString
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSDate *newDate=[dateFormatter dateFromString:dateString];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
@@ -123,7 +123,7 @@
 }
 -(void)updateTextFieldWithDate:(id)sender {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *updateText = [dateFormatter stringFromDate:_picker.date];
     self.editFieldValue.text = [self formatHumanReadableDateStringFromString:updateText];
     [delegate tableViewCell:self textField:self.editFieldValue updatedToValue:updateText];
