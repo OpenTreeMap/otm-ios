@@ -686,7 +686,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         }
     }
 
-    // Not add the new data to the tree data object and reload the view.
+    // Now add the new data to the tree data object and reload the view.
     [udf addObject:[notificationData objectForKey:@"data"]];
     [self updateCurrentCells];
     [self.tableView reloadData];
