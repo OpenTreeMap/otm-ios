@@ -71,11 +71,14 @@
     OTMMapTableViewCell *detailCell;
 
     if (!self.inited) {
-        OTMCellSorter *cellContainer = (OTMCellSorter *)[super prepareCell:data inTable:tableView];
-        detailCell = (OTMMapTableViewCell *) [cellContainer cell];
-        self.inited = YES;
+        detailCell = [self cellPreparedBySuperClassWithData:data
+                                                inTableView:tableView];
     } else {
         detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMMapDetailCellRendererTableCellId];
+        if (!detailCell) {
+            detailCell = [self cellPreparedBySuperClassWithData:data
+                                                    inTableView:tableView];
+        }
     }
     detailCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return [[OTMCellSorter alloc] initWithCell:detailCell
@@ -83,6 +86,14 @@
                                       sortData:nil
                                         height:self.cellHeight
                                  clickCallback:nil];
+}
+
+- (OTMMapTableViewCell *)cellPreparedBySuperClassWithData:(NSDictionary *)data
+                                              inTableView:(UITableView *)tableView
+{
+    OTMCellSorter *cellContainer = (OTMCellSorter *)[super prepareCell:data inTable:tableView];
+    self.inited = YES;
+    return (OTMMapTableViewCell *)[cellContainer cell];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {

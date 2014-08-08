@@ -53,6 +53,8 @@
 
 extern NSString * const UdfNewDataCreatedNotification;
 
++ (int)tempId;
+
 @property (nonatomic,weak) id<OTMTreeDetailViewDelegate> delegate;
 
 @property (nonatomic,strong) IBOutlet OTMPictureTaker *pictureTaker;

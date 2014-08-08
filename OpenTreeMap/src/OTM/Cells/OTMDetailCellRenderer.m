@@ -106,7 +106,7 @@
 {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailCellRendererCellId];
 
-    if (detailcell == nil) {
+    if (!detailcell) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMLabelDetailCellRendererCellId];
     }
@@ -261,56 +261,74 @@
 {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailEditCellRendererCellId];
 
-    if (detailcell == nil) {
+    if (!detailcell) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMLabelDetailEditCellRendererCellId];
     }
-
-    if (!self.inited) {
-        detailcell.delegate = self;
-        detailcell.editFieldValue.hidden = NO;
-        detailcell.fieldValue.hidden = YES;
-        detailcell.keyboardType = keyboard;
-
-        id value = [data decodeKey:self.dataKey];
-        NSString *disp = @"";
-
-        if (value != nil) {
-            disp = [_formatter formatWithoutUnit:[value floatValue]];
-        }
-
-        if (self.isDateField) {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-            NSDate *originalDate =[dateFormatter dateFromString:value];
-            [detailcell setDatePickerInputWithInitialDate:originalDate];
-            disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];
-
-        }
-
-        detailcell.editFieldValue.text = disp;
-        detailcell.fieldLabel.text = self.label;
-
-        /**
-         * Edit cells don't have a fieldValue like the normal detail cell. We
-         * want nice alignment so offset the frame for the name to take up the
-         * place that the value was holding.
-         * To see where these numbers are coming from
-         * @see OTMDetailTableViewCell
-         * @see - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-         */
-        detailcell.fieldLabel.frame = CGRectOffset(detailcell.fieldLabel.frame, 0, self.cellHeight/4 - 1);
-
-        detailcell.unitLabel.text = _formatter.label;
-        self.inited = YES;
-
-    }
+    [self buildCell:detailcell fromData:data inTable:tableView];
 
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
                                         height:self.cellHeight
                                  clickCallback:nil];
+}
+
+- (void)buildCell:(OTMDetailTableViewCell *)detailcell fromData:(NSDictionary *)data
+                                      inTable:(UITableView *)tableView
+{
+    detailcell.delegate = self;
+    detailcell.editFieldValue.hidden = NO;
+    detailcell.fieldValue.hidden = YES;
+    detailcell.keyboardType = keyboard;
+
+    id value = [data decodeKey:self.dataKey];
+    NSString *disp;
+
+    if (value != nil) {
+        if (_formatter) {
+            disp = [_formatter formatWithoutUnit:[value floatValue]];
+        } else {
+            disp = value;
+        }
+    }
+    if (self.updatedString != nil) {
+        if (_formatter) {
+            disp = [_formatter formatWithoutUnit:[self.updatedString floatValue]];
+        } else {
+            disp = self.updatedString;
+        }
+    }
+
+    if (self.isDateField) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate *originalDate =[dateFormatter dateFromString:value];
+        [detailcell setDatePickerInputWithInitialDate:originalDate];
+        disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];
+
+    }
+
+    detailcell.editFieldValue.text = disp;
+    detailcell.fieldLabel.text = self.label;
+
+    /**
+     * Edit cells don't have a fieldValue like the normal detail cell. We
+     * want nice alignment so offset the frame for the name to take up the
+     * place that the value was holding.
+     * To see where these numbers are coming from
+     * @see OTMDetailTableViewCell
+     * @see - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+     */
+    detailcell.fieldLabel.frame = CGRectMake(
+                                             20,
+                                             (self.cellHeight / 2) - (detailcell.fieldLabel.frame.size.height / 2),
+                                             detailcell.fieldLabel.frame.size.width,
+                                             detailcell.fieldLabel.frame.size.height
+                                             );
+
+    detailcell.unitLabel.text = _formatter.label;
+    self.inited = YES;
 }
 
 @end
@@ -364,21 +382,8 @@
 
 - (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
 {
-    if (!self.inited) {
-        id elmt = [data decodeKey:self.dataKey];
-
-        NSString *disp = @"";
-        if (elmt != nil) {
-            CGFloat dispValue = [elmt floatValue];
-            disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
-        }
-
-        self.cell.diameterTextField.text = disp;
-        [self tableViewCell:nil
-                  textField:self.cell.diameterTextField
-             updatedToValue:self.cell.diameterTextField.text];
-
-        self.inited = YES;
+    if (!self.inited || !_cell) {
+        [self buildAndInitializeCellWithData:data inTable:tableView];
     }
 
     return [[OTMCellSorter alloc] initWithCell:_cell
@@ -388,9 +393,30 @@
                                  clickCallback:nil];
 }
 
+- (void)buildAndInitializeCellWithData:(NSDictionary *)data
+                               inTable:(UITableView *)tableView
+{
+    id elmt = [data decodeKey:self.dataKey];
+
+    NSString *disp = @"";
+    if (elmt != nil) {
+        CGFloat dispValue = [elmt floatValue];
+        disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
+    }
+
+    self.cell.diameterTextField.text = disp;
+    [self tableViewCell:nil
+              textField:self.cell.diameterTextField
+         updatedToValue:self.cell.diameterTextField.text];
+
+    self.inited = YES;
+}
+
 @end
 
 @implementation OTMUdfCollectionEditCellRenderer
+
+NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
 
 - (OTMCellSorter *)prepareCell:(NSDictionary *)data
                        inTable:(UITableView *)tableView
@@ -398,20 +424,72 @@
     return nil;
 }
 
-- (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
+-(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     return dict;
 }
 
 - (id)initWithDataKey:(NSString *)dkey
              typeDict:(NSString *)dict
             sortField:(NSString *)sort
+             keyField:(NSString *)keyField
+             editable:(BOOL)canEdit
+          editableKey:(NSString *)editKey
+ editableDefaultValue:(NSString *)defaultValue
 {
     self = [super initWithDataKey:dkey editRenderer:nil];
     [self generateDictFromString:dict];
     [self setHeight];
     self.sortField = sort;
-    self.clickCallback = nil;
+    self.startData = [[NSMutableDictionary alloc] init];
+    self.typeKeyField = keyField;
+
+    if (canEdit) {
+        self.editableKey = editKey;
+        self.editableDefaultValue = defaultValue;
+        if ([[[self.typeDict objectForKey:self.editableKey] objectForKey:@"type"] isEqualToString:@"choice"]) {
+            self.controller = [[UITableViewController alloc] init];
+            self.controller.navigationItem.hidesBackButton = YES;
+            self.controller.navigationItem.rightBarButtonItem =
+            [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                          target:self
+                                                          action:@selector(done:)];
+
+            __block UITableViewController *tableController = self.controller;
+            OTMUdfCollectionEditCellRenderer * __weak weakSelf = self;
+            self.clickCallback = ^(UIViewController *aController, NSMutableDictionary *cellData) {
+                weakSelf.startData = cellData;
+                weakSelf.selected = [cellData objectForKey:editKey];
+                [tableController.tableView reloadData];
+                [aController.navigationController pushViewController:tableController animated:YES];
+            };
+            self.controller.tableView.delegate = (id<UITableViewDelegate>)self;
+            self.controller.tableView.dataSource = (id<UITableViewDataSource>)self;
+        } // Might want to check for other cases here (date) but in our current
+        // situation this will only be a choice list.
+    } else {
+        self.clickCallback = nil;
+    }
     return self;
+}
+
+- (void)done:(id)sender
+{
+    NSDictionary *notificationData;
+    NSArray *keyFieldArray = [self.typeKeyField componentsSeparatedByString:@"."];
+    NSMutableDictionary *updatedUdf;
+    updatedUdf = [self.startData mutableCopy];
+    [updatedUdf setObject:self.selected forKey:self.editableKey];
+    // Just a precaution.
+    if ([keyFieldArray count] >= 2) {
+        notificationData = @{
+                             @"key"   : keyFieldArray[0],
+                             @"field" : keyFieldArray[1],
+                             @"data"  : [updatedUdf copy]
+                             };
+    }
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:UdfUpdateNotification object:notificationData];
+    [self.controller.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)generateDictFromString:(NSString *)dictString
@@ -468,12 +546,20 @@
 
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
 
+    // If the cell is clickable, add a chevron.
+    if (self.clickCallback) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+
     UILabel *mainTextLabel = [[UILabel alloc] initWithFrame:
                               CGRectMake(20, cell.contentView.frame.size.height - 10, cell.contentView.frame.size.width / 2, 22)];
     [mainTextLabel setFont:[UIFont systemFontOfSize:15]];
 
+    // If editable make room for the chevron.
+    int horizontalOffset = self.clickCallback ? 35 : 20;
+
     UILabel *sortTextLabel = [[UILabel alloc] initWithFrame:
-                              CGRectMake(cell.contentView.frame.size.width / 2 - 20, 10, cell.contentView.frame.size.width / 2, 22)];
+                              CGRectMake(cell.contentView.frame.size.width / 2 - horizontalOffset, 10, cell.contentView.frame.size.width / 2, 22)];
     [sortTextLabel setFont:[UIFont systemFontOfSize:15]];
     [sortTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
     [sortTextLabel setTextAlignment:UITextAlignmentRight];
@@ -492,7 +578,8 @@
         20000.0  // and height of text area
     };
 
-    CGSize size = [cellText sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:textSize lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [cellText sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:textSize
+                                                                            lineBreakMode:NSLineBreakByWordWrapping];
     CGRect labelFrame = [mainTextLabel frame];
     labelFrame.size.height = size.height;
     [mainTextLabel setFrame:labelFrame];
@@ -508,8 +595,10 @@
 
     return [[OTMCellSorter alloc] initWithCell:cell
                                        sortKey:self.sortField
-                                      sortData:sortData height:totalHeight
-                                 clickCallback:nil];
+                                      sortData:sortData
+                                  originalData:[data mutableCopy]
+                                        height:totalHeight
+                                 clickCallback:self.clickCallback];
 }
 
 - (NSString *)typeLabelFromType:(NSString *)type
@@ -553,6 +642,35 @@
     }
     return result;
 }
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSArray *choices = [[self.typeDict objectForKey:self.editableKey] objectForKey:@"choices"];
+    return [choices count];
+}
+
+- (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *choices = [[self.typeDict objectForKey:self.editableKey] objectForKey:@"choices"];
+    self.selected = [choices objectAtIndex:indexPath.row];
+    [tblView reloadData];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSArray *choices = [[self.typeDict objectForKey:self.editableKey] objectForKey:@"choices"];
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    cell.textLabel.text = [choices objectAtIndex:indexPath.row];
+    if ([self.selected isEqualToString:[choices objectAtIndex:indexPath.row]]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    return cell;
+}
+
+@end
+
+@implementation OTMUdfEditTableViewController
 
 @end
 
@@ -836,13 +954,13 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
 @synthesize name, data, defaultName;
 
-- (id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback {
+- (id)initWithKey:(NSString *)key clickCallback:(Function2v)aCallback {
     return [self initWithName:nil key:key clickCallback:aCallback];
 }
 
 - (id)initWithName:(NSString *)aName
                key:(NSString *)key
-     clickCallback:(Function1v)aCallback
+     clickCallback:(Function2v)aCallback
 {
     self = [super init];
 
@@ -862,7 +980,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 {
     UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
 
-    if (detailcell == nil) {
+    if (!detailcell) {
         detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                             reuseIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
     }
@@ -1079,7 +1197,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
            sortKey:(NSString *)key
           sortData:(NSString *)data
             height:(CGFloat)h
-     clickCallback:(Function1v)callback;
+     clickCallback:(Function2v)callback;
 {
     self = [super init];
     if (self) {
@@ -1091,5 +1209,26 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     }
     return self;
 }
+
+- (id)initWithCell:(UITableViewCell *)cell
+           sortKey:(NSString *)key
+          sortData:(NSString *)data
+    originalData:(NSMutableDictionary *)startData
+            height:(CGFloat)h
+     clickCallback:(Function2v)callback;
+{
+    self = [super init];
+    if (self) {
+        self.cell = cell;
+        self.sortKey = key;
+        self.sortData = data;
+        self.cellHeight = h;
+        self.clickCallback = callback;
+        self.originalData = startData;
+    }
+    return self;
+}
+
+
 
 @end

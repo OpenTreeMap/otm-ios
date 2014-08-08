@@ -120,7 +120,7 @@
                                                         action:@selector(done:)];
 
         __block UIViewController *tableController = controller;
-        self.clickCallback = ^(UIViewController *aController) {
+        self.clickCallback = ^(UIViewController *aController,  NSMutableDictionary *dict) {
             [aController.navigationController pushViewController:tableController animated:YES];
         };
 
@@ -138,7 +138,7 @@
 - (OTMCellSorter *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView
 {
 
-    if (cell == nil) {
+    if (!cell) {
         cell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMEditChoicesDetailCellRendererCellId];
     }

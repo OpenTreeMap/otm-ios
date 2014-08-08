@@ -394,15 +394,6 @@
         [modelFields addObject:renderer];
     } else if (isCollection) {
 
-        /*
-        OTMEditDetailCellRenderer *udfEditRenderer = [[OTMEditDetailCellRenderer alloc] init];
-        OTMUdfAddMoreRenderer *addMore =
-            [[OTMUdfAddMoreRenderer alloc]
-                initWithDataStructure:(NSArray *)dType
-                                field:field
-                                  key:key
-                          displayName:displayField];
-         */
         NSDictionary *addMoreDict = @{
                                       @"key" : key,
                                       @"field" : field,
@@ -411,10 +402,24 @@
                                       };
         [_udfAddRenderers addObject:addMoreDict];
 
+        BOOL editable = NO;
+        NSString *defaultSetting;
+        NSString *editableField;
+        for (NSDictionary *fieldData in (NSArray *)dType) {
+            defaultSetting = [fieldData objectForKey:@"default"];
+            editableField = [fieldData objectForKey:@"name"];
+            if (defaultSetting) {
+                editable = YES;
+            }
+        }
         OTMUdfCollectionEditCellRenderer *collectionEditRenderer =
             [[OTMUdfCollectionEditCellRenderer alloc] initWithDataKey:key
                                                             typeDict:dType
-                                                           sortField:[self.sortKeys objectForKey:key]];
+                                                           sortField:[self.sortKeys objectForKey:key]
+                                                            keyField:key
+                                                            editable:editable
+                                                         editableKey:editableField
+                                                editableDefaultValue:defaultSetting];
 
         OTMCollectionUDFCellRenderer *collectionRenderer =
             [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:key

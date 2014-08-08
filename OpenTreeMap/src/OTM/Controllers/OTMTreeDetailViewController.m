@@ -32,6 +32,8 @@
 
 @end
 
+static int tempId = 0;
+
 @implementation OTMTreeDetailViewController
 
 @synthesize data, keys, tableView, address, species, lastUpdateDate, updateUser,
@@ -40,6 +42,7 @@
 
 NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification";
 
++ (int) tempId { return tempId; }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -117,9 +120,16 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(addNewUdfToTree:)
+                                             selector:@selector(addNewUdf:)
                                                  name:UdfNewDataCreatedNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateUdf:)
+                                                 name:UdfUpdateNotification
+                                               object:nil];
+
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -243,7 +253,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
     OTMDetailCellRenderer *pictureRow = nil;
     if ([[OTMEnvironment sharedEnvironment] speciesFieldIsWritable]) {
         speciesRow = [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
-                                                       clickCallback:^(OTMDetailCellRenderer *renderer)
+                                                       clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData)
         {
             [self performSegueWithIdentifier:@"changeSpecies"
                                       sender:self];
@@ -266,7 +276,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         speciesRow.detailDataKey = @"tree.sci_name";
     } else {
         speciesRow = [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
-                                                       clickCallback:^(OTMDetailCellRenderer *renderer) {}];
+                                                       clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData) {}];
 
         speciesRow.defaultName = @"Species cannot be changed";
         speciesRow.detailDataKey = @"tree.sci_name";
@@ -276,7 +286,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         pictureRow = [[OTMStaticClickCellRenderer alloc]
                       initWithName:@"Tree Picture"
                                key:@""
-                     clickCallback:^(OTMDetailCellRenderer *renderer)
+                     clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData)
         {
             [self updatePicture];
         }];
@@ -284,7 +294,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         pictureRow = [[OTMStaticClickCellRenderer alloc]
                       initWithName:@"Picture cannot be changed"
                                key:@""
-                     clickCallback:^(OTMDetailCellRenderer *renderer) {}];
+                     clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData) {}];
     }
 
     // Species and photo cells get added to the structure for editable fields.
@@ -579,6 +589,26 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                     self.data = [editFld updateDictWithValueFromCell:data];
                 }
             }
+            // Clean up temp keys from udf data.
+            //NSMutableSet *udfCollectionStrings = [[NSMutableSet alloc] init];
+            for (NSArray *set in [[OTMEnvironment sharedEnvironment] fieldKeys]) {
+                for (id cellRenderer in set) {
+                    if ([cellRenderer isKindOfClass:[OTMCollectionUDFCellRenderer class]]) {
+                        NSArray *dataPath = [[cellRenderer dataKey] componentsSeparatedByString:@"."];
+                        if ([dataPath count] >= 2) {
+                            NSMutableArray *udfCollection = [[self.data objectForKey:dataPath[0]] objectForKey:dataPath[1]];
+                            //NSMutableArray *cleanedUdfData = [[NSMutableArray alloc] init];
+                            for (int i = 0; i < [udfCollection count]; i++) {
+                                NSDictionary *udfData = udfCollection[i];
+                                NSMutableDictionary *cleanedUdf = [udfData mutableCopy];
+                                [cleanedUdf removeObjectForKey:@"tempId"];
+                                [udfCollection removeObjectAtIndex:i];
+                                [udfCollection insertObject:cleanedUdf atIndex:i];
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         [self syncTopData];
@@ -657,11 +687,16 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
     [self resetHeaderPosition];
 }
 
-- (void)addNewUdfToTree:(NSNotification *)notification
+- (void)addNewUdf:(NSNotification *)notification
 {
     NSDictionary *notificationData = (NSDictionary *)[notification object];
     NSString *key = [notificationData objectForKey:@"key"];
     NSString *field = [notificationData objectForKey:@"field"];
+
+    // Increment the temp key.
+    tempId++;
+    NSNumber *tId = [NSNumber numberWithInt:tempId];
+    [[notificationData objectForKey:@"data"] setObject:tId forKey:@"tempId"];
 
     NSMutableArray *udf = [[self.data objectForKey:key] objectForKey:field];
     if (!udf) {
@@ -688,6 +723,31 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 
     // Now add the new data to the tree data object and reload the view.
     [udf addObject:[notificationData objectForKey:@"data"]];
+    [self updateCurrentCells];
+    [self.tableView reloadData];
+}
+
+- (void)updateUdf:(NSNotification *)notification
+{
+    NSDictionary *notificationData = (NSDictionary *)[notification object];
+    NSString *key = [notificationData objectForKey:@"key"];
+    NSString *field = [notificationData objectForKey:@"field"];
+
+    // Ufd feild must be there or they couldn't have clicked it.
+    NSMutableArray *udfs = [[self.data objectForKey:key] objectForKey:field];
+    for (int i = 0; i < [udfs count]; i++) {
+        NSDictionary *oldUdf = [udfs objectAtIndex:i];
+        if ([oldUdf objectForKey:@"id"] != nil && [oldUdf objectForKey:@"id"] == [[notificationData objectForKey:@"data"] objectForKey:@"id"]) {
+            [udfs removeObjectAtIndex:i];
+            [udfs insertObject:[notificationData objectForKey:@"data"]atIndex:i];
+        }
+        // Check for tempId as well.
+        if ([oldUdf objectForKey:@"tempId"] != nil && [oldUdf objectForKey:@"tempId"] == [[notificationData objectForKey:@"data"] objectForKey:@"tempId"]) {
+            [udfs removeObjectAtIndex:i];
+            [udfs insertObject:[notificationData objectForKey:@"data"]atIndex:i];
+        }
+    }
+
     [self updateCurrentCells];
     [self.tableView reloadData];
 }
@@ -810,8 +870,9 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         if ([renderer respondsToSelector:@selector(fieldName)] && [renderer respondsToSelector:@selector(fieldChoices)]) {
             fieldDetailViewController.choices = [renderer fieldChoices];
         } else {
-            // The view controller uses the presence of this property to determine how
-            // to display the value, so it must be nil'd out if ot os not a choices field
+            // The view controller uses the presence of this property to
+            // determine how to display the value, so it must be nil'd out if it
+            // is not a choices field.
             fieldDetailViewController.choices = nil;
         }
         fieldDetailViewController.pendingEditsUpdatedCallback = ^(NSDictionary *updatedData){
@@ -913,9 +974,10 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 {
     OTMCellSorter *holder = [[[curCells objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row];
     if (editMode) {
-        Function1v clicker = [holder clickCallback];
+        Function2v clicker = [holder clickCallback];
         if (clicker) {
-            clicker(self);
+            NSMutableDictionary *startData = [holder originalData];
+            clicker(self, startData);
         }
     } else {
         if ([[tblView cellForRowAtIndexPath:indexPath] accessoryType] != UITableViewCellAccessoryNone)

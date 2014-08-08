@@ -76,7 +76,7 @@
 @property (nonatomic,strong) OTMEditDetailCellRenderer *editCellRenderer;
 
 // Table View Delegate methods
-@property (nonatomic,strong) Function1v clickCallback;
+@property (nonatomic,strong) Function2v clickCallback;
 @property (nonatomic,assign) CGFloat cellHeight;
 
 @property (nonatomic, strong) UIViewController *originatingDelegate;
@@ -176,13 +176,31 @@ ABSTRACT_METHOD
 
 @interface OTMUdfCollectionEditCellRenderer : OTMEditDetailCellRenderer
 
+extern NSString * const UdfUpdateNotification;
+
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSDictionary *typeDict;
 @property (nonatomic, strong) NSString *sortField;
+@property (nonatomic, strong) NSString *selected;
+@property (nonatomic, strong) NSString *typeKeyField;
+@property (nonatomic, strong) NSString *editableKey;
+@property (nonatomic, strong) NSString *editableDefaultValue;
+@property (nonatomic, strong) NSDictionary *typeDict;
+@property (nonatomic, strong) UITableViewController *controller;
+@property (nonatomic, strong) NSMutableDictionary *startData;
 
 - (id)initWithDataKey:(NSString *)dkey
              typeDict:(NSString *)dict
-            sortField:(NSString *)sort;
+            sortField:(NSString *)sort
+             keyField:(NSString *)keyField
+             editable:(BOOL)canEdit
+          editableKey:(NSString *)editKey
+ editableDefaultValue:(NSString *)defaultValue;
+
+@end
+
+@interface OTMUdfEditTableViewController : UITableViewController
+
+@property NSMutableDictionary *startData;
 
 @end
 
@@ -216,7 +234,6 @@ extern NSString * const UdfDataChangedForStepNotification;
 @property (nonatomic, strong) NSArray *choices;
 - (id)initWithKey:(NSString *)key;
 - (void)setChoices:(NSArray *)choicesArray;
-//- (NSString *)getChoice;
 
 @end
 
@@ -232,9 +249,9 @@ extern NSString * const UdfDataChangedForStepNotification;
 
 - (id)initWithName:(NSString *)aName
                key:(NSString *)key
-     clickCallback:(Function1v)aCallback;
+     clickCallback:(Function2v)aCallback;
 
-- (id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback;
+- (id)initWithKey:(NSString *)key clickCallback:(Function2v)aCallback;
 
 @property (nonatomic,strong) NSString *defaultName;
 @property (nonatomic,strong) NSString *name;
@@ -250,8 +267,8 @@ extern NSString * const UdfDataChangedForStepNotification;
 @interface OTMCollectionUDFCellRenderer : OTMDetailCellRenderer
 
 @property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSDictionary *typeDict;
 @property (nonatomic, strong) NSString *sortField;
+@property (nonatomic, strong) NSDictionary *typeDict;
 
 - (id)initWithDataKey:(NSString *)dkey
              typeDict:(NSString *)dict
@@ -273,13 +290,21 @@ extern NSString * const UdfDataChangedForStepNotification;
 @property (nonatomic, strong) NSString *sortKey;
 @property (nonatomic, strong) NSString *sortData;
 @property (nonatomic, strong) UITableViewCell *cell;
+@property (nonatomic, strong) NSMutableDictionary *originalData;
 @property (nonatomic, assign) CGFloat cellHeight;
-@property (nonatomic,strong) Function1v clickCallback;
+@property (nonatomic,strong) Function2v clickCallback;
 
 - (id)initWithCell:(UITableViewCell *)cell
            sortKey:(NSString *)key
           sortData:(NSString *)data
             height:(CGFloat)height
-     clickCallback:(Function1v)callback;
+     clickCallback:(Function2v)callback;
+
+- (id)initWithCell:(UITableViewCell *)cell
+           sortKey:(NSString *)key
+          sortData:(NSString *)data
+      originalData:(NSMutableDictionary *)startData
+            height:(CGFloat)height
+     clickCallback:(Function2v)callback;
 
 @end
