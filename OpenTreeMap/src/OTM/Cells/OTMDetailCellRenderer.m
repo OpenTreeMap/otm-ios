@@ -954,6 +954,11 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     return self;
 }
 
+- (void)setChoices:(NSArray *)choicesArray {
+    choices = [[NSArray alloc] initWithArray:choicesArray];
+    self.choiceLabels = [self translateKeyLabels:choices];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -966,7 +971,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UdfChoiceCell"];
-    cell.textLabel.text = [self.choices objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.choiceLabels objectAtIndex:indexPath.row];
     if ([[self.choices objectAtIndex:indexPath.row] isEqualToString:self.choice]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
@@ -976,14 +981,35 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[[self navigationItem] rightBarButtonItem] setEnabled:YES];
-    UITableViewCell *cell = [tblView cellForRowAtIndexPath:indexPath];
-    self.choice = cell.textLabel.text;
+    self.choice = [self.choices objectAtIndex:indexPath.row];
     NSDictionary *notificationData = @{
                            @"key" : self.key,
                            @"data": self.choice
                            };
     [[NSNotificationCenter defaultCenter] postNotificationName:UdfDataChangedForStepNotification object:notificationData];
     [self.tableView reloadData];
+}
+
+- (NSArray *)translateKeyLabels:(NSArray *)choiceKeys
+{
+    NSMutableArray *humanReadableChoices = [[NSMutableArray alloc] init];
+    NSDictionary *translations = @{
+                     @"tree.udf:Stewardship": @"Tree",
+                     @"plot.udf:Stewardship": @"Planting Site",
+                     @"tree.udf:Alerts"     : @"Tree",
+                     @"plot.udf:Alerts"     : @"Planting Site",
+                     };
+
+    for (NSString *choiceKey in choiceKeys) {
+        // If this key has labels, then set them otherwise return the original
+        // value.
+        if ([translations objectForKey:choiceKey]) {
+            [humanReadableChoices addObject:[translations objectForKey:choiceKey]];
+        } else {
+            [humanReadableChoices addObject:choiceKey];
+        }
+    }
+    return humanReadableChoices;
 }
 
 @end
