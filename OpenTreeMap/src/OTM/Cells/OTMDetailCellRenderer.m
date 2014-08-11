@@ -746,6 +746,18 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     self.currentSteps = self.steps;
     self.preparedNewUdf = [[NSMutableDictionary alloc] init];
 
+    BOOL finalStep = NO;
+    // If the next step is the default, and also the last step then we should be
+    // done after this one.
+    if ([self.currentSteps count] == 2) {
+        NSDictionary *next = [self.currentSteps objectAtIndex:(self.step + 1)];
+        if ([next objectForKey:@"default"]) {
+            finalStep = YES;
+        }
+    } else if (self.step == ([self.currentSteps count] - 1)) {
+        finalStep = YES;
+    }
+
     UIViewController *firstViewController = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
     [firstViewController setTitle:[[self.currentSteps objectAtIndex:self.step] objectForKey:@"name"]];
     [self.navController pushViewController:firstViewController animated:NO];
@@ -755,7 +767,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
                                                               style:UIBarButtonItemStyleBordered
                                                              target:self
                                                              action:@selector(cancelEditing:)]];
-    if (self.step == [self.currentSteps count] - 1) {
+    if (finalStep) {
         [[firstViewController navigationItem]
          setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Done"
                                                                 style:UIBarButtonItemStyleBordered
@@ -813,6 +825,16 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 - (void) nextStep:(id)sender
 {
     self.step++;
+
+    // If this is the default step skip to the next one.
+    if ([[self.currentSteps objectAtIndex:self.step] objectForKey:@"default"]) {
+        // Make sure there is another step ahead of us. This should never happen
+        // but it is good to be defensive.
+        if ([self.steps count] - 1 == self.step + 1) {
+            self.step++;
+        }
+    }
+
     UIViewController *nextViewController = [self generateViewControllerFromDict:[self.currentSteps objectAtIndex:self.step]];
     [nextViewController setTitle:[[self.currentSteps objectAtIndex:self.step] objectForKey:@"name"]];
     [self.navController pushViewController:nextViewController animated:NO];
@@ -858,6 +880,24 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
 - (void)setControllerButtons:(UIViewController *)controller withNextEnabled:(BOOL)enabled
 {
+    BOOL finalStep = NO;
+    // If we're on the second to last step...
+    if ([self.currentSteps count] == self.step + 2) {
+        NSDictionary *next = [self.currentSteps objectAtIndex:(self.step + 1)];
+        // ... and the next step is the default, then we should be done after
+        // this one.
+        if ([next objectForKey:@"default"]) {
+            finalStep = YES;
+            NSDictionary *notificationData = @{
+                                               @"key" : [next objectForKey:@"name"],
+                                               @"data" : [next objectForKey:@"default"]
+                                               };
+            [[NSNotificationCenter defaultCenter] postNotificationName:UdfDataChangedForStepNotification object:notificationData];
+        }
+    } else if (self.step == ([self.currentSteps count] - 1)) {
+        finalStep = YES;
+    }
+
     [[controller navigationItem]
      setLeftBarButtonItem:[[UIBarButtonItem alloc]
                            initWithTitle:@"Back"
@@ -865,7 +905,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
                            target:self
                            action:@selector(back:)]];
 
-    if (self.step == ([self.currentSteps count] - 1)) {
+    if (finalStep) {
         [[controller navigationItem]
          setRightBarButtonItem:[[UIBarButtonItem alloc]
                                 initWithTitle:@"Done"
