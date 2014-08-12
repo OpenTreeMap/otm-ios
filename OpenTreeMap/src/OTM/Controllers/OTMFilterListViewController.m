@@ -30,17 +30,17 @@
     return false;
 }
 
-- (NSDictionary *)filtersDict {
-    NSMutableDictionary *m = [NSMutableDictionary dictionary];
-    [m addEntriesFromDictionary:[self customFiltersDict]];
+- (NSArray *)filtersDict {
+    NSMutableArray *m = [[NSMutableArray alloc] init];
+    [m addObjectsFromArray:[self customFiltersData]];
 
     if ([self listFilterType] == kOTMFiltersShowRecent) {
-        [m setObject:@"true" forKey:@"filter_recent"];
+        [m addObject:@{ @"filter_recent" : @"true" }];
     } else if ([self listFilterType] == kOTMFiltersShowPending) {
-        [m setObject:@"true" forKey:@"filter_pending"];
+        [m addObject:@{ @"filter_pending" : @"true" }];
     }
 
-    return m;
+    return [m copy];
 }
 
 - (NSString *)filtersAsUrlParameter {
@@ -55,16 +55,40 @@
     return filter;
 }
 
-- (NSDictionary *)customFiltersDict {
-    NSMutableDictionary *m = [NSMutableDictionary dictionary];
+- (NSArray *)customFiltersData {
+    NSMutableDictionary *andParams = [NSMutableDictionary dictionary];
+    NSMutableDictionary *orParams = [NSMutableDictionary dictionary];
+
     if (_speciesId != nil) {
-        m[@"species.id"] = @{ @"IS": _speciesId };
+        andParams[@"species.id"] = @{ @"IS": _speciesId };
     }
 
     for(OTMFilter *f in _filters) {
-        [m addEntriesFromDictionary:[f queryParams]];
+        if (![f isKindOfClass:[OTMDefaultFilter class]]) {
+            [andParams addEntriesFromDictionary:[f queryParams]];
+        } else {
+            [orParams addEntriesFromDictionary:[f queryParams]];
+        }
     }
-    return m;
+
+    NSMutableArray *orArray = [[NSMutableArray alloc] init];
+    for (id key in orParams) {
+        [orArray addObject:@{ key : [orParams objectForKey:key] }];
+    }
+    if ([orArray count]) {
+        [orArray insertObject:@"OR" atIndex:0];
+    }
+
+    NSMutableArray *queryData = [[NSMutableArray alloc] init];
+    [queryData addObject:@"AND"];
+    for (id key in andParams) {
+        [queryData addObject:@{key: [andParams objectForKey:key]}];
+    }
+    if ([orArray count]) {
+        [queryData addObject:orArray];
+    }
+
+    return queryData;
 }
 
 - (NSString *)description
@@ -224,6 +248,87 @@
         } else {
             return [NSDictionary dictionaryWithObjectsAndKeys:_toggle.on ? @"true" : @"false", self.key, nil];
         }
+    } else {
+        return [NSDictionary dictionary];
+    }
+}
+
+@end
+
+/**
+ * Filter class to handle choices that have a default value. This was
+ * specifically built to handle filters for alerts. Mostly a direct copy of the
+ * boolean search but with the data set to a default value provided by the
+ * fields data.
+ */
+@implementation OTMDefaultFilter
+
+- (id)initWithName:(NSString *)nm
+               key:(NSString *)k
+        defaultKey:(NSString *)dk
+      defaultValue:(NSString *)dv
+{
+    self = [super init];
+    if (self) {
+        [self setName:nm];
+        [self setKey:k];
+        [self setDefaultKey:dk];
+        [self setDefaultValue:dv];
+    }
+
+    return self;
+}
+
+- (void)setDefaultKey:(NSString *)defaultKey
+{
+    _defaultKey = defaultKey;
+}
+
+- (void)setDefaultValue:(NSString *)defaultValue
+{
+    _defaultValue = defaultValue;
+}
+
+- (UIView *)view {
+    if (![self viewSet]) {
+        [self setView:[self createView]];
+    }
+    return [super view];
+}
+
+- (UIView *)createView {
+    CGRect r = CGRectMake(0,0,320,40);
+    [self setView:[[UIView alloc] initWithFrame:r]];
+
+    _nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
+    _nameLbl.backgroundColor = [UIColor clearColor];
+    _nameLbl.textAlignment = UITextAlignmentLeft;
+    _nameLbl.text = self.name;
+
+    CGRect switchRect = CGRectMake(0,0,79,27); // this is the default (and only?) size for an iOS toggle switch
+    CGFloat rightPad = 20.0;
+    CGFloat ox = r.size.width - (rightPad + switchRect.size.width);
+    CGFloat oy = (int)((r.size.height - switchRect.size.height) / 2.0);
+
+    _toggle = [[UISwitch alloc] initWithFrame:CGRectOffset(switchRect, ox, oy)];
+
+    [self.view addSubview:_nameLbl];
+    [self.view addSubview:_toggle];
+
+    return self.view;
+}
+
+- (BOOL)active {
+    return _toggle.on;
+}
+
+- (void)clear {
+    [_toggle setOn:NO animated:YES];
+}
+
+- (NSDictionary *)queryParams {
+    if ([self active]) {
+        return @{ self.key : self.defaultValue };
     } else {
         return [NSDictionary dictionary];
     }
