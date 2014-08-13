@@ -60,7 +60,7 @@
     OTMCellSorter *sorterCell;
     if ([elmt isKindOfClass:[NSArray class]]) {
         for (id dataElement in elmt) {
-            sorterCell = (OTMCellSorter *)[self prepareDiscreteCell:dataElement inTable:tableView];
+            sorterCell = (OTMCellSorter *)[self prepareCellSorterWithData:dataElement inTable:tableView];
             [cells addObject:sorterCell];
         }
     } else {
@@ -74,7 +74,7 @@
     return [cells copy];
 }
 
-- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data inTable:(UITableView *)tableView
+- (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data inTable:(UITableView *)tableView
 {
     ABSTRACT_METHOD_BODY
 }

@@ -25,7 +25,7 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
 
 /**
  * Collections don't return individual cells. Cells are returned through
- * prepareDiscreteCell but this needs to be implemented to prevent errors.
+ * prepareCellSorterWithData but this needs to be implemented to prevent errors.
  */
 - (OTMCellSorter *)prepareCell:(NSDictionary *)data
                        inTable:(UITableView *)tableView
@@ -107,8 +107,8 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
     [self.controller.navigationController popViewControllerAnimated:YES];
 }
 
-- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data
-                               inTable:(UITableView *)tableView
+- (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data
+                                     inTable:(UITableView *)tableView
 {
     NSArray* keylist = [self.dataKey componentsSeparatedByString:@"."];
     if ([keylist count] > 1) {
@@ -590,8 +590,8 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     return nil;
 }
 
-- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data
-                               inTable:(UITableView *)tableView
+- (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data
+                                     inTable:(UITableView *)tableView
 {
     NSArray* keylist = [self.dataKey componentsSeparatedByString:@"."];
     if ([keylist count] > 1) {

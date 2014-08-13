@@ -103,8 +103,8 @@ ABSTRACT_METHOD
  * created from fields with multiple cells.
  */
 ABSTRACT_METHOD
-- (UITableViewCell *)prepareDiscreteCell:(NSDictionary *)data
-                                 inTable:(UITableView *)tableView;
+- (UITableViewCell *)prepareCellSorterWithData:(NSDictionary *)data
+                                       inTable:(UITableView *)tableView;
 
 @end
 
