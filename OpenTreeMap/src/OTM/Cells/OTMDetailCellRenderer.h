@@ -179,67 +179,6 @@ ABSTRACT_METHOD
 @end
 
 
-@interface OTMUdfCollectionEditCellRenderer : OTMEditDetailCellRenderer
-
-extern NSString * const UdfUpdateNotification;
-
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *sortField;
-@property (nonatomic, strong) NSString *selected;
-@property (nonatomic, strong) NSString *typeKeyField;
-@property (nonatomic, strong) NSString *editableKey;
-@property (nonatomic, strong) NSString *editableDefaultValue;
-@property (nonatomic, strong) NSDictionary *typeDict;
-@property (nonatomic, strong) UITableViewController *controller;
-@property (nonatomic, strong) NSMutableDictionary *startData;
-
-- (id)initWithDataKey:(NSString *)dkey
-             typeDict:(NSString *)dict
-            sortField:(NSString *)sort
-             keyField:(NSString *)keyField
-             editable:(BOOL)canEdit
-          editableKey:(NSString *)editKey
- editableDefaultValue:(NSString *)defaultValue;
-
-@end
-
-
-@interface OTMUdfAddMoreRenderer : OTMEditDetailCellRenderer
-
-extern NSString * const UdfDataChangedForStepNotification;
-
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIViewController *originalController;
-@property (nonatomic, strong) UINavigationController *navController;
-@property int step;
-@property (nonatomic, strong) NSArray *steps;
-@property (nonatomic, strong) NSArray *currentSteps;
-@property (nonatomic, strong) NSString *field;
-@property (nonatomic, strong) NSString *key;
-@property (nonatomic, strong) NSString *displayName;
-@property (nonatomic, strong) NSMutableDictionary *preparedNewUdf;
-
-
-- (id)initWithDataStructure:(NSArray *)dataArray
-                      field:(NSString *)field
-                        key:(NSString *)key
-                displayName:(NSString *)displayName;
-
-@end
-
-
-@interface OTMUdfChoiceTableViewController : UITableViewController
-
-@property (nonatomic, strong) NSString *key;
-@property (nonatomic, strong) NSString *choice;
-@property (nonatomic, strong) NSArray *choices;
-@property (nonatomic, strong) NSArray *choiceLabels;
-- (id)initWithKey:(NSString *)key;
-- (void)setChoices:(NSArray *)choicesArray;
-
-@end
-
-
 /**
  * Shows a static cell that allows a click event
  * (Such as for selecting species)
@@ -259,35 +198,6 @@ extern NSString * const UdfDataChangedForStepNotification;
 @property (nonatomic,strong) NSString *defaultName;
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) id data;
-
-@end
-
-
-/**
- * Shows cells for UDF collections. These can in some cases create multiple
- * cells for a given field. These may need to be sorted together and ths we
- * store a sort field in addition to other information.
- */
-@interface OTMCollectionUDFCellRenderer : OTMDetailCellRenderer
-
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSString *sortField;
-@property (nonatomic, strong) NSDictionary *typeDict;
-
-- (id)initWithDataKey:(NSString *)dkey
-             typeDict:(NSString *)dict
-            sortField:(NSString *)sort
-         editRenderer:(OTMEditDetailCellRenderer *)edit
-      addMoreRenderer:(OTMUdfAddMoreRenderer *)more;
-
-@end
-
-
-@interface OTMUdfCollectionHelper : NSObject
-
-+ (NSDictionary *)generateDictFromString:(NSString *)dictString;
-+ (NSString *)typeLabelFromType:(NSString *)type;
-+ (NSString *)stringifyData:(id)data byType:(NSString *)type;
 
 @end
 

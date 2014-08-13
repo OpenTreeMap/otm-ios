@@ -20,6 +20,7 @@
 #import "OTMDetailCellRenderer.h"
 #import "OTMMapDetailCellRenderer.h"
 #import "OTMChoicesDetailCellRenderer.h"
+#import "OTMUdfCollectionCell.h"
 
 @implementation OTMEnvironment
 

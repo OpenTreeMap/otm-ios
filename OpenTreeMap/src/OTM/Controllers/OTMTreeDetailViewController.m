@@ -27,6 +27,7 @@
 #import "OTMChoicesDetailCellRenderer.h"
 #import "UIView+Borders.h"
 #import "OTMLoadMoreCell.h"
+#import "OTMUdfCollectionCell.h"
 
 @interface OTMTreeDetailViewController ()
 

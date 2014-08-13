@@ -10,6 +10,7 @@
 		620BFA0C1986FB980014C06F /* OTMLoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 620BFA0A1986FB980014C06F /* OTMLoadMoreCell.m */; };
 		62192D031961B381000CBF0F /* OTMAllInstancesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */; };
 		623C91BE196C38E00019A448 /* AZPastelessTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 623C91BD196C38E00019A448 /* AZPastelessTextField.m */; };
+		6251603A199BA05500138CFA /* OTMUdfCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 62516039199BA05500138CFA /* OTMUdfCollectionCell.m */; };
 		62F06164196366B800F8B84D /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06162196366B800F8B84D /* profile.png */; };
 		62F06165196366B800F8B84D /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06163196366B800F8B84D /* profile@2x.png */; };
 		641210A91935363400118A33 /* OTMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210A81935363400118A33 /* OTMLocationManager.m */; };
@@ -184,6 +185,8 @@
 		62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAllInstancesTableViewController.m; sourceTree = "<group>"; };
 		623C91BC196C38E00019A448 /* AZPastelessTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZPastelessTextField.h; sourceTree = "<group>"; };
 		623C91BD196C38E00019A448 /* AZPastelessTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZPastelessTextField.m; sourceTree = "<group>"; };
+		62516038199BA05500138CFA /* OTMUdfCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMUdfCollectionCell.h; sourceTree = "<group>"; };
+		62516039199BA05500138CFA /* OTMUdfCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMUdfCollectionCell.m; sourceTree = "<group>"; };
 		62F06162196366B800F8B84D /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		62F06163196366B800F8B84D /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
 		641210A71935363400118A33 /* OTMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLocationManager.h; sourceTree = "<group>"; };
@@ -621,6 +624,8 @@
 				6460869F160CFB6700A1458B /* OTMMapDetailCellRenderer.m */,
 				646086A0160CFB6700A1458B /* OTMMapTableViewCell.h */,
 				646086A1160CFB6700A1458B /* OTMMapTableViewCell.m */,
+				62516038199BA05500138CFA /* OTMUdfCollectionCell.h */,
+				62516039199BA05500138CFA /* OTMUdfCollectionCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1051,6 +1056,7 @@
 				6460872A160CFB6700A1458B /* OTMHelpView.m in Sources */,
 				6460872B160CFB6700A1458B /* OTMNavigationBar.m in Sources */,
 				6460872C160CFB6700A1458B /* OTMSearchBar.m in Sources */,
+				6251603A199BA05500138CFA /* OTMUdfCollectionCell.m in Sources */,
 				641210AF19382DF100118A33 /* OTMSetRootViewControllerSegue.m in Sources */,
 				6460872D160CFB6700A1458B /* OTMSegmentedControl.m in Sources */,
 				D7D26C81185B69510034BF77 /* OTM2API.m in Sources */,
