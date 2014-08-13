@@ -257,6 +257,12 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 }
 
 - (id)initWithDataStructure:(NSArray *)dataArray
+{
+    self = [self initWithDataStructure:dataArray field:nil key:nil displayName:nil];
+    return self;
+}
+
+- (id)initWithDataStructure:(NSArray *)dataArray
                       field:(NSString *)field
                         key:(NSString *)key
                 displayName:(NSString *)displayName
@@ -670,6 +676,16 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     self.typeDict = [OTMUdfCollectionHelper generateDictFromString:dict];
     self.sortField = sort;
     self.editCellRenderer = edit;
+    return self;
+}
+
+- (id)initWithEditRenderer:(OTMEditDetailCellRenderer *)edit
+{
+    self = [self initWithDataKey:nil
+                        typeDict:nil
+                       sortField:nil
+                    editRenderer:edit
+                 addMoreRenderer:nil];
     return self;
 }
 

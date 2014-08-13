@@ -61,6 +61,8 @@ extern NSString * const UdfDataChangedForStepNotification;
                         key:(NSString *)key
                 displayName:(NSString *)displayName;
 
+- (id)initWithDataStructure:(NSArray *)dataArray;
+
 @end
 
 
@@ -92,6 +94,8 @@ extern NSString * const UdfDataChangedForStepNotification;
             sortField:(NSString *)sort
          editRenderer:(OTMEditDetailCellRenderer *)edit
       addMoreRenderer:(OTMUdfAddMoreRenderer *)more;
+
+- (id)initWithEditRenderer:(OTMEditDetailCellRenderer *)edit;
 
 @end
 

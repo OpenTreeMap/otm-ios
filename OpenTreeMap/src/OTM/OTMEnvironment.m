@@ -504,18 +504,13 @@
 - (void)buildFieldsFromArray:(NSArray *)adders attachToArray:(NSMutableArray *)existingArray
 {
     for (NSArray *adder in adders) {
-        OTMUdfAddMoreRenderer *addMore = [[OTMUdfAddMoreRenderer alloc]
-                                          initWithDataStructure:adder
-                                                          field:nil
-                                                            key:nil
-                                                    displayName:nil];
+        OTMUdfAddMoreRenderer *addMore = [[OTMUdfAddMoreRenderer alloc] initWithDataStructure:adder];
 
+        // Use the addMore link as the edit renderer. This is necessary to
+        // squash down the adders later.
         OTMCollectionUDFCellRenderer *collectionRenderer =
-        [[OTMCollectionUDFCellRenderer alloc] initWithDataKey:nil
-                                                     typeDict:nil
-                                                    sortField:nil
-                                                 editRenderer:addMore
-                                              addMoreRenderer:nil];
+        [[OTMCollectionUDFCellRenderer alloc] initWithEditRenderer:addMore];
+
         [existingArray addObject:collectionRenderer];
     }
 }
