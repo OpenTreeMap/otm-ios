@@ -24,6 +24,9 @@
 
 @implementation OTMEnvironment
 
+NSString * const OTMEnvironmentDateStringLong = @"yyyy-MM-dd HH:mm:ss";
+NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
+
 + (id)sharedEnvironment
 {
     static dispatch_once_t pred = 0;

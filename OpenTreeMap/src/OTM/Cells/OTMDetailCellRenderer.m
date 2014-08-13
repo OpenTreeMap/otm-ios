@@ -305,7 +305,7 @@
 
     if (self.isDateField) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
         NSDate *originalDate =[dateFormatter dateFromString:value];
         [detailcell setDatePickerInputWithInitialDate:originalDate];
         disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];

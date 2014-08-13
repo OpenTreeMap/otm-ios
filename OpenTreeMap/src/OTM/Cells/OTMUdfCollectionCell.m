@@ -492,7 +492,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 - (void)setDateForKey:(id)sender
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
     NSString *dateText = [dateFormatter stringFromDate:[(UIDatePicker *)sender date]];
     NSString *key = [[self.currentSteps objectAtIndex:self.step] objectForKey:@"name"];
     NSDictionary *notificationData = @{
@@ -716,13 +716,13 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     NSString *result;
     if ([type isEqualToString:@"date"]) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss'"];
+        [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss"];
         NSDate *date =[dateFormatter dateFromString:data];
 
         // Newly set dates have a different format so we need to account for
         // them.
         if (!date) {
-            [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'"];
+            [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
             date =[dateFormatter dateFromString:data];
         }
 

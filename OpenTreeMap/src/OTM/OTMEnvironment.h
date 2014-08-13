@@ -69,6 +69,9 @@
     NSString *mapViewTitle;
 }
 
+extern NSString * const OTMEnvironmentDateStringLong;
+extern NSString * const OTMEnvironmentDateStringShort;
+
 /**
  Accesses the single shared OTMEnvironment instance for the application
  */
