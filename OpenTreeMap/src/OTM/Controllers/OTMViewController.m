@@ -29,7 +29,7 @@
 
     for (NSString *key in keys) {
         NSString *component = [plotDict objectForKey:key];
-        if (component != nil && component != [NSNull null] && ![component isEqualToString: @""] && ![component  isEqualToString: @"<null>"]) {
+        if (component && ![component isEqualToString: @""] && ![component isEqualToString: @"<null>"]) {
             [addressComponents addObject:component];
         }
     }

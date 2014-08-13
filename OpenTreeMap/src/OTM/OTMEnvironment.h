@@ -69,6 +69,9 @@
     NSString *mapViewTitle;
 }
 
+extern NSString * const OTMEnvironmentDateStringLong;
+extern NSString * const OTMEnvironmentDateStringShort;
+
 /**
  Accesses the single shared OTMEnvironment instance for the application
  */
@@ -117,6 +120,7 @@
 @property (nonatomic, strong) NSString *currencyUnit;
 @property (nonatomic) double detailLatSpan;
 @property (nonatomic) UIKeyboardType zipcodeKeyboard;
+@property (nonatomic, strong) NSMutableArray *udfAddRenderers;
 
 @property (nonatomic, strong) AZHttpRequest *tileRequest;
 

@@ -16,6 +16,7 @@
 #import "OTMDetailCellRenderer.h"
 #import "OTMFormatter.h"
 #import "OTMUser.h"
+#import "OTMTreeDetailViewController.h"
 
 @implementation OTMDetailCellRenderer
 
@@ -51,14 +52,15 @@
     ABSTRACT_METHOD_BODY
 }
 
-- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate
 {
+    self.originatingDelegate = delegate;
     NSMutableArray *cells = [[NSMutableArray alloc] init];
     id elmt = [data decodeKey:self.dataKey];
     OTMCellSorter *sorterCell;
     if ([elmt isKindOfClass:[NSArray class]]) {
         for (id dataElement in elmt) {
-            sorterCell = (OTMCellSorter *)[self prepareDiscreteCell:dataElement inTable:tableView];
+            sorterCell = (OTMCellSorter *)[self prepareCellSorterWithData:dataElement inTable:tableView];
             [cells addObject:sorterCell];
         }
     } else {
@@ -72,12 +74,13 @@
     return [cells copy];
 }
 
-- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data inTable:(UITableView *)tableView
+- (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data inTable:(UITableView *)tableView
 {
     ABSTRACT_METHOD_BODY
 }
 
 @end
+
 
 #define kOTMLabelDetailCellRendererCellId @"kOTMLabelDetailCellRendererCellId"
 
@@ -104,7 +107,7 @@
 {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailCellRendererCellId];
 
-    if (detailcell == nil) {
+    if (!detailcell) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMLabelDetailCellRendererCellId];
     }
@@ -143,10 +146,12 @@
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 
 @end
+
 
 @implementation OTMBenefitsDetailCellRenderer
 
@@ -188,7 +193,8 @@
     return [[OTMCellSorter alloc] initWithCell:_cell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 
 @end
@@ -205,6 +211,7 @@
 }
 
 @end
+
 
 @implementation OTMLabelEditDetailCellRenderer
 
@@ -257,58 +264,78 @@
 {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMLabelDetailEditCellRendererCellId];
 
-    if (detailcell == nil) {
+    if (!detailcell) {
         detailcell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMLabelDetailEditCellRendererCellId];
     }
-
-    if (!self.inited) {
-        detailcell.delegate = self;
-        detailcell.editFieldValue.hidden = NO;
-        detailcell.fieldValue.hidden = YES;
-        detailcell.keyboardType = keyboard;
-
-        id value = [data decodeKey:self.dataKey];
-        NSString *disp = @"";
-
-        if (value != nil) {
-            disp = [_formatter formatWithoutUnit:[value floatValue]];
-        }
-
-        if (self.isDateField) {
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"YYYY-MM-dd"];
-            NSDate *originalDate =[dateFormatter dateFromString:value];
-            [detailcell setDatePickerInputWithInitialDate:originalDate];
-            disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];
-
-        }
-
-        detailcell.editFieldValue.text = disp;
-        detailcell.fieldLabel.text = self.label;
-
-        /**
-         * Edit cells don't have a fieldValue like the normal detail cell. We
-         * want nice alignment so offset the frame for the name to take up the
-         * place that the value was holding.
-         * To see where these numbers are coming from
-         * @see OTMDetailTableViewCell
-         * @see - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-         */
-        detailcell.fieldLabel.frame = CGRectOffset(detailcell.fieldLabel.frame, 0, self.cellHeight/4 - 1);
-
-        detailcell.unitLabel.text = _formatter.label;
-        self.inited = YES;
-
-    }
+    [self buildCell:detailcell fromData:data inTable:tableView];
 
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
+}
+
+- (void)buildCell:(OTMDetailTableViewCell *)detailcell fromData:(NSDictionary *)data
+                                      inTable:(UITableView *)tableView
+{
+    detailcell.delegate = self;
+    detailcell.editFieldValue.hidden = NO;
+    detailcell.fieldValue.hidden = YES;
+    detailcell.keyboardType = keyboard;
+
+    id value = [data decodeKey:self.dataKey];
+    NSString *disp;
+
+    if (value != nil) {
+        if (_formatter) {
+            disp = [_formatter formatWithoutUnit:[value floatValue]];
+        } else {
+            disp = value;
+        }
+    }
+    if (self.updatedString != nil) {
+        if (_formatter) {
+            disp = [_formatter formatWithoutUnit:[self.updatedString floatValue]];
+        } else {
+            disp = self.updatedString;
+        }
+    }
+
+    if (self.isDateField) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
+        NSDate *originalDate =[dateFormatter dateFromString:value];
+        [detailcell setDatePickerInputWithInitialDate:originalDate];
+        disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];
+
+    }
+
+    detailcell.editFieldValue.text = disp;
+    detailcell.fieldLabel.text = self.label;
+
+    /**
+     * Edit cells don't have a fieldValue like the normal detail cell. We
+     * want nice alignment so offset the frame for the name to take up the
+     * place that the value was holding.
+     * To see where these numbers are coming from
+     * @see OTMDetailTableViewCell
+     * @see - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+     */
+    detailcell.fieldLabel.frame = CGRectMake(
+                                             20,
+                                             (self.cellHeight / 2) - (detailcell.fieldLabel.frame.size.height / 2),
+                                             detailcell.fieldLabel.frame.size.width,
+                                             detailcell.fieldLabel.frame.size.height
+                                             );
+
+    detailcell.unitLabel.text = _formatter.label;
+    self.inited = YES;
 }
 
 @end
+
 
 @implementation OTMDBHEditDetailCellRenderer
 
@@ -359,30 +386,38 @@
 
 - (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
 {
-    if (!self.inited) {
-        id elmt = [data decodeKey:self.dataKey];
-
-        NSString *disp = @"";
-        if (elmt != nil) {
-            CGFloat dispValue = [elmt floatValue];
-            disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
-        }
-
-        self.cell.diameterTextField.text = disp;
-        [self tableViewCell:nil
-                  textField:self.cell.diameterTextField
-             updatedToValue:self.cell.diameterTextField.text];
-
-        self.inited = YES;
+    if (!self.inited || !_cell) {
+        [self buildAndInitializeCellWithData:data inTable:tableView];
     }
 
     return [[OTMCellSorter alloc] initWithCell:_cell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
+}
+
+- (void)buildAndInitializeCellWithData:(NSDictionary *)data
+                               inTable:(UITableView *)tableView
+{
+    id elmt = [data decodeKey:self.dataKey];
+
+    NSString *disp = @"";
+    if (elmt != nil) {
+        CGFloat dispValue = [elmt floatValue];
+        disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
+    }
+
+    self.cell.diameterTextField.text = disp;
+    [self tableViewCell:nil
+              textField:self.cell.diameterTextField
+         updatedToValue:self.cell.diameterTextField.text];
+
+    self.inited = YES;
 }
 
 @end
+
 
 @implementation OTMStaticClickCellRenderer
 
@@ -390,13 +425,13 @@
 
 @synthesize name, data, defaultName;
 
-- (id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback {
+- (id)initWithKey:(NSString *)key clickCallback:(Function2v)aCallback {
     return [self initWithName:nil key:key clickCallback:aCallback];
 }
 
 - (id)initWithName:(NSString *)aName
                key:(NSString *)key
-     clickCallback:(Function1v)aCallback
+     clickCallback:(Function2v)aCallback
 {
     self = [super init];
 
@@ -416,7 +451,7 @@
 {
     UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
 
-    if (detailcell == nil) {
+    if (!detailcell) {
         detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                             reuseIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
     }
@@ -442,7 +477,8 @@
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:self.clickCallback];
 }
 
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
@@ -452,175 +488,13 @@
 @end
 
 
-/**
- * Handles creation and rendering of collections of UDFs
- */
-@implementation OTMCollectionUDFCellRenderer
-
-- (OTMCellSorter *)prepareCell:(NSDictionary *)data
-                       inTable:(UITableView *)tableView
-{
-    return nil;
-}
-
-- (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data
-                                inTable:(UITableView *)tableView
-{
-    NSArray* keylist = [self.dataKey componentsSeparatedByString:@"."];
-    if ([keylist count] > 1) {
-        self.type = [[keylist objectAtIndex:0] capitalizedString];
-    }
-
-    NSMutableString *cellText = [[NSMutableString alloc] init];
-    NSString *sortFieldText;
-    NSString *sortData;
-    for (id key in data) {
-        NSString *type = [[[self typeDict] objectForKey:key] objectForKey:@"type"];
-        if (type) {
-            if (self.sortField && [self.sortField isEqualToString:key]) {
-                sortFieldText = [self stringifyData:[data objectForKey:key] byType:type];
-                sortData = [data objectForKey:key];
-            } else {
-                NSString *text = [self stringifyData:[data objectForKey:key] byType:type];
-                [cellText appendString:text];
-                [cellText appendString:@"\n"];
-            }
-        }
-    }
-
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UDFCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UDFCell"];
-    }
-
-
-    UILabel *mainTextLabel = [[UILabel alloc] initWithFrame:
-                              CGRectMake(20, cell.contentView.frame.size.height - 10, cell.contentView.frame.size.width / 2, 22)];
-    [mainTextLabel setFont:[UIFont systemFontOfSize:15]];
-
-    UILabel *sortTextLabel = [[UILabel alloc] initWithFrame:
-                              CGRectMake(cell.contentView.frame.size.width / 2 - 20, 10, cell.contentView.frame.size.width / 2, 22)];
-    [sortTextLabel setFont:[UIFont systemFontOfSize:15]];
-    [sortTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
-    [sortTextLabel setTextAlignment:UITextAlignmentRight];
-
-    UILabel *typeTextLabel = [[UILabel alloc] initWithFrame:
-                              CGRectMake(20, 10, cell.contentView.frame.size.width / 2, 22)];
-    [typeTextLabel setFont:[UIFont systemFontOfSize:15]];
-    [typeTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
-
-
-    [typeTextLabel setText:[self typeLabelFromType:self.type]];
-    [sortTextLabel setText:sortFieldText];
-
-    CGSize textSize = {
-        cell.contentView.frame.size.width / 2,   // limit width
-        20000.0  // and height of text area
-    };
-
-    CGSize size = [cellText sizeWithFont:[UIFont systemFontOfSize:15.0] constrainedToSize:textSize lineBreakMode:NSLineBreakByWordWrapping];
-    CGRect labelFrame = [mainTextLabel frame];
-    labelFrame.size.height = size.height;
-    [mainTextLabel setFrame:labelFrame];
-    [mainTextLabel setText:cellText];
-    mainTextLabel.numberOfLines = 0;
-    mainTextLabel.lineBreakMode = NSLineBreakByWordWrapping;
-
-    [cell.contentView addSubview:mainTextLabel];
-    [cell.contentView addSubview:typeTextLabel];
-    [cell.contentView addSubview:sortTextLabel];
-
-    CGFloat totalHeight = mainTextLabel.frame.size.height + typeTextLabel.frame.size.height + 20;
-
-    return [[OTMCellSorter alloc] initWithCell:cell sortKey:self.sortField sortData:sortData height:totalHeight];
-}
-
-- (NSString *)stringifyData:(id)data byType:(NSString *)type
-{
-    NSString *result;
-    if ([type isEqualToString:@"date"]) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"YYYY'-'MM'-'dd' 'HH':'mm':'ss'"];
-        NSDate *date =[dateFormatter dateFromString:data];
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        return [dateFormatter stringFromDate:date];
-
-    } else if ([type isEqualToString:@"choice"]) {
-        result = data;
-    } else {
-        result = @"";
-    }
-    return result;
-}
-
-/**
- * A wrapper around a dictionary to provide human readable names for types of
- * stewardships and alerts.
- *
- * "Plot" -> "Planting Site"
- */
-- (NSString *)typeLabelFromType:(NSString *)type
-{
-    NSArray *keys = [[NSArray alloc] initWithObjects:@"tree", @"plot", nil];
-    NSArray *labels = [[NSArray alloc] initWithObjects:@"Tree", @"Planting Site", nil];
-    NSDictionary *keyLabels = [[NSDictionary alloc] initWithObjects:labels forKeys:keys];
-
-    // Work against the case insensive string.
-    NSString *typeLabel = [keyLabels objectForKey:[type lowercaseString]];
-    // If no match return the original text.
-    if (!typeLabel) {
-        typeLabel = type;
-    }
-    return typeLabel;
-}
-
-- (id)initWithDataKey:(NSString *)dkey
-             typeDict:(NSString *)dict
-            sortField:(NSString *)sort
-{
-    self = [super initWithDataKey:dkey editRenderer:nil];
-    [self generateDictFromString:dict];
-    [self setHeight];
-    self.sortField = sort;
-    return self;
-}
-
-- (void)generateDictFromString:(NSString *)dictString
-{
-    NSArray *typesArray = [dictString copy];
-
-    // Making the assumption that in a UDF there cannot be multiple fields with
-    // the same name.
-    NSMutableDictionary *typesDict = [[NSMutableDictionary alloc] init];
-    for (id type in typesArray) {
-        [typesDict setObject:type forKey:[type objectForKey:@"name"]];
-    }
-    self.typeDict = [typesDict copy];
-}
-
-- (void)setHeight
-{
-    CGFloat height = self.cellHeight;
-    // For each row of text add 13 to the cell height to accomodate the height
-    // of the line.
-    height += 13 * ([self.typeDict count] - 1);
-    // If we have a sort field (which is displayed on the right side of the cell
-    // Drop the size to accomodate a line having been removed.
-    if (self.sortField) {
-        height -= 13;
-    }
-    self.cellHeight = height;
-}
-
-@end
-
 @implementation OTMCellSorter
 
 - (id)initWithCell:(UITableViewCell *)cell
            sortKey:(NSString *)key
           sortData:(NSString *)data
             height:(CGFloat)h
+     clickCallback:(Function2v)callback;
 {
     self = [super init];
     if (self) {
@@ -628,6 +502,26 @@
         self.sortKey = key;
         self.sortData = data;
         self.cellHeight = h;
+        self.clickCallback = callback;
+    }
+    return self;
+}
+
+- (id)initWithCell:(UITableViewCell *)cell
+           sortKey:(NSString *)key
+          sortData:(NSString *)data
+    originalData:(NSMutableDictionary *)startData
+            height:(CGFloat)h
+     clickCallback:(Function2v)callback;
+{
+    self = [super init];
+    if (self) {
+        self.cell = cell;
+        self.sortKey = key;
+        self.sortData = data;
+        self.cellHeight = h;
+        self.clickCallback = callback;
+        self.originalData = startData;
     }
     return self;
 }

@@ -51,6 +51,10 @@
     NSString *deleteType;
 }
 
+extern NSString * const UdfNewDataCreatedNotification;
+
++ (int)tempId;
+
 @property (nonatomic,weak) id<OTMTreeDetailViewDelegate> delegate;
 
 @property (nonatomic,strong) IBOutlet OTMPictureTaker *pictureTaker;
@@ -64,6 +68,7 @@
 @property (nonatomic,strong) IBOutlet UIView* headerView;
 @property (nonatomic) CLLocationCoordinate2D originalLocation;
 @property (nonatomic) NSDictionary *originalData;
+@property BOOL startInEditMode;
 
 @property (nonatomic,strong) IBOutlet UITableViewCell *acell;
 

@@ -96,7 +96,8 @@
     return [[OTMCellSorter alloc] initWithCell:detailcell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:nil];
 }
 @end
 
@@ -119,7 +120,7 @@
                                                         action:@selector(done:)];
 
         __block UIViewController *tableController = controller;
-        self.clickCallback = ^(UIViewController *aController) {
+        self.clickCallback = ^(UIViewController *aController,  NSMutableDictionary *dict) {
             [aController.navigationController pushViewController:tableController animated:YES];
         };
 
@@ -137,7 +138,7 @@
 - (OTMCellSorter *)prepareCell:(NSDictionary *)renderData inTable:(UITableView *)tableView
 {
 
-    if (cell == nil) {
+    if (!cell) {
         cell = [[OTMDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
                                                    reuseIdentifier:kOTMEditChoicesDetailCellRendererCellId];
     }
@@ -165,7 +166,8 @@
     return [[OTMCellSorter alloc] initWithCell:cell
                                        sortKey:nil
                                       sortData:nil
-                                        height:self.cellHeight];
+                                        height:self.cellHeight
+                                 clickCallback:self.clickCallback];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {

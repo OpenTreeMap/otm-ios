@@ -76,8 +76,10 @@
 @property (nonatomic,strong) OTMEditDetailCellRenderer *editCellRenderer;
 
 // Table View Delegate methods
-@property (nonatomic,strong) Function1v clickCallback;
+@property (nonatomic,strong) Function2v clickCallback;
 @property (nonatomic,assign) CGFloat cellHeight;
+
+@property (nonatomic, strong) UIViewController *originatingDelegate;
 
 - (id)initWithDataKey:(NSString *)dkey;
 - (id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit;
@@ -94,15 +96,15 @@ ABSTRACT_METHOD
  * will return an array with one cell. Some fields have multiple cells
  * (stewardship and alerts).
  */
-- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView;
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate;
 
 /**
  * Given a specific peice of data, return a cell. Needed so that a cell can be
  * created from fields with multiple cells.
  */
 ABSTRACT_METHOD
-- (UITableViewCell *)prepareDiscreteCell:(NSDictionary *)data
-                                 inTable:(UITableView *)tableView;
+- (UITableViewCell *)prepareCellSorterWithData:(NSDictionary *)data
+                                       inTable:(UITableView *)tableView;
 
 @end
 
@@ -117,6 +119,7 @@ ABSTRACT_METHOD
 
 @end
 
+
 /**
  * Render cells for editing
  */
@@ -128,6 +131,7 @@ ABSTRACT_METHOD
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
 
 @end
+
 
 /**
  * Render a simple label
@@ -147,6 +151,7 @@ ABSTRACT_METHOD
 
 @end
 
+
 @interface OTMLabelEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
 
 @property (nonatomic,assign) UIKeyboardType keyboard;
@@ -163,6 +168,7 @@ ABSTRACT_METHOD
 
 @end
 
+
 @interface OTMDBHEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
 
 @property (nonatomic,strong) OTMDBHTableViewCell *cell;
@@ -171,6 +177,7 @@ ABSTRACT_METHOD
 -(id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter;
 
 @end
+
 
 /**
  * Shows a static cell that allows a click event
@@ -182,9 +189,11 @@ ABSTRACT_METHOD
  */
 @interface OTMStaticClickCellRenderer : OTMEditDetailCellRenderer
 
-- (id)initWithName:(NSString *)aName key:(NSString *)key clickCallback:(Function1v)aCallback;
+- (id)initWithName:(NSString *)aName
+               key:(NSString *)key
+     clickCallback:(Function2v)aCallback;
 
-- (id)initWithKey:(NSString *)key clickCallback:(Function1v)aCallback;
+- (id)initWithKey:(NSString *)key clickCallback:(Function2v)aCallback;
 
 @property (nonatomic,strong) NSString *defaultName;
 @property (nonatomic,strong) NSString *name;
@@ -192,20 +201,6 @@ ABSTRACT_METHOD
 
 @end
 
-/**
- * Shows cells for UDF collections. These can in some cases create multiple
- * cells for a given field. These may need to be sorted together and ths we
- * store a sort field in addition to other information.
- */
-@interface OTMCollectionUDFCellRenderer : OTMDetailCellRenderer
-
-@property (nonatomic, strong) NSString *type;
-@property (nonatomic, strong) NSDictionary *typeDict;
-@property (nonatomic, strong) NSString *sortField;
-
-- (id)initWithDataKey:(NSString *)dkey typeDict:(NSString *)dict sortField:(NSString *)sort;
-
-@end
 
 /**
  * A container to store rendered cells and to be able to sort them if need be.
@@ -219,12 +214,21 @@ ABSTRACT_METHOD
 @property (nonatomic, strong) NSString *sortKey;
 @property (nonatomic, strong) NSString *sortData;
 @property (nonatomic, strong) UITableViewCell *cell;
+@property (nonatomic, strong) NSMutableDictionary *originalData;
 @property (nonatomic, assign) CGFloat cellHeight;
-
+@property (nonatomic,strong) Function2v clickCallback;
 
 - (id)initWithCell:(UITableViewCell *)cell
            sortKey:(NSString *)key
           sortData:(NSString *)data
-            height:(CGFloat)height;
+            height:(CGFloat)height
+     clickCallback:(Function2v)callback;
+
+- (id)initWithCell:(UITableViewCell *)cell
+           sortKey:(NSString *)key
+          sortData:(NSString *)data
+      originalData:(NSMutableDictionary *)startData
+            height:(CGFloat)height
+     clickCallback:(Function2v)callback;
 
 @end

@@ -27,10 +27,13 @@
 #import "OTMChoicesDetailCellRenderer.h"
 #import "UIView+Borders.h"
 #import "OTMLoadMoreCell.h"
+#import "OTMUdfCollectionCell.h"
 
 @interface OTMTreeDetailViewController ()
 
 @end
+
+static int tempId = 0;
 
 @implementation OTMTreeDetailViewController
 
@@ -38,10 +41,20 @@
             imageView, pictureTaker, headerView, acell, delegate,
             originalLocation, originalData;
 
+NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification";
+
++ (int) tempId { return tempId; }
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -49,6 +62,14 @@
     [self syncTopData];
     self.tableView.contentInset = UIEdgeInsetsZero;
     self.automaticallyAdjustsScrollViewInsets = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (self.startInEditMode) {
+        [self startOrCommitEditing:self];
+        self.startInEditMode = NO;
+    }
 }
 
 - (void)syncTopData
@@ -98,6 +119,17 @@
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(addNewUdf:)
+                                                 name:UdfNewDataCreatedNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateUdf:)
+                                                 name:UdfUpdateNotification
+                                               object:nil];
+
 
 }
 
@@ -222,7 +254,7 @@
     OTMDetailCellRenderer *pictureRow = nil;
     if ([[OTMEnvironment sharedEnvironment] speciesFieldIsWritable]) {
         speciesRow = [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
-                                                       clickCallback:^(OTMDetailCellRenderer *renderer)
+                                                       clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData)
         {
             [self performSegueWithIdentifier:@"changeSpecies"
                                       sender:self];
@@ -245,7 +277,7 @@
         speciesRow.detailDataKey = @"tree.sci_name";
     } else {
         speciesRow = [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
-                                                       clickCallback:^(OTMDetailCellRenderer *renderer) {}];
+                                                       clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData) {}];
 
         speciesRow.defaultName = @"Species cannot be changed";
         speciesRow.detailDataKey = @"tree.sci_name";
@@ -255,7 +287,7 @@
         pictureRow = [[OTMStaticClickCellRenderer alloc]
                       initWithName:@"Tree Picture"
                                key:@""
-                     clickCallback:^(OTMDetailCellRenderer *renderer)
+                     clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData)
         {
             [self updatePicture];
         }];
@@ -263,7 +295,7 @@
         pictureRow = [[OTMStaticClickCellRenderer alloc]
                       initWithName:@"Picture cannot be changed"
                                key:@""
-                     clickCallback:^(OTMDetailCellRenderer *renderer) {}];
+                     clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData) {}];
     }
 
     // Species and photo cells get added to the structure for editable fields.
@@ -318,7 +350,7 @@
         NSMutableArray *sectionCells = [[NSMutableArray alloc] init];
 
         for (OTMDetailCellRenderer *field in fields) {
-            NSArray *cells = [field prepareAllCells:self.data inTable:self.tableView];
+            NSArray *cells = [field prepareAllCells:self.data inTable:self.tableView withOriginatingDelegate:self.navigationController];
             [sectionCells addObjectsFromArray:cells];
         }
 
@@ -352,7 +384,7 @@
         // Add the load more cell to sortable sections with more than three
         // items. We are going to assume that all the sorted cells for a section
         // will only have a single load more button.
-        if ([sortedCells count] > 3) {
+        if ([sortedCells count] > 3 && !editMode) {
             OTMLoadMoreCell *loadMoreCell = [[OTMLoadMoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[OTMLoadMoreCell reuseIdentifier]];
             NSRange headRange = NSMakeRange(0, 3);
             NSRange tailRange = NSMakeRange(3, [sortedCells count] - 3);
@@ -371,7 +403,11 @@
 
             [loadMoreCell addSubview:button];
 
-            OTMCellSorter *loadMore = [[OTMCellSorter alloc] initWithCell:loadMoreCell sortKey:nil sortData:@"" height:loadMoreCell.frame.size.height];
+            OTMCellSorter *loadMore = [[OTMCellSorter alloc] initWithCell:loadMoreCell
+                                                                  sortKey:nil
+                                                                 sortData:@""
+                                                                   height:loadMoreCell.frame.size.height
+                                                            clickCallback:nil];
 
             [cellsToReturn addObjectsFromArray:sortedCells];
             [cellsToReturn addObject:loadMore];
@@ -554,6 +590,26 @@
                     self.data = [editFld updateDictWithValueFromCell:data];
                 }
             }
+            // Clean up temp keys from udf data.
+            //NSMutableSet *udfCollectionStrings = [[NSMutableSet alloc] init];
+            for (NSArray *set in [[OTMEnvironment sharedEnvironment] fieldKeys]) {
+                for (id cellRenderer in set) {
+                    if ([cellRenderer isKindOfClass:[OTMCollectionUDFCellRenderer class]]) {
+                        NSArray *dataPath = [[cellRenderer dataKey] componentsSeparatedByString:@"."];
+                        if ([dataPath count] >= 2) {
+                            NSMutableArray *udfCollection = [[self.data objectForKey:dataPath[0]] objectForKey:dataPath[1]];
+                            //NSMutableArray *cleanedUdfData = [[NSMutableArray alloc] init];
+                            for (int i = 0; i < [udfCollection count]; i++) {
+                                NSDictionary *udfData = udfCollection[i];
+                                NSMutableDictionary *cleanedUdf = [udfData mutableCopy];
+                                [cleanedUdf removeObjectForKey:@"tempId"];
+                                [udfCollection removeObjectAtIndex:i];
+                                [udfCollection insertObject:cleanedUdf atIndex:i];
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         [self syncTopData];
@@ -630,6 +686,71 @@
     }
     [self.tableView reloadData];
     [self resetHeaderPosition];
+}
+
+- (void)addNewUdf:(NSNotification *)notification
+{
+    NSDictionary *notificationData = (NSDictionary *)[notification object];
+    NSString *key = [notificationData objectForKey:@"key"];
+    NSString *field = [notificationData objectForKey:@"field"];
+
+    // Increment the temp key.
+    tempId++;
+    NSNumber *tId = [NSNumber numberWithInt:tempId];
+    [[notificationData objectForKey:@"data"] setObject:tId forKey:@"tempId"];
+
+    NSMutableArray *udf = [[self.data objectForKey:key] objectForKey:field];
+    if (!udf) {
+        [[self.data objectForKey:key] setValue:[[NSMutableArray alloc] init] forKey:field];
+        udf = [[self.data objectForKey:key] objectForKey:field];
+    }
+
+    /**
+     * For this to be set as a new tree and not just an empty planting site, we
+     * need to set a null value on a tree field. Diameter works fine though is
+     * an arbitrary dicision. If there is not a diamter set for the tree, we set
+     * it to null. This will allow a new tree to be created for our new UDF data
+     * to be added to.
+     *
+     * @TODO - this is a but in the API and will eventually be fixed. We should
+     * fix it here when that happens.
+     */
+    if ([key isEqualToString:@"tree"]) {
+        id diameter = [[self.data objectForKey:key] objectForKey:@"diameter"];
+        if (!diameter) {
+            [[self.data objectForKey:key] setObject:[NSNull alloc] forKey:@"diameter"];
+        }
+    }
+
+    // Now add the new data to the tree data object and reload the view.
+    [udf addObject:[notificationData objectForKey:@"data"]];
+    [self updateCurrentCells];
+    [self.tableView reloadData];
+}
+
+- (void)updateUdf:(NSNotification *)notification
+{
+    NSDictionary *notificationData = (NSDictionary *)[notification object];
+    NSString *key = [notificationData objectForKey:@"key"];
+    NSString *field = [notificationData objectForKey:@"field"];
+
+    // Ufd feild must be there or they couldn't have clicked it.
+    NSMutableArray *udfs = [[self.data objectForKey:key] objectForKey:field];
+    for (int i = 0; i < [udfs count]; i++) {
+        NSDictionary *oldUdf = [udfs objectAtIndex:i];
+        if ([oldUdf objectForKey:@"id"] != nil && [oldUdf objectForKey:@"id"] == [[notificationData objectForKey:@"data"] objectForKey:@"id"]) {
+            [udfs removeObjectAtIndex:i];
+            [udfs insertObject:[notificationData objectForKey:@"data"]atIndex:i];
+        }
+        // Check for tempId as well.
+        if ([oldUdf objectForKey:@"tempId"] != nil && [oldUdf objectForKey:@"tempId"] == [[notificationData objectForKey:@"data"] objectForKey:@"tempId"]) {
+            [udfs removeObjectAtIndex:i];
+            [udfs insertObject:[notificationData objectForKey:@"data"]atIndex:i];
+        }
+    }
+
+    [self updateCurrentCells];
+    [self.tableView reloadData];
 }
 
 - (NSArray *)stripPendingImageData
@@ -750,8 +871,9 @@
         if ([renderer respondsToSelector:@selector(fieldName)] && [renderer respondsToSelector:@selector(fieldChoices)]) {
             fieldDetailViewController.choices = [renderer fieldChoices];
         } else {
-            // The view controller uses the presence of this property to determine how
-            // to display the value, so it must be nil'd out if ot os not a choices field
+            // The view controller uses the presence of this property to
+            // determine how to display the value, so it must be nil'd out if it
+            // is not a choices field.
             fieldDetailViewController.choices = nil;
         }
         fieldDetailViewController.pendingEditsUpdatedCallback = ^(NSDictionary *updatedData){
@@ -851,11 +973,12 @@
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    OTMCellSorter *holder = [[[curCells objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row];
     if (editMode) {
-        Function1v clicker = [[[[curFields objectAtIndex:indexPath.section] valueForKey:@"cells"] objectAtIndex:indexPath.row] clickCallback];
-
+        Function2v clicker = [holder clickCallback];
         if (clicker) {
-            clicker(self);
+            NSMutableDictionary *startData = [holder originalData];
+            clicker(self, startData);
         }
     } else {
         if ([[tblView cellForRowAtIndexPath:indexPath] accessoryType] != UITableViewCellAccessoryNone)

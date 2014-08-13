@@ -103,7 +103,7 @@
 
         NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
         NSDateFormatter *readFormatter = [[NSDateFormatter alloc] init];
-        [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [readFormatter setDateFormat:OTMEnvironmentDateStringLong];
         [readFormatter setCalendar:cal];
         [readFormatter setLocale:[NSLocale currentLocale]];
 
