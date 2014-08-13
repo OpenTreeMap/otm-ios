@@ -205,7 +205,9 @@
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
 
-    NSArray *regFilters = [self filtersFromDictArray:missingAndStandardFilters[@"standard"]];
+    NSArray *regFilters = [self filtersFromDictArray:missingAndStandardFilters[@"standard"]
+                                         usingFields:[dict objectForKey:@"fields"]];
+
     NSArray *missingFilters = [self missingFiltersFromDictArray:missingAndStandardFilters[@"missing"]];
 
     self.filters = [regFilters arrayByAddingObjectsFromArray:missingFilters];
@@ -269,11 +271,14 @@
     return filterArray;
 }
 
-- (NSArray *)filtersFromDictArray:(NSArray *)filterlist {
+- (NSArray *)filtersFromDictArray:(NSArray *)filterlist usingFields:(NSDictionary *)fieldDict
+{
     NSMutableArray *filterArray = [NSMutableArray array];
+    __block NSDictionary *fDict = fieldDict;
 
     [filterlist enumerateObjectsUsingBlock:^(NSDictionary *filter, NSUInteger idx, BOOL *stop) {
             NSString *fieldKey = filter[@"identifier"];
+            NSString *defaultFieldKey = filter[@"default_identifier"];
             NSString *fieldName = filter[@"label"];
             NSString *filterType = filter[@"search_type"];
 
@@ -283,16 +288,30 @@
                 NSArray *filterChoices = filter[@"choices"];
 
                 afilter = [[OTMChoiceFilter alloc] initWithName:fieldName
-                                                           key:fieldKey
-                                                       choices:filterChoices];
+                                                            key:fieldKey
+                                                        choices:filterChoices];
             }
             else if ([filterType isEqualToString:@"BOOL"]) {
                 afilter = [[OTMBoolFilter alloc] initWithName:fieldName
-                                                         key:fieldKey];
+                                                          key:fieldKey];
+            }
+            else if ([filterType isEqualToString:@"DEFAULT"]) {
+                NSArray *dataTypes = [[fDict objectForKey:defaultFieldKey] objectForKey:@"data_type"];
+                NSString *defaultValue;
+                for (NSDictionary *dataType in dataTypes) {
+                    if ([dataType objectForKey:@"default"]) {
+                        defaultValue = [dataType objectForKey:@"default"];
+                        break;
+                    }
+                }
+                afilter = [[OTMDefaultFilter alloc] initWithName:fieldName
+                                                             key:fieldKey
+                                                      defaultKey:defaultFieldKey
+                                                    defaultValue:defaultValue];
             }
             else if ([filterType isEqualToString:@"RANGE"]) {
                 afilter = [[OTMRangeFilter alloc] initWithName:fieldName
-                                                          key:fieldKey];
+                                                           key:fieldKey];
 
             }
             else if ([filterType isEqualToString:@"SPACE"]) {

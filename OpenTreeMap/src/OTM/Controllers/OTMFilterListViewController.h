@@ -38,7 +38,7 @@ typedef enum {
 - (BOOL)standardFiltersActive;
 - (BOOL)customFiltersActive;
 
-- (NSDictionary *)customFiltersDict;
+- (NSArray *)customFiltersData;
 
 - (NSString *)description;
 
@@ -74,6 +74,20 @@ typedef enum {
 
 - (id)initWithName:(NSString *)nm key:(NSString *)k;
 - (id)initWithName:(NSString *)nm key:(NSString *)k existanceFilter:(BOOL)existanceFilter;
+
+@end
+
+@interface OTMDefaultFilter : OTMFilter
+
+@property (nonatomic, readonly) UILabel *nameLbl;
+@property (nonatomic, readonly) UISwitch *toggle;
+@property (nonatomic, readonly) NSString *defaultKey;
+@property (nonatomic, readonly) NSString *defaultValue;
+
+- (id)initWithName:(NSString *)nm
+               key:(NSString *)k
+        defaultKey:(NSString *)dk
+      defaultValue:(NSString *)df;
 
 @end
 
