@@ -110,10 +110,7 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
 - (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data
                                      inTable:(UITableView *)tableView
 {
-    NSArray* keylist = [self.dataKey componentsSeparatedByString:@"."];
-    if ([keylist count] > 1) {
-        self.type = [[keylist objectAtIndex:0] capitalizedString];
-    }
+    self.type = [OTMUdfCollectionHelper typeFromDataKey:self.dataKey];
 
     NSMutableString *cellText = [[NSMutableString alloc] init];
     NSString *sortFieldText;
@@ -593,10 +590,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 - (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data
                                      inTable:(UITableView *)tableView
 {
-    NSArray* keylist = [self.dataKey componentsSeparatedByString:@"."];
-    if ([keylist count] > 1) {
-        self.type = [[keylist objectAtIndex:0] capitalizedString];
-    }
+    self.type = [OTMUdfCollectionHelper typeFromDataKey:self.dataKey];
 
     NSMutableString *cellText = [[NSMutableString alloc] init];
     NSString *sortFieldText;
@@ -757,6 +751,12 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
         typeLabel = type;
     }
     return typeLabel;
+}
+
++ (NSString *)typeFromDataKey:(NSString *)dataKey
+{
+    NSArray* keyList = [dataKey componentsSeparatedByString:@"."];
+    return [keyList count] > 0 ? [[keyList objectAtIndex:0] capitalizedString] : nil;
 }
 
 @end

@@ -105,5 +105,6 @@ extern NSString * const UdfDataChangedForStepNotification;
 + (NSDictionary *)generateDictFromString:(NSString *)dictString;
 + (NSString *)typeLabelFromType:(NSString *)type;
 + (NSString *)stringifyData:(id)data byType:(NSString *)type;
++ (NSString *)typeFromDataKey:(NSString *)dataKey;
 
 @end
