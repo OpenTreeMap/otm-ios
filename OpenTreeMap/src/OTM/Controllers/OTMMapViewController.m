@@ -581,7 +581,6 @@
         [self hideFilterStatus];
     }
 
-    OTMAPI *api = [[OTMEnvironment sharedEnvironment] api];
     NSString *filter = [f filtersAsUrlParameter];
 
     [self setMapFilter:filter];

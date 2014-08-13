@@ -35,8 +35,6 @@ typedef enum {
 - (BOOL)active;
 - (NSString *)filtersAsUrlParameter;
 - (NSDictionary *)filtersDict;
-- (BOOL)standardFiltersActive;
-- (BOOL)customFiltersActive;
 
 - (NSDictionary *)customFiltersDict;
 
