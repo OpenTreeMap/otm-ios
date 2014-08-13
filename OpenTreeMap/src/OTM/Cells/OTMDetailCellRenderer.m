@@ -81,6 +81,7 @@
 
 @end
 
+
 #define kOTMLabelDetailCellRendererCellId @"kOTMLabelDetailCellRendererCellId"
 
 @implementation OTMLabelDetailCellRenderer
@@ -151,6 +152,7 @@
 
 @end
 
+
 @implementation OTMBenefitsDetailCellRenderer
 
 
@@ -209,6 +211,7 @@
 }
 
 @end
+
 
 @implementation OTMLabelEditDetailCellRenderer
 
@@ -333,6 +336,7 @@
 
 @end
 
+
 @implementation OTMDBHEditDetailCellRenderer
 
 - (id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter {
@@ -414,16 +418,28 @@
 
 @end
 
+
+/**
+ * Provide the ability to edit certain UDF collections.
+ */
 @implementation OTMUdfCollectionEditCellRenderer
 
 NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
 
+/**
+ * Collections don't return individual cells. Cells are returned through
+ * prepareDiscreteCell but this needs to be implemented to prevent errors.
+ */
 - (OTMCellSorter *)prepareCell:(NSDictionary *)data
                        inTable:(UITableView *)tableView
 {
     return nil;
 }
 
+/**
+ * Needs to be implemented but we return our data via Notifications so it is
+ * just a passthrough.
+ */
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     return dict;
 }
@@ -437,8 +453,7 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
  editableDefaultValue:(NSString *)defaultValue
 {
     self = [super initWithDataKey:dkey editRenderer:nil];
-    [self generateDictFromString:dict];
-    [self setHeight];
+    self.typeDict = [OTMUdfCollectionHelper generateDictFromString:dict];
     self.sortField = sort;
     self.startData = [[NSMutableDictionary alloc] init];
     self.typeKeyField = keyField;
@@ -492,33 +507,6 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
     [self.controller.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)generateDictFromString:(NSString *)dictString
-{
-    NSArray *typesArray = [dictString copy];
-
-    // Making the assumption that in a UDF there cannot be multiple fields with
-    // the same name.
-    NSMutableDictionary *typesDict = [[NSMutableDictionary alloc] init];
-    for (id type in typesArray) {
-        [typesDict setObject:type forKey:[type objectForKey:@"name"]];
-    }
-    self.typeDict = [typesDict copy];
-}
-
-- (void)setHeight
-{
-    CGFloat height = self.cellHeight;
-    // For each row of text add 13 to the cell height to accomodate the height
-    // of the line.
-    height += 13 * ([self.typeDict count] - 1);
-    // If we have a sort field (which is displayed on the right side of the cell
-    // Drop the size to accomodate a line having been removed.
-    if (self.sortField) {
-        height -= 13;
-    }
-    self.cellHeight = height;
-}
-
 - (OTMCellSorter *)prepareDiscreteCell:(NSDictionary *)data
                                inTable:(UITableView *)tableView
 {
@@ -534,10 +522,10 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
         NSString *type = [[[self typeDict] objectForKey:key] objectForKey:@"type"];
         if (type) {
             if (self.sortField && [self.sortField isEqualToString:key]) {
-                sortFieldText = [self stringifyData:[data objectForKey:key] byType:type];
+                sortFieldText = [OTMUdfCollectionHelper stringifyData:[data objectForKey:key] byType:type];
                 sortData = [data objectForKey:key];
             } else {
-                NSString *text = [self stringifyData:[data objectForKey:key] byType:type];
+                NSString *text = [OTMUdfCollectionHelper stringifyData:[data objectForKey:key] byType:type];
                 [cellText appendString:text];
                 [cellText appendString:@"\n"];
             }
@@ -570,7 +558,7 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
     [typeTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
 
 
-    [typeTextLabel setText:[self typeLabelFromType:self.type]];
+    [typeTextLabel setText:[OTMUdfCollectionHelper typeLabelFromType:self.type]];
     [sortTextLabel setText:sortFieldText];
 
     CGSize textSize = {
@@ -601,48 +589,9 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
                                  clickCallback:self.clickCallback];
 }
 
-- (NSString *)typeLabelFromType:(NSString *)type
-{
-    NSArray *keys = [[NSArray alloc] initWithObjects:@"tree", @"plot", nil];
-    NSArray *labels = [[NSArray alloc] initWithObjects:@"Tree", @"Planting Site", nil];
-    NSDictionary *keyLabels = [[NSDictionary alloc] initWithObjects:labels forKeys:keys];
-
-    // Work against the case insensive string.
-    NSString *typeLabel = [keyLabels objectForKey:[type lowercaseString]];
-    // If no match return the original text.
-    if (!typeLabel) {
-        typeLabel = type;
-    }
-    return typeLabel;
-}
-
-- (NSString *)stringifyData:(id)data byType:(NSString *)type
-{
-    NSString *result;
-    if ([type isEqualToString:@"date"]) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss'"];
-        NSDate *date =[dateFormatter dateFromString:data];
-
-        // Newly set dates have a different format so we need to account for
-        // them.
-        if (!date) {
-            [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'"];
-            date =[dateFormatter dateFromString:data];
-        }
-
-        [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-        [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-        return [dateFormatter stringFromDate:date];
-
-    } else if ([type isEqualToString:@"choice"]) {
-        result = data;
-    } else {
-        result = @"";
-    }
-    return result;
-}
-
+/**
+ * Table delegate methods.
+ */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -670,10 +619,11 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
 
 @end
 
-@implementation OTMUdfEditTableViewController
 
-@end
-
+/**
+ * Creates an Add More button that makes UDF collections based on a data
+ * definition.
+ */
 @implementation OTMUdfAddMoreRenderer
 
 NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNotification";
@@ -941,6 +891,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 
 @end
 
+
 @implementation OTMUdfChoiceTableViewController
 
 @synthesize choices, choice;
@@ -1013,6 +964,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 }
 
 @end
+
 
 @implementation OTMStaticClickCellRenderer
 
@@ -1109,10 +1061,10 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
         NSString *type = [[[self typeDict] objectForKey:key] objectForKey:@"type"];
         if (type) {
             if (self.sortField && [self.sortField isEqualToString:key]) {
-                sortFieldText = [self stringifyData:[data objectForKey:key] byType:type];
+                sortFieldText = [OTMUdfCollectionHelper stringifyData:[data objectForKey:key] byType:type];
                 sortData = [data objectForKey:key];
             } else {
-                NSString *text = [self stringifyData:[data objectForKey:key] byType:type];
+                NSString *text = [OTMUdfCollectionHelper stringifyData:[data objectForKey:key] byType:type];
                 [cellText appendString:text];
                 [cellText appendString:@"\n"];
             }
@@ -1137,7 +1089,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     [typeTextLabel setTextColor:[UIColor colorWithRed:0.55f green:0.55f blue:0.55f alpha:1.00f]];
 
 
-    [typeTextLabel setText:[self typeLabelFromType:self.type]];
+    [typeTextLabel setText:[OTMUdfCollectionHelper typeLabelFromType:self.type]];
     [sortTextLabel setText:sortFieldText];
 
     CGSize textSize = {
@@ -1166,7 +1118,42 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
                                  clickCallback:nil];
 }
 
-- (NSString *)stringifyData:(id)data byType:(NSString *)type
+- (id)initWithDataKey:(NSString *)dkey
+             typeDict:(NSString *)dict
+            sortField:(NSString *)sort
+         editRenderer:(OTMEditDetailCellRenderer *)edit
+      addMoreRenderer:(OTMUdfAddMoreRenderer *)more
+{
+    self = [super initWithDataKey:dkey editRenderer:nil];
+    self.typeDict = [OTMUdfCollectionHelper generateDictFromString:dict];
+    self.sortField = sort;
+    self.editCellRenderer = edit;
+    return self;
+}
+
+@end
+
+
+/**
+ * Helper class to store common static functions that are shared by the
+ * UDFCollectionRenderer and the UDFEditCollectionRenderer.
+ */
+@implementation OTMUdfCollectionHelper
+
++ (NSDictionary *)generateDictFromString:(NSString *)dictString
+{
+    NSArray *typesArray = [dictString copy];
+
+    // Making the assumption that in a UDF there cannot be multiple fields with
+    // the same name.
+    NSMutableDictionary *typesDict = [[NSMutableDictionary alloc] init];
+    for (id type in typesArray) {
+        [typesDict setObject:type forKey:[type objectForKey:@"name"]];
+    }
+    return [typesDict copy];
+}
+
++ (NSString *)stringifyData:(id)data byType:(NSString *)type
 {
     NSString *result;
     if ([type isEqualToString:@"date"]) {
@@ -1199,7 +1186,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
  *
  * "Plot" -> "Planting Site"
  */
-- (NSString *)typeLabelFromType:(NSString *)type
++ (NSString *)typeLabelFromType:(NSString *)type
 {
     NSArray *keys = [[NSArray alloc] initWithObjects:@"tree", @"plot", nil];
     NSArray *labels = [[NSArray alloc] initWithObjects:@"Tree", @"Planting Site", nil];
@@ -1214,48 +1201,8 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     return typeLabel;
 }
 
-- (id)initWithDataKey:(NSString *)dkey
-             typeDict:(NSString *)dict
-            sortField:(NSString *)sort
-         editRenderer:(OTMEditDetailCellRenderer *)edit
-      addMoreRenderer:(OTMUdfAddMoreRenderer *)more
-{
-    self = [super initWithDataKey:dkey editRenderer:nil];
-    [self generateDictFromString:dict];
-    [self setHeight];
-    self.sortField = sort;
-    self.editCellRenderer = edit;
-    return self;
-}
-
-- (void)generateDictFromString:(NSString *)dictString
-{
-    NSArray *typesArray = [dictString copy];
-
-    // Making the assumption that in a UDF there cannot be multiple fields with
-    // the same name.
-    NSMutableDictionary *typesDict = [[NSMutableDictionary alloc] init];
-    for (id type in typesArray) {
-        [typesDict setObject:type forKey:[type objectForKey:@"name"]];
-    }
-    self.typeDict = [typesDict copy];
-}
-
-- (void)setHeight
-{
-    CGFloat height = self.cellHeight;
-    // For each row of text add 13 to the cell height to accomodate the height
-    // of the line.
-    height += 13 * ([self.typeDict count] - 1);
-    // If we have a sort field (which is displayed on the right side of the cell
-    // Drop the size to accomodate a line having been removed.
-    if (self.sortField) {
-        height -= 13;
-    }
-    self.cellHeight = height;
-}
-
 @end
+
 
 @implementation OTMCellSorter
 
@@ -1294,7 +1241,5 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     }
     return self;
 }
-
-
 
 @end

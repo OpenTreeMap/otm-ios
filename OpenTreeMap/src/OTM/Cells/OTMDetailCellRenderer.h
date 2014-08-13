@@ -119,6 +119,7 @@ ABSTRACT_METHOD
 
 @end
 
+
 /**
  * Render cells for editing
  */
@@ -130,6 +131,7 @@ ABSTRACT_METHOD
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict;
 
 @end
+
 
 /**
  * Render a simple label
@@ -149,6 +151,7 @@ ABSTRACT_METHOD
 
 @end
 
+
 @interface OTMLabelEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
 
 @property (nonatomic,assign) UIKeyboardType keyboard;
@@ -165,6 +168,7 @@ ABSTRACT_METHOD
 
 @end
 
+
 @interface OTMDBHEditDetailCellRenderer : OTMEditDetailCellRenderer<OTMDetailTableViewCellDelegate>
 
 @property (nonatomic,strong) OTMDBHTableViewCell *cell;
@@ -173,6 +177,7 @@ ABSTRACT_METHOD
 -(id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter;
 
 @end
+
 
 @interface OTMUdfCollectionEditCellRenderer : OTMEditDetailCellRenderer
 
@@ -198,11 +203,6 @@ extern NSString * const UdfUpdateNotification;
 
 @end
 
-@interface OTMUdfEditTableViewController : UITableViewController
-
-@property NSMutableDictionary *startData;
-
-@end
 
 @interface OTMUdfAddMoreRenderer : OTMEditDetailCellRenderer
 
@@ -227,6 +227,7 @@ extern NSString * const UdfDataChangedForStepNotification;
 
 @end
 
+
 @interface OTMUdfChoiceTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSString *key;
@@ -237,6 +238,7 @@ extern NSString * const UdfDataChangedForStepNotification;
 - (void)setChoices:(NSArray *)choicesArray;
 
 @end
+
 
 /**
  * Shows a static cell that allows a click event
@@ -260,6 +262,7 @@ extern NSString * const UdfDataChangedForStepNotification;
 
 @end
 
+
 /**
  * Shows cells for UDF collections. These can in some cases create multiple
  * cells for a given field. These may need to be sorted together and ths we
@@ -278,6 +281,16 @@ extern NSString * const UdfDataChangedForStepNotification;
       addMoreRenderer:(OTMUdfAddMoreRenderer *)more;
 
 @end
+
+
+@interface OTMUdfCollectionHelper : NSObject
+
++ (NSDictionary *)generateDictFromString:(NSString *)dictString;
++ (NSString *)typeLabelFromType:(NSString *)type;
++ (NSString *)stringifyData:(id)data byType:(NSString *)type;
+
+@end
+
 
 /**
  * A container to store rendered cells and to be able to sort them if need be.
