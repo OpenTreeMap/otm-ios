@@ -421,6 +421,33 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 
         [cellsWithSectionTitles addObject:preparedCellsForSection];
     }
+
+    // If there are no cells in a section in non-edit mode then add a cell that
+    // Explains that there are no items of that type listed.
+    for (int i =0; i < [cellsWithSectionTitles count]; i++) {
+        NSDictionary *cellSection = cellsWithSectionTitles[i];
+        NSArray *sectionCells = [cellSection objectForKey:@"cells"];
+        if ([sectionCells count] == 0) {
+            UITableViewCell *noDataMessageCell = [[UITableViewCell alloc] init];
+            NSString *titleString = [[cellSection objectForKey:@"title"] lowercaseString];
+            // "Stewardship" should show as "stewardship actions" for the user.
+            if ([titleString isEqualToString:@"stewardship"]) {
+                titleString = @"stewardship actions";
+            }
+            noDataMessageCell.textLabel.text = [NSString stringWithFormat:@"No %@ listed", titleString];
+            OTMCellSorter *noDataMessageCellSorter = [[OTMCellSorter alloc] initWithCell:noDataMessageCell
+                                                                                sortKey:nil
+                                                                               sortData:@""
+                                                                                 height:noDataMessageCell.frame.size.height
+                                                                          clickCallback:nil];
+            NSDictionary *noDataMessageDict = @{
+                                                @"title" : [cellSection objectForKey:@"title"],
+                                                @"cells" : [[NSArray alloc] initWithObjects:noDataMessageCellSorter, nil]
+                                                };
+            [cellsWithSectionTitles removeObjectAtIndex:i];
+            [cellsWithSectionTitles insertObject:noDataMessageDict atIndex:i];
+        }
+    }
     curCells = cellsWithSectionTitles;
 }
 
