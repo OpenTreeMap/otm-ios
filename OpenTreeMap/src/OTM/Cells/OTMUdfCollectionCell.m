@@ -533,6 +533,8 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UdfChoiceCell"];
     cell.textLabel.text = [self.choiceLabels objectAtIndex:indexPath.row];
+    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    cell.textLabel.numberOfLines = 0;
     if ([[self.choices objectAtIndex:indexPath.row] isEqualToString:self.choice]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
