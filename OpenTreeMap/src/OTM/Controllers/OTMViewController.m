@@ -28,7 +28,10 @@
     NSMutableArray *addressComponents = [[NSMutableArray alloc] initWithCapacity:[keys count]];
 
     for (NSString *key in keys) {
-        NSString *component = [plotDict objectForKey:key];
+        NSString *component;
+        if (![[plotDict objectForKey:key] isKindOfClass:[NSNull class]]) {
+            component = [plotDict objectForKey:key];
+        }
         if (component && ![component isEqualToString: @""] && ![component isEqualToString: @"<null>"]) {
             [addressComponents addObject:component];
         }
