@@ -113,8 +113,6 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
 
     [self setUseOtmGeocoder:[[mapView valueForKey:@"UseOtmGeocoder"] boolValue]];
 
-    [self setSearchRegionRadiusInMeters:[[mapView valueForKey:@"SearchRegionRadiusInMeters"] doubleValue]];
-
     [self setTileQueryStringAdditionalArguments:[mapView valueForKey:@"TileQueryStringAdditionalArguments"]];
 
     [self setNearbyTreeRadiusInMeters:[[implementation valueForKey:@"NearbyTreeRadiusInMeters"] doubleValue]];
@@ -206,6 +204,7 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
     self.config = [dict objectForKey:@"config"];
     self.mapViewTitle = [dict objectForKey:@"name"];
     self.photoFieldWritable = [[[[[dict objectForKey:@"fields"] objectForKey:@"treephoto.image"] objectForKey:@"can_write"] stringValue] isEqualToString:@"0"] ? NO : YES;
+    [self setSearchRegionRadiusInMeters:[[dict objectForKey:@"extent_radius"] doubleValue]];
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
 
