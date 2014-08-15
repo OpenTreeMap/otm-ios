@@ -80,12 +80,18 @@
     }
 
     NSMutableArray *queryData = [[NSMutableArray alloc] init];
-    [queryData addObject:@"AND"];
-    for (id key in andParams) {
-        [queryData addObject:@{key: [andParams objectForKey:key]}];
-    }
-    if ([orArray count]) {
-        [queryData addObject:orArray];
+    if ([andParams count]) {
+        [queryData addObject:@"AND"];
+        for (id key in andParams) {
+            [queryData addObject:@{key: [andParams objectForKey:key]}];
+        }
+        if ([orArray count]) {
+            [queryData addObject:orArray];
+        }
+    } else {
+        if ([orArray count]) {
+            queryData = orArray;
+        }
     }
 
     return queryData;
