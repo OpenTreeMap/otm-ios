@@ -158,6 +158,23 @@
                       {
                           NSLog(@"Failed to load instance data for %@ -- error message follows: %@", urlName, [error description]) ;
                       }];
+                     // If we fail for some reason, kick back to the original
+                     // value from the plist. This should really only happen for
+                     // the cloud app but if for some reason we happen to fail
+                     // for one of the other apps, we don't want to hard code
+                     // the empty string that represents cloud and accidentaly
+                     // turn a branded app into a cloud app. This ought to save
+                     // us from expired instances.
+                     NSBundle* bundle = [NSBundle mainBundle];
+
+                     NSString* implementationPListPath =
+                        [bundle pathForResource:@"Implementation" ofType:@"plist"];
+
+                     NSDictionary* implementation =
+                        [[NSDictionary alloc] initWithContentsOfFile: implementationPListPath];
+
+                     NSString *instance = [implementation objectForKey:@"instance"];
+                     [[OTMEnvironment sharedEnvironment] setInstance:instance];
                  } else {
                      [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
                      [self performSegueWithIdentifier:@"showInstance" sender:self];
