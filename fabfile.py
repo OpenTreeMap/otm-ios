@@ -62,11 +62,11 @@ def stamp_version(version, jenkins=None):
     template_file.write(content)
     template_file.flush()
 
-def create_info_plist(app_name, app_id, version='1.0',path=''):
+def create_info_plist(app_name, bundle_id, version='2.0.0', path=''):
     template_path = os.path.join(path, 'OpenTreeMap/OpenTreeMap-Info.plist.template')
     output_path = os.path.join(path, 'OpenTreeMap/OpenTreeMap-Info.plist')
     infoplist = open(template_path).read()
-    infoplist = infoplist % { "app_name": app_name, "app_id": app_id, "version": version}
+    infoplist = infoplist % { "app_name": app_name, "bundle_id": bundle_id, "version": version}
 
     f = open(output_path, 'w')
     f.write(infoplist)
@@ -161,7 +161,8 @@ def clone_skin_repo(skin=None, clone_dir=None, version=None, user=None):
 
 
 def package(skin=None, user=None, version=None,
-            app_name="git-snapshot", app_ver="git-snapshot", app_id="com.company.otm"):
+            app_name="git-snapshot", app_ver="git-snapshot",
+            bundle_id="com.company.otm"):
     """
     Package a skinned up implementation for deployment based on
     the current commit in this directory.
@@ -187,7 +188,7 @@ def package(skin=None, user=None, version=None,
                      otm_dir=os.path.join(clone_dir,"OpenTreeMap"),
                      copy_instead_of_link=True)
 
-    create_info_plist(app_name, app_id, app_ver,path=clone_dir)
+    create_info_plist(app_name, bundle_id, app_ver, path=clone_dir)
 
     with lcd(temp_dir):
         local('tar -czf otmios.tar.gz otmios')

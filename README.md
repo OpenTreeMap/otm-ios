@@ -14,7 +14,7 @@ The source for the OpenTreeMap web application is available on github
 A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) script included with the OpenTreeMap for iOS source.
 
     $ fab install_skin
-    $ fab create_info_plist:app_name={app name},app_id={app id}
+    $ fab create_info_plist:app_name={app name},bundle_id={bundle id}
 
 The default skin may also be found on github
 
