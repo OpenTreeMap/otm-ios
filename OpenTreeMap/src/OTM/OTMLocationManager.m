@@ -53,7 +53,15 @@
         // The delegate is cleared in stopFindingLocation so it must be reset
         // here.
         [[self locationManager] setDelegate:self];
-        [[self locationManager] startUpdatingLocation];
+
+        // Required to get iOS8 location services to run.
+        if ([[self locationManager] respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            [[self locationManager] requestWhenInUseAuthorization];
+            [[self locationManager] startUpdatingLocation];
+        } else {
+            [[self locationManager] startUpdatingLocation];
+        }
+
         NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
         [self performSelector:@selector(stopFindingLocationAndExecuteCallback) withObject:nil afterDelay:timeout];
     } else {
