@@ -91,7 +91,14 @@
 
     [self updateList:segControl];
 
-    [self.locationManager startUpdatingLocation];
+    // Required to get iOS8 location services to run.
+     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) { // iOS8+
+        [self.locationManager requestWhenInUseAuthorization];
+        [self.locationManager startUpdatingLocation];
+    } else {
+        [self.locationManager startUpdatingLocation];
+    }
+
     [self reloadBackground];
 }
 
