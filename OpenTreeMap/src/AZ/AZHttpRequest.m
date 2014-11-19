@@ -234,8 +234,10 @@
     url = [url stringByAppendingString:accessParam];
 
     NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    NSLocale *enLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    [formatter setLocale:enLocale];
     [formatter setTimeZone:timeZone];
 
     NSString *timestamp = [formatter stringFromDate:[NSDate date]];
