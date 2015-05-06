@@ -361,6 +361,22 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
     }
 }
 
+- (BOOL)shouldMakeIntFormatterForField:(NSString*)field ofType:(id)dataType {
+    if ([dataType isKindOfClass:[NSString class]]) {
+        return ([dataType isEqualToString:@"int"] && ![field isEqualToString:@"species"]);
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)shouldMakeFloatFormatterForField:(NSString*)field ofType:(id)dataType {
+    if ([dataType isKindOfClass:[NSString class]]) {
+        return ([dataType isEqualToString:@"float"]);
+    } else {
+        return NO;
+    }
+}
+
 - (void)addFieldsToArray:(NSMutableArray *)modelFields fromDict:(NSDictionary *)dict {
     NSString *field = [dict objectForKey:@"field_name"];
     NSString *dType = [dict objectForKey:@"data_type"];
@@ -383,6 +399,12 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
     if (unit != nil && ![unit isEqualToString:@""]) {
         fmt = [[OTMFormatter alloc] initWithDigits:digits
                                              label:unit];
+    } else if ([self shouldMakeIntFormatterForField:field ofType:dType]) {
+        fmt = [[OTMFormatter alloc] initWithDigits:0
+                                             label:nil];
+    } else if ([self shouldMakeFloatFormatterForField:field ofType:dType]) {
+        fmt = [[OTMFormatter alloc] initWithDigits:2
+                                             label:nil];
     }
 
     if ([field isEqualToString:@"geom"] ||
