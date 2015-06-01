@@ -9,7 +9,7 @@ OpenTreeMap for iOS has 2 major dependencies:
 
 The source for the OpenTreeMap web application is available on github
 
-<a href="https://github.com/azavea/OpenTreeMap">https://github.com/azavea/OpenTreeMap</a>
+<a href="https://github.com/OpenTreeMap/otm-core">https://github.com/OpenTreeMap/otm-core</a>
 
 A default skin can be downloaded using the Fabric (http://docs.fabfile.org/) script included with the OpenTreeMap for iOS source.
 
