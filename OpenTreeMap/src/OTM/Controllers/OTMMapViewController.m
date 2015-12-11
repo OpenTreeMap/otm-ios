@@ -182,8 +182,8 @@
 {
     NSMutableDictionary *geometryDict = [[NSMutableDictionary alloc] init];
     [geometryDict setObject:@"4326" forKey:@"srid"];
-    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"y"];
-    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"x"];
+    [geometryDict setObject:[NSNumber numberWithDouble:annotation.coordinate.latitude] forKey:@"y"];
+    [geometryDict setObject:[NSNumber numberWithDouble:annotation.coordinate.longitude] forKey:@"x"];
     [geometryDict setObject:[NSNumber numberWithInt:4326] forKey:@"srid"];
 
     NSMutableDictionary *addTreeDict = [[NSMutableDictionary alloc] init];
