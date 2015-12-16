@@ -21,8 +21,8 @@
 {
     NSMutableDictionary *geometryDict = [[dict objectForKey:@"plot"] objectForKey:@"geom"];
 
-    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.latitude] forKey:@"y"];
-    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"x"];
+    [geometryDict setValue:[NSNumber numberWithDouble:coordinate.latitude] forKey:@"y"];
+    [geometryDict setValue:[NSNumber numberWithDouble:coordinate.longitude] forKey:@"x"];
 
     return dict;
 }
