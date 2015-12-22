@@ -16,6 +16,7 @@
 #import "OTMAppDelegate.h"
 #import "OTMEnvironment.h"
 #import "OTMPreferences.h"
+#import <Rollbar/Rollbar.h>
 
 @interface OTMAppDelegate()
 
@@ -40,6 +41,14 @@
 
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeEnvironment:) name:kOTMEnvironmentChangeNotification object:nil];
+
+    NSString *rollbarClientAccessToken = [[OTMEnvironment sharedEnvironment] rollbarClientAccessToken];
+    if (rollbarClientAccessToken) {
+        [Rollbar initWithAccessToken:rollbarClientAccessToken];
+        [Rollbar debugWithMessage:@"iOS application launched"];
+    } else {
+        NSLog(@"Skipping Rollbar initialization - No client access token configured");
+    }
 
     return YES;
 }

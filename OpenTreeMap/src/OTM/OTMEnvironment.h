@@ -148,6 +148,9 @@ extern NSString * const OTMEnvironmentDateStringShort;
 // User generated content
 @property (nonatomic, strong) NSString *inappropriateReportEmail;
 
+// Crash reporting
+@property (nonatomic, strong) NSString *rollbarClientAccessToken;
+
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
 
