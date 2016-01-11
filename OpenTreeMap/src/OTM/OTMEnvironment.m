@@ -136,6 +136,8 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
         self.inappropriateReportEmail = @"OpenTreeMap <info@opentreemap.org>";
     }
 
+    self.rollbarClientAccessToken = [implementation objectForKey:@"RollbarClientAccessToken"];
+
     OTM2API* otmApi = [[OTM2API alloc] init];
 
     NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];
