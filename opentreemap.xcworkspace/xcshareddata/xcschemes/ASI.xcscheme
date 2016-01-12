@@ -38,6 +38,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D7C98FDE1518C79E0094770C"
+            BuildableName = "libASI.a"
+            BlueprintName = "ASI"
+            ReferencedContainer = "container:lib/ASI/ASI.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
