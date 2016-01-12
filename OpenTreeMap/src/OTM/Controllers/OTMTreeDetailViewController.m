@@ -228,7 +228,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
     OTMMapDetailCellRenderer *mapDetailCellRenderer = [[OTMMapDetailCellRenderer alloc] init];
     OTMEditMapDetailCellRenderer *mapEditCellRenderer = [[OTMEditMapDetailCellRenderer alloc] initWithDetailRenderer:mapDetailCellRenderer];
 
-    mapEditCellRenderer.clickCallback = ^(OTMDetailCellRenderer *renderer) {
+    mapEditCellRenderer.clickCallback = ^(UIViewController *aController,  NSMutableDictionary *dict) {
         [self performSegueWithIdentifier:@"changeLocation" sender:self];
     };
 

@@ -85,7 +85,7 @@
                                        sortKey:nil
                                       sortData:nil
                                         height:self.cellHeight
-                                 clickCallback:nil];
+                                 clickCallback:self.clickCallback];
 }
 
 - (OTMMapTableViewCell *)cellPreparedBySuperClassWithData:(NSDictionary *)data
