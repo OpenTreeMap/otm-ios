@@ -8,6 +8,8 @@ version.plist
 *~
 OpenTreeMap/skin
 OpenTreeMap/Choices.plist
+OpenTreeMap/OpenTreeMap-Info.plist
+
 OpenTreeMap/Default*.png
 OpenTreeMap/Icon*.png
 OpenTreeMap/Setting*.png

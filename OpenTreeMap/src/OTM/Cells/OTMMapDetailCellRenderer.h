@@ -25,7 +25,7 @@
     OTMMapDetailCellRenderer *renderer;
 }
 
-@property (nonatomic,strong) Function1v clickCallback;
+@property (nonatomic,strong) Function2v clickCallback;
 @property (nonatomic,assign) BOOL inited;
 
 -(id)initWithDetailRenderer:(OTMMapDetailCellRenderer *)mapDetailCellRenderer;

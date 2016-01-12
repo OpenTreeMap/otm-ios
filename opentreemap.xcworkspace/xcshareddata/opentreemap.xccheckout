@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>15EB1981-189D-42CB-A7C0-F9B16F6CF76A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>opentreemap</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8EF0FF89FF0A2FC88C3F3E83AFD5E38F85F7C708</key>
+		<string>https://github.com/OpenTreeMap/otm-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>opentreemap.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8EF0FF89FF0A2FC88C3F3E83AFD5E38F85F7C708</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/OpenTreeMap/otm-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8EF0FF89FF0A2FC88C3F3E83AFD5E38F85F7C708</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8EF0FF89FF0A2FC88C3F3E83AFD5E38F85F7C708</string>
+			<key>IDESourceControlWCCName</key>
+			<string>otm-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>
