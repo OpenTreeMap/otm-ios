@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) OTMLocationManager *locationManager;
 @property (nonatomic, strong) NSDictionary *instances;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
 @property (nonatomic, strong) IBOutlet UIButton *logInOutButton;
 
