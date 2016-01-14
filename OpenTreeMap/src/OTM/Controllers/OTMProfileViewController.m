@@ -378,6 +378,13 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    // TODO: Fix loading and displaying recent edits (audits)
+
+    // The code in this delegate method loads recent edits (audits) when you scroll the profile page up
+    // beyond the bottom and let go. The audit API is not working in the most recent release and the
+    // current display code for the audits does not show them properly.
+
+    /*
     if (self.loadingView.hidden == YES && scrollView.contentOffset.y > scrollView.contentSize.height - 400) {
         heightOffset = self.loadingView.frame.size.height + 5;
 
@@ -393,10 +400,16 @@
         self.loadingView.hidden = NO;
         [self loadRecentEdits];
     }
+    */
 
 }
 
 -(void)loadRecentEdits {
+    // TODO: Fix loading and displaying recent edits (audits)
+    // The audit API is not working in the most recent release and the
+    // current display code for the audits does not show them properly.
+
+    /*
     if (loading == YES) {
         return;
     }
@@ -449,6 +462,7 @@
                  loading = NO;
              });
      }];
+     */
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
