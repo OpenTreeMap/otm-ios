@@ -170,6 +170,17 @@
                        [OTMAPI jsonCallback:callback]]];
 }
 
+-(void)getInstancesForUser:(OTMUser *)user callback:(AZJSONCallback)callback {
+    // The latest version of the API at the time this was written has a single API that gets both
+    // instances to which a user belongs and instances nearby. Passing a location of 0,0 (the middle
+    // of the ocean ensures that no location results will be returned.
+    // The `maxResults` parameter only applies to location searches, so this method passes the
+    // smallest valid value.
+    //
+    // TODO: Use a more appropriate API, when available.
+    [self getInstancesNearLatitude:0 longitude:0 user:user maxResults:1 distance:0 callback:callback];
+}
+
 -(void)getInstancesNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max distance:(double)distance callback:(AZJSONCallback)callback {
 
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:

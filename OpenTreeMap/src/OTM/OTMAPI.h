@@ -254,4 +254,10 @@ typedef void(^AZUserCallback)(OTMUser* user, NSDictionary *instance, OTMAPILogin
  */
 -(void)getInstancesNearLatitude:(double)lat longitude:(double)lon user:(OTMUser *)user maxResults:(NSUInteger)max distance:(double)distance callback:(AZJSONCallback)callback;
 
+/**
+ * Get the instances that a user is associated with. Calls
+ * getInstancesNearLatitude:longitude:user:maxResults:distance:callback: and passed a
+ * location in the middle of the ocean (0,0) to bypass finding nearby instances;
+ */
+-(void)getInstancesForUser:(OTMUser *)user callback:(AZJSONCallback)callback;
 @end

@@ -26,6 +26,7 @@
 
 - (id)initWithDistanceRestriction:(BOOL)rd;
 - (void)findLocation:(void(^)(CLLocation *location, NSError *error))callback;
+- (void)findLocationWithAccuracy:(CLLocationAccuracy)accuracy callback:(void(^)(CLLocation*, NSError*))callback;
 - (void)stopFindingLocation;
 - (BOOL)locationServicesAvailable;
 

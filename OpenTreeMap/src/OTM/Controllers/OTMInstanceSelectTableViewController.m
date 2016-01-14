@@ -42,6 +42,10 @@
     // Uncomment the following line to display an Edit button in the navigation
     // bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicatorView];
+    self.navigationItem.rightBarButtonItem = barButton;
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,39 +74,67 @@
         [self setLocationManager:[[OTMLocationManager alloc] initWithDistanceRestriction:NO]];
     }
 
-    // TODO: Maybe show loading indicator
-    [[self locationManager] findLocation:^(CLLocation *location, NSError *error) {
+    [self loadInstances];
+}
+
+- (void)loadInstances
+{
+    if ([[[SharedAppDelegate loginManager] loggedInUser] loggedIn]) {
+        [self.activityIndicatorView startAnimating];
+        [[[OTMEnvironment sharedEnvironment] api]
+         getInstancesForUser:[[SharedAppDelegate loginManager] loggedInUser]
+                    callback:^(id json, NSError *error) {
+             [self.activityIndicatorView stopAnimating];
+             if (!error) {
+                 if ([self oneOrMorePersonalInstancesInDictionary:json]) {
+                     [self updateInstancesFromDictionary:json];
+                 } else {
+                     [self loadNearbyInstances];
+                 }
+             } else {
+                 NSLog(@"Error getting instances for %@: %@", [[SharedAppDelegate loginManager] loggedInUser], error);
+                 [self loadNearbyInstances];
+             }
+         }];
+    } else {
+        [self loadNearbyInstances];
+    }
+}
+
+- (BOOL)oneOrMorePersonalInstancesInDictionary:(NSDictionary *)json
+{
+   if ([[json objectForKey:@"personal"] count])
+   {
+       return YES;
+   }
+   return NO;
+}
+
+- (void)loadNearbyInstances
+{
+    [self.activityIndicatorView startAnimating];
+    [[self locationManager] findLocationWithAccuracy:kCLLocationAccuracyThreeKilometers
+                                            callback:^(CLLocation *location, NSError *error) {
+        [self.activityIndicatorView stopAnimating];
         // TODO: if there is an error, we need to show some list of instances
         if (!error) {
+            [self.activityIndicatorView startAnimating];
             [[[OTMEnvironment sharedEnvironment] api]
              getInstancesNearLatitude:location.coordinate.latitude
-                            longitude:location.coordinate.longitude
-                                user:[[SharedAppDelegate loginManager] loggedInUser]
-                          maxResults:5
-                             distance:320000 callback:^(id json, NSError *error) {
-                                 if (!error) {
-                                     NSLog(@"Retrieved instances: %@", json);
-                                     [self updateInstancesFromDictionary:json];
-                                 } else {
-                                     NSLog(@"Error getting nearby instances: %@", error);
-                                 }
-            }];
+             longitude:location.coordinate.longitude
+             user:nil
+             maxResults:5
+             distance:320000 callback:^(id json, NSError *error) {
+                 [self.activityIndicatorView stopAnimating];
+                 if (!error) {
+                     NSLog(@"Retrieved instances: %@", json);
+                     [self updateInstancesFromDictionary:json];
+                 } else {
+                     NSLog(@"Error getting nearby instances: %@", error);
+                 }
+             }];
         } else {
             NSLog(@"Error finding location: %@", error);
-            if ([[[SharedAppDelegate loginManager] loggedInUser] loggedIn]) {
-                [[[OTMEnvironment sharedEnvironment] api]
-                 getInstancesNearLatitude:0
-                                longitude:0
-                                     user:[[SharedAppDelegate loginManager] loggedInUser]
-                               maxResults:5
-                                 distance:0 callback:^(id json, NSError *error) {
-                                     if (!error) {
-                                         [self updateInstancesFromDictionary:json];
-                                     } else {
-                                         NSLog(@"Error getting for: %@", error);
-                                     }
-                                 }];
-            }
         }
     }];
 }

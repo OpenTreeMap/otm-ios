@@ -38,6 +38,11 @@
 
 - (void)findLocation:(void(^)(CLLocation*, NSError*))callback
 {
+    [self findLocationWithAccuracy:kCLLocationAccuracyHundredMeters callback:callback];
+}
+
+- (void)findLocationWithAccuracy:(CLLocationAccuracy)accuracy callback:(void(^)(CLLocation*, NSError*))callback;
+{
     if (callback == nil) {
         return;
     }
@@ -45,7 +50,7 @@
 
         if (nil == [self locationManager]) {
             [self setLocationManager:[[CLLocationManager alloc] init]];
-            [[self locationManager] setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+            [[self locationManager] setDesiredAccuracy:accuracy];
         }
 
         [self setLocationFoundCallback:callback];
