@@ -82,11 +82,8 @@
     if ([[[SharedAppDelegate loginManager] loggedInUser] loggedIn]) {
         [self.activityIndicatorView startAnimating];
         [[[OTMEnvironment sharedEnvironment] api]
-         getInstancesNearLatitude:0
-         longitude:0
-         user:[[SharedAppDelegate loginManager] loggedInUser]
-         maxResults:5
-         distance:0 callback:^(id json, NSError *error) {
+         getInstancesForUser:[[SharedAppDelegate loginManager] loggedInUser]
+                    callback:^(id json, NSError *error) {
              [self.activityIndicatorView stopAnimating];
              if (!error) {
                  if ([self oneOrMorePersonalInstancesInDictionary:json]) {
