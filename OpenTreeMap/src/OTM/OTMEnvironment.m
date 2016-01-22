@@ -435,6 +435,7 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
                                                             label:displayField
                                                          clickUrl:nil
                                                           choices:choices
+                                                          isMulti:[dType isEqualToString:@"multichoice"]
                                                          writable:writable];
 
         [modelFields addObject:renderer];

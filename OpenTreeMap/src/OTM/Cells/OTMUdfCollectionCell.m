@@ -107,6 +107,11 @@ NSString * const UdfUpdateNotification = @"UdfUpdateNotification";
     [self.controller.navigationController popViewControllerAnimated:YES];
 }
 
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate
+{
+    return [OTMUdfCollectionHelper prepareAllCells:data inCellRenderer:self inTable:tableView withOriginatingDelegate:delegate];
+}
+
 - (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data
                                      inTable:(UITableView *)tableView
 {
@@ -589,6 +594,11 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     return nil;
 }
 
+- (NSArray *)prepareAllCells:(NSDictionary *)data inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate
+{
+    return [OTMUdfCollectionHelper prepareAllCells:data inCellRenderer:self inTable:tableView withOriginatingDelegate:delegate];
+}
+
 - (OTMCellSorter *)prepareCellSorterWithData:(NSDictionary *)data
                                      inTable:(UITableView *)tableView
 {
@@ -759,6 +769,21 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 {
     NSArray* keyList = [dataKey componentsSeparatedByString:@"."];
     return [keyList count] > 0 ? [[keyList objectAtIndex:0] capitalizedString] : nil;
+}
+
++ (NSArray *)prepareAllCells:(NSDictionary *)data inCellRenderer:(id)cellRenderer inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate
+{
+    [cellRenderer setOriginatingDelegate:delegate];
+    NSMutableArray *cells = [[NSMutableArray alloc] init];
+    if ([cellRenderer dataKey]) {
+        id elmt = [data decodeKey:[cellRenderer dataKey]];
+        OTMCellSorter *sorterCell;
+        for (id dataElement in elmt) {
+            sorterCell = (OTMCellSorter *)[cellRenderer prepareCellSorterWithData:dataElement inTable:tableView];
+            [cells addObject:sorterCell];
+        }
+    }
+    return [cells copy];
 }
 
 @end

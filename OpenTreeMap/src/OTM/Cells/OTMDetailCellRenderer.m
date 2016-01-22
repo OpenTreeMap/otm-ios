@@ -56,20 +56,12 @@
 {
     self.originatingDelegate = delegate;
     NSMutableArray *cells = [[NSMutableArray alloc] init];
-    id elmt = [data decodeKey:self.dataKey];
     OTMCellSorter *sorterCell;
-    if ([elmt isKindOfClass:[NSArray class]]) {
-        for (id dataElement in elmt) {
-            sorterCell = (OTMCellSorter *)[self prepareCellSorterWithData:dataElement inTable:tableView];
-            [cells addObject:sorterCell];
-        }
+    sorterCell = (OTMCellSorter *)[self prepareCell:data inTable:tableView];
+    if (sorterCell) {
+        [cells addObject:sorterCell];
     } else {
-        sorterCell = (OTMCellSorter *)[self prepareCell:data inTable:tableView];
-        if (sorterCell) {
-            [cells addObject:sorterCell];
-        } else {
-            NSLog(@"No sorter cell found.");
-        }
+        NSLog(@"No sorter cell found.");
     }
     return [cells copy];
 }

@@ -19,12 +19,13 @@
 
 @implementation OTMChoicesDetailCellRenderer
 
-@synthesize label, fieldChoices, clickURL;
+@synthesize label, fieldChoices, isMulti, clickURL;
 
 -(id)initWithDataKey:(NSString *)datakey
                label:(NSString *)labelname
             clickUrl:(NSString *)clickurl
              choices:(NSArray *)choices
+             isMulti:(BOOL)ismulti
             writable:(BOOL)writable {
 
     self = [super initWithDataKey:datakey];
@@ -32,7 +33,7 @@
     if (self) {
         self.label = labelname;
         self.clickURL = clickurl;
-
+        self.isMulti = ismulti;
         self.fieldChoices = choices;
 
         if (writable) {
@@ -49,6 +50,14 @@
 
 #define OTMChoicesDetailCellRenndererShowUrlLinkButtonView 19191
 
+- (NSString *)stringForValue:(NSObject *)value {
+    if (self.isMulti) {
+        return [(NSArray *)value componentsJoinedByString:@", "];
+    } else {
+        return [value description];
+    }
+}
+
 - (OTMCellSorter *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView
 {
     OTMDetailTableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMChoicesDetailCellRendererTableCellId];
@@ -58,28 +67,20 @@
                                                    reuseIdentifier:kOTMChoicesDetailCellRendererTableCellId];
     }
 
-    NSString *value = [[data decodeKey:self.dataKey] description];
-
-    NSString *output = @"(Not Set)";
+    NSString *value = [self stringForValue:[data decodeKey:self.dataKey]];
 
     NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
     if (pendingEditDict) {
         if ([pendingEditDict objectForKey:self.dataKey]) {
             detailcell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            value = [[pendingEditDict objectForKey:self.dataKey] objectForKey:@"latest_value"];
+            value = [self stringForValue:[[pendingEditDict objectForKey:self.dataKey] objectForKey:@"latest_value"]];
         } else {
             detailcell.accessoryType = UITableViewCellAccessoryNone;
         }
     }
 
-    for(NSDictionary *choice in fieldChoices) {
-        if ([value isEqualToString:[[choice objectForKey:@"value"] description]]) {
-            output = [choice objectForKey:@"display_value"];
-        }
-    }
-
     detailcell.fieldLabel.text = self.label;
-    detailcell.fieldValue.text = output;
+    detailcell.fieldValue.text = value;
 
     [[detailcell viewWithTag:OTMChoicesDetailCellRenndererShowUrlLinkButtonView] removeFromSuperview];
 
@@ -105,13 +106,14 @@
 
 @implementation OTMEditChoicesDetailCellRenderer
 
-@synthesize renderer, controller, selected, output, cell;
+@synthesize renderer, controller, selectedValues, cell;
 
 -(id)initWithDetailRenderer:(OTMChoicesDetailCellRenderer *)ocdcr {
     self = [super init];
 
     if (self) {
         renderer = ocdcr;
+        selectedValues = [[NSMutableSet alloc] init];
         controller = [[UITableViewController alloc] init];
         controller.navigationItem.hidesBackButton = YES;
         controller.navigationItem.rightBarButtonItem =
@@ -131,6 +133,22 @@
     return self;
 }
 
+- (NSString *)stringForValue:(NSObject *)value {
+    if (self.renderer.isMulti) {
+        return [(NSArray *)value componentsJoinedByString:@", "];
+    } else {
+        return [value description];
+    }
+}
+
+- (NSMutableSet *)setForValue:(NSObject *)value {
+    if (self.renderer.isMulti) {
+        return [[NSMutableSet alloc] initWithArray:(NSArray *)value];
+    } else {
+        return [[NSMutableSet alloc] initWithObjects:value, nil];
+    }
+}
+
 -(void)done:(id)sender {
     [controller.navigationController popViewControllerAnimated:YES];
 }
@@ -146,22 +164,15 @@
     cell.fieldLabel.text = renderer.label;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    if (selected) {
-        cell.fieldValue.text = [selected objectForKey:@"value"];
+    NSObject *dataValue = [renderData decodeKey:renderer.dataKey];
+    selectedValues = [self setForValue:dataValue];
+    [controller.tableView reloadData];
+
+    if ([selectedValues count] > 0) {
+        cell.fieldValue.text = [[selectedValues allObjects] componentsJoinedByString:@", "];
     } else {
-        NSString *txt = nil;
-        NSString *value = [[renderData decodeKey:renderer.dataKey] description];
-
-        for(NSDictionary *choice in renderer.fieldChoices) {
-            if ([value isEqualToString:[[choice objectForKey:@"value"] description]]) {
-                txt = [choice objectForKey:@"display_value"];
-            }
-        }
-
-        cell.fieldValue.text = txt;
+        cell.fieldValue.text = @"";
     }
-
-    output = cell.fieldValue.text;
 
     return [[OTMCellSorter alloc] initWithCell:cell
                                        sortKey:nil
@@ -171,12 +182,17 @@
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
-    if (selected) {
-        [dict setObject:[selected objectForKey:@"value"] forEncodedKey:renderer.dataKey];
+    NSObject *value;
+    if (self.renderer.isMulti) {
+        value = [selectedValues allObjects];
+    } else {
+        if ([selectedValues count] > 0) {
+            value = [[selectedValues allObjects] objectAtIndex:0];
+        } else {
+            value = @"";
+        }
     }
-
-    selected = nil;
-
+    [dict setObject:value forEncodedKey:renderer.dataKey];
     return dict;
 }
 
@@ -192,9 +208,19 @@
 }
 
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    selected = [renderer.fieldChoices objectAtIndex:[indexPath row]];
+    NSString *tappedValue = [[renderer.fieldChoices objectAtIndex:[indexPath row]] objectForKey:@"value"];
+    if (self.renderer.isMulti) {
+        if ([self.selectedValues member:tappedValue]) {
+            [selectedValues removeObject:tappedValue];
+        } else {
+            [selectedValues addObject:tappedValue];
+        }
+    } else {
+        selectedValues = [[NSMutableSet alloc] initWithObjects:tappedValue, nil];
+    }
 
-    cell.fieldValue.text = [selected objectForKey:@"display_value"];
+
+    cell.fieldValue.text = [[selectedValues allObjects] componentsJoinedByString:@", "];
 
     [tblView reloadData];
 }
@@ -212,18 +238,19 @@
     aCell.textLabel.text = [selectedDict objectForKey:@"display_value"];
     aCell.accessoryType = UITableViewCellAccessoryNone;
 
-    if (selected != nil) {
-        if ([[[selectedDict objectForKey:@"value"] description] isEqualToString:[[selected objectForKey:@"value"] description]]) {
-            aCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
-    } else {
-        if ([[selectedDict objectForKey:@"display_value"] isEqualToString:output]) {
-            aCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        }
+    if ([selectedValues member:[selectedDict objectForKey:@"value"]]) {
+        aCell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
 
     return aCell;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (self.renderer.isMulti) {
+        return @"Select any number of items";
+    } else {
+        return @"Select one item";
+    }
+}
 
 @end
