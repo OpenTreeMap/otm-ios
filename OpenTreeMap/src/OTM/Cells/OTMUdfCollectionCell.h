@@ -106,5 +106,5 @@ extern NSString * const UdfDataChangedForStepNotification;
 + (NSString *)typeLabelFromType:(NSString *)type;
 + (NSString *)stringifyData:(id)data byType:(NSString *)type;
 + (NSString *)typeFromDataKey:(NSString *)dataKey;
-
++ (NSArray *)prepareAllCells:(NSDictionary *)data inCellRenderer:(id)cellRenderer inTable:(UITableView *)tableView withOriginatingDelegate:(UINavigationController *)delegate;
 @end

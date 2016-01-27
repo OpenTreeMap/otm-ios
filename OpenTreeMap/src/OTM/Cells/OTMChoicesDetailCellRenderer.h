@@ -22,11 +22,13 @@
 @property (nonatomic,strong) NSString *clickURL;
 @property (nonatomic,strong) NSString *fieldName;
 @property (nonatomic,strong) NSArray *fieldChoices;
+@property (nonatomic,assign) BOOL isMulti;
 
 -(id)initWithDataKey:(NSString *)datakey
                label:(NSString *)label
             clickUrl:(NSString *)clickurl
              choices:(NSArray *)choices
+             isMulti:(BOOL)ismulti
             writable:(BOOL)writable;
 
 @end
@@ -35,12 +37,10 @@
 
 -(id)initWithDetailRenderer:(OTMChoicesDetailCellRenderer *)aRenderer;
 
-@property (nonatomic,strong,readonly) NSString *output;
-
 @property (nonatomic,weak) OTMChoicesDetailCellRenderer *renderer;
 @property (nonatomic,strong) UITableViewController *controller;
 
-@property (nonatomic,strong) NSDictionary *selected;
+@property (nonatomic,strong) NSMutableSet *selectedValues;
 @property (nonatomic,strong,readonly) OTMDetailTableViewCell *cell;
 
 @end
