@@ -64,10 +64,15 @@ typedef enum {
 
 @end
 
-@interface OTMBoolFilter : OTMFilter
+@interface OTMToggleFilter : OTMFilter
 
 @property (nonatomic,readonly) UILabel *nameLbl;
 @property (nonatomic,readonly) UISwitch *toggle;
+
+@end
+
+@interface OTMBoolFilter : OTMToggleFilter
+
 @property (nonatomic,readonly) BOOL existanceFilter;
 
 - (id)initWithName:(NSString *)nm key:(NSString *)k;
@@ -75,10 +80,8 @@ typedef enum {
 
 @end
 
-@interface OTMDefaultFilter : OTMFilter
+@interface OTMDefaultFilter : OTMToggleFilter
 
-@property (nonatomic, readonly) UILabel *nameLbl;
-@property (nonatomic, readonly) UISwitch *toggle;
 @property (nonatomic, readonly) NSString *defaultKey;
 @property (nonatomic, readonly) NSString *defaultValue;
 
