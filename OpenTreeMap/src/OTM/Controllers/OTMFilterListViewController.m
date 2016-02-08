@@ -218,21 +218,36 @@
 }
 
 - (UIView *)createView {
-    CGRect r = CGRectMake(0,0,320,40);
-    [self setView:[[UIView alloc] initWithFrame:r]];
+    const CGFloat viewWidth = 320;
+    const CGFloat viewMinHeight = 40;
+    const CGFloat margin = 20; // space at left and right edges
+    const CGFloat gutter = 10; // padding between label and toggle
 
-    _nameLbl = [[UILabel alloc] initWithFrame:CGRectOffset(self.view.frame, 21, 0)];
+    // Compute right-aligned toggle position based on its size
+    _toggle = [[UISwitch alloc] initWithFrame:CGRectZero];
+    CGFloat toggleX = viewWidth - _toggle.frame.size.width - margin;
+
+    // Make a label using the remaining horizontal width
+    CGFloat labelWidth = toggleX - margin - gutter;
+    _nameLbl = [[UILabel alloc] initWithFrame:CGRectMake(margin + 1, 0, labelWidth, 0)];
     _nameLbl.backgroundColor = [UIColor clearColor];
-    _nameLbl.textAlignment = UITextAlignmentLeft;
+    _nameLbl.lineBreakMode = NSLineBreakByWordWrapping;
+    _nameLbl.numberOfLines = 0;
     _nameLbl.text = self.name;
+//    _nameLbl.text = [self.name stringByAppendingString:@", followed by a whole lot more text"];
 
-    CGRect switchRect = CGRectMake(0,0,79,27); // this isthe default (and only?) size for an iOS toggle switch
-    CGFloat rightPad = 20.0;
-    CGFloat ox = r.size.width - (rightPad + switchRect.size.width);
-    CGFloat oy = (int)((r.size.height - switchRect.size.height) / 2.0);
+    // Wrap label text and get height, respecting viewMinHeight
+    [_nameLbl sizeToFit];
+    CGFloat labelHeight = MAX(_nameLbl.frame.size.height, viewMinHeight);
+    _nameLbl.frame = CGRectMake(_nameLbl.frame.origin.x, _nameLbl.frame.origin.y,
+                                labelWidth, labelHeight);
 
-    _toggle = [[UISwitch alloc] initWithFrame:CGRectOffset(switchRect, ox, oy)];
+    // Center toggle vertically
+    CGFloat toggleY = (int)((labelHeight - _toggle.frame.size.height) / 2.0);
+    _toggle.frame = CGRectOffset(_toggle.frame, toggleX, toggleY);
 
+    CGRect viewFrame = CGRectMake(0, 0, viewWidth, labelHeight);
+    [self setView:[[UIView alloc] initWithFrame:viewFrame]];
     [self.view addSubview:_nameLbl];
     [self.view addSubview:_toggle];
 
