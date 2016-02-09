@@ -117,8 +117,9 @@ typedef enum {
 @property (nonatomic,readonly) UITableViewController *tvc;
 @property (nonatomic,readonly) NSDictionary *selectedChoice;
 @property (nonatomic,readonly) NSArray *allChoices;
+@property (nonatomic,readonly) BOOL isMulti;
 
-- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices;
+- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices isMulti:(BOOL)isMulti;
 
 @end
 

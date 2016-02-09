@@ -325,9 +325,9 @@
 
 @implementation OTMChoiceFilter
 
-@synthesize button, tvc, selectedChoice, allChoices;
+@synthesize button, tvc, selectedChoice, allChoices, isMulti;
 
-- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices {
+- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices isMulti:(BOOL)multi {
     self = [super init];
     if (self) {
         [self setName:nm];
@@ -343,6 +343,7 @@
                                             target:self
                                             action:@selector(clear)];
 
+        isMulti = multi;
         allChoices = choices;
         selectedChoice = nil;
 
@@ -373,6 +374,8 @@
     [self setView:[[UIView alloc] initWithFrame:r]];
 
     button.frame = CGRectInset(r, 20, 2);
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self updateButtonText];
     [self.view addSubview:button];
 
@@ -387,13 +390,9 @@
 - (NSString *)selectedKey { return [selectedChoice objectForKey:@"key"]; }
 
 - (void)updateButtonText {
-    if ([self active]) {
-        [button setTitle:[NSString stringWithFormat:@"Pests: %@",[self selectedValue]]
-                forState:UIControlStateNormal];
-    } else {
-        [button setTitle:@"Pests"
-                forState:UIControlStateNormal];
-    }
+    NSString *value = [self selectedValue];
+    NSString *title = value == nil ? self.name : [NSString stringWithFormat:@"%@: %@",self.name,value];
+    [button setTitle:title forState:UIControlStateNormal];
 }
 
 - (void)clear {
@@ -404,8 +403,12 @@
 
 - (NSDictionary *)queryParams {
     if ([self active]) {
-        return [NSDictionary dictionaryWithObjectsAndKeys:[self selectedKey],
-                             self.key, nil];
+        if (isMulti) {
+            NSString *selectedValueQuoted = [NSString stringWithFormat:@"\"%@\"",[self selectedValue]];
+            return @{self.key: @{ @"LIKE": selectedValueQuoted}};
+        } else {
+            return @{self.key: @{ @"IS": [self selectedValue]}};
+        }
     } else {
         return [NSDictionary dictionary];
     }
