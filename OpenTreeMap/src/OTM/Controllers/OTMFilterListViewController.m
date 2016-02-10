@@ -121,9 +121,7 @@
 @interface OTMFilter ()
 - (void)setName:(NSString *)s;
 - (void)setKey:(NSString *)k;
-- (void)setView:(UIView *)k;
-
-- (BOOL)viewSet;
+- (BOOL)needsLabel;
 @end
 
 @implementation OTMFilter
@@ -132,6 +130,7 @@
 
 - (NSDictionary *)queryParams { ABSTRACT_METHOD_BODY }
 - (NSString *)queryString { ABSTRACT_METHOD_BODY }
+- (void)addSubviews { ABSTRACT_METHOD_BODY }
 - (BOOL)active { ABSTRACT_METHOD_BODY }
 - (void)clear { ABSTRACT_METHOD_BODY }
 - (void)resignFirstResponder { /* Stub for concreate filters with text boxes */ }
@@ -144,11 +143,66 @@
     name = s;
 }
 
-- (void)setView:(UIView *)v {
-    view = v;
+- (BOOL)needsLabel {
+    return TRUE;
 }
 
-- (BOOL)viewSet { return view != nil; }
+- (UIView *)view {
+    if (view == nil) {
+        [self createView];
+    }
+    return view;
+}
+
+- (void)createView {
+    CGFloat viewWidth = 320;
+    CGFloat xMargin = 20;
+    CGFloat subviewWidth = viewWidth - 2 * xMargin;
+    CGFloat labelBottomPadding = 2;
+    CGFloat viewBottomPadding = 20;
+    
+    // Start with width we want subviews to stay within
+    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, subviewWidth, 0)];
+    
+    [self addSubviews];
+    
+    if ([self needsLabel]) {
+        UILabel *label = [self makeLabel:subviewWidth];
+        
+        // Move each subview down to accomodate label height
+        CGFloat dy = label.frame.size.height + labelBottomPadding;
+        for (UIView *subview in view.subviews) {
+            subview.frame = CGRectOffset(subview.frame, 0, dy);
+        }
+        [view addSubview:label];
+    }
+    
+    // Move each subview left to accomodate x margin, and find lowest (y direction) subview.
+    CGFloat yMax = 0;
+    for (UIView *subview in view.subviews) {
+        subview.frame = CGRectOffset(subview.frame, xMargin, 0);
+        yMax = MAX(yMax, CGRectGetMaxY(subview.frame));
+    }
+    
+    // Add a horizontal line
+    CGFloat ySeparator = yMax + viewBottomPadding / 2.0 - 1;
+    UIView *separator = [[UIView alloc] initWithFrame:CGRectMake(xMargin, ySeparator, subviewWidth, 0.5)];
+    separator.backgroundColor = [UIColor colorWithWhite:0.75 alpha:1];
+    [self.view addSubview:separator];
+    
+    // Expand frame to accomodate margins and padding
+    view.frame = CGRectMake(0, 0, viewWidth, yMax + viewBottomPadding);
+}
+
+- (UILabel *)makeLabel:(CGFloat) width {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 0)];
+    label.backgroundColor = [UIColor clearColor];
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.numberOfLines = 0;
+    label.text = self.name;
+    [label sizeToFit];
+    return label;
+}
 
 @end
 
@@ -163,18 +217,9 @@
     return self;
 }
 
-- (UIView *)view {
-    if (![self viewSet]) {
-        [self setView:[self createView]];
-    }
-    return [super view];
-}
-
-- (UIView *)createView {
-    CGRect r = CGRectMake(0,0,320,space);
-    [self setView:[[UIView alloc] initWithFrame:r]];
-
-    return self.view;
+- (void)addSubviews {
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, space)];
+    [self.view addSubview:v];
 }
 
 - (BOOL)active {
@@ -195,47 +240,28 @@
 
 @implementation OTMToggleFilter
 
-- (UIView *)view {
-    if (![self viewSet]) {
-        [self setView:[self createView]];
-    }
-    return [super view];
+- (BOOL)needsLabel {
+    return FALSE;
 }
 
-- (UIView *)createView {
-    const CGFloat viewWidth = 320;
-    const CGFloat viewMinHeight = 40;
-    const CGFloat margin = 20; // space at left and right edges
+- (void)addSubviews {
+    const CGFloat viewWidth = self.view.frame.size.width;
     const CGFloat gutter = 10; // padding between label and toggle
     
     // Compute right-aligned toggle position based on its size
     _toggle = [[UISwitch alloc] initWithFrame:CGRectZero];
-    CGFloat toggleX = viewWidth - _toggle.frame.size.width - margin;
+    CGFloat toggleX = viewWidth - _toggle.frame.size.width;
     
     // Make a label using the remaining horizontal width
-    CGFloat labelWidth = toggleX - margin - gutter;
-    _nameLbl = [[UILabel alloc] initWithFrame:CGRectMake(margin + 1, 0, labelWidth, 0)];
-    _nameLbl.backgroundColor = [UIColor clearColor];
-    _nameLbl.lineBreakMode = NSLineBreakByWordWrapping;
-    _nameLbl.numberOfLines = 0;
-    _nameLbl.text = self.name;
-    
-    // Wrap label text and get height, respecting viewMinHeight
-    [_nameLbl sizeToFit];
-    CGFloat labelHeight = MAX(_nameLbl.frame.size.height, viewMinHeight);
-    _nameLbl.frame = CGRectMake(_nameLbl.frame.origin.x, _nameLbl.frame.origin.y,
-                                labelWidth, labelHeight);
+    CGFloat labelWidth = toggleX - gutter;
+    UILabel *label = [self makeLabel:labelWidth];
     
     // Center toggle vertically
-    CGFloat toggleY = (int)((labelHeight - _toggle.frame.size.height) / 2.0);
+    CGFloat toggleY = (int)((label.frame.size.height - _toggle.frame.size.height) / 2.0);
     _toggle.frame = CGRectOffset(_toggle.frame, toggleX, toggleY);
     
-    CGRect viewFrame = CGRectMake(0, 0, viewWidth, labelHeight);
-    [self setView:[[UIView alloc] initWithFrame:viewFrame]];
-    [self.view addSubview:_nameLbl];
+    [self.view addSubview:label];
     [self.view addSubview:_toggle];
-    
-    return self.view;
 }
 
 - (BOOL)active {
@@ -361,25 +387,21 @@
     [nav pushViewController:tvc animated:YES];
 }
 
-- (UIView *)view {
-    if (![self viewSet]) {
-        [self setView:[self createView]];
-    }
-
-    return [super view];
+- (BOOL)needsLabel {
+    return FALSE;
 }
 
-- (UIView *)createView {
-    CGRect r = CGRectMake(0,0,320,40);
-    [self setView:[[UIView alloc] initWithFrame:r]];
+- (void)addSubviews {
+    // Make a throwaway label so we can use its font and height
+    UILabel *label = [self makeLabel:self.view.frame.size.width];
+    button.titleLabel.font = label.font;
+    button.frame = CGRectMake(0, 0,  self.view.frame.size.width, label.frame.size.height);
 
-    button.frame = CGRectInset(r, 20, 2);
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self updateButtonText];
-    [self.view addSubview:button];
 
-    return self.view;
+    [self.view addSubview:button];
 }
 
 - (BOOL)active {
@@ -456,7 +478,7 @@
 
 @implementation OTMRangeFilter
 
-@synthesize nameLbl, maxValue, minValue;
+@synthesize maxValue, minValue;
 
 - (id)initWithName:(NSString *)nm key:(NSString *)k {
     self = [super init];
@@ -468,14 +490,6 @@
     return self;
 }
 
-- (UIView *)view {
-    if (![self viewSet]) {
-        [self setView:[self createView]];
-    }
-
-    return [super view];
-}
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range
@@ -484,20 +498,13 @@
     return [[newText componentsSeparatedByString:@"."] count] <= 2;
 }
 
-- (UIView *)createView {
-    CGRect r = CGRectMake(0,0,320,55);
-    [self setView:[[UIView alloc] initWithFrame:r]];
+- (void)addSubviews {
+    CGFloat padding = 10;
 
-    CGFloat padding = 10.0f;
-
-    CGRect nameFrame = CGRectMake(21,0,320,50);
-    CGRect leftFrame = CGRectMake(135,10,65,31);
+    CGRect leftFrame = CGRectMake(0,0,65,31);
     CGRect toFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding, 0);
     CGRect rightFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding + 25, 0);
 
-    nameLbl = [[UILabel alloc] initWithFrame:nameFrame];
-    nameLbl.backgroundColor = [UIColor clearColor];
-    nameLbl.text = self.name;
     minValue = [[UITextField alloc] initWithFrame:leftFrame];
     maxValue = [[UITextField alloc] initWithFrame:rightFrame];
 
@@ -514,12 +521,9 @@
     toLabel.backgroundColor = [UIColor clearColor];
     toLabel.text = @"to";
 
-    [self.view addSubview:nameLbl];
     [self.view addSubview:minValue];
     [self.view addSubview:maxValue];
     [self.view addSubview:toLabel];
-
-    return self.view;
 }
 
 - (void)setDelegate:(id)d {

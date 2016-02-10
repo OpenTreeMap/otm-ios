@@ -66,7 +66,6 @@ typedef enum {
 
 @interface OTMToggleFilter : OTMFilter
 
-@property (nonatomic,readonly) UILabel *nameLbl;
 @property (nonatomic,readonly) UISwitch *toggle;
 
 @end
@@ -103,7 +102,6 @@ typedef enum {
 
 @interface OTMRangeFilter : OTMFilter
 
-@property (nonatomic,readonly) UILabel *nameLbl;
 @property (nonatomic,readonly) UITextField *minValue;
 @property (nonatomic,readonly) UITextField *maxValue;
 
