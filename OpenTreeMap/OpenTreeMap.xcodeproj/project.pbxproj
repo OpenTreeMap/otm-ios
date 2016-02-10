@@ -105,6 +105,7 @@
 		649426E919008F3300923470 /* SpotlightIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649426E519008F3300923470 /* SpotlightIcon@2x.png */; };
 		649F92D5190AB7BC0098D3BB /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 649F92D4190AB7BC0098D3BB /* MessageUI.framework */; };
 		649F92D8190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 649F92D7190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m */; };
+		64C3F4A31C6BE5E90040A5C3 /* AZInputViewAccessoryBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 64C3F4A21C6BE5E90040A5C3 /* AZInputViewAccessoryBarButtonItem.m */; };
 		64D458F5190EF3BA005BAF47 /* Chevron_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 64D458CC190EF3BA005BAF47 /* Chevron_left.png */; };
 		64D458F6190EF3BA005BAF47 /* Chevron_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64D458CD190EF3BA005BAF47 /* Chevron_left@2x.png */; };
 		64D458F7190EF3BA005BAF47 /* Chevron_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 64D458CE190EF3BA005BAF47 /* Chevron_right.png */; };
@@ -351,6 +352,8 @@
 		649F92D4190AB7BC0098D3BB /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		649F92D6190AF5B40098D3BB /* OTMInappropriateContentMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMInappropriateContentMailViewController.h; sourceTree = "<group>"; };
 		649F92D7190AF5B40098D3BB /* OTMInappropriateContentMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMInappropriateContentMailViewController.m; sourceTree = "<group>"; };
+		64C3F4A11C6BE5E90040A5C3 /* AZInputViewAccessoryBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZInputViewAccessoryBarButtonItem.h; sourceTree = "<group>"; };
+		64C3F4A21C6BE5E90040A5C3 /* AZInputViewAccessoryBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZInputViewAccessoryBarButtonItem.m; sourceTree = "<group>"; };
 		64D458CC190EF3BA005BAF47 /* Chevron_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Chevron_left.png; sourceTree = "<group>"; };
 		64D458CD190EF3BA005BAF47 /* Chevron_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Chevron_left@2x.png"; sourceTree = "<group>"; };
 		64D458CE190EF3BA005BAF47 /* Chevron_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Chevron_right.png; sourceTree = "<group>"; };
@@ -488,6 +491,8 @@
 			children = (
 				6460865A160CFB6700A1458B /* AZHttpRequest.h */,
 				6460865B160CFB6700A1458B /* AZHttpRequest.m */,
+				64C3F4A11C6BE5E90040A5C3 /* AZInputViewAccessoryBarButtonItem.h */,
+				64C3F4A21C6BE5E90040A5C3 /* AZInputViewAccessoryBarButtonItem.m */,
 				6460865C160CFB6700A1458B /* AZKeychainItemWrapper.h */,
 				6460865D160CFB6700A1458B /* AZKeychainItemWrapper.m */,
 				623C91BC196C38E00019A448 /* AZPastelessTextField.h */,
@@ -998,6 +1003,7 @@
 			files = (
 				646086EC160CFB6700A1458B /* AZHttpRequest.m in Sources */,
 				646086ED160CFB6700A1458B /* AZKeychainItemWrapper.m in Sources */,
+				64C3F4A31C6BE5E90040A5C3 /* AZInputViewAccessoryBarButtonItem.m in Sources */,
 				646086EE160CFB6700A1458B /* AZUser.m in Sources */,
 				646086EF160CFB6700A1458B /* AZCachedObject.m in Sources */,
 				646086F0160CFB6700A1458B /* AZGeoCache.m in Sources */,

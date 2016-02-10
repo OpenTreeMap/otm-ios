@@ -109,7 +109,7 @@ typedef enum {
 
 @end
 
-@interface OTMDateRangeFilter : OTMFilter
+@interface OTMDateRangeFilter : OTMFilter <UITextFieldDelegate>
 
 @property (nonatomic,readonly) UILabel *nameLbl;
 @property (nonatomic,readonly) UITextField *minValue;

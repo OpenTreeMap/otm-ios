@@ -16,6 +16,7 @@
 #import "OTMFilterListViewController.h"
 #import "OTMSpeciesTableViewController.h"
 #import "AZPastelessTextField.h"
+#import "AZInputViewAccessoryBarButtonItem.h"
 
 @implementation OTMFilters
 
@@ -608,16 +609,68 @@
     return self.view;
 }
 
+- (BOOL) textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)textEntered {
+    // The value of the text fields are only set by changing a date picker
+    return NO;
+}
+
 - (UITextField*)datePickerTextFieldWithFrame:(CGRect)frame {
     UITextField *field = [[AZPastelessTextField alloc] initWithFrame:frame];
     field.borderStyle = UITextBorderStyleRoundedRect;
+    field.delegate = self;
 
     UIDatePicker *picker = [[UIDatePicker alloc] init];
     picker.datePickerMode = UIDatePickerModeDate;
     field.inputView = picker;
     [picker addTarget:self action:@selector(updateTextFieldFromDatePicker:) forControlEvents:UIControlEventValueChanged];
 
+    UIToolbar *toolbar =[[UIToolbar alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width,44)];
+    toolbar.barStyle = UIBarStyleDefault;
+
+    AZInputViewAccessoryBarButtonItem *clearButton = [[AZInputViewAccessoryBarButtonItem alloc]
+                                                      initWithTitle:@"Clear Date"
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(clearFieldFromDatePicker:)
+                                                          inputView:picker];
+
+    UIBarButtonItem *flexibleSpace =[[UIBarButtonItem alloc]
+                                     initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                          target:self
+                                                          action:nil];
+
+    UIBarButtonItem *closeButton =[[AZInputViewAccessoryBarButtonItem alloc]
+                                   initWithTitle:@"Close"
+                                           style:UIBarButtonItemStylePlain
+                                          target:self
+                                          action:@selector(dismisDatePicker:)
+                                       inputView:picker];
+
+    [toolbar setItems:@[clearButton,flexibleSpace, closeButton]];
+
+    field.inputAccessoryView = toolbar;
+
     return field;
+}
+
+-(void)clearFieldFromDatePicker:(id)sender {
+    if (minValue.inputView == [sender inputView]) {
+        minValue.text = @"";
+    } else if (maxValue.inputView == [sender inputView]) {
+        maxValue.text = @"";
+    } else {
+        NSLog(@"Expected the sender to be the inputView of the minValue or maxValue field, not %@", sender, nil);
+    }
+}
+
+-(void)dismisDatePicker:(id)sender {
+    if (minValue.inputView == [sender inputView]) {
+        [minValue endEditing:YES];
+    } else if (maxValue.inputView == [sender inputView]) {
+        [maxValue endEditing:YES];
+    } else {
+        NSLog(@"Expected the sender to be the inputView of the minValue or maxValue field, not %@", sender, nil);
+    }
 }
 
 -(void)updateTextFieldFromDatePicker:(id)sender {
