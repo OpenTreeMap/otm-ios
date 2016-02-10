@@ -15,6 +15,7 @@
 
 #import "OTMFilterListViewController.h"
 #import "OTMSpeciesTableViewController.h"
+#import "AZPastelessTextField.h"
 
 @implementation OTMFilters
 
@@ -547,6 +548,137 @@
 - (NSDictionary *)queryParams {
     if ([self active]) {
         return @{self.key: @{ @"MIN": minValue.text, @"MAX": maxValue.text}};
+    } else {
+        return [NSDictionary dictionary];
+    }
+}
+
+@end
+
+@implementation OTMDateRangeFilter
+
+@synthesize nameLbl, maxValue, minValue;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k {
+    self = [super init];
+    if (self) {
+        [self setName:nm];
+        [self setKey:k];
+    }
+
+    return self;
+}
+
+- (UIView *)view {
+    if (![self viewSet]) {
+        [self setView:[self createView]];
+    }
+
+    return [super view];
+}
+
+
+- (UIView *)createView {
+    CGRect r = CGRectMake(0,0,320,55);
+    [self setView:[[UIView alloc] initWithFrame:r]];
+
+    CGFloat padding = 10.0f;
+
+    CGRect nameFrame = CGRectMake(21,0,320,50);
+    CGRect leftFrame = CGRectMake(135,10,65,31);
+    CGRect toFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding, 0);
+    CGRect rightFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding + 25, 0);
+
+    nameLbl = [[UILabel alloc] initWithFrame:nameFrame];
+    nameLbl.backgroundColor = [UIColor clearColor];
+    nameLbl.text = self.name;
+
+    minValue = [self datePickerTextFieldWithFrame:leftFrame];
+    maxValue = [self datePickerTextFieldWithFrame:rightFrame];
+
+    UILabel *toLabel = [[UILabel alloc] initWithFrame:toFrame];
+    toLabel.backgroundColor = [UIColor clearColor];
+    toLabel.text = @"to";
+
+    [self.view addSubview:nameLbl];
+    [self.view addSubview:minValue];
+    [self.view addSubview:maxValue];
+    [self.view addSubview:toLabel];
+
+    return self.view;
+}
+
+- (UITextField*)datePickerTextFieldWithFrame:(CGRect)frame {
+    UITextField *field = [[AZPastelessTextField alloc] initWithFrame:frame];
+    field.borderStyle = UITextBorderStyleRoundedRect;
+
+    UIDatePicker *picker = [[UIDatePicker alloc] init];
+    picker.datePickerMode = UIDatePickerModeDate;
+    field.inputView = picker;
+    [picker addTarget:self action:@selector(updateTextFieldFromDatePicker:) forControlEvents:UIControlEventValueChanged];
+
+    return field;
+}
+
+-(void)updateTextFieldFromDatePicker:(id)sender {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+
+    NSString *newTextFieldText = [dateFormatter stringFromDate:[sender date]];
+    if (minValue.inputView == sender) {
+        minValue.text = newTextFieldText;
+    } else if (maxValue.inputView == sender) {
+        maxValue.text = newTextFieldText;
+    } else {
+        NSLog(@"Expected the sender to be the inputView of the minValue or maxValue field, not %@", sender, nil);
+    }
+}
+
+- (void)setDelegate:(id)d {
+    [super setDelegate:d];
+}
+
+- (BOOL)isNonEmptyTextField:(UITextField*)textField {
+    NSCharacterSet *charSet = [NSCharacterSet whitespaceCharacterSet];
+    NSString *trimmedString = [textField.text stringByTrimmingCharactersInSet:charSet];
+    return ![trimmedString isEqualToString:@""];
+}
+
+- (BOOL)active {
+    if (!minValue || !maxValue) {
+        return NO;
+    } else {
+        return ([self isNonEmptyTextField:minValue] || [self isNonEmptyTextField:maxValue]);
+    }
+}
+
+- (void)clear {
+    minValue.text = nil;
+    [((UIDatePicker*)minValue.inputView) setDate:[NSDate new]];
+    maxValue.text = nil;
+    [((UIDatePicker*)maxValue.inputView) setDate:[NSDate new]];
+}
+
+- (void)resignFirstResponder {
+    [minValue resignFirstResponder];
+    [maxValue resignFirstResponder];
+}
+
+- (NSDictionary *)queryParams {
+    if ([self active]) {
+        NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
+        if ([self isNonEmptyTextField:minValue]) {
+            [params setObject:[dateFormatter stringFromDate:[(UIDatePicker *)minValue.inputView date]]
+                       forKey:@"MIN"];
+        }
+        if ([self isNonEmptyTextField:maxValue]) {
+            [params setObject:[dateFormatter stringFromDate:[(UIDatePicker *)maxValue.inputView date]]
+                       forKey:@"MAX"];
+        }
+        return @{self.key: params};
     } else {
         return [NSDictionary dictionary];
     }

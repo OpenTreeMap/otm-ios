@@ -326,6 +326,11 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
                                                            key:fieldKey];
 
             }
+            else if ([filterType isEqualToString:@"DATERANGE"]) {
+                afilter = [[OTMDateRangeFilter alloc] initWithName:fieldName
+                                                               key:fieldKey];
+
+            }
             else if ([filterType isEqualToString:@"SPACE"]) {
                 CGFloat space = [[filter valueForKey:@"space"] floatValue];
 

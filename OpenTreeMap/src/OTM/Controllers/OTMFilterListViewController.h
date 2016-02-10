@@ -109,6 +109,16 @@ typedef enum {
 
 @end
 
+@interface OTMDateRangeFilter : OTMFilter
+
+@property (nonatomic,readonly) UILabel *nameLbl;
+@property (nonatomic,readonly) UITextField *minValue;
+@property (nonatomic,readonly) UITextField *maxValue;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k;
+
+@end
+
 @interface OTMChoiceFilter : OTMFilter
 
 @property (nonatomic,readonly) OTMButton *button;
