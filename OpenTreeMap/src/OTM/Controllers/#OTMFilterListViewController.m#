@@ -503,7 +503,7 @@
 - (void)addSubviews {
     CGFloat padding = 10;
 
-    CGRect leftFrame = CGRectMake(0,0,65,31);
+    CGRect leftFrame = CGRectMake(0,0,122,31);
     CGRect toFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding, 0);
     CGRect rightFrame = CGRectOffset(leftFrame, leftFrame.size.width + padding + 25, 0);
 

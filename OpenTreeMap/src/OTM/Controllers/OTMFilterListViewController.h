@@ -111,7 +111,6 @@ typedef enum {
 
 @interface OTMDateRangeFilter : OTMFilter <UITextFieldDelegate>
 
-@property (nonatomic,readonly) UILabel *nameLbl;
 @property (nonatomic,readonly) UITextField *minValue;
 @property (nonatomic,readonly) UITextField *maxValue;
 
