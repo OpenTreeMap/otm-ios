@@ -555,6 +555,57 @@
 @end
 
 
+@implementation OTMTextFilter
+
+@synthesize textBox;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k {
+    self = [super init];
+    if (self) {
+        [self setName:nm];
+        [self setKey:k];
+    }
+
+    return self;
+}
+
+- (void)addSubviews {
+    CGRect frame = CGRectMake(0, 0, self.view.frame.size.width, 31);
+    textBox = [[UITextField alloc] initWithFrame:frame];
+    textBox.borderStyle = UITextBorderStyleRoundedRect;
+
+    [textBox setDelegate:self];
+
+    [self.view addSubview:textBox];
+}
+
+- (void)setDelegate:(id)d {
+    [super setDelegate:d];
+}
+
+- (BOOL)active {
+    return ([textBox.text length] > 0);
+}
+
+- (void)clear {
+    textBox.text = nil;
+}
+
+- (void)resignFirstResponder {
+    [textBox resignFirstResponder];
+}
+
+- (NSDictionary *)queryParams {
+    if ([self active]) {
+        return @{self.key: @{ @"LIKE": textBox.text}};
+    } else {
+        return [NSDictionary dictionary];
+    }
+}
+
+@end
+
+
 @interface OTMFilterListViewController ()
 
 @end

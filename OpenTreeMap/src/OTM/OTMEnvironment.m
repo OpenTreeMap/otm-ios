@@ -316,6 +316,11 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
                                                       defaultKey:defaultFieldKey
                                                     defaultValue:defaultValue];
             }
+            else if ([filterType isEqualToString:@"STRING"]) {
+                afilter = [[OTMTextFilter alloc] initWithName:fieldName
+                                                          key:fieldKey];
+                
+            }
             else if ([filterType isEqualToString:@"RANGE"]) {
                 afilter = [[OTMRangeFilter alloc] initWithName:fieldName
                                                            key:fieldKey];

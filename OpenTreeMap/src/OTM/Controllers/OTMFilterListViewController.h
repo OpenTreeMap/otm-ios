@@ -121,6 +121,13 @@ typedef enum {
 
 @end
 
+@interface OTMTextFilter : OTMFilter
+
+@property (nonatomic,readonly) UITextField *textBox;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k;
+
+@end
 
 
 @interface OTMFilterListViewController : OTMScrollAwareViewController
