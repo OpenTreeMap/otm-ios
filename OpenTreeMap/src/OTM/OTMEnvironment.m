@@ -289,12 +289,14 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
 
             OTMFilter *afilter = nil;
 
-            if ([filterType isEqualToString:@"CHOICES"]) {
+            if ([filterType isEqualToString:@"CHOICE"] || [filterType isEqualToString:@"MULTICHOICE"]) {
                 NSArray *filterChoices = filter[@"choices"];
+                BOOL isMulti = [filterType isEqualToString:@"MULTICHOICE"];
 
                 afilter = [[OTMChoiceFilter alloc] initWithName:fieldName
                                                             key:fieldKey
-                                                        choices:filterChoices];
+                                                        choices:filterChoices
+                                                        isMulti:isMulti];
             }
             else if ([filterType isEqualToString:@"BOOL"]) {
                 afilter = [[OTMBoolFilter alloc] initWithName:fieldName
@@ -314,9 +316,19 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
                                                       defaultKey:defaultFieldKey
                                                     defaultValue:defaultValue];
             }
+            else if ([filterType isEqualToString:@"STRING"]) {
+                afilter = [[OTMTextFilter alloc] initWithName:fieldName
+                                                          key:fieldKey];
+                
+            }
             else if ([filterType isEqualToString:@"RANGE"]) {
                 afilter = [[OTMRangeFilter alloc] initWithName:fieldName
                                                            key:fieldKey];
+
+            }
+            else if ([filterType isEqualToString:@"DATERANGE"]) {
+                afilter = [[OTMDateRangeFilter alloc] initWithName:fieldName
+                                                               key:fieldKey];
 
             }
             else if ([filterType isEqualToString:@"SPACE"]) {

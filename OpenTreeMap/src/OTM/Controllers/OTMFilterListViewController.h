@@ -66,7 +66,6 @@ typedef enum {
 
 @interface OTMToggleFilter : OTMFilter
 
-@property (nonatomic,readonly) UILabel *nameLbl;
 @property (nonatomic,readonly) UISwitch *toggle;
 
 @end
@@ -103,7 +102,15 @@ typedef enum {
 
 @interface OTMRangeFilter : OTMFilter
 
-@property (nonatomic,readonly) UILabel *nameLbl;
+@property (nonatomic,readonly) UITextField *minValue;
+@property (nonatomic,readonly) UITextField *maxValue;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k;
+
+@end
+
+@interface OTMDateRangeFilter : OTMFilter <UITextFieldDelegate>
+
 @property (nonatomic,readonly) UITextField *minValue;
 @property (nonatomic,readonly) UITextField *maxValue;
 
@@ -117,11 +124,19 @@ typedef enum {
 @property (nonatomic,readonly) UITableViewController *tvc;
 @property (nonatomic,readonly) NSDictionary *selectedChoice;
 @property (nonatomic,readonly) NSArray *allChoices;
+@property (nonatomic,readonly) BOOL isMulti;
 
-- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices;
+- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices isMulti:(BOOL)isMulti;
 
 @end
 
+@interface OTMTextFilter : OTMFilter
+
+@property (nonatomic,readonly) UITextField *textBox;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k;
+
+@end
 
 
 @interface OTMFilterListViewController : OTMScrollAwareViewController
