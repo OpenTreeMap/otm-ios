@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7zY-vH-TMB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7zY-vH-TMB">
     <dependencies>
-        <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller - Tree Map-->
+        <!--Tree Map-->
         <scene sceneID="q3d-8f-SBs">
             <objects>
                 <navigationController definesPresentationContext="YES" id="IOc-fB-8NC" sceneMemberID="viewController">
@@ -21,7 +21,7 @@
             </objects>
             <point key="canvasLocation" x="1214" y="-158"/>
         </scene>
-        <!--Map View Controller - First-->
+        <!--First-->
         <scene sceneID="11">
             <objects>
                 <viewController title="First" id="2" customClass="OTMMapViewController" sceneMemberID="viewController">
@@ -182,7 +182,7 @@
             </objects>
             <point key="canvasLocation" x="1720" y="-158"/>
         </scene>
-        <!--Tree Detail View Controller - Tree Detail-->
+        <!--Tree Detail-->
         <scene sceneID="Dv8-v2-A1v">
             <objects>
                 <viewController id="Z5j-QU-uNU" customClass="OTMTreeDetailViewController" sceneMemberID="viewController">
@@ -204,14 +204,14 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Imi-kc-vP1">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Address &gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Imi-kc-vP1">
                                         <rect key="frame" x="90" y="28" width="216" height="16"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Species >" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="a81-a2-XX4">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="&lt; Species &gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="a81-a2-XX4">
                                         <rect key="frame" x="90" y="10" width="216" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -270,7 +270,7 @@
             </objects>
             <point key="canvasLocation" x="3106" y="-174"/>
         </scene>
-        <!--Filter List View Controller - Filter-->
+        <!--Filter-->
         <scene sceneID="zp8-W1-VWl">
             <objects>
                 <viewController id="hZa-Zz-ezt" customClass="OTMFilterListViewController" sceneMemberID="viewController">
@@ -283,19 +283,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="ba0-Rh-Fwi">
-                                        <rect key="frame" x="0.0" y="121" width="320" height="448"/>
+                                        <rect key="frame" x="0.0" y="8" width="320" height="561"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1Jc-w3-d6h" customClass="OTMButton">
-                                        <rect key="frame" x="20" y="77" width="280" height="36"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Species"/>
-                                        <connections>
-                                            <segue destination="v8c-v7-6H5" kind="push" identifier="pushSpecies" id="145-jK-ChU"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -316,7 +307,6 @@
                     <connections>
                         <outlet property="otherFiltersView" destination="ba0-Rh-Fwi" id="gC1-Ym-7xN"/>
                         <outlet property="scrollView" destination="ePV-bU-uUu" id="sl1-dn-15l"/>
-                        <outlet property="speciesButton" destination="1Jc-w3-d6h" id="uen-cY-WIQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o8v-re-juQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -345,10 +335,10 @@
             </objects>
             <point key="canvasLocation" x="3106" y="-846"/>
         </scene>
-        <!--Species Table View Controller - Species-->
+        <!--Species-->
         <scene sceneID="UYx-NC-Q9u">
             <objects>
-                <tableViewController id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SpeciesChooser" id="v8c-v7-6H5" customClass="OTMSpeciesTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vV2-mt-eHo" customClass="OTM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -443,7 +433,7 @@
             </objects>
             <point key="canvasLocation" x="-1926" y="180"/>
         </scene>
-        <!--Instance Select Table View Controller - OpenTreeMap-->
+        <!--OpenTreeMap-->
         <scene sceneID="vem-LK-EH6">
             <objects>
                 <tableViewController id="dsU-64-c8o" customClass="OTMInstanceSelectTableViewController" sceneMemberID="viewController">
@@ -588,7 +578,7 @@
             </objects>
             <point key="canvasLocation" x="132" y="180"/>
         </scene>
-        <!--Password Change View Controller - Change Password-->
+        <!--Change Password-->
         <scene sceneID="nHT-PS-EZ6">
             <objects>
                 <viewController id="u8W-4J-SZB" customClass="OTMPasswordChangeViewController" sceneMemberID="viewController">
@@ -649,7 +639,7 @@
             </objects>
             <point key="canvasLocation" x="2586" y="439"/>
         </scene>
-        <!--Field Detail View Controller - Field Detail-->
+        <!--Field Detail-->
         <scene sceneID="gGM-RX-8a7">
             <objects>
                 <tableViewController id="qxZ-Vn-7jv" customClass="OTMFieldDetailViewController" sceneMemberID="viewController">
@@ -759,7 +749,7 @@
             </objects>
             <point key="canvasLocation" x="3187" y="733"/>
         </scene>
-        <!--Image View Controller - Tree Photo-->
+        <!--Tree Photo-->
         <scene sceneID="S37-kM-CBV">
             <objects>
                 <viewController id="u1i-qA-0UN" customClass="OTMImageViewController" sceneMemberID="viewController">
@@ -799,7 +789,7 @@
             </objects>
             <point key="canvasLocation" x="1915" y="1006"/>
         </scene>
-        <!--Profile View Controller - Profile-->
+        <!--Profile-->
         <scene sceneID="5wF-2u-wWk">
             <objects>
                 <viewController id="Duy-es-aav" customClass="OTMProfileViewController" sceneMemberID="viewController">
@@ -853,7 +843,7 @@
             </objects>
             <point key="canvasLocation" x="1194" y="499"/>
         </scene>
-        <!--Navigation Controller - Tree List-->
+        <!--Tree List-->
         <scene sceneID="f8G-zt-XN4">
             <objects>
                 <navigationController definesPresentationContext="YES" id="Bua-WS-BqB" sceneMemberID="viewController">
@@ -915,7 +905,7 @@
             </objects>
             <point key="canvasLocation" x="1720" y="-767"/>
         </scene>
-        <!--Navigation Controller - Profile-->
+        <!--Profile-->
         <scene sceneID="SRH-GT-8eT">
             <objects>
                 <navigationController title="Profile" definesPresentationContext="YES" id="bif-JI-aQc" sceneMemberID="viewController">
@@ -931,7 +921,7 @@
             </objects>
             <point key="canvasLocation" x="688" y="447"/>
         </scene>
-        <!--About View Controller - About-->
+        <!--About-->
         <scene sceneID="IIX-qj-m7w">
             <objects>
                 <viewController id="eCd-qX-6ya" customClass="OTMAboutViewController" sceneMemberID="viewController">
@@ -982,8 +972,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="hNa-Ed-G3s"/>
         <segue reference="XK6-IA-5KH"/>
-        <segue reference="vdU-No-GUA"/>
         <segue reference="ROJ-aE-inW"/>
-        <segue reference="Lek-fL-nUD"/>
+        <segue reference="vdU-No-GUA"/>
     </inferredMetricsTieBreakers>
 </document>

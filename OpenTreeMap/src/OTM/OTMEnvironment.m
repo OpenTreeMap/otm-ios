@@ -280,7 +280,7 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
 {
     NSMutableArray *filterArray = [NSMutableArray array];
     __block NSDictionary *fDict = fieldDict;
-
+    
     [filterlist enumerateObjectsUsingBlock:^(NSDictionary *filter, NSUInteger idx, BOOL *stop) {
             NSString *fieldKey = filter[@"identifier"];
             NSString *defaultFieldKey = filter[@"default_identifier"];
@@ -297,6 +297,9 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
                                                             key:fieldKey
                                                         choices:filterChoices
                                                         isMulti:isMulti];
+            }
+            else if ([filterType isEqualToString:@"SPECIES"]) {
+                afilter = [[OTMSpeciesFilter alloc] init];
             }
             else if ([filterType isEqualToString:@"BOOL"]) {
                 afilter = [[OTMBoolFilter alloc] initWithName:fieldName

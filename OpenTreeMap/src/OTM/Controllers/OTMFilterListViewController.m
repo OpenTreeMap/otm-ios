@@ -21,8 +21,6 @@
 @implementation OTMFilters
 
 - (BOOL)active {
-    if (_speciesId != nil) { return true; }
-
     for(OTMFilter *f in _filters) {
         if ([f active]) {
             return true;
@@ -60,10 +58,6 @@
 - (NSArray *)customFiltersData {
     NSMutableDictionary *andParams = [NSMutableDictionary dictionary];
     NSMutableDictionary *orParams = [NSMutableDictionary dictionary];
-
-    if (_speciesId != nil) {
-        andParams[@"species.id"] = @{ @"IS": _speciesId };
-    }
 
     for(OTMFilter *f in _filters) {
         if (![f isKindOfClass:[OTMDefaultFilter class]]) {
@@ -106,10 +100,6 @@
         if ([f active]) {
             [descriptions addObject:[f name]];
         }
-    }
-    if (_speciesId != nil)
-    {
-        [descriptions addObject:_speciesName];
     }
     if ([descriptions count] > 1) {
         return [descriptions componentsJoinedByString:@", "];
@@ -351,42 +341,24 @@
 
 @end
 
-@implementation OTMChoiceFilter
 
-@synthesize button, tvc, selectedChoice, allChoices, isMulti;
+@implementation OTMAbstractChoiceFilter
 
-- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices isMulti:(BOOL)multi {
+@synthesize button, tableViewController;
+
+- (id)init:(UITableViewController *)tvc {
     self = [super init];
-    if (self) {
-        [self setName:nm];
-        [self setKey:k];
-
-        tvc = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
-        tvc.tableView.delegate = (id<UITableViewDelegate>)self;
-        tvc.tableView.dataSource = (id<UITableViewDataSource>)self;
-
-        tvc.navigationItem.rightBarButtonItem =
-        [[UIBarButtonItem alloc] initWithTitle:@"Clear"
-                                         style:UITableViewStylePlain
-                                        target:self
-                                        action:@selector(clear)];
-
-        isMulti = multi;
-        allChoices = choices;
-        selectedChoice = nil;
-
-        button = [[OTMButton alloc] init];
-        [button addTarget:self
-                   action:@selector(pushTableViewController)
-         forControlEvents:UIControlEventTouchUpInside];
-    }
-
+    tableViewController = tvc;
+    button = [[OTMButton alloc] init];
+    [button addTarget:self
+               action:@selector(pushTableViewController)
+     forControlEvents:UIControlEventTouchUpInside];
     return self;
 }
 
 - (void)pushTableViewController {
     UINavigationController * nav = (UINavigationController *)[self.delegate parentViewController];
-    [nav pushViewController:tvc animated:YES];
+    [nav pushViewController:tableViewController animated:YES];
 }
 
 - (BOOL)needsLabel {
@@ -401,9 +373,87 @@
 
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self updateButtonText];
+    [self updateButtonText:nil];
 
     [self.view addSubview:button];
+}
+
+- (void)clear {
+    [self updateButtonText:nil];
+}
+
+- (void)updateButtonText:(NSString *)text {
+    NSString *title = text == nil ? self.name : [NSString stringWithFormat:@"%@: %@",self.name,text];
+    [button setTitle:title forState:UIControlStateNormal];
+}
+
+@end
+
+
+@implementation OTMSpeciesFilter
+
+@synthesize speciesName, speciesId;
+
+- (id)init {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    OTMSpeciesTableViewController *stvc = [storyboard instantiateViewControllerWithIdentifier:@"SpeciesChooser"];
+    self = [super init:stvc];
+
+    [self setName:@"Species"];
+    speciesName = nil;
+    speciesId = nil;
+    
+    stvc.callback = ^(NSDictionary *sdict) {
+        speciesName = sdict[@"common_name"];
+        speciesId = sdict[@"id"];
+        [self updateButtonText:[self speciesName]];
+    };
+    return self;
+}
+
+- (BOOL)active {
+    return speciesId != nil;
+}
+
+- (void)clear {
+    [super clear];
+    speciesName = nil;
+    speciesId = nil;
+}
+
+- (NSDictionary *)queryParams {
+    if ([self active]) {
+        return @{ @"species.id": @{ @"IS": speciesId }};
+    } else {
+        return [NSDictionary dictionary];
+    }
+}
+
+@end
+
+
+@implementation OTMChoiceFilter
+
+@synthesize selectedChoice, allChoices, isMulti;
+
+- (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices isMulti:(BOOL)multi {
+    UITableViewController *tableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self = [super init:tableViewController];
+
+    [self setName:nm];
+    [self setKey:k];
+    isMulti = multi;
+    allChoices = choices;
+    selectedChoice = nil;
+
+    tableViewController.tableView.delegate = (id<UITableViewDelegate>)self;
+    tableViewController.tableView.dataSource = (id<UITableViewDataSource>)self;
+    tableViewController.navigationItem.rightBarButtonItem =
+    [[UIBarButtonItem alloc] initWithTitle:@"Clear"
+                                     style:UITableViewStylePlain
+                                    target:self
+                                    action:@selector(clear)];
+    return self;
 }
 
 - (BOOL)active {
@@ -413,16 +463,10 @@
 - (NSString *)selectedValue { return [selectedChoice objectForKey:@"value"]; }
 - (NSString *)selectedKey { return [selectedChoice objectForKey:@"key"]; }
 
-- (void)updateButtonText {
-    NSString *value = [self selectedValue];
-    NSString *title = value == nil ? self.name : [NSString stringWithFormat:@"%@: %@",self.name,value];
-    [button setTitle:title forState:UIControlStateNormal];
-}
-
 - (void)clear {
+    [super clear];
     selectedChoice = nil;
-    [self updateButtonText];
-    [tvc.tableView reloadData];
+    [self.tableViewController.tableView reloadData];
 }
 
 - (NSDictionary *)queryParams {
@@ -449,7 +493,7 @@
 - (void)tableView:(UITableView *)tblView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     selectedChoice = [allChoices objectAtIndex:[indexPath row]];
 
-    [self updateButtonText];
+    [self updateButtonText:[self selectedValue]];
     [tblView reloadData];
 }
 
@@ -804,9 +848,6 @@
 
 - (void)setAllFilters:(OTMFilters *)f
 {
-    self.speciesName = f.speciesName;
-    self.speciesId = f.speciesId;
-
     _filters = f.filters;
 
     [self buildFilters:f.filters];
@@ -823,8 +864,6 @@
 }
 
 - (IBAction)clearFilters:(id)sender {
-    [self setSpeciesName:nil];
-    _speciesId = nil;
     for (OTMFilter *filter in _filters) {
         [filter clear];
     }
@@ -832,11 +871,7 @@
 
 - (OTMFilters *)generateFilters {
     OTMFilters *filtersobj = [[OTMFilters alloc] init];
-    filtersobj.speciesId = self.speciesId;
-    filtersobj.speciesName = self.speciesName;
-
     filtersobj.filters = _filters;
-
     return filtersobj;
 }
 
@@ -870,30 +905,5 @@
                                         _otherFiltersView.frame.origin.y + _otherFiltersView.frame.size.height + pad);
 
 }
-
-- (void)setSpeciesName:(NSString *)name {
-    _speciesName = name;
-
-    if (name == nil) {
-        name = @"Not Filtered";
-    }
-
-    [_speciesButton setTitle:[NSString stringWithFormat:@"Species: %@",name] forState: UIControlStateNormal];
-}
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"pushSpecies"]) {
-        OTMSpeciesTableViewController *vc = (OTMSpeciesTableViewController *)segue.destinationViewController;
-        [vc view]; // Force the view to load
-
-        vc.callback = ^(NSDictionary *sdict) {
-            self.speciesName = sdict[@"common_name"];
-            self.speciesId = sdict[@"id"];
-        };
-    }
-}
-
 
 @end
