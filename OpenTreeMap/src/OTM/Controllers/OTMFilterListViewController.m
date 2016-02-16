@@ -60,10 +60,10 @@
     NSMutableDictionary *orParams = [NSMutableDictionary dictionary];
 
     for(OTMFilter *f in _filters) {
-        if (![f isKindOfClass:[OTMDefaultFilter class]]) {
-            [andParams addEntriesFromDictionary:[f queryParams]];
-        } else {
+        if ([f isKindOfClass:[OTMDefaultFilter class]]) {
             [orParams addEntriesFromDictionary:[f queryParams]];
+        } else {
+            [andParams addEntriesFromDictionary:[f queryParams]];
         }
     }
 
