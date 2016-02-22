@@ -372,7 +372,7 @@
     button.frame = CGRectMake(0, 0,  self.view.frame.size.width, label.frame.size.height);
 
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button setTitleColor:[self.view tintColor] forState:UIControlStateNormal];
     [self updateButtonText:nil];
 
     [self.view addSubview:button];
