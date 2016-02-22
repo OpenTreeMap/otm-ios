@@ -160,7 +160,7 @@ typedef enum {
 @property (nonatomic,strong) Function1v callback;
 
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
-@property (nonatomic,strong) IBOutlet UIView *otherFiltersView;
+@property (nonatomic,strong) IBOutlet UIView *filtersView;
 @property (nonatomic,strong) IBOutlet UIButton *speciesButton;
 @property (nonatomic,strong) NSString *speciesName;
 @property (nonatomic,strong) NSString *speciesId;

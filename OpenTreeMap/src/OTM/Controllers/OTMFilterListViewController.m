@@ -850,7 +850,7 @@
 {
     _filters = f.filters;
 
-    [self buildFilters:f.filters];
+    [self initFiltersView];
 }
 
 - (IBAction)updateFilters:(id)sender {
@@ -875,35 +875,22 @@
     return filtersobj;
 }
 
-/**
- * Should be a list of filter objects
- */
-- (void)buildFilters:(NSArray *)f {
-    CGFloat pad = 0.0f;
-
-    // Reset filters frame
-    for (UIView *v in _otherFiltersView.subviews) { [v removeFromSuperview]; }
-
-    _otherFiltersView.frame = CGRectMake(_otherFiltersView.frame.origin.x,
-                                        _otherFiltersView.frame.origin.y + 18,
-                                        _otherFiltersView.frame.size.width,
-                                        0.0);
-
-    for(OTMFilter *filter in _filters) {
+- (void)initFiltersView {
+    for (UIView *v in _filtersView.subviews) {
+        [v removeFromSuperview];
+    }
+    
+    CGFloat yMax = 20;
+    for (OTMFilter *filter in _filters) {
         filter.delegate = self;
         UIView *v = [filter view];
-        v.frame = CGRectMake(v.frame.origin.x, _otherFiltersView.frame.size.height, v.frame.size.width, v.frame.size.height);
-        [_otherFiltersView addSubview:v];
-
-        _otherFiltersView.frame = CGRectMake(_otherFiltersView.frame.origin.x,
-                                            _otherFiltersView.frame.origin.y,
-                                            _otherFiltersView.frame.size.width,
-                                            _otherFiltersView.frame.size.height + v.frame.size.height + pad);
+        v.frame = CGRectMake(0, yMax, v.frame.size.width, v.frame.size.height);
+        yMax += v.frame.size.height;
+        [_filtersView addSubview:v];
     }
-
-    self.scrollView.contentSize = CGSizeMake(_otherFiltersView.frame.size.width,
-                                        _otherFiltersView.frame.origin.y + _otherFiltersView.frame.size.height + pad);
-
+    
+    _filtersView.frame = CGRectMake(0, 0, _filtersView.frame.size.width, yMax);
+    self.scrollView.contentSize = CGSizeMake(_filtersView.frame.size.width, yMax);
 }
 
 @end

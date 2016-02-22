@@ -273,17 +273,17 @@
         <!--Filter-->
         <scene sceneID="zp8-W1-VWl">
             <objects>
-                <viewController id="hZa-Zz-ezt" customClass="OTMFilterListViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="hZa-Zz-ezt" customClass="OTMFilterListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bgp-np-5MP" customClass="OTMView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ePV-bU-uUu">
-                                <rect key="frame" x="0.0" y="-1" width="320" height="569"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="ba0-Rh-Fwi">
-                                        <rect key="frame" x="0.0" y="8" width="320" height="561"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
                                     </view>
@@ -305,7 +305,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="otherFiltersView" destination="ba0-Rh-Fwi" id="gC1-Ym-7xN"/>
+                        <outlet property="filtersView" destination="ba0-Rh-Fwi" id="gC1-Ym-7xN"/>
                         <outlet property="scrollView" destination="ePV-bU-uUu" id="sl1-dn-15l"/>
                     </connections>
                 </viewController>
