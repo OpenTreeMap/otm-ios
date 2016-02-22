@@ -25,9 +25,6 @@ typedef enum {
 
 @interface OTMFilters : NSObject
 
-@property (nonatomic,strong) NSString *speciesName;
-@property (nonatomic,strong) NSString *speciesId;
-
 @property (nonatomic,assign) OTMListFilterType listFilterType;
 
 @property (nonatomic,strong) NSArray *filters;
@@ -118,10 +115,27 @@ typedef enum {
 
 @end
 
-@interface OTMChoiceFilter : OTMFilter
+
+@interface OTMAbstractChoiceFilter : OTMFilter
 
 @property (nonatomic,readonly) OTMButton *button;
-@property (nonatomic,readonly) UITableViewController *tvc;
+@property (nonatomic,readonly) UITableViewController *tableViewController;
+
+- (void)updateButtonText:(NSString *)text;
+
+@end
+
+
+@interface OTMSpeciesFilter : OTMAbstractChoiceFilter
+
+@property (nonatomic,strong) NSString *speciesName;
+@property (nonatomic,strong) NSString *speciesId;
+
+@end
+
+
+@interface OTMChoiceFilter : OTMAbstractChoiceFilter
+
 @property (nonatomic,readonly) NSDictionary *selectedChoice;
 @property (nonatomic,readonly) NSArray *allChoices;
 @property (nonatomic,readonly) BOOL isMulti;
@@ -129,6 +143,7 @@ typedef enum {
 - (id)initWithName:(NSString *)nm key:(NSString *)k choices:(NSArray *)choices isMulti:(BOOL)isMulti;
 
 @end
+
 
 @interface OTMTextFilter : OTMFilter
 
@@ -145,7 +160,7 @@ typedef enum {
 @property (nonatomic,strong) Function1v callback;
 
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
-@property (nonatomic,strong) IBOutlet UIView *otherFiltersView;
+@property (nonatomic,strong) IBOutlet UIView *filtersView;
 @property (nonatomic,strong) IBOutlet UIButton *speciesButton;
 @property (nonatomic,strong) NSString *speciesName;
 @property (nonatomic,strong) NSString *speciesId;
