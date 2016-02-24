@@ -298,7 +298,7 @@
                                 <action selector="clearFilters:" destination="hZa-Zz-ezt" id="pkm-i2-3of"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="50L-7V-eyE">
+                        <barButtonItem key="rightBarButtonItem" title="Search" style="done" id="50L-7V-eyE">
                             <connections>
                                 <action selector="updateFilters:" destination="hZa-Zz-ezt" id="IFD-Fh-Bcb"/>
                             </connections>

@@ -213,7 +213,8 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
     NSArray *regFilters = [self filtersFromDictArray:missingAndStandardFilters[@"standard"]
                                          usingFields:[dict objectForKey:@"fields"]];
 
-    NSArray *missingFilters = [self missingFiltersFromDictArray:missingAndStandardFilters[@"missing"]];
+    NSArray *missingFilters = [self missingFiltersFromDictArray:missingAndStandardFilters[@"missing"]
+                                                    usingFields:[dict objectForKey:@"fields"]];
 
     self.filters = [regFilters arrayByAddingObjectsFromArray:missingFilters];
 
@@ -260,12 +261,16 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
  * All missing filters are boolean filters with "existenceFilter"
  * set to true.
  */
-- (NSArray *)missingFiltersFromDictArray:(NSArray *)filterlist {
+- (NSArray *)missingFiltersFromDictArray:(NSArray *)filterlist usingFields:(NSDictionary *)fieldDict {
     NSMutableArray *filterArray = [NSMutableArray array];
 
     [filterlist enumerateObjectsUsingBlock:^(NSDictionary *filter, NSUInteger idx, BOOL *stop) {
             NSString *fieldKey = filter[@"identifier"];
             NSString *fieldName = filter[@"label"];
+        
+            if ([fieldDict objectForKey:fieldKey] == nil) {
+                return;  // Skip field because user lacks read permission
+            }
 
             OTMFilter *afilter = [[OTMBoolFilter alloc] initWithName:fieldName
                                                                  key:fieldKey
@@ -287,6 +292,10 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
             NSString *fieldName = filter[@"label"];
             NSString *filterType = filter[@"search_type"];
 
+            if ([fDict objectForKey:fieldKey] == nil) {
+                return;  // Skip field because user lacks read permission
+            }
+        
             OTMFilter *afilter = nil;
 
             if ([filterType isEqualToString:@"CHOICE"] || [filterType isEqualToString:@"MULTICHOICE"]) {
