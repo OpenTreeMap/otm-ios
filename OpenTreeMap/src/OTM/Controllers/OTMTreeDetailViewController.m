@@ -647,6 +647,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         if (saveChanges) {
             OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
             OTMUser *user = loginManager.loggedInUser;
+            NSMutableDictionary *writableData = [self getWritableFieldData];
 
             if (self.data[@"plot"][@"id"] == nil) {
                 // No 'id' parameter indicates that this is a new plot/tree
@@ -655,7 +656,8 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                 [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
 
                 NSArray *pendingImageData = [self stripPendingImageData];
-                [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:data user:user callback:^(id json, NSError *err){
+                [[[OTMEnvironment sharedEnvironment] api] addPlotWithOptionalTree:writableData user:user
+                                                                         callback:^(id json, NSError *err){
 
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
@@ -678,7 +680,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                 [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Saving"];
 
                 NSArray *pendingImageData = [self stripPendingImageData];
-                [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:data user:user callback:^(id json, NSError *err){
+                [[[OTMEnvironment sharedEnvironment] api] updatePlotAndTree:writableData user:user callback:^(id json, NSError *err){
 
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
@@ -713,6 +715,30 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
     }
     [self.tableView reloadData];
     [self resetHeaderPosition];
+}
+
+- (NSMutableDictionary *)getWritableFieldData {
+    NSMutableDictionary *writableData = [[NSMutableDictionary alloc] init];
+    NSDictionary *fieldData = [[OTMEnvironment sharedEnvironment] fieldData];
+
+    for (NSString *model in @[@"plot", @"tree"]) {
+        NSDictionary *modelData = self.data[model];
+    
+        if (modelData != nil) {
+            NSMutableDictionary *writableModelData = [[NSMutableDictionary alloc] init];
+        
+            for (NSString *key in modelData) {
+                NSString *fieldKey = [NSString stringWithFormat:@"%@.%@", model, key];
+                NSDictionary *field = fieldData[fieldKey];
+            
+                if (field != nil && ([key isEqualToString:@"id"] || [field[@"can_write"] boolValue])) {
+                    writableModelData[key] = modelData[key];
+                }
+            }
+            writableData[model] = writableModelData;
+        }
+    }
+    return writableData;
 }
 
 - (void)addNewUdf:(NSNotification *)notification

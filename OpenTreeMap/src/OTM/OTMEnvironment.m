@@ -201,20 +201,21 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
     self.instance = [dict objectForKey:@"url"];
     self.instanceId = [dict objectForKey:@"id"];
     self.geoRev = [dict objectForKey:@"geoRevHash"];
-    self.fields = [self fieldsFromDict:[dict objectForKey:@"fields"] orderedAndGroupedByDictArray:[dict objectForKey:@"field_key_groups"]];
+    self.fieldData = [dict objectForKey:@"fields"];
+    self.fields = [self fieldsFromDict:self.fieldData orderedAndGroupedByDictArray:[dict objectForKey:@"field_key_groups"]];
     self.sectionTitles = [self sectionTitlesFromDictArray:[dict objectForKey:@"field_key_groups"]];
     self.config = [dict objectForKey:@"config"];
     self.mapViewTitle = [dict objectForKey:@"name"];
-    self.photoFieldWritable = [[[[[dict objectForKey:@"fields"] objectForKey:@"treephoto.image"] objectForKey:@"can_write"] stringValue] isEqualToString:@"0"] ? NO : YES;
+    self.photoFieldWritable = [[[[self.fieldData objectForKey:@"treephoto.image"] objectForKey:@"can_write"] stringValue] isEqualToString:@"0"] ? NO : YES;
     [self setSearchRegionRadiusInMeters:[[dict objectForKey:@"extent_radius"] doubleValue]];
 
     NSDictionary *missingAndStandardFilters = [dict objectForKey:@"search"];
 
     NSArray *regFilters = [self filtersFromDictArray:missingAndStandardFilters[@"standard"]
-                                         usingFields:[dict objectForKey:@"fields"]];
+                                         usingFields:self.fieldData];
 
     NSArray *missingFilters = [self missingFiltersFromDictArray:missingAndStandardFilters[@"missing"]
-                                                    usingFields:[dict objectForKey:@"fields"]];
+                                                    usingFields:self.fieldData];
 
     self.filters = [regFilters arrayByAddingObjectsFromArray:missingFilters];
 
