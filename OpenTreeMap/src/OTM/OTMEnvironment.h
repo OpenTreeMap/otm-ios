@@ -102,6 +102,7 @@ extern NSString * const OTMEnvironmentDateStringShort;
 @property (nonatomic, strong) UIColor *buttonTextColor;
 @property (nonatomic, assign) BOOL pendingActive;
 @property (nonatomic, strong) NSArray *sectionTitles;
+@property (nonatomic, strong) NSDictionary *fieldData;
 @property (nonatomic, strong) NSArray *fields;
 @property (nonatomic, strong) NSDictionary *sortKeys;
 @property (nonatomic, strong) NSArray *ecoFields;
