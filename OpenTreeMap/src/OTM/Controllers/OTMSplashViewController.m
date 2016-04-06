@@ -15,6 +15,7 @@
 
 #import "OTMSplashViewController.h"
 #import "OTMPreferences.h"
+#import <Rollbar/Rollbar.h>
 
 @interface OTMSplashViewController ()
 
@@ -42,14 +43,19 @@
              withCallback:^(id json, NSError *error) {
                  
                  if (error != nil) {
-                     [UIAlertView showAlertWithTitle:nil
-                                             message:@"There was a problem connecting to the server. Hit OK to try again."
-                                   cancelButtonTitle:@"OK"
-                                    otherButtonTitle:nil
-                                            callback:^(UIAlertView *alertView, int btnIdx)
-                      {
-                          [self loadInstance];
-                      }];
+                     [Rollbar warningWithMessage:[NSString stringWithFormat:@"Failed to load instance '%@'",instance]];
+                     if ([[OTMEnvironment sharedEnvironment] allowInstanceSwitch]) {
+                         [self afterSplashDelaySegueTo:@"selectInstance"];
+                     } else {
+                         [UIAlertView showAlertWithTitle:nil
+                                                 message:@"There was a problem connecting to the server. Hit OK to try again."
+                                       cancelButtonTitle:@"OK"
+                                        otherButtonTitle:nil
+                                                callback:^(UIAlertView *alertView, int btnIdx)
+                          {
+                              [self loadInstance];
+                          }];
+                     }
                  } else {
                      [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
                      [self afterSplashDelaySegueTo:@"startWithInstance"];
