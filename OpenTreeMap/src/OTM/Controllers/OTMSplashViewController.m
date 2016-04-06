@@ -15,6 +15,7 @@
 
 #import "OTMSplashViewController.h"
 #import "OTMPreferences.h"
+#import <Rollbar/Rollbar.h>
 
 @interface OTMSplashViewController ()
 
@@ -34,33 +35,38 @@
 - (void)loadInstance {
     OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
     AZUser* user = [loginManager loggedInUser];
-
+    
     OTM2API *api = [[OTMEnvironment sharedEnvironment] api2];
     NSString *instance = [[OTMEnvironment sharedEnvironment] instance];
     [api loadInstanceInfo:instance
                   forUser:user
              withCallback:^(id json, NSError *error) {
-
-        if (error != nil) {
-          [UIAlertView showAlertWithTitle:nil
-                                  message:@"There was a problem connecting to the server. Hit OK to try again."
-                        cancelButtonTitle:@"OK"
-                         otherButtonTitle:nil
-                                 callback:^(UIAlertView *alertView, int btnIdx)
-                       {
-                         [self loadInstance];
-                       }];
-        } else {
-          [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
-            [self afterSplashDelaySegueTo:@"startWithInstance"];
-        }
-      }];
+                 
+                 if (error != nil) {
+                     [Rollbar warningWithMessage:[NSString stringWithFormat:@"Failed to load instance '%@'",instance]];
+                     if ([[OTMEnvironment sharedEnvironment] allowInstanceSwitch]) {
+                         [self afterSplashDelaySegueTo:@"selectInstance"];
+                     } else {
+                         [UIAlertView showAlertWithTitle:nil
+                                                 message:@"There was a problem connecting to the server. Hit OK to try again."
+                                       cancelButtonTitle:@"OK"
+                                        otherButtonTitle:nil
+                                                callback:^(UIAlertView *alertView, int btnIdx)
+                          {
+                              [self loadInstance];
+                          }];
+                     }
+                 } else {
+                     [[OTMEnvironment sharedEnvironment] updateEnvironmentWithDictionary:json];
+                     [self afterSplashDelaySegueTo:@"startWithInstance"];
+                 }
+             }];
 }
 
 - (void)afterSplashDelaySegueTo:(NSString *)segueName
 {
     NSTimeInterval seconds = self.triggerTime - [[NSDate date] timeIntervalSince1970];
-
+    
     dispatch_time_t tgt = dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC);
     dispatch_after(tgt, dispatch_get_main_queue(), ^{
         [self performSegueWithIdentifier:segueName sender:self];
@@ -70,12 +76,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     NSTimeInterval seconds = [[OTMEnvironment sharedEnvironment] splashDelayInSeconds];
     self.triggerTime = [[NSDate date] timeIntervalSince1970] + seconds;
-
+    
     NSString *instance = [[OTMEnvironment sharedEnvironment] instance];
-
+    
     if ([[OTMEnvironment sharedEnvironment] allowInstanceSwitch]) {
         instance = [[OTMPreferences sharedPreferences] instance];
         if (instance && ![instance isEqualToString:@""]) {
@@ -84,11 +90,11 @@
         } else {
             [self afterSplashDelaySegueTo:@"selectInstance"];
         }
-
+        
     } else {
-       [self loadInstance];
+        [self loadInstance];
     }
-
+    
 }
 
 - (void)viewDidUnload
