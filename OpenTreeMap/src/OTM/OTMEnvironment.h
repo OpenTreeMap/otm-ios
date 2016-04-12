@@ -140,6 +140,7 @@ extern NSString * const OTMEnvironmentDateStringShort;
 @property (nonatomic, strong) NSURL *instanceLogoUrl;
 @property BOOL speciesFieldWritable;
 @property BOOL photoFieldWritable;
+@property BOOL canAddTree;
 
 
 // Security

@@ -206,6 +206,7 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
     self.sectionTitles = [self sectionTitlesFromDictArray:[dict objectForKey:@"field_key_groups"]];
     self.config = [dict objectForKey:@"config"];
     self.mapViewTitle = [dict objectForKey:@"name"];
+    self.canAddTree = [[[[dict objectForKey:@"meta_perms"] objectForKey:@"can_add_tree"] stringValue] isEqualToString:@"0"] ? NO : YES;
     self.photoFieldWritable = [[[[self.fieldData objectForKey:@"treephoto.image"] objectForKey:@"can_write"] stringValue] isEqualToString:@"0"] ? NO : YES;
     [self setSearchRegionRadiusInMeters:[[dict objectForKey:@"extent_radius"] doubleValue]];
 
