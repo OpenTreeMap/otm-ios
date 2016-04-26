@@ -172,6 +172,15 @@
             [self startFindingLocation:self];
         }
     }
+    if (self.mode == Select) {
+        if ([[OTMEnvironment sharedEnvironment] canAddTree]) {
+            self.navigationItem.rightBarButtonItem.enabled = true;
+            self.navigationItem.rightBarButtonItem.title = @"Add";
+        } else {
+            self.navigationItem.rightBarButtonItem.enabled = false;
+            self.navigationItem.rightBarButtonItem.title = nil;
+        }
+    }
 }
 
 /**

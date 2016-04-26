@@ -159,7 +159,6 @@
                                 <segue destination="5L2-2I-7tO" kind="modal" identifier="filtersList" id="cgy-qy-I9w"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Add" id="kSh-FL-AwC"/>
                     </navigationItem>
                     <connections>
                         <outlet property="addTreeHelpLabel" destination="WkD-Gf-Dze" id="v5o-zG-gmM"/>
