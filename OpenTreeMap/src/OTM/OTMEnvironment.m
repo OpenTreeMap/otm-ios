@@ -136,6 +136,7 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
         self.inappropriateReportEmail = @"OpenTreeMap <info@opentreemap.org>";
     }
 
+    self.environmentName = [implementation objectForKey:@"environmentName"];
     self.rollbarClientAccessToken = [implementation objectForKey:@"RollbarClientAccessToken"];
 
     OTM2API* otmApi = [[OTM2API alloc] init];

@@ -151,6 +151,7 @@ extern NSString * const OTMEnvironmentDateStringShort;
 @property (nonatomic, strong) NSString *inappropriateReportEmail;
 
 // Crash reporting
+@property (nonatomic, strong) NSString *environmentName;
 @property (nonatomic, strong) NSString *rollbarClientAccessToken;
 
 
