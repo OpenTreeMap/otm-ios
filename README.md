@@ -16,7 +16,7 @@ The source code for these services is available is available on Github:
 - https://github.com/OpenTreeMap/otm-tiler
 
 
-### Configuration plist files
+### Configuration files
 
 The iOS application requires three configuration files:
 
@@ -113,6 +113,13 @@ This is set to the `url_name` of an instance, the iOS application
 will only connect show that instance. Otherwise the iOS application
 will show a list of all available instances for the user to choose
 from.
+
+#### OpenTreeMap.entitlements
+
+A template for this file is available at `OpenTreeMap/OpenTreeMap.entitlements.template`.
+
+The `app_id` variable should be replaced with a unique
+[App ID](https://developer.apple.com/library/ios/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html).
 
 
 ### Images and Other Content
