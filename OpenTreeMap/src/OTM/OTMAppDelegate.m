@@ -42,12 +42,9 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeEnvironment:) name:kOTMEnvironmentChangeNotification object:nil];
 
-    NSString *rollbarClientAccessToken = [[OTMEnvironment sharedEnvironment] rollbarClientAccessToken];
-    if (rollbarClientAccessToken) {
-        [Rollbar initWithAccessToken:rollbarClientAccessToken];
+    if ([self configureRollbarWithEnvironment:[OTMEnvironment sharedEnvironment]])
+    {
         [Rollbar debugWithMessage:@"iOS application launched"];
-    } else {
-        NSLog(@"Skipping Rollbar initialization - No client access token configured");
     }
 
     return YES;
@@ -101,6 +98,22 @@
     OTMEnvironment *env = note.object;
     self.window.tintColor = env.primaryColor;
     self.window.backgroundColor = [UIColor whiteColor];
+}
+
+#pragma mark Helpers
+
+- (BOOL) configureRollbarWithEnvironment:(OTMEnvironment*)env
+{
+    NSString *rollbarClientAccessToken = [env rollbarClientAccessToken];
+    if (rollbarClientAccessToken) {
+        RollbarConfiguration *config = [RollbarConfiguration configuration];
+        config.environment = env.environmentName ?: config.environment;
+        [Rollbar initWithAccessToken:rollbarClientAccessToken configuration:config];
+        return YES;
+    } else {
+        NSLog(@"Skipping Rollbar initialization - No client access token configured");
+        return NO;
+    }
 }
 
 @end
