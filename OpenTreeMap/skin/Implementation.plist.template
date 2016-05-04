@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>instance</key>
+        <string>%(urlname)s</string>
+        <key>splashDelayInSeconds</key>
+        <real>%(splashdelay)s</real>
+        <key>AccessKey</key>
+        <string>%(accesskey)s</string>
+        <key>SecretKey</key>
+        <string>%(secretkey)s</string>
+        <key>RollbarClientAccessToken</key>
+        <string>%(rollbar_client_access_token)s</string>
+        <key>environmentName</key>
+        <string>%(environment)s</string>
+        <key>MapView</key>
+        <dict>
+            <key>SearchSuffix</key>
+            <string></string>
+            <key>LocationSearchTimeoutInSeconds</key>
+            <real>15</real>
+            <key>MapViewTitle</key>
+            <string>%(mapviewtitle)s</string>
+            <key>UseOtmGeocoder</key>
+            <false/>
+            <key>TileQueryStringAdditionalArguments</key>
+            <string>show=[%%22Plot%%22]</string>
+        </dict>
+        <key>APIURL</key>
+        <dict>
+            <key>base</key>
+            <string>%(apiserver)s/api</string>
+            <key>version</key>
+            <string>%(apiversion)s</string>
+        </dict>
+        <key>tilerurl</key>
+        <string>%(tileserver)s</string>
+        <key>inappropriateReportEmail</key>
+        <string>%(reportemail)s</string>
+    </dict>
+</plist>

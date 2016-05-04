@@ -3,12 +3,12 @@
 <plist version="1.0">
 <dict>
         <key>application-identifier</key>
-        <string>HX678UA6R2.org.azavea.otm2.dev.devcloud</string>
+        <string>%(app_id)s</string>
         <key>get-task-allow</key>
         <false/>
         <key>keychain-access-groups</key>
         <array>
-                <string>HX678UA6R2.org.azavea.otm2.dev.devcloud</string>
+                <string>%(app_id)s</string>
         </array>
 </dict>
 </plist>
