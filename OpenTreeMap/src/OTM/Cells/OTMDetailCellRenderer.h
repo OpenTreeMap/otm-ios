@@ -198,6 +198,7 @@ ABSTRACT_METHOD
 @property (nonatomic,strong) NSString *defaultName;
 @property (nonatomic,strong) NSString *name;
 @property (nonatomic,strong) id data;
+@property (nonatomic,strong,readonly) UITableViewCell *detailcell;
 
 @end
 
