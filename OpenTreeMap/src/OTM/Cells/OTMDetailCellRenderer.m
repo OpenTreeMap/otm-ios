@@ -415,7 +415,7 @@
 
 #define kOTMDetailEditSpeciesCellRendererCellId @"kOTMDetailEditSpeciesCellRendererCellId"
 
-@synthesize name, data, defaultName;
+@synthesize name, data, defaultName, detailcell;
 
 - (id)initWithKey:(NSString *)key clickCallback:(Function2v)aCallback {
     return [self initWithName:nil key:key clickCallback:aCallback];
@@ -441,11 +441,12 @@
 - (OTMCellSorter *)prepareCell:(NSDictionary *)renderData
                        inTable:(UITableView *)tableView
 {
-    UITableViewCell *detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
-
     if (!detailcell) {
-        detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                            reuseIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
+        detailcell = [tableView dequeueReusableCellWithIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
+        if (!detailcell) {
+            detailcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                                reuseIdentifier:kOTMDetailEditSpeciesCellRendererCellId];
+        }
     }
 
     if (name == nil) {

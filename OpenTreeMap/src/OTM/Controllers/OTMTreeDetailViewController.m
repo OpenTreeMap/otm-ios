@@ -963,38 +963,16 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 {
     NSString *label = [@"Set Species" stringByAppendingFormat:@" (%@)", speciesString];
 
-    // Find the index of the set species cell.
-    NSIndexPath *indexPath = [self updateSpeciesEditCellLabelWithString:label];
-
-    if (indexPath != nil) {
-        [self.tableView beginUpdates];
-        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                              withRowAnimation:UITableViewRowAnimationNone];
-        [self.tableView endUpdates];
-    }
-}
-
-/**
- * Update the set species edit cell rederer so that if the cell is re-rendered a
- * new label will appear. If the cell is in the list of current fields return
- * its index path.
- *
- * Return nil if the cell was not found.
- */
-- (NSIndexPath *) updateSpeciesEditCellLabelWithString:(NSString *) newLabel
-{
     // Loop through all the current cells until the species_name data key is
     // found. If it is update the label and return the indexpath.
     for (int i = 0; i < [curFields count]; i++) {
         for (int j = 0; j < [[[curFields objectAtIndex:i] valueForKey:@"cells"] count]; j++) {
             OTMStaticClickCellRenderer *cell = [[[curFields objectAtIndex:i] valueForKey:@"cells"] objectAtIndex:j];
             if ([[cell dataKey] isEqualToString:@"tree.species_name"]) {
-                cell.defaultName = newLabel;
-                return [NSIndexPath indexPathForItem:j inSection:i];
+                cell.detailcell.textLabel.text = label;
             }
         }
     }
-    return nil;
 }
 
 
