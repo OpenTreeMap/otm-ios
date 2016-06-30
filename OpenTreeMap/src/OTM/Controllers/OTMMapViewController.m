@@ -318,15 +318,12 @@
         if (latestSpeciesEdit) {
             tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            NSDictionary *speciesDict = [tree objectForKey:@"species"];
-            if (![speciesDict isKindOfClass:[NSNull class]]) {
-                tspecies = [speciesDict objectForKey:@"common_name"];
-            }
+            // "title" contains the species common name, or "Missing Species", or "Empty Planting Site"
+            tspecies = plot[@"title"];
         }
     }
 
     if (tdbh == nil || [tdbh isEqual:@"<null>"]) { tdbh = @"Missing Diameter"; }
-    if (tspecies == nil || [tspecies isEqual:@"<null>"]) { tspecies = @"Missing Species"; }
 
     [self.species setText:tspecies];
     [self.address setText:[taddress uppercaseString]];
