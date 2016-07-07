@@ -82,11 +82,8 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
             NSDictionary *latestEdit = [[pendingSpeciesEditDict objectForKey:@"pending_edits"] objectAtIndex:0];
             self.species.text = [[latestEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            if ([self.data decodeKey:@"tree.species.common_name"]) {
-                self.species.text = [self.data decodeKey:@"tree.species.common_name"];
-            } else {
-                self.species.text = @"Missing Species";
-            }
+            // "title" contains the species common name, or "Missing Species", or "Empty Planting Site"
+            self.species.text = self.data[@"title"];
         }
     }
 }
