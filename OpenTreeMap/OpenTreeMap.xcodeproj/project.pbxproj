@@ -99,6 +99,7 @@
 		6470BEED18E0A8C700C56A8F /* OTMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6470BEEC18E0A8C700C56A8F /* OTMViewController.m */; };
 		647D3E831934E75D00077ADE /* OTMInstanceSelectTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 647D3E821934E75D00077ADE /* OTMInstanceSelectTableViewController.m */; };
 		647E445716417BDF000CF872 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = 647E445616417BDF000CF872 /* about.html */; };
+		648B1A9E1DA8573E0059BEA6 /* CLLocation+AgeInSecondsLessThan.m in Sources */ = {isa = PBXBuildFile; fileRef = 648B1A9D1DA8573E0059BEA6 /* CLLocation+AgeInSecondsLessThan.m */; };
 		649426E619008F3300923470 /* SettingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 649426E219008F3300923470 /* SettingsIcon.png */; };
 		649426E719008F3300923470 /* SettingsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 649426E319008F3300923470 /* SettingsIcon@2x.png */; };
 		649426E819008F3300923470 /* SpotlightIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 649426E419008F3300923470 /* SpotlightIcon.png */; };
@@ -345,6 +346,8 @@
 		647D3E811934E75D00077ADE /* OTMInstanceSelectTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMInstanceSelectTableViewController.h; sourceTree = "<group>"; };
 		647D3E821934E75D00077ADE /* OTMInstanceSelectTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMInstanceSelectTableViewController.m; sourceTree = "<group>"; };
 		647E445616417BDF000CF872 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
+		648B1A9C1DA8573E0059BEA6 /* CLLocation+AgeInSecondsLessThan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+AgeInSecondsLessThan.h"; sourceTree = "<group>"; };
+		648B1A9D1DA8573E0059BEA6 /* CLLocation+AgeInSecondsLessThan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+AgeInSecondsLessThan.m"; sourceTree = "<group>"; };
 		649426E219008F3300923470 /* SettingsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SettingsIcon.png; sourceTree = "<group>"; };
 		649426E319008F3300923470 /* SettingsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SettingsIcon@2x.png"; sourceTree = "<group>"; };
 		649426E419008F3300923470 /* SpotlightIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SpotlightIcon.png; sourceTree = "<group>"; };
@@ -556,6 +559,8 @@
 		64608683160CFB6700A1458B /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				648B1A9C1DA8573E0059BEA6 /* CLLocation+AgeInSecondsLessThan.h */,
+				648B1A9D1DA8573E0059BEA6 /* CLLocation+AgeInSecondsLessThan.m */,
 				64608684160CFB6700A1458B /* NSArray+MutableDeepCopy.h */,
 				64608685160CFB6700A1458B /* NSArray+MutableDeepCopy.m */,
 				64608686160CFB6700A1458B /* NSDictionary+DecodeKey.h */,
@@ -1045,6 +1050,7 @@
 				64608715160CFB6700A1458B /* OTMRegistrationViewController.m in Sources */,
 				64608716160CFB6700A1458B /* OTMScrollAwareViewController.m in Sources */,
 				64608717160CFB6700A1458B /* OTMSpeciesTableViewController.m in Sources */,
+				648B1A9E1DA8573E0059BEA6 /* CLLocation+AgeInSecondsLessThan.m in Sources */,
 				64608718160CFB6700A1458B /* OTMSplashViewController.m in Sources */,
 				64608719160CFB6700A1458B /* OTMTreeDetailViewController.m in Sources */,
 				6460871A160CFB6700A1458B /* OTMAddTreeAnnotationView.m in Sources */,

@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
+#import "CLLocation+AgeInSecondsLessThan.h"
 #import "OTMMapViewController.h"
 #import "OTMFilterListViewController.h"
 #import "OTMEnvironment.h"
@@ -46,7 +47,7 @@
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mapView, addTreeAnnotation, locationAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, mapView, addTreeAnnotation, locationAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
 
 - (void)viewDidLoad
 {
@@ -62,8 +63,9 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     self.mapView.showsPointsOfInterest = NO;
+    self.mapView.showsUserLocation = YES;
 
-    firstAppearance = YES;
+    zoomWhenLocationFound = YES;
 
     self.detailsVisible = NO;
 
@@ -163,15 +165,36 @@
     self.treeImage.image = note.object;
 }
 
+- (void)startUpdatingLocation
+{
+    NSLog(@"Starting location updates for the map view.");
+    [[SharedAppDelegate locationManager] setDelegate:self];
+    [[SharedAppDelegate locationManager] setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+    [[SharedAppDelegate locationManager] startUpdatingLocation];
+    if (zoomWhenLocationFound) {
+        [self setLocationStatusUIToRunning];
+        NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
+        [self performSelector:@selector(stopZoomToCurrentLocationAfterTimeout) withObject:nil afterDelay:timeout];
+    }
+}
+
+- (void)stopZoomToCurrentLocationAfterTimeout
+{
+    [self stopZoomToCurrentLocation:self];
+}
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (firstAppearance) {
-        firstAppearance = NO;
-        NSLog(@"Trying to find location on first load of the map view");
-        if ([CLLocationManager locationServicesEnabled]) {
-            [self startFindingLocation:self];
+    if ([CLLocationManager locationServicesEnabled]) {
+        if ([[SharedAppDelegate locationManager] respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            [[SharedAppDelegate locationManager] requestWhenInUseAuthorization];
+            [self startUpdatingLocation];
+        } else {
+            [self startUpdatingLocation];
         }
     }
+
     if (self.mode == Select) {
         if ([[OTMEnvironment sharedEnvironment] canAddTree]) {
             self.navigationItem.rightBarButtonItem.enabled = true;
@@ -181,6 +204,11 @@
             self.navigationItem.rightBarButtonItem.title = nil;
         }
     }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self stopZoomToCurrentLocation:self];
 }
 
 /**
@@ -804,6 +832,12 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation
 {
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        // The map view creates an MKUserLocation annotation when showsUserLocation is YES.
+        // We do not want to override the default behavior.
+        return nil;
+    }
+
     MKAnnotationView *annotationView;
     if (annotation == self.locationAnnotation) {
         annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewLocationAnnotationViewReuseIdentifier];
@@ -820,7 +854,7 @@
             ((OTMAddTreeAnnotationView *)annotationView).delegate = self;
             ((OTMAddTreeAnnotationView *)annotationView).mapView = mv;
         }
-    } else { // The only three annotation types on the map are location, add tree, and selected tree
+    } else { // The only remaining annotation type is the selected tree marker
         annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc]
@@ -831,6 +865,18 @@
         }
     }
     return annotationView;
+}
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+{
+    MKAnnotationView *annotationView;
+    for (annotationView in views) {
+        if ([annotationView.annotation isKindOfClass:[MKUserLocation class]]) {
+            // Disabling the callout ensures that selected trees will not be obscured by a "Current Location" popup
+            // when tapping near the current location marker.
+            annotationView.canShowCallout = NO;
+        }
+    }
 }
 
 #pragma mark UISearchBarDelegate methods
@@ -874,9 +920,15 @@
        }];
 }
 
-#pragma mark Location handling
+#pragma mark Zoom to location button handling
 
-- (IBAction)startFindingLocation:(id)sender
+- (IBAction)startZoomToCurrentLocation:(id)sender
+{
+    zoomWhenLocationFound = YES;
+    [self startUpdatingLocation];
+}
+
+- (void)setLocationStatusUIToRunning
 {
     if (!locationActivityView) {
         locationActivityView = [[UIActivityIndicatorView alloc]
@@ -895,30 +947,13 @@
     [findLocationButton addSubview:locationActivityView];
     [findLocationButton setImage:nil forState:UIControlStateNormal];
     [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
-    [findLocationButton addTarget:self action:@selector(stopFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
-
-    if (!locationManager) {
-        locationManager = [[OTMLocationManager alloc] init];
-    }
-
-    [locationManager findLocation:^(CLLocation *location, NSError *error) {
-        if (!error) {
-            [self stopFindingLocation:self]; // Handles updating the UI now that the location has been found
-            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-            [mapView setRegion:MKCoordinateRegionMake(location.coordinate, span) animated:NO];
-            [self placeLocationAnnotation:location.coordinate];
-        } else {
-            NSLog(@"Failed to get location");
-        }
-    }];
+    [findLocationButton addTarget:self action:@selector(stopZoomToCurrentLocation:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (IBAction)stopFindingLocation:(id)sender {
+- (IBAction)stopZoomToCurrentLocation:(id)sender {
+    zoomWhenLocationFound = NO;
     [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
-    [findLocationButton addTarget:self action:@selector(startFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
-    if (locationManager) {
-        [locationManager stopFindingLocation];
-    }
+    [findLocationButton addTarget:self action:@selector(startZoomToCurrentLocation:) forControlEvents:UIControlEventTouchUpInside];
     [findLocationButton setImage:[UIImage imageNamed:@"gps_icon"] forState:UIControlStateNormal];
     [locationActivityView removeFromSuperview];
 }
@@ -1001,6 +1036,40 @@
 - (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)conditionallyZoomToLocation:(CLLocation*)location
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopZoomToCurrentLocationAfterTimeout) object:nil];
+    if (zoomWhenLocationFound) {
+        OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
+        CLLocationCoordinate2D instanceCenter = env.mapViewInitialCoordinateRegion.center;
+        CLLocationDistance distanceToInstanceCenter = [location distanceFromLocation:[[CLLocation alloc] initWithLatitude:instanceCenter.latitude longitude:instanceCenter.longitude]];
+
+        if (distanceToInstanceCenter < [env searchRegionRadiusInMeters]) {
+            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+            [mapView setRegion:MKCoordinateRegionMake(location.coordinate, span) animated:YES];
+        } else {
+            NSLog(@"Skipping zoom: Too from the instance center. %f greater than %f.",
+                  distanceToInstanceCenter, [env searchRegionRadiusInMeters]);
+        }
+    }
+    [self stopZoomToCurrentLocation:self];
+}
+
+#pragma mark CLLocationManagerDelegate methods
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+{
+    CLLocation* location = locations.lastObject;
+    // CoreLocation caches the last location value and passes to the app when the app first asks for the user's
+    // location. This could be a stale location from far in the past, so we filter out location results that
+    // are too old.
+    if ([location ageInSecondsLessThan:kOTMMaxLocationAgeInSeconds]) {
+        [self conditionallyZoomToLocation:location];
+    } else {
+        NSLog(@"Skipping location %f seconds or more in age.", kOTMMaxLocationAgeInSeconds);
+    }
 }
 
 @end

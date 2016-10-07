@@ -19,6 +19,7 @@
 #import "OTMLoginManager.h"
 
 #define kOTMChangeMapModeNotification @"kOTMChangeMapModeNotification"
+#define kOTMMaxLocationAgeInSeconds 15.0
 
 @interface OTMAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -26,6 +27,7 @@
 @property (nonatomic,strong) AZKeychainItemWrapper *keychain;
 @property (nonatomic,strong) OTMLoginManager* loginManager;
 @property (nonatomic,assign) MKCoordinateRegion mapRegion;
+@property (nonatomic, strong) CLLocationManager* locationManager;
 
 /*
  Used to help keep the modes of multiple map views in sync. Views that

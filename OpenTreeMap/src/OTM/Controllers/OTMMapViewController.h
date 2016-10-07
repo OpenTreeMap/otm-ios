@@ -19,7 +19,6 @@
 #import "OTMViewController.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDetailViewController.h"
-#import "OTMLocationManager.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
@@ -30,11 +29,15 @@ typedef enum {
     Move,
 } OTMMapViewControllerMapMode;
 
-@interface OTMMapViewController : OTMViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
+@interface OTMMapViewController : OTMViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
     IBOutlet UIButton *findLocationButton;
-    BOOL firstAppearance;
+
+    // We only want to zoom to the user's location when the map first appears, and when
+    // a zoom is explicitly requested by clicking a button. Location updates are received
+    // asynchronously, so we use this boolean flag for coordination.
+    BOOL zoomWhenLocationFound;
 
     MKTileOverlay *plotsOverlay;
 }
@@ -58,8 +61,6 @@ typedef enum {
 @property (nonatomic, strong) IBOutlet UIView *filterStatusView;
 @property (nonatomic, strong) IBOutlet UILabel *filterStatusLabel;
 
-@property (nonatomic, strong) OTMLocationManager *locationManager;
-
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
 @property (nonatomic) OTMMapViewControllerMapMode mode;
@@ -71,7 +72,7 @@ typedef enum {
 -(void)setDetailViewData:(NSDictionary*)plot;
 
 -(IBAction) showTreePhotoFullscreen:(id)sender;
--(IBAction) startFindingLocation:(id)sender;
--(IBAction) stopFindingLocation:(id)sender;
+-(IBAction) startZoomToCurrentLocation:(id)sender;
+-(IBAction) stopZoomToCurrentLocation:(id)sender;
 
 @end
