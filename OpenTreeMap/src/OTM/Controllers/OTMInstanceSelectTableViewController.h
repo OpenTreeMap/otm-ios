@@ -14,12 +14,10 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
-#import "OTMLocationManager.h"
 #import "OTMAllInstancesTableViewController.h"
 
-@interface OTMInstanceSelectTableViewController : UITableViewController<OTMAllInstancesViewControllerDelegate>
+@interface OTMInstanceSelectTableViewController : UITableViewController<CLLocationManagerDelegate, OTMAllInstancesViewControllerDelegate>
 
-@property (nonatomic, strong) OTMLocationManager *locationManager;
 @property (nonatomic, strong) NSDictionary *instances;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
 
