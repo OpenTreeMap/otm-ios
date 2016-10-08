@@ -13,7 +13,6 @@
 		6251603A199BA05500138CFA /* OTMUdfCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 62516039199BA05500138CFA /* OTMUdfCollectionCell.m */; };
 		62F06164196366B800F8B84D /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06162196366B800F8B84D /* profile.png */; };
 		62F06165196366B800F8B84D /* profile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 62F06163196366B800F8B84D /* profile@2x.png */; };
-		641210A91935363400118A33 /* OTMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210A81935363400118A33 /* OTMLocationManager.m */; };
 		641210AC1938181E00118A33 /* OTMPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AB1938181E00118A33 /* OTMPreferences.m */; };
 		641210AF19382DF100118A33 /* OTMSetRootViewControllerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AE19382DF100118A33 /* OTMSetRootViewControllerSegue.m */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
@@ -193,8 +192,6 @@
 		62516039199BA05500138CFA /* OTMUdfCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMUdfCollectionCell.m; sourceTree = "<group>"; };
 		62F06162196366B800F8B84D /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		62F06163196366B800F8B84D /* profile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile@2x.png"; sourceTree = "<group>"; };
-		641210A71935363400118A33 /* OTMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLocationManager.h; sourceTree = "<group>"; };
-		641210A81935363400118A33 /* OTMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLocationManager.m; sourceTree = "<group>"; };
 		641210AA1938181E00118A33 /* OTMPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMPreferences.h; sourceTree = "<group>"; };
 		641210AB1938181E00118A33 /* OTMPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPreferences.m; sourceTree = "<group>"; };
 		641210AD19382DF100118A33 /* OTMSetRootViewControllerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSetRootViewControllerSegue.h; sourceTree = "<group>"; };
@@ -594,8 +591,6 @@
 				646086C6160CFB6700A1458B /* OTMEnvironment.m */,
 				D74B1FC918B78EA5006BABE2 /* OTMFormatter.h */,
 				D74B1FCA18B78EA5006BABE2 /* OTMFormatter.m */,
-				641210A71935363400118A33 /* OTMLocationManager.h */,
-				641210A81935363400118A33 /* OTMLocationManager.m */,
 				646086C9160CFB6700A1458B /* OTMLoginManager.h */,
 				646086CA160CFB6700A1458B /* OTMLoginManager.m */,
 				646086CB160CFB6700A1458B /* OTMPictureTaker.h */,
@@ -1033,7 +1028,6 @@
 				64608707160CFB6700A1458B /* OTMDetailCellRenderer.m in Sources */,
 				64608708160CFB6700A1458B /* OTMDetailTableViewCell.m in Sources */,
 				6470BEED18E0A8C700C56A8F /* OTMViewController.m in Sources */,
-				641210A91935363400118A33 /* OTMLocationManager.m in Sources */,
 				6470BEEA18DCAC5000C56A8F /* UIView+Borders.m in Sources */,
 				64608709160CFB6700A1458B /* OTMDistanceTableViewCell.m in Sources */,
 				6460870A160CFB6700A1458B /* OTMMapDetailCellRenderer.m in Sources */,

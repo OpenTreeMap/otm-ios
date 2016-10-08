@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
+#import "CLLocation+AgeInSecondsLessThan.h"
 #import "OTMNearbyTreesViewController.h"
 #import "OTMDistanceTableViewCell.h"
 #import "OTMTreeDetailViewController.h"
@@ -21,7 +22,7 @@
 #define kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier @"kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier"
 
 // in meters
-#define kOTMNearbyTreesViewControllerMinimumDistance 30
+#define kOTMNearbyTreesViewControllerMinimumDistance 5
 #define kOTMNearbyTreesViewControllerMinimumEventDistance 5
 
 @interface OTMNearbyTreesViewController ()
@@ -30,7 +31,7 @@
 
 @implementation OTMNearbyTreesViewController
 
-@synthesize locationManager, tableView, nearbyTrees, lastLocation, filters, segControl, nearby, pending, recent;
+@synthesize tableView, nearbyTrees, lastLocation, filters, segControl, nearby, pending, recent;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -74,36 +75,34 @@
     nearby = [NSMutableArray array];
     pending = [NSMutableArray array];
     recent = [NSMutableArray array];
-
-    if (self.locationManager == nil) {
-        CLLocationManager *manager = [[CLLocationManager alloc] init];
-        manager.delegate = self;
-        manager.distanceFilter = kOTMNearbyTreesViewControllerMinimumEventDistance;
-
-        self.locationManager = manager;
-    }
-
-        // Do any additional setup after loading the view.
 }
+
+- (void)startUpdatingLocation
+{
+    NSLog(@"Starting location updates for the nearby instances view.");
+    [[SharedAppDelegate locationManager] setDelegate:self];
+    [[SharedAppDelegate locationManager] setDesiredAccuracy:kCLLocationAccuracyBest];
+    [[SharedAppDelegate locationManager] setDistanceFilter:kOTMNearbyTreesViewControllerMinimumEventDistance];
+    [[SharedAppDelegate locationManager] startUpdatingLocation];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [pending removeAllObjects];
     [recent removeAllObjects];
 
     [self updateList:segControl];
 
-    // Required to get iOS8 location services to run.
-     if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) { // iOS8+
-        [self.locationManager requestWhenInUseAuthorization];
-        [self.locationManager startUpdatingLocation];
-    } else {
-        [self.locationManager startUpdatingLocation];
+    if ([CLLocationManager locationServicesEnabled]) {
+        // Required to get iOS8 location services to run.
+        if ([[SharedAppDelegate locationManager] respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            [[SharedAppDelegate locationManager] requestWhenInUseAuthorization];
+            [self startUpdatingLocation];
+        } else {
+            [self startUpdatingLocation];
+        }
     }
 
     [self reloadBackground];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [self.locationManager stopUpdatingLocation];
 }
 
 - (void)reloadBackground {
@@ -246,14 +245,23 @@
 }
 
 #pragma mark -
-#pragma mark Core Location Delegate
+#pragma mark CLLocationManagerDelegate methods
 
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)loc fromLocation:(CLLocation *)from {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMDistaneTableViewCellRedrawDistance
-                                                        object:loc];
-    if (self.lastLocation == nil || [self.lastLocation distanceFromLocation:loc] > kOTMNearbyTreesViewControllerMinimumDistance) {
-        self.lastLocation = loc;
-        [self refreshTableWithLocation:loc];
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+{
+    CLLocation* location = locations.lastObject;
+    // CoreLocation caches the last location value and passes to the app when the app first asks for the user's
+    // location. This could be a stale location from far in the past, so we filter out location results that
+    // are too old.
+    if ([location ageInSecondsLessThan:kOTMMaxLocationAgeInSeconds]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kOTMDistaneTableViewCellRedrawDistance
+                                                            object:location];
+        if (self.lastLocation == nil || [self.lastLocation distanceFromLocation:location] > kOTMNearbyTreesViewControllerMinimumDistance) {
+            self.lastLocation = location;
+            [self refreshTableWithLocation:location];
+        }
+    } else {
+        NSLog(@"Skipping location %f seconds or more in age.", kOTMMaxLocationAgeInSeconds);
     }
 }
 

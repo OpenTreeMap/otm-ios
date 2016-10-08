@@ -113,6 +113,7 @@
     NSLog(@"Starting location updates for the instance table view.");
     [[SharedAppDelegate locationManager] setDelegate:self];
     [[SharedAppDelegate locationManager] setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+    [[SharedAppDelegate locationManager] setDistanceFilter:kCLDistanceFilterNone];
     [[SharedAppDelegate locationManager] startUpdatingLocation];
     NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
     [self performSelector:@selector(stopUpdatingLocationAfterTimeout) withObject:nil afterDelay:timeout];

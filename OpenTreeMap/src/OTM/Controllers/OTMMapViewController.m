@@ -170,6 +170,7 @@
     NSLog(@"Starting location updates for the map view.");
     [[SharedAppDelegate locationManager] setDelegate:self];
     [[SharedAppDelegate locationManager] setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+    [[SharedAppDelegate locationManager] setDistanceFilter:kCLDistanceFilterNone];
     [[SharedAppDelegate locationManager] startUpdatingLocation];
     if (zoomWhenLocationFound) {
         [self setLocationStatusUIToRunning];
