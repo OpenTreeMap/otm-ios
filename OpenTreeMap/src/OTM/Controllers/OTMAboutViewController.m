@@ -51,9 +51,14 @@
         if (fileSize > 64) {
             CGRect f = self.view.frame;
             webView.frame = CGRectMake(0, 20, f.size.width, f.size.height - 60);
-            NSURL *url = [NSURL fileURLWithPath:aboutPagePath];
-            NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-            [webView loadHTMLString:html baseURL:[url URLByDeletingLastPathComponent]];
+            
+//            NSURL *url = [NSURL fileURLWithPath:aboutPagePath];
+//            NSString *html = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+            
+            NSURL *url2 = [NSURL URLWithString:@"https://prcapps.github.io/otm-recommended-species-list/"];
+            
+            [webView loadRequest:[NSURLRequest requestWithURL:url2]];
+//            [webView loadHTMLString:html baseURL:[url URLByDeletingLastPathComponent]];
         } else {
             NSLog(@"about.html was less than 64 bytes in size. Hiding the about UIWebView.");
             webView.hidden = YES;

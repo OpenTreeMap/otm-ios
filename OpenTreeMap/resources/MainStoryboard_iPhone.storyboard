@@ -573,6 +573,7 @@
                         <segue destination="IOc-fB-8NC" kind="relationship" relationship="viewControllers" id="yrs-Ul-Kac"/>
                         <segue destination="bif-JI-aQc" kind="relationship" relationship="viewControllers" id="dBz-IX-rYE"/>
                         <segue destination="Bua-WS-BqB" kind="relationship" relationship="viewControllers" id="RWl-OJ-DUu"/>
+                        <segue destination="eCd-qX-6ya" kind="relationship" relationship="viewControllers" id="AAA-XF-h53"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
@@ -763,7 +764,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="TopLeft" id="gGa-rZ-8ES">
-                                        <rect key="frame" x="0.0" y="0.0" width="646" height="960"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1298" height="1920"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                 </subviews>
