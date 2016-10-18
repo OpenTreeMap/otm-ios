@@ -19,7 +19,7 @@
 
 + (OTMPreferences *)sharedPreferences;
 
-@property (assign) NSString *instance;
+@property (nonatomic, strong) NSString *instance;
 
 - (void)save;
 - (void)load;
