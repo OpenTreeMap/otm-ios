@@ -190,10 +190,8 @@
     if ([CLLocationManager locationServicesEnabled]) {
         if ([[SharedAppDelegate locationManager] respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
             [[SharedAppDelegate locationManager] requestWhenInUseAuthorization];
-            [self startUpdatingLocation];
-        } else {
-            [self startUpdatingLocation];
         }
+        [self startUpdatingLocation];
     }
 
     if (self.mode == Select) {

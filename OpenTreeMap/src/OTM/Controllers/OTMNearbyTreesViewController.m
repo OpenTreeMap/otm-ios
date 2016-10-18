@@ -96,10 +96,8 @@
         // Required to get iOS8 location services to run.
         if ([[SharedAppDelegate locationManager] respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
             [[SharedAppDelegate locationManager] requestWhenInUseAuthorization];
-            [self startUpdatingLocation];
-        } else {
-            [self startUpdatingLocation];
         }
+        [self startUpdatingLocation];
     }
 
     [self reloadBackground];
