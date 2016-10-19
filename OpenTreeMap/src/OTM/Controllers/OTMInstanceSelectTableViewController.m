@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
+#import "CLLocation+AgeInSecondsLessThan.h"
 #import "OTMInstanceSelectTableViewController.h"
 #import "OTMPreferences.h"
 #import "OTMAllInstancesTableViewController.h"
@@ -70,10 +71,6 @@
         [[self logInOutButton] setTitle:@"Login to OpenTreeMap" forState:UIControlStateNormal];
     }
 
-    if (![self locationManager]) {
-        [self setLocationManager:[[OTMLocationManager alloc] initWithDistanceRestriction:NO]];
-    }
-
     [self loadInstances];
 }
 
@@ -89,15 +86,15 @@
                  if ([self oneOrMorePersonalInstancesInDictionary:json]) {
                      [self updateInstancesFromDictionary:json];
                  } else {
-                     [self loadNearbyInstances];
+                     [self startLoadingNearbyInstances];
                  }
              } else {
                  NSLog(@"Error getting instances for %@: %@", [[SharedAppDelegate loginManager] loggedInUser], error);
-                 [self loadNearbyInstances];
+                 [self startLoadingNearbyInstances];
              }
          }];
     } else {
-        [self loadNearbyInstances];
+        [self startLoadingNearbyInstances];
     }
 }
 
@@ -110,33 +107,59 @@
    return NO;
 }
 
-- (void)loadNearbyInstances
+
+- (void)startUpdatingLocation
 {
-    [self.activityIndicatorView startAnimating];
-    [[self locationManager] findLocationWithAccuracy:kCLLocationAccuracyThreeKilometers
-                                            callback:^(CLLocation *location, NSError *error) {
-        [self.activityIndicatorView stopAnimating];
-        // TODO: if there is an error, we need to show some list of instances
-        if (!error) {
-            [self.activityIndicatorView startAnimating];
-            [[[OTMEnvironment sharedEnvironment] api]
-             getInstancesNearLatitude:location.coordinate.latitude
-             longitude:location.coordinate.longitude
-             user:nil
-             maxResults:5
-             distance:320000 callback:^(id json, NSError *error) {
-                 [self.activityIndicatorView stopAnimating];
-                 if (!error) {
-                     NSLog(@"Retrieved instances: %@", json);
-                     [self updateInstancesFromDictionary:json];
-                 } else {
-                     NSLog(@"Error getting nearby instances: %@", error);
-                 }
-             }];
-        } else {
-            NSLog(@"Error finding location: %@", error);
+    NSLog(@"Starting location updates for the instance table view.");
+    [[SharedAppDelegate locationManager] setDelegate:self];
+    [[SharedAppDelegate locationManager] setDesiredAccuracy:kCLLocationAccuracyThreeKilometers];
+    [[SharedAppDelegate locationManager] setDistanceFilter:kCLDistanceFilterNone];
+    [[SharedAppDelegate locationManager] startUpdatingLocation];
+    NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
+    [self performSelector:@selector(stopUpdatingLocationAfterTimeout) withObject:nil afterDelay:timeout];
+}
+
+- (void)stopUpdatingLocationAfterTimeout
+{
+    NSLog(@"Stopping location updates for the instance table view after timeout.");
+    [[SharedAppDelegate locationManager] stopUpdatingLocation];
+    [[SharedAppDelegate locationManager] setDelegate:nil];
+    [self.activityIndicatorView stopAnimating];
+}
+
+- (void)startLoadingNearbyInstances
+{
+    if ([CLLocationManager locationServicesEnabled]) {
+        [self.activityIndicatorView startAnimating];
+        if ([[SharedAppDelegate locationManager] respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            [[SharedAppDelegate locationManager] requestWhenInUseAuthorization];
         }
-    }];
+        [self startUpdatingLocation];
+    }
+}
+
+- (void)finishLoadingNearbyInstancesWithLocation:(CLLocation*)location
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopUpdatingLocationAfterTimeout) object:nil];
+    NSLog(@"Stopping location updates for the instance table view");
+    [[SharedAppDelegate locationManager] stopUpdatingLocation];
+    [[SharedAppDelegate locationManager] setDelegate:nil];
+
+    [[[OTMEnvironment sharedEnvironment] api]
+     getInstancesNearLatitude:location.coordinate.latitude
+     longitude:location.coordinate.longitude
+     user:nil
+     maxResults:5
+     distance:320000 callback:^(id json, NSError *error) {
+         [self.activityIndicatorView stopAnimating];
+         if (!error) {
+             NSLog(@"Retrieved instances: %@", json);
+             [self updateInstancesFromDictionary:json];
+         } else {
+             // TODO: if there is an error, we need to show some list of instances
+             NSLog(@"Error getting nearby instances: %@", error);
+         }
+     }];
 }
 
 - (void)updateInstancesFromDictionary:(NSDictionary *)instances
@@ -395,5 +418,19 @@
     }
 }
 
+#pragma mark - CLLocationManagerDelegate methods
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
+{
+    CLLocation* location = locations.lastObject;
+    // CoreLocation caches the last location value and passes to the app when the app first asks for the user's
+    // location. This could be a stale location from far in the past, so we filter out location results that
+    // are too old.
+    if ([location ageInSecondsLessThan:kOTMMaxLocationAgeInSeconds]) {
+        [self finishLoadingNearbyInstancesWithLocation:location];
+    } else {
+        NSLog(@"Skipping location %f seconds or more in age.", kOTMMaxLocationAgeInSeconds);
+    }
+}
 
 @end

@@ -334,6 +334,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    // The profile view does not need the user's location. Save the battery by turning off location updates.
+    // We can not depend on order of viewWillAppear: and viewWillDisappear: calls when transitioning
+    // between views. We would prefer to put these stopUpdatingLocation calls in the viewWillDisappear: method
+    // of the view controllers that need location data, but we can't.
+    [[SharedAppDelegate locationManager] stopUpdatingLocation];
+
     [self refreshTotalReputation];
     OTMLoginManager* mgr = [SharedAppDelegate loginManager];
     if (self.user == nil && mgr.loggedInUser.loggedIn == YES) {

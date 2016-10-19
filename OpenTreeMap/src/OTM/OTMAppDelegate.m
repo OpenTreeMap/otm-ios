@@ -24,7 +24,7 @@
 
 @implementation OTMAppDelegate
 
-@synthesize window = _window, keychain, loginManager, mapRegion, mapMode;
+@synthesize window = _window, keychain, loginManager, mapRegion, mapMode, locationManager;
 
 #pragma mark UIApplicationDelegate methods
 
@@ -36,6 +36,8 @@
     loginManager = [[OTMLoginManager alloc] init];
 
     [[OTMPreferences sharedPreferences] load];
+
+    locationManager = [[CLLocationManager alloc] init];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeMapMode:) name:kOTMChangeMapModeNotification object:nil];
 

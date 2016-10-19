@@ -18,8 +18,6 @@
 
 @interface OTMNearbyTreesViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
-
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segControl;
 @property (nonatomic, strong) NSMutableArray *nearbyTrees;

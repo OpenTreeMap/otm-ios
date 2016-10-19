@@ -13,16 +13,15 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
-#import <UIKit/UIKit.h>
-#import "OTMAllInstancesTableViewController.h"
+#import "CLLocation+AgeInSecondsLessThan.h"
 
-@interface OTMInstanceSelectTableViewController : UITableViewController<CLLocationManagerDelegate, OTMAllInstancesViewControllerDelegate>
+@implementation CLLocation (AgeInSecondsLessThan)
 
-@property (nonatomic, strong) NSDictionary *instances;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
-
-@property (nonatomic, strong) IBOutlet UIButton *logInOutButton;
-
-- (IBAction)logInOut:(id)sender;
+-(BOOL)ageInSecondsLessThan:(float)age
+{
+    NSDate* eventDate = self.timestamp;
+    NSTimeInterval locationAgeInSeconds = [eventDate timeIntervalSinceNow];
+    return fabs(locationAgeInSeconds) < age;
+}
 
 @end
