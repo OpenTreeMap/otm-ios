@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	  <key>NSLocationWhenInUseUsageDescription</key>
-	  <string>OpenTreeMap uses your location to find trees near you.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Select and upload photos of trees you have already taken.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Use the camera to take photos of trees.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>OpenTreeMap uses your location to find trees near you.</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
