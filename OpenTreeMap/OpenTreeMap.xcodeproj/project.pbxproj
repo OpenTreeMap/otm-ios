@@ -881,6 +881,11 @@
 			attributes = {
 				CLASSPREFIX = OTM;
 				LastUpgradeCheck = 0430;
+				TargetAttributes = {
+					E943971114F447EB007CD0D1 = {
+						ProvisioningStyle = Manual;
+					};
+				};
 			};
 			buildConfigurationList = E943970C14F447EB007CD0D1 /* Build configuration list for PBXProject "OpenTreeMap" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1147,7 +1152,8 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
@@ -1228,7 +1234,8 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Distribution";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
@@ -1341,7 +1348,8 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
@@ -1367,7 +1375,8 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
