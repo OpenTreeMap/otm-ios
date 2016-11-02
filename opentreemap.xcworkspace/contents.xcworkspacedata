@@ -7,4 +7,7 @@
    <FileRef
       location = "group:lib/ASI/ASI.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:OpenTreeMap/Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>
