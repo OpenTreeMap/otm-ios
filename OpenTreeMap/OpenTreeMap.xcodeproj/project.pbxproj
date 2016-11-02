@@ -182,6 +182,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3D0BB26BDE02EFBA7C270A62 /* libPods-OpenTreeMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenTreeMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		46AC46FE7312131A9EB34E47 /* Pods-OpenTreeMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.debug.xcconfig"; sourceTree = "<group>"; };
+		4C4A59E2A73147605B1CC4AF /* Pods-OpenTreeMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.release.xcconfig"; sourceTree = "<group>"; };
 		620BFA091986FB980014C06F /* OTMLoadMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMLoadMoreCell.h; sourceTree = "<group>"; };
 		620BFA0A1986FB980014C06F /* OTMLoadMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMLoadMoreCell.m; sourceTree = "<group>"; };
 		62192D011961B381000CBF0F /* OTMAllInstancesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAllInstancesTableViewController.h; sourceTree = "<group>"; };
@@ -419,6 +422,8 @@
 		E943971A14F447EB007CD0D1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E943974114F447EB007CD0D1 /* OpenTreeMapTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenTreeMapTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E943974214F447EB007CD0D1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		EC3199E066940C9F037A6DE6 /* Pods-OpenTreeMap.ad hoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.ad hoc.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.ad hoc.xcconfig"; sourceTree = "<group>"; };
+		F912C0E99DEC0D3703358A88 /* Pods-OpenTreeMap.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.profile.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.profile.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -460,6 +465,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		509A836B733845552CA67DA3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				46AC46FE7312131A9EB34E47 /* Pods-OpenTreeMap.debug.xcconfig */,
+				4C4A59E2A73147605B1CC4AF /* Pods-OpenTreeMap.release.xcconfig */,
+				F912C0E99DEC0D3703358A88 /* Pods-OpenTreeMap.profile.xcconfig */,
+				EC3199E066940C9F037A6DE6 /* Pods-OpenTreeMap.ad hoc.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6460864D160CFB4600A1458B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -799,6 +815,7 @@
 				6460864D160CFB4600A1458B /* Resources */,
 				64608730160D01A700A1458B /* Skin */,
 				64608658160CFB6700A1458B /* Source */,
+				509A836B733845552CA67DA3 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -830,6 +847,7 @@
 				E943971814F447EB007CD0D1 /* Foundation.framework */,
 				E943971A14F447EB007CD0D1 /* CoreGraphics.framework */,
 				E943974214F447EB007CD0D1 /* SenTestingKit.framework */,
+				3D0BB26BDE02EFBA7C270A62 /* libPods-OpenTreeMap.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -841,9 +859,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E943975314F447EB007CD0D1 /* Build configuration list for PBXNativeTarget "OpenTreeMap" */;
 			buildPhases = (
+				4975D4AB95A85368097B570D /* [CP] Check Pods Manifest.lock */,
 				E943970E14F447EB007CD0D1 /* Sources */,
 				E943970F14F447EB007CD0D1 /* Frameworks */,
 				E943971014F447EB007CD0D1 /* Resources */,
+				EFEE04A0D504A06E24D31C05 /* [CP] Embed Pods Frameworks */,
+				EAD716290BA52EF32A409C3A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -986,6 +1007,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4975D4AB95A85368097B570D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		E943973F14F447EB007CD0D1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -998,6 +1034,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		EAD716290BA52EF32A409C3A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFEE04A0D504A06E24D31C05 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1134,10 +1200,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
@@ -1148,6 +1211,7 @@
 		};
 		7A6464AD14F5879F00B77910 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC3199E066940C9F037A6DE6 /* Pods-OpenTreeMap.ad hoc.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -1158,10 +1222,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1217,10 +1278,7 @@
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-g3",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1230,6 +1288,7 @@
 		};
 		D7D23DDC15D9A0F60019D9D6 /* Profile */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F912C0E99DEC0D3703358A88 /* Pods-OpenTreeMap.profile.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
@@ -1240,10 +1299,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1302,10 +1358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos5.0]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1332,10 +1385,7 @@
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-g3",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-all_load",
-				);
+				OTHER_LDFLAGS = "";
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1345,6 +1395,7 @@
 		};
 		E943975414F447EB007CD0D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 46AC46FE7312131A9EB34E47 /* Pods-OpenTreeMap.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1354,10 +1405,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1371,6 +1419,7 @@
 		};
 		E943975514F447EB007CD0D1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4C4A59E2A73147605B1CC4AF /* Pods-OpenTreeMap.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
@@ -1381,10 +1430,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
