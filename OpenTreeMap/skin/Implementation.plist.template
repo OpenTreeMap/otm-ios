@@ -12,6 +12,8 @@
         <string>%(secretkey)s</string>
         <key>RollbarClientAccessToken</key>
         <string>%(rollbar_client_access_token)s</string>
+        <key>AppGoogleAnalyticsId</key>
+        <string>%(app_google_analytics_id)s</string>
         <key>environmentName</key>
         <string>%(environment)s</string>
         <key>MapView</key>
