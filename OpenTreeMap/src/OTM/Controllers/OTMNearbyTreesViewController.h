@@ -15,8 +15,10 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMFilterListViewController.h"
+#import "GAITrackedViewController.h"
 
-@interface OTMNearbyTreesViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface OTMNearbyTreesViewController : GAITrackedViewController<
+    CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segControl;

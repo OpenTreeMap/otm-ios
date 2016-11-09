@@ -14,8 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface OTMAboutViewController : UIViewController
+@interface OTMAboutViewController : GAITrackedViewController
 
 @property (nonatomic, strong) IBOutlet UIImageView *backgroundImageView;
 @property (nonatomic, strong) IBOutlet UIWebView *webView;

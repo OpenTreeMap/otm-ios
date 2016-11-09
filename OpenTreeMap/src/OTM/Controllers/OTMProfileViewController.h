@@ -16,8 +16,9 @@
 #import <UIKit/UIKit.h>
 #import "OTMUser.h"
 #import "OTMPictureTaker.h"
+#import "GAITrackedViewController.h"
 
-@interface OTMProfileViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
+@interface OTMProfileViewController : GAITrackedViewController<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
     BOOL loading;
     CGFloat heightOffset;
     double startedTime;

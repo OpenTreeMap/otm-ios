@@ -14,8 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface OTMViewController : UIViewController
+@interface OTMViewController : GAITrackedViewController
 
 - (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)dict;
 

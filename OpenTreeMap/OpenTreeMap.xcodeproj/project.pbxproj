@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A7C8D6B1DD6442E00C30E68 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7C8D6A1DD6442E00C30E68 /* libGoogleAnalytics.a */; };
+		3A7C8D701DD6468300C30E68 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7C8D6C1DD6451100C30E68 /* CoreData.framework */; };
+		3A7C8D721DD6487D00C30E68 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7C8D711DD6487D00C30E68 /* libsqlite3.tbd */; };
 		620BFA0C1986FB980014C06F /* OTMLoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 620BFA0A1986FB980014C06F /* OTMLoadMoreCell.m */; };
 		62192D031961B381000CBF0F /* OTMAllInstancesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */; };
 		623C91BE196C38E00019A448 /* AZPastelessTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 623C91BD196C38E00019A448 /* AZPastelessTextField.m */; };
@@ -182,6 +185,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A7C8D6A1DD6442E00C30E68 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = Pods/GoogleAnalytics/Libraries/libGoogleAnalytics.a; sourceTree = "<group>"; };
+		3A7C8D6C1DD6451100C30E68 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3A7C8D6E1DD6461D00C30E68 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		3A7C8D711DD6487D00C30E68 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		3D0BB26BDE02EFBA7C270A62 /* libPods-OpenTreeMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenTreeMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46AC46FE7312131A9EB34E47 /* Pods-OpenTreeMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.debug.xcconfig"; sourceTree = "<group>"; };
 		4C4A59E2A73147605B1CC4AF /* Pods-OpenTreeMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.release.xcconfig"; sourceTree = "<group>"; };
@@ -431,6 +438,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7C8D721DD6487D00C30E68 /* libsqlite3.tbd in Frameworks */,
+				3A7C8D701DD6468300C30E68 /* CoreData.framework in Frameworks */,
+				3A7C8D6B1DD6442E00C30E68 /* libGoogleAnalytics.a in Frameworks */,
 				64EBCA1D1C287B6600E7C7C3 /* Rollbar.framework in Frameworks */,
 				64EBCA1C1C287B5600E7C7C3 /* CrashReporter.framework in Frameworks */,
 				649F92D5190AB7BC0098D3BB /* MessageUI.framework in Frameworks */,
@@ -831,6 +841,10 @@
 		E943971514F447EB007CD0D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3A7C8D711DD6487D00C30E68 /* libsqlite3.tbd */,
+				3A7C8D6E1DD6461D00C30E68 /* libsqlite3.0.tbd */,
+				3A7C8D6C1DD6451100C30E68 /* CoreData.framework */,
+				3A7C8D6A1DD6442E00C30E68 /* libGoogleAnalytics.a */,
 				64EBCA1A1C287B2600E7C7C3 /* Rollbar.framework */,
 				64EBCA181C287B1600E7C7C3 /* CrashReporter.framework */,
 				649F92D4190AB7BC0098D3BB /* MessageUI.framework */,
@@ -1222,7 +1236,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1299,7 +1313,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1405,7 +1419,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1430,7 +1444,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

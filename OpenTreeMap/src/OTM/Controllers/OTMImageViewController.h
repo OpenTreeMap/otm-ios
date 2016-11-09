@@ -16,8 +16,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import "GAITrackedViewController.h"
 
-@interface OTMImageViewController : UIViewController <MFMailComposeViewControllerDelegate>
+@interface OTMImageViewController : GAITrackedViewController<MFMailComposeViewControllerDelegate>
 
 @property (nonatomic,strong) IBOutlet UIImageView *imageView;
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;

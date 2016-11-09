@@ -14,8 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface OTMPasswordResetViewController : UIViewController
+@interface OTMPasswordResetViewController : GAITrackedViewController
 
 -(IBAction)resetPassword:(id)sender;
 

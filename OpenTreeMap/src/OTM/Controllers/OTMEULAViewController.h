@@ -15,8 +15,9 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMRegistrationViewController.h"
+#import "GAITrackedViewController.h"
 
-@interface OTMEULAViewController : UIViewController
+@interface OTMEULAViewController : GAITrackedViewController
 
 @property (nonatomic) BOOL loaded;
 @property (nonatomic, strong) OTMRegistrationViewController *regController;

@@ -14,8 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface OTMSplashViewController : UIViewController
+@interface OTMSplashViewController : GAITrackedViewController
 
 @property (nonatomic) NSTimeInterval triggerTime;
 
