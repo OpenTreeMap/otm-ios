@@ -14,6 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "OTMDetailCellRenderer.h"
+#import "OTMUITableViewController.h"
 
 @interface OTMUdfCollectionEditCellRenderer : OTMEditDetailCellRenderer
 
@@ -66,7 +67,7 @@ extern NSString * const UdfDataChangedForStepNotification;
 @end
 
 
-@interface OTMUdfChoiceTableViewController : UITableViewController
+@interface OTMUdfChoiceTableViewController : OTMUITableViewController
 
 @property (nonatomic, strong) NSString *key;
 @property (nonatomic, strong) NSString *choice;

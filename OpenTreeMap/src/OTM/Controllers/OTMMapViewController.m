@@ -53,6 +53,7 @@
 {
     [self setupView];
     [super viewDidLoad];
+    self.screenName = @"Map";  // for Google Analytics
     [self updateViewWithSharedEnvironment];
 }
 

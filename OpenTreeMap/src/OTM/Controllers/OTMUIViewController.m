@@ -13,11 +13,21 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
-#import <UIKit/UIKit.h>
 #import "OTMUIViewController.h"
 
-@interface OTMSplashViewController : OTMUIViewController
 
-@property (nonatomic) NSTimeInterval triggerTime;
+@implementation OTMUIViewController  // superclass of every OTM UIViewController
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear: animated];
+    
+    // Inform Google Analytics that screen was viewed
+    NSString *screenName = self.screenName;
+    if (screenName == nil) {
+        screenName = NSStringFromClass([self class]);
+    }
+    [[SharedAppDelegate analytics] sendScreenView:screenName];
+}
 
 @end

@@ -14,10 +14,11 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "OTMUITableViewController.h"
 
 @protocol OTMAllInstancesViewControllerDelegate;
 
-@interface OTMAllInstancesTableViewController : UITableViewController <UISearchBarDelegate>
+@interface OTMAllInstancesTableViewController : OTMUITableViewController <UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *search;
 @property (nonatomic, weak) id<OTMAllInstancesViewControllerDelegate> delegate;

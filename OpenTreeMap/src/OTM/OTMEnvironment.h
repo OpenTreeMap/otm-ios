@@ -154,6 +154,9 @@ extern NSString * const OTMEnvironmentDateStringShort;
 @property (nonatomic, strong) NSString *environmentName;
 @property (nonatomic, strong) NSString *rollbarClientAccessToken;
 
+// Google analytics
+@property (nonatomic, strong) NSString *appGoogleAnalyticsId;
+
 
 - (void)updateEnvironmentWithDictionary:(NSDictionary *)dict;
 

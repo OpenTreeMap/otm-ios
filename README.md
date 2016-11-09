@@ -62,6 +62,12 @@ Required.
 The version of OpenTreeMap API being used by the iOS
 application. Should have the format "v4".
 
+##### app_google_analytics_id
+
+Optional.
+
+Tracking ID for Google Analytics, of the form `UA-XXXX-Y`. (To enable Google Analytics you must also initialize Cocoapods -- see below.)
+
 ##### environment
 
 Optional.
@@ -121,6 +127,15 @@ A template for this file is available at `OpenTreeMap/OpenTreeMap.entitlements.t
 The `app_id` variable should be replaced with a unique
 [App ID](https://developer.apple.com/library/ios/documentation/General/Conceptual/DevPedia-CocoaCore/AppID.html).
 
+
+### Google Analytics and Cocoapods
+
+To enable Google Analytics, in addition to specifying the template variable `app_google_analytics_id`, initialize Cocoapods as follows:
+```
+cd OpenTreeMap
+sudo gem install cocoapods
+pod install
+```
 
 ### Images and Other Content
 

@@ -71,6 +71,8 @@
     [self.imageView addGestureRecognizer:imageDoubleTap];
 
     [super viewDidLoad];
+
+    self.screenName = @"Image";  // for Google Analytics
 }
 
 - (void)didReceiveMemoryWarning

@@ -38,15 +38,6 @@
 
 @synthesize tableView, user, pictureTaker, recentActivity, loadingView, didShowLogin, pwReqView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([indexPath section] == kOTMProfileViewControllerSectionInfo) {
         return [self tableView:tblView infoCellForRow:[indexPath row]];
@@ -245,6 +236,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.screenName = @"Profile";  // for Google Analytics
 
     delayTime = 1.0; // minimum 1.0 second delay time
 

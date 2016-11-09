@@ -4,15 +4,6 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "NO">
-      <PreActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Run Script"
-               scriptText = "echo &quot;Setting locale required by Cocoapods&quot;&#10;export LC_ALL=&quot;en_US.UTF-8&quot;">
-            </ActionContent>
-         </ExecutionAction>
-      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -40,6 +31,20 @@
                BuildableName = "OpenTreeMap.app"
                BlueprintName = "OpenTreeMap"
                ReferencedContainer = "container:OpenTreeMap/OpenTreeMap.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "797C6A1B5391F480718F5735FB11F122"
+               BuildableName = "libPods-OpenTreeMap.a"
+               BlueprintName = "Pods-OpenTreeMap"
+               ReferencedContainer = "container:OpenTreeMap/Pods/Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

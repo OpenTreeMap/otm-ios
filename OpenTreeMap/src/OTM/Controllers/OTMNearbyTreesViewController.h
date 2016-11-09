@@ -15,8 +15,10 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMFilterListViewController.h"
+#import "OTMUIViewController.h"
 
-@interface OTMNearbyTreesViewController : UIViewController<CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface OTMNearbyTreesViewController : OTMUIViewController<
+    CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *segControl;

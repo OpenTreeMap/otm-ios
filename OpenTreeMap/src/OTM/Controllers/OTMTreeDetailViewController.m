@@ -45,13 +45,6 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 
 + (int) tempId { return tempId; }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-
-    return self;
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -66,6 +59,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear: animated];
     if (self.startInEditMode) {
         [self startOrCommitEditing:self];
         self.startInEditMode = NO;
@@ -111,6 +105,9 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.screenName = @"Tree Detail";  // for Google Analytics
+
     [headerView addBottomBorder];
 
     if (pictureTaker == nil) {

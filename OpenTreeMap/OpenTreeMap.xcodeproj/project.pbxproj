@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A7C8D6B1DD6442E00C30E68 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7C8D6A1DD6442E00C30E68 /* libGoogleAnalytics.a */; };
+		3A7C8D701DD6468300C30E68 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7C8D6C1DD6451100C30E68 /* CoreData.framework */; };
+		3A7C8D721DD6487D00C30E68 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A7C8D711DD6487D00C30E68 /* libsqlite3.tbd */; };
+		3A7C8D781DDA0A6C00C30E68 /* OTMUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7C8D771DDA0A6C00C30E68 /* OTMUIViewController.m */; };
+		3A7C8D7B1DDA215D00C30E68 /* OTMUITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7C8D7A1DDA215D00C30E68 /* OTMUITableViewController.m */; };
+		3A7C8D7E1DDB57D700C30E68 /* OTMAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A7C8D7D1DDB57D700C30E68 /* OTMAnalytics.m */; };
 		620BFA0C1986FB980014C06F /* OTMLoadMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 620BFA0A1986FB980014C06F /* OTMLoadMoreCell.m */; };
 		62192D031961B381000CBF0F /* OTMAllInstancesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62192D021961B381000CBF0F /* OTMAllInstancesTableViewController.m */; };
 		623C91BE196C38E00019A448 /* AZPastelessTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 623C91BD196C38E00019A448 /* AZPastelessTextField.m */; };
@@ -151,6 +157,7 @@
 		64E5CCD418E0C2B6007E8173 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64E5CCD318E0C2B6007E8173 /* Default-568h@2x.png */; };
 		64EBCA1C1C287B5600E7C7C3 /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EBCA181C287B1600E7C7C3 /* CrashReporter.framework */; };
 		64EBCA1D1C287B6600E7C7C3 /* Rollbar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64EBCA1A1C287B2600E7C7C3 /* Rollbar.framework */; };
+		A4E102FFEB69F9A7EE20123F /* libPods-OpenTreeMap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0BB26BDE02EFBA7C270A62 /* libPods-OpenTreeMap.a */; };
 		D70B88191510E5DB000C280C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E943971A14F447EB007CD0D1 /* CoreGraphics.framework */; };
 		D70B881A1510E620000C280C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64DDCDB614F51AF6004FA0CF /* MapKit.framework */; };
 		D70D98E916D28F7600795F84 /* OTMImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D70D98E816D28F7600795F84 /* OTMImageViewController.m */; };
@@ -182,6 +189,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A7C8D6A1DD6442E00C30E68 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalytics.a; path = Pods/GoogleAnalytics/Libraries/libGoogleAnalytics.a; sourceTree = "<group>"; };
+		3A7C8D6C1DD6451100C30E68 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3A7C8D711DD6487D00C30E68 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		3A7C8D761DDA0A6C00C30E68 /* OTMUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMUIViewController.h; sourceTree = "<group>"; };
+		3A7C8D771DDA0A6C00C30E68 /* OTMUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMUIViewController.m; sourceTree = "<group>"; };
+		3A7C8D791DDA215D00C30E68 /* OTMUITableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMUITableViewController.h; sourceTree = "<group>"; };
+		3A7C8D7A1DDA215D00C30E68 /* OTMUITableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMUITableViewController.m; sourceTree = "<group>"; };
+		3A7C8D7C1DDB57D700C30E68 /* OTMAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAnalytics.h; sourceTree = "<group>"; };
+		3A7C8D7D1DDB57D700C30E68 /* OTMAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAnalytics.m; sourceTree = "<group>"; };
 		3D0BB26BDE02EFBA7C270A62 /* libPods-OpenTreeMap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenTreeMap.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46AC46FE7312131A9EB34E47 /* Pods-OpenTreeMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.debug.xcconfig"; sourceTree = "<group>"; };
 		4C4A59E2A73147605B1CC4AF /* Pods-OpenTreeMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTreeMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-OpenTreeMap/Pods-OpenTreeMap.release.xcconfig"; sourceTree = "<group>"; };
@@ -431,6 +447,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A7C8D721DD6487D00C30E68 /* libsqlite3.tbd in Frameworks */,
+				3A7C8D701DD6468300C30E68 /* CoreData.framework in Frameworks */,
+				3A7C8D6B1DD6442E00C30E68 /* libGoogleAnalytics.a in Frameworks */,
 				64EBCA1D1C287B6600E7C7C3 /* Rollbar.framework in Frameworks */,
 				64EBCA1C1C287B5600E7C7C3 /* CrashReporter.framework in Frameworks */,
 				649F92D5190AB7BC0098D3BB /* MessageUI.framework in Frameworks */,
@@ -446,6 +465,7 @@
 				E943971914F447EB007CD0D1 /* Foundation.framework in Frameworks */,
 				64DDCDB514F51ADF004FA0CF /* CoreLocation.framework in Frameworks */,
 				64DDCDB714F51AF6004FA0CF /* MapKit.framework in Frameworks */,
+				A4E102FFEB69F9A7EE20123F /* libPods-OpenTreeMap.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +623,8 @@
 				646086C2160CFB6700A1458B /* OTMAPI.m */,
 				646086C3160CFB6700A1458B /* OTMAppDelegate.h */,
 				646086C4160CFB6700A1458B /* OTMAppDelegate.m */,
+				3A7C8D7C1DDB57D700C30E68 /* OTMAnalytics.h */,
+				3A7C8D7D1DDB57D700C30E68 /* OTMAnalytics.m */,
 				646086C5160CFB6700A1458B /* OTMEnvironment.h */,
 				646086C6160CFB6700A1458B /* OTMEnvironment.m */,
 				D74B1FC918B78EA5006BABE2 /* OTMFormatter.h */,
@@ -662,6 +684,8 @@
 			children = (
 				64582DAC164165C200CF5DB9 /* OTMAboutViewController.h */,
 				64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */,
+				3A7C8D791DDA215D00C30E68 /* OTMUITableViewController.h */,
+				3A7C8D7A1DDA215D00C30E68 /* OTMUITableViewController.m */,
 				646086A3160CFB6700A1458B /* OTMChangeLocationViewController.h */,
 				646086A4160CFB6700A1458B /* OTMChangeLocationViewController.m */,
 				646086A5160CFB6700A1458B /* OTMFieldDetailViewController.h */,
@@ -694,6 +718,8 @@
 				646086BE160CFB6700A1458B /* OTMTreeDetailViewController.m */,
 				6470BEEB18E0A8C700C56A8F /* OTMViewController.h */,
 				6470BEEC18E0A8C700C56A8F /* OTMViewController.m */,
+				3A7C8D761DDA0A6C00C30E68 /* OTMUIViewController.h */,
+				3A7C8D771DDA0A6C00C30E68 /* OTMUIViewController.m */,
 				D7B4E1CD1906FB280028E3B1 /* OTMEULAViewController.h */,
 				D7B4E1CE1906FB280028E3B1 /* OTMEULAViewController.m */,
 				649F92D6190AF5B40098D3BB /* OTMInappropriateContentMailViewController.h */,
@@ -831,6 +857,9 @@
 		E943971514F447EB007CD0D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3A7C8D711DD6487D00C30E68 /* libsqlite3.tbd */,
+				3A7C8D6C1DD6451100C30E68 /* CoreData.framework */,
+				3A7C8D6A1DD6442E00C30E68 /* libGoogleAnalytics.a */,
 				64EBCA1A1C287B2600E7C7C3 /* Rollbar.framework */,
 				64EBCA181C287B1600E7C7C3 /* CrashReporter.framework */,
 				649F92D4190AB7BC0098D3BB /* MessageUI.framework */,
@@ -1019,7 +1048,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E943973F14F447EB007CD0D1 /* ShellScript */ = {
@@ -1080,6 +1109,7 @@
 				646086F0160CFB6700A1458B /* AZGeoCache.m in Sources */,
 				646086F1160CFB6700A1458B /* AZMemoryObjectCache.m in Sources */,
 				646086F2160CFB6700A1458B /* AZObjectCache.m in Sources */,
+				3A7C8D7E1DDB57D700C30E68 /* OTMAnalytics.m in Sources */,
 				646086F3160CFB6700A1458B /* AZTileCacheKey.m in Sources */,
 				646086F4160CFB6700A1458B /* AZMapHelper.m in Sources */,
 				646086FB160CFB6700A1458B /* AZWaitingOverlayController.m in Sources */,
@@ -1098,6 +1128,7 @@
 				64608706160CFB6700A1458B /* OTMDBHTableViewCell.m in Sources */,
 				64608707160CFB6700A1458B /* OTMDetailCellRenderer.m in Sources */,
 				64608708160CFB6700A1458B /* OTMDetailTableViewCell.m in Sources */,
+				3A7C8D7B1DDA215D00C30E68 /* OTMUITableViewController.m in Sources */,
 				6470BEED18E0A8C700C56A8F /* OTMViewController.m in Sources */,
 				6470BEEA18DCAC5000C56A8F /* UIView+Borders.m in Sources */,
 				64608709160CFB6700A1458B /* OTMDistanceTableViewCell.m in Sources */,
@@ -1123,6 +1154,7 @@
 				620BFA0C1986FB980014C06F /* OTMLoadMoreCell.m in Sources */,
 				D7B4E1CF1906FB280028E3B1 /* OTMEULAViewController.m in Sources */,
 				6460871C160CFB6700A1458B /* OTMAppDelegate.m in Sources */,
+				3A7C8D781DDA0A6C00C30E68 /* OTMUIViewController.m in Sources */,
 				6460871D160CFB6700A1458B /* OTMEnvironment.m in Sources */,
 				6460871F160CFB6700A1458B /* OTMLoginManager.m in Sources */,
 				64608720160CFB6700A1458B /* OTMPictureTaker.m in Sources */,
@@ -1222,7 +1254,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1299,7 +1331,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1405,7 +1437,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1430,7 +1462,7 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

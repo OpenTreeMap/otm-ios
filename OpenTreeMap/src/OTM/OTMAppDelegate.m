@@ -24,7 +24,7 @@
 
 @implementation OTMAppDelegate
 
-@synthesize window = _window, keychain, loginManager, mapRegion, mapMode, locationManager;
+@synthesize window = _window, keychain, loginManager, mapRegion, mapMode, locationManager, analytics;
 
 #pragma mark UIApplicationDelegate methods
 
@@ -48,6 +48,8 @@
     {
         [Rollbar debugWithMessage:@"iOS application launched"];
     }
+    
+    analytics = [[OTMAnalytics alloc] init];
 
     return YES;
 }

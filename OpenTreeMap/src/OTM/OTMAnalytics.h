@@ -13,11 +13,8 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
-#import <UIKit/UIKit.h>
-#import "OTMUIViewController.h"
+@interface OTMAnalytics : NSObject
 
-@interface OTMSplashViewController : OTMUIViewController
-
-@property (nonatomic) NSTimeInterval triggerTime;
+-(void)sendScreenView:(NSString *)screenName;
 
 @end

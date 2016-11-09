@@ -33,15 +33,6 @@
 
 @synthesize tableView, nearbyTrees, lastLocation, filters, segControl, nearby, pending, recent;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-    }
-    return self;
-}
-
-
 -(IBAction)updateList:(UISegmentedControl *)control {
     self.filters.listFilterType = (OTMListFilterType)control.selectedSegmentIndex;
 
@@ -64,6 +55,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.screenName = @"Nearby Trees";  // for Google Analytics
 
     BOOL pends = [[OTMEnvironment sharedEnvironment] pendingActive];
 

@@ -14,8 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "OTMUIViewController.h"
 
-@interface OTMViewController : UIViewController
+@interface OTMViewController : OTMUIViewController
 
 - (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)dict;
 

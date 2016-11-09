@@ -24,13 +24,11 @@
 
 @implementation OTMAllInstancesTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (void)viewDidLoad
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    [super viewDidLoad];
+    
+    self.screenName = @"All Treemaps";  // for Google Analytics
 }
 
 -(void)viewDidAppear:(BOOL)animated
