@@ -49,6 +49,15 @@
 
 @synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, mapView, addTreeAnnotation, locationAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.screenName = @"Map";  // for Google Analytics
+    }
+    
+    return self;
+}
 - (void)viewDidLoad
 {
     [self setupView];

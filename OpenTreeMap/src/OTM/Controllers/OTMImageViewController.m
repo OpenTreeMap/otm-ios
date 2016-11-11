@@ -25,6 +25,15 @@
 
 @implementation OTMImageViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.screenName = @"Image";  // for Google Analytics
+    }
+    return self;
+}
+
 - (void)loadImage:(NSString *)url forPlot:(NSDictionary *)plot
 {
     self.data = plot;

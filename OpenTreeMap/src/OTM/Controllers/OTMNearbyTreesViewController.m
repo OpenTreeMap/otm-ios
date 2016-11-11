@@ -37,6 +37,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.screenName = @"Nearby Trees";  // for Google Analytics
     }
     return self;
 }

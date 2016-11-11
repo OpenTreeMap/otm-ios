@@ -48,6 +48,9 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.screenName = @"Tree Detail";  // for Google Analytics
+    }
 
     return self;
 }

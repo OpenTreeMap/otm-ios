@@ -42,7 +42,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.screenName = @"Profile";  // for Google Analytics
     }
     return self;
 }

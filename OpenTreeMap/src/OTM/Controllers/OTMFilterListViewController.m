@@ -825,7 +825,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.screenName = @"Filters";  // for Google Analytics
     }
     return self;
 }

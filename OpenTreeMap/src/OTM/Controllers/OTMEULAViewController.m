@@ -25,6 +25,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.screenName = @"EULA";  // for Google Analytics
         [self loadWebview];
     }
     return self;
