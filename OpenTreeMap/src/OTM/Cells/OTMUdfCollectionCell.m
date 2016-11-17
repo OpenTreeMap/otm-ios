@@ -515,6 +515,7 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
 {
     self = [super init];
     if (self) {
+        self.screenName = @"Custom Field Choices";  // for Google Analytics
         self.key = key;
     }
     return self;

@@ -14,11 +14,12 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "OTMUITableViewController.h"
 
 @protocol OTMSpeciesDetailsViewControllerDelegate;
 
 
-@interface OTMSpeciesTableViewController : UITableViewController <UISearchBarDelegate> {
+@interface OTMSpeciesTableViewController : OTMUITableViewController <UISearchBarDelegate> {
     NSDictionary *species;
     NSArray *sections;
     NSMutableDictionary *sectionDict;

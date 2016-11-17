@@ -23,19 +23,12 @@
 
 @synthesize validator, oldPassword, aNewPassword, aNewPasswordVerify;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
+    self.screenName = @"Change Password";  // for Google Analytics
+
     OTMValidatorValidation equalsValidation = [^(OTMPasswordChangeViewController *vc) {
         if (![vc.aNewPassword.text isEqualToString:vc.aNewPasswordVerify.text]) {
             return @"Password and password confirmation must match";

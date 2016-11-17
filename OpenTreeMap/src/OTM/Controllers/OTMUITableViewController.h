@@ -14,10 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
-#import "OTMUIViewController.h"
 
-@interface OTMSplashViewController : OTMUIViewController
+@interface OTMUITableViewController : UITableViewController  // superclass of every OTM UITableViewController
 
-@property (nonatomic) NSTimeInterval triggerTime;
+@property (nonatomic, strong) NSString *screenName;
 
 @end

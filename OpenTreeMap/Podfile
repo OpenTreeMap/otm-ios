@@ -1,0 +1,8 @@
+workspace '../opentreemap.xcworkspace'
+platform :ios, '9.0'
+
+xcodeproj 'OpenTreeMap.xcodeproj'
+
+target 'OpenTreeMap' do
+  pod 'Google/Analytics'
+end

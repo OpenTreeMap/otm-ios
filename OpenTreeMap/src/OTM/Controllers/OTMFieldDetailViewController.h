@@ -14,8 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>. 
 
 #import <UIKit/UIKit.h>
+#import "OTMUITableViewController.h"
 
-@interface OTMFieldDetailViewController : UITableViewController <UIActionSheetDelegate> {
+@interface OTMFieldDetailViewController : OTMUITableViewController <UIActionSheetDelegate> {
 	NSString *action;
     UITableViewCell *selectedCell;
 }

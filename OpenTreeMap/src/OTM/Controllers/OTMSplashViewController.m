@@ -23,15 +23,6 @@
 
 @implementation OTMSplashViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)loadInstance {
     OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
     AZUser* user = [loginManager loggedInUser];
@@ -77,6 +68,8 @@
 {
     [super viewDidLoad];
     
+    self.screenName = @"Splash";  // for Google Analytics
+
     NSTimeInterval seconds = [[OTMEnvironment sharedEnvironment] splashDelayInSeconds];
     self.triggerTime = [[NSDate date] timeIntervalSince1970] + seconds;
     

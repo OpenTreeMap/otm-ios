@@ -15,14 +15,14 @@
 
 #import <UIKit/UIKit.h>
 #import "OTMRegistrationViewController.h"
+#import "OTMUIViewController.h"
 
-@interface OTMEULAViewController : UIViewController
+@interface OTMEULAViewController : OTMUIViewController
 
 @property (nonatomic) BOOL loaded;
 @property (nonatomic, strong) OTMRegistrationViewController *regController;
 @property (nonatomic, strong) IBOutlet UIWebView *webview;
 
--(void)loadWebview;
 -(IBAction)acceptEULA:(id)sender;
 -(IBAction)rejectEULA:(id)sender;
 

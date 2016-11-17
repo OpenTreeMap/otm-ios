@@ -27,15 +27,6 @@
 
 @synthesize loginDelegate, username, password, scrollView, activeField;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 #pragma mark -
 #pragma mark Actions
 
@@ -98,7 +89,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    self.screenName = @"Login";  // for Google Analytics
+
     self.scrollView.contentSize = CGSizeMake(320,340);
     
     [[NSNotificationCenter defaultCenter] addObserver:self

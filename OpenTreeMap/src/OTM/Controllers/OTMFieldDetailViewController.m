@@ -33,15 +33,6 @@
 
 @synthesize data, fieldKey, ownerFieldKey, fieldName, fieldFormatString, choices, pendingEditsUpdatedCallback;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (BOOL)isGeomField {
     return [self.fieldKey isEqualToString:@"geom"];
 }
@@ -49,6 +40,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.screenName = @"Field Details";  // for Google Analytics
 
     self.tableView.backgroundView = [[OTMView alloc] init];
 }

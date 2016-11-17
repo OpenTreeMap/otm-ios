@@ -16,7 +16,7 @@
 #import <UIKit/UIKit.h>
 #import "OTMAllInstancesTableViewController.h"
 
-@interface OTMInstanceSelectTableViewController : UITableViewController<CLLocationManagerDelegate, OTMAllInstancesViewControllerDelegate>
+@interface OTMInstanceSelectTableViewController : OTMUITableViewController<CLLocationManagerDelegate, OTMAllInstancesViewControllerDelegate>
 
 @property (nonatomic, strong) NSDictionary *instances;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;

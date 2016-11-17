@@ -138,7 +138,9 @@ NSString * const OTMEnvironmentDateStringShort = @"yyyy-MM-dd";
 
     self.environmentName = [implementation objectForKey:@"environmentName"];
     self.rollbarClientAccessToken = [implementation objectForKey:@"RollbarClientAccessToken"];
-
+    
+    self.appGoogleAnalyticsId = [implementation objectForKey:@"AppGoogleAnalyticsId"];
+    
     OTM2API* otmApi = [[OTM2API alloc] init];
 
     NSString* versionPlistPath = [bundle pathForResource:@"version" ofType:@"plist"];

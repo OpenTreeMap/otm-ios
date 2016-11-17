@@ -17,6 +17,7 @@
 #import <MapKit/MapKit.h>
 #import "AZKeychainItemWrapper.h"
 #import "OTMLoginManager.h"
+#import "OTMAnalytics.h"
 
 #define kOTMChangeMapModeNotification @"kOTMChangeMapModeNotification"
 #define kOTMMaxLocationAgeInSeconds 15.0
@@ -26,6 +27,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic,strong) AZKeychainItemWrapper *keychain;
 @property (nonatomic,strong) OTMLoginManager* loginManager;
+@property (nonatomic,strong) OTMAnalytics* analytics;
 @property (nonatomic,assign) MKCoordinateRegion mapRegion;
 @property (nonatomic, strong) CLLocationManager* locationManager;
 

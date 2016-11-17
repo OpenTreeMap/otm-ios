@@ -21,22 +21,12 @@
 
 @implementation OTMEULAViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        [self loadWebview];
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self loadWebview];
-}
 
-- (void)loadWebview {
+    self.screenName = @"EULA";  // for Google Analytics
+
     if (!self.loaded) {
         self.webview.delegate = self;
         [self.webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.opentreemap.org/terms-of-service/"]]];

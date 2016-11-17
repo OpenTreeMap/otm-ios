@@ -29,12 +29,6 @@
 
 @synthesize email, password, verifyPassword, firstName, lastName, profileImage, zipCode, username, changeProfilePic, validator, pictureTaker;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    return self;
-}
-
 +(NSArray *)validations {
     OTMValidatorValidation verifyPW = [^(OTMRegistrationViewController* vc) {
         if (![vc.password.text isEqualToString:vc.verifyPassword.text]) {
@@ -204,6 +198,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.screenName = @"Register";  // for Google Analytics
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginStoryboard" bundle:nil];
 
