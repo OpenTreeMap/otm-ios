@@ -1254,7 +1254,11 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries",
+					"$(inherited)",
+					"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1331,7 +1335,11 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries",
+					"$(inherited)",
+					"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1437,7 +1445,11 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries",
+					"$(inherited)",
+					"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1462,7 +1474,11 @@
 				GCC_PREFIX_HEADER = "src/OpenTreeMap-Prefix.pch";
 				INFOPLIST_FILE = "OpenTreeMap-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Pods/GoogleAnalytics/Libraries",
+					"$(inherited)",
+					"$(SRCROOT)/../DerivedData/opentreemap/Build/Products/Release-iphoneos",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
