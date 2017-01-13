@@ -934,6 +934,11 @@
 				TargetAttributes = {
 					E943971114F447EB007CD0D1 = {
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1048,7 +1053,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run \'pod install\' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E943973F14F447EB007CD0D1 /* ShellScript */ = {
@@ -1245,7 +1250,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EC3199E066940C9F037A6DE6 /* Pods-OpenTreeMap.ad hoc.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
@@ -1326,7 +1331,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F912C0E99DEC0D3703358A88 /* Pods-OpenTreeMap.profile.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Distribution";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
@@ -1437,7 +1442,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 46AC46FE7312131A9EB34E47 /* Pods-OpenTreeMap.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				DEVELOPMENT_TEAM = "";
@@ -1465,7 +1470,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C4A59E2A73147605B1CC4AF /* Pods-OpenTreeMap.release.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
