@@ -277,7 +277,7 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         speciesRow.detailDataKey = @"tree.sci_name";
     }
 
-    if ([[OTMEnvironment sharedEnvironment] photoFieldIsWritable]) {
+    if ([[OTMEnvironment sharedEnvironment] canAddTreePhoto]) {
         pictureRow = [[OTMStaticClickCellRenderer alloc]
                       initWithName:@"Tree Picture"
                                key:@""
