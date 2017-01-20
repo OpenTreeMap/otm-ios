@@ -139,7 +139,7 @@ extern NSString * const OTMEnvironmentDateStringShort;
 @property (nonatomic, strong) NSDictionary* config;
 @property (nonatomic, strong) NSURL *instanceLogoUrl;
 @property BOOL speciesFieldWritable;
-@property BOOL photoFieldWritable;
+@property BOOL canAddTreePhoto;
 @property BOOL canAddTree;
 
 
@@ -164,6 +164,5 @@ extern NSString * const OTMEnvironmentDateStringShort;
 - (NSString *)absolutePhotoUrlFromPhotoUrl:(NSString *)url;
 
 - (BOOL) speciesFieldIsWritable;
-- (BOOL) photoFieldIsWritable;
 
 @end
