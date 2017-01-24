@@ -13,40 +13,38 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 
-@implementation OTMFormatters
+@implementation OTMFormatter : NSObject
 
-+(NSString*)fmtIn:(NSNumber*)number 
-{
-    return [NSString stringWithFormat:@"%0.2f in",[number floatValue]];
-}
+// factor should be "display units per api (db) units"
+-(id)initWithDigits:(NSUInteger)digits
+              label:(NSString *)label {
 
-+(NSString*)fmtFt:(NSNumber*)number 
-{
-    return [NSString stringWithFormat:@"%0.2f ft",[number floatValue]];
-}
+    if ((self = [super init])) {
+        if (digits > 10) {
+            digits = 10;
+        }
 
-+(NSString*)fmtM:(NSNumber*)number 
-{
-    return [NSString stringWithFormat:@"%0.2f m",[number floatValue]];
-}
-
-+(NSString*)fmtUnitDict:(NSDictionary*)d 
-{
-    id unit = [d objectForKey:@"unit"];
-    if (nil == unit) {
-        unit = @"";
+        _digits = digits;
+        _label = label;
     }
 
-    return [NSString stringWithFormat:@"%0.1f %@", [[d valueForKey:@"value"] floatValue], unit];
+    return self;
 }
 
-+(NSString*)fmtDollarsDict:(NSDictionary*)d
-{
-    return [NSString stringWithFormat:@"%@%0.2f",
-                      [[OTMEnvironment sharedEnvironment] currencyUnit],
-                      [[d valueForKey:@"dollars"] floatValue]];
+-(NSString*)format:(CGFloat)number {
+    NSString *display = [self formatWithoutUnit:number];
+
+    if (_label != nil) {
+        display = [display stringByAppendingFormat:@" %@", _label];
+    }
+
+    return display;
+}
+
+-(NSString*)formatWithoutUnit:(CGFloat)number {
+    return [NSString stringWithFormat:@"%.*f", _digits, number];
 }
 
 +(NSString*)fmtOtmApiDateString:(NSString*)dateString
@@ -65,16 +63,6 @@
     [formatter setCalendar:cal];
     [formatter setLocale:[NSLocale currentLocale]];
     return [formatter stringFromDate:date];
-}
-
-+(NSString*)fmtObject:(id)obj withKey:(NSString*)key {
-    if (obj == nil || [[obj description] isEqualToString:@"<null>"]) {
-        return @"";
-    } else if (key == nil || [key length] == 0) {
-        return [obj description];
-    } else {
-        return [OTMFormatters performSelector:NSSelectorFromString(key) withObject:obj];
-    }
 }
 
 @end

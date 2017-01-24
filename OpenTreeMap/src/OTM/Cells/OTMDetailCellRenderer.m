@@ -14,25 +14,12 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "OTMDetailCellRenderer.h"
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 #import "OTMUser.h"
 
 @implementation OTMDetailCellRenderer
 
 @synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey, ownerDataKey;
-
-+(OTMDetailCellRenderer *)cellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user {
-    NSString *clazz = [dict objectForKey:@"class"];
-
-    OTMDetailCellRenderer *renderer;
-    if (clazz == nil) {
-        renderer = [[kOTMDefaultDetailRenderer alloc] initWithDict:dict user:user];
-    } else {
-        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
-    }
-
-    return renderer;
-}
 
 -(id)init {
     self = [super init];
@@ -44,18 +31,16 @@
     return self;
 }
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
+-(id)initWithDataKey:(NSString *)dkey  {
+    return [self initWithDataKey:dkey editRenderer:nil];
+}
+
+-(id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit {
     self = [self init];
 
     if (self) {
-        dataKey = [dict objectForKey:@"key"];
-        ownerDataKey = [dict objectForKey:@"owner"];
-
-        id editLevel = [dict valueForKey:@"minimumToEdit"];
-
-        if (editLevel != nil && user != nil && user.level >= [editLevel intValue]) {
-            self.editCellRenderer = [OTMLabelEditDetailCellRenderer editCellRendererFromDict:dict user:user];
-        }
+        self.dataKey = dkey;
+        self.editCellRenderer = edit;
     }
 
     return self;
@@ -71,14 +56,15 @@
 
 @implementation OTMLabelDetailCellRenderer
 
-@synthesize label, formatStr;
-
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)dkey
+        editRenderer:(OTMEditDetailCellRenderer *)edit
+               label:(NSString *)labeltxt
+           formatter:(OTMFormatter *)fmt {
+    self = [super initWithDataKey:dkey editRenderer:edit];
 
     if (self) {
-        label = [dict objectForKey:@"label"];
-        formatStr = [dict objectForKey:@"format"];
+        _label = labeltxt;
+        _formatter = fmt;
     }
 
     return self;
@@ -109,8 +95,16 @@
         }
     }
 
+    NSString *displayValue;
+
+    if (_formatter != nil) {
+        displayValue = [_formatter format:[value floatValue]];
+    } else {
+        displayValue = [value description];
+    }
+
     detailcell.fieldLabel.text = self.label;
-    detailcell.fieldValue.text = [OTMFormatters fmtObject:value withKey:self.formatStr];
+    detailcell.fieldValue.text = displayValue;
 
     return detailcell;
 }
@@ -119,25 +113,41 @@
 
 @implementation OTMBenefitsDetailCellRenderer
 
-@synthesize cell;
 
- -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithModel:(NSString *)model key:(NSString *)key {
+    self = [super initWithDataKey:nil];
 
     if (self) {
-        cell = [OTMBenefitsTableViewCell loadFromNib];
-        self.cellHeight = cell.frame.size.height;
-        self.cell.benefitName.text = [dict objectForKey:@"label"];
+        _cell = [OTMBenefitsTableViewCell loadFromNib];
+        self.cellHeight = _cell.frame.size.height;
+        self.model = model;
+        self.key = key;
     }
 
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    self.cell.benefitValue.text = [OTMFormatters fmtUnitDict:(NSDictionary *)[data decodeKey:self.dataKey]];
-    self.cell.benefitDollarAmt.text = [OTMFormatters fmtDollarsDict:(NSDictionary *)[data decodeKey:self.dataKey]];
+    NSDictionary *allBenefits = [data objectForKey:@"benefits"];
+    NSDictionary *modelBenefits = [allBenefits objectForKey:self.model];
+    NSDictionary *benefit = [modelBenefits objectForKey:self.key];
 
-    return cell;
+    self.cell.benefitName.text = benefit[@"label"];
+
+    NSString *value = [benefit objectForKey:@"value"];
+    NSString *unit = [benefit objectForKey:@"unit"];
+    if (value) {
+        self.cell.benefitValue.text = [NSString stringWithFormat:@"%@ %@", value, unit];
+    } else {
+        self.cell.benefitValue.text = @"";
+    }
+
+    if ([benefit objectForKey:@"currency_saved"]) {
+        self.cell.benefitDollarAmt.text = [NSString stringWithFormat:@"%@ saved", [benefit objectForKey:@"currency_saved"]];
+    } else {
+        self.cell.benefitDollarAmt.text = @"";
+    }
+    return _cell;
 }
 
 @end
@@ -145,39 +155,12 @@
 
 @implementation OTMEditDetailCellRenderer : OTMDetailCellRenderer
 
--(id)initWithDict:(NSDictionary *)dict  user:(OTMUser*)user {
-    self = [super init];
-
-    if (self) {
-        self.dataKey = [dict objectForKey:@"key"];
-    }
-
-    return self;
-}
-
--(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
-    if ([ktype isEqualToString:@"UIKeyboardTypeDecimalPad"]) {
-        return UIKeyboardTypeDecimalPad;
-    } else {
-        return UIKeyboardTypeDefault;
-    }
+-(id)initWithDataKey:(NSString *)dkey  {
+    return [super initWithDataKey:dkey];
 }
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     ABSTRACT_METHOD_BODY
-}
-
-+(OTMEditDetailCellRenderer *)editCellRendererFromDict:(NSDictionary *)dict user:(OTMUser*)user{
-    NSString *clazz = [dict objectForKey:@"editClass"];
-
-    OTMEditDetailCellRenderer *renderer;
-    if (clazz == nil) {
-        renderer = [[kOTMDefaultEditDetailRenderer alloc] initWithDict:dict user:user];
-    } else {
-        renderer = [[NSClassFromString(clazz) alloc] initWithDict:dict user:user];
-    }
-
-    return renderer;
 }
 
 @end
@@ -186,12 +169,14 @@
 
 @synthesize label, updatedString, keyboard;
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)dkey label:(NSString *)displayLabel keyboard:(UIKeyboardType)kboard formatter:(OTMFormatter *)formatter {
+    self = [super initWithDataKey:dkey];
 
     if (self) {
-        keyboard = [self decodeKeyboard:[dict objectForKey:@"keyboard"]];
-        label = [dict objectForKey:@"label"];
+        self.formatter = formatter;
+        self.keyboard = kboard;
+        self.label = displayLabel;
+        self.inited = NO;
     }
 
     return self;
@@ -214,13 +199,6 @@
     return dict;
 }
 
--(UIKeyboardType)decodeKeyboard:(NSString *)ktype {
-    if ([ktype isEqualToString:@"UIKeyboardTypeDecimalPad"]) {
-        return UIKeyboardTypeDecimalPad;
-    } else {
-        return UIKeyboardTypeDefault;
-    }
-}
 
 #define kOTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
@@ -232,15 +210,23 @@
                                                    reuseIdentifier:kOTMLabelDetailEditCellRendererCellId];
     }
 
-    detailcell.delegate = self;
-    detailcell.editFieldValue.hidden = NO;
-    detailcell.fieldValue.hidden = YES;
-    detailcell.keyboardType = keyboard;
+    if (!self.inited) {
+      detailcell.delegate = self;
+      detailcell.editFieldValue.hidden = NO;
+      detailcell.fieldValue.hidden = YES;
+      detailcell.keyboardType = keyboard;
 
-    id value = [data decodeKey:self.dataKey];
+      id value = [data decodeKey:self.dataKey];
+      NSString *disp = @"";
 
-    detailcell.editFieldValue.text = [OTMFormatters fmtObject:value withKey:@""];
-    detailcell.fieldLabel.text = self.label;
+      if (value != nil) {
+        disp = [_formatter formatWithoutUnit:[value floatValue]];
+      }
+      detailcell.editFieldValue.text = disp;
+      detailcell.fieldLabel.text = self.label;
+      detailcell.unitLabel.text = _formatter.label;
+      self.inited = YES;
+    }
 
     return detailcell;
 }
@@ -249,15 +235,15 @@
 
 @implementation OTMDBHEditDetailCellRenderer
 
-@synthesize cell;
-
- -(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
+-(id)initWithDataKey:(NSString *)dkey formatter:(OTMFormatter *)formatter {
+    self = [super initWithDataKey:dkey];
 
     if (self) {
-        cell = [OTMDBHTableViewCell loadFromNib];
-        cell.delegate = self;
-        self.cellHeight = cell.frame.size.height;
+        _cell = [OTMDBHTableViewCell loadFromNib];
+        _cell.delegate = self;
+        self.cellHeight = _cell.frame.size.height;
+        _formatter = formatter;
+        self.inited = NO;
     }
 
     return self;
@@ -265,14 +251,16 @@
 
 -(void)tableViewCell:(UITableViewCell *)tblViewCell textField:(UITextField *)field updatedToValue:(NSString *)v {
 
-    if (field == self.cell.circumferenceTextField) {
+    if (v == nil || [v length] == 0) {
+        self.cell.diameterTextField.text = self.cell.circumferenceTextField.text = @"";
+    } else if (field == self.cell.circumferenceTextField) {
         CGFloat circ = [v floatValue];
-        NSString *diam = [NSString stringWithFormat:@"%0.2f",circ / M_PI];
+        NSString *diam = [NSString stringWithFormat:@"%0.*f", _formatter.digits, circ / M_PI];
 
         self.cell.diameterTextField.text = diam;
     } else {
         CGFloat diam = [v floatValue];
-        NSString *circ = [NSString stringWithFormat:@"%0.2f",diam * M_PI];
+        NSString *circ = [NSString stringWithFormat:@"%0.*f", _formatter.digits, diam * M_PI];
 
         self.cell.circumferenceTextField.text = circ;
     }
@@ -281,7 +269,9 @@
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     NSString *newDBH = self.cell.diameterTextField.text;
     if (newDBH && [newDBH length] > 0) {
-        [dict setObject:self.cell.diameterTextField.text
+        CGFloat dispValue = [self.cell.diameterTextField.text floatValue];
+
+        [dict setObject:[NSNumber numberWithFloat:dispValue]
           forEncodedKey:self.dataKey];
     }
 
@@ -291,12 +281,24 @@
 #define OTMLabelDetailEditCellRendererCellId @"kOTMLabelDetailEditCellRendererCellId"
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    self.cell.diameterTextField.text = [[data decodeKey:self.dataKey] description];
-    [self tableViewCell:nil
-              textField:self.cell.diameterTextField
-         updatedToValue:self.cell.diameterTextField.text];
+    if (!self.inited) {
+        id elmt = [data decodeKey:self.dataKey];
 
-    return cell;
+        NSString *disp = @"";
+        if (elmt != nil) {
+            CGFloat dispValue = [elmt floatValue];
+            disp = [NSString stringWithFormat:@"%.*f", _formatter.digits, dispValue];
+        }
+
+        self.cell.diameterTextField.text = disp;
+        [self tableViewCell:nil
+                  textField:self.cell.diameterTextField
+             updatedToValue:self.cell.diameterTextField.text];
+
+        self.inited = YES;
+    }
+
+    return _cell;
 }
 
 @end

@@ -16,6 +16,7 @@
 #import "OTMNearbyTreesViewController.h"
 #import "OTMDistanceTableViewCell.h"
 #import "OTMTreeDetailViewController.h"
+#import "OTMtreeDictionaryHelper.h"
 
 #define kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier @"kOTMNearbyTreesViewControllerTableViewCellReuseIdentifier"
 
@@ -131,26 +132,32 @@
 
     }
 
-    NSDictionary *plot = [self.nearbyTrees objectAtIndex:[indexPath row]];
-    NSDictionary *geom = [plot objectForKey:@"geometry"];
-    CLLocation *treeLoc = [[CLLocation alloc] initWithLatitude:[[geom valueForKey:@"lat"] doubleValue]
-                                                     longitude:[[geom valueForKey:@"lng"] doubleValue]];
+    NSDictionary *item = [self.nearbyTrees objectAtIndex:[indexPath row]];
+    NSDictionary *plot = [item objectForKey:@"plot"];
+    NSDictionary *geom = [plot objectForKey:@"geom"];
+    CLLocation *treeLoc = [[CLLocation alloc] initWithLatitude:[[geom valueForKey:@"y"] doubleValue]
+                                                     longitude:[[geom valueForKey:@"x"] doubleValue]];
 
     // tree variable may end up containing an NSDictionary or NSNull
-    id tree = [plot objectForKey:@"tree"];
+    id tree = [item objectForKey:@"tree"];
 
     if (tree == nil || tree == [NSNull null]) {
         cell.textLabel.text = @"Unassigned Plot";
         cell.detailTextLabel.text = [NSString stringWithFormat:@"Plot #%@",[plot objectForKey:@"id"]];
     } else {
-        cell.textLabel.text = [tree objectForKey:@"species_name"];
-        if (cell.textLabel.text == nil) {
+        if ([[tree objectForKey:@"species"] isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *species = [tree objectForKey:@"species"];
+            if (![[tree valueForKey:@"species"] isEqual:@"<null>"] && species) {
+                cell.textLabel.text = [species objectForKey:@"common_name"];
+            } else {
+                cell.textLabel.text = @"(No Species)";
+            }
+        } else {
             cell.textLabel.text = @"(No Species)";
         }
-        if ([tree valueForKey:@"dbh"] && ![[tree valueForKey:@"dbh"] isEqual:@"<null>"]) {
-            NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
-            cell.detailTextLabel.text = [NSString stringWithFormat:fmt,
-                                                 [[tree valueForKey:@"dbh"] doubleValue]];
+        if ([tree valueForKey:@"diameter"] && ![[tree valueForKey:@"diameter"] isEqual:[NSNull null]]) {
+            OTMFormatter *formatter = [[OTMEnvironment sharedEnvironment] dbhFormat];
+            cell.detailTextLabel.text = [formatter format:[[tree valueForKey:@"diameter"] doubleValue]];
         } else {
             cell.detailTextLabel.text = @"Diameter Missing";
         }
@@ -180,7 +187,20 @@
 
         dest.data = [plot mutableDeepCopy];
         dest.keys = keys;
+        dest.ecoKeys = [[OTMEnvironment sharedEnvironment] ecoFields];
         //dest.imageView.image = self.treeImage.image;
+
+        NSString *photoUrl = [OTMTreeDictionaryHelper getLatestPhotoUrlInDictionary:sender];
+        if (photoUrl) {
+            dispatch_async(dispatch_get_global_queue(0,0), ^{
+                NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    dest.imageView.image = [UIImage imageWithData: imageData];
+                });
+            });
+        } else {
+            dest.imageView.image = [UIImage imageNamed:@"Default_feature-image"];
+        }
     }
 }
 
@@ -197,12 +217,17 @@
 
     OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
 
+    double distance = [[OTMEnvironment sharedEnvironment] nearbyTreeRadiusInMeters];
+    if (self.filters.listFilterType == kOTMFiltersShowRecent) {
+        distance = [[OTMEnvironment sharedEnvironment] recentEditsRadiusInMeters];
+    }
+
     [[[OTMEnvironment sharedEnvironment] api] getPlotsNearLatitude:loc.coordinate.latitude
                    longitude:loc.coordinate.longitude
                         user:[loginManager loggedInUser]
                   maxResults:15
                      filters:filters
-                    distance:1 // 1 decimal degree
+                    distance:distance
                     callback:^(NSArray *json, NSError *error)
      {
          if (json) {

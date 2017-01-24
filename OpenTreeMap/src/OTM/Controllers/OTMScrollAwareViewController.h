@@ -14,8 +14,9 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import <UIKit/UIKit.h>
+#import "OTMViewController.h"
 
-@interface OTMScrollAwareViewController : UIViewController
+@interface OTMScrollAwareViewController : OTMViewController
 
 @property (nonatomic,weak) UITextField* activeField;
 @property (nonatomic,strong) IBOutlet UIScrollView *scrollView;

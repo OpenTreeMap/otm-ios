@@ -15,15 +15,18 @@
 
 #import "OTMMapViewController.h"
 #import "OTMFilterListViewController.h"
-#import "AZPointOffsetOverlay.h"
 #import "OTMEnvironment.h"
 #import "OTMAPI.h"
+#import "OTMFormatter.h"
 #import "OTMTreeDetailViewController.h"
 #import "OTMAppDelegate.h"
 #import "OTMDetailCellRenderer.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMImageViewController.h"
+#import "UIView+Borders.h"
+#import "OTMTreeDictionaryHelper.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface OTMMapViewController ()
 - (void)setupMapView;
@@ -36,28 +39,91 @@
  Append single-tap recognizer to the view that calls handleSingleTapGesture:
  */
 - (void)addGestureRecognizersToView:(UIView *)view;
+
+- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer
+                                 filter:(NSString *)filter;
 @end
 
 @implementation OTMMapViewController
 
-@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mostAccurateLocationResponse, mapView, addTreeAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, searchNavigationBar, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
-
-- (void)didReceiveMemoryWarning
-{
-    MKZoomScale currentZoomScale = mapView.bounds.size.width / mapView.visibleMapRect.size.width;
-    [tilePointOffsetOverlayView.tiler clearTilesNotAtZoomScale:currentZoomScale andPoints:YES];
-    [filterTilePointOffsetOverlayView.tiler clearTilesNotAtZoomScale:currentZoomScale andPoints:YES];
-
-    [super didReceiveMemoryWarning];
-}
+@synthesize lastClickedTree, detailView, treeImage, dbh, species, address, detailsVisible, selectedPlot, mode, locationManager, mapView, addTreeAnnotation, locationAnnotation, addTreeHelpView, addTreeHelpLabel, addTreePlacemark, locationActivityView, mapModeSegmentedControl, filters, filterStatusView, filterStatusLabel;
 
 - (void)viewDidLoad
 {
+    [self setupView];
+    [super viewDidLoad];
+    [self updateViewWithSharedEnvironment];
+}
+
+// Handle all view setup that is not dependent on instance specific details
+- (void)setupView {
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
+    self.mapView.showsPointsOfInterest = NO;
+
     firstAppearance = YES;
 
     self.detailsVisible = NO;
 
     [self changeMode:Select];
+
+    [self.detailView addTopBorder];
+    [self.addTreeHelpView addTopBorder];
+
+    [self.filterStatusView addTopBorder];
+    [self.filterStatusView addBottomBorder];
+
+    // These 2 views are visible in the storyboard for design purposes, but
+    // should start offscreen when the parent view first appears
+    [self moveViewOffscreen:detailView];
+    [self moveViewOffscreen:addTreeHelpView];
+
+    [self hideFilterStatus];
+
+    self.mapModeSegmentedControlBackground = [self addBackgroundViewBelowSegmentedControl:self.mapModeSegmentedControl];
+
+    findLocationButton.opaque = NO;
+    findLocationButton.layer.opacity = 0.95f;
+    findLocationButton.frame = CGRectMake(261, mapView.frame.size.height - 17, findLocationButton.frame.size.width, findLocationButton.frame.size.height);
+    findLocationButton.layer.masksToBounds = YES;
+    findLocationButton.layer.cornerRadius = 5.0f;
+
+    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] primaryColor]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updatedImage:)
+                                                 name:kOTMMapViewControllerImageUpdate
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeMapMode:)
+                                                 name:kOTMChangeMapModeNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeEnvironment:)
+                                                 name:kOTMEnvironmentChangeNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(changeGeoRev:)
+                                                 name:kOTMGeoRevChangeNotification
+                                               object:nil];
+
+}
+
+- (void)moveViewOffscreen:(UIView *)view {
+    [view setFrame:
+     CGRectMake(0,
+                self.view.bounds.size.height,
+                self.view.bounds.size.width,
+                view.frame.size.height)];
+}
+
+// Update the view with instance specific details
+- (void)updateViewWithSharedEnvironment {
 
     filters = [[OTMFilters alloc] init];
     filters.filters = [[OTMEnvironment sharedEnvironment] filters];
@@ -68,23 +134,6 @@
     if (!self.navigationItem.title) {
         self.navigationItem.title = @"Tree Map";
     }
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updatedImage:)
-                                                 name:kOTMMapViewControllerImageUpdate
-                                               object:nil];
-
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(changeMapMode:)
-                                                 name:kOTMChangeMapModeNotification
-                                               object:nil];
-
-    [super viewDidLoad];
-    [self slideDetailDownAnimated:NO];
-    [self slideAddTreeHelpDownAnimated:NO];
-
-    [self hideFilterStatus];
 
     [self setupMapView];
 }
@@ -100,6 +149,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                  name:kOTMChangeMapModeNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kOTMEnvironmentChangeNotification
+                                                  object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:kOTMGeoRevChangeNotification
+                                                  object:nil];
 }
 
 -(void)updatedImage:(NSNotification *)note {
@@ -108,14 +165,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.tabBarController.tabBar setSelectedImageTintColor:[[OTMEnvironment sharedEnvironment] navBarTintColor]];
-
-    self.addTreeHelpLabel.textColor = [UIColor whiteColor];
-    self.addTreeHelpLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    self.addTreeHelpLabel.shadowOffset = CGSizeMake(0, -1);
-
-    MKCoordinateRegion region = [SharedAppDelegate mapRegion];
-    [mapView setRegion:region];
     if (firstAppearance) {
         firstAppearance = NO;
         NSLog(@"Trying to find location on first load of the map view");
@@ -132,28 +181,25 @@
 - (NSMutableDictionary *)createAddTreeDictionaryFromAnnotation:(MKPointAnnotation *)annotation placemark:(CLPlacemark *)placemark
 {
     NSMutableDictionary *geometryDict = [[NSMutableDictionary alloc] init];
-    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"lat"];
-    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"lon"];
+    [geometryDict setObject:@"4326" forKey:@"srid"];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.latitude] forKey:@"y"];
+    [geometryDict setObject:[NSNumber numberWithFloat:annotation.coordinate.longitude] forKey:@"x"];
     [geometryDict setObject:[NSNumber numberWithInt:4326] forKey:@"srid"];
 
     NSMutableDictionary *addTreeDict = [[NSMutableDictionary alloc] init];
-    [addTreeDict setObject:geometryDict forKey:@"geometry"];
+    NSMutableDictionary *plotDict = [[NSMutableDictionary alloc] init];
+
+    [addTreeDict setObject:plotDict forKey:@"plot"];
+    [plotDict setObject:geometryDict forKey:@"geom"];
 
     if (addTreePlacemark) {
-        [addTreeDict setObject:addTreePlacemark.name forKey:@"geocode_address"];
-        [addTreeDict setObject:addTreePlacemark.name forKey:@"edit_address_street"];
-        [addTreeDict setObject:addTreePlacemark.name forKey:@"address_street"];
+        [plotDict setObject:addTreePlacemark.name forKey:@"address_street"];
         if ([addTreePlacemark postalCode]) {
-            [addTreeDict setObject:[addTreePlacemark postalCode] forKey:@"address_zip"];
+            [plotDict setObject:[addTreePlacemark postalCode] forKey:@"address_zip"];
         }
         if ([addTreePlacemark locality]) {
-            [addTreeDict setObject:[addTreePlacemark locality] forKey:@"address_city"];
+            [plotDict setObject:[addTreePlacemark locality] forKey:@"address_city"];
         }
-    } else {
-        // geocode_address and edit_street_address are required by the Django application
-        // but they are not srictly nessesary to have a functional app.
-        [addTreeDict setObject:@"No Address" forKey:@"geocode_address"];
-        [addTreeDict setObject:@"No Address" forKey:@"edit_address_street"];
     }
 
     // The edit view does not set values correctly if there isn't an empty tree property
@@ -190,6 +236,7 @@
         id keys = [[OTMEnvironment sharedEnvironment] fieldKeys];
 
         dest.keys = keys;
+        dest.ecoKeys = [[OTMEnvironment sharedEnvironment] ecoFields];
         dest.imageView.image = self.treeImage.image;
         if (self.mode != Select) {
             // When adding a new tree the detail view is automatically in edit mode
@@ -208,7 +255,7 @@
         };
     } else if ([segue.identifier isEqualToString:@"showImage"]) {
         OTMImageViewController *controller = segue.destinationViewController;
-        [controller loadImage:sender];
+        [controller loadImage:sender forPlot:self.selectedPlot];
     }
 }
 
@@ -226,11 +273,9 @@
 }
 
 - (IBAction)showTreePhotoFullscreen:(id)sender {
-    NSArray *images = [[self.selectedPlot objectForKey:@"tree"] objectForKey:@"images"];
-    NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
-
-    if (imageURL) {
-        [self performSegueWithIdentifier:@"showImage" sender:imageURL];
+    NSString* photoURL = [OTMTreeDictionaryHelper getLatestPhotoUrlInDictionary:self.selectedPlot];
+    if (photoURL) {
+        [self performSegueWithIdentifier:@"showImage" sender:photoURL];
     }
 }
 
@@ -239,51 +284,43 @@
     self.mapView.mapType = (MKMapType)[note.object intValue];
 }
 
+-(void)changeEnvironment:(NSNotification *)note {
+    OTMEnvironment *env = note.object;
+    [self.tabBarController.tabBar setSelectedImageTintColor:[env primaryColor]];
+    [self.filterStatusView setBackgroundColor:env.secondaryColor];
+}
+
+-(void)changeGeoRev:(NSNotification *)note {
+    [self showFilters:self.filters];
+}
+
 #pragma mark Detail View
 
 -(void)setDetailViewData:(NSDictionary*)plot {
     NSString* tdbh = nil;
     NSString* tspecies = nil;
-    NSString* taddress = nil;
+    NSString* taddress = [self buildAddressStringFromPlotDictionary:plot];
 
     NSDictionary* tree;
     if ((tree = [plot objectForKey:@"tree"]) && [tree isKindOfClass:[NSDictionary class]]) {
         NSDictionary *pendingEdits = [plot objectForKey:@"pending_edits"];
-        NSDictionary *latestDbhEdit = [[[pendingEdits objectForKey:@"tree.dbh"] objectForKey:@"pending_edits"] objectAtIndex:0];
-
-        NSString* dbhValue;
-
-        if (latestDbhEdit) {
-            dbhValue = [latestDbhEdit objectForKey:@"value"];
-        } else {
-            dbhValue = [tree objectForKey:@"dbh"];
-        }
-
-        NSString *fmt = [[OTMEnvironment sharedEnvironment] dbhFormat];
-
-        if (dbhValue != nil && ![[NSString stringWithFormat:@"%@", dbhValue] isEqualToString:@"<null>"]) {
-            tdbh =  [NSString stringWithFormat:fmt, [dbhValue doubleValue]];
-        }
 
         NSDictionary *latestSpeciesEdit = [[[pendingEdits objectForKey:@"tree.species"] objectForKey:@"pending_edits"] objectAtIndex:0];
         if (latestSpeciesEdit) {
             tspecies = [[latestSpeciesEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            tspecies = [[tree objectForKey:@"species_name"] description];
+            NSDictionary *speciesDict = [tree objectForKey:@"species"];
+            if (![speciesDict isKindOfClass:[NSNull class]]) {
+                tspecies = [speciesDict objectForKey:@"common_name"];
+            }
         }
     }
 
-    taddress = [plot objectForKey:@"address"];
-
     if (tdbh == nil || [tdbh isEqual:@"<null>"]) { tdbh = @"Missing Diameter"; }
     if (tspecies == nil || [tspecies isEqual:@"<null>"]) { tspecies = @"Missing Species"; }
-    if (taddress == nil || [taddress isEqual:@"<null>"] ||
-            taddress == [NSNull null] ||
-            [taddress isEqualToString:@""]) { taddress = @"No Address"; }
 
-    [self.dbh setText:tdbh];
     [self.species setText:tspecies];
-    [self.address setText:taddress];
+    [self.address setText:[taddress uppercaseString]];
 }
 
 
@@ -292,6 +329,15 @@
         [UIView beginAnimations:[NSString stringWithFormat:@"slideup%@", view] context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
         [UIView setAnimationDuration:0.2];
+    }
+
+    bool viewIsChangingYPosition = view.frame.origin.y != self.view.bounds.size.height - view.frame.size.height;
+    if (viewIsChangingYPosition) {
+        CGRect bf = findLocationButton.frame;
+        [findLocationButton setFrame:CGRectMake(bf.origin.x,
+                                                bf.origin.y - view.frame.size.height,
+                                                bf.size.width,
+                                                bf.size.height)];
     }
 
     [view setFrame:
@@ -321,6 +367,15 @@
         [UIView setAnimationDuration:0.2];
     }
 
+    bool viewIsChangingYPosition = view.frame.origin.y != self.view.bounds.size.height + view.frame.size.height;
+    if (viewIsChangingYPosition) {
+        CGRect bf = findLocationButton.frame;
+        [findLocationButton setFrame:CGRectMake(bf.origin.x,
+                                                bf.origin.y + view.frame.size.height,
+                                                bf.size.width,
+                                                bf.size.height)];
+    }
+
     [view setFrame:
      CGRectMake(0,
                 self.view.bounds.size.height,
@@ -333,8 +388,10 @@
 }
 
 -(void)slideDetailDownAnimated:(BOOL)anim {
-    [self slideDownBottomDockedView:self.detailView animated:anim];
-    self.detailsVisible = NO;
+    if (detailsVisible) {
+        [self slideDownBottomDockedView:self.detailView animated:anim];
+        self.detailsVisible = NO;
+    }
 }
 
 -(void)slideAddTreeHelpDownAnimated:(BOOL)anim {
@@ -343,24 +400,65 @@
 
 #pragma mark Map view setup
 
+- (MKTileOverlay *)buildOverlayForLayer:(NSString *)layer
+                                 filter:(NSString *)filter {
+    OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
+    NSString *iid = [env instanceId];
+    NSString *grev = [env geoRev];
+
+    NSString *urlSfx = [env.api2 tileUrlTemplateForInstanceId:iid
+                                                       geoRev:grev
+                                                        layer:layer];
+
+    if (filter != nil) {
+        filter = [OTMAPI urlEncode:filter];
+        urlSfx = [urlSfx stringByAppendingFormat:@"&q=%@", filter];
+    }
+
+    if ([[OTMEnvironment sharedEnvironment] tileQueryStringAdditionalArguments]) {
+        urlSfx = [NSString stringWithFormat:@"%@&%@", urlSfx,
+                  [[OTMEnvironment sharedEnvironment] tileQueryStringAdditionalArguments]];
+    }
+
+    NSString *host = env.tilerUrl;
+    NSString *url = [host stringByAppendingString:urlSfx];
+
+    return [[MKTileOverlay alloc] initWithURLTemplate:url];
+}
+
 - (void)setupMapView
 {
     OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
 
     MKCoordinateRegion region = [env mapViewInitialCoordinateRegion];
+    [SharedAppDelegate setMapRegion:region];
+
     [mapView setRegion:region animated:NO];
     [mapView regionThatFits:region];
     [mapView setDelegate:self];
     [self addGestureRecognizersToView:mapView];
 
-    AZPointOffsetOverlay *regular = [[AZPointOffsetOverlay alloc] init];
-    regular.overlayId = 0;
+    MKTileOverlay *boundsOverlay =
+        [self buildOverlayForLayer:@"treemap_boundary"
+                            filter:nil];
 
-    AZPointOffsetOverlay *filter = [[AZPointOffsetOverlay alloc] init];
-    filter.overlayId = 1;
+    [mapView addOverlay:boundsOverlay];
 
-    [mapView addOverlay:filter];
-    [mapView addOverlay:regular];
+    // Add the plot layer, showing all plots
+    [self setMapFilter:nil];
+
+}
+
+- (void)setMapFilter:(NSString *)filter {
+    if (plotsOverlay != nil) {
+        [mapView removeOverlay:plotsOverlay];
+    }
+
+    plotsOverlay =
+      [self buildOverlayForLayer:@"treemap_mapfeature"
+                          filter:filter];
+
+    [mapView addOverlay:plotsOverlay];
 }
 
 - (void)addGestureRecognizersToView:(UIView *)view
@@ -454,13 +552,13 @@
     [UIView commitAnimations];
 }
 
-- (void)slideAddTreeAnnotationToCoordinate:(CLLocationCoordinate2D)coordinate
+- (void)slidePointAnnotation:(MKPointAnnotation *)annotation toCoordinate:(CLLocationCoordinate2D)coordinate
 {
-    [UIView beginAnimations:[NSString stringWithFormat:@"slideannotation%@", self.addTreeAnnotation] context:nil];
+    [UIView beginAnimations:[NSString stringWithFormat:@"slideannotation%@", annotation] context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     [UIView setAnimationDuration:0.2];
 
-    self.addTreeAnnotation.coordinate = coordinate;
+    annotation.coordinate = coordinate;
 
     [UIView commitAnimations];
 }
@@ -482,8 +580,11 @@
     } else {
         [self hideFilterStatus];
     }
-    [filterTilePointOffsetOverlayView setFilters:f];
-    [filterTilePointOffsetOverlayView setNeedsDisplayInMapRect:MKMapRectWorld]; // Invalidate the darn thing
+
+    OTMAPI *api = [[OTMEnvironment sharedEnvironment] api];
+    NSString *filter = [f filtersAsUrlParameter];
+
+    [self setMapFilter:filter];
     // TODO: hide the wizard label
 }
 
@@ -517,7 +618,7 @@
                     callback:^(NSArray* plots, NSError* error)
      {
          if ([plots count] == 0) { // No plots returned
-             [self slideDetailDownAnimated:YES];
+             [self clearSelectedTree];
          } else {
              NSDictionary* plot = [plots objectAtIndex:0];
              [self selectPlot:plot];
@@ -526,31 +627,34 @@
      }];
 }
 
-- (void)selectPlot:(NSDictionary *)plot
+- (void)selectPlot:(NSDictionary *)dict
 {
-    self.selectedPlot = [plot mutableDeepCopy];
+    [self selectPlot:dict andShowPhoto:nil];
+}
 
-    NSDictionary* tree = [plot objectForKey:@"tree"];
+- (void)selectPlot:(NSDictionary *)dict andShowPhoto:(UIImage *)photo
+{
+    self.selectedPlot = [dict mutableDeepCopy];
 
-    self.treeImage.image = nil;
+    NSDictionary *plot = [dict objectForKey:@"plot"];
 
-    if (tree && [tree isKindOfClass:[NSDictionary class]]) {
-        NSArray* images = [tree objectForKey:@"images"];
+    if (photo) {
+        self.treeImage.image = photo;
+    } else {
+        self.treeImage.image = [UIImage imageNamed:@"Default_feature-image"];
+        NSString *photoUrl = [OTMTreeDictionaryHelper getLatestPhotoUrlInDictionary:dict];
+        if (photoUrl) {
+            dispatch_async(dispatch_get_global_queue(0,0), ^{
+                NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:photoUrl]];
 
-        if (images && [images isKindOfClass:[NSArray class]] && [images count] > 0) {
-            int imageId = [[[images lastObject] objectForKey:@"id"] intValue];
-            int plotId = [[plot objectForKey:@"id"] intValue];
-
-            [[[OTMEnvironment sharedEnvironment] api] getImageForTree:plotId
-                                                              photoId:imageId
-                                                             callback:^(UIImage* image, NSError* error)
-             {
-                 self.treeImage.image = image;
-             }];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.treeImage.image = [UIImage imageWithData: imageData];
+                });
+            });
         }
     }
 
-    [self setDetailViewData:plot];
+    [self setDetailViewData:dict];
     [self slideDetailUpAnimated:YES];
 
     CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:plot];
@@ -598,10 +702,21 @@
         self.addTreeAnnotation.coordinate = coordinate;
         [self.mapView addAnnotation:self.addTreeAnnotation];
     } else {
-        [self slideAddTreeAnnotationToCoordinate:coordinate];
+        [self slidePointAnnotation:self.addTreeAnnotation toCoordinate:coordinate];
     }
     [self fetchAndSetAddTreePlacemarkForCoordinate:coordinate];
     [self changeMode:Move];
+}
+
+- (void)placeLocationAnnotation:(CLLocationCoordinate2D)coordinate
+{
+    if (!self.locationAnnotation) {
+        self.locationAnnotation = [[MKPointAnnotation alloc] init];
+        self.locationAnnotation.coordinate = coordinate;
+        [self.mapView addAnnotation:self.locationAnnotation];
+    } else {
+        [self slidePointAnnotation:self.locationAnnotation toCoordinate:coordinate];
+    }
 }
 
 #pragma mark UIGestureRecognizer handlers
@@ -653,11 +768,6 @@
 - (void)mapView:(MKMapView*)mView regionDidChangeAnimated:(BOOL)animated {
     MKCoordinateRegion region = [mView region];
 
-    MKZoomScale currentZoomScale = mView.bounds.size.width / mView.visibleMapRect.size.width;
-
-    [tilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
-    [filterTilePointOffsetOverlayView.tiler sortWithMapRect:mView.visibleMapRect zoomScale:currentZoomScale];
-
     [SharedAppDelegate setMapRegion:region];
 
     double lngMin = region.center.longitude - region.span.longitudeDelta / 2.0;
@@ -679,33 +789,34 @@
     }
 }
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay
-{
-    if (!tilePointOffsetOverlayView) {
-        tilePointOffsetOverlayView = [[AZTilePointOffsetOverlayView alloc] initWithOverlay:overlay];
-    }
-    if (!filterTilePointOffsetOverlayView) {
-        filterTilePointOffsetOverlayView = [[AZTilePointOffsetOverlayView alloc] initWithOverlay:overlay];
-        filterTilePointOffsetOverlayView.filterOnlyLayer = YES;
-    }
-    return ((AZPointOffsetOverlay*)overlay).overlayId == 0? tilePointOffsetOverlayView : filterTilePointOffsetOverlayView;
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id < MKOverlay >)overlay {
+    return [[MKTileOverlayRenderer alloc] initWithTileOverlay:overlay];
 }
 
 #define kOTMMapViewAddTreeAnnotationViewReuseIdentifier @"kOTMMapViewAddTreeAnnotationViewReuseIdentifier"
+#define kOTMMapViewLocationAnnotationViewReuseIdentifier @"kOTMMapViewLocationAnnotationViewReuseIdentifier"
 
 #define kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier @"kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier"
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation
 {
     MKAnnotationView *annotationView;
-    if (annotation == self.addTreeAnnotation) {
+    if (annotation == self.locationAnnotation) {
+        annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewLocationAnnotationViewReuseIdentifier];
+        if (!annotationView) {
+            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                          reuseIdentifier:kOTMMapViewLocationAnnotationViewReuseIdentifier];
+            annotationView.image = [UIImage imageNamed:@"location_marker"];
+        }
+    } else if (annotation == self.addTreeAnnotation) {
         annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
-            annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
+            annotationView = [[OTMAddTreeAnnotationView alloc] initWithAnnotation:annotation
+                                                                  reuseIdentifier:kOTMMapViewAddTreeAnnotationViewReuseIdentifier];
             ((OTMAddTreeAnnotationView *)annotationView).delegate = self;
             ((OTMAddTreeAnnotationView *)annotationView).mapView = mv;
         }
-    } else { // The only two annotation types on the map are add tree and selected tree
+    } else { // The only three annotation types on the map are location, add tree, and selected tree
         annotationView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kOTMMapViewSelectedTreeAnnotationViewReuseIdentifier];
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc]
@@ -759,105 +870,53 @@
        }];
 }
 
-#pragma mark CoreLocation handling
+#pragma mark Location handling
 
 - (IBAction)startFindingLocation:(id)sender
 {
-    if ([CLLocationManager locationServicesEnabled]) {
+    if (!locationActivityView) {
+        locationActivityView = [[UIActivityIndicatorView alloc]
+                                initWithActivityIndicatorStyle:
+                                UIActivityIndicatorViewStyleWhite];
 
-        if (!locationActivityView) {
-            locationActivityView = [[UIActivityIndicatorView alloc]
-                                    initWithActivityIndicatorStyle:
-                                    UIActivityIndicatorViewStyleWhite];
+        [(UIActivityIndicatorView *)locationActivityView startAnimating];
+        [locationActivityView setUserInteractionEnabled:NO];
 
-            [(UIActivityIndicatorView *)locationActivityView startAnimating];
-            [locationActivityView setUserInteractionEnabled:NO];
-            [locationActivityView setFrame:CGRectMake(12, 12, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
-        }
-
-        [searchNavigationBar addSubview:locationActivityView];
-        findLocationButton.image = [UIImage imageNamed:@"transparent_14"];
-        findLocationButton.action = @selector(stopFindingLocation:);
-
-        if (nil == [self locationManager]) {
-            [self setLocationManager:[[CLLocationManager alloc] init]];
-            locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-        }
-        // The delegate is cleared in stopFindingLocation so it must be reset here.
-        [locationManager setDelegate:self];
-        [locationManager startUpdatingLocation];
-        NSTimeInterval timeout = [[[OTMEnvironment sharedEnvironment] locationSearchTimeoutInSeconds] doubleValue];
-        [self performSelector:@selector(stopFindingLocationAndSetMostAccurateLocation) withObject:nil afterDelay:timeout];
-    } else {
-        [UIAlertView showAlertWithTitle:nil message:@"Location services are not available." cancelButtonTitle:@"OK" otherButtonTitle:nil callback:nil];
+        CGSize bs = findLocationButton.frame.size;
+        CGSize as = locationActivityView.frame.size;
+        CGFloat offsetx = (bs.width - as.width) / 2;
+        CGFloat offsety = (bs.height - as.height) / 2;
+        [locationActivityView setFrame:CGRectMake(offsetx, offsety, locationActivityView.frame.size.width, locationActivityView.frame.size.height)];
     }
+    [findLocationButton addSubview:locationActivityView];
+    [findLocationButton setImage:nil forState:UIControlStateNormal];
+    [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [findLocationButton addTarget:self action:@selector(stopFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
+
+    if (!locationManager) {
+        locationManager = [[OTMLocationManager alloc] init];
+    }
+
+    [locationManager findLocation:^(CLLocation *location, NSError *error) {
+        if (!error) {
+            [self stopFindingLocation:self]; // Handles updating the UI now that the location has been found
+            MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
+            [mapView setRegion:MKCoordinateRegionMake(location.coordinate, span) animated:NO];
+            [self placeLocationAnnotation:location.coordinate];
+        } else {
+            NSLog(@"Failed to get location");
+        }
+    }];
 }
 
 - (IBAction)stopFindingLocation:(id)sender {
-    findLocationButton.action = @selector(startFindingLocation:);
-    [[self locationManager] stopUpdatingLocation];
-    // When using the debugger I found that extra events would arrive after calling stopUpdatingLocation.
-    // Setting the delegate to nil ensures that those events are not ignored.
-    [locationManager setDelegate:nil];
-    findLocationButton.image = [UIImage imageNamed:@"gps_icon_14"];
+    [findLocationButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [findLocationButton addTarget:self action:@selector(startFindingLocation:) forControlEvents:UIControlEventTouchUpInside];
+    if (locationManager) {
+        [locationManager stopFindingLocation];
+    }
+    [findLocationButton setImage:[UIImage imageNamed:@"gps_icon"] forState:UIControlStateNormal];
     [locationActivityView removeFromSuperview];
-}
-
-
-- (void)stopFindingLocationAndSetMostAccurateLocation {
-    [self stopFindingLocation:self];
-    if ([self mostAccurateLocationResponse] != nil) {
-        MKCoordinateSpan span = [[OTMEnvironment sharedEnvironment] mapViewSearchZoomCoordinateSpan];
-        CLLocation *loc = [self mostAccurateLocationResponse];
-        CLLocationCoordinate2D coord = [loc coordinate];
-
-        OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
-        CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
-        CLLocationDistance dist = [loc distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
-
-        if (dist < [env searchRegionRadiusInMeters]) {
-            [mapView setRegion:MKCoordinateRegionMake(coord, span) animated:NO];
-        }
-    }
-    [self setMostAccurateLocationResponse:nil];
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-{
-    NSDate* eventDate = newLocation.timestamp;
-    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    // Avoid using any cached location results by making sure they are less than 15 seconds old
-    if (abs(howRecent) < 15.0)
-    {
-        NSLog(@"Location accuracy: horizontal %f, vertical %f", [newLocation horizontalAccuracy], [newLocation verticalAccuracy]);
-
-        if ([self mostAccurateLocationResponse] == nil || [[self mostAccurateLocationResponse] horizontalAccuracy] > [newLocation horizontalAccuracy]) {
-            [self setMostAccurateLocationResponse: newLocation];
-        }
-
-        if ([newLocation horizontalAccuracy] > 0 && [newLocation horizontalAccuracy] < [manager desiredAccuracy]) {
-            [self stopFindingLocation:self];
-            [self setMostAccurateLocationResponse:nil];
-            // Cancel the previous performSelector:withObject:afterDelay: - it's no longer necessary
-            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopFindingLocation:) object:nil];
-
-            NSLog(@"Found user's location: latitude %+.6f, longitude %+.6f\n",
-                  newLocation.coordinate.latitude,
-                  newLocation.coordinate.longitude);
-
-            OTMEnvironment *env = [OTMEnvironment sharedEnvironment];
-            MKCoordinateSpan span = [env mapViewSearchZoomCoordinateSpan];
-            CLLocationCoordinate2D center = env.mapViewInitialCoordinateRegion.center;
-
-            CLLocationDistance dist = [newLocation distanceFromLocation:[[CLLocation alloc] initWithLatitude:center.latitude longitude:center.longitude]];
-
-            if (dist < [env searchRegionRadiusInMeters]) {
-                [mapView setRegion:MKCoordinateRegionMake(newLocation.coordinate, span) animated:NO];
-            }
-        }
-    }
 }
 
 #pragma mark OTMAddTreeAnnotationView delegate methods
@@ -870,31 +929,33 @@
 #pragma mark OTMTreeDetailViewDelegate methods
 
 - (void)disruptCoordinate:(CLLocationCoordinate2D)coordinate {
-    [tilePointOffsetOverlayView disruptCacheForCoordinate:coordinate];
-    [tilePointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
-    [filterTilePointOffsetOverlayView disruptCacheForCoordinate:coordinate];
-    [filterTilePointOffsetOverlayView setNeedsDisplayInMapRect:[mapView visibleMapRect]];
 }
 
-- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details withPhoto:(UIImage *)photo
 {
     [self changeMode:Select];
     CLLocationCoordinate2D coordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
 
     [self disruptCoordinate:coordinate];
 
-    [self selectPlot:details];
+    [self selectPlot:details andShowPhoto:photo];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData
+{
+    [self viewController:viewController editedTree:details withOriginalLocation:coordinate originalData:originalData withPhoto:nil];
+}
+
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData withPhoto:(UIImage *)photo
 {
     CLLocationCoordinate2D newCoordinate = [OTMTreeDictionaryHelper getCoordinateFromDictionary:details];
 
     [self disruptCoordinate:coordinate];
     [self disruptCoordinate:newCoordinate];
 
-    [self selectPlot:details];
+    [self selectPlot:details andShowPhoto:photo];
 
     self.selectedPlot = [details mutableDeepCopy];
     [self setDetailViewData:details];
@@ -921,14 +982,21 @@
 - (void)hideFilterStatus
 {
     [self.filterStatusView setHidden:YES];
-    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 50, 185, 30)];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(8, 55, 185, 30)];
+    [self updateBackgroundView:self.mapModeSegmentedControlBackground forSegmentedControl:self.mapModeSegmentedControl];
 }
 
 - (void)showFilterStatusWithMessage:(NSString *)message
 {
     [self.filterStatusLabel setText:message];
-    [self.mapModeSegmentedControl setFrame:CGRectMake(130, 74, 185, 30)];
+    [self.mapModeSegmentedControl setFrame:CGRectMake(8, 79, 185, 30)];
+    [self updateBackgroundView:self.mapModeSegmentedControlBackground forSegmentedControl:self.mapModeSegmentedControl];
     [self.filterStatusView setHidden:NO];
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

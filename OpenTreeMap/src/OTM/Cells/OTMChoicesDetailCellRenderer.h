@@ -23,6 +23,12 @@
 @property (nonatomic,strong) NSString *fieldName;
 @property (nonatomic,strong) NSArray *fieldChoices;
 
+-(id)initWithDataKey:(NSString *)datakey
+               label:(NSString *)label
+            clickUrl:(NSString *)clickurl
+             choices:(NSArray *)choices
+            writable:(BOOL)writable;
+
 @end
 
 @interface OTMEditChoicesDetailCellRenderer : OTMEditDetailCellRenderer

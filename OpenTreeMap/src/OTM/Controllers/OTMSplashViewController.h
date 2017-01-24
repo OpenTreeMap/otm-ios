@@ -17,4 +17,6 @@
 
 @interface OTMSplashViewController : UIViewController
 
+@property (nonatomic) NSTimeInterval triggerTime;
+
 @end

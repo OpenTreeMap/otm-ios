@@ -15,6 +15,9 @@
 
 #import "OTMRegistrationViewController.h"
 #import "OTMAppDelegate.h"
+#import "OTMEnvironment.h"
+#import "UIAlertView+Blocks.h"
+#import "OTMEULAViewController.h"
 
 @interface OTMRegistrationViewController ()
 
@@ -95,7 +98,15 @@
      }];
 }
 
--(IBAction)createNewUser:(id)sender {
+-(IBAction)validateAndShowEULA:(id)sender {
+    if ([self.validator executeValidationsAndAlertWithViewController:self]) {
+        [self.navigationController pushViewController:self.eulaController animated:YES];
+    } else {
+        [self.navigationController popToViewController:self animated:YES];
+    }
+}
+
+-(void)createNewUser {
     if ([self.validator executeValidationsAndAlertWithViewController:self]) {
         OTMUser *user = [[OTMUser alloc] init];
         user.keychain = [SharedAppDelegate keychain];
@@ -104,11 +115,10 @@
         user.firstName = self.firstName.text;
         user.lastName = self.lastName.text;
         user.email = self.email.text;
-        user.zipcode = self.zipCode.text;
         user.photo = self.profileImage.image;
 
         [[[OTMEnvironment sharedEnvironment] api] createUser:user
-                                                   callback:^(OTMUser *user, OTMAPILoginResponse status)
+                                                   callback:^(OTMUser *user, NSDictionary *instance, OTMAPILoginResponse status)
         {
             if (status == kOTMAPILoginResponseOK) {
                 if (user.photo != nil) {
@@ -125,12 +135,14 @@
                                            delegate:nil
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil] show];
+                [self.navigationController popToViewController:self animated:YES];
             } else {
                 [[[UIAlertView alloc] initWithTitle:@"Registration Failed"
                                            message:@"A server problem prevented your registration from completing. Please try again later."
                                           delegate:nil
                                  cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil] show];
+                [self.navigationController popToViewController:self animated:YES];
             }
         }];
     }
@@ -150,7 +162,7 @@
             // touch events do not register
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (btnIdx == 0) { // NO
-                    [self createNewUser:nil];
+                    [self validateAndShowEULA:nil];
                 } else {
                     [pictureTaker getPictureInViewController:self
                                                     callback:^(UIImage *image)
@@ -182,17 +194,20 @@
 {
     [super viewDidLoad];
 
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginStoryboard" bundle:nil];
+
+    self.eulaController =
+        [storyboard instantiateViewControllerWithIdentifier:@"EULAController"];
+
+    self.eulaController.regController = self;
+    [self.eulaController view];
+
     if (validator == nil) {
         validator = [[OTMValidator alloc] initWithValidations:[OTMRegistrationViewController validations]];
     }
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
     }
-
-    self.zipCode.keyboardType = [[OTMEnvironment sharedEnvironment]
-                                  zipcodeKeyboard];
-
-    zipCode.placeholder = [[OTMEnvironment sharedEnvironment] localizedZipCodeName];
 
     self.scrollView.contentSize = CGSizeMake(320, 460);
 }
@@ -207,5 +222,6 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 
 @end

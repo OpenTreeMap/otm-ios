@@ -15,11 +15,18 @@
 
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface OTMImageViewController : UIViewController
+@interface OTMImageViewController : UIViewController <MFMailComposeViewControllerDelegate>
 
 @property (nonatomic,strong) IBOutlet UIImageView *imageView;
+@property (nonatomic,strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic,strong) IBOutlet UIBarButtonItem *reportButtonItem;
 
-- (void)loadImage:(NSString *)url;
+@property (nonatomic,strong) NSDictionary* data;
+
+- (IBAction)reportInappropriate:(id)sender;
+
+- (void)loadImage:(NSString *)url forPlot:(NSDictionary *)plot;
 
 @end

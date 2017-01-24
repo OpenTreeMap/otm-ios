@@ -26,7 +26,7 @@
 @implementation OTMDBHTableViewCell
 
 @synthesize circumferenceTextField, diameterTextField,
-    circumferenceLabel, diameterLabel,
+    circumferenceUnitLabel, diameterUnitLabel,
     tfDelegate, delegate;
 
 +(OTMDBHTableViewCell *)loadFromNib {
@@ -39,13 +39,11 @@
     cell.circumferenceTextField.keyboardType = UIKeyboardTypeDecimalPad;
     cell.diameterTextField.keyboardType = UIKeyboardTypeDecimalPad;
 
-    NSString *unit = [[OTMEnvironment sharedEnvironment] dbhUnit];
+    OTMFormatter *dbhFormat = [[OTMEnvironment sharedEnvironment] dbhFormat];
+    NSString *unit = [dbhFormat label];
 
-    cell.diameterLabel.text =
-        [NSString stringWithFormat:@"Tree Diameter (%@)",unit];
-
-    cell.circumferenceLabel.text =
-        [NSString stringWithFormat:@"Tree Circumference (%@)",unit];
+    cell.diameterUnitLabel.text = unit;
+    cell.circumferenceUnitLabel.text = unit;
 
     return cell;
 }

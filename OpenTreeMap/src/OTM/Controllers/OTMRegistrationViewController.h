@@ -18,21 +18,26 @@
 #import "OTMValidator.h"
 #import "OTMPictureTaker.h"
 
+@class OTMEULAViewController;
+
 @interface OTMRegistrationViewController : OTMScrollAwareViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic,readonly) OTMValidator *validator;
 @property (nonatomic,readonly) OTMPictureTaker *pictureTaker;
 
-@property (nonatomic,strong) IBOutlet UITextField *email; 
-@property (nonatomic,strong) IBOutlet UITextField *password; 
-@property (nonatomic,strong) IBOutlet UITextField *verifyPassword; 
-@property (nonatomic,strong) IBOutlet UITextField *username; 
-@property (nonatomic,strong) IBOutlet UITextField *firstName; 
-@property (nonatomic,strong) IBOutlet UITextField *lastName; 
+@property (nonatomic,strong) IBOutlet UITextField *email;
+@property (nonatomic,strong) IBOutlet UITextField *password;
+@property (nonatomic,strong) IBOutlet UITextField *verifyPassword;
+@property (nonatomic,strong) IBOutlet UITextField *username;
+@property (nonatomic,strong) IBOutlet UITextField *firstName;
+@property (nonatomic,strong) IBOutlet UITextField *lastName;
 @property (nonatomic,strong) IBOutlet UITextField *zipCode;
-@property (nonatomic,strong) IBOutlet UIImageView *profileImage; 
+@property (nonatomic,strong) IBOutlet UIImageView *profileImage;
 @property (nonatomic,strong) IBOutlet UIButton *changeProfilePic;
+@property (nonatomic,strong) OTMEULAViewController *eulaController;
 
 -(IBAction)getPicture:(id)sender;
+-(IBAction)validateAndShowEULA:(id)sender;
+-(void)createNewUser;
 
 @end

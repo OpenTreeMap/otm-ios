@@ -14,6 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "OTMSpeciesTableViewController.h"
+#import "OTMDetailTableViewCell.h"
 
 @interface OTMSpeciesTableViewController ()
 
@@ -39,7 +40,9 @@
     sections =  [NSArray arrayWithObjects:@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",
                     @"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z", nil];
 
-    [[[OTMEnvironment sharedEnvironment] api] getSpeciesListWithCallback:^(id json, NSError *err) 
+    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
+    [[[OTMEnvironment sharedEnvironment] api] getSpeciesListForUser:loginManager.loggedInUser
+                                                       withCallback:^(id json, NSError *err)
      {
          if (err) {
              [[[UIAlertView alloc] initWithTitle:@"Error"
@@ -105,7 +108,7 @@
 
 #pragma mark - Table view data source
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     return sections;
 }
@@ -129,14 +132,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tblView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tblView dequeueReusableCellWithIdentifier:kSpeciesListCellReuseIdentifier];
-    
+
     if (species == nil) {
         cell.textLabel.text = @"Loading Species...";
     } else {
         cell.textLabel.text = [[sectionDict objectForKey:[sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
         cell.detailTextLabel.text = [[species objectForKey:cell.textLabel.text] objectForKey:@"scientific_name"];
     }
-    
+
     return cell;
 }
 
@@ -156,10 +159,10 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
 }
 */
 
@@ -190,10 +193,12 @@
     if (callback) {
         id key = [[sectionDict objectForKey:[sections objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
         NSDictionary *speciesDetailDict = [species objectForKey:key];
-        callback([speciesDetailDict objectForKey:@"id"], key, [speciesDetailDict objectForKey:@"scientific_name"]);
+        callback(speciesDetailDict);
     }
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    OTMDetailTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [self.delegate speciesDetailsViewControllerDidUpdate:self
+                                   withSpeciesCommonName:cell.textLabel.text
+                                       andScientificName:cell.detailTextLabel.text];
 }
 
 #pragma mark - UISearchBar delegate

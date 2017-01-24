@@ -13,20 +13,20 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
-#import <MapKit/MapKit.h>
-#import "AZGeoCache.h"
-#import "AZTiler.h"
-#import "OTMFilterListViewController.h"
+#import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
-/**
- A view for rendering AZPointOffsetOverlay instances on a MapKit map.
- */
-@interface AZTilePointOffsetOverlayView : MKOverlayView 
+@interface OTMLocationManager : NSObject <CLLocationManagerDelegate>
 
-@property (nonatomic,strong) AZTiler *tiler;
-@property (nonatomic,strong) OTMFilters *filters;
-@property (nonatomic,assign) BOOL filterOnlyLayer;
+@property (nonatomic,strong) CLLocationManager *locationManager;
+@property (nonatomic,strong) CLLocation *mostAccurateLocationResponse;
+@property (nonatomic,assign) BOOL restrictDistance;
 
-- (void)disruptCacheForCoordinate:(CLLocationCoordinate2D)coordinate;
+@property (nonatomic,copy) void (^locationFoundCallback)(CLLocation*, NSError*);
+
+- (id)initWithDistanceRestriction:(BOOL)rd;
+- (void)findLocation:(void(^)(CLLocation *location, NSError *error))callback;
+- (void)stopFindingLocation;
+- (BOOL)locationServicesAvailable;
 
 @end

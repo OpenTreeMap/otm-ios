@@ -23,7 +23,9 @@
 
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 
-@property (nonatomic, strong) UILabel *distLabel;
+// TODO: The unit used for displaying distance needs to be configured in the management
+//       of the web app and returned from the instance JSON endpoint
+//@property (nonatomic, strong) UILabel *distLabel;
 @property (nonatomic, strong) CLLocation *thisLoc;
 @property (nonatomic, strong) CLLocation *curLoc;
 

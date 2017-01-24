@@ -18,21 +18,24 @@
 #import "OTMDetailTableViewCell.h"
 #import "OTMPictureTaker.h"
 #import "OTMMapDetailCellRenderer.h"
+#import "OTMSpeciesTableViewController.h"
 
 @class OTMTreeDetailViewController; // declared early so the delegate can use the type in its declaration
 
 @protocol OTMTreeDetailViewDelegate <NSObject>
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details withPhoto:(UIImage *)photo;
 
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData;
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData withPhoto:(UIImage *)photo;
 
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
 
 - (void)plotDeletedByViewController:(OTMTreeDetailViewController *)viewController;
 @end
 
-@interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate> {
+@interface OTMTreeDetailViewController : OTMScrollAwareViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIActionSheetDelegate, OTMSpeciesDetailsViewControllerDelegate> {
     BOOL editMode;
     BOOL updated;
     NSMutableDictionary *data;
@@ -80,6 +83,14 @@
  * be the empty string)
  */
 @property (nonatomic, strong) NSArray* keys;
+
+/**
+ * Array[OTMDetailCellRenderer] ecoKeys to display in the main table
+ *
+ * Each element in the array is a field for displaying a single eco
+ * benefit in a table row
+ */
+@property (nonatomic, strong) NSArray* ecoKeys;
 
 - (IBAction)showTreePhotoFullscreen:(id)sender;
 - (IBAction)startOrCommitEditing:(id)sender;

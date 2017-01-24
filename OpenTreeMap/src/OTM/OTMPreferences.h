@@ -15,8 +15,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AZPointOffsetOverlay : NSObject <MKOverlay>
+@interface OTMPreferences : NSObject
 
-@property (nonatomic,assign) NSUInteger overlayId;
++ (OTMPreferences *)sharedPreferences;
+
+@property (assign) NSString *instance;
+
+- (void)save;
+- (void)load;
 
 @end

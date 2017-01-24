@@ -16,9 +16,10 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "OTMViewController.h"
 #import "OTMAddTreeAnnotationView.h"
 #import "OTMTreeDetailViewController.h"
-#import "AZTilePointOffsetOverlayView.h"
+#import "OTMLocationManager.h"
 
 #define kOTMMapViewControllerImageUpdate @"kOTMMapViewControllerImageUpdate"
 
@@ -29,21 +30,19 @@ typedef enum {
     Move,
 } OTMMapViewControllerMapMode;
 
-@interface OTMMapViewController : UIViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, CLLocationManagerDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
+@interface OTMMapViewController : OTMViewController <MKMapViewDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate, OTMAddTreeAnnotationViewDelegate, OTMTreeDetailViewDelegate> {
     IBOutlet MKMapView *mapView;
     IBOutlet UISearchBar *searchBar;
-    IBOutlet UIBarButtonItem *findLocationButton;
+    IBOutlet UIButton *findLocationButton;
     BOOL firstAppearance;
-    AZTilePointOffsetOverlayView *tilePointOffsetOverlayView;
-    AZTilePointOffsetOverlayView *filterTilePointOffsetOverlayView;
+
+    MKTileOverlay *plotsOverlay;
 }
 
 @property (nonatomic,strong) OTMFilters* filters;
 
 @property (nonatomic,strong) MKPointAnnotation* lastClickedTree;
 @property (nonatomic,assign) BOOL detailsVisible;
-@property (nonatomic,strong) CLLocationManager *locationManager;
-@property (nonatomic,strong) CLLocation *mostAccurateLocationResponse;
 
 @property (nonatomic,strong) IBOutlet MKMapView *mapView;
 @property (nonatomic,strong) IBOutlet UIView* detailView;
@@ -53,17 +52,20 @@ typedef enum {
 @property (nonatomic,strong) IBOutlet UILabel* address;
 @property (nonatomic,strong) IBOutlet UIView* addTreeHelpView;
 @property (nonatomic,strong) IBOutlet UILabel* addTreeHelpLabel;
-@property (nonatomic,strong) IBOutlet UINavigationBar* searchNavigationBar;
 @property (nonatomic,strong) IBOutlet UIView* locationActivityView;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *mapModeSegmentedControl;
+@property (nonatomic, strong) IBOutlet UIView *mapModeSegmentedControlBackground;
 @property (nonatomic, strong) IBOutlet UIView *filterStatusView;
 @property (nonatomic, strong) IBOutlet UILabel *filterStatusLabel;
+
+@property (nonatomic, strong) OTMLocationManager *locationManager;
 
 @property (nonatomic,strong) NSDictionary* selectedPlot;
 
 @property (nonatomic) OTMMapViewControllerMapMode mode;
 
 @property (nonatomic,strong) MKPointAnnotation* addTreeAnnotation;
+@property (nonatomic,strong) MKPointAnnotation* locationAnnotation;
 @property (nonatomic,copy) CLPlacemark *addTreePlacemark;
 
 -(void)setDetailViewData:(NSDictionary*)plot;

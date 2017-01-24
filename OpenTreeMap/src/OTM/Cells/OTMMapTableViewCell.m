@@ -27,16 +27,23 @@
         self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kOTMMapTableViewCellHeight)];
         self.mapView.delegate = self;
 
-        self.mapView.layer.cornerRadius = 10.0;
-        self.mapView.layer.borderWidth = 1.0;
-        self.mapView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        CALayer *borderTop = [CALayer layer];
+        borderTop.frame = CGRectMake(0.0f, 0.0f, mapView.frame.size.width, 0.5f);
+        borderTop.backgroundColor = [UIColor lightGrayColor].CGColor;
+        [mapView.layer addSublayer:borderTop];
+
+        CALayer *borderBottom = [CALayer layer];
+        borderBottom.frame = CGRectMake(0.0f, mapView.frame.origin.y, mapView.frame.size.width, 0.5f);
+        borderBottom.backgroundColor = [UIColor lightGrayColor].CGColor;
+        [mapView.layer addSublayer:borderBottom];
+
         self.backgroundView = self.mapView;
 
         // The mini map in the table cell is never interactive since a small scrolling map view
         // will not work well nested inside a scrolling table view.
         [self.mapView setUserInteractionEnabled:NO];
 
-        UIImage *detailImage = [UIImage imageNamed:@"detail"];
+        UIImage *detailImage = [UIImage imageNamed:@"Chevron_right"];
         detailImageView = [[UIImageView alloc] initWithImage:detailImage];
 
         detailImageView.frame = CGRectMake(
@@ -82,13 +89,13 @@
     if (!annotation) {
         annotation = [[MKPointAnnotation alloc] init];
     }
-    
+
     [mapView removeAnnotation:annotation];
-    
+
     // Set a small latitude delta to zoom the map in close to the point
     MKCoordinateSpan span = MKCoordinateSpanMake([[OTMEnvironment sharedEnvironment] detailLatSpan], 0.00);
     [mapView setRegion:MKCoordinateRegionMake(center, span) animated:NO];
-    
+
     annotation.coordinate = center;
     [mapView addAnnotation:annotation];
 }
@@ -110,6 +117,11 @@
     }
 
     return annotationView;
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

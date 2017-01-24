@@ -59,8 +59,10 @@
 
         if ([indexPath row] == 0) {
             cell.textLabel.text = @"Change Password";
-        } else {
+        } else if ([indexPath row] == 1) {
             cell.textLabel.text = @"Logout";
+        } else {
+            cell.textLabel.text = @"Switch Tree Map";
         }
 
         return cell;
@@ -141,11 +143,6 @@
             break;
 
         case 3:
-            itemTitle = [[OTMEnvironment sharedEnvironment] localizedZipCodeName];
-            itemValue = self.user.zipcode;
-            break;
-
-        case 4:
             itemTitle = @"Reputation";
             itemValue = [NSString stringWithFormat:@"%d", self.user.reputation];
             break;
@@ -171,12 +168,14 @@
     if ([path section] == kOTMProfileViewControllerSectionChangePassword) {
         if ([path row] == 0) {
             [self performSegueWithIdentifier:@"ChangePassword" sender:self];
-        } else {
+        } else if ([path row] == 1) {
             [self setDidShowLogin:NO];
             [[NSNotificationCenter defaultCenter] postNotificationName:kOTMLoginWorkflowLogout
                                                                 object:self
                                                               userInfo:nil];
             [self viewWillAppear:YES];
+        } else {
+            [self performSegueWithIdentifier:@"switchTreeMap" sender:self];
         }
     } else if ([path section] == kOTMProfileViewControllerSectionChangeProfilePicture) {
         [pictureTaker getPictureInViewController:self
@@ -220,9 +219,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case kOTMProfileViewControllerSectionInfo:
-            return 5;
+            return 4;
         case kOTMProfileViewControllerSectionChangePassword:
-            return 2;
+            return 3;
         case kOTMProfileViewControllerSectionChangeProfilePicture:
             return 1;
         case kOTMProfileViewControllerSectionRecentEdits:
@@ -317,6 +316,10 @@
             [self showLoginReqView];
         }
     }];
+}
+
+- (IBAction)switchTreeMap:(id)sender {
+    [self performSegueWithIdentifier:@"switchTreeMap" sender:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
