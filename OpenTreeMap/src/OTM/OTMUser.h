@@ -20,18 +20,11 @@
 
 @property (nonatomic,assign) int userId;
 @property (nonatomic,assign) int reputation;
-@property (nonatomic,assign) int level;
-@property (nonatomic,strong) NSString* userType;
 @property (nonatomic,strong) NSString* firstName;
 @property (nonatomic,strong) NSString* lastName;
-@property (nonatomic,strong) NSString* zipcode;
 @property (nonatomic,strong) NSString* email;
 @property (nonatomic,strong) UIImage *photo;
-@property (nonatomic,strong) NSArray* permissions;
 
-@property (nonatomic,readonly) bool canDeleteAnyTree;
 @property (nonatomic,readonly) bool canApproveOrRejectPendingEdits;
-
-- (bool)hasPermission:(NSString *)permission;
 
 @end

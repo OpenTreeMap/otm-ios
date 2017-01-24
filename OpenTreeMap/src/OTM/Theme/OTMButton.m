@@ -36,9 +36,7 @@
 }
 
 -(void)loadTheme {
-    [self setBackgroundColor:[UIColor colorWithPatternImage:[[OTMEnvironment sharedEnvironment] buttonImage]]]; 
 
-    self.titleLabel.textColor = [[OTMEnvironment sharedEnvironment] buttonTextColor];
 }
 
 @end

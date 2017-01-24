@@ -19,28 +19,29 @@
 
 @implementation OTMMapDetailCellRenderer
 
--(id)initWithDict:(NSDictionary *)dict user:(OTMUser*)user {
-    self = [super initWithDict:dict user:user];
-    
+-(id)initWithDataKey:(NSString *)datakey {
+    self = [super initWithDataKey:datakey];
+
     if (self) {
         self.cellHeight = kOTMMapTableViewCellHeight;
+        self.editCellRenderer = (id)[[OTMEditMapDetailCellRenderer alloc] initWithDetailRenderer:self];
     }
-    
+
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
     OTMMapTableViewCell *detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMMapDetailCellRendererTableCellId];
-    
+
     if (detailCell == nil) {
         detailCell = [[OTMMapTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                    reuseIdentifier:kOTMMapDetailCellRendererTableCellId];
-    } 
-    
-    CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data];
-    
+    }
+
+    CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data[@"plot"]];
+
     [detailCell annotateCenter:center];
-    
+
     NSDictionary *pendingEditDict = [data objectForKey:@"pending_edits"];
     if ([pendingEditDict objectForKey:self.dataKey]) {
         detailCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -48,15 +49,13 @@
     } else {
         detailCell.accessoryType = UITableViewCellAccessoryNone;
     }
-    
+
     return detailCell;
-}    
+}
 @end
 
 
 @implementation OTMEditMapDetailCellRenderer
-
-@synthesize clickCallback;
 
 -(id)initWithDetailRenderer:(OTMMapDetailCellRenderer *)mapDetailCellRenderer
 {
@@ -64,20 +63,27 @@
     if (self) {
         renderer = mapDetailCellRenderer;
         self.cellHeight = kOTMMapTableViewCellHeight;
+        self.inited = NO;
     }
     return self;
 }
 
 -(UITableViewCell *)prepareCell:(NSDictionary *)data inTable:(UITableView *)tableView {
-    
-    OTMMapTableViewCell *detailCell = (OTMMapTableViewCell *)[super prepareCell:data inTable:tableView];
-    
-    // The edit cell is the same as the non-edit cell except for the presence of the
-    // detail "greater than" arrow.
-    [detailCell setDetailArrowHidden:NO];
-    
+    OTMMapTableViewCell *detailCell;
+
+    if (!self.inited) {
+        detailCell = (OTMMapTableViewCell *)[super prepareCell:data inTable:tableView];
+
+        // The edit cell is the same as the non-edit cell except for the presence of the
+        // detail "greater than" arrow.
+        [detailCell setDetailArrowHidden:NO];
+        self.inited = YES;
+    } else {
+        detailCell = [tableView dequeueReusableCellWithIdentifier:kOTMMapDetailCellRendererTableCellId];
+    }
+
     return detailCell;
-}   
+}
 
 -(NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     return dict;

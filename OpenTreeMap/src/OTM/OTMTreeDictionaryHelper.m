@@ -19,33 +19,47 @@
 
 +(NSMutableDictionary *)setCoordinate:(CLLocationCoordinate2D)coordinate inDictionary:(NSMutableDictionary *)dict
 {
-    NSMutableDictionary *geometryDict = [dict objectForKey:@"geometry"];
+    NSMutableDictionary *geometryDict = [[dict objectForKey:@"plot"] objectForKey:@"geom"];
 
-    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.latitude] forKey:@"lat"];
-
-    if ([geometryDict objectForKey:@"lon"]) {
-        [geometryDict setValue:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"lon"];
-    } else {
-        [geometryDict setValue:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"lng"];
-    }
+    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.latitude] forKey:@"y"];
+    [geometryDict setValue:[NSNumber numberWithFloat:coordinate.longitude] forKey:@"x"];
 
     return dict;
 }
 
 +(CLLocationCoordinate2D)getCoordinateFromDictionary:(NSDictionary *)dict
 {
-    NSDictionary *geometryDict = [dict objectForKey:@"geometry"];
+    NSDictionary *geometryDict = [dict objectForKey:@"geom"];
 
-    float lat = [[geometryDict objectForKey:@"lat"] floatValue];
-    float lon;
-    if ([geometryDict objectForKey:@"lon"]) {
-        lon = [[geometryDict objectForKey:@"lon"] floatValue];
-    } else {
-        lon = [[geometryDict objectForKey:@"lng"] floatValue];
-    }
+    float lat = [[geometryDict objectForKey:@"y"] floatValue];
+    float lng = [[geometryDict objectForKey:@"x"] floatValue];
 
-    return CLLocationCoordinate2DMake(lat, lon);
+    return CLLocationCoordinate2DMake(lat, lng);
 }
 
++(NSArray *)getPhotosArrayInDictionary:(NSDictionary *)dict
+{
+    NSArray* photos = [dict objectForKey:@"photos"];
+    if (photos && [photos isKindOfClass:[NSArray class]] && [photos count] > 0) {
+        return photos;
+    } else {
+        return nil;
+    }
+}
+
++(NSDictionary *)getLatestPhotoInDictionary:(NSDictionary *)dict
+{
+    return [[self getPhotosArrayInDictionary:dict] lastObject];
+}
+
++(NSString *)getLatestPhotoUrlInDictionary:(NSDictionary *)dict
+{
+    NSDictionary* photo = [self getLatestPhotoInDictionary:dict];
+    if (photo) {
+        return [[OTMEnvironment sharedEnvironment] absolutePhotoUrlFromPhotoUrl:[photo objectForKey:@"image"]];
+    } else {
+        return nil;
+    }
+}
 
 @end

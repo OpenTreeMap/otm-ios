@@ -16,7 +16,7 @@
 #import "OTMTreeDetailViewController.h"
 #import "OTMDetailTableViewCell.h"
 #import "OTMSpeciesTableViewController.h"
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 #import "OTMMapViewController.h"
 #import "OTMDetailCellRenderer.h"
 #import "AZWaitingOverlayController.h"
@@ -24,6 +24,8 @@
 #import "OTMTreeDictionaryHelper.h"
 #import "OTMFieldDetailViewController.h"
 #import "OTMImageViewController.h"
+#import "OTMChoicesDetailCellRenderer.h"
+#import "UIView+Borders.h"
 
 @interface OTMTreeDetailViewController ()
 
@@ -49,40 +51,18 @@
 
 -(void)syncTopData {
     if (self.data) {
-        NSString *addr = [self.data objectForKey:@"address"];
-        if (!addr || (id)addr == [NSNull null] ||
-            [addr isEqualToString:@""]) {
-            self.address.text = @"No Address";
-        } else {
-            self.address.text = addr;
-        }
+        self.address.text = [[self buildAddressStringFromPlotDictionary:self.data] uppercaseString];
 
-        NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species"];
+        NSDictionary *pendingSpeciesEditDict = [[self.data objectForKey:@"pending_edits"] objectForKey:@"tree.species.common_name"];
         if (pendingSpeciesEditDict) {
             NSDictionary *latestEdit = [[pendingSpeciesEditDict objectForKey:@"pending_edits"] objectAtIndex:0];
             self.species.text = [[latestEdit objectForKey:@"related_fields"] objectForKey:@"tree.species_name"];
         } else {
-            if ([self.data decodeKey:@"tree.species_name"]) {
-                self.species.text = [self.data decodeKey:@"tree.species_name"];
+            if ([self.data decodeKey:@"tree.species.common_name"]) {
+                self.species.text = [self.data decodeKey:@"tree.species.common_name"];
             } else {
                 self.species.text = @"Missing Species";
             }
-        }
-
-        NSString *upd_on = [self reformatLastUpdateDate:[self.data objectForKey:@"last_updated"]];
-
-        if (upd_on == nil) {
-            upd_on = @"just now";
-        }
-
-        self.lastUpdateDate.text = [NSString stringWithFormat:@"Updated %@", upd_on];
-
-        NSString *by = [self.data objectForKey:@"last_updated_by"];
-
-        if (by) {
-            self.updateUser.text = [NSString stringWithFormat:@"By %@", by];
-        } else {
-            self.updateUser.text = @"";
         }
     }
 }
@@ -95,7 +75,7 @@
 
     NSCalendar *cal = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateFormatter *readFormatter = [[NSDateFormatter alloc] init];
-    [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [readFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SZ"];
     [readFormatter setCalendar:cal];
     [readFormatter setLocale:[NSLocale currentLocale]];
     NSDate *date = [readFormatter dateFromString:dateString];
@@ -110,6 +90,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [headerView addBottomBorder];
+
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
     if (pictureTaker == nil) {
         pictureTaker = [[OTMPictureTaker alloc] init];
@@ -140,7 +126,7 @@
              [(id)[self data] setObject:tree forKey:@"tree"];
          }
 
-         NSArray *photos = [tree objectForKey:@"images"];
+         NSArray *photos = [data objectForKey:@"images"];
          if (photos == nil) {
              photos = [NSArray array];
          }
@@ -149,7 +135,7 @@
                                                            @"OTM-Mobile Photo", @"title",
                                                            image, @"data", nil];
 
-         [tree setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
+         [data setObject:[photos arrayByAddingObject:newPhotoInfo] forKey:@"images"];
 
      }];
 
@@ -174,6 +160,12 @@
     NSArray *mapSection = [NSArray arrayWithObjects:mapEditCellRenderer,nil];
     [editableFields addObject:mapSection];
 
+    // Create and add a read only map view to the top of the view mode
+    OTMMapDetailCellRenderer *readOnlyMapDetailCellRenderer = [[OTMMapDetailCellRenderer alloc] init];
+    readOnlyMapDetailCellRenderer.cellHeight = 120;
+    NSArray *readOnlyMapSection = [NSArray arrayWithObject:readOnlyMapDetailCellRenderer];
+    [allFields insertObject:readOnlyMapSection atIndex:0];
+
     OTMStaticClickCellRenderer *speciesRow =
     [[OTMStaticClickCellRenderer alloc] initWithKey:@"tree.species_name"
                                       clickCallback:^(OTMDetailCellRenderer *renderer)
@@ -195,16 +187,12 @@
     NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow,pictureRow,nil];
     [editableFields addObject:speciesAndPicSection];
 
-    OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
-    OTMUser *user = loginManager.loggedInUser;
-
-
     for(int section=0;section < [allFields count];section++) {
         NSMutableArray *sectionArray = [[allFields objectAtIndex:section] mutableCopy];
         NSMutableArray *editSectionArray = [NSMutableArray array];
 
         for(int row=0;row < [sectionArray count]; row++) {
-            OTMDetailCellRenderer *renderer = [OTMDetailCellRenderer cellRendererFromDict:[sectionArray objectAtIndex:row] user:user];
+            OTMDetailCellRenderer *renderer = [sectionArray objectAtIndex:row];
 
             if (renderer.editCellRenderer != nil) {
                 [editSectionArray addObject:renderer.editCellRenderer];
@@ -224,13 +212,32 @@
     txToEditRemove = txToEditRm;
     editFields = editableFields;
 
+    [editFields enumerateObjectsUsingBlock:^(NSArray *section, NSUInteger idx, BOOL *stop) {
+        [section enumerateObjectsUsingBlock:^(OTMEditDetailCellRenderer *obj, NSUInteger idx, BOOL *stop) {
+            obj.inited = NO;
+          }];
+      }];
+
     curFields = allFields;
 
     self.navigationItem.rightBarButtonItem.enabled = [self canEditBothPlotAndTree];
 }
 
+- (void)setEcoKeys:(NSArray *)ecoKeys {
+    NSUInteger startingIndex = [allFields count];
+    for (int section=0; section < [ecoKeys count]; section ++) {
+        NSMutableArray *ecoFieldRenderers = [[NSMutableArray alloc] init];
+        NSArray *ecoFields = [ecoKeys objectAtIndex:section];
+        for (int row=0; row < [ecoFields count]; row++) {
+            [ecoFieldRenderers addObject:[ecoFields objectAtIndex:row]];
+            [(NSMutableArray*)txToEditRemove addObject:[NSIndexPath indexPathForRow:row inSection:startingIndex + section]];
+        }
+        [(NSMutableArray*)allFields addObject:ecoFieldRenderers];
+    }
+}
+
 - (IBAction)showTreePhotoFullscreen:(id)sender {
-    NSArray *images = [[self.data objectForKey:@"tree"] objectForKey:@"images"];
+    NSArray *images = [self.data objectForKey:@"images"];
     NSString* imageURL = [[images objectAtIndex:0] objectForKey:@"url"];
 
     if (imageURL) {
@@ -247,11 +254,18 @@
         if (success) {
             if (prevUser == nil) {
                 [self setKeys:allKeys];
-                [[[OTMEnvironment sharedEnvironment] api] getPlotInfo:[[self.data objectForKey:@"id"] intValue]
+                [[[OTMEnvironment sharedEnvironment] api] getPlotInfo:[self.data[@"plot"][@"id"] intValue]
             user:aUser
             callback:^(id newData, NSError *error) {
-                self.data = newData;
-                [self enterEditModeIfAllowed];
+                        // need to reload all cells
+                        [self setKeys:[[OTMEnvironment sharedEnvironment] fieldKeys]];
+
+                        // On main thread?
+                        [self.tableView reloadData];
+
+                        self.data = newData;
+                        [self enterEditModeIfAllowed];
+
             }];
             } else {
                 loginManager.loggedInUser = aUser;
@@ -303,6 +317,9 @@
         [self.tableView deleteRowsAtIndexPaths:txToEditRemove
                               withRowAnimation:UITableViewRowAnimationFade];
 
+        // Remove the eco section, which is appended to the end and never editable
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:[allFields count]-1] withRowAnimation:UITableViewRowAnimationFade];
+
         // There are 2 fixed sections to be added when editing: the mini map section and the species/photo section
         [self.tableView insertSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];
@@ -336,6 +353,10 @@
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]
                       withRowAnimation:UITableViewRowAnimationFade];
 
+        // Resore the eco section which was removed during editing. It is always the last section
+        [self.tableView insertSections:[NSIndexSet indexSetWithIndex:[allFields count]-1]
+                      withRowAnimation:UITableViewRowAnimationFade];
+
         [self.tableView insertRowsAtIndexPaths:txToEditRemove
                               withRowAnimation:UITableViewRowAnimationFade];
 
@@ -355,7 +376,7 @@
             OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
             OTMUser *user = loginManager.loggedInUser;
 
-            if ([self.data objectForKey:@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
+            if (self.data[@"plot"][@"id"] == nil) { // No 'id' parameter indicates that this is a new plot/tree
 
                 NSLog(@"Sending new tree data:\n%@", data);
 
@@ -368,6 +389,7 @@
 
                     if (err == nil) {
                         data = [json mutableDeepCopy];
+                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"geoRevHash"]];
                         [self pushImageData:pendingImageData newTree:YES];
                     } else {
                         NSLog(@"Error adding tree: %@", err);
@@ -388,12 +410,17 @@
 
                     [[AZWaitingOverlayController sharedController] hideOverlay];
 
+                    UIImage *latestPhoto = [pendingImageData count] > 0 ? [pendingImageData objectAtIndex:0] : nil;
+
                     if (err == nil) {
-                        if (err == nil) {
-                            [self pushImageData:pendingImageData newTree:NO];
-                            self.data = [json mutableDeepCopy];
-                            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData];
-                        }
+                        self.data = [json mutableDeepCopy];
+                        [self pushImageData:pendingImageData newTree:NO];
+                        [[OTMEnvironment sharedEnvironment] setGeoRev:data[@"geoRevHash"]];
+                        [delegate viewController:self
+                                      editedTree:(NSDictionary *)data
+                            withOriginalLocation:originalLocation
+                                    originalData:originalData
+                                       withPhoto:latestPhoto];
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
                         [[[UIAlertView alloc] initWithTitle:nil
@@ -408,7 +435,7 @@
     }
 
     // No 'id' parameter indicates that this view was shown to edit a new plot/tree
-    if ([self.data objectForKey:@"id"] == nil && !saveChanges) {
+    if ([[self.data objectForKey:@"plot"] objectForKey:@"id"] == nil && !saveChanges) {
         [delegate treeAddCanceledByViewController:self];
     }
 
@@ -424,7 +451,7 @@
     NSMutableArray *pending = [NSMutableArray array];
     NSArray *treePhotos;
     if ([data objectForKey:@"tree"] && [data objectForKey:@"tree"] != [NSNull null]) {
-        treePhotos = [[data objectForKey:@"tree"] objectForKey:@"images"];
+        treePhotos = [data objectForKey:@"images"];
     }
     NSMutableArray *savedTreePhotos = [NSMutableArray array];
     if (treePhotos) {
@@ -435,18 +462,22 @@
                 [savedTreePhotos addObject:treePhoto];
             }
         }
-        [[data objectForKey:@"tree"] setObject:savedTreePhotos forKey:@"images"];
+        [data setObject:savedTreePhotos forKey:@"images"];
     }
     return pending;
 }
 
 - (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree {
+    [self pushImageData:images newTree:newTree latestImage:nil];
+}
+
+- (void)pushImageData:(NSArray *)images newTree:(BOOL)newTree latestImage:(UIImage *)latestImage {
     if (images == nil || [images count] == 0) { // No images to push
         [[AZWaitingOverlayController sharedController] hideOverlay];
         if (newTree) {
-            [self.delegate viewController:self addedTree:data];
+            [self.delegate viewController:self addedTree:data withPhoto:latestImage];
         } else {
-            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData];
+            [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData withPhoto:latestImage];
             [self syncTopData];
             [self.tableView reloadData];
         }
@@ -459,8 +490,10 @@
         OTMLoginManager* loginManager = [SharedAppDelegate loginManager];
         OTMUser *user = loginManager.loggedInUser;
 
+        NSInteger plotid = [self.data[@"plot"][@"id"] intValue];
+
         [[[OTMEnvironment sharedEnvironment] api] setPhoto:image
-                                              onPlotWithID:[[self.data objectForKey:@"id"] intValue]
+                                              onPlotWithID:plotid
                                                   withUser:user
                                                   callback:^(id json, NSError *err)
            {
@@ -468,7 +501,7 @@
                    [[NSNotificationCenter defaultCenter] postNotificationName:kOTMMapViewControllerImageUpdate
                                                                        object:image];
                    //TODO: Need to stick image back in here somehow
-                   [self pushImageData:rest newTree:newTree];
+                   [self pushImageData:rest newTree:newTree latestImage:image];
                } else {
                    [[AZWaitingOverlayController sharedController] hideOverlay];
                    NSLog(@"Error adding photo to tree: %@\n %@", err, data);
@@ -487,10 +520,8 @@
     if ([segue.identifier isEqualToString:@"changeSpecies"]) {
         OTMSpeciesTableViewController *sVC = (OTMSpeciesTableViewController *)segue.destinationViewController;
 
-        sVC.callback = ^(NSNumber *sId, NSString *name, NSString *scientificName) {
-            [self.data setObject:sId forEncodedKey:@"tree.species"];
-            [self.data setObject:name forEncodedKey:@"tree.species_name"];
-            [self.data setObject:scientificName forEncodedKey:@"tree.sci_name"];
+        sVC.callback = ^(NSDictionary *sdict) {
+            [self.data setObject:sdict forEncodedKey:@"tree.species"];
             [self syncTopData];
 
             [self.tableView reloadRowsAtIndexPaths:[NSArray
@@ -509,7 +540,7 @@
 
         changeLocationViewController.navigationItem.title = @"Move Tree";
 
-        CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data];
+        CLLocationCoordinate2D center = [OTMTreeDictionaryHelper getCoordinateFromDictionary:data[@"plot"]];
 
         [changeLocationViewController annotateCenter:center];
     } else if ([segue.identifier isEqualToString:@"fieldDetail"]) {
@@ -518,15 +549,9 @@
         OTMFieldDetailViewController *fieldDetailViewController = segue.destinationViewController;
         fieldDetailViewController.data = data;
         fieldDetailViewController.fieldKey = [renderer dataKey];
-        if ([renderer respondsToSelector:@selector(label)]) {
-            fieldDetailViewController.fieldName = [renderer label];
-        }
         fieldDetailViewController.ownerFieldKey = [renderer ownerDataKey];
-        if ([renderer respondsToSelector:@selector(formatStr)]) {
-            fieldDetailViewController.fieldFormatString = [renderer formatStr];
-        }
         if ([renderer respondsToSelector:@selector(fieldName)] && [renderer respondsToSelector:@selector(fieldChoices)]) {
-            fieldDetailViewController.choices = [[[OTMEnvironment sharedEnvironment] choices] objectForKey:[renderer fieldName]];
+            fieldDetailViewController.choices = [renderer fieldChoices];
         } else {
             // The view controller uses the presence of this property to determine how
             // to display the value, so it must be nil'd out if ot os not a choices field
@@ -541,7 +566,7 @@
         };
     } else if ([segue.identifier isEqualToString:@"showImage"]) {
         OTMImageViewController *controller = segue.destinationViewController;
-        [controller loadImage:sender];
+        [controller loadImage:sender forPlot:self.data];
     }
 }
 
@@ -571,16 +596,12 @@
         // when it is in edit mode, so the section labels no longer apply.
         return nil;
     } else {
-        NSString *title = nil;
-        NSDictionary *fieldSectionDict = [[[OTMEnvironment sharedEnvironment] fieldSections] objectAtIndex:section];
-        if (fieldSectionDict) {
-            if ([fieldSectionDict objectForKey:@"label"]) {
-                if (![(NSString *)[fieldSectionDict objectForKey:@"label"] isEqualToString:@""]) {
-                    title = [fieldSectionDict objectForKey:@"label"];
-                }
-            }
+        NSString *title = [[[OTMEnvironment sharedEnvironment] sectionTitles] objectAtIndex:section];
+        if (title != nil && ![title isEqualToString:@""]) {
+            return title;
+        } else {
+            return nil;
         }
-        return title;
     }
 }
 

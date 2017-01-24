@@ -16,40 +16,87 @@
 
 #import "OTMImageViewController.h"
 #import "AZWaitingOverlayController.h"
+#import "OTMTreeDictionaryHelper.h"
+#import "OTMInappropriateContentMailViewController.h"
 
 @interface OTMImageViewController ()
 
 @end
 
-@implementation OTMImageViewController 
+@implementation OTMImageViewController
 
-- (void)loadImage:(NSString *)url {
+- (void)loadImage:(NSString *)url forPlot:(NSDictionary *)plot
+{
+    self.data = plot;
+    self.imageView.image = nil;
     [[AZWaitingOverlayController sharedController] showOverlayWithTitle:@"Downloading"];
-    [[[OTMEnvironment sharedEnvironment] api] getTreeImage:url callback:^(UIImage *image, NSError *error) {
-        if (error) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                message:@"Could not download image"
-                                                               delegate:nil
-                                                        cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-            [alertView show];
-        } else {
-            self.imageView.image = image;
-        }
-        [[AZWaitingOverlayController sharedController] hideOverlay];
-    }];
+
+    dispatch_async(dispatch_get_global_queue(0,0), ^{
+        NSData *imageData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[AZWaitingOverlayController sharedController] hideOverlay];
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData: imageData];
+                self.imageView.image = image;
+                self.scrollView.contentSize = self.imageView.image.size;
+                self.imageView.frame = CGRectMake(0, 0, self.imageView.image.size.width, self.imageView.image.size.height);
+                self.scrollView.minimumZoomScale = self.scrollView.frame.size.width / image.size.width;
+                self.scrollView.zoomScale = self.scrollView.frame.size.width / image.size.width;
+            } else {
+                NSLog(@"Failed to load photo with url %@", url);
+                // TODO: Log more info about _why_ the image reqest failed
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                    message:@"Could not download image"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil];
+                [alertView show];
+            }
+        });
+    });
+}
+
+- (void)handleImageDoubleTap:(id)thing {
+    CGFloat zoomScale = self.scrollView.frame.size.width / self.imageView.image.size.width;
+    [self.scrollView setZoomScale:zoomScale animated:YES];
 }
 
 - (void)viewDidLoad
 {
+    self.imageView.userInteractionEnabled = YES;
+    self.scrollView.delegate = (id)self;
+
+    UITapGestureRecognizer *imageDoubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageDoubleTap:)];
+    imageDoubleTap.numberOfTapsRequired = 2;
+    [self.imageView addGestureRecognizer:imageDoubleTap];
+
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    return [self imageView];
+}
+
+- (IBAction)reportInappropriate:(id)sender
+{
+    NSDictionary *photo = [OTMTreeDictionaryHelper getLatestPhotoInDictionary:self.data];
+    OTMInappropriateContentMailViewController *mailViewController =
+        [[OTMInappropriateContentMailViewController alloc] initWithPhotoDictionary:photo];
+    mailViewController.mailComposeDelegate = self;
+    [self presentModalViewController:mailViewController animated:YES];
+}
+
+# pragma mark MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

@@ -14,7 +14,7 @@
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
 #import "OTMDetailTableViewCell.h"
-#import "OTMFormatters.h"
+#import "OTMFormatter.h"
 
 @implementation OTMDetailTableViewCell
 
@@ -23,39 +23,45 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {        
+    if (self) {
         CGRect frame = self.frame;
-        
-        CGRect leftFrame = CGRectMake(25, 0, 
-                                      CGRectGetMidX(frame),
-                                      frame.size.height);
-        CGRect rightFrame = CGRectMake(CGRectGetMidX(frame), 0,
-                                       CGRectGetMidX(frame) - 25,
-                                       frame.size.height);
-        
+
+        CGRect nameFrame = CGRectMake(14, 0,
+                                      frame.size.width - 14,
+                                      frame.size.height / 2);
+        CGRect valueFrame = CGRectMake(14, frame.size.height/2 - 2,
+                                       frame.size.width - 14,
+                                       frame.size.height / 2);
+
         CGRect inputFrame = CGRectMake(195, 6,
                                        98,
-                                       31);       
-        
-        self.fieldLabel = [self labelWithFrame:leftFrame];
-        self.fieldValue = [self labelWithFrame:rightFrame];
-        
+                                       31);
+
+        CGRect unitFrame = CGRectMake(297, 6,
+                                       21,
+                                       31);
+
+        self.fieldLabel = [self labelWithFrame:nameFrame];
+        self.fieldValue = [self labelWithFrame:valueFrame];
+        self.unitLabel = [self labelWithFrame:unitFrame];
+        [self.unitLabel setTextColor:[UIColor grayColor]];
+
         self.editFieldValue = [[UITextField alloc] initWithFrame:inputFrame];
         self.editFieldValue.textAlignment = UITextAlignmentRight;
         self.editFieldValue.delegate = self;
         self.editFieldValue.borderStyle = UITextBorderStyleRoundedRect;
 
-        
         [self.fieldLabel setTextColor:[UIColor grayColor]];
-        
-        self.pendImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pend"]];        
+
+        self.pendImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pend"]];
         self.pendImageView.frame = CGRectMake(self.frame.size.width - pendImageView.frame.size.width- 20, self.frame.origin.y + 15, pendImageView.frame.size.width, pendImageView.frame.size.height);
-        
+
         [self addSubview:self.fieldValue];
         [self addSubview:self.fieldLabel];
         [self addSubview:self.editFieldValue];
         [self addSubview:self.pendImageView];
-        
+        [self addSubview:self.unitLabel];
+
         pendImageView.hidden = YES;
         editFieldValue.hidden = YES;
     }
@@ -75,17 +81,17 @@
     label.textAlignment = UITextAlignmentLeft;
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont systemFontOfSize:15];
-    
+
     return label;
 }
 
 #pragma mark Text Field Delegates
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
+
     NSString *newText = [textField.text stringByReplacingCharactersInRange:range
                                                                 withString:string];
-    
+
     return textField.keyboardType != UIKeyboardTypeDecimalPad || [[newText componentsSeparatedByString:@"."] count] <= 2;
 }
 

@@ -13,20 +13,15 @@
 // You should have received a copy of the GNU General Public License
 // along with OpenTreeMap.  If not, see <http://www.gnu.org/licenses/>.
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-/**
- * Formatting methods for table view cell data
- */
-@interface OTMFormatters : NSObject
+@interface OTMViewController : UIViewController
 
-+(NSString*)fmtIn:(NSNumber*)number;
-+(NSString*)fmtFt:(NSNumber*)number;
-+(NSString*)fmtM:(NSNumber*)number;
-+(NSString*)fmtOtmApiDateString:(NSString*)dateString;
-+(NSString*)fmtUnitDict:(NSDictionary*)d;
-+(NSString*)fmtDollarsDict:(NSDictionary*)d;
+- (NSString *)buildAddressStringFromPlotDictionary:(NSDictionary *)dict;
 
-+(NSString*)fmtObject:(id)obj withKey:(NSString*)key;
+#pragma mark UISegmentedControl background drawing methods
+
+- (UIView *)addBackgroundViewBelowSegmentedControl:(UISegmentedControl *)segmentedControl;
+- (void)updateBackgroundView:(UIView *)backgroundView forSegmentedControl:(UISegmentedControl *)segmentedControl;
 
 @end

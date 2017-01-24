@@ -24,8 +24,10 @@
 @protocol OTMTreeDetailViewDelegate <NSObject>
 @required
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details;
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details withPhoto:(UIImage *)photo;
 
 - (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData;
+- (void)viewController:(OTMTreeDetailViewController *)viewController editedTree:(NSDictionary *)details withOriginalLocation:(CLLocationCoordinate2D)coordinate originalData:(NSDictionary *)originalData withPhoto:(UIImage *)photo;
 
 - (void)treeAddCanceledByViewController:(OTMTreeDetailViewController *)viewController;
 
@@ -80,6 +82,14 @@
  * be the empty string)
  */
 @property (nonatomic, strong) NSArray* keys;
+
+/**
+ * Array[OTMDetailCellRenderer] ecoKeys to display in the main table
+ *
+ * Each element in the array is a field for displaying a single eco
+ * benefit in a table row
+ */
+@property (nonatomic, strong) NSArray* ecoKeys;
 
 - (IBAction)showTreePhotoFullscreen:(id)sender;
 - (IBAction)startOrCommitEditing:(id)sender;

@@ -32,7 +32,7 @@ typedef void(^ASIRequestConfig)(ASIHTTPRequest* req);
  */
 @interface AZHttpRequest : NSObject
 
-@property (nonatomic,copy,readonly) NSString* baseURL;
+@property (nonatomic,copy) NSString* baseURL;
 @property (nonatomic,strong) NSDictionary* headers;
 @property (nonatomic,readonly) NSOperationQueue *queue;
 @property (nonatomic,assign) BOOL synchronous;

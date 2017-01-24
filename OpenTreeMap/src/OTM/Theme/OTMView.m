@@ -36,7 +36,7 @@
 }
 
 -(void)loadTheme {
-    [self setBackgroundColor:[[OTMEnvironment sharedEnvironment] viewBackgroundColor]];
+
 }
 
 @end

@@ -166,11 +166,14 @@
 
 - (void)setObject:(id)inObject forKey:(id)key 
 {
-    if (inObject == nil) return;
     id currentObject = [keychainItemData objectForKey:key];
     if (![currentObject isEqual:inObject])
     {
-        [keychainItemData setObject:inObject forKey:key];
+        if (inObject == nil) {
+            [keychainItemData removeObjectForKey:key];
+        } else {
+            [keychainItemData setObject:inObject forKey:key];
+        }
         [self writeToKeychain];
     }
 }

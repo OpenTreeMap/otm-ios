@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="yby-6X-duV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="yby-6X-duV">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
-        <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <deployment defaultVersion="1280" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Login View Controller - Login-->
         <scene sceneID="mqp-ct-KCq">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="L0C-eW-pfw" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="EnD-Jy-kmP" customClass="OTMLoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HeN-cx-VCM" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="NWs-gY-S9F">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="152" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ksU-zL-X0Q">
@@ -55,14 +53,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cqW-QL-Yv8" customClass="OTMButton">
                                         <rect key="frame" x="20" y="206" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Login">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
+                                        <state key="normal" title="Login"/>
                                         <connections>
                                             <action selector="attemptLogin:" destination="EnD-Jy-kmP" eventType="touchUpInside" id="n5P-tb-JLK"/>
                                         </connections>
@@ -70,14 +61,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NMm-8N-6Ik" customClass="OTMButton">
                                         <rect key="frame" x="20" y="251" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Forgot Password?">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
+                                        <state key="normal" title="Forgot Password?"/>
                                         <connections>
                                             <segue destination="H9t-wG-bYo" kind="push" id="X2r-h1-V2e"/>
                                         </connections>
@@ -90,26 +74,15 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="H9A-Nd-VAQ" customClass="OTMButton">
                                         <rect key="frame" x="20" y="305" width="280" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Register">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
+                                        <state key="normal" title="Register"/>
                                         <connections>
                                             <segue destination="EHZ-o9-hUZ" kind="push" id="w30-MA-MRK"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" id="zdp-Bv-4Jj">
-                                        <rect key="frame" x="20" y="7" width="280" height="108"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
                                 </subviews>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="AbS-sY-mI2">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Rbc-pD-x0L">
@@ -127,13 +100,13 @@
                         <outlet property="view" destination="HeN-cx-VCM" id="fHj-88-Z6k"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L0C-eW-pfw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="314" y="-832"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1TN-SY-dg5">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gax-s2-Jyp" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="yby-6X-duV" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="TCb-Vy-8MH" customClass="OTMNavigationBar">
                         <autoresizingMask key="autoresizingMask"/>
@@ -147,24 +120,24 @@
                         <segue destination="EnD-Jy-kmP" kind="relationship" relationship="rootViewController" id="6FT-yv-0RP"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gax-s2-Jyp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-121" y="-832"/>
         </scene>
         <!--Registration View Controller - Create Profile-->
         <scene sceneID="zbw-ai-tXB">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lDl-L0-tWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="EHZ-o9-hUZ" customClass="OTMRegistrationViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rdP-k2-Kth" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4ib-y6-i1v">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="152" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" tag="1201" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email address" minimumFontSize="17" id="Leg-k9-GO8">
-                                        <rect key="frame" x="20" y="114" width="280" height="31"/>
+                                        <rect key="frame" x="24" y="14" width="280" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
@@ -173,7 +146,7 @@
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" tag="1202" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" minimumFontSize="17" id="EPK-95-w9t">
-                                        <rect key="frame" x="20" y="150" width="280" height="31"/>
+                                        <rect key="frame" x="24" y="50" width="280" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress" secureTextEntry="YES"/>
@@ -182,7 +155,7 @@
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" tag="1204" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" minimumFontSize="17" id="83T-RB-vAP">
-                                        <rect key="frame" x="20" y="221" width="280" height="31"/>
+                                        <rect key="frame" x="24" y="121" width="280" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -191,7 +164,7 @@
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" tag="1203" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="verify password" minimumFontSize="17" id="e39-YE-7jE">
-                                        <rect key="frame" x="20" y="185" width="280" height="31"/>
+                                        <rect key="frame" x="24" y="85" width="280" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress" secureTextEntry="YES"/>
@@ -200,7 +173,7 @@
                                         </connections>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" tag="1205" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="first name" minimumFontSize="17" id="bzJ-Z2-gKc">
-                                        <rect key="frame" x="20" y="257" width="134" height="31"/>
+                                        <rect key="frame" x="24" y="157" width="134" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -208,17 +181,8 @@
                                             <outlet property="delegate" destination="EHZ-o9-hUZ" id="r3n-2e-59O"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="1207" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="zipcode" minimumFontSize="17" id="qxM-0I-LMq">
-                                        <rect key="frame" x="20" y="293" width="280" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                        <connections>
-                                            <outlet property="delegate" destination="EHZ-o9-hUZ" id="sbW-n2-2Cy"/>
-                                        </connections>
-                                    </textField>
                                     <textField opaque="NO" clipsSubviews="YES" tag="1206" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="last name" minimumFontSize="17" id="CbR-tg-8o1">
-                                        <rect key="frame" x="166" y="257" width="134" height="31"/>
+                                        <rect key="frame" x="170" y="157" width="134" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -227,38 +191,28 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fxs-wP-v2T" customClass="OTMButton">
-                                        <rect key="frame" x="87" y="335" width="213" height="66"/>
+                                        <rect key="frame" x="87" y="238" width="213" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Add Profile Picture">
-                                            <color key="titleColor" red="1" green="0.98690542999999997" blue="0.94762171989999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="getPicture:" destination="EHZ-o9-hUZ" eventType="touchUpInside" id="JwO-ru-5sU"/>
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="9xO-3l-kZO">
-                                        <rect key="frame" x="12" y="335" width="67" height="69"/>
+                                        <rect key="frame" x="24" y="235" width="67" height="69"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="0.90907542610000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" id="6b2-Zt-3vn">
-                                        <rect key="frame" x="20" y="7" width="280" height="108"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.98690542999999997" blue="0.94762171989999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Profile" id="6Uz-Gy-6Uu">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="Fma-Oh-J3E">
                             <connections>
-                                <action selector="createNewUser:" destination="EHZ-o9-hUZ" id="SaL-bt-Jpv"/>
+                                <action selector="validateAndShowEULA:" destination="EHZ-o9-hUZ" id="lEk-a6-Tkb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -274,19 +228,55 @@
                         <outlet property="username" destination="83T-RB-vAP" id="N34-ht-Dzx"/>
                         <outlet property="verifyPassword" destination="e39-YE-7jE" id="9ag-3r-bnR"/>
                         <outlet property="view" destination="rdP-k2-Kth" id="K5d-Uj-3sW"/>
-                        <outlet property="zipCode" destination="qxM-0I-LMq" id="Ulf-Z2-ckt"/>
+                        <segue destination="4vG-ZF-nSf" kind="push" identifier="eula" id="9Dp-cH-qo7"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lDl-L0-tWs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="788" y="-832"/>
+            <point key="canvasLocation" x="887" y="-866"/>
+        </scene>
+        <!--View Controller - Terms of Service-->
+        <scene sceneID="XYL-el-r2F">
+            <objects>
+                <viewController storyboardIdentifier="EULAController" id="4vG-ZF-nSf" customClass="OTMEULAViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I45-WE-C1e">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" keyboardDisplayRequiresUserAction="NO" id="tli-yx-sTv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Terms of Service" id="J7u-h7-v1c">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="irt-cG-1VM">
+                            <connections>
+                                <action selector="rejectEULA:" destination="4vG-ZF-nSf" id="hLU-f4-wTQ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Accept" id="ho5-GL-PfI">
+                            <connections>
+                                <action selector="acceptEULA:" destination="4vG-ZF-nSf" id="MwV-Ma-VJV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="webview" destination="tli-yx-sTv" id="n8Q-uN-zFk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MMi-Fc-5Rr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1323" y="-767"/>
         </scene>
         <!--Password Reset View Controller - Reset Password-->
         <scene sceneID="1ld-VF-WiR">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8wa-gv-6ua" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="H9t-wG-bYo" customClass="OTMPasswordResetViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MWR-vL-RSB" customClass="OTMView">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="email address" minimumFontSize="17" id="zjP-Zq-XLq">
@@ -298,22 +288,13 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MTs-kv-CnC" customClass="OTMButton">
                                 <rect key="frame" x="20" y="170" width="280" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Reset Password">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <state key="normal" title="Send Password Reset Email">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="resetPassword:" destination="H9t-wG-bYo" eventType="touchUpInside" id="TdF-je-qb7"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="logo.png" id="U4r-UV-K7e">
-                                <rect key="frame" x="14" y="7" width="280" height="108"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.98690542999999997" blue="0.94762171989999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -324,64 +305,14 @@
                         <outlet property="view" destination="MWR-vL-RSB" id="caF-IB-taH"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8wa-gv-6ua" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="788" y="-245"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="logo.png" width="300" height="170"/>
-    </resources>
-    <classes>
-        <class className="OTMButton" superclassName="UIButton">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMButton.h"/>
-        </class>
-        <class className="OTMLoginViewController" superclassName="OTMScrollAwareViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMLoginViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="attemptLogin:"/>
-                <relationship kind="outlet" name="password" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="username" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="OTMNavigationBar" superclassName="UINavigationBar">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMNavigationBar.h"/>
-        </class>
-        <class className="OTMPasswordResetViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMPasswordResetViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="resetPassword:"/>
-                <relationship kind="outlet" name="email" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="OTMRegistrationViewController" superclassName="OTMScrollAwareViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMRegistrationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="getPicture:"/>
-                <relationship kind="outlet" name="changeProfilePic" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="email" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="firstName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="lastName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="password" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="profileImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="username" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="verifyPassword" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="zipCode" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="OTMScrollAwareViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMScrollAwareViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="completedForm:"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="OTMView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OTMView.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>
