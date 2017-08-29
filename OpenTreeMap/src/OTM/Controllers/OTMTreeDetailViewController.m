@@ -570,6 +570,32 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
     [self toggleEditMode:NO];
 }
 
+- (NSString *)messageFromValidationErrorResponse:(NSString *)body error:(NSError *)error {
+    NSData *bodyData = [body dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:bodyData
+                                              options:0
+                                                error:&error];
+    if (error) {
+        return nil;
+    }
+    NSArray *globals = [json objectForKey:@"globalErrors"];
+    NSDictionary *fields = [json objectForKey:@"fieldErrors"];
+    // We have limited space in a UIAlertView, so we show just the first global message
+    // and the first field validation message
+    NSString *fieldMessage = @"";
+    NSString *globalMessage = @"One or more field values is invalid.";
+    if ([[fields allValues] count] > 0) {
+        NSString *trimmed = [[[[fields allValues] objectAtIndex:0] objectAtIndex:0]
+                             stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        fieldMessage = [NSString stringWithFormat: @"\n\n%@", trimmed];
+    }
+    if ([globals count] > 0) {
+        globalMessage = [[globals objectAtIndex:0]
+                         stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    }
+    return [NSString stringWithFormat: @"%@%@", globalMessage, fieldMessage];
+}
+
 - (void)toggleEditMode:(BOOL)saveChanges
 {
     [self.activeField resignFirstResponder];
@@ -661,11 +687,24 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                         [self pushImageData:pendingImageData newTree:YES];
                     } else {
                         NSLog(@"Error adding tree: %@", err);
-                        [[[UIAlertView alloc] initWithTitle:nil
-                                                    message:@"Sorry. There was a problem saving the new tree."
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil] show];
+
+                        if ([[[err userInfo] objectForKey:@"statusCode"] integerValue] == 400) {
+                            NSError *jsonParseErr;
+                            NSString *message = [self messageFromValidationErrorResponse:[[err userInfo] objectForKey:@"body"] error:jsonParseErr];
+                            if (!jsonParseErr) {
+                                [[[UIAlertView alloc] initWithTitle:nil
+                                                            message:message
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil] show];
+                            }
+                        } else {
+                            [[[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"Sorry. There was a problem saving the new tree."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil] show];
+                        }
                     }
                 }];
             } else {
@@ -691,11 +730,23 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                                        withPhoto:latestPhoto];
                     } else {
                         NSLog(@"Error updating tree: %@\n %@", err, data);
-                        [[[UIAlertView alloc] initWithTitle:nil
-                                                    message:@"Sorry. There was a problem saving the updated tree details."
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil] show];
+                        if ([[[err userInfo] objectForKey:@"statusCode"] integerValue] == 400) {
+                            NSError *jsonParseErr;
+                            NSString *message = [self messageFromValidationErrorResponse:[[err userInfo] objectForKey:@"body"] error:jsonParseErr];
+                            if (!jsonParseErr) {
+                                [[[UIAlertView alloc] initWithTitle:nil
+                                                            message:message
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil] show];
+                            }
+                        } else {
+                            [[[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"Sorry. There was a problem saving the updated tree details."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil] show];
+                        }
                     }
                 }];
             }
