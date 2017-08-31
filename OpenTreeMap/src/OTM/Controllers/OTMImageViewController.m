@@ -87,11 +87,20 @@
 
 - (IBAction)reportInappropriate:(id)sender
 {
-    NSDictionary *photo = [OTMTreeDictionaryHelper getLatestPhotoInDictionary:self.data];
-    OTMInappropriateContentMailViewController *mailViewController =
+    if ([OTMInappropriateContentMailViewController canSendMail]) {
+        NSDictionary *photo = [OTMTreeDictionaryHelper getLatestPhotoInDictionary:self.data];
+        OTMInappropriateContentMailViewController *mailViewController =
         [[OTMInappropriateContentMailViewController alloc] initWithPhotoDictionary:photo];
-    mailViewController.mailComposeDelegate = self;
-    [self presentModalViewController:mailViewController animated:YES];
+        mailViewController.mailComposeDelegate = self;
+        [self presentViewController:mailViewController animated:YES completion:nil];
+    } else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Mail Not Configured"
+                                                            message:@"Please set up mail before reporting an inappropriate photo."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 # pragma mark MFMailComposeViewControllerDelegate
