@@ -242,8 +242,10 @@
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     if (updatedString) {
         [dict setObject:updatedString forEncodedKey:self.dataKey];
-        updatedString = nil;
+    } else {
+        [dict setObject:[NSNull null] forEncodedKey:self.dataKey];
     }
+    updatedString = nil;
 
     return dict;
 }

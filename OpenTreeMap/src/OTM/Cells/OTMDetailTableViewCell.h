@@ -33,12 +33,14 @@
 @property (nonatomic, assign) UIKeyboardType keyboardType;
 @property (nonatomic, copy) NSString *formatKey;
 @property (nonatomic, strong) UIDatePicker *picker;
+@property (nonatomic, strong) UIToolbar *pickerToolbar;
 
 @property (nonatomic, weak) id<UITextFieldDelegate> tfDelegate;
 @property (nonatomic, weak) id<OTMDetailTableViewCellDelegate> delegate;
 
 -(void)setDatePickerInput;
 -(void)setDatePickerInputWithInitialDate:(NSDate *)initDate;
+-(void)clearDatePicker:(id)sender;
 
 -(NSString*)formatHumanReadableDateStringFromString:(NSString*)dateString;
 -(NSString*)formatHumanReadableDateStringFromDate:(NSDate*)date;
