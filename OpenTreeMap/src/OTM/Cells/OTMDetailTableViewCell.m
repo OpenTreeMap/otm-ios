@@ -81,6 +81,10 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
     NSDate *newDate=[dateFormatter dateFromString:dateString];
+    if (!newDate) {
+        [dateFormatter setDateFormat:OTMEnvironmentDateStringLong];
+        newDate = [dateFormatter dateFromString:dateString];
+    }
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     return [dateFormatter stringFromDate:newDate];

@@ -302,12 +302,9 @@
     }
 
     if (self.isDateField) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
-        NSDate *originalDate =[dateFormatter dateFromString:value];
+        NSDate *originalDate = [self dateFromOTMDateString:value];
         [detailcell setDatePickerInputWithInitialDate:originalDate];
         disp = [detailcell formatHumanReadableDateStringFromDate:originalDate];
-
     }
 
     detailcell.editFieldValue.text = disp;
@@ -332,6 +329,18 @@
     detailcell.unitLabel.text = _formatter.label;
     self.wasCleared = NO;
     self.inited = YES;
+}
+
+-(NSDate *)dateFromOTMDateString:(NSString *)dateString
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
+    NSDate *newDate=[dateFormatter dateFromString:dateString];
+    if (!newDate) {
+        [dateFormatter setDateFormat:OTMEnvironmentDateStringLong];
+        newDate = [dateFormatter dateFromString:dateString];
+    }
+    return newDate;
 }
 
 @end
