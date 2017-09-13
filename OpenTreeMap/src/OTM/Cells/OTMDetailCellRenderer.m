@@ -20,7 +20,7 @@
 
 @implementation OTMDetailCellRenderer
 
-@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey, ownerDataKey;
+@synthesize dataKey, editCellRenderer, newCellBlock, clickCallback, cellHeight, detailDataKey, ownerDataKey, initialCellDisplayValue, wasCleared;
 
 - (id)init {
     self = [super init];
@@ -234,15 +234,19 @@
 {
     if ([v isEqualToString:@""]) {
         self.updatedString = nil;
+        self.wasCleared = YES;
     } else {
         self.updatedString = v;
+        self.wasCleared = NO;
     }
 }
 
 - (NSDictionary *)updateDictWithValueFromCell:(NSDictionary *)dict {
     if (updatedString) {
         [dict setObject:updatedString forEncodedKey:self.dataKey];
-    } else {
+    } else if (self.initialCellDisplayValue && self.wasCleared) {
+        // If the cell was built with an initial value, and was updated to be empty, we want to return a null to
+        // signal that we want the value to be removed.
         [dict setObject:[NSNull null] forEncodedKey:self.dataKey];
     }
     updatedString = nil;
@@ -308,6 +312,7 @@
 
     detailcell.editFieldValue.text = disp;
     detailcell.fieldLabel.text = self.label;
+    self.initialCellDisplayValue = disp;
 
     /**
      * Edit cells don't have a fieldValue like the normal detail cell. We
@@ -325,6 +330,7 @@
                                              );
 
     detailcell.unitLabel.text = _formatter.label;
+    self.wasCleared = NO;
     self.inited = YES;
 }
 

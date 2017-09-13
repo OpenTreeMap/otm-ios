@@ -81,6 +81,16 @@
 
 @property (nonatomic, strong) UIViewController *originatingDelegate;
 
+/**
+ * The original string value of the cell when it was built
+ */
+@property (nonatomic,strong) NSString *initialCellDisplayValue;
+
+/**
+ * Set to YES whenever the value of the cell is cleared by the user.
+ */
+@property (nonatomic,assign) BOOL wasCleared;
+
 - (id)initWithDataKey:(NSString *)dkey;
 - (id)initWithDataKey:(NSString *)dkey editRenderer:(OTMEditDetailCellRenderer *)edit;
 
