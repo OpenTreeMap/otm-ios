@@ -970,6 +970,11 @@
 - (void)disruptCoordinate:(CLLocationCoordinate2D)coordinate {
 }
 
+- (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details
+{
+    [self viewController:viewController addedTree:details withPhoto:nil];
+}
+
 - (void)viewController:(OTMTreeDetailViewController *)viewController addedTree:(NSDictionary *)details withPhoto:(UIImage *)photo
 {
     [self changeMode:Select];
