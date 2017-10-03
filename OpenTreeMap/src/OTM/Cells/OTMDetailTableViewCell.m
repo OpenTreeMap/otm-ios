@@ -81,6 +81,10 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:OTMEnvironmentDateStringShort];
     NSDate *newDate=[dateFormatter dateFromString:dateString];
+    if (!newDate) {
+        [dateFormatter setDateFormat:OTMEnvironmentDateStringLong];
+        newDate = [dateFormatter dateFromString:dateString];
+    }
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     return [dateFormatter stringFromDate:newDate];
@@ -99,6 +103,13 @@
     setDatePickerInputWithInitialDate:nil;
 }
 
+- (void)clearDatePicker:(id)sender
+{
+    self.editFieldValue.text = @"";
+    [delegate tableViewCell:self textField:self.editFieldValue updatedToValue:@""];
+    [self.editFieldValue resignFirstResponder];
+}
+
 -(void)setDatePickerInputWithInitialDate:(NSDate *)initDate
 {
     _picker = [[UIDatePicker alloc] init];
@@ -111,6 +122,14 @@
     [self.editFieldValue setFrame:frame];
     [_picker addTarget:self action:@selector(updateTextFieldWithDate:) forControlEvents:UIControlEventValueChanged];
 
+    _pickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 44)];
+    _pickerToolbar.barStyle = UIBarStyleDefault;
+    _pickerToolbar.userInteractionEnabled = YES;
+    UIBarButtonItem *flexibleSpaceLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem* clearButton = [[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleDone target:self action:@selector(clearDatePicker:)];
+
+    [_pickerToolbar setItems:[NSArray arrayWithObjects:flexibleSpaceLeft, clearButton, nil]];
+    self.editFieldValue.inputAccessoryView = _pickerToolbar;
 }
 
 - (UILabel*)labelWithFrame:(CGRect)rect {
@@ -141,6 +160,9 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    if ([self.editFieldValue.text isEqual:@""]) {
+        [self updateTextFieldWithDate:_picker];
+    }
     [tfDelegate textFieldDidBeginEditing:textField];
 }
 
