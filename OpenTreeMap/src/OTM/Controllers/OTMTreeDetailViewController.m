@@ -765,7 +765,8 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
 - (NSMutableDictionary *)getWritableFieldData {
     NSMutableDictionary *writableData = [[NSMutableDictionary alloc] init];
     NSDictionary *fieldData = [[OTMEnvironment sharedEnvironment] fieldData];
-
+    // readonly is not implemented
+    NSArray *excludedFields = @[@"tree.readonly", @"plot.readonly"];
     for (NSString *model in @[@"plot", @"tree"]) {
         NSDictionary *modelData = self.data[model];
     
@@ -776,7 +777,9 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                 NSString *fieldKey = [NSString stringWithFormat:@"%@.%@", model, key];
                 NSDictionary *field = fieldData[fieldKey];
             
-                if (field != nil && ([key isEqualToString:@"id"] || [field[@"can_write"] boolValue])) {
+                if (field != nil
+                    && ![excludedFields containsObject:fieldKey]
+                    && ([key isEqualToString:@"id"] || [field[@"can_write"] boolValue])) {
                     writableModelData[key] = modelData[key];
                 }
             }
