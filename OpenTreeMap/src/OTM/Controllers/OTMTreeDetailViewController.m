@@ -205,6 +205,24 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
      }];
 }
 
+- (void)clearLastPicture {
+    NSArray *photos = [data objectForKey:@"images"];
+    UIImage *defaultImage = [UIImage imageNamed:@"Default_feature-image"];
+    if (photos != nil) {
+        // Taking a photo adds it to the "data.photos" array so we need to remove it
+        NSMutableArray *newPhotos = [NSMutableArray arrayWithArray:photos];
+        [newPhotos removeLastObject];
+        [data setObject:newPhotos forKey:@"images"];
+        if ([newPhotos count] > 0) {
+            self.imageView.image = [newPhotos lastObject];
+        } else {
+            self.imageView.image = defaultImage;
+        }
+    } else {
+        self.imageView.image = defaultImage;
+    }
+}
+
 - (void)setKeys:(NSArray *)k
 {
     _fieldsWithSectionTitles = [[NSMutableArray alloc] init];
@@ -916,13 +934,26 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                    [self pushImageData:rest newTree:newTree latestImage:image];
                } else {
                    [[AZWaitingOverlayController sharedController] hideOverlay];
+                   [self clearLastPicture];
+                   NSString *message;
+                   if (newTree) {
+                       message = @"The planting site/tree was created, but there was a problem saving the photo.\n\nYou can edit the tree and try adding the photo again.";
+                   } else {
+                       message = @"There was a problem saving the updated tree photo.";
+                   }
                    NSLog(@"Error adding photo to tree: %@\n %@", err, data);
                    [[[UIAlertView alloc] initWithTitle:nil
-                                               message:@"Sorry. There was a problem saving the updated tree photos."
+                                               message:message
                                               delegate:nil
                                      cancelButtonTitle:@"OK"
                                      otherButtonTitles:nil] show];
-
+                   if (newTree) {
+                       [self.delegate viewController:self addedTree:data];
+                   } else {
+                       [delegate viewController:self editedTree:(NSDictionary *)data withOriginalLocation:originalLocation originalData:originalData];
+                       [self syncTopData];
+                       [self.tableView reloadData];
+                   }
                }
            }];
     }
