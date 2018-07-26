@@ -126,6 +126,9 @@
             [aController.navigationController pushViewController:tableController animated:YES];
         };
 
+        controller.tableView.estimatedRowHeight = 100.0;
+        controller.tableView.rowHeight = UITableViewAutomaticDimension;
+
         controller.tableView.delegate = (id<UITableViewDelegate>)self;
         controller.tableView.dataSource = (id<UITableViewDataSource>)self;
     }
@@ -235,6 +238,7 @@
                                       reuseIdentifier:kOTMEditChoicesDetailCellRendererCellId];
     }
 
+    aCell.textLabel.numberOfLines = 0;
     aCell.textLabel.text = [selectedDict objectForKey:@"display_value"];
     aCell.accessoryType = UITableViewCellAccessoryNone;
 

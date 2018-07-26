@@ -516,6 +516,8 @@ NSString * const UdfDataChangedForStepNotification = @"UdfDataChangedForStepNoti
     self = [super init];
     if (self) {
         self.screenName = @"Custom Field Choices";  // for Google Analytics
+        self.tableView.estimatedRowHeight = 100.0;
+        self.tableView.rowHeight = UITableViewAutomaticDimension;
         self.key = key;
     }
     return self;
