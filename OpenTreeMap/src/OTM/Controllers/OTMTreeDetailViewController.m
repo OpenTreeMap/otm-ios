@@ -310,10 +310,9 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
                      clickCallback:^(OTMDetailCellRenderer *renderer, NSMutableDictionary *cellData) {}];
     }
 
-    // Species and photo cells get added to the structure for editable fields.
-    NSArray *speciesAndPicSection = [NSArray arrayWithObjects:speciesRow, pictureRow, nil];
-    NSDictionary *speciesAndPicsDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Tree Details", speciesAndPicSection, nil] forKeys:_dKeys];
-    [_editableFieldsWithSectionTitles addObject:speciesAndPicsDict];
+    NSArray *treeDetailsRows = [NSArray arrayWithObjects: pictureRow, nil];
+    NSDictionary *treeDetailsDict = [[NSDictionary alloc] initWithObjects:[[NSArray alloc] initWithObjects:@"Tree Details", treeDetailsRows, nil] forKeys:_dKeys];
+    [_editableFieldsWithSectionTitles addObject:treeDetailsDict];
 
     // Loop through cells and add editable cells to the editable fields structure.
     for (NSDictionary *dict in _fieldsWithSectionTitles) {
@@ -321,6 +320,10 @@ NSString * const UdfNewDataCreatedNotification = @"UdfNewDataCreatedNotification
         for (OTMDetailCellRenderer *cell in [dict valueForKey:@"cells"]) {
             if (cell.editCellRenderer != nil) {
                 [eCells addObject:cell.editCellRenderer];
+            } else if ([cell.dataKey isEqualToString:@"tree.species.common_name"]) {
+                // Species is a specal case. There are separate cells for common and scientific name in the detail view
+                // but there should only be one cell in the edit view.
+                [eCells addObject:speciesRow];
             }
         }
         if ([eCells count] > 0) {
