@@ -2,7 +2,7 @@
 <Scheme
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "NO">
       <BuildActionEntries>
          <BuildActionEntry
@@ -27,10 +27,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E943971114F447EB007CD0D1"
-               BuildableName = "OpenTreeMap.app"
-               BlueprintName = "OpenTreeMap"
-               ReferencedContainer = "container:OpenTreeMap/OpenTreeMap.xcodeproj">
+               BlueprintIdentifier = "B316A6113291BEE18DA01491A23DB864"
+               BuildableName = "libPods-OpenTreeMap.a"
+               BlueprintName = "Pods-OpenTreeMap"
+               ReferencedContainer = "container:OpenTreeMap/Pods/Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -41,10 +41,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "797C6A1B5391F480718F5735FB11F122"
-               BuildableName = "libPods-OpenTreeMap.a"
-               BlueprintName = "Pods-OpenTreeMap"
-               ReferencedContainer = "container:OpenTreeMap/Pods/Pods.xcodeproj">
+               BlueprintIdentifier = "E943971114F447EB007CD0D1"
+               BuildableName = "OpenTreeMap.app"
+               BlueprintName = "OpenTreeMap"
+               ReferencedContainer = "container:OpenTreeMap/OpenTreeMap.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
