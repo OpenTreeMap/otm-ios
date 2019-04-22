@@ -22,6 +22,7 @@
 		641210AC1938181E00118A33 /* OTMPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AB1938181E00118A33 /* OTMPreferences.m */; };
 		641210AF19382DF100118A33 /* OTMSetRootViewControllerSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 641210AE19382DF100118A33 /* OTMSetRootViewControllerSegue.m */; };
 		64318CD31551E27D001C827F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C990221518C87E0094770C /* CFNetwork.framework */; };
+		64389912226E2B1300D3ED55 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64389911226E2B1300D3ED55 /* Images.xcassets */; };
 		6452955218D89D3400362A0F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6452955118D89D3400362A0F /* QuartzCore.framework */; };
 		64582DAE164165C200CF5DB9 /* OTMAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */; };
 		64608648160CFB0A00A1458B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 64608646160CFB0A00A1458B /* InfoPlist.strings */; };
@@ -215,6 +216,7 @@
 		641210AB1938181E00118A33 /* OTMPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMPreferences.m; sourceTree = "<group>"; };
 		641210AD19382DF100118A33 /* OTMSetRootViewControllerSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMSetRootViewControllerSegue.h; sourceTree = "<group>"; };
 		641210AE19382DF100118A33 /* OTMSetRootViewControllerSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMSetRootViewControllerSegue.m; sourceTree = "<group>"; };
+		64389911226E2B1300D3ED55 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6452955118D89D3400362A0F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		64582DAC164165C200CF5DB9 /* OTMAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTMAboutViewController.h; sourceTree = "<group>"; };
 		64582DAD164165C200CF5DB9 /* OTMAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTMAboutViewController.m; sourceTree = "<group>"; };
@@ -504,6 +506,7 @@
 		6460864D160CFB4600A1458B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				64389911226E2B1300D3ED55 /* Images.xcassets */,
 				6460864E160CFB4600A1458B /* LoginRequiredView.xib */,
 				6460864F160CFB4600A1458B /* LoginStoryboard.storyboard */,
 				64608650160CFB4600A1458B /* MainStoryboard_iPhone.storyboard */,
@@ -955,6 +958,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = E943970714F447EB007CD0D1;
@@ -974,6 +978,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64D458FA190EF3BA005BAF47 /* Default_feature-image@2x.png in Resources */,
+				64389912226E2B1300D3ED55 /* Images.xcassets in Resources */,
 				649426E919008F3300923470 /* SpotlightIcon@2x.png in Resources */,
 				64D458F8190EF3BA005BAF47 /* Chevron_right@2x.png in Resources */,
 				64D4591D190EF3BA005BAF47 /* Treemap_Contactbook@2x.png in Resources */,
@@ -1231,6 +1236,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EC3199E066940C9F037A6DE6 /* Pods-OpenTreeMap.ad hoc.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
@@ -1306,6 +1313,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F912C0E99DEC0D3703358A88 /* Pods-OpenTreeMap.profile.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Distribution";
@@ -1411,6 +1420,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 46AC46FE7312131A9EB34E47 /* Pods-OpenTreeMap.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
@@ -1436,6 +1447,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C4A59E2A73147605B1CC4AF /* Pods-OpenTreeMap.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = OpenTreeMap.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphonesimulator*]" = "iPhone Developer";
